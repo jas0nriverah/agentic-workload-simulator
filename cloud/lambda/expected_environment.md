@@ -32,6 +32,12 @@ record before work starts.
   `0f3acafacabc0def8cc76b4e48acb4b6cf302cb9`;
 - SWE-bench v4.1.0 revision
   `726c5461e2ef52d83cf1ea2107870a8bb3328d57`;
+- host-side Python dependencies are constrained by
+  `cloud/lambda/requirements-linux-x86_64.txt` (SHA-256
+  `7e1177bf4c0b4efe4d64895f39b340413336b77e02d2f72bbf5aad387accc9cc`),
+  resolved for Python 3.11/Linux x86-64 and installed with pip
+  `--require-hashes`; the detached SWE-agent/SWE-bench packages are installed
+  with `--no-deps` after that lock is applied;
 - Lite dataset revision
   `69611d31007e1c6731db8bd5b5c3f2d33f5bab6e` (300 test rows);
 - Verified dataset revision

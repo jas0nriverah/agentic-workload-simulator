@@ -46,6 +46,8 @@ class OfficialEvaluatorContractTests(unittest.TestCase):
         verified_row = _row(VERIFIED_ID, VERIFIED_IMAGE)
         lite_canonical = json.dumps([lite_row], sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode()
         verified_canonical = json.dumps([verified_row], sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode()
+        self.lite_selected_hash = hashlib.sha256(lite_canonical).hexdigest()
+        self.verified_selected_hash = hashlib.sha256(verified_canonical).hexdigest()
         self.lite.write_bytes(lite_canonical + b"\n")
         self.verified.write_bytes(verified_canonical + b"\n")
         self.evaluator = self.root / "evaluator"
@@ -78,7 +80,9 @@ class OfficialEvaluatorContractTests(unittest.TestCase):
             "          'completed_instances': 1, 'error_ids': []}\n"
             "report['resolved_instances'] = 1 if status == 'resolved' else 0\n"
             "report['unresolved_instances'] = 1 if status == 'unresolved' else 0\n"
-            "if os.environ.get('MOCK_REPORT_LAYOUT') == 'results':\n"
+            "if os.environ.get('MOCK_REPORT_LAYOUT') == 'unrelated':\n"
+            "    pathlib.Path('unrelated.json').write_text(json.dumps(report))\n"
+            "elif os.environ.get('MOCK_REPORT_LAYOUT') == 'results':\n"
             "    report_dir = pathlib.Path(sys.argv[sys.argv.index('--report_dir') + 1])\n"
             "    report_dir.mkdir(parents=True, exist_ok=True)\n"
             "    (report_dir / 'results.json').write_text(json.dumps(report))\n"
@@ -119,11 +123,13 @@ class OfficialEvaluatorContractTests(unittest.TestCase):
                     "LITE_DATASET_REPO=SWE-bench/SWE-bench_Lite",
                     "LITE_DATASET_REVISION=69611d31007e1c6731db8bd5b5c3f2d33f5bab6e",
                     "LITE_DATASET_SHA256=4c6a0f689c8b4ba32f4232d611b0c9a86d2fe379e4beb85c23d7c051f3652790",
+                    "LITE_GOLD_DATASET_SHA256=" + self.lite_selected_hash,
                     "LITE_DATASET_PATH=" + str(self.lite),
                     "DATASET_MANIFEST_PATH=" + str(datasets_manifest),
                     "VERIFIED_DATASET_REPO=SWE-bench/SWE-bench_Verified",
                     "VERIFIED_DATASET_REVISION=91aa3ed51b709be6457e12d00300a6a596d4c6a3",
                     "VERIFIED_DATASET_SHA256=889bccf7ada1a43d211050ac666f3b31032997209afb10dccdc6ea52128a8435",
+                    "VERIFIED_GOLD_DATASET_SHA256=" + self.verified_selected_hash,
                     "VERIFIED_DATASET_PATH=" + str(self.verified),
                     "GOLD_LITE_INSTANCE_ID=" + LITE_ID,
                     "GOLD_VERIFIED_INSTANCE_ID=" + VERIFIED_ID,
@@ -136,6 +142,7 @@ class OfficialEvaluatorContractTests(unittest.TestCase):
                     "SWE_BENCH_EVALUATOR_ROOT=" + str(self.evaluator),
                     "EVALUATOR_PYTHON=" + str(self.fake_evaluator),
                     "GOLD_OUTPUT_ROOT=" + str(self.root / "out"),
+                    "GENERATED_OUTPUT_ROOT=" + str(self.root / "generated-out"),
                 ]
             )
             + "\n",
@@ -182,6 +189,12 @@ class OfficialEvaluatorContractTests(unittest.TestCase):
         result = self.run_script("--suite", "lite", "--dry-run")
         self.assertNotEqual(result.returncode, 0)
         self.assertIn("does not exist", result.stdout)
+        self.lite.write_bytes(json.dumps([_row(LITE_ID, LITE_IMAGE)], sort_keys=True, separators=(",", ":")).encode() + b"\n")
+        self.manifest.write_text(original.replace("LITE_GOLD_DATASET_SHA256=" + self.lite_selected_hash, "LITE_GOLD_DATASET_SHA256=" + "0" * 64), encoding="utf-8")
+        result = self.run_script("--suite", "lite", "--dry-run")
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("selected-row hash", result.stdout)
+        self.manifest.write_text(original, encoding="utf-8")
 
     def test_lite_and_verified_ids_cannot_alias(self):
         content = self.manifest.read_text(encoding="utf-8")
@@ -228,6 +241,36 @@ class OfficialEvaluatorContractTests(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stdout)
         status_path = self.root / "out/lite-astropy__astropy-14182/status.json"
         self.assertEqual(json.loads(status_path.read_text())["status"], "resolved")
+
+    def test_generated_mode_uses_separate_namespace_and_run_id(self):
+        predictions = self.root / "predictions.json"
+        predictions.write_text(json.dumps([{
+            "instance_id": LITE_ID,
+            "model_name_or_path": "Qwen/Qwen3-Coder-30B-A3B-Instruct",
+            "model_patch": "",
+        }]), encoding="utf-8")
+        result = self.run_script(
+            "--suite", "lite", "--experiment-type", "generated",
+            "--predictions-path", str(predictions), "--dry-run",
+        )
+        self.assertEqual(result.returncode, 0, result.stdout)
+        self.assertIn("--run_id generated-lite-" + LITE_ID, result.stdout)
+        self.assertIn("ARTIFACT_ROOT[lite]: " + str(self.root / "generated-out"), result.stdout)
+        self.assertNotIn("--run_id gold-lite-", result.stdout)
+        self.assertNotIn(str(self.root / "out"), result.stdout)
+
+    def test_unrelated_json_cannot_become_evaluator_result(self):
+        env = os.environ.copy()
+        env["MOCK_REPORT_LAYOUT"] = "unrelated"
+        env["PATH"] = str(self.fake_bin) + os.pathsep + env.get("PATH", "")
+        result = subprocess.run(
+            ["bash", str(SCRIPT), "--manifest", str(self.manifest), "--suite", "lite"],
+            cwd=ROOT, env=env, text=True, stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT, check=False,
+        )
+        self.assertEqual(result.returncode, 1, result.stdout)
+        status_path = self.root / "out/lite-astropy__astropy-14182/status.json"
+        self.assertEqual(json.loads(status_path.read_text())["status"], "evaluator_error")
 
 
 if __name__ == "__main__":

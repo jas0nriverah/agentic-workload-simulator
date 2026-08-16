@@ -8,9 +8,30 @@ start a five-instance gate until the first generated prediction and evaluator
 artifacts have been inspected.
 
 The repository is not published by this runbook. Upload the locally reviewed
-`lambda-ready.tar.gz` bundle and its adjacent `.sha256` file to the host; do
-not clone an unreviewed branch. The bundle must be verified locally before
-termination.
+`lambda-ready-<commit>.tar.zst` bundle and its adjacent `.sha256` file to the
+host; do not clone an unreviewed branch. The bundle must be verified locally
+before termination.
+
+Create and checksum the exact local bundle before any paid launch:
+
+```bash
+REVIEWED_COMMIT="$(git rev-parse HEAD)"
+git diff --check
+git archive --format=tar --prefix=agentic-workload-simulator/ "$REVIEWED_COMMIT" \
+  | zstd -T0 -19 -o "lambda-ready-${REVIEWED_COMMIT}.tar.zst"
+sha256sum "lambda-ready-${REVIEWED_COMMIT}.tar.zst" \
+  > "lambda-ready-${REVIEWED_COMMIT}.tar.zst.sha256"
+```
+
+After transfer, set `REVIEWED_COMMIT` to that same recorded value on the host
+and verify the checksum before extraction. For example, enter the recorded
+40-hex value explicitly before the source-transfer block:
+
+```bash
+read -r REVIEWED_COMMIT  # paste the exact recorded 40-hex bundle commit
+```
+
+The host bootstrap installs `zstd` if it is missing.
 
 ## Paid-session gate
 
@@ -36,7 +57,8 @@ manifest.
 
 ```bash
 mkdir -p /home/ubuntu/agentic-work/source
-tar -xzf /home/ubuntu/lambda-ready.tar.gz -C /home/ubuntu/agentic-work/source
+sha256sum -c "/home/ubuntu/lambda-ready-${REVIEWED_COMMIT}.tar.zst.sha256"
+tar --use-compress-program=zstd -xf "/home/ubuntu/lambda-ready-${REVIEWED_COMMIT}.tar.zst" -C /home/ubuntu/agentic-work/source
 test -d /home/ubuntu/agentic-work/source/agentic-workload-simulator
 cd /home/ubuntu/agentic-work/source/agentic-workload-simulator
 cp cloud/lambda/instance_manifest.env.example cloud/lambda/instance_manifest.env
@@ -107,14 +129,23 @@ vLLM or closing SSH does not stop Lambda billing.
 
 ```bash
 ./scripts/cloud/lambda_collect_results.sh --source-root /home/ubuntu/agentic-work/data/raw --output-dir /home/ubuntu/agentic-work/export --run-id first-session-final --snapshot
-./scripts/cloud/lambda_stop_workloads.sh --work-root /home/ubuntu/agentic-work --server-manifest /home/ubuntu/agentic-work/artifacts/manifests/vllm_server.json --dry-run
+./scripts/cloud/lambda_stop_workloads.sh --work-root /home/ubuntu/agentic-work --server-manifest /home/ubuntu/agentic-work/artifacts/manifests/vllm_server.json
 ```
 
 The user initiates the local `rsync` printed by collection, runs
-`verify_lambda_archive_local.sh` against the received `.tar.gz` and `.sha256`,
-and terminates the VM in the Lambda console at
+`verify_lambda_archive_local.sh` against the received archive and checksum,
+then terminates the VM in the Lambda console at
 `hard_console_termination_utc`. Persistent filesystem retention or deletion is
 a separate authorized decision and is never automatic.
+
+On the local machine, verify the received result archive explicitly:
+
+```bash
+./scripts/cloud/verify_lambda_archive_local.sh \
+  --archive "$HOME/Downloads/lambda-results-first-session-final.tar.gz" \
+  --manifest "$HOME/Downloads/lambda-results-first-session-final.sha256" \
+  --receipt "$HOME/Downloads/lambda-results-first-session-final.verification_receipt.json"
+```
 
 ## H100-only validations still required
 

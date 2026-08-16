@@ -85,8 +85,30 @@ TELEMETRY_INTERVAL_SECONDS="${TELEMETRY_INTERVAL_SECONDS:-$(manifest_value TELEM
 [[ -n "$TELEMETRY_INTERVAL_SECONDS" ]] || TELEMETRY_INTERVAL_SECONDS=1
 EVALUATOR_TIMEOUT_SECONDS="${SWE_BENCH_TIMEOUT_SECONDS:-$(manifest_value SWE_BENCH_TIMEOUT_SECONDS)}"
 [[ -n "$EVALUATOR_TIMEOUT_SECONDS" ]] || EVALUATOR_TIMEOUT_SECONDS=1800
-AGENT_OUTPUT_DIR="${SWE_AGENT_OUTPUT_DIR:-$(manifest_value SWE_AGENT_OUTPUT_DIR)}"
-[[ -n "$AGENT_OUTPUT_DIR" ]] || AGENT_OUTPUT_DIR="$WORK_ROOT/experiments/$EXPERIMENT_ID"
+BASE_EVALUATOR_REPORT_DIR="${EVALUATOR_REPORT_DIR:-$(manifest_value EVALUATOR_REPORT_DIR)}"
+[[ -n "$BASE_EVALUATOR_REPORT_DIR" ]] || BASE_EVALUATOR_REPORT_DIR="$WORK_ROOT/artifacts/$EXPERIMENT_ID/evaluation"
+EVALUATOR_REPORT_DIR="$BASE_EVALUATOR_REPORT_DIR/$ATTEMPT_ID"
+BASE_AGENT_OUTPUT_DIR="${SWE_AGENT_OUTPUT_DIR:-$(manifest_value SWE_AGENT_OUTPUT_DIR)}"
+[[ -n "$BASE_AGENT_OUTPUT_DIR" ]] || BASE_AGENT_OUTPUT_DIR="$WORK_ROOT/experiments/$EXPERIMENT_ID"
+AGENT_OUTPUT_DIR="$BASE_AGENT_OUTPUT_DIR/$ATTEMPT_ID"
+BASE_PREDICTION_PATH="$PREDICTION_PATH"
+if [[ -n "$BASE_PREDICTION_PATH" && "$BASE_PREDICTION_PATH" == "$BASE_AGENT_OUTPUT_DIR"/* ]]; then
+  PREDICTION_PATH="$AGENT_OUTPUT_DIR/${BASE_PREDICTION_PATH#"$BASE_AGENT_OUTPUT_DIR"/}"
+else
+  PREDICTION_PATH="$AGENT_OUTPUT_DIR/preds.json"
+fi
+
+# SWE-agent's run-batch refuses to redo an existing instance by default. Keep
+# the control and thin attempts physically separate while preserving every
+# model/sampling/request flag. The reviewed manifest uses the base output path;
+# only that artifact-root prefix is rewritten for this named attempt.
+if [[ -n "$BASE_AGENT_OUTPUT_DIR" ]]; then
+  COMMAND="${COMMAND//$BASE_AGENT_OUTPUT_DIR/$AGENT_OUTPUT_DIR}"
+  EVALUATOR="${EVALUATOR//$BASE_AGENT_OUTPUT_DIR/$AGENT_OUTPUT_DIR}"
+fi
+EVALUATOR="${EVALUATOR//$BASE_EVALUATOR_REPORT_DIR/$EVALUATOR_REPORT_DIR}"
+EVALUATOR_RUN_ID="${EXPERIMENT_ID}-${ATTEMPT_ID}"
+EVALUATOR="${EVALUATOR//--run_id $EXPERIMENT_ID/--run_id $EVALUATOR_RUN_ID}"
 
 RAW_DIR="$WORK_ROOT/data/raw/$EXPERIMENT_ID/lite/$ID/$ATTEMPT_ID"
 AGENT_LOG="$LOG_DIR/$ID.$MODE.agent.log"
@@ -121,7 +143,24 @@ for required in 'run-batch' '--instances.type file' '--instances.path' '--agent.
   [[ "$COMMAND" == *"$required"* ]] || { echo "reviewed SWE-agent command is missing required contract: $required" >&2; exit 1; }
 done
 [[ "$COMMAND" != *"--instances.split"* ]] || { echo 'file-backed SWE-agent command must not specify an unsupported split flag' >&2; exit 1; }
+EXPECTED_MODEL="$(manifest_value VLLM_MODEL)"; [[ -n "$EXPECTED_MODEL" ]] || EXPECTED_MODEL='Qwen/Qwen3-Coder-30B-A3B-Instruct'
+EXPECTED_DATASET_PATH="$(manifest_value LITE_DATASET_PATH)"
+if [[ -n "$EXPECTED_DATASET_PATH" ]]; then
+  [[ "$COMMAND" == *"--instances.path $EXPECTED_DATASET_PATH"* ]] || { echo 'reviewed SWE-agent command dataset path does not match the frozen Lite asset' >&2; exit 1; }
+  [[ "$COMMAND" == *"--instances.filter '^$ID$'"* ]] || { echo 'reviewed SWE-agent command instance filter does not match the selected Lite ID' >&2; exit 1; }
+  [[ "$COMMAND" == *"--agent.model.name openai/$EXPECTED_MODEL"* ]] || { echo 'reviewed SWE-agent command model does not match the frozen model' >&2; exit 1; }
+  [[ "$COMMAND" == *"--agent.model.api_base http://127.0.0.1:8000/v1"* ]] || { echo 'reviewed SWE-agent command API base is not the frozen localhost vLLM endpoint' >&2; exit 1; }
+fi
+if [[ -n "$(manifest_value SWE_AGENT_OUTPUT_DIR)" ]]; then
+  [[ "$COMMAND" == *"--output_dir $AGENT_OUTPUT_DIR"* || "$COMMAND" == *"--output_dir \"$AGENT_OUTPUT_DIR\""* || "$COMMAND" == *"$AGENT_OUTPUT_DIR"* ]] || { echo 'reviewed SWE-agent command output directory is not isolated to this attempt' >&2; exit 1; }
+fi
 [[ "$EVALUATOR" == *"swebench.harness.run_evaluation"* && "$EVALUATOR" == *"--predictions_path"* && "$EVALUATOR" == *"--instance_ids"* ]] || { echo 'reviewed evaluator command is not the official generated-prediction contract' >&2; exit 1; }
+if [[ -n "$BASE_PREDICTION_PATH" ]]; then
+  [[ "$EVALUATOR" == *"--predictions_path $PREDICTION_PATH"* || "$EVALUATOR" == *"$PREDICTION_PATH"* ]] || { echo 'reviewed evaluator prediction path is not isolated to this attempt' >&2; exit 1; }
+fi
+if [[ "$EVALUATOR" == *"--run_id"* ]]; then
+  [[ "$EVALUATOR" == *"--run_id $EVALUATOR_RUN_ID"* ]] || { echo 'reviewed evaluator run ID is not isolated to this attempt' >&2; exit 1; }
+fi
 
 run_limited() {
   local limit="$1"; shift
@@ -241,7 +280,7 @@ if [[ -e "$RAW_DIR/summary.json" ]] && grep -q '"status": "completed"' "$RAW_DIR
   exit 1
 fi
 
-export FIRST_LITE_INSTANCE_ID="$ID" EXPERIMENT_ID ATTEMPT_ID AGENTIC_RUN_OUTPUT="$RAW_DIR"
+export FIRST_LITE_INSTANCE_ID="$ID" EXPERIMENT_ID ATTEMPT_ID AGENTIC_RUN_OUTPUT="$RAW_DIR" AGENTIC_SWE_OUTPUT_DIR="$AGENT_OUTPUT_DIR" AGENTIC_PREDICTION_PATH="$PREDICTION_PATH"
 python3 - "$RAW_DIR" "$EXPERIMENT_ID" "$ID" "$ATTEMPT_ID" "$MODE" "$SWE_AGENT_REVISION" "$SWE_BENCH_REVISION" "$MODEL_REVISION" "$COMMAND" <<'PY'
 import hashlib, json, pathlib, sys
 root, run_id, instance_id, attempt_id, mode, swe, bench, model, command = sys.argv[1:]
@@ -290,7 +329,12 @@ fi
 eval_rc="unavailable"
 if ((agent_rc == 0)); then
   echo "running official generated-prediction evaluation (separate runtime)"
-  run_limited "$EVALUATOR_TIMEOUT_SECONDS" bash -c "$EVALUATOR" > >(tee -a "$EVAL_LOG") 2>&1
+  # SWE-bench v4.1.0 writes its final report in the evaluator process's
+  # working directory; --report_dir controls setup/report artifacts but does
+  # not relocate that final JSON. Run in the isolated per-attempt directory
+  # so the official report is captured with the raw trajectory.
+  mkdir -p -- "$EVALUATOR_REPORT_DIR"
+  run_limited "$EVALUATOR_TIMEOUT_SECONDS" bash -c "cd -- \"$EVALUATOR_REPORT_DIR\" && $EVALUATOR" > >(tee -a "$EVAL_LOG") 2>&1
   eval_rc=$?
 fi
 ended_ns="$(python3 -c 'import time; print(time.monotonic_ns())')"
@@ -302,15 +346,23 @@ if [[ -d "$AGENT_OUTPUT_DIR" ]]; then
   mkdir -p -- "$RAW_DIR/sweagent_output"
   cp -a -- "$AGENT_OUTPUT_DIR/." "$RAW_DIR/sweagent_output/"
 fi
-python3 - "$RAW_DIR/eval.json" "$eval_rc" "$EVALUATOR" <<'PY'
+if [[ -d "$EVALUATOR_REPORT_DIR" ]]; then
+  mkdir -p -- "$RAW_DIR/evaluator_report"
+  cp -a -- "$EVALUATOR_REPORT_DIR/." "$RAW_DIR/evaluator_report/"
+fi
+python3 - "$RAW_DIR/eval.json" "$eval_rc" "$EVALUATOR" "$EVALUATOR_REPORT_DIR" "$RAW_DIR/evaluator_report" <<'PY'
 import hashlib, json, pathlib, sys
-path, result, command = sys.argv[1:]
+path, result, command, report_dir, report_snapshot = sys.argv[1:]
 status = "unavailable" if result == "unavailable" else ("completed" if result == "0" else ("timeout" if result in {"124", "137"} else "failed"))
+report_files = sorted(str(item.relative_to(pathlib.Path(report_snapshot))) for item in pathlib.Path(report_snapshot).rglob("*") if item.is_file()) if pathlib.Path(report_snapshot).is_dir() else []
 pathlib.Path(path).write_text(json.dumps({
     "schema_version": "cr6.evaluation.v1", "status": status,
     "provenance": "measured" if result != "unavailable" else "unavailable",
     "returncode": None if result == "unavailable" else int(result),
     "command_sha256": hashlib.sha256(command.encode()).hexdigest() if command else None,
+    "report_dir": report_dir,
+    "report_snapshot": "evaluator_report",
+    "report_files": report_files,
     "runtime_excluded_from_trajectory": True,
 }, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 PY

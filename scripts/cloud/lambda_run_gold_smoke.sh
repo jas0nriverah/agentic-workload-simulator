@@ -14,6 +14,7 @@ DRY_RUN=0
 SUITE=both
 EXPERIMENT_TYPE=gold
 PREDICTIONS_PATH=
+GENERATED_OUTPUT_ROOT=
 
 # CR4 interface handoff: these values cannot be overridden by the manifest.
 EXPECTED_SWE_BENCH_REVISION=726c5461e2ef52d83cf1ea2107870a8bb3328d57
@@ -40,6 +41,8 @@ LITE_GOLD_DATASET_PATH="$(env_or_empty LITE_GOLD_DATASET_PATH)"
 VERIFIED_DATASET_REPO="$(env_or_empty VERIFIED_DATASET_REPO)"
 VERIFIED_DATASET_REVISION="$(env_or_empty VERIFIED_DATASET_REVISION)"
 VERIFIED_DATASET_SHA256="$(env_or_empty VERIFIED_DATASET_SHA256)"
+LITE_GOLD_DATASET_SHA256="$(env_or_empty LITE_GOLD_DATASET_SHA256)"
+VERIFIED_GOLD_DATASET_SHA256="$(env_or_empty VERIFIED_GOLD_DATASET_SHA256)"
 LITE_DATASET_PATH="$(env_or_empty LITE_DATASET_PATH)"
 VERIFIED_DATASET_PATH="$(env_or_empty VERIFIED_DATASET_PATH)"
 DATASET_MANIFEST_PATH="$(env_or_empty DATASET_MANIFEST_PATH)"
@@ -90,6 +93,8 @@ load_manifest() {
       VERIFIED_DATASET_REPO) VERIFIED_DATASET_REPO="$value" ;;
       VERIFIED_DATASET_REVISION) VERIFIED_DATASET_REVISION="$value" ;;
       VERIFIED_DATASET_SHA256) VERIFIED_DATASET_SHA256="$value" ;;
+      LITE_GOLD_DATASET_SHA256) LITE_GOLD_DATASET_SHA256="$value" ;;
+      VERIFIED_GOLD_DATASET_SHA256) VERIFIED_GOLD_DATASET_SHA256="$value" ;;
       LITE_DATASET_PATH) LITE_DATASET_PATH="$value" ;;
       VERIFIED_DATASET_PATH) VERIFIED_DATASET_PATH="$value" ;;
       DATASET_MANIFEST_PATH) DATASET_MANIFEST_PATH="$value" ;;
@@ -104,6 +109,7 @@ load_manifest() {
       SWE_BENCH_EVALUATOR_ROOT) SWE_BENCH_EVALUATOR_ROOT="$value" ;;
       EVALUATOR_PYTHON) EVALUATOR_PYTHON="$value" ;;
       GOLD_OUTPUT_ROOT) GOLD_OUTPUT_ROOT="$value" ;;
+      GENERATED_OUTPUT_ROOT) GENERATED_OUTPUT_ROOT="$value" ;;
       SWE_BENCH_MAX_WORKERS) MAX_WORKERS="$value" ;;
       SWE_BENCH_TIMEOUT_SECONDS) TIMEOUT_SECONDS="$value" ;;
       *) ;;
@@ -150,6 +156,7 @@ fi
 [[ -n "$SWE_BENCH_EVALUATOR_ROOT" ]] || SWE_BENCH_EVALUATOR_ROOT="$WORK_ROOT/repos/SWE-bench"
 [[ -n "$EVALUATOR_PYTHON" ]] || EVALUATOR_PYTHON="$WORK_ROOT/venv/bin/python"
 [[ -n "$GOLD_OUTPUT_ROOT" ]] || GOLD_OUTPUT_ROOT="$WORK_ROOT/artifacts/gold-smoke"
+[[ -n "$GENERATED_OUTPUT_ROOT" ]] || GENERATED_OUTPUT_ROOT="$WORK_ROOT/artifacts/generated-evaluation"
 
 [[ "$SUITE" == lite || "$SUITE" == verified || "$SUITE" == both ]] || die 'suite must be lite, verified, or both'
 [[ "$EXPERIMENT_TYPE" == gold || "$EXPERIMENT_TYPE" == generated ]] || die 'experiment type must be gold or generated'
@@ -179,17 +186,18 @@ sha256_file() {
 }
 
 validate_dataset() {
-  local dataset_path="$1" instance_id="$2" image_ref="$3" suite="$4" expected_hash="$5" expected_repo="$6" expected_revision="$7" expected_rows="$8"
+  local dataset_path="$1" instance_id="$2" image_ref="$3" suite="$4" expected_hash="$5" expected_selected_hash="$6" expected_repo="$7" expected_revision="$8" expected_rows="$9"
   [[ -f "$dataset_path" ]] || die "$suite dataset asset does not exist: $dataset_path"
   case "$dataset_path" in *.json|*.jsonl) ;; *) die "$suite dataset must be local .json or .jsonl" ;; esac
   [[ -f "$DATASET_MANIFEST_PATH" ]] || die "$suite dataset manifest asset does not exist: $DATASET_MANIFEST_PATH"
-  python3 - "$dataset_path" "$instance_id" "$image_ref" "$suite" "$DATASET_MANIFEST_PATH" "$expected_repo" "$expected_revision" "$expected_rows" "$expected_hash" <<'PY'
+  [[ "$expected_selected_hash" =~ ^[0-9a-fA-F]{64}$ ]] || die "$suite selected-row hash must be a 64-hex SHA-256"
+  python3 - "$dataset_path" "$instance_id" "$image_ref" "$suite" "$DATASET_MANIFEST_PATH" "$expected_repo" "$expected_revision" "$expected_rows" "$expected_hash" "$expected_selected_hash" <<'PY'
 import hashlib
 import json
 import pathlib
 import sys
 path = pathlib.Path(sys.argv[1])
-instance_id, image_ref, suite, manifest_path, expected_repo, expected_revision, expected_rows, expected_hash = sys.argv[2:]
+instance_id, image_ref, suite, manifest_path, expected_repo, expected_revision, expected_rows, expected_hash, expected_selected_hash = sys.argv[2:]
 if path.suffix == ".json":
     rows = json.loads(path.read_text(encoding="utf-8"))
 else:
@@ -225,6 +233,8 @@ if selected_path != path.resolve():
 canonical = json.dumps([row], sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode()
 if hashlib.sha256(canonical).hexdigest() != selected[0].get("sha256"):
     raise SystemExit(f"{suite} evaluator asset hash does not match datasets.json")
+if selected[0].get("sha256") != expected_selected_hash:
+    raise SystemExit(f"{suite} evaluator asset hash does not match the reviewed selected-row hash")
 if expected_hash not in {
     "4c6a0f689c8b4ba32f4232d611b0c9a86d2fe379e4beb85c23d7c051f3652790",
     "889bccf7ada1a43d211050ac666f3b31032997209afb10dccdc6ea52128a8435",
@@ -249,13 +259,13 @@ if [[ "$SUITE" == lite || "$SUITE" == both ]]; then
   [[ "$LITE_DATASET_REPO" == "$EXPECTED_LITE_DATASET_REPO" ]] || die 'Lite dataset repository mismatch'
   [[ "$LITE_DATASET_REVISION" == "$EXPECTED_LITE_DATASET_REVISION" ]] || die 'Lite dataset revision mismatch'
   validate_image lite "$EVALUATOR_LITE_GOLD_IMAGE" "$EVALUATOR_LITE_GOLD_DIGEST" "$EXPECTED_LITE_IMAGE" "$EXPECTED_LITE_DIGEST"
-  validate_dataset "$LITE_GOLD_DATASET_PATH" "$GOLD_LITE_INSTANCE_ID" "$EVALUATOR_LITE_GOLD_IMAGE" lite "$LITE_DATASET_SHA256" "$EXPECTED_LITE_DATASET_REPO" "$EXPECTED_LITE_DATASET_REVISION" 300
+  validate_dataset "$LITE_GOLD_DATASET_PATH" "$GOLD_LITE_INSTANCE_ID" "$EVALUATOR_LITE_GOLD_IMAGE" lite "$LITE_DATASET_SHA256" "$LITE_GOLD_DATASET_SHA256" "$EXPECTED_LITE_DATASET_REPO" "$EXPECTED_LITE_DATASET_REVISION" 300
 fi
 if [[ "$SUITE" == verified || "$SUITE" == both ]]; then
   [[ "$VERIFIED_DATASET_REPO" == "$EXPECTED_VERIFIED_DATASET_REPO" ]] || die 'Verified dataset repository mismatch'
   [[ "$VERIFIED_DATASET_REVISION" == "$EXPECTED_VERIFIED_DATASET_REVISION" ]] || die 'Verified dataset revision mismatch'
   validate_image verified "$EVALUATOR_VERIFIED_GOLD_IMAGE" "$EVALUATOR_VERIFIED_GOLD_DIGEST" "$EXPECTED_VERIFIED_IMAGE" "$EXPECTED_VERIFIED_DIGEST"
-  validate_dataset "$VERIFIED_DATASET_PATH" "$GOLD_VERIFIED_INSTANCE_ID" "$EVALUATOR_VERIFIED_GOLD_IMAGE" verified "$VERIFIED_DATASET_SHA256" "$EXPECTED_VERIFIED_DATASET_REPO" "$EXPECTED_VERIFIED_DATASET_REVISION" 500
+  validate_dataset "$VERIFIED_DATASET_PATH" "$GOLD_VERIFIED_INSTANCE_ID" "$EVALUATOR_VERIFIED_GOLD_IMAGE" verified "$VERIFIED_DATASET_SHA256" "$VERIFIED_GOLD_DATASET_SHA256" "$EXPECTED_VERIFIED_DATASET_REPO" "$EXPECTED_VERIFIED_DATASET_REVISION" 500
 fi
 
 if [[ "$EXPERIMENT_TYPE" == generated ]]; then
@@ -270,8 +280,8 @@ if isinstance(values, dict):
 if not isinstance(values, list) or not values:
     raise SystemExit("predictions must be a non-empty list or mapping")
 for value in values:
-    if not isinstance(value, dict) or not value.get("instance_id") or "model_patch" not in value:
-        raise SystemExit("each prediction must contain instance_id and model_patch")
+    if not isinstance(value, dict) or not value.get("instance_id") or not value.get("model_name_or_path") or "model_patch" not in value:
+        raise SystemExit("each prediction must contain instance_id, model_name_or_path, and model_patch")
 PY
 fi
 
@@ -283,8 +293,13 @@ print_image_check() {
 
 run_suite() {
   local suite="$1" dataset_path="$2" instance_id="$3" image="$4" digest="$5"
-  local run_id="gold-$suite-$instance_id"
-  local suite_root="$GOLD_OUTPUT_ROOT/$suite-$instance_id"
+  local run_prefix=gold output_root="$GOLD_OUTPUT_ROOT"
+  if [[ "$EXPERIMENT_TYPE" == generated ]]; then
+    run_prefix=generated
+    output_root="$GENERATED_OUTPUT_ROOT"
+  fi
+  local run_id="$run_prefix-$suite-$instance_id"
+  local suite_root="$output_root/$suite-$instance_id"
   local report_dir="$suite_root/evaluation"
   local log_path="$suite_root/evaluator.log"
   local status_path="$suite_root/status.json"
@@ -331,12 +346,25 @@ PY
   # report_dir/results.json layout used by compatible harness builds so the
   # wrapper cannot turn a completed evaluator into a false error solely due
   # to report placement.
-  local report_path="$suite_root/gold.$run_id.json"
+  local report_model=gold
+  if [[ "$EXPERIMENT_TYPE" == generated ]]; then
+    report_model="$(python3 - "$predictions" <<'PY'
+import json
+import pathlib
+import sys
+path = pathlib.Path(sys.argv[1])
+values = json.loads(path.read_text(encoding="utf-8")) if path.suffix == ".json" else [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines() if line.strip()]
+if isinstance(values, dict):
+    values = list(values.values())
+if len(values) != 1 or not isinstance(values[0], dict) or not values[0].get("model_name_or_path"):
+    raise SystemExit("generated predictions must contain exactly one model_name_or_path for report binding")
+print(str(values[0]["model_name_or_path"]).replace("/", "__"))
+PY
+)"
+  fi
+  local report_path="$suite_root/$report_model.$run_id.json"
   if [[ ! -f "$report_path" && -f "$report_dir/results.json" ]]; then
     report_path="$report_dir/results.json"
-  fi
-  if [[ ! -f "$report_path" ]]; then
-    report_path="$(find "$suite_root" -maxdepth 2 -type f -name '*.json' ! -name 'status.json' ! -name 'run_manifest.json' -print -quit 2>/dev/null || true)"
   fi
   local classification=evaluator_error
   if ((evaluator_rc == 0)) && [[ -f "$report_path" ]]; then

@@ -36,7 +36,10 @@ with a local pinned dataset JSON/JSONL or the recorded revision, `--split test`,
 the exact instance ID, generated prediction path, `--max_workers 1`, explicit
 run ID, and a separate output/report directory. Gold uses `--predictions_path
 gold` and separate suite output paths. Evaluator wall time is not trajectory
-E2E.
+E2E. Gold-smoke artifacts use `GOLD_OUTPUT_ROOT` and `gold-*` run IDs. The
+optional generated-evaluation mode requires `model_name_or_path` in the
+prediction file and uses `GENERATED_OUTPUT_ROOT` with `generated-*` run IDs;
+the two namespaces are never reused.
 
 ## Artifact contract
 
@@ -54,4 +57,3 @@ from `cloud/lambda/instance_manifest.env.example`. Runtime scripts must reject
 missing or contradictory immutable fields. User-only values (instance address,
 price, paid-session caps, stop/export/termination times, and credentials) do
 not belong in this repository.
-

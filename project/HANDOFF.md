@@ -7,6 +7,13 @@ Frozen decisions: assignment lock, Lambda 1× H100 PCIe 80 GB target, Qwen3-Code
 Running jobs: none
 Blockers: H100/Linux empirical validation and explicit user-paid-session authorization remain; no technical local blocker
 
+Provenance note: `cloud/lambda/first_experiment.yaml:git_commit` and
+`project/PROJECT_STATE.yaml:last_verified_commit` identify the last reviewed
+runtime-source freeze, not a self-referential Git hash. The exact repository
+transfer commit is the 40-hex value captured by `git rev-parse HEAD` immediately
+before creating `lambda-ready-<commit>.tar.zst`; its filename and checksum are
+the authoritative fresh-host bundle identity.
+
 Next three actions:
 
 1. Transfer the locally verified bundle to a fresh Lambda Ubuntu x86-64/H100 host only after the user completes the paid-session gate.

@@ -104,7 +104,7 @@ class SweagentRunnerTests(unittest.TestCase):
                     + "; printf trajectory > " + str(output / "i1.traj")
                     + "' run-batch --instances.type file --instances.path /tmp/i.json "
                     "--agent.model.name openai/Qwen --agent.model.api_base http://127.0.0.1:8000/v1 "
-                    "--agent.model.api_key fixture --num_workers 1"
+                    "--agent.model.api_key fixture --output_dir " + str(output) + " --num_workers 1"
                 )
                 manifest = root / "manifest.env"
                 manifest.write_text("\n".join([
@@ -139,6 +139,98 @@ class SweagentRunnerTests(unittest.TestCase):
                 self.assertEqual(json.loads((raw / "status.json").read_text())["status"], "completed")
         finally:
             server.shutdown(); server.server_close(); thread.join(timeout=2)
+
+    def test_shell_attempts_isolate_agent_and_evaluator_outputs(self):
+        script = Path(__file__).resolve().parents[2] / "scripts" / "cloud" / "lambda_run_first_experiment.sh"
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            manifest = root / "manifest.env"
+            base = root / "work" / "experiments" / "e1"
+            command = (
+                f"sweagent run-batch --instances.type file --instances.path {root / 'i.json'} "
+                "--instances.filter '^i1$' --agent.model.name openai/Qwen/Qwen3-Coder-30B-A3B-Instruct "
+                "--agent.model.api_base http://127.0.0.1:8000/v1 --agent.model.api_key fixture "
+                f"--output_dir {base} --num_workers 1"
+            )
+            evaluator = (
+                f"python -m swebench.harness.run_evaluation --dataset_name {root / 'i.json'} "
+                f"--predictions_path {base / 'preds.json'} --instance_ids i1 --run_id e1 "
+                f"--report_dir {root / 'work' / 'artifacts' / 'e1' / 'evaluation'}"
+            )
+            manifest.write_text("\n".join([
+                "FIRST_LITE_INSTANCE_ID=i1", "EXPERIMENT_ID=e1",
+                "SWE_AGENT_REVISION=0f3acafacabc0def8cc76b4e48acb4b6cf302cb9",
+                "SWE_BENCH_REVISION=726c5461e2ef52d83cf1ea2107870a8bb332d5",
+                "VLLM_MODEL_REVISION=b2cff646eb4bb1d68355c01b18ae02e7cf42d120",
+                "VLLM_MODEL=Qwen/Qwen3-Coder-30B-A3B-Instruct",
+                f"LITE_DATASET_PATH={root / 'i.json'}", f"SWE_AGENT_COMMAND={command}",
+                f"SWE_AGENT_TELEMETRY_COMMAND={command}", f"SWE_AGENT_OUTPUT_DIR={base}",
+                f"EVALUATOR_REPORT_DIR={root / 'work' / 'artifacts' / 'e1' / 'evaluation'}",
+                f"PREDICTION_PATH={base / 'preds.json'}", f"EVALUATE_COMMAND={evaluator}", "\n",
+            ]), encoding="utf-8")
+            env = os.environ.copy(); env["VLLM_API_KEY"] = "fixture"
+            def dry(attempt):
+                return subprocess.run([
+                    "bash", str(script), "--manifest", str(manifest), "--instance-id", "i1",
+                    "--experiment-id", "e1", "--attempt-id", attempt, "--dry-run",
+                ], env=env, capture_output=True, text=True, check=False)
+            control = dry("attempt-001"); thin = dry("attempt-002")
+            self.assertEqual(control.returncode, 0, control.stderr)
+            self.assertEqual(thin.returncode, 0, thin.stderr)
+            self.assertIn(f"--output_dir {base / 'attempt-001'}", control.stdout)
+            self.assertIn(f"--output_dir {base / 'attempt-002'}", thin.stdout)
+            self.assertIn(f"--report_dir {root / 'work' / 'artifacts' / 'e1' / 'evaluation' / 'attempt-001'}", control.stdout)
+            self.assertIn(f"--report_dir {root / 'work' / 'artifacts' / 'e1' / 'evaluation' / 'attempt-002'}", thin.stdout)
+            self.assertNotEqual(control.stdout, thin.stdout)
+
+    def test_official_evaluator_report_is_snapshotted_into_raw_attempt(self):
+        script = Path(__file__).resolve().parents[2] / "scripts" / "cloud" / "lambda_run_first_experiment.sh"
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            fake_agent = root / "fake_agent.py"
+            fake_agent.write_text(
+                "import json, pathlib, sys\n"
+                "out = pathlib.Path(sys.argv[sys.argv.index('--output_dir') + 1])\n"
+                "out.mkdir(parents=True, exist_ok=True)\n"
+                "(out / 'preds.json').write_text(json.dumps([{'instance_id': 'i1', 'model_patch': ''}]))\n",
+                encoding="utf-8",
+            )
+            base = root / "work" / "experiments" / "e1"
+            report_base = root / "work" / "artifacts" / "e1" / "evaluation"
+            command = (
+                f"{sys.executable} {fake_agent} run-batch --instances.type file --instances.path {root / 'i.json'} "
+                "--instances.filter '^i1$' --agent.model.name openai/Qwen/Qwen3-Coder-30B-A3B-Instruct "
+                "--agent.model.api_base http://127.0.0.1:8000/v1 --agent.model.api_key fixture "
+                f"--output_dir {base} --num_workers 1"
+            )
+            evaluator = (
+                f"{sys.executable} -c 'import pathlib; pathlib.Path(\"official-report.json\").write_text(\"{{\\\"resolved_instances\\\":1}}\")' "
+                f"-m swebench.harness.run_evaluation --predictions_path {base / 'preds.json'} --instance_ids i1 --run_id e1 "
+                f"--report_dir {report_base}"
+            )
+            manifest = root / "manifest.env"
+            manifest.write_text("\n".join([
+                "WORK_ROOT=" + str(root / "work"), "FIRST_LITE_INSTANCE_ID=i1", "EXPERIMENT_ID=e1",
+                "SWE_AGENT_REVISION=0f3acafacabc0def8cc76b4e48acb4b6cf302cb9",
+                "SWE_BENCH_REVISION=726c5461e2ef52d83cf1ea2107870a8bb3328d57",
+                "VLLM_MODEL_REVISION=b2cff646eb4bb1d68355c01b18ae02e7cf42d120",
+                "VLLM_MODEL=Qwen/Qwen3-Coder-30B-A3B-Instruct", f"LITE_DATASET_PATH={root / 'i.json'}",
+                f"SWE_AGENT_COMMAND={command}", f"SWE_AGENT_TELEMETRY_COMMAND={command}",
+                f"SWE_AGENT_OUTPUT_DIR={base}", f"EVALUATOR_REPORT_DIR={report_base}",
+                f"PREDICTION_PATH={base / 'preds.json'}", f"EVALUATE_COMMAND={evaluator}", "\n",
+            ]), encoding="utf-8")
+            result = subprocess.run([
+                "bash", str(script), "--manifest", str(manifest), "--instance-id", "i1",
+                "--experiment-id", "e1", "--attempt-id", "attempt-001",
+            ], cwd=script.parents[2], capture_output=True, text=True, check=False)
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            raw = root / "work" / "data" / "raw" / "e1" / "lite" / "i1" / "attempt-001"
+            report = raw / "evaluator_report" / "official-report.json"
+            self.assertTrue(report.is_file(), sorted(str(p) for p in raw.rglob("*")))
+            self.assertEqual(json.loads(report.read_text())["resolved_instances"], 1)
+            evaluation = json.loads((raw / "eval.json").read_text())
+            self.assertEqual(evaluation["report_snapshot"], "evaluator_report")
+            self.assertIn("official-report.json", evaluation["report_files"])
 
 
 if __name__ == "__main__":

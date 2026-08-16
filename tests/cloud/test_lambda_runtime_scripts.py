@@ -1,3 +1,4 @@
+import hashlib
 import os
 import pathlib
 import subprocess
@@ -9,6 +10,7 @@ CLOUD = ROOT / "scripts" / "cloud"
 RUNTIME = tuple(CLOUD / name for name in ("lambda_preflight.sh", "lambda_bootstrap.sh", "lambda_download_assets.sh", "lambda_start_vllm.sh", "lambda_healthcheck.sh"))
 MODEL_REVISION = "b2cff646eb4bb1d68355c01b18ae02e7cf42d120"
 VLLM_REVISION = "6d8d0a24c02bfd84d46b3016b865a44f048ae84b"
+PYTHON_LOCK_SHA256 = "7e1177bf4c0b4efe4d64895f39b340413336b77e02d2f72bbf5aad387accc9cc"
 
 class LambdaRuntimeScriptTests(unittest.TestCase):
     def run_script(self, script, *args, env=None):
@@ -32,6 +34,9 @@ class LambdaRuntimeScriptTests(unittest.TestCase):
     def test_dry_run_contains_immutable_runtime_values(self):
         bootstrap = self.run_script(RUNTIME[1], "--dry-run"); download = self.run_script(RUNTIME[2], "--dry-run"); start = self.run_script(RUNTIME[3], "--dry-run")
         self.assertIn(VLLM_REVISION, bootstrap.stdout); self.assertIn("linux/amd64", bootstrap.stdout); self.assertIn(MODEL_REVISION, download.stdout); self.assertIn(MODEL_REVISION, start.stdout)
+        self.assertIn("requirements-linux-x86_64.txt", bootstrap.stdout)
+        self.assertIn("--require-hashes", (ROOT / "scripts/cloud/lambda_bootstrap.sh").read_text(encoding="utf-8"))
+        self.assertEqual(hashlib.sha256((ROOT / "cloud/lambda/requirements-linux-x86_64.txt").read_bytes()).hexdigest(), PYTHON_LOCK_SHA256)
         self.assertIn("--tool-call-parser qwen3_coder", start.stdout); self.assertIn("--dtype bfloat16", start.stdout); self.assertIn("--max-model-len 32768", start.stdout)
 
     def test_manifest_is_not_sourced_or_secret_logged(self):
@@ -49,6 +54,12 @@ class LambdaRuntimeScriptTests(unittest.TestCase):
         text = RUNTIME[3].read_text(encoding="utf-8")
         for field in ("hostname", "task_id", "experiment_id", "gpu", "vllm_port", "config_hash", "acquired_at_utc"): self.assertIn(field, text)
         self.assertIn('mkdir -- "$LOCK_DIR"', text); self.assertIn("tool-call-parser", text); self.assertIn("--gpus device=0", text)
+
+    def test_resume_validates_vllm_digest_and_platform(self):
+        text = (ROOT / "scripts/cloud/lambda_bootstrap.sh").read_text(encoding="utf-8")
+        self.assertIn("RepoDigests", text)
+        self.assertIn("vLLM image digest mismatch", text)
+        self.assertIn("vLLM image platform mismatch", text)
 
     def test_preflight_dry_run_does_not_create_report(self):
         with tempfile.TemporaryDirectory() as temp:

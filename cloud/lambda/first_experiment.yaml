@@ -1,6 +1,7 @@
 schema_version: 1
 status: cloud-ready-pending-h100
 git_commit: 12bf6731ac4314aa369ebfb55d0011f2f0075921
+git_commit_role: reviewed_runtime_source_freeze
 assignment_lock_hash: 02f485cdd8cca4aae242d2f1a5306184a95d7ee0fae42527d7153f48a3424761
 model:
   id: Qwen/Qwen3-Coder-30B-A3B-Instruct
@@ -19,6 +20,10 @@ serving:
   tool_parser: qwen3_coder
   metrics_endpoint: http://127.0.0.1:8000/metrics
   port: 8000
+runtime:
+  python: '3.11'
+  linux_x86_64_constraints: cloud/lambda/requirements-linux-x86_64.txt
+  linux_x86_64_constraints_sha256: 7e1177bf4c0b4efe4d64895f39b340413336b77e02d2f72bbf5aad387accc9cc
 agent:
   name: SWE-agent
   revision: 0f3acafacabc0def8cc76b4e48acb4b6cf302cb9
