@@ -39,6 +39,29 @@ class LambdaRuntimeScriptTests(unittest.TestCase):
         self.assertEqual(hashlib.sha256((ROOT / "cloud/lambda/requirements-linux-x86_64.txt").read_bytes()).hexdigest(), PYTHON_LOCK_SHA256)
         self.assertIn("--tool-call-parser qwen3_coder", start.stdout); self.assertIn("--dtype bfloat16", start.stdout); self.assertIn("--max-model-len 32768", start.stdout)
 
+    def test_start_dry_run_propagates_non_default_manifest_values(self):
+        with tempfile.TemporaryDirectory() as temp:
+            manifest = pathlib.Path(temp) / "manifest.env"
+            manifest.write_text("\n".join([
+                "WORK_ROOT=/tmp/non-default-work",
+                "VLLM_MODEL=org/NonDefaultModel",
+                "VLLM_MODEL_REVISION=0123456789abcdef0123456789abcdef01234567",
+                "VLLM_IMAGE=registry.example/vllm:v0.10.0@sha256:" + "a" * 64,
+                "VLLM_IMAGE_DIGEST=sha256:" + "a" * 64,
+                "VLLM_IMAGE_PLATFORM=linux/amd64",
+                "VLLM_VERSION=0.10.0",
+                "VLLM_TOOL_PARSER=qwen3_coder",
+                "VLLM_MAX_MODEL_LEN=16384",
+                "VLLM_HEALTH_CONTEXT=4096",
+                "VLLM_GPU_MEMORY_UTILIZATION=0.75",
+                "VLLM_TENSOR_PARALLEL_SIZE=1",
+                "VLLM_PORT=8123",
+            ]) + "\n", encoding="utf-8")
+            result = self.run_script(RUNTIME[3], "--manifest", str(manifest), "--dry-run")
+            self.assertEqual(result.returncode, 0, result.stderr)
+            for value in ("org/NonDefaultModel", "0123456789abcdef0123456789abcdef01234567", "16384", "0.75", "--port 8123", "--tensor-parallel-size 1"):
+                self.assertIn(value, result.stdout)
+
     def test_manifest_is_not_sourced_or_secret_logged(self):
         with tempfile.TemporaryDirectory() as temp:
             manifest = pathlib.Path(temp) / "manifest.env"; secret = "do-not-print-this-token"
@@ -46,14 +69,41 @@ class LambdaRuntimeScriptTests(unittest.TestCase):
             result = self.run_script(RUNTIME[2], "--manifest", str(manifest), "--dry-run")
             self.assertEqual(result.returncode, 0, result.stderr); self.assertNotIn(secret, result.stdout + result.stderr)
 
+    def test_non_default_vllm_manifest_values_reach_dry_run_command(self):
+        with tempfile.TemporaryDirectory() as temp:
+            manifest = pathlib.Path(temp) / "manifest.env"
+            manifest.write_text(
+                "\n".join(
+                    [
+                        "VLLM_MODEL=org/NonDefaultModel",
+                        "VLLM_MODEL_REVISION=0123456789abcdef0123456789abcdef01234567",
+                        "VLLM_MAX_MODEL_LEN=16384",
+                        "VLLM_HEALTH_CONTEXT=4096",
+                        "VLLM_GPU_MEMORY_UTILIZATION=0.73",
+                        "VLLM_TOOL_PARSER=qwen3_coder",
+                        "VLLM_TENSOR_PARALLEL_SIZE=1",
+                    ]
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+            result = self.run_script(RUNTIME[3], "--manifest", str(manifest), "--dry-run")
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertIn("--max-model-len 16384", result.stdout)
+            self.assertIn("--gpu-memory-utilization 0.73", result.stdout)
+            self.assertIn("--tensor-parallel-size 1", result.stdout)
+            self.assertIn("org/NonDefaultModel", result.stdout)
+
     def test_health_contract_uses_metrics_endpoint_not_chat_metrics(self):
         text = RUNTIME[4].read_text(encoding="utf-8")
         self.assertIn("/metrics", text); self.assertIn("vllm:request_success_total", text); self.assertIn("tool-parser failure", text); self.assertIn("telemetry-contract failure", text); self.assertNotIn('d.get("metrics")', text)
         self.assertIn("vllm:e2e_request_latency_seconds_(bucket|count|sum)", text)
+        self.assertIn("vllm_config", text)
+        self.assertIn("server manifest does not match instance manifest", text)
 
     def test_atomic_gpu_lease_and_resolved_config_are_explicit(self):
         text = RUNTIME[3].read_text(encoding="utf-8")
-        for field in ("hostname", "task_id", "experiment_id", "gpu", "vllm_port", "config_hash", "acquired_at_utc"): self.assertIn(field, text)
+        for field in ("hostname", "task_id", "experiment_id", "gpu", "vllm_port", "config_hash", "acquired_at_utc", "health_context", "tensor_parallel_size"): self.assertIn(field, text)
         self.assertIn('mkdir -- "$LOCK_DIR"', text); self.assertIn("tool-call-parser", text); self.assertIn("--gpus device=0", text)
 
     def test_resume_validates_vllm_digest_and_platform(self):

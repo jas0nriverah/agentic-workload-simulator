@@ -2,9 +2,11 @@
 
 from __future__ import annotations
 
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, field
 from typing import Any, Dict, Optional
 import json
+
+from agentic_sim.telemetry.clock import clock_metadata
 
 
 @dataclass(frozen=True)
@@ -22,6 +24,9 @@ class EventEnvelope:
     action_id: Optional[str] = None
     source: str = "unknown"
     payload: Optional[Dict[str, Any]] = None
+    # Copy the cached identity so a caller cannot mutate the process-wide
+    # metadata object shared by later envelopes.
+    clock: Dict[str, Any] = field(default_factory=lambda: dict(clock_metadata()))
 
     def __post_init__(self) -> None:
         if self.end_time_ns < self.start_time_ns:

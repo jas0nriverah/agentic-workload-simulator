@@ -15,6 +15,7 @@ import sys
 sys.path.insert(0, str(ROOT / "src"))
 
 from agentic_sim.observability.profilers import build_nsys_command, build_strace_command  # noqa: E402
+from agentic_sim.telemetry.clock import clock_fields  # noqa: E402
 
 
 def _utc() -> str:
@@ -82,6 +83,7 @@ def main(argv: list[str] | None = None) -> int:
         "overhead_class": "intrusive_separate_attempt",
         "status": "started",
         "created_at_utc": _utc(),
+        "clock": clock_fields(),
     }
     _write_manifest(manifest_path, manifest)
     completed = subprocess.run(plan["command"], check=False)

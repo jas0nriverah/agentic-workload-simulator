@@ -33,3 +33,39 @@
   status: done
   owner: root
   resource_class: CPU_ONLY
+
+- id: CR13-clock-contract
+  objective: Replace direct monotonic calls with the shared clock identity and persist host/boot provenance
+  status: done_local_reviewed
+  owner: runtime-worker
+  resource_class: CPU_ONLY
+
+- id: CR13-vllm-resolved-config
+  objective: Resolve vLLM launch/server manifests from one validated instance-manifest source of truth
+  status: done_local_reviewed
+  owner: runtime-worker
+  resource_class: CPU_ONLY
+
+- id: CR13-artifact-contract-v2
+  objective: Enforce real-Parquet or explicit-unavailable counter artifacts without rewriting legacy raw runs
+  status: done_local_reviewed
+  owner: runtime-worker
+  resource_class: CPU_ONLY
+
+- id: CR13-knob-propagation
+  objective: Prove four assignment sweep knobs reach SWE-agent and vLLM request configuration
+  status: done_local_reviewed
+  owner: root
+  resource_class: CPU_ONLY
+
+- id: CR13-linux-rehearsal
+  objective: Rehearse pinned Linux x86-64 commands, dry-runs, scans, and bundle extraction without model download
+  status: done_local_reviewed
+  owner: rehearsal-worker
+  resource_class: CPU_ONLY
+
+- id: CR13-independent-review
+  objective: Independently review assignment fidelity, provenance, evaluator isolation, and release safety
+  status: done_no_critical_or_high_findings
+  owner: reviewer
+  resource_class: READ_ONLY_REVIEW

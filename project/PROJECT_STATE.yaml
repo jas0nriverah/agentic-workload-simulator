@@ -1,10 +1,10 @@
 schema_version: 1
-updated_at_utc: 2026-08-16T06:11:14Z
-overall_status: cloud_ready_pending_h100
-phase: CR0_CR1_CR2_CR3_CR4_CR5_CR6_CR7_CR8_CR9_CR10_CR11_CR12
-current_task: CR12-final-cloud-readiness
+updated_at_utc: 2026-08-16T07:54:50Z
+overall_status: pre_h100_hardening_local_pass
+phase: CR0_CR1_CR2_CR3_CR4_CR5_CR6_CR7_CR8_CR9_CR10_CR11_CR12_CR13
+current_task: CR13-pre-h100-release-frozen
 last_verified_commit: 58a99411947ca8aaba611f92e47848b4085681f8
-last_verified_commit_role: reviewed_observability_local_static
+last_verified_commit_role: pre_h100_hardening_reviewed_before_release
 assignment_lock_hash: 02f485cdd8cca4aae242d2f1a5306184a95d7ee0fae42527d7153f48a3424761
 working_tree_dirty: false
 
@@ -35,8 +35,10 @@ configuration:
   swebench_revision: 726c5461e2ef52d83cf1ea2107870a8bb3328d57
 
 cloud_readiness:
-  status: PASS_static_local
-  safe_to_rent_h100: false
+  status: PASS_static_local_h100_pending
+  technical_safe_to_rent_h100: true
+  paid_session_authorized: false
+  safe_to_launch: false
   h100_validation_required: true
   sample_repository_unchanged: true
   paid_compute_used: false
@@ -47,11 +49,11 @@ gates:
   G0_requirements: passed
   G1_direct_model_request: pending_h100
   G2_single_trajectory: pending_h100
-  G3A_official_evaluation_reference_lock: passed_static
+  G3A_public_reference_lock: passed_static_comparison_only
   G4_instrumented_trajectory: pending_h100
   G5_five_instance_smoke: pending
   G6_twenty_instance_pilot: pending
-  G3B_scoreboard_reproduction: pending
+  G3B_h100_evaluator_validation: pending_h100
   G7_step1_baseline: pending
   G8_step2_sweeps: pending
   G9_step3_deep_profile: pending
@@ -59,8 +61,8 @@ gates:
   G11_final_audit: pending
 
 next_actions:
-  - if authorized later, run the exact H100-only validation sequence in cloud/lambda/RUNBOOK.md
-  - retain the uninstrumented trajectory as the control before thin telemetry
+  - if authorized later, run the exact control-only H100 sequence in cloud/lambda/RUNBOOK.md
+  - retain the uninstrumented trajectory as the control; implement the normalizer locally before thin telemetry
   - do not expand to G5/G6 until the first generated prediction and evaluator artifacts pass review
 active_experiments: []
 active_agent_tasks: []

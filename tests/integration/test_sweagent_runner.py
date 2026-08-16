@@ -8,7 +8,7 @@ import threading
 import unittest
 from pathlib import Path
 
-from agentic_sim.runners import RunnerConfig, build_command, run_sweagent
+from agentic_sim.runners import RunnerConfig, build_command, run_sweagent, validate_experiment_command
 from agentic_sim.runners.sweagent_runner import RunnerContractError
 
 
@@ -24,6 +24,35 @@ class SweagentRunnerTests(unittest.TestCase):
         self.assertIn("file", command)
         self.assertIn("$VLLM_API_KEY", command)
         self.assertNotIn("--model-revision", command)
+
+    def test_four_assignment_knobs_and_request_fields_are_concrete(self):
+        command = build_command(
+            instances_path="/tmp/tasks.json",
+            instance_id="i1",
+            output_dir="/tmp/o",
+            model="openai/Qwen",
+            model_revision="b2cff646eb4bb1",
+            per_instance_call_limit=17,
+            max_output_tokens=1536,
+            max_observation_length=25_000,
+            temperature=0.5,
+            seed=2,
+        )
+        resolved = validate_experiment_command(command)
+        self.assertEqual(resolved["per_instance_call_limit"], 17)
+        self.assertEqual(resolved["max_output_tokens"], 1536)
+        self.assertEqual(resolved["max_observation_length"], 25_000)
+        self.assertEqual(resolved["temperature"], 0.5)
+        self.assertEqual(resolved["seed"], 2)
+        self.assertIn("--agent.model.completion_kwargs.max_tokens", command)
+        self.assertIn("--agent.model.completion_kwargs.seed", command)
+        self.assertIn("--agent.templates.max_observation_length", command)
+
+    def test_contradictory_output_guard_is_rejected(self):
+        command = build_command(instances_path="/tmp/tasks.json", instance_id="i1", output_dir="/tmp/o", model="openai/Qwen", model_revision="b2cff646eb4bb1")
+        command[command.index("--agent.model.completion_kwargs.max_tokens") + 1] = "1024"
+        with self.assertRaises(RunnerContractError):
+            validate_experiment_command(command)
 
     def test_control_and_thin_modes_share_identical_agent_command(self):
         kwargs = dict(instances_path="/tmp/tasks.json", instance_id="i1", output_dir="/tmp/o", model="openai/Qwen", model_revision="b2cff646eb4bb1")
@@ -63,7 +92,7 @@ class SweagentRunnerTests(unittest.TestCase):
                 "SWE_AGENT_REVISION=0f3acafacabc0def8cc76b4e48acb4b6cf302cb9",
                 "SWE_BENCH_REVISION=726c5461e2ef52d83cf1ea2107870a8bb332d5",
                 "VLLM_MODEL_REVISION=b2cff646eb4bb1d68355c01b18ae02e7cf42d120",
-                "SWE_AGENT_COMMAND=false run-batch --instances.type file --instances.path /tmp/i.json --agent.model.name openai/Qwen --agent.model.api_base http://127.0.0.1:8000/v1 --agent.model.api_key fixture --num_workers 1", "EVALUATE_COMMAND=true -m swebench.harness.run_evaluation --predictions_path /tmp/preds.json --instance_ids i1", "FIRST_EXPERIMENT_TIMEOUT_SECONDS=2", "\n",
+                "SWE_AGENT_COMMAND=false run-batch --instances.type file --instances.path /tmp/i.json --instances.filter '^i1$' --agent.model.name openai/Qwen --agent.model.api_base http://127.0.0.1:8000/v1 --agent.model.api_key fixture --agent.model.per_instance_call_limit 30 --agent.model.temperature 0.0 --agent.model.max_input_tokens 32768 --agent.model.max_output_tokens 2048 --agent.model.completion_kwargs.max_tokens 2048 --agent.model.completion_kwargs.seed 0 --agent.templates.max_observation_length 100000 --num_workers 1", "EVALUATE_COMMAND=true -m swebench.harness.run_evaluation --predictions_path /tmp/preds.json --instance_ids i1", "FIRST_EXPERIMENT_TIMEOUT_SECONDS=2", "\n",
             ]), encoding="utf-8")
             args = [str(script), "--manifest", str(manifest), "--work-root", str(root / "work")]
             first = subprocess.run(args, capture_output=True, text=True, check=False)
@@ -102,9 +131,9 @@ class SweagentRunnerTests(unittest.TestCase):
                     "printf \"[{\\\"instance_id\\\":\\\"i1\\\",\\\"model_patch\\\":\\\"\\\"}]\\n\" > "
                     + str(output / "preds.json")
                     + "; printf trajectory > " + str(output / "i1.traj")
-                    + "' run-batch --instances.type file --instances.path /tmp/i.json "
+                    + "' run-batch --instances.type file --instances.path /tmp/i.json --instances.filter '^i1$' "
                     "--agent.model.name openai/Qwen --agent.model.api_base http://127.0.0.1:8000/v1 "
-                    "--agent.model.api_key fixture --output_dir " + str(output) + " --num_workers 1"
+                    "--agent.model.api_key fixture --agent.model.per_instance_call_limit 30 --agent.model.temperature 0.0 --agent.model.max_input_tokens 32768 --agent.model.max_output_tokens 2048 --agent.model.completion_kwargs.max_tokens 2048 --agent.model.completion_kwargs.seed 0 --agent.templates.max_observation_length 100000 --output_dir " + str(output) + " --num_workers 1"
                 )
                 manifest = root / "manifest.env"
                 manifest.write_text("\n".join([
@@ -150,7 +179,7 @@ class SweagentRunnerTests(unittest.TestCase):
                 f"sweagent run-batch --instances.type file --instances.path {root / 'i.json'} "
                 "--instances.filter '^i1$' --agent.model.name openai/Qwen/Qwen3-Coder-30B-A3B-Instruct "
                 "--agent.model.api_base http://127.0.0.1:8000/v1 --agent.model.api_key fixture "
-                f"--output_dir {base} --num_workers 1"
+                f"--agent.model.per_instance_call_limit 30 --agent.model.temperature 0.0 --agent.model.max_input_tokens 32768 --agent.model.max_output_tokens 2048 --agent.model.completion_kwargs.max_tokens 2048 --agent.model.completion_kwargs.seed 0 --agent.templates.max_observation_length 100000 --output_dir {base} --num_workers 1"
             )
             evaluator = (
                 f"python -m swebench.harness.run_evaluation --dataset_name {root / 'i.json'} "
@@ -201,7 +230,7 @@ class SweagentRunnerTests(unittest.TestCase):
                 f"{sys.executable} {fake_agent} run-batch --instances.type file --instances.path {root / 'i.json'} "
                 "--instances.filter '^i1$' --agent.model.name openai/Qwen/Qwen3-Coder-30B-A3B-Instruct "
                 "--agent.model.api_base http://127.0.0.1:8000/v1 --agent.model.api_key fixture "
-                f"--output_dir {base} --num_workers 1"
+                f"--agent.model.per_instance_call_limit 30 --agent.model.temperature 0.0 --agent.model.max_input_tokens 32768 --agent.model.max_output_tokens 2048 --agent.model.completion_kwargs.max_tokens 2048 --agent.model.completion_kwargs.seed 0 --agent.templates.max_observation_length 100000 --output_dir {base} --num_workers 1"
             )
             evaluator = (
                 f"{sys.executable} -c 'import pathlib; pathlib.Path(\"official-report.json\").write_text(\"{{\\\"resolved_instances\\\":1}}\")' "

@@ -7,7 +7,6 @@ import argparse
 import json
 import os
 import sys
-import time
 import urllib.error
 import urllib.request
 import uuid
@@ -18,6 +17,7 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "src"))
 
 from agentic_sim.observability.gpu import collect_dcgmi_sample, collect_nvidia_smi_sample  # noqa: E402
+from agentic_sim.telemetry.clock import clock_fields, monotonic_ns, utc_now  # noqa: E402
 from agentic_sim.observability.vllm_metrics import (  # noqa: E402
     PrometheusSnapshot,
     parse_prometheus_text,
@@ -49,7 +49,7 @@ def _fetch(url: str, timeout: float) -> tuple[str | None, str | None]:
 
 
 def collect(args: argparse.Namespace) -> dict[str, Any]:
-    now = time.monotonic_ns()
+    now = monotonic_ns()
     raw, error = _fetch(args.metrics_url, args.timeout)
     if raw is None:
         vllm = unavailable_object(
@@ -97,7 +97,8 @@ def collect(args: argparse.Namespace) -> dict[str, Any]:
         "start_mono_ns": now,
         "end_mono_ns": now,
         "duration_ms": 0.0,
-        "utc_recorded": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+        "utc_recorded": utc_now(),
+        "clock": clock_fields(),
         # A partial sample can still contain a valid vLLM scrape. Keep the
         # source-level statuses below and mark `partial=true`; callers must
         # not read this top-level marker as complete GPU+server evidence.

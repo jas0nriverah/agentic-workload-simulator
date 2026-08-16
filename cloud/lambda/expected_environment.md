@@ -43,6 +43,13 @@ record before work starts.
 - Verified dataset revision
   `91aa3ed51b709be6457e12d00300a6a596d4c6a3` (500 test rows).
 
+The baseline command resolves the assignment controls as 30 model calls,
+2048 provider/output tokens (`completion_kwargs.max_tokens` plus the SWE-agent
+metadata guard), 100,000 observation characters, temperature 0.0, and request
+seed 0. The four future sweep grids are recorded in
+`cloud/lambda/first_experiment.yaml`; the 32K input setting remains a fixed
+context guard.
+
 The selected local task files are `lite_astropy__astropy-12907.json`,
 `lite_astropy__astropy-14182.json`, and
 `verified_astropy__astropy-14365.json` under

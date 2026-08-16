@@ -1,6 +1,6 @@
 # Assignment lock
 
-Source: `/Users/jasonrivera/Downloads/Coding tests Harrdware.pdf`  
+Source: attached coding-test PDF supplied with this repository (local source path intentionally not recorded)
 SHA-256: `02f485cdd8cca4aae242d2f1a5306184a95d7ee0fae42527d7153f48a3424761`
 
 Required fixed components:

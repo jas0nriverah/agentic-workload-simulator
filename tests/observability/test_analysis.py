@@ -9,6 +9,7 @@ from agentic_sim.observability.memory import estimate_memory, estimate_weight_by
 from agentic_sim.observability.nvtx import capability, range as nvtx_range
 from agentic_sim.observability.overhead import PairingError, summarize_overhead_records
 from agentic_sim.observability.perfetto import export_perfetto_trace
+from agentic_sim.telemetry.clock import clock_id
 
 
 class OverheadTests(unittest.TestCase):
@@ -81,12 +82,15 @@ class TraceAndNvtxTests(unittest.TestCase):
                     "event_type": "model_request", "run_id": "r", "attempt_id": "a",
                     "start_mono_ns": 1_000_000, "end_mono_ns": 3_000_000,
                     "request_id": "req-1", "payload": {"prompt": "secret"},
+                    "clock": {"clock_id": clock_id(), "hostname": "fixture-host", "boot_id": "fixture-boot"},
                     "provenance": "measured",
                 }) + "\n",
                 encoding="utf-8",
             )
             trace = export_perfetto_trace(events, output_path=output, run_id="r", attempt_id="a")
             self.assertEqual(trace["schema_version"], "observability.trace.perfetto.v1")
+            self.assertEqual(trace["clock"], clock_id())
+            self.assertEqual(trace["clock_metadata"]["clock_id"], clock_id())
             self.assertEqual(trace["traceEvents"][0]["ts"], 0.0)
             self.assertNotIn("secret", output.read_text(encoding="utf-8"))
             with self.assertRaises(FileExistsError):
@@ -97,6 +101,30 @@ class TraceAndNvtxTests(unittest.TestCase):
             self.assertEqual(capability()["status"], "disabled")
             with nvtx_range("agent_step", category="agent"):
                 pass
+
+    def test_perfetto_rejects_cross_host_or_boot_interval_merge(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            events = Path(tmp) / "events.jsonl"
+            rows = [
+                {
+                    "event_type": "model_request", "start_mono_ns": 1, "end_mono_ns": 2,
+                    "clock": {"clock_id": clock_id(), "hostname": "host-a", "boot_id": "boot-a"},
+                },
+                {
+                    "event_type": "model_request", "start_mono_ns": 3, "end_mono_ns": 4,
+                    "clock": {"clock_id": clock_id(), "hostname": "host-b", "boot_id": "boot-b"},
+                },
+            ]
+            events.write_text("\n".join(json.dumps(row) for row in rows) + "\n", encoding="utf-8")
+            with self.assertRaises(ValueError):
+                export_perfetto_trace(events)
+
+    def test_perfetto_rejects_missing_clock_on_timed_row(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            events = Path(tmp) / "events.jsonl"
+            events.write_text(json.dumps({"event_type": "model_request", "start_mono_ns": 1, "end_mono_ns": 2}) + "\n", encoding="utf-8")
+            with self.assertRaises(ValueError):
+                export_perfetto_trace(events)
 
 
 if __name__ == "__main__":

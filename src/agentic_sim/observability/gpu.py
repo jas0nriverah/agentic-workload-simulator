@@ -13,8 +13,9 @@ import datetime as _datetime
 import re
 import shutil
 import subprocess
-import time
 from typing import Any, Callable, Dict, Iterable, List, Mapping, Optional, Sequence, Tuple
+
+from agentic_sim.telemetry.clock import clock_fields, monotonic_ns
 
 
 _Runner = Callable[..., Any]
@@ -52,7 +53,7 @@ def _utc_now() -> str:
 
 
 def _timestamps() -> Dict[str, Any]:
-    return {"observed_at_utc": _utc_now(), "observed_monotonic_ns": time.monotonic_ns()}
+    return {"observed_at_utc": _utc_now(), "observed_monotonic_ns": monotonic_ns(), "clock": clock_fields()}
 
 
 def _field(

@@ -58,6 +58,7 @@ class LambdaCollectionScriptTests(unittest.TestCase):
                 "events.jsonl": '{"event_type":"test"}\n',
                 "evaluation.json": '{"resolved":false}\n',
                 "status.json": '{"status":"completed"}\n',
+                "counters.unavailable.json": '{"status":"unavailable","provenance":"unavailable","reason":"fixture"}\n',
             }.items():
                 (source / name).write_text(payload, encoding="utf-8")
             collected = subprocess.run(
@@ -83,3 +84,25 @@ class LambdaCollectionScriptTests(unittest.TestCase):
                 check=False,
             )
             self.assertEqual(verified.returncode, 0, verified.stderr + verified.stdout)
+
+    def test_collection_rejects_missing_counter_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = pathlib.Path(tmp)
+            source = root / "source"
+            output = root / "output"
+            source.mkdir()
+            for name, payload in {
+                "manifest.json": '{"run_id":"r1"}\n',
+                "predictions.json": '{"instance_id":"i1"}\n',
+                "trajectory.json": '{"steps":[]}\n',
+                "events.jsonl": '{"event_type":"test"}\n',
+                "evaluation.json": '{"resolved":false}\n',
+                "status.json": '{"status":"completed"}\n',
+            }.items():
+                (source / name).write_text(payload, encoding="utf-8")
+            result = subprocess.run(
+                [str(SCRIPTS / "lambda_collect_results.sh"), "--source-root", str(source), "--output-dir", str(output), "--run-id", "missing-counter"],
+                capture_output=True, text=True, check=False,
+            )
+            self.assertNotEqual(result.returncode, 0)
+            self.assertIn("counter state", result.stderr)

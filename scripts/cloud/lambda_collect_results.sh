@@ -103,7 +103,14 @@ for path in source.rglob("*"):
     except ValueError: files.append(path)
 
 lines = []
+counter_paths = {}
+attempt_dirs = set()
 for path in sorted(files):
+    if path.name in {"config.json", "summary.json", "run_manifest.json"}:
+        attempt_dirs.add(path.parent)
+    if path.name in {"counters.parquet", "counters.unavailable.json"}:
+        counter_paths.setdefault(path.parent, []).append(path)
+        continue
     kind = classify(path)
     if kind is None: continue
     try:
@@ -113,6 +120,59 @@ for path in sorted(files):
         print(f"Invalid {kind} artifact {path}: {exc}", file=sys.stderr)
         raise SystemExit(2)
     lines.append(f"OK\t{kind}\t{path.relative_to(source).as_posix()}\t{path.stat().st_size}")
+
+for parent, paths in sorted(counter_paths.items(), key=lambda item: str(item[0])):
+    if len(paths) > 1:
+        print(f"Conflicting counter states in {parent}: {', '.join(path.name for path in paths)}", file=sys.stderr)
+        raise SystemExit(2)
+    path = paths[0]
+    if path.name == "counters.unavailable.json":
+        try:
+            value = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, UnicodeError, ValueError) as exc:
+            print(f"Invalid counter unavailable marker {path}: {exc}", file=sys.stderr)
+            raise SystemExit(2)
+        if not isinstance(value, dict) or value.get("status") != "unavailable" or value.get("provenance") != "unavailable":
+            print(f"Invalid counter unavailable marker {path}", file=sys.stderr)
+            raise SystemExit(2)
+        state = "unavailable"
+    else:
+        raw = path.read_bytes()
+        if raw[:4] == b"PAR1" and raw[-4:] == b"PAR1":
+            try:
+                import pyarrow.parquet as parquet
+                names = set(parquet.read_table(path).schema.names)
+                required = {"metric_name", "value", "timestamp_mono_ns", "aggregation_scope"}
+                if not names or any(not isinstance(name, str) or not name for name in names): raise ValueError("empty or unnamed counter schema")
+                missing = sorted(required.difference(names))
+                if missing: raise ValueError(f"counter schema missing required fields: {missing}")
+            except ImportError as exc:
+                raise SystemExit(f"Cannot validate real counter parquet without pyarrow: {path}: {exc}")
+            except Exception as exc:
+                print(f"Invalid counter parquet {path}: {exc}", file=sys.stderr)
+                raise SystemExit(2)
+            state = "valid"
+        else:
+            try:
+                value = json.loads(raw.decode("utf-8"))
+            except (UnicodeDecodeError, ValueError) as exc:
+                print(f"Invalid counter parquet {path}: {exc}", file=sys.stderr)
+                raise SystemExit(2)
+            if not isinstance(value, dict) or value.get("status") != "unavailable" or value.get("provenance") != "unavailable":
+                print(f"Invalid counter parquet {path}: expected PAR1 or legacy unavailable JSON", file=sys.stderr)
+                raise SystemExit(2)
+            state = "legacy_unavailable"
+    lines.append(f"OK\tcounters:{state}\t{path.relative_to(source).as_posix()}\t{path.stat().st_size}")
+
+if attempt_dirs:
+    for attempt in sorted(attempt_dirs, key=str):
+        states = counter_paths.get(attempt, [])
+        if len(states) != 1:
+            print(f"Attempt {attempt} must contain exactly one counter state; found {len(states)}", file=sys.stderr)
+            raise SystemExit(3)
+elif not counter_paths:
+    print("Missing required counter state: every collection must include counters.parquet or counters.unavailable.json", file=sys.stderr)
+    raise SystemExit(3)
 
 missing = [kind for kind in classes if not any(line.split("\t", 2)[1] == kind for line in lines)]
 if missing:
