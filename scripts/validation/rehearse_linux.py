@@ -334,23 +334,53 @@ def safe_extract(archive: Path, destination: Path, max_file_bytes: int) -> list[
         raise CheckFailure(f"bundle archive is missing: {archive}")
     destination.mkdir(parents=True, exist_ok=True)
     names: list[str] = []
+    temporary_tar: Path | None = None
     try:
         handle = tarfile.open(archive, "r:*")
     except (tarfile.TarError, OSError) as exc:
-        raise CheckFailure(f"cannot inspect bundle archive: {exc}") from exc
-    with handle:
-        for member in handle.getmembers():
-            if not safe_relative(member.name) or member.issym() or member.islnk():
-                raise CheckFailure(f"unsafe bundle member: {member.name}")
-            if member.isfile() and member.size > max_file_bytes:
-                raise CheckFailure(f"bundle member exceeds size limit: {member.name}")
-            target = (destination / member.name).resolve()
-            try:
-                target.relative_to(destination.resolve())
-            except ValueError as exc:
-                raise CheckFailure(f"bundle member escapes extraction root: {member.name}") from exc
-            names.append(member.name)
-        handle.extractall(destination)
+        # Python 3.11 has no native zstd tar reader.  The pinned Linux
+        # bootstrap installs zstd, so use that executable for .tar.zst bundles
+        # and then inspect the resulting ordinary tar with the same safety
+        # checks.  This keeps archive verification fail-closed on hosts with no
+        # decompressor rather than silently skipping the release gate.
+        zstd = shutil.which("zstd")
+        if not zstd:
+            raise CheckFailure(f"cannot inspect bundle archive: {exc}; zstd is unavailable") from exc
+        temporary_dir = tempfile.TemporaryDirectory(prefix="agentic-bundle-")
+        temporary_tar = Path(temporary_dir.name) / "bundle.tar"
+        with temporary_tar.open("wb") as output:
+            completed = subprocess.run(
+                [zstd, "-q", "-d", "-c", str(archive)],
+                stdout=output,
+                stderr=subprocess.PIPE,
+                check=False,
+            )
+        if completed.returncode:
+            temporary_dir.cleanup()
+            detail = completed.stderr.decode("utf-8", errors="replace").strip()
+            raise CheckFailure(f"cannot decompress zstd bundle: {detail}")
+        try:
+            handle = tarfile.open(temporary_tar, "r:")
+        except (tarfile.TarError, OSError) as inner:
+            temporary_dir.cleanup()
+            raise CheckFailure(f"cannot inspect decompressed bundle archive: {inner}") from inner
+    try:
+        with handle:
+            for member in handle.getmembers():
+                if not safe_relative(member.name) or member.issym() or member.islnk():
+                    raise CheckFailure(f"unsafe bundle member: {member.name}")
+                if member.isfile() and member.size > max_file_bytes:
+                    raise CheckFailure(f"bundle member exceeds size limit: {member.name}")
+                target = (destination / member.name).resolve()
+                try:
+                    target.relative_to(destination.resolve())
+                except ValueError as exc:
+                    raise CheckFailure(f"bundle member escapes extraction root: {member.name}") from exc
+                names.append(member.name)
+            handle.extractall(destination)
+    finally:
+        if temporary_tar is not None:
+            temporary_dir.cleanup()
     return names
 
 
@@ -379,10 +409,16 @@ def scan_tree(root: Path, max_file_bytes: int, *, reject_absolute_paths: bool = 
 
 def check_source_hygiene(root: Path, max_file_bytes: int) -> dict[str, Any]:
     """Scan the exact tracked/release candidate tree for private paths/secrets."""
-    rc, output = git_value(root, "ls-files", "-co", "--exclude-standard", "-z")
-    if rc:
-        raise CheckFailure(f"could not enumerate release files: {output}")
-    names = [name for name in output.split("\0") if name]
+    if (root / ".git").exists():
+        rc, output = git_value(root, "ls-files", "-co", "--exclude-standard", "-z")
+        if rc:
+            raise CheckFailure(f"could not enumerate release files: {output}")
+        names = [name for name in output.split("\0") if name]
+    else:
+        # A git archive intentionally omits .git.  Validate every regular file
+        # in that extracted release tree instead of treating missing metadata
+        # as a source-hygiene failure.
+        names = [str(path.relative_to(root)) for path in root.rglob("*") if path.is_file() and not path.is_symlink()]
     oversized: list[str] = []
     secrets: list[str] = []
     private_paths: list[str] = []
@@ -518,10 +554,13 @@ def check_static(root: Path) -> dict[str, Any]:
         checks["shellcheck"] = "pass"
     else:
         checks["shellcheck"] = "capability: shellcheck unavailable"
-    rc, output = command_result(["git", "diff", "--check"], cwd=root, timeout=30)
-    if rc:
-        raise CheckFailure(f"git diff --check failed: {output}")
-    checks["diff"] = "pass"
+    if (root / ".git").exists():
+        rc, output = command_result(["git", "diff", "--check"], cwd=root, timeout=30)
+        if rc:
+            raise CheckFailure(f"git diff --check failed: {output}")
+        checks["diff"] = "pass"
+    else:
+        checks["diff"] = "capability: git archive has no .git; clean-tree diff check belongs to the source commit"
     return {"status": "pass", "detail": checks}
 
 

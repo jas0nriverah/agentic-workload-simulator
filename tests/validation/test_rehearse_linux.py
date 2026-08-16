@@ -1,6 +1,8 @@
 import importlib.util
 import io
 import json
+import shutil
+import subprocess
 import sys
 import tarfile
 import tempfile
@@ -64,6 +66,28 @@ class RehearsalTests(unittest.TestCase):
                 handle.addfile(info, io.BytesIO(payload))
             with self.assertRaises(rehearse.CheckFailure):
                 rehearse.safe_extract(archive, root / "out", 1024)
+
+    def test_safe_extract_accepts_zstd_git_archive_without_git_metadata(self):
+        zstd = shutil.which("zstd")
+        if not zstd:
+            self.skipTest("zstd unavailable")
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            source = root / "source"
+            source.mkdir()
+            (source / "README.md").write_text("release\n", encoding="utf-8")
+            tar_path = root / "bundle.tar"
+            with tarfile.open(tar_path, "w") as handle:
+                handle.add(source / "README.md", arcname="agentic-workload-simulator/README.md")
+            completed = subprocess.run([zstd, "-q", "-f", str(tar_path)], check=False)
+            self.assertEqual(completed.returncode, 0)
+            extracted = root / "extracted"
+            names = rehearse.safe_extract(Path(str(tar_path) + ".zst"), extracted, 1024)
+            self.assertIn("agentic-workload-simulator/README.md", names)
+            self.assertEqual(
+                rehearse.check_source_hygiene(extracted / "agentic-workload-simulator", 1024)["status"],
+                "pass",
+            )
 
     def test_inventory_hashes_json_without_rewriting_and_scans_secrets(self):
         with tempfile.TemporaryDirectory() as temp:
