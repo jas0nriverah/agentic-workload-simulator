@@ -83,7 +83,20 @@ def _cli_config(source_root: Path, command_text: str, project_root: Path | None 
             config_start = next(index for index, line in enumerate(output_lines) if line.startswith("agent:"))
         except StopIteration:
             raise RuntimeError("SWE-agent --print_config output lacks an agent mapping") from None
-        config = yaml.safe_load("\n".join(output_lines[config_start:]))
+        config_text = "\n".join(output_lines[config_start:])
+        class ConfigLoader(yaml.SafeLoader):
+            """Safe loader with only SWE-agent's dumped pathlib tags."""
+
+        def load_path(loader: yaml.SafeLoader, node: yaml.Node) -> str:
+            parts = loader.construct_sequence(node, deep=True)
+            return str(Path(*[str(part) for part in parts]))
+
+        for path_tag in (
+            "tag:yaml.org,2002:python/object/apply:pathlib.PosixPath",
+            "tag:yaml.org,2002:python/object/apply:pathlib.WindowsPath",
+        ):
+            ConfigLoader.add_constructor(path_tag, load_path)
+        config = yaml.load(config_text, Loader=ConfigLoader)
     except Exception as exc:
         raise RuntimeError(f"pinned SWE-agent --print_config did not emit parseable YAML: {exc}") from exc
     if not isinstance(config, dict) or not isinstance(config.get("agent"), dict):
