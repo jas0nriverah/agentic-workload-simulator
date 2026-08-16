@@ -15,7 +15,7 @@
   resource_class: CPU_ONLY
 - id: LC2-first-experiment
   objective: Prepare a reviewed first-experiment configuration proposal
-  status: pending
+  status: ready_pending_runtime_pins
   owner: root
   resource_class: CPU_ONLY
 - id: LC3-collection-scripts
@@ -25,6 +25,11 @@
   resource_class: CPU_ONLY
 - id: LC4-runbook-review
   objective: Independently rehearse the cloud runbook after LC1-LC3 freeze
-  status: pending
+  status: done_local_dry_run
   owner: worker-c
   resource_class: READ_ONLY_REVIEW
+- id: LC5-root-integration
+  objective: Integrate LC0-LC4 outputs and verify the local cloud-ready checkpoint
+  status: done
+  owner: root
+  resource_class: CPU_ONLY

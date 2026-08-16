@@ -1,9 +1,9 @@
 schema_version: 1
 updated_at_utc: null
 overall_status: active
-phase: G0_LC1_LC3
+phase: G0_LC0_LC1_LC3_LC4_LC5
 current_task: LC2-first-experiment
-last_verified_commit: 540fe59c634130b865a5e3bba8e3b18838403c74
+last_verified_commit: pending-local-checkpoint
 assignment_lock_hash: 02f485cdd8cca4aae242d2f1a5306184a95d7ee0fae42527d7153f48a3424761
 working_tree_dirty: false
 
@@ -50,9 +50,8 @@ gates:
 
 next_actions:
   - resolve Linux x86-64 dependency and pinned runtime matrix
-  - complete root-owned LC2 first-experiment proposal
-  - perform LC4 runbook rehearsal and LC5 integration audit
-  - run local tests and dry-run checks
+  - obtain the user-authorized Lambda session inputs before any paid work
+  - execute the real Linux/H100 LC2 smoke only after revisions and evaluator commands are pinned
 active_experiments: []
 active_agent_tasks: []
 blocker_ids: []

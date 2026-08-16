@@ -13,6 +13,10 @@ Expected target:
 - Docker available for the official SWE-bench evaluator;
 - enough local/persistent storage for the model, selected evaluator images,
   repositories, logs, and result export.
+- vLLM is bound to localhost and uses one explicitly leased CUDA device. The
+  launcher records hostname, PID, task/experiment IDs, GPU, port, config hash,
+  and UTC acquisition time in the lease metadata; a stale-looking lease is
+  not cleared while a port or CUDA process is active.
 
 The preflight script must validate capability rather than requiring one exact
 `nvidia-smi` marketing string. Any materially different SKU, precision,

@@ -9,7 +9,8 @@ only after the Lambda H100 gates pass.
 
 - G0: passed locally
 - LC0, LC1, LC3: locally implemented and validated
-- LC2, LC4, LC5: pending root integration/review
+- LC2: ready pending Linux/H100 runtime pins and reviewed evaluator commands
+- LC4, LC5: local rehearsal and root integration passed
 - No paid compute launched
 - No final empirical result exists
 
