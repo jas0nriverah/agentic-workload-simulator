@@ -624,7 +624,15 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
             def bundle_check() -> dict[str, Any]:
                 extraction = scratch / "bundle"
                 names = safe_extract(args.bundle.resolve(), extraction, args.max_file_bytes)
-                scan_tree(extraction, args.max_file_bytes)
+                # The release intentionally documents target-host paths such
+                # as /home/ubuntu and /tmp.  Absolute-path hygiene is enforced
+                # for developer/private paths by check_source_hygiene; the
+                # archive scan here focuses on secrets, size, traversal, and
+                # byte-safe extraction.
+                scan_tree(extraction, args.max_file_bytes, reject_absolute_paths=False)
+                release_root = extraction / "agentic-workload-simulator"
+                if release_root.is_dir():
+                    check_source_hygiene(release_root, args.max_file_bytes)
                 return {"status": "pass", "detail": f"clean extraction and scan of {len(names)} members"}
             evaluate("bundle", bundle_check)
         else:
