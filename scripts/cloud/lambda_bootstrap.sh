@@ -211,16 +211,24 @@ if not snapshot.is_dir() or not (snapshot / "config.json").is_file() or not list
     raise SystemExit("model snapshot is incomplete")
 datasets = json.loads(dataset_path.read_text(encoding="utf-8"))
 expected = {
-    "lite": ("SWE-bench/SWE-bench_Lite", "69611d31007e1c6731db8bd5b5c3f2d33f5bab6e", 300, {"astropy__astropy-12907", "astropy__astropy-14182"}),
-    "verified": ("SWE-bench/SWE-bench_Verified", "91aa3ed51b709be6457e12d00300a6a596d4c6a3", 500, {"astropy__astropy-14365"}),
+    "lite": ("SWE-bench/SWE-bench_Lite", "69611d31007e1c6731db8bd5b5c3f2d33f5bab6e", 300, {
+        "astropy__astropy-12907": "3ca941a2f9a10a97ca2813ccb6b0406ac6209f3be34894c2eab241516fdeed61",
+        "astropy__astropy-14182": "f7ad14f23bd5d8419a1903d196edce904164768f94caad4670bdb9fd03d77dc5",
+    }),
+    "verified": ("SWE-bench/SWE-bench_Verified", "91aa3ed51b709be6457e12d00300a6a596d4c6a3", 500, {
+        "astropy__astropy-14365": "c428d68361b240d5b520e96cfbc4d4145527e40b49468d63f3986c3f1a646e64",
+    }),
 }
-for name, (repo, revision, rows, ids) in expected.items():
+for name, (repo, revision, rows, expected_selected) in expected.items():
     section = datasets.get(name)
     if not isinstance(section, dict) or section.get("repo") != repo or section.get("revision") != revision or section.get("split") != "test" or section.get("rows") != rows:
         raise SystemExit(f"dataset manifest does not match the frozen {name} revision")
-    selected = {item.get("instance_id") for item in section.get("selected", [])}
-    if selected != ids:
+    selected = {item.get("instance_id"): item for item in section.get("selected", [])}
+    if set(selected) != set(expected_selected):
         raise SystemExit(f"dataset manifest selected IDs do not match the frozen {name} set")
+    for instance_id, expected_hash in expected_selected.items():
+        if selected[instance_id].get("sha256") != expected_hash:
+            raise SystemExit(f"dataset manifest selected hash does not match the frozen {instance_id} row")
 print("validated pinned model and dataset manifests")
 PY
 }
