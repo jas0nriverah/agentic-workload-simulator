@@ -1,12 +1,12 @@
 schema_version: 1
-updated_at_utc: 2026-08-16T05:00:00Z
+updated_at_utc: 2026-08-16T06:11:14Z
 overall_status: cloud_ready_pending_h100
 phase: CR0_CR1_CR2_CR3_CR4_CR5_CR6_CR7_CR8_CR9_CR10_CR11_CR12
 current_task: CR12-final-cloud-readiness
-last_verified_commit: 5a6cc0df76fc7af7f260c4777d52e3cdbdb1cc57
-last_verified_commit_role: reviewed_runtime_source_freeze
+last_verified_commit: 58a99411947ca8aaba611f92e47848b4085681f8
+last_verified_commit_role: reviewed_observability_local_static
 assignment_lock_hash: 02f485cdd8cca4aae242d2f1a5306184a95d7ee0fae42527d7153f48a3424761
-working_tree_dirty: true
+working_tree_dirty: false
 
 hardware:
   development:
@@ -69,7 +69,7 @@ blocker_ids:
   - PAID_SESSION_AUTHORIZATION_REQUIRED_FOR_SAFE_RENT
 
 observability:
-  status: bounded_additive_upgrade_local_validation
+  status: bounded_additive_upgrade_pass_static
   baseline_path_unchanged: true
   accepted_features:
     - lossless_pinned_vllm_prometheus_snapshots_and_aggregate_deltas
@@ -87,4 +87,4 @@ observability:
     - runtime_perfetto_sdk
     - first_session_calibration_matrix
   h100_only_observability_validation_required: true
-  local_static_checks_pending_final_review: true
+  local_static_checks_pending_final_review: false
