@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+# The stage runner stores deferred commands in single-quoted strings so they
+# expand only when the stage executes; SC2016 is intentional here.
+# shellcheck disable=SC2016
 set -Eeuo pipefail
 IFS=$'\n\t'
 
@@ -127,7 +130,10 @@ utilities() {
   for tool in git curl jq rsync tmux tar zstd python3; do command -v "$tool" >/dev/null 2>&1 || missing+=("$tool"); done
   python3 -m venv --help >/dev/null 2>&1 || missing+=(python3-venv)
   ((${#missing[@]} == 0)) && return 0
-  command -v sudo >/dev/null 2>&1 && command -v apt-get >/dev/null 2>&1 || { echo "missing utilities: ${missing[*]}" >&2; return 1; }
+  if ! command -v sudo >/dev/null 2>&1 || ! command -v apt-get >/dev/null 2>&1; then
+    echo "missing utilities: ${missing[*]}" >&2
+    return 1
+  fi
   sudo env DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends "${missing[@]}"
 }
 directories() { mkdir -p -- "$REPOS" "$VENV" "$WORK_ROOT/cache/huggingface" "$WORK_ROOT/cache/pip" "$WORK_ROOT/cache/uv" "$WORK_ROOT/artifacts/manifests" "$WORK_ROOT/datasets"; }

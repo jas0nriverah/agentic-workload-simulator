@@ -1,0 +1,97 @@
+name: pinned Linux rehearsal
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  rehearsal:
+    name: Ubuntu 22.04 / Python 3.11 rehearsal
+    runs-on: ubuntu-22.04
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+
+      - name: Host validation tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y shellcheck zstd
+          python -m pip install --disable-pip-version-check 'ruff==0.6.9'
+
+      - name: Detached pinned SWE-agent and SWE-bench source
+        env:
+          SWE_AGENT_REVISION: 0f3acafacabc0def8cc76b4e48acb4b6cf302cb9
+          SWE_BENCH_REVISION: 726c5461e2ef52d83cf1ea2107870a8bb3328d57
+        run: |
+          git clone --filter=blob:none --no-checkout https://github.com/SWE-agent/SWE-agent.git "$RUNNER_TEMP/SWE-agent"
+          git -C "$RUNNER_TEMP/SWE-agent" checkout --detach "$SWE_AGENT_REVISION"
+          git clone --filter=blob:none --no-checkout https://github.com/SWE-bench/SWE-bench.git "$RUNNER_TEMP/SWE-bench"
+          git -C "$RUNNER_TEMP/SWE-bench" checkout --detach "$SWE_BENCH_REVISION"
+          python -m pip install --disable-pip-version-check --require-hashes -r cloud/lambda/requirements-linux-x86_64.txt
+          python -m pip install --disable-pip-version-check --no-deps -e "$RUNNER_TEMP/SWE-agent" -e "$RUNNER_TEMP/SWE-bench"
+
+      - name: Build local rehearsal fixtures (no model download)
+        run: |
+          python - "$RUNNER_TEMP/datasets.json" "$RUNNER_TEMP/trajectory" "$RUNNER_TEMP/rehearsal.tar.gz" <<'PY'
+          import hashlib, json, pathlib, sys, tarfile
+          datasets, trajectory, archive = map(pathlib.Path, sys.argv[1:])
+          expected = {
+              "lite": {
+                  "repo": "SWE-bench/SWE-bench_Lite", "revision": "69611d31007e1c6731db8bd5b5c3f2d33f5bab6e", "rows": 300,
+                  "selected": [
+                      {"instance_id": "astropy__astropy-12907", "sha256": "3ca941a2f9a10a97ca2813ccb6b0406ac6209f3be34894c2eab241516fdeed61"},
+                      {"instance_id": "astropy__astropy-14182", "sha256": "f7ad14f23bd5d8419a1903d196edce904164768f94caad4670bdb9fd03d77dc5"},
+                  ],
+              },
+              "verified": {
+                  "repo": "SWE-bench/SWE-bench_Verified", "revision": "91aa3ed51b709be6457e12d00300a6a596d4c6a3", "rows": 500,
+                  "selected": [{"instance_id": "astropy__astropy-14365", "sha256": "c428d68361b240d5b520e96cfbc4d4145527e40b49468d63f3986c3f1a646e64"}],
+              },
+          }
+          datasets.write_text(json.dumps(expected), encoding="utf-8")
+          trajectory.mkdir()
+          (trajectory / "trajectory.traj").write_text('{"step":1}\n', encoding="utf-8")
+          (trajectory / "preds.json").write_text('[{"instance_id":"fixture","model_patch":""}]\n', encoding="utf-8")
+          (trajectory / "config.json").write_text('{"status":"fixture"}\n', encoding="utf-8")
+          (trajectory / "agent.log").write_text("fixture log\n", encoding="utf-8")
+          (trajectory / "status.json").write_text('{"status":"completed"}\n', encoding="utf-8")
+          bundle_root = archive.parent / "bundle"
+          collection = bundle_root / ".collection"
+          collection.mkdir(parents=True)
+          (collection / "artifact.txt").write_text("fixture\n", encoding="utf-8")
+          digest = hashlib.sha256((collection / "artifact.txt").read_bytes()).hexdigest()
+          (collection / "SHA256SUMS").write_text(f"{digest}  artifact.txt\n", encoding="utf-8")
+          with tarfile.open(archive, "w:gz") as handle:
+              handle.add(collection, arcname=".collection")
+          PY
+
+      - name: Run pinned rehearsal and inventory
+        run: |
+          python scripts/validation/rehearse_linux.py \
+            --strict \
+            --manifest cloud/lambda/instance_manifest.env.example \
+            --swe-agent-root "$RUNNER_TEMP/SWE-agent" \
+            --swe-bench-root "$RUNNER_TEMP/SWE-bench" \
+            --dataset-manifest "$RUNNER_TEMP/datasets.json" \
+            --bundle "$RUNNER_TEMP/rehearsal.tar.gz" \
+            --report "$RUNNER_TEMP/rehearsal.json"
+          python scripts/validation/verify_litellm_request.py \
+            --swe-agent-root "$RUNNER_TEMP/SWE-agent" \
+            --manifest cloud/lambda/instance_manifest.env.example \
+            --project-root "$GITHUB_WORKSPACE" \
+            --strict
+          python scripts/validation/inventory_sweagent_output.py \
+            --root "$RUNNER_TEMP/trajectory" \
+            --output "$RUNNER_TEMP/trajectory-inventory.json"

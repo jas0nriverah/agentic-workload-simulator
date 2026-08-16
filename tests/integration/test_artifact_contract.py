@@ -1,10 +1,9 @@
 import json
 import tempfile
 import unittest
-from pathlib import Path
 
-from agentic_sim.artifacts import append_jsonl, attempt_layout, validate_artifacts
-from agentic_sim.artifacts.contract import initialize_attempt
+from agentic_sim.artifacts import append_jsonl, attempt_layout, inventory, validate_artifacts
+from agentic_sim.artifacts.contract import counter_state, initialize_attempt
 
 
 class ArtifactContractTests(unittest.TestCase):
@@ -18,7 +17,31 @@ class ArtifactContractTests(unittest.TestCase):
             self.assertNotIn("secret", layout.path("events.jsonl").read_text())
             report = validate_artifacts(layout)
             self.assertFalse(report["complete"])
-            self.assertEqual(json.loads(layout.path("counters.parquet").read_text())["status"], "unavailable")
+            self.assertFalse(layout.path("counters.parquet").exists())
+            self.assertEqual(json.loads(layout.path("counters.unavailable.json").read_text())["status"], "unavailable")
+            self.assertEqual(counter_state(layout)["state"], "unavailable")
+            self.assertNotIn("counters.parquet", inventory(layout))
+            self.assertEqual(inventory(layout)["counters"]["logical_state"], "unavailable")
+
+    def test_legacy_json_in_parquet_is_read_only_legacy_unavailable(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            layout = attempt_layout(tmp, "e1", "lite", "i1")
+            initialize_attempt(layout, {"schema_version": "cr6.run-config.v1"})
+            layout.path("counters.unavailable.json").unlink()
+            layout.path("counters.parquet").write_text(json.dumps({"status": "unavailable", "provenance": "unavailable"}) + "\n")
+            before = layout.path("counters.parquet").read_bytes()
+            self.assertEqual(counter_state(layout)["state"], "legacy_unavailable")
+            report = validate_artifacts(layout)
+            self.assertEqual(report["counter_state"]["state"], "legacy_unavailable")
+            self.assertEqual(layout.path("counters.parquet").read_bytes(), before)
+
+    def test_two_counter_states_are_a_conflict(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            layout = attempt_layout(tmp, "e1", "lite", "i1")
+            initialize_attempt(layout, {"schema_version": "cr6.run-config.v1"})
+            layout.path("counters.parquet").write_bytes(b"not-parquet")
+            report = validate_artifacts(layout)
+            self.assertEqual(report["counter_state"]["state"], "conflict")
 
     def test_path_traversal_is_rejected(self):
         with self.assertRaises(ValueError):

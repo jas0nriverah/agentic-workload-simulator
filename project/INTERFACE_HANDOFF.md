@@ -27,9 +27,15 @@ Status: frozen after CR4; implementation workers must consume this contract.
 
 The runner invokes the pinned SWE-agent directly with a local OpenAI-compatible
 endpoint (`http://127.0.0.1:8000/v1`), provider-prefixed served model, zero
-cost limits, temperature 0, max 30 steps, max input 32768, max output 2048,
-and one worker. `uninstrumented` is the control. `thin-telemetry` may only
-capture approved event/Prometheus/GPU samples and must not mutate requests.
+cost limits, one worker, 30 maximum model calls, a fixed 32768 input guard,
+2048 output metadata plus `completion_kwargs.max_tokens` and seed 0 via the
+second pinned `cloud/lambda/sweagent_request.yaml` config fragment, and a
+100000-character observation budget. SWE-agent v1.1.0 rejects invented nested
+completion-kwargs CLI flags, so the wrapper writes an immutable per-attempt
+fragment for each resolved cell.
+`uninstrumented` is the first-session control. `thin-telemetry` may only
+capture approved event/Prometheus/GPU samples and must not mutate requests; it
+is deferred until the first raw trajectory is reviewed.
 
 Official evaluator invocation is `python -m swebench.harness.run_evaluation`
 with a local pinned dataset JSON/JSONL or the recorded revision, `--split test`,
@@ -43,10 +49,16 @@ the two namespaces are never reused.
 
 ## Artifact contract
 
-Each attempt writes an immutable directory containing `config.json`,
+Each attempt writes an immutable directory under artifact contract v2
+containing `config.json`,
 `events.jsonl`, `model_calls.jsonl`, `tool_calls.jsonl`, `prediction.json`,
-`eval.json`, `summary.json`, referenced stdout/stderr logs, and an explicit
-`status`/`provenance` for unavailable measurements. Retry attempts are named
+`eval.json`, `summary.json`, referenced stdout/stderr logs, and exactly one
+counter state: readable `counters.parquet` or `counters.unavailable.json`.
+When Parquet is available it must contain at least `metric_name`, `value`,
+`timestamp_mono_ns`, and `aggregation_scope`; extra producer columns are
+allowed.
+Unavailable JSON-in-`.parquet` fixtures from the old contract are labeled
+`legacy_unavailable` and are never rewritten. Retry attempts are named
 and append-only. A run-level manifest records command/config hashes, revisions,
 IDs, host clocks, metrics references, and evaluator handoff.
 

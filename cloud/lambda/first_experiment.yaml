@@ -1,7 +1,7 @@
 schema_version: 1
-status: cloud-ready-pending-h100
-git_commit: 58a99411947ca8aaba611f92e47848b4085681f8
-git_commit_role: reviewed_observability_local_static
+status: pre-h100-hardening-local-pass-h100-pending
+git_commit: c97b486d6774bc806b1298c656c1a721cc0506a9
+git_commit_role: pre_h100_hardening_release_reviewed
 assignment_lock_hash: 02f485cdd8cca4aae242d2f1a5306184a95d7ee0fae42527d7153f48a3424761
 model:
   id: Qwen/Qwen3-Coder-30B-A3B-Instruct
@@ -62,12 +62,20 @@ evaluator:
       reference: swebench/sweb.eval.x86_64.astropy_1776_astropy-14365:latest
       digest: sha256:ac22529003ab4df5a84eb0e6be4b269b691c0f3b4aca582161bdfb581e1e9305
 execution:
-  mode_order: [uninstrumented, thin-telemetry]
-  max_steps: 30
+  mode_order: [uninstrumented]
+  max_calls: 30
   max_input_tokens: 32768
   max_output_tokens: 2048
+  completion_kwargs_max_tokens: 2048
+  observation_budget_chars: 100000
   temperature: 0.0
   seed: 0
+  stochastic_seeds: [0, 1, 2]
+  sweep_grids:
+    max_calls: [10, 20, 30, 50]
+    max_output_tokens: [512, 1024, 2048, 4096]
+    observation_budget_chars: [10000, 25000, 50000, 100000]
+    temperature: [0.0, 0.2, 0.5, 0.8]
   timeout_minutes: 120
   output_root: /home/ubuntu/agentic-work/experiments
 observability:
@@ -96,6 +104,9 @@ observability:
   direct_gpu_time_provenance: measured_gpu_only_from_separate_nsight_attempt
 provenance: pinned-source-static-evidence
 notes: >-
-  All source, model, dataset, and container references are immutable. The
-  status remains pending until Linux x86-64/H100 model fit, vLLM tool-call
-  health, and both official evaluator gold smokes pass on the rented host.
+  All source, model, dataset, and container references are immutable. Local
+  hardening, Linux rehearsal, and independent review passed; Linux x86-64/H100
+  model fit, vLLM tool-call health, and both official evaluator gold smokes
+  remain empirical gates on the target host. Thin telemetry and the four
+  sweeps are not run in the first paid session; the first real trajectory is
+  the schema fixture.

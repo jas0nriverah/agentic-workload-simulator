@@ -11,7 +11,9 @@ import hashlib
 import json
 import math
 from pathlib import Path
-from typing import Any, Iterable, Mapping, Sequence
+from typing import Any, Mapping
+
+from agentic_sim.telemetry.clock import clock_fields
 
 
 class TraceExportError(ValueError):
@@ -113,14 +115,34 @@ def export_perfetto_trace(
                 row["event_type"] = "gpu_sample"
     rows = event_rows + extra_rows
     times: list[int] = []
+    timed_rows: list[Mapping[str, Any]] = []
     for row in rows:
         value = row.get("start_mono_ns", row.get("timestamp_mono_ns", row.get("observed_at_mono_ns")))
         if value is not None:
+            timed_rows.append(row)
             times.append(_number(value, "timestamp_mono_ns"))
     base_ns = min(times) if times else 0
     trace_events = [event for index, row in enumerate(rows) if (event := _event(row, base_ns=base_ns, index=index)) is not None]
     trace_events.sort(key=lambda value: (value["ts"], value.get("dur", 0), value["name"], value["tid"], value["args"].get("source_row", 0)))
     source_hash = hashlib.sha256((event_hash + (extra_hash or "")).encode("ascii")).hexdigest()
+    if timed_rows:
+        clock_values: list[dict[str, Any]] = []
+        for index, row in enumerate(timed_rows):
+            value = row.get("clock")
+            if not isinstance(value, Mapping):
+                raise TraceExportError(f"timed row {index} is missing clock metadata")
+            clock = dict(value)
+            if any(not isinstance(clock.get(key), str) or not clock[key] for key in ("clock_id", "hostname", "boot_id")):
+                raise TraceExportError(f"timed row {index} has incomplete clock metadata")
+            clock_values.append(clock)
+        clock = clock_values[0]
+        clock_identity = tuple(clock[key] for key in ("clock_id", "hostname", "boot_id"))
+        if any(tuple(value[key] for key in ("clock_id", "hostname", "boot_id")) != clock_identity for value in clock_values[1:]):
+            raise TraceExportError("events use conflicting monotonic clock/host/boot identities")
+        clock_id = clock["clock_id"]
+    else:
+        clock = clock_fields()
+        clock_id = clock["clock_id"]
     trace = {
         "schema_version": "observability.trace.perfetto.v1",
         "provenance": "derived",
@@ -129,7 +151,8 @@ def export_perfetto_trace(
         "source_gpu_samples_sha256": extra_hash,
         "run_id": run_id,
         "attempt_id": attempt_id,
-        "clock": "monotonic_ns",
+        "clock": clock_id,
+        "clock_metadata": clock,
         "privacy": {"payloads_copied": False, "prompts_copied": False, "commands_copied": False},
         "traceEvents": trace_events,
     }

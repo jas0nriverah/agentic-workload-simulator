@@ -13,8 +13,9 @@ import hashlib
 import json
 import shutil
 import subprocess
-import time
 from typing import Any, Callable, Dict, Iterable, List, Optional, Sequence
+
+from agentic_sim.telemetry.clock import clock_fields, monotonic_ns
 
 
 _Runner = Callable[..., Any]
@@ -49,7 +50,7 @@ def _utc_now() -> str:
 
 
 def _timestamps() -> Dict[str, Any]:
-    return {"checked_at_utc": _utc_now(), "checked_monotonic_ns": time.monotonic_ns()}
+    return {"checked_at_utc": _utc_now(), "checked_monotonic_ns": monotonic_ns(), "clock": clock_fields()}
 
 
 def _version_record(
@@ -216,6 +217,7 @@ def _plan(tool: str, argv: List[str], *, mode: str, output_path: str) -> Dict[st
         "provenance": "derived",
         "source": "safe_command_builder",
         "created_at_utc": _utc_now(),
+        "clock": clock_fields(),
         "output_path": output_path,
         "command": argv,
         "command_sha256": command_sha256,

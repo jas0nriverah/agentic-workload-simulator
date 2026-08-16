@@ -9,7 +9,8 @@ if (( DRY )); then
   echo "DRY-RUN: require live vLLM process, GET http://127.0.0.1:$PORT/v1/models, normal completion, SWE-agent tool call parsed by parser=qwen3_coder, GET http://127.0.0.1:$PORT/metrics (native Prometheus counters/histograms), GPU sample, and clean server logs."
   echo 'DRY-RUN: classify failures independently as server, tool-parser, or telemetry-contract; chat response fields never substitute for /metrics.'; exit 0
 fi
-command -v curl >/dev/null 2>&1 || { echo 'server failure: curl is required' >&2; exit 1; }; command -v python3 >/dev/null 2>&1 || { echo 'server failure: python3 is required' >&2; exit 1; }; [[ -f "$SERVER_MANIFEST" ]] || { echo 'server failure: missing vLLM manifest' >&2; exit 1; }
+command -v curl >/dev/null 2>&1 || { echo 'server failure: curl is required' >&2; exit 1; }; command -v python3 >/dev/null 2>&1 || { echo 'server failure: python3 is required' >&2; exit 1; }; [[ -f "$SERVER_MANIFEST" ]] || { echo 'server failure: missing vLLM manifest' >&2; exit 1; }; [[ -f "$MANIFEST" ]] || { echo 'telemetry-contract failure: missing instance manifest' >&2; exit 3; }
+PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 -m agentic_sim.runtime.vllm_config --manifest "$MANIFEST" --server-manifest "$SERVER_MANIFEST" >/dev/null || { echo 'telemetry-contract failure: server manifest does not match instance manifest' >&2; exit 3; }
 pid="$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1]))["pid"])' "$SERVER_MANIFEST")"; [[ -d "/proc/$pid" ]] || { echo "server failure: vLLM process $pid is not alive" >&2; exit 1; }
 base="http://127.0.0.1:$PORT"; deadline=$((SECONDS+TIMEOUT)); models=""
 until models="$(curl -fsS --max-time 5 "$base/v1/models")"; do (( SECONDS < deadline )) || { echo 'server failure: /v1/models timeout' >&2; exit 1; }; sleep 1; done
@@ -34,8 +35,9 @@ if [[ -f "$ROOT/scripts/observability/scrape_vllm.py" ]]; then
 fi
 if command -v nvidia-smi >/dev/null 2>&1; then nvidia-smi --query-gpu=name,memory.used,utilization.gpu --format=csv,noheader > "$GPU_SAMPLE" || { echo 'telemetry-contract failure: GPU sample failed' >&2; exit 3; }; else echo 'telemetry-contract failure: nvidia-smi unavailable' >&2; exit 3; fi
 log="$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1])).get("log_path", ""))' "$SERVER_MANIFEST")"; if [[ -n "$log" && -f "$log" ]] && grep -Eiq 'out of memory|cuda error|fatal|traceback' "$log"; then echo 'server failure: fatal/OOM text in log' >&2; exit 1; fi
-python3 - "$HEALTH_OUT" "$model" <<'PY'
+PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 - "$HEALTH_OUT" "$model" <<'PY'
 import json,pathlib,sys,time
-out,model=sys.argv[1:]; p=pathlib.Path(out); tmp=p.with_name(p.name+'.tmp'); tmp.write_text(json.dumps({"schema_version":"lambda-healthcheck.v2","status":"PASS","model":model,"metrics_endpoint":"/metrics","tool_parser":"qwen3_coder","checked_at_utc":time.strftime("%Y-%m-%dT%H:%M:%SZ",time.gmtime())},indent=2)+"\n"); tmp.replace(p)
+from agentic_sim.telemetry.clock import clock_metadata
+out,model=sys.argv[1:]; p=pathlib.Path(out); tmp=p.with_name(p.name+'.tmp'); tmp.write_text(json.dumps({"schema_version":"lambda-healthcheck.v3","status":"PASS","model":model,"metrics_endpoint":"/metrics","tool_parser":"qwen3_coder","clock":clock_metadata(),"checked_at_utc":time.strftime("%Y-%m-%dT%H:%M:%SZ",time.gmtime())},indent=2)+"\n"); tmp.replace(p)
 PY
 echo "vLLM healthcheck passed: $model"

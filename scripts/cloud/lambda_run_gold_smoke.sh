@@ -4,7 +4,7 @@ set -Eeuo pipefail
 IFS=$'\n\t'
 
 env_or_empty() { printenv "$1" 2>/dev/null || true; }
-ROOT="$(cd -- "$(dirname -- "$BASH_SOURCE")/../.." && pwd -P)"
+ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/../.." && pwd -P)"
 WORK_ROOT="$(env_or_empty WORK_ROOT)"
 [[ -n "$WORK_ROOT" ]] || WORK_ROOT="$ROOT/../agentic-work"
 MANIFEST="$(env_or_empty LAMBDA_MANIFEST)"

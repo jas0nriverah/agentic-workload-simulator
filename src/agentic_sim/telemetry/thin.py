@@ -5,26 +5,31 @@ from __future__ import annotations
 import contextlib
 import hashlib
 import json
-import time
 import uuid
 from pathlib import Path
 from typing import Any, Iterator, Mapping
 
 from .jsonl_writer import AppendOnlyJSONLWriter
 
+
+def monotonic_ns() -> int:
+    from .clock import monotonic_ns as _monotonic_ns
+    return _monotonic_ns()
+
+
+def utc_now() -> str:
+    from .clock import utc_now as _utc_now
+    return _utc_now()
+
+
+def clock_fields() -> dict[str, Any]:
+    from .clock import clock_fields as _clock_fields
+    return dict(_clock_fields())
+
 _PROVENANCE = {
     "measured", "derived", "calibrated", "simulated", "estimated",
     "unavailable", "dev",
 }
-
-
-def monotonic_ns() -> int:
-    clock = getattr(time, "CLOCK_MONOTONIC_RAW", time.CLOCK_MONOTONIC)
-    return time.clock_gettime_ns(clock)
-
-
-def utc_now() -> str:
-    return time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
 
 
 def _id(prefix: str) -> str:
@@ -99,7 +104,7 @@ class ThinTelemetry:
     def _write_run_manifest(self) -> None:
         """Persist allowlisted run provenance without copying credentials."""
         manifest = {
-            "schema_version": "obs.run-manifest.v1",
+            "schema_version": "obs.run-manifest.v2",
             "run_id": self.run_id,
             "attempt_id": self.attempt_id,
             "instance_id": self.instance_id,
@@ -109,6 +114,7 @@ class ThinTelemetry:
             "dcgm_metrics_available": list(self.dcgm_metrics_available),
             "instrumentation_version": self.instrumentation_version,
             "hardware_manifest": _safe_metadata(self.hardware_manifest),
+            "clock": clock_fields(),
             "provenance": "measured",
         }
         path = self.output_dir / "run_manifest.json"
@@ -142,6 +148,7 @@ class ThinTelemetry:
             "event_type": event_type, "request_id": request_id, "action_id": action_id,
             "step_id": step_id, "start_mono_ns": start, "end_mono_ns": end,
             "duration_ms": (end - start) / 1_000_000, "utc_recorded": utc_now(),
+            "clock": clock_fields(),
             "provenance": provenance, "payload": dict(payload or {}),
         }
         self.events.append(row)
@@ -166,7 +173,7 @@ class ThinTelemetry:
         end = monotonic_ns() if end_ns is None else end_ns
         start = end if start_ns is None else start_ns
         self._event("model_request", start_ns=start, end_ns=end, request_id=correlation_id, step_id=step_id, payload={"metadata": metadata}, provenance=provenance)
-        row = {"schema_version": "cr6.telemetry.v1", "run_id": self.run_id, "attempt_id": self.attempt_id, "instance_id": self.instance_id, "request_id": correlation_id, "step_id": step_id, "start_mono_ns": start, "end_mono_ns": end, "duration_ms": (end - start) / 1_000_000, "provenance": provenance, "request": dict(request or {}), "response": dict(response or {}), **metadata}
+        row = {"schema_version": "cr6.telemetry.v1", "run_id": self.run_id, "attempt_id": self.attempt_id, "instance_id": self.instance_id, "request_id": correlation_id, "step_id": step_id, "start_mono_ns": start, "end_mono_ns": end, "duration_ms": (end - start) / 1_000_000, "clock": clock_fields(), "provenance": provenance, "request": dict(request or {}), "response": dict(response or {}), **metadata}
         self.model_calls.append(row)
         return correlation_id
 
@@ -175,7 +182,7 @@ class ThinTelemetry:
         end = monotonic_ns() if end_ns is None else end_ns
         start = end if start_ns is None else start_ns
         self._event("tool_call", start_ns=start, end_ns=end, request_id=request_id, action_id=correlation_id, step_id=step_id, payload={"command_sha256": hashlib.sha256((command or "").encode()).hexdigest() if command is not None else None}, provenance=provenance)
-        row = {"schema_version": "cr6.telemetry.v1", "run_id": self.run_id, "attempt_id": self.attempt_id, "instance_id": self.instance_id, "request_id": request_id, "action_id": correlation_id, "step_id": step_id, "start_mono_ns": start, "end_mono_ns": end, "duration_ms": (end - start) / 1_000_000, "provenance": provenance, "result": dict(result or {}), **metadata}
+        row = {"schema_version": "cr6.telemetry.v1", "run_id": self.run_id, "attempt_id": self.attempt_id, "instance_id": self.instance_id, "request_id": request_id, "action_id": correlation_id, "step_id": step_id, "start_mono_ns": start, "end_mono_ns": end, "duration_ms": (end - start) / 1_000_000, "clock": clock_fields(), "provenance": provenance, "result": dict(result or {}), **metadata}
         self.tool_calls.append(row)
         return correlation_id
 

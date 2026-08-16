@@ -8,7 +8,7 @@ import threading
 import unittest
 from pathlib import Path
 
-from agentic_sim.runners import RunnerConfig, build_command, run_sweagent
+from agentic_sim.runners import RunnerConfig, build_command, run_sweagent, validate_experiment_command
 from agentic_sim.runners.sweagent_runner import RunnerContractError
 
 
@@ -24,6 +24,55 @@ class SweagentRunnerTests(unittest.TestCase):
         self.assertIn("file", command)
         self.assertIn("$VLLM_API_KEY", command)
         self.assertNotIn("--model-revision", command)
+
+    def test_four_assignment_knobs_and_request_fields_are_concrete(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            request_config = Path(tmp) / "request.yaml"
+            request_config.write_text(
+                '{"agent":{"model":{"completion_kwargs":{"max_tokens":1536,"seed":2}}}}\n',
+                encoding="utf-8",
+            )
+            command = build_command(
+                instances_path="/tmp/tasks.json",
+                instance_id="i1",
+                output_dir="/tmp/o",
+                model="openai/Qwen",
+                model_revision="b2cff646eb4bb1",
+                request_config_path=request_config,
+                per_instance_call_limit=17,
+                max_output_tokens=1536,
+                max_observation_length=25_000,
+                temperature=0.5,
+                seed=2,
+            )
+            resolved = validate_experiment_command(command)
+        self.assertEqual(resolved["per_instance_call_limit"], 17)
+        self.assertEqual(resolved["max_output_tokens"], 1536)
+        self.assertEqual(resolved["max_observation_length"], 25_000)
+        self.assertEqual(resolved["temperature"], 0.5)
+        self.assertEqual(resolved["seed"], 2)
+        self.assertIn("--config", command)
+        self.assertIn("--config", command)
+        self.assertIn("--agent.templates.max_observation_length", command)
+
+    def test_contradictory_output_guard_is_rejected(self):
+        command = build_command(instances_path="/tmp/tasks.json", instance_id="i1", output_dir="/tmp/o", model="openai/Qwen", model_revision="b2cff646eb4bb1")
+        command[command.index("--agent.model.max_output_tokens") + 1] = "1024"
+        with self.assertRaises(RunnerContractError):
+            validate_experiment_command(command)
+
+    def test_obsolete_nested_completion_flags_are_rejected(self):
+        command = [
+            "sweagent", "run-batch", "--config", "cloud/lambda/sweagent_request.yaml",
+            "--config", "cloud/lambda/sweagent_request.yaml",
+            "--agent.model.max_input_tokens", "32768", "--agent.model.max_output_tokens", "2048",
+            "--agent.model.per_instance_call_limit", "30", "--agent.model.temperature", "0.0",
+            "--agent.templates.max_observation_length", "100000",
+            "--agent.model.completion_kwargs.max_tokens", "2048",
+            "--agent.model.completion_kwargs.seed", "0",
+        ]
+        with self.assertRaisesRegex(RunnerContractError, "nested completion_kwargs"):
+            validate_experiment_command(command)
 
     def test_control_and_thin_modes_share_identical_agent_command(self):
         kwargs = dict(instances_path="/tmp/tasks.json", instance_id="i1", output_dir="/tmp/o", model="openai/Qwen", model_revision="b2cff646eb4bb1")
@@ -58,12 +107,17 @@ class SweagentRunnerTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             manifest = root / "manifest.env"
+            request_config = root / "request.yaml"
+            request_config.write_text(
+                '{"agent":{"model":{"completion_kwargs":{"max_tokens":2048,"seed":0}}}}\n',
+                encoding="utf-8",
+            )
             manifest.write_text("\n".join([
                 "FIRST_LITE_INSTANCE_ID=i1", "EXPERIMENT_ID=e1",
                 "SWE_AGENT_REVISION=0f3acafacabc0def8cc76b4e48acb4b6cf302cb9",
                 "SWE_BENCH_REVISION=726c5461e2ef52d83cf1ea2107870a8bb332d5",
                 "VLLM_MODEL_REVISION=b2cff646eb4bb1d68355c01b18ae02e7cf42d120",
-                "SWE_AGENT_COMMAND=false run-batch --instances.type file --instances.path /tmp/i.json --agent.model.name openai/Qwen --agent.model.api_base http://127.0.0.1:8000/v1 --agent.model.api_key fixture --num_workers 1", "EVALUATE_COMMAND=true -m swebench.harness.run_evaluation --predictions_path /tmp/preds.json --instance_ids i1", "FIRST_EXPERIMENT_TIMEOUT_SECONDS=2", "\n",
+                f"SWE_AGENT_COMMAND=false run-batch --config /tmp/default.yaml --config {request_config} --instances.type file --instances.path /tmp/i.json --instances.filter '^i1$' --agent.model.name openai/Qwen --agent.model.api_base http://127.0.0.1:8000/v1 --agent.model.api_key fixture --agent.model.per_instance_call_limit 30 --agent.model.temperature 0.0 --agent.model.max_input_tokens 32768 --agent.model.max_output_tokens 2048 --agent.templates.max_observation_length 100000 --num_workers 1", "EVALUATE_COMMAND=true -m swebench.harness.run_evaluation --predictions_path /tmp/preds.json --instance_ids i1", "FIRST_EXPERIMENT_TIMEOUT_SECONDS=2", "\n",
             ]), encoding="utf-8")
             args = [str(script), "--manifest", str(manifest), "--work-root", str(root / "work")]
             first = subprocess.run(args, capture_output=True, text=True, check=False)
@@ -95,6 +149,11 @@ class SweagentRunnerTests(unittest.TestCase):
         try:
             with tempfile.TemporaryDirectory() as tmp:
                 root = Path(tmp)
+                request_config = root / "request.yaml"
+                request_config.write_text(
+                    '{"agent":{"model":{"completion_kwargs":{"max_tokens":2048,"seed":0}}}}\n',
+                    encoding="utf-8",
+                )
                 output = root / "work/experiments/e1"
                 output.mkdir(parents=True)
                 command = (
@@ -102,9 +161,9 @@ class SweagentRunnerTests(unittest.TestCase):
                     "printf \"[{\\\"instance_id\\\":\\\"i1\\\",\\\"model_patch\\\":\\\"\\\"}]\\n\" > "
                     + str(output / "preds.json")
                     + "; printf trajectory > " + str(output / "i1.traj")
-                    + "' run-batch --instances.type file --instances.path /tmp/i.json "
+                    + f"' run-batch --config /tmp/default.yaml --config {request_config} --instances.type file --instances.path /tmp/i.json --instances.filter '^i1$' "
                     "--agent.model.name openai/Qwen --agent.model.api_base http://127.0.0.1:8000/v1 "
-                    "--agent.model.api_key fixture --output_dir " + str(output) + " --num_workers 1"
+                    "--agent.model.api_key fixture --agent.model.per_instance_call_limit 30 --agent.model.temperature 0.0 --agent.model.max_input_tokens 32768 --agent.model.max_output_tokens 2048 --agent.templates.max_observation_length 100000 --output_dir " + str(output) + " --num_workers 1"
                 )
                 manifest = root / "manifest.env"
                 manifest.write_text("\n".join([
@@ -113,6 +172,7 @@ class SweagentRunnerTests(unittest.TestCase):
                     "SWE_AGENT_REVISION=0f3acafacabc0def8cc76b4e48acb4b6cf302cb9",
                     "SWE_BENCH_REVISION=726c5461e2ef52d83cf1ea2107870a8bb332d5",
                     "VLLM_MODEL_REVISION=b2cff646eb4bb1d68355c01b18ae02e7cf42d120",
+                    "SWE_AGENT_REQUEST_CONFIG=" + str(request_config),
                     "SWE_AGENT_COMMAND=" + command,
                     "SWE_AGENT_TELEMETRY_COMMAND=" + command,
                     "EVALUATE_COMMAND=true -m swebench.harness.run_evaluation --predictions_path " + str(output / "preds.json") + " --instance_ids i1",
@@ -124,7 +184,8 @@ class SweagentRunnerTests(unittest.TestCase):
                     "VLLM_METRICS_URL=http://127.0.0.1:" + str(server.server_port) + "/metrics",
                     "\n",
                 ]), encoding="utf-8")
-                env = os.environ.copy(); env["VLLM_API_KEY"] = "fixture"
+                env = os.environ.copy()
+                env["VLLM_API_KEY"] = "fixture"
                 result = subprocess.run([
                     "bash", str(script), "--manifest", str(manifest), "--work-root", str(root / "work"),
                     "--mode", "thin-telemetry",
@@ -138,7 +199,9 @@ class SweagentRunnerTests(unittest.TestCase):
                 self.assertFalse(contract["request_mutation"])
                 self.assertEqual(json.loads((raw / "status.json").read_text())["status"], "completed")
         finally:
-            server.shutdown(); server.server_close(); thread.join(timeout=2)
+            server.shutdown()
+            server.server_close()
+            thread.join(timeout=2)
 
     def test_shell_attempts_isolate_agent_and_evaluator_outputs(self):
         script = Path(__file__).resolve().parents[2] / "scripts" / "cloud" / "lambda_run_first_experiment.sh"
@@ -146,11 +209,16 @@ class SweagentRunnerTests(unittest.TestCase):
             root = Path(tmp)
             manifest = root / "manifest.env"
             base = root / "work" / "experiments" / "e1"
+            request_config = root / "request.yaml"
+            request_config.write_text(
+                '{"agent":{"model":{"completion_kwargs":{"max_tokens":2048,"seed":0}}}}\n',
+                encoding="utf-8",
+            )
             command = (
-                f"sweagent run-batch --instances.type file --instances.path {root / 'i.json'} "
+                f"sweagent run-batch --config /tmp/default.yaml --config {request_config} --instances.type file --instances.path {root / 'i.json'} "
                 "--instances.filter '^i1$' --agent.model.name openai/Qwen/Qwen3-Coder-30B-A3B-Instruct "
                 "--agent.model.api_base http://127.0.0.1:8000/v1 --agent.model.api_key fixture "
-                f"--output_dir {base} --num_workers 1"
+                f"--agent.model.per_instance_call_limit 30 --agent.model.temperature 0.0 --agent.model.max_input_tokens 32768 --agent.model.max_output_tokens 2048 --agent.templates.max_observation_length 100000 --output_dir {base} --num_workers 1"
             )
             evaluator = (
                 f"python -m swebench.harness.run_evaluation --dataset_name {root / 'i.json'} "
@@ -163,18 +231,20 @@ class SweagentRunnerTests(unittest.TestCase):
                 "SWE_BENCH_REVISION=726c5461e2ef52d83cf1ea2107870a8bb332d5",
                 "VLLM_MODEL_REVISION=b2cff646eb4bb1d68355c01b18ae02e7cf42d120",
                 "VLLM_MODEL=Qwen/Qwen3-Coder-30B-A3B-Instruct",
-                f"LITE_DATASET_PATH={root / 'i.json'}", f"SWE_AGENT_COMMAND={command}",
+                f"LITE_DATASET_PATH={root / 'i.json'}", f"SWE_AGENT_REQUEST_CONFIG={request_config}", f"SWE_AGENT_COMMAND={command}",
                 f"SWE_AGENT_TELEMETRY_COMMAND={command}", f"SWE_AGENT_OUTPUT_DIR={base}",
                 f"EVALUATOR_REPORT_DIR={root / 'work' / 'artifacts' / 'e1' / 'evaluation'}",
                 f"PREDICTION_PATH={base / 'preds.json'}", f"EVALUATE_COMMAND={evaluator}", "\n",
             ]), encoding="utf-8")
-            env = os.environ.copy(); env["VLLM_API_KEY"] = "fixture"
+            env = os.environ.copy()
+            env["VLLM_API_KEY"] = "fixture"
             def dry(attempt):
                 return subprocess.run([
                     "bash", str(script), "--manifest", str(manifest), "--instance-id", "i1",
                     "--experiment-id", "e1", "--attempt-id", attempt, "--dry-run",
                 ], env=env, capture_output=True, text=True, check=False)
-            control = dry("attempt-001"); thin = dry("attempt-002")
+            control = dry("attempt-001")
+            thin = dry("attempt-002")
             self.assertEqual(control.returncode, 0, control.stderr)
             self.assertEqual(thin.returncode, 0, thin.stderr)
             self.assertIn(f"--output_dir {base / 'attempt-001'}", control.stdout)
@@ -197,11 +267,16 @@ class SweagentRunnerTests(unittest.TestCase):
             )
             base = root / "work" / "experiments" / "e1"
             report_base = root / "work" / "artifacts" / "e1" / "evaluation"
+            request_config = root / "request.yaml"
+            request_config.write_text(
+                '{"agent":{"model":{"completion_kwargs":{"max_tokens":2048,"seed":0}}}}\n',
+                encoding="utf-8",
+            )
             command = (
-                f"{sys.executable} {fake_agent} run-batch --instances.type file --instances.path {root / 'i.json'} "
+                f"{sys.executable} {fake_agent} run-batch --config /tmp/default.yaml --config {request_config} --instances.type file --instances.path {root / 'i.json'} "
                 "--instances.filter '^i1$' --agent.model.name openai/Qwen/Qwen3-Coder-30B-A3B-Instruct "
                 "--agent.model.api_base http://127.0.0.1:8000/v1 --agent.model.api_key fixture "
-                f"--output_dir {base} --num_workers 1"
+                f"--agent.model.per_instance_call_limit 30 --agent.model.temperature 0.0 --agent.model.max_input_tokens 32768 --agent.model.max_output_tokens 2048 --agent.templates.max_observation_length 100000 --output_dir {base} --num_workers 1"
             )
             evaluator = (
                 f"{sys.executable} -c 'import pathlib; pathlib.Path(\"official-report.json\").write_text(\"{{\\\"resolved_instances\\\":1}}\")' "
@@ -215,6 +290,7 @@ class SweagentRunnerTests(unittest.TestCase):
                 "SWE_BENCH_REVISION=726c5461e2ef52d83cf1ea2107870a8bb3328d57",
                 "VLLM_MODEL_REVISION=b2cff646eb4bb1d68355c01b18ae02e7cf42d120",
                 "VLLM_MODEL=Qwen/Qwen3-Coder-30B-A3B-Instruct", f"LITE_DATASET_PATH={root / 'i.json'}",
+                f"SWE_AGENT_REQUEST_CONFIG={request_config}",
                 f"SWE_AGENT_COMMAND={command}", f"SWE_AGENT_TELEMETRY_COMMAND={command}",
                 f"SWE_AGENT_OUTPUT_DIR={base}", f"EVALUATOR_REPORT_DIR={report_base}",
                 f"PREDICTION_PATH={base / 'preds.json'}", f"EVALUATE_COMMAND={evaluator}", "\n",

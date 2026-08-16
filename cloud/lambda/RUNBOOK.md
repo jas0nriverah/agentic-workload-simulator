@@ -15,6 +15,12 @@ before termination.
 Create and checksum the exact local bundle before any paid launch:
 
 ```bash
+# The archive is commit-based. Refuse to archive a stale commit when local
+# hardening edits are staged, unstaged, or untracked.
+if ! git diff --quiet || ! git diff --cached --quiet || [[ -n "$(git status --porcelain=v1 --untracked-files=all)" ]]; then
+  echo 'refusing bundle creation: working tree contains staged, unstaged, or untracked files' >&2
+  exit 1
+fi
 REVIEWED_COMMIT="$(git rev-parse HEAD)"
 git diff --check
 git archive --format=tar --prefix=agentic-workload-simulator/ "$REVIEWED_COMMIT" \
@@ -100,9 +106,11 @@ chat response fields never substitute for Prometheus metrics.
 
 ## Gold and first generated experiment
 
-Run each gold smoke independently, then the first Lite task in control mode and
-thin-telemetry mode. The commands use the exact selected IDs and local
-one-row dataset files from the bootstrap manifest.
+Run each gold smoke independently, then the first Lite task exactly once in
+uninstrumented control mode. The first paid session intentionally stops after
+the official generated-patch evaluation and export; do not spend a second
+trajectory on thin telemetry before the raw `.traj` fixture has been reviewed
+and a lossless normalizer has been implemented locally.
 
 ```bash
 ./scripts/cloud/lambda_run_gold_smoke.sh --manifest cloud/lambda/instance_manifest.env --suite lite
@@ -110,21 +118,19 @@ one-row dataset files from the bootstrap manifest.
 
 ./scripts/cloud/lambda_run_first_experiment.sh --manifest cloud/lambda/instance_manifest.env --instance-id astropy__astropy-12907 --experiment-id first-lite-astropy__astropy-12907 --mode uninstrumented
 ./scripts/cloud/lambda_collect_results.sh --source-root /home/ubuntu/agentic-work/data/raw/first-lite-astropy__astropy-12907 --output-dir /home/ubuntu/agentic-work/export --run-id first-lite-astropy__astropy-12907-control
-
-./scripts/cloud/lambda_run_first_experiment.sh --manifest cloud/lambda/instance_manifest.env --instance-id astropy__astropy-12907 --experiment-id first-lite-astropy__astropy-12907 --mode thin-telemetry --attempt-id attempt-002
-./scripts/cloud/lambda_collect_results.sh --source-root /home/ubuntu/agentic-work/data/raw/first-lite-astropy__astropy-12907 --output-dir /home/ubuntu/agentic-work/export --run-id first-lite-astropy__astropy-12907-thin --snapshot
 ```
 
-The two attempts share the same reviewed SWE-agent command; thin telemetry is
-an output observer that records interval Prometheus/GPU samples with
-`correlation_scope=run_interval` and never wraps or mutates requests. The
-official generated-prediction evaluator is a separate runtime and is excluded
-from trajectory E2E timing.
+The control command is the frozen direct SWE-agent command. The official
+generated-prediction evaluator is a separate runtime and is excluded from
+trajectory E2E timing. The resolved command contract records the four
+assignment knobs and request-level `max_tokens`/`seed` fields in the attempt
+manifest.
 
 ## Optional observability after the first result
 
-The first session stops after collecting the control and thin attempts. Only
-after those artifacts are reviewed may an explicitly authorized later gate use
+The first session stops after collecting the control attempt. Only after the
+raw trajectory and evaluator artifacts are reviewed may an explicitly
+authorized later gate use
 the additive helpers below; none changes the frozen model, SWE-agent command,
 or baseline path:
 
@@ -201,4 +207,6 @@ On the local machine, verify the received result archive explicitly:
 Optional observability validations remain H100-only: actual DCGM field
 discovery, nvidia-smi field support, Nsight/strace permissions, measured
 profiling overhead, vLLM calibration behavior, and real Perfetto traces. Their
-absence does not block the first control trajectory.
+absence does not block the first control trajectory. Thin telemetry is also
+deferred until the exported trajectory has a reviewed, lossless normalizer in a
+new local bundle.

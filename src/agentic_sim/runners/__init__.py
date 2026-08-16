@@ -5,7 +5,17 @@ from .sweagent_runner import (
     RunnerResult,
     build_command,
     command_hash,
+    resolved_experiment_settings,
     run_sweagent,
+    validate_experiment_command,
 )
 
-__all__ = ["RunnerConfig", "RunnerResult", "build_command", "command_hash", "run_sweagent"]
+__all__ = [
+    "RunnerConfig",
+    "RunnerResult",
+    "build_command",
+    "command_hash",
+    "resolved_experiment_settings",
+    "run_sweagent",
+    "validate_experiment_command",
+]

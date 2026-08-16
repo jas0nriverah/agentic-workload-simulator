@@ -21,6 +21,7 @@ from agentic_sim.observability.gpu import (  # noqa: E402
     discover_dcgmi_fields,
 )
 from agentic_sim.observability.profilers import discover_tool_capabilities  # noqa: E402
+from agentic_sim.telemetry.clock import clock_fields  # noqa: E402
 
 
 def _version(command: list[str]) -> str | None:
@@ -85,6 +86,7 @@ def main(argv: list[str] | None = None) -> int:
         "provenance": "measured" if hardware.get("status") == "measured" else "unavailable",
         "scope": args.scope,
         "captured_at_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+        "clock": clock_fields(),
         "platform": {"system": platform.system(), "release": platform.release(), "machine": platform.machine()},
         "hardware": hardware,
         "dcgm": dcgm,

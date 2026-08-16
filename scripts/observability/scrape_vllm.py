@@ -11,9 +11,7 @@ import argparse
 import hashlib
 import json
 import math
-import os
 import sys
-import time
 import urllib.error
 import urllib.request
 from pathlib import Path
@@ -28,10 +26,11 @@ from agentic_sim.observability.vllm_metrics import (  # noqa: E402
     parse_prometheus_text,
     required_families,
 )
+from agentic_sim.telemetry.clock import clock_fields, monotonic_ns, utc_now  # noqa: E402
 
 
 def _utc() -> str:
-    return time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
+    return utc_now()
 
 
 def _sample(sample: Any) -> dict[str, Any]:
@@ -60,7 +59,7 @@ def snapshot_object(
     scope: str,
 ) -> dict[str, Any]:
     captured_at = _utc()
-    mono = time.monotonic_ns()
+    mono = monotonic_ns()
     raw_bytes = raw.encode("utf-8")
     try:
         snapshot: PrometheusSnapshot = parse_prometheus_text(raw)
@@ -92,6 +91,7 @@ def snapshot_object(
         "metrics_url": url,
         "captured_at_utc": captured_at,
         "captured_monotonic_ns": mono,
+        "clock": clock_fields(),
         "raw_sha256": hashlib.sha256(raw_bytes).hexdigest(),
         "raw_bytes": len(raw_bytes),
         "required_families": sorted(REQUIRED_VLLM_FAMILIES),
@@ -119,7 +119,8 @@ def unavailable_object(
         "attempt_id": attempt_id,
         "metrics_url": url,
         "captured_at_utc": _utc(),
-        "captured_monotonic_ns": time.monotonic_ns(),
+        "captured_monotonic_ns": monotonic_ns(),
+        "clock": clock_fields(),
         "raw_sha256": None,
         "raw_bytes": 0,
         "required_families": sorted(REQUIRED_VLLM_FAMILIES),
