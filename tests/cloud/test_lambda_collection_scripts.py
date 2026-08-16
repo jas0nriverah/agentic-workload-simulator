@@ -1,5 +1,6 @@
 import pathlib
 import subprocess
+import tempfile
 import unittest
 
 
@@ -43,3 +44,42 @@ class LambdaCollectionScriptTests(unittest.TestCase):
         self.assertNotIn("lambda cloud api", text.lower())
         self.assertNotIn("aws terminate", text.lower())
         self.assertNotIn("terraform destroy", text.lower())
+
+    def test_collection_and_local_verification_round_trip(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = pathlib.Path(tmp)
+            source = root / "source"
+            output = root / "output"
+            source.mkdir()
+            for name, payload in {
+                "manifest.json": '{"run_id":"r1"}\n',
+                "predictions.json": '{"instance_id":"i1"}\n',
+                "trajectory.json": '{"steps":[]}\n',
+                "events.jsonl": '{"event_type":"test"}\n',
+                "evaluation.json": '{"resolved":false}\n',
+                "status.json": '{"status":"completed"}\n',
+            }.items():
+                (source / name).write_text(payload, encoding="utf-8")
+            collected = subprocess.run(
+                [
+                    str(SCRIPTS / "lambda_collect_results.sh"),
+                    "--source-root", str(source),
+                    "--output-dir", str(output),
+                    "--run-id", "fixture",
+                ],
+                capture_output=True,
+                text=True,
+                check=False,
+            )
+            self.assertEqual(collected.returncode, 0, collected.stderr + collected.stdout)
+            archive = output / "lambda-results-fixture.tar.gz"
+            checksum = output / "lambda-results-fixture.sha256"
+            self.assertTrue(archive.is_file())
+            self.assertTrue(checksum.is_file())
+            verified = subprocess.run(
+                [str(SCRIPTS / "verify_lambda_archive_local.sh"), "--archive", str(archive)],
+                capture_output=True,
+                text=True,
+                check=False,
+            )
+            self.assertEqual(verified.returncode, 0, verified.stderr + verified.stdout)
