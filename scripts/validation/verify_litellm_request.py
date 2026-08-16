@@ -91,11 +91,19 @@ def _cli_config(source_root: Path, command_text: str, project_root: Path | None 
             parts = loader.construct_sequence(node, deep=True)
             return str(Path(*[str(part) for part in parts]))
 
+        def load_secret(_loader: yaml.SafeLoader, _node: yaml.Node) -> str:
+            # The command's API key is restored from the reviewed environment
+            # reference below; never deserialize or print the dumped secret.
+            return "$VLLM_API_KEY"
+
         for path_tag in (
             "tag:yaml.org,2002:python/object/apply:pathlib.PosixPath",
             "tag:yaml.org,2002:python/object/apply:pathlib.WindowsPath",
         ):
             ConfigLoader.add_constructor(path_tag, load_path)
+        ConfigLoader.add_constructor(
+            "tag:yaml.org,2002:python/object:pydantic.types.SecretStr", load_secret
+        )
         config = yaml.load(config_text, Loader=ConfigLoader)
     except Exception as exc:
         raise RuntimeError(f"pinned SWE-agent --print_config did not emit parseable YAML: {exc}") from exc
