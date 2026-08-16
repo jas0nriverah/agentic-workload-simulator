@@ -70,6 +70,30 @@ execution:
   seed: 0
   timeout_minutes: 120
   output_root: /home/ubuntu/agentic-work/experiments
+observability:
+  schema_version: obs-1
+  control_level: control
+  thin_level: thin
+  native_vllm_metrics_scope: server_aggregate
+  native_vllm_request_correlation: false
+  native_vllm_metric_families:
+    - vllm:request_success_total
+    - vllm:prompt_tokens_total
+    - vllm:generation_tokens_total
+    - vllm:e2e_request_latency_seconds
+    - vllm:request_queue_time_seconds
+    - vllm:request_inference_time_seconds
+    - vllm:request_prefill_time_seconds
+    - vllm:request_decode_time_seconds
+    - vllm:time_to_first_token_seconds
+    - vllm:time_per_output_token_seconds
+    - vllm:num_requests_running
+    - vllm:num_requests_waiting
+    - vllm:kv_cache_usage_perc
+  profilers_enabled_by_default: []
+  otlp: deferred_default_vllm_v1_unsupported
+  gpu_time_rule: nvidia-smi_and_prometheus_are_not_gpu_device_time
+  direct_gpu_time_provenance: measured_gpu_only_from_separate_nsight_attempt
 provenance: pinned-source-static-evidence
 notes: >-
   All source, model, dataset, and container references are immutable. The

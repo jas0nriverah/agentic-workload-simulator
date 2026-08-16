@@ -19,8 +19,19 @@ python3 -c 'import json,sys; d=json.loads(sys.argv[1]); assert d.get("choices"),
 tool='{"model":"'"$model"'","messages":[{"role":"user","content":"Call ping."}],"tools":[{"type":"function","function":{"name":"ping","description":"Return pong","parameters":{"type":"object","properties":{}}}}],"tool_choice":{"type":"function","function":{"name":"ping"}},"max_tokens":32,"temperature":0}'; tool_response="$(curl -fsS --max-time 60 -H 'Content-Type: application/json' -d "$tool" "$base/v1/chat/completions")" || { echo 'tool-parser failure: tool-call request failed' >&2; exit 2; }
 python3 -c 'import json,sys; d=json.loads(sys.argv[1]); m=d.get("choices",[{}])[0].get("message",{}); assert m.get("tool_calls"), "no tool_calls"' "$tool_response" || { echo 'tool-parser failure: response contains no parsed tool_calls' >&2; exit 2; }
 metrics="$(curl -fsS --max-time 10 "$base/metrics")" || { echo 'telemetry-contract failure: /metrics unavailable' >&2; exit 3; }
-for name in 'vllm:request_success_total' 'vllm:prompt_tokens_total' 'vllm:generation_tokens_total' 'vllm:e2e_request_latency_seconds'; do grep -Eq "^${name}(\{|[[:space:]])" <<<"$metrics" || { echo "telemetry-contract failure: missing $name" >&2; exit 3; }; done
+for name in 'vllm:request_success_total' 'vllm:prompt_tokens_total' 'vllm:generation_tokens_total'; do grep -Eq "^${name}(\{|[[:space:]])" <<<"$metrics" || { echo "telemetry-contract failure: missing $name" >&2; exit 3; }; done
+# vLLM exposes e2e latency as a Prometheus histogram: the wire samples are
+# _bucket/_count/_sum, not a bare base-name sample.
+grep -Eq '^vllm:e2e_request_latency_seconds_(bucket|count|sum)(\{|[[:space:]])' <<<"$metrics" || { echo 'telemetry-contract failure: missing vllm:e2e_request_latency_seconds histogram family' >&2; exit 3; }
 mkdir -p -- "$WORK_ROOT/artifacts/manifests"; printf '%s\n' "$metrics" > "$WORK_ROOT/artifacts/manifests/vllm_metrics.prom"
+if [[ -f "$ROOT/scripts/observability/scrape_vllm.py" ]]; then
+  python3 "$ROOT/scripts/observability/scrape_vllm.py" \
+    --url "$base/metrics" --output "$WORK_ROOT/artifacts/manifests/vllm_metrics.json" \
+    --raw-output "$WORK_ROOT/artifacts/manifests/vllm_metrics.prom" \
+    --snapshot-kind health --scope healthcheck --validate-required --force || {
+      echo 'telemetry-contract failure: lossless vLLM snapshot missing required families' >&2; exit 3;
+    }
+fi
 if command -v nvidia-smi >/dev/null 2>&1; then nvidia-smi --query-gpu=name,memory.used,utilization.gpu --format=csv,noheader > "$GPU_SAMPLE" || { echo 'telemetry-contract failure: GPU sample failed' >&2; exit 3; }; else echo 'telemetry-contract failure: nvidia-smi unavailable' >&2; exit 3; fi
 log="$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1])).get("log_path", ""))' "$SERVER_MANIFEST")"; if [[ -n "$log" && -f "$log" ]] && grep -Eiq 'out of memory|cuda error|fatal|traceback' "$log"; then echo 'server failure: fatal/OOM text in log' >&2; exit 1; fi
 python3 - "$HEALTH_OUT" "$model" <<'PY'

@@ -1,12 +1,12 @@
 schema_version: 1
-updated_at_utc: 2026-08-16T04:19:54Z
+updated_at_utc: 2026-08-16T05:00:00Z
 overall_status: cloud_ready_pending_h100
 phase: CR0_CR1_CR2_CR3_CR4_CR5_CR6_CR7_CR8_CR9_CR10_CR11_CR12
 current_task: CR12-final-cloud-readiness
 last_verified_commit: 5a6cc0df76fc7af7f260c4777d52e3cdbdb1cc57
 last_verified_commit_role: reviewed_runtime_source_freeze
 assignment_lock_hash: 02f485cdd8cca4aae242d2f1a5306184a95d7ee0fae42527d7153f48a3424761
-working_tree_dirty: false
+working_tree_dirty: true
 
 hardware:
   development:
@@ -67,3 +67,24 @@ active_agent_tasks: []
 blocker_ids:
   - H100_VALIDATION_REMAINING
   - PAID_SESSION_AUTHORIZATION_REQUIRED_FOR_SAFE_RENT
+
+observability:
+  status: bounded_additive_upgrade_local_validation
+  baseline_path_unchanged: true
+  accepted_features:
+    - lossless_pinned_vllm_prometheus_snapshots_and_aggregate_deltas
+    - paired_control_thin_overhead_accounting
+    - provenance_hardware_and_profile_sidecars
+    - optional_capability_probes_with_nvidia_smi_fallback
+    - dependency_free_nvtx_noop_ranges
+    - separate_strace_and_nsight_command_preparation
+    - bounded_memory_estimate
+    - deterministic_perfetto_compatible_export
+  rejected_or_deferred:
+    - default_otlp_tracing_on_vllm_v1
+    - unpinned_nvml_dcgm_nvtx_or_py_spy_dependencies
+    - synthetic_gpu_time_from_aggregate_metrics
+    - runtime_perfetto_sdk
+    - first_session_calibration_matrix
+  h100_only_observability_validation_required: true
+  local_static_checks_pending_final_review: true

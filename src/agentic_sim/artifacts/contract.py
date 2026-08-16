@@ -27,6 +27,24 @@ REQUIRED_FILES = (
     "summary.json",
 )
 
+# Optional, content-addressed sidecars. They never become prerequisites for a
+# Level-0 control run, but are included in inventories when produced.
+OPTIONAL_SIDECARS = (
+    "run_manifest.json",
+    "hardware.json",
+    "profile_manifest.json",
+    "profiling_overhead.json",
+    "memory_estimate.json",
+    "trace.perfetto.json",
+    "service_calibration.json",
+    "vllm_metrics_start.json",
+    "vllm_metrics_end.json",
+    "vllm_metrics_delta.json",
+    "vllm_metrics_start.prom",
+    "vllm_metrics_end.prom",
+    "telemetry_scrapes.jsonl",
+)
+
 
 class ArtifactContractError(ValueError):
     """The attempt does not satisfy the canonical artifact contract."""
@@ -45,7 +63,7 @@ class ArtifactLayout:
         return self.root / "data" / "raw" / self.experiment_id / self.dataset / self.instance_id / self.attempt_id
 
     def path(self, name: str) -> Path:
-        if name not in REQUIRED_FILES and "/" not in name:
+        if name not in REQUIRED_FILES and name not in OPTIONAL_SIDECARS and "/" not in name:
             raise ArtifactContractError(f"unknown canonical artifact: {name}")
         return self.directory / name
 
@@ -111,4 +129,5 @@ def validate_artifacts(layout: ArtifactLayout, *, require_complete: bool = False
 
 def inventory(layout: ArtifactLayout) -> dict[str, Any]:
     """Hash present canonical files; raw streams are never modified."""
-    return {name: {"path": str(layout.path(name)), "sha256": file_sha256(layout.path(name)), "bytes": layout.path(name).stat().st_size} for name in REQUIRED_FILES if layout.path(name).is_file()}
+    names = (*REQUIRED_FILES, *OPTIONAL_SIDECARS)
+    return {name: {"path": str(layout.path(name)), "sha256": file_sha256(layout.path(name)), "bytes": layout.path(name).stat().st_size} for name in names if layout.path(name).is_file()}

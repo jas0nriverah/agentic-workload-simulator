@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import contextlib
 import hashlib
+import json
 import time
 import uuid
 from pathlib import Path
@@ -11,7 +12,10 @@ from typing import Any, Iterator, Mapping
 
 from .jsonl_writer import AppendOnlyJSONLWriter
 
-_PROVENANCE = {"measured", "derived", "simulated", "unavailable", "dev"}
+_PROVENANCE = {
+    "measured", "derived", "calibrated", "simulated", "estimated",
+    "unavailable", "dev",
+}
 
 
 def monotonic_ns() -> int:
@@ -27,6 +31,28 @@ def _id(prefix: str) -> str:
     return f"{prefix}-{uuid.uuid4().hex}"
 
 
+def _safe_metadata(value: Mapping[str, Any]) -> dict[str, Any]:
+    """Keep hardware metadata useful while excluding credential-like keys."""
+
+    blocked = ("secret", "token", "password", "api_key", "credential")
+    result: dict[str, Any] = {}
+    for key, item in value.items():
+        normalized = str(key).lower()
+        if any(word in normalized for word in blocked):
+            continue
+        if isinstance(item, Mapping):
+            result[str(key)] = _safe_metadata(item)
+        elif isinstance(item, (str, int, float, bool)) or item is None:
+            result[str(key)] = item
+        elif isinstance(item, (list, tuple)):
+            result[str(key)] = [
+                _safe_metadata(entry) if isinstance(entry, Mapping) else entry
+                for entry in item
+                if not isinstance(entry, (bytes, bytearray))
+            ]
+    return result
+
+
 class ThinTelemetry:
     """Write correlated event/model/tool streams without request mutation.
 
@@ -35,16 +61,65 @@ class ThinTelemetry:
     SWE-agent-owned files referenced by the run summary.
     """
 
-    def __init__(self, output_dir: str | Path, *, run_id: str, attempt_id: str = "attempt-001", instance_id: str | None = None):
+    def __init__(
+        self,
+        output_dir: str | Path,
+        *,
+        run_id: str,
+        attempt_id: str = "attempt-001",
+        instance_id: str | None = None,
+        observability_level: str = "thin",
+        profilers_enabled: tuple[str, ...] | list[str] = (),
+        instrumentation_version: str = "obs-1",
+        vllm_metrics_available: tuple[str, ...] | list[str] = (),
+        dcgm_metrics_available: tuple[str, ...] | list[str] = (),
+        hardware_manifest: Mapping[str, Any] | None = None,
+    ):
+        if observability_level not in {"control", "thin", "otel", "nsys", "syscall"}:
+            raise ValueError("unsupported observability level")
+        if observability_level == "control" and profilers_enabled:
+            raise ValueError("control runs cannot enable profilers")
         self.output_dir = Path(output_dir)
         self.output_dir.mkdir(parents=True, exist_ok=True)
         self.run_id = run_id
         self.attempt_id = attempt_id
         self.instance_id = instance_id
+        self.observability_level = observability_level
+        self.profilers_enabled = tuple(str(item) for item in profilers_enabled)
+        self.instrumentation_version = instrumentation_version
+        self.vllm_metrics_available = tuple(str(item) for item in vllm_metrics_available)
+        self.dcgm_metrics_available = tuple(str(item) for item in dcgm_metrics_available)
+        self.hardware_manifest = dict(hardware_manifest or {})
         self.events = AppendOnlyJSONLWriter(self.output_dir / "events.jsonl")
         self.model_calls = AppendOnlyJSONLWriter(self.output_dir / "model_calls.jsonl")
         self.tool_calls = AppendOnlyJSONLWriter(self.output_dir / "tool_calls.jsonl")
         self._seq = self._existing_count(self.output_dir / "events.jsonl")
+        self._write_run_manifest()
+
+    def _write_run_manifest(self) -> None:
+        """Persist allowlisted run provenance without copying credentials."""
+        manifest = {
+            "schema_version": "obs.run-manifest.v1",
+            "run_id": self.run_id,
+            "attempt_id": self.attempt_id,
+            "instance_id": self.instance_id,
+            "observability_level": self.observability_level,
+            "profilers_enabled": list(self.profilers_enabled),
+            "vllm_metrics_available": list(self.vllm_metrics_available),
+            "dcgm_metrics_available": list(self.dcgm_metrics_available),
+            "instrumentation_version": self.instrumentation_version,
+            "hardware_manifest": _safe_metadata(self.hardware_manifest),
+            "provenance": "measured",
+        }
+        path = self.output_dir / "run_manifest.json"
+        encoded = json.dumps(manifest, sort_keys=True, indent=2) + "\n"
+        if path.exists():
+            if path.read_text(encoding="utf-8") != encoded:
+                raise ValueError("run manifest exists with different immutable metadata")
+            return
+        temporary = path.with_name(path.name + ".tmp")
+        temporary.write_text(encoded, encoding="utf-8")
+        temporary.replace(path)
 
     @staticmethod
     def _existing_count(path: Path) -> int:
@@ -104,11 +179,45 @@ class ThinTelemetry:
         self.tool_calls.append(row)
         return correlation_id
 
-    def record_vllm_metrics(self, metrics: Mapping[str, Any], *, request_id: str | None = None, provenance: str = "measured") -> None:
-        self._event("vllm_metrics", request_id=request_id, payload={"metrics": dict(metrics)}, provenance=provenance)
+    def record_vllm_metrics(
+        self,
+        metrics: Mapping[str, Any],
+        *,
+        request_id: str | None = None,
+        provenance: str = "measured",
+        aggregation_scope: str = "server_aggregate",
+        snapshot_kind: str = "interval",
+    ) -> None:
+        if request_id is not None:
+            raise ValueError("native vLLM metrics cannot be assigned a request ID")
+        self._event(
+            "vllm_metrics",
+            request_id=None,
+            payload={
+                "metrics": dict(metrics),
+                "aggregation_scope": aggregation_scope,
+                "snapshot_kind": snapshot_kind,
+            },
+            provenance=provenance,
+        )
 
-    def record_gpu_sample(self, sample: Mapping[str, Any], *, provenance: str = "measured") -> None:
-        self._event("gpu_sample", payload={"sample": dict(sample)}, provenance=provenance)
+    def record_gpu_sample(
+        self,
+        sample: Mapping[str, Any],
+        *,
+        provenance: str = "measured",
+        correlation_scope: str = "run_interval",
+        measurement_class: str = "coarse_gpu_sample",
+    ) -> None:
+        self._event(
+            "gpu_sample",
+            payload={
+                "sample": dict(sample),
+                "correlation_scope": correlation_scope,
+                "measurement_class": measurement_class,
+            },
+            provenance=provenance,
+        )
 
     @contextlib.contextmanager
     def model_span(self, record: Mapping[str, Any] | None = None, **metadata: Any) -> Iterator[dict[str, Any]]:

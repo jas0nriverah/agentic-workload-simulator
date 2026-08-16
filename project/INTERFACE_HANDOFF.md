@@ -57,3 +57,25 @@ from `cloud/lambda/instance_manifest.env.example`. Runtime scripts must reject
 missing or contradictory immutable fields. User-only values (instance address,
 price, paid-session caps, stop/export/termination times, and credentials) do
 not belong in this repository.
+
+## Observability contract (additive to CR6)
+
+- `uninstrumented` is Level 0 control. It does not enable tracing, syscall
+  profiling, Nsight, DCGM, or high-frequency sampling.
+- `thin-telemetry` is Level 1 and observes the identical SWE-agent command. It
+  may write lossless `/metrics` snapshots, coarse GPU samples, and run/step/tool
+  events, but it must not mutate prompts, request flags, or responses.
+- Native vLLM Prometheus rows carry `aggregation_scope: server_aggregate`;
+  counters/histograms are cumulative. A per-attempt `start`/`end` pair may
+  produce `aggregation_scope: aggregate_delta` only after a monotonic reset
+  check. No native `/metrics` row is per-request.
+- A direct Nsight interval is the only accepted `measured_gpu` source. vLLM
+  service timings are `derived_model_service`; memory preflight values are
+  `estimated`; missing optional fields are `unavailable`.
+- Level 2 `strace` and Nsight attempts use isolated attempt IDs and output
+  roots. They are never prerequisites for G3A, gold smokes, or the first
+  control trajectory and are not mixed into baseline tables.
+- Optional sidecars (`hardware.json`, `profile_manifest.json`,
+  `profiling_overhead.json`, `memory_estimate.json`, `trace.perfetto.json`,
+  `service_calibration.json`) are additive and hashed; canonical required
+  files and the first-session command contract remain unchanged.

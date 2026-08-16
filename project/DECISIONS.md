@@ -36,3 +36,28 @@
 - H100-only acceptance: model fit, one normal completion, one parsed tool
   call, `/metrics` scrape, official evaluator container architecture/digest,
   and gold-patch smokes.
+
+## D-0004 - Bounded observability upgrade
+
+- Status: accepted for local implementation; empirical H100 portions pending
+- Scope accepted now: lossless pinned-vLLM Prometheus parsing with labels and
+  metric types; per-attempt cumulative start/end snapshots and explicit
+  aggregate deltas; provenance/hardware sidecars; paired control/thin
+  overhead summaries; optional capability probes; dependency-free NVTX no-op
+  ranges; separate `strace`/Nsight command preparation; bounded memory
+  estimation; and deterministic Perfetto-compatible post-processing export.
+- Scope accepted later: separate Linux `strace` and Nsight Systems attempts,
+  direct GPU-time reconciliation, vLLM `bench serve` calibration, observed
+  peak-memory validation, and DCGM only if H100 capability evidence shows a
+  missing field.
+- Rejected or deferred: OTLP/OpenTelemetry in the default run, because the
+  pinned vLLM 0.10.0 default v1 engine rejects it; runtime NVML/DCGM/NVTX
+  dependencies; py-spy; synthetic GPU-time reconstruction; runtime Perfetto
+  SDKs; and any new benchmark traffic in the first SWE-agent trajectory.
+- Semantics: native vLLM metrics are `server_aggregate` and cumulative;
+  interval deltas are `aggregate_delta`, never per-request. Only direct
+  profiler intervals may use `measured_gpu`; service metrics remain
+  `derived_model_service` and estimates remain `estimated`.
+- Rationale: these additions directly support the assignment's CPU/GPU
+  boundary, Step 3 event analysis, and later simulator inputs without changing
+  the frozen model, runtime, SWE-agent command, control path, or methodology.

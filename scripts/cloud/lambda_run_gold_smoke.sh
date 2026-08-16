@@ -168,14 +168,16 @@ fi
 [[ "$EVALUATOR_PLATFORM" == "$EXPECTED_PLATFORM" ]] || die "EVALUATOR_PLATFORM must be $EXPECTED_PLATFORM"
 [[ "$LITE_DATASET_SHA256" == "$EXPECTED_LITE_DATASET_SHA256" ]] || die "LITE_DATASET_SHA256 must be the reviewed manifest hash $EXPECTED_LITE_DATASET_SHA256"
 [[ "$VERIFIED_DATASET_SHA256" == "$EXPECTED_VERIFIED_DATASET_SHA256" ]] || die "VERIFIED_DATASET_SHA256 must be the reviewed manifest hash $EXPECTED_VERIFIED_DATASET_SHA256"
-[[ -d "$SWE_BENCH_EVALUATOR_ROOT" ]] || die "pinned SWE-bench checkout is missing: $SWE_BENCH_EVALUATOR_ROOT"
-command -v "$EVALUATOR_PYTHON" >/dev/null 2>&1 || die "evaluator Python is unavailable: $EVALUATOR_PYTHON"
+if (( ! DRY_RUN )); then
+  [[ -d "$SWE_BENCH_EVALUATOR_ROOT" ]] || die "pinned SWE-bench checkout is missing: $SWE_BENCH_EVALUATOR_ROOT"
+  command -v "$EVALUATOR_PYTHON" >/dev/null 2>&1 || die "evaluator Python is unavailable: $EVALUATOR_PYTHON"
+fi
 [[ "$MAX_WORKERS" =~ ^[1-9][0-9]*$ ]] || die 'SWE_BENCH_MAX_WORKERS must be positive'
 [[ "$TIMEOUT_SECONDS" =~ ^[1-9][0-9]*$ ]] || die 'SWE_BENCH_TIMEOUT_SECONDS must be positive'
-if [[ -d "$SWE_BENCH_EVALUATOR_ROOT/.git" ]]; then
+if (( ! DRY_RUN )) && [[ -d "$SWE_BENCH_EVALUATOR_ROOT/.git" ]]; then
   evaluator_revision="$(git -C "$SWE_BENCH_EVALUATOR_ROOT" rev-parse HEAD 2>/dev/null || true)"
   [[ "$evaluator_revision" == "$EXPECTED_SWE_BENCH_REVISION" ]] || die 'evaluator checkout revision mismatch'
-elif [[ ! -f "$SWE_BENCH_EVALUATOR_ROOT/swebench/harness/run_evaluation.py" ]]; then
+elif (( ! DRY_RUN )) && [[ ! -f "$SWE_BENCH_EVALUATOR_ROOT/swebench/harness/run_evaluation.py" ]]; then
   die 'evaluator checkout is neither a pinned Git checkout nor a complete source tree'
 fi
 

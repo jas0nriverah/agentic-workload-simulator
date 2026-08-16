@@ -45,6 +45,12 @@ class RunnerConfig:
     model_revision: str | None = None
     swe_agent_revision: str | None = None
     swe_bench_revision: str | None = None
+    observability_level: str | None = None
+    profilers_enabled: Sequence[str] = ()
+    instrumentation_version: str = "obs-1"
+    vllm_metrics_available: Sequence[str] = ()
+    dcgm_metrics_available: Sequence[str] = ()
+    hardware_manifest: Mapping[str, Any] = field(default_factory=dict)
 
     def __post_init__(self) -> None:
         if self.mode not in {"uninstrumented", "thin-telemetry"}:
@@ -55,6 +61,15 @@ class RunnerConfig:
             raise RunnerContractError("command is empty")
         if isinstance(self.command, Sequence) and not isinstance(self.command, str) and not self.command:
             raise RunnerContractError("command is empty")
+        level = self.observability_level or ("control" if self.mode == "uninstrumented" else "thin")
+        if level not in {"control", "thin", "otel", "nsys", "syscall"}:
+            raise RunnerContractError("unsupported observability level")
+        if level == "control" and self.profilers_enabled:
+            raise RunnerContractError("control runs cannot enable profilers")
+        if self.mode == "uninstrumented" and level != "control":
+            raise RunnerContractError("uninstrumented mode must use control observability level")
+        if self.mode == "thin-telemetry" and level != "thin":
+            raise RunnerContractError("thin-telemetry mode must use thin observability level")
         for label, revision in (("model", self.model_revision), ("SWE-agent", self.swe_agent_revision), ("SWE-bench", self.swe_bench_revision)):
             if revision is not None and not re.fullmatch(r"[0-9a-fA-F]{12,64}", revision):
                 raise RunnerContractError(f"{label} revision must be an immutable hexadecimal commit")
@@ -115,6 +130,7 @@ def build_command(*, executable: str = "sweagent", project: str | Path | None = 
 
 def _resolved_config(config: RunnerConfig, layout: ArtifactLayout, argv: list[str]) -> dict[str, Any]:
     raw = dict(config.config)
+    observability_level = config.observability_level or ("control" if config.mode == "uninstrumented" else "thin")
     return {
         "schema_version": "cr6.run-config.v1",
         "run_id": config.experiment_id,
@@ -126,6 +142,12 @@ def _resolved_config(config: RunnerConfig, layout: ArtifactLayout, argv: list[st
         "command_hash": command_hash(argv),
         "output_dir": str(layout.directory),
         "settings": raw,
+        "observability_level": observability_level,
+        "profilers_enabled": list(config.profilers_enabled),
+        "instrumentation_version": config.instrumentation_version,
+        "vllm_metrics_available": list(config.vllm_metrics_available),
+        "dcgm_metrics_available": list(config.dcgm_metrics_available),
+        "hardware_manifest": dict(config.hardware_manifest),
         "revisions": {
             "model": config.model_revision,
             "swe_agent": config.swe_agent_revision,

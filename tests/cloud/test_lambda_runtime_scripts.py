@@ -49,6 +49,7 @@ class LambdaRuntimeScriptTests(unittest.TestCase):
     def test_health_contract_uses_metrics_endpoint_not_chat_metrics(self):
         text = RUNTIME[4].read_text(encoding="utf-8")
         self.assertIn("/metrics", text); self.assertIn("vllm:request_success_total", text); self.assertIn("tool-parser failure", text); self.assertIn("telemetry-contract failure", text); self.assertNotIn('d.get("metrics")', text)
+        self.assertIn("vllm:e2e_request_latency_seconds_(bucket|count|sum)", text)
 
     def test_atomic_gpu_lease_and_resolved_config_are_explicit(self):
         text = RUNTIME[3].read_text(encoding="utf-8")

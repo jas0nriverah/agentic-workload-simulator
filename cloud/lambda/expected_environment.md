@@ -64,3 +64,14 @@ one-instance report.
 The current development environment is macOS arm64 without CUDA/Docker; it
 cannot prove these host-only conditions. No H100 empirical result is claimed
 until the recorded reports exist.
+
+## Optional observability capabilities
+
+The first session requires only the parsed vLLM `/metrics` contract and the
+existing coarse `nvidia-smi` sample. `probe_runtime.py` may discover DCGM field
+IDs, Nsight Systems, strace, py-spy, and the pinned `vllm bench serve` CLI
+without installing anything. If explicit DCGM fields are supplied to the
+interval collector, the raw DCGM sample is used and nvidia-smi is retained as
+the fallback. Missing optional tools are recorded as `unavailable` and do not
+block the first trajectory. Level-2 profiling, calibration, observed peak
+memory, and Perfetto export remain separate, post-result validations.

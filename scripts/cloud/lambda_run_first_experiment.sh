@@ -189,88 +189,20 @@ run_thin_observer() {
   sample_count="$(wc -l < "$output" 2>/dev/null | tr -d ' ')"
   [[ "$sample_count" =~ ^[0-9]+$ ]] || sample_count=0
   while kill -0 "$agent_pid" 2>/dev/null; do
-    python3 - "$output" "$RAW_DIR/telemetry_scrapes.jsonl" "$EXPERIMENT_ID" "$ID" "$ATTEMPT_ID" "$METRICS_URL" "$sample_count" <<'PY'
-import json, os, re, subprocess, sys, time, urllib.request, uuid
-
-events_path, scrape_path, run_id, instance_id, attempt_id, metrics_url, seq = sys.argv[1:]
-seq = int(seq)
-mono = time.monotonic_ns()
-utc = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
-metrics = {}
-metrics_error = None
-try:
-    raw = urllib.request.urlopen(metrics_url, timeout=3).read().decode("utf-8", "replace")
-    wanted = {
-        "vllm:request_success_total",
-        "vllm:prompt_tokens_total",
-        "vllm:generation_tokens_total",
-        "vllm:e2e_request_latency_seconds",
-    }
-    for line in raw.splitlines():
-        if not line or line.startswith("#"):
-            continue
-        match = re.match(r"^([^\s{]+)(?:\{[^}]*\})?\s+([-+0-9.eE]+)$", line)
-        if match and (match.group(1) in wanted or match.group(1).startswith("vllm:e2e_request_latency_seconds_")):
-            try:
-                metrics[match.group(1)] = float(match.group(2))
-            except ValueError:
-                pass
-except Exception as exc:
-    metrics_error = type(exc).__name__
-gpu = {}
-gpu_error = None
-try:
-    proc = subprocess.run(
-        ["nvidia-smi", "--query-gpu=name,memory.used,utilization.gpu", "--format=csv,noheader,nounits"],
-        check=True, capture_output=True, text=True, timeout=3,
-    )
-    parts = [part.strip() for part in proc.stdout.strip().split(",")]
-    if len(parts) >= 3:
-        gpu = {"name": parts[0], "memory_used_mib": float(parts[1]), "utilization_gpu_pct": float(parts[2])}
-except Exception as exc:
-    gpu_error = type(exc).__name__
-provenance = "measured" if metrics or gpu else "unavailable"
-row = {
-    "schema_version": "cr6.telemetry.v1", "seq": seq, "event_id": f"event-{uuid.uuid4().hex}",
-    "run_id": run_id, "attempt_id": attempt_id, "instance_id": instance_id,
-    "event_type": "telemetry_sample", "request_id": None, "action_id": None, "step_id": None,
-    "start_mono_ns": mono, "end_mono_ns": mono, "duration_ms": 0.0, "utc_recorded": utc,
-    "provenance": provenance,
-    "payload": {
-        "correlation_scope": "run_interval", "metrics_endpoint": metrics_url,
-        "metrics": metrics, "gpu": gpu, "metrics_error": metrics_error, "gpu_error": gpu_error,
-    },
-}
-encoded = (json.dumps(row, sort_keys=True, separators=(",", ":")) + "\n").encode()
-for path in (events_path, scrape_path):
-    fd = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_APPEND, 0o640)
-    try:
-        os.write(fd, encoded); os.fsync(fd)
-    finally:
-        os.close(fd)
-PY
+    python3 "$ROOT/scripts/observability/collect_interval.py" \
+      --metrics-url "$METRICS_URL" --events "$output" \
+      --scrapes "$RAW_DIR/telemetry_scrapes.jsonl" --run-id "$EXPERIMENT_ID" \
+      --instance-id "$ID" --attempt-id "$ATTEMPT_ID" --seq "$sample_count" || true
     sample_count=$((sample_count + 1))
     sleep "$TELEMETRY_INTERVAL_SECONDS"
   done
-  # Capture one final interval even if the agent completed before the first
-  # loop tick; unavailable fields remain explicitly marked as such.
-  python3 - "$output" "$RAW_DIR/telemetry_scrapes.jsonl" "$EXPERIMENT_ID" "$ID" "$ATTEMPT_ID" "$METRICS_URL" "$sample_count" <<'PY'
-import json, os, sys, time, urllib.request, uuid
-events_path, scrape_path, run_id, instance_id, attempt_id, metrics_url, seq = sys.argv[1:]
-try:
-    raw = urllib.request.urlopen(metrics_url, timeout=3).read().decode("utf-8", "replace")
-    metrics = {"raw_sha256": __import__("hashlib").sha256(raw.encode()).hexdigest(), "bytes": len(raw.encode())}
-    provenance = "measured"
-except Exception as exc:
-    metrics = {"error": type(exc).__name__}; provenance = "unavailable"
-now = time.monotonic_ns()
-row = {"schema_version":"cr6.telemetry.v1","seq":int(seq),"event_id":f"event-{uuid.uuid4().hex}","run_id":run_id,"attempt_id":attempt_id,"instance_id":instance_id,"event_type":"telemetry_sample","request_id":None,"action_id":None,"step_id":None,"start_mono_ns":now,"end_mono_ns":now,"duration_ms":0.0,"utc_recorded":time.strftime("%Y-%m-%dT%H:%M:%SZ",time.gmtime()),"provenance":provenance,"payload":{"correlation_scope":"run_interval","metrics_endpoint":metrics_url,"metrics":metrics,"gpu":{},"final":True}}
-encoded=(json.dumps(row,sort_keys=True,separators=(",",":"))+"\n").encode()
-for path in (events_path, scrape_path):
-    fd=os.open(path,os.O_WRONLY|os.O_CREAT|os.O_APPEND,0o640)
-    try: os.write(fd,encoded); os.fsync(fd)
-    finally: os.close(fd)
-PY
+  # Capture one final full snapshot even if the agent completed before the
+  # first loop tick; per-field failures remain explicitly unavailable.
+  python3 "$ROOT/scripts/observability/collect_interval.py" \
+    --metrics-url "$METRICS_URL" --events "$output" \
+    --scrapes "$RAW_DIR/telemetry_scrapes.jsonl" --run-id "$EXPERIMENT_ID" \
+    --instance-id "$ID" --attempt-id "$ATTEMPT_ID" --seq "$sample_count" \
+    --snapshot-kind final || true
   printf '%s\n' "$((sample_count + 1))" > "$RAW_DIR/telemetry_sample_count"
 }
 
@@ -292,6 +224,16 @@ config = {
     "swe_agent_revision": swe, "swe_bench_revision": bench,
     "model_revision": model, "command_hash": argv_hash,
     "provenance": "measured", "command": command,
+    "observability_level": "control" if mode == "uninstrumented" else "thin",
+    "profilers_enabled": [] if mode == "uninstrumented" else ["vllm_prometheus_interval", "nvidia_smi_interval"],
+    "instrumentation_version": "obs-1",
+    "vllm_metrics_available": [],
+    "dcgm_metrics_available": [],
+    "measurement_rules": {
+        "native_vllm_scope": "server_aggregate",
+        "request_id_from_native_metrics": False,
+        "gpu_time_from_nvidia_smi": False,
+    },
 }
 config_path = root / "config.json"
 encoded = json.dumps(config, indent=2, sort_keys=True) + "\n"
@@ -311,6 +253,15 @@ if not counters.exists():
     counters.write_text(json.dumps({"schema_version": "cr6.artifact.v1", "status": "unavailable", "provenance": "unavailable", "reason": "counter export requires pinned telemetry interface"}, sort_keys=True) + "\n")
 PY
 
+if [[ "$MODE" == thin-telemetry ]]; then
+  # Take the cumulative server snapshot immediately before the agent starts;
+  # healthcheck traffic is thereby excluded from this attempt's delta.
+  python3 "$ROOT/scripts/observability/scrape_vllm.py" \
+    --url "$METRICS_URL" --output "$RAW_DIR/vllm_metrics_start.json" \
+    --raw-output "$RAW_DIR/vllm_metrics_start.prom" --run-id "$EXPERIMENT_ID" \
+    --attempt-id "$ATTEMPT_ID" --snapshot-kind start --scope run_interval || true
+fi
+
 echo "running direct SWE-agent mode=$MODE instance=$ID"
 set +e
 started_ns="$(python3 -c 'import time; print(time.monotonic_ns())')"
@@ -326,7 +277,24 @@ else
   run_limited "$TIMEOUT_SECONDS" bash -c "$COMMAND" > >(tee -a "$AGENT_LOG") 2>&1
   agent_rc=$?
 fi
+if [[ "$MODE" == thin-telemetry ]]; then
+  # End the aggregate window before the official evaluator starts.
+  python3 "$ROOT/scripts/observability/scrape_vllm.py" \
+    --url "$METRICS_URL" --output "$RAW_DIR/vllm_metrics_end.json" \
+    --raw-output "$RAW_DIR/vllm_metrics_end.prom" --run-id "$EXPERIMENT_ID" \
+    --attempt-id "$ATTEMPT_ID" --snapshot-kind end --scope run_interval || true
+  if [[ -s "$RAW_DIR/vllm_metrics_start.json" && -s "$RAW_DIR/vllm_metrics_end.json" ]]; then
+    python3 "$ROOT/scripts/observability/derive_vllm_delta.py" \
+      --before "$RAW_DIR/vllm_metrics_start.json" --after "$RAW_DIR/vllm_metrics_end.json" \
+      --output "$RAW_DIR/vllm_metrics_delta.json" || true
+  fi
+fi
+# The trajectory timing boundary closes before the official evaluator starts.
+# Evaluator wall time is recorded separately and is never included in E2E.
+ended_ns="$(python3 -c 'import time; print(time.monotonic_ns())')"
 eval_rc="unavailable"
+evaluator_started_ns=""
+evaluator_ended_ns=""
 if ((agent_rc == 0)); then
   echo "running official generated-prediction evaluation (separate runtime)"
   # SWE-bench v4.1.0 writes its final report in the evaluator process's
@@ -334,10 +302,11 @@ if ((agent_rc == 0)); then
   # not relocate that final JSON. Run in the isolated per-attempt directory
   # so the official report is captured with the raw trajectory.
   mkdir -p -- "$EVALUATOR_REPORT_DIR"
+  evaluator_started_ns="$(python3 -c 'import time; print(time.monotonic_ns())')"
   run_limited "$EVALUATOR_TIMEOUT_SECONDS" bash -c "cd -- \"$EVALUATOR_REPORT_DIR\" && $EVALUATOR" > >(tee -a "$EVAL_LOG") 2>&1
   eval_rc=$?
+  evaluator_ended_ns="$(python3 -c 'import time; print(time.monotonic_ns())')"
 fi
-ended_ns="$(python3 -c 'import time; print(time.monotonic_ns())')"
 set -e
 if [[ -n "$PREDICTION_PATH" && -f "$PREDICTION_PATH" ]] && grep -q '"status": "unavailable"' "$RAW_DIR/prediction.json" 2>/dev/null; then
   cp -- "$PREDICTION_PATH" "$RAW_DIR/prediction.json"
@@ -350,9 +319,9 @@ if [[ -d "$EVALUATOR_REPORT_DIR" ]]; then
   mkdir -p -- "$RAW_DIR/evaluator_report"
   cp -a -- "$EVALUATOR_REPORT_DIR/." "$RAW_DIR/evaluator_report/"
 fi
-python3 - "$RAW_DIR/eval.json" "$eval_rc" "$EVALUATOR" "$EVALUATOR_REPORT_DIR" "$RAW_DIR/evaluator_report" <<'PY'
+python3 - "$RAW_DIR/eval.json" "$eval_rc" "$EVALUATOR" "$EVALUATOR_REPORT_DIR" "$RAW_DIR/evaluator_report" "$evaluator_started_ns" "$evaluator_ended_ns" <<'PY'
 import hashlib, json, pathlib, sys
-path, result, command, report_dir, report_snapshot = sys.argv[1:]
+path, result, command, report_dir, report_snapshot, evaluator_started_ns, evaluator_ended_ns = sys.argv[1:]
 status = "unavailable" if result == "unavailable" else ("completed" if result == "0" else ("timeout" if result in {"124", "137"} else "failed"))
 report_files = sorted(str(item.relative_to(pathlib.Path(report_snapshot))) for item in pathlib.Path(report_snapshot).rglob("*") if item.is_file()) if pathlib.Path(report_snapshot).is_dir() else []
 pathlib.Path(path).write_text(json.dumps({
@@ -363,6 +332,9 @@ pathlib.Path(path).write_text(json.dumps({
     "report_dir": report_dir,
     "report_snapshot": "evaluator_report",
     "report_files": report_files,
+    "evaluator_started_mono_ns": int(evaluator_started_ns) if evaluator_started_ns else None,
+    "evaluator_ended_mono_ns": int(evaluator_ended_ns) if evaluator_ended_ns else None,
+    "trajectory_timing_excluded": True,
     "runtime_excluded_from_trajectory": True,
 }, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 PY
@@ -376,9 +348,9 @@ if path.exists():
 measured = sum(1 for row in rows if row.get("event_type") == "telemetry_sample" and row.get("provenance") == "measured")
 samples = sum(1 for row in rows if row.get("event_type") == "telemetry_sample")
 if mode == "thin-telemetry" and measured:
-    obj = {"schema_version":"cr6.telemetry-contract.v1","status":"measured","provenance":"measured","sample_count":samples,"measured_sample_count":measured,"correlation_scope":"run_interval","request_mutation":False}
+    obj = {"schema_version":"obs.telemetry-contract.v2","status":"measured","provenance":"measured","sample_count":samples,"measured_sample_count":measured,"correlation_scope":"run_interval","request_mutation":False,"native_vllm_scope":"server_aggregate","native_vllm_request_correlation":False,"snapshot_paths":["vllm_metrics_start.json","vllm_metrics_end.json","vllm_metrics_delta.json"]}
 else:
-    obj = {"schema_version":"cr6.telemetry-contract.v1","status":"unavailable","provenance":"unavailable","sample_count":samples,"measured_sample_count":measured,"reason":"control run or no successful Prometheus/GPU interval sample","request_mutation":False}
+    obj = {"schema_version":"obs.telemetry-contract.v2","status":"unavailable","provenance":"unavailable","sample_count":samples,"measured_sample_count":measured,"reason":"control run or no complete Prometheus/GPU interval sample","request_mutation":False,"native_vllm_scope":"server_aggregate","native_vllm_request_correlation":False}
 pathlib.Path(out).write_text(json.dumps(obj, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 PY
 python3 - "$RAW_DIR/summary.json" "$EXPERIMENT_ID" "$ID" "$ATTEMPT_ID" "$MODE" "$agent_rc" "$eval_rc" "$started_ns" "$ended_ns" <<'PY'
@@ -417,6 +389,12 @@ pathlib.Path(manifest_path).write_text(json.dumps({
     "evaluator_command_sha256":hashlib.sha256(evaluator.encode()).hexdigest(),
     "summary_sha256":hashlib.sha256(pathlib.Path(summary_path).read_bytes()).hexdigest(),
     "provenance":"measured",
+    "observability_level":"control" if summary["mode"] == "uninstrumented" else "thin",
+    "profilers_enabled":[] if summary["mode"] == "uninstrumented" else ["vllm_prometheus_interval", "nvidia_smi_interval"],
+    "instrumentation_version":"obs-1",
+    "native_vllm_metrics_scope":"server_aggregate",
+    "native_vllm_request_correlation":False,
+    "nvidia_smi_is_gpu_time":False,
 }, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 PY
 echo "first experiment status: agent_rc=$agent_rc evaluator_rc=$eval_rc artifacts=$RAW_DIR logs=$LOG_DIR"

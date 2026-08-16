@@ -7,6 +7,19 @@ from agentic_sim.telemetry import ThinTelemetry
 
 
 class ThinTelemetryTests(unittest.TestCase):
+    def test_run_manifest_redacts_credential_like_hardware_metadata(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            ThinTelemetry(
+                tmp,
+                run_id="run-1",
+                hardware_manifest={"gpu": "H100", "api_key": "do-not-write", "nested": {"token": "secret"}},
+            )
+            manifest = json.loads((Path(tmp) / "run_manifest.json").read_text())
+            encoded = json.dumps(manifest)
+            self.assertIn("H100", encoded)
+            self.assertNotIn("do-not-write", encoded)
+            self.assertNotIn("secret", encoded)
+
     def test_model_and_tool_records_are_correlated_and_timed(self):
         with tempfile.TemporaryDirectory() as tmp:
             telemetry = ThinTelemetry(tmp, run_id="run-1", instance_id="i1")

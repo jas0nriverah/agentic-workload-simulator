@@ -121,6 +121,48 @@ an output observer that records interval Prometheus/GPU samples with
 official generated-prediction evaluator is a separate runtime and is excluded
 from trajectory E2E timing.
 
+## Optional observability after the first result
+
+The first session stops after collecting the control and thin attempts. Only
+after those artifacts are reviewed may an explicitly authorized later gate use
+the additive helpers below; none changes the frozen model, SWE-agent command,
+or baseline path:
+
+```bash
+python3 scripts/observability/probe_runtime.py \
+  --output /home/ubuntu/agentic-work/artifacts/manifests/observability_capabilities.json
+python3 scripts/observability/estimate_memory.py \
+  --output /home/ubuntu/agentic-work/artifacts/manifests/memory_estimate.json \
+  --model-revision b2cff646eb4bb1d68355c01b18ae02e7cf42d120 --precision bf16 \
+  --parameter-count 30000000000 --context-length 32768 \
+  --num-layers 48 --num-kv-heads 8 --head-dim 128
+```
+
+The memory report is `estimated`; actual vLLM/H100 fit is authoritative. The
+optional `calibrate_vllm.sh` wrapper is gated by a fresh first-result marker,
+the paid-session gate, and `--allow-calibration`; it uses the exact pinned
+vLLM 0.10.0 `bench serve` flags and is not first-session traffic.
+
+For one selected Step-3 case study only, prepare (or run after the separate
+authorization and capability checks) a deep profile with isolated output:
+
+```bash
+SWE_AGENT_COMMAND="$(sed -n 's/^SWE_AGENT_COMMAND=//p' cloud/lambda/instance_manifest.env)"
+bash scripts/observability/deep_profile.sh --mode strace \
+  --command "$SWE_AGENT_COMMAND" \
+  --output /home/ubuntu/agentic-work/artifacts/profiles/selected.strace \
+  --run-id selected --attempt-id syscall-001 --dry-run
+bash scripts/observability/deep_profile.sh --mode nsys \
+  --command "$SWE_AGENT_COMMAND" \
+  --output /home/ubuntu/agentic-work/artifacts/profiles/selected.nsys-rep \
+  --run-id selected --attempt-id nsys-001 --dry-run
+```
+
+These Level-2 attempts are intrusive and are never mixed into baseline
+latency. Native vLLM metrics remain aggregate server observations; only a
+direct profiler can support a measured GPU-time claim. Perfetto export is a
+deterministic visualization derivative of immutable JSONL and is optional.
+
 ## Export, stop, and termination
 
 Stop expansion at the configured deadline, export before the buffer expires,
@@ -155,3 +197,8 @@ On the local machine, verify the received result archive explicitly:
 - Lite and Verified gold smoke reports;
 - first generated SWE-agent prediction and official evaluation;
 - measured artifact export and checksum verification.
+
+Optional observability validations remain H100-only: actual DCGM field
+discovery, nvidia-smi field support, Nsight/strace permissions, measured
+profiling overhead, vLLM calibration behavior, and real Perfetto traces. Their
+absence does not block the first control trajectory.

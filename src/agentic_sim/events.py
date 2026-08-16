@@ -26,7 +26,10 @@ class EventEnvelope:
     def __post_init__(self) -> None:
         if self.end_time_ns < self.start_time_ns:
             raise ValueError("end_time_ns must be >= start_time_ns")
-        if self.provenance not in {"measured", "derived", "simulated", "unavailable", "dev"}:
+        if self.provenance not in {
+            "measured", "derived", "calibrated", "simulated", "estimated",
+            "unavailable", "dev",
+        }:
             raise ValueError(f"unsupported provenance: {self.provenance}")
 
     @property
