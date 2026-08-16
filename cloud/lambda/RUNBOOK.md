@@ -1,79 +1,126 @@
 # Lambda H100 first-session runbook
 
-This runbook is for the first authorized Lambda Cloud 1x NVIDIA H100 PCIe
-80 GB Ubuntu session. It is deliberately narrow: reach one real SWE-agent /
-SWE-bench experiment with validated artifacts. Do not launch a large batch,
-change the research methodology, publish the repository, or store credentials.
+This is the narrow first paid-session sequence for one Lambda Cloud 1× NVIDIA
+H100 PCIe 80 GB Ubuntu host. It follows the frozen assignment methodology:
+gold-patch evaluator smokes are separate from the generated-prediction
+trajectory, and the uninstrumented control runs before thin telemetry. Do not
+start a five-instance gate until the first generated prediction and evaluator
+artifacts have been inspected.
 
-## Before renting
+The repository is not published by this runbook. Upload the locally reviewed
+`lambda-ready.tar.gz` bundle and its adjacent `.sha256` file to the host; do
+not clone an unreviewed branch. The bundle must be verified locally before
+termination.
 
-1. Confirm the reviewed commit and create `lambda-ready-<commit>.tar.zst` plus
-   its SHA-256 file as a local fallback.
-2. Resolve the Linux x86-64 runtime path and evaluator image manifests before
-   launch. The instance should not compile CUDA extensions from source.
-3. Decide whether a Lambda filesystem is attached in the same region.
-4. Complete `cloud/lambda/cloud_session.yaml` locally with the authorized price,
-   maximum dollars/GPU-hours, maximum gate, export deadline, and termination
-   deadline. This file is untracked and must not contain provider credentials.
-5. Prepare `cloud/lambda/first_experiment.yaml` with the reviewed commit and
-   selected instance IDs.
+## Paid-session gate
 
-## After SSH login
+The copied `cloud/lambda/cloud_session.yaml` is the only authorization input.
+It must contain the user's explicit cap, maximum gate, UTC deadlines, backup
+destination, and confirmation that the user will be available to export and
+terminate. The example is intentionally unauthorized. Run this first; a
+nonzero result means no paid work is allowed:
 
-Run inside a persistent `tmux` session. Replace the repository source with the
-reviewed Git commit or archive; do not use an unreviewed working tree.
+```bash
+cd /home/ubuntu/agentic-workload-simulator
+./scripts/cloud/lambda_session_gate.sh --session cloud/lambda/cloud_session.yaml --gate G3A
+```
+
+This guard checks local state only. It never launches, bills, or terminates a
+provider instance.
+
+## Source and pinned bootstrap
+
+The exact paths below are the reviewed Linux layout. The archive transfer is
+performed by the user outside the repository; no credentials belong in the
+manifest.
+
+```bash
+mkdir -p /home/ubuntu/agentic-work/source
+tar -xzf /home/ubuntu/lambda-ready.tar.gz -C /home/ubuntu/agentic-work/source
+test -d /home/ubuntu/agentic-work/source/agentic-workload-simulator
+cd /home/ubuntu/agentic-work/source/agentic-workload-simulator
+cp cloud/lambda/instance_manifest.env.example cloud/lambda/instance_manifest.env
+cp cloud/lambda/cloud_session.yaml.example cloud/lambda/cloud_session.yaml
+$EDITOR cloud/lambda/instance_manifest.env
+$EDITOR cloud/lambda/cloud_session.yaml
+./scripts/cloud/lambda_session_gate.sh --session cloud/lambda/cloud_session.yaml --gate G3A
+./scripts/cloud/lambda_preflight.sh --manifest cloud/lambda/instance_manifest.env --output /home/ubuntu/agentic-work/artifacts/manifests/lambda_preflight.json
+./scripts/cloud/lambda_bootstrap.sh --manifest cloud/lambda/instance_manifest.env --dry-run
+./scripts/cloud/lambda_bootstrap.sh --manifest cloud/lambda/instance_manifest.env --resume
+```
+
+`lambda_bootstrap.sh --resume` installs the pinned SWE-agent and SWE-bench
+source revisions into `/home/ubuntu/agentic-work/venv`, downloads the pinned
+model and selected dataset rows, and pulls only the three selected evaluator
+images by digest. It must finish with all stage markers validated.
+
+Before starting the server, provide `VLLM_API_KEY` through the process
+environment or the host's approved secret mechanism. Do not put the real key
+in `instance_manifest.env`, the session file, shell history, or collected
+artifacts; the committed placeholder is intentionally not a credential.
+
+## vLLM health gate
+
+Run the server and health check in a persistent session. The launcher acquires
+the recorded GPU-0 lease atomically and starts only the pinned amd64 image.
 
 ```bash
 tmux new -s agentic
-git clone <reviewed-repository-source> /home/ubuntu/agentic-workload-simulator
-cd /home/ubuntu/agentic-workload-simulator
-cp cloud/lambda/instance_manifest.env.example cloud/lambda/instance_manifest.env
-$EDITOR cloud/lambda/instance_manifest.env
-cp cloud/lambda/cloud_session.yaml.example cloud/lambda/cloud_session.yaml
-$EDITOR cloud/lambda/cloud_session.yaml
-./scripts/cloud/lambda_preflight.sh
-./scripts/cloud/lambda_bootstrap.sh --dry-run
-./scripts/cloud/lambda_bootstrap.sh --resume
-./scripts/cloud/lambda_start_vllm.sh
-./scripts/cloud/lambda_healthcheck.sh
+cd /home/ubuntu/agentic-work/source/agentic-workload-simulator
+./scripts/cloud/lambda_start_vllm.sh --manifest cloud/lambda/instance_manifest.env
+./scripts/cloud/lambda_healthcheck.sh --manifest cloud/lambda/instance_manifest.env --work-root /home/ubuntu/agentic-work
 ```
 
-The scripts must fail closed if billing authorization, GPU capability, disk,
-ports, or required dependencies are not valid. Never paste secrets into shell
-history or repository files.
+The health check requires a normal completion, a parsed `qwen3_coder` tool
+call, the native vLLM Prometheus counters at `/metrics`, and an `nvidia-smi`
+sample. A failure is classified as server, tool-parser, or telemetry-contract;
+chat response fields never substitute for Prometheus metrics.
 
-## First experiment sequence
+## Gold and first generated experiment
 
-Gold-patch evaluator smoke is an independent prerequisite and may run beside
-the model path. It does not replace the generated-prediction evaluation.
+Run each gold smoke independently, then the first Lite task in control mode and
+thin-telemetry mode. The commands use the exact selected IDs and local
+one-row dataset files from the bootstrap manifest.
 
 ```bash
-./scripts/cloud/lambda_run_gold_smoke.sh
-./scripts/cloud/lambda_run_first_experiment.sh --mode uninstrumented
-./scripts/cloud/lambda_collect_results.sh --experiment-id "$EXPERIMENT_ID"
-./scripts/cloud/lambda_run_first_experiment.sh --mode thin-telemetry
-./scripts/cloud/lambda_collect_results.sh --experiment-id "$EXPERIMENT_ID"
+./scripts/cloud/lambda_run_gold_smoke.sh --manifest cloud/lambda/instance_manifest.env --suite lite
+./scripts/cloud/lambda_run_gold_smoke.sh --manifest cloud/lambda/instance_manifest.env --suite verified
+
+./scripts/cloud/lambda_run_first_experiment.sh --manifest cloud/lambda/instance_manifest.env --instance-id astropy__astropy-12907 --experiment-id first-lite-astropy__astropy-12907 --mode uninstrumented
+./scripts/cloud/lambda_collect_results.sh --source-root /home/ubuntu/agentic-work/data/raw/first-lite-astropy__astropy-12907 --output-dir /home/ubuntu/agentic-work/export --run-id first-lite-astropy__astropy-12907-control
+
+./scripts/cloud/lambda_run_first_experiment.sh --manifest cloud/lambda/instance_manifest.env --instance-id astropy__astropy-12907 --experiment-id first-lite-astropy__astropy-12907 --mode thin-telemetry --attempt-id attempt-002
+./scripts/cloud/lambda_collect_results.sh --source-root /home/ubuntu/agentic-work/data/raw/first-lite-astropy__astropy-12907 --output-dir /home/ubuntu/agentic-work/export --run-id first-lite-astropy__astropy-12907-thin --snapshot
 ```
 
-The first real trajectory is uninstrumented first, then thinly instrumented
-only after the direct path produces a valid prediction. Do not start the
-five-instance gate until the root verifies both runs and evaluator outputs.
+The two attempts share the same reviewed SWE-agent command; thin telemetry is
+an output observer that records interval Prometheus/GPU samples with
+`correlation_scope=run_interval` and never wraps or mutates requests. The
+official generated-prediction evaluator is a separate runtime and is excluded
+from trajectory E2E timing.
 
-## Disconnects, limits, and export
+## Export, stop, and termination
 
-- Keep servers/runners inside `tmux`; preserve stdout/stderr paths.
-- The host-side scripts stop launching new work at the configured UTC deadline.
-- Warnings at 50/75/90% are written to console, log, and state; they are not
-  guaranteed to be seen.
-- Stopping vLLM, closing SSH, or `shutdown -h` does not terminate Lambda billing.
-- At `begin_export_utc`, stop expansion and run collection.
-- The user's local machine initiates `rsync` and runs
-  `verify_lambda_archive_local.sh` against the SHA-256 manifest.
-- At `hard_console_termination_utc`, the user terminates the VM in the Lambda
-  console. Persistent filesystem retention/deletion is a separate decision.
+Stop expansion at the configured deadline, export before the buffer expires,
+verify the received archive locally, then stop project workloads. Stopping
+vLLM or closing SSH does not stop Lambda billing.
 
-## Official references
+```bash
+./scripts/cloud/lambda_collect_results.sh --source-root /home/ubuntu/agentic-work/data/raw --output-dir /home/ubuntu/agentic-work/export --run-id first-session-final --snapshot
+./scripts/cloud/lambda_stop_workloads.sh --work-root /home/ubuntu/agentic-work --server-manifest /home/ubuntu/agentic-work/artifacts/manifests/vllm_server.json --dry-run
+```
 
-- https://lambda.ai/instances
-- https://docs.lambda.ai/public-cloud/console/
-- https://docs.lambda.ai/public-cloud/access-security/
+The user initiates the local `rsync` printed by collection, runs
+`verify_lambda_archive_local.sh` against the received `.tar.gz` and `.sha256`,
+and terminates the VM in the Lambda console at
+`hard_console_termination_utc`. Persistent filesystem retention or deletion is
+a separate authorized decision and is never automatic.
+
+## H100-only validations still required
+
+- Ubuntu x86-64/H100 preflight and model fit;
+- vLLM normal completion, parsed tool call, and native `/metrics` counters;
+- exact amd64 evaluator image availability at all three digests;
+- Lite and Verified gold smoke reports;
+- first generated SWE-agent prediction and official evaluation;
+- measured artifact export and checksum verification.

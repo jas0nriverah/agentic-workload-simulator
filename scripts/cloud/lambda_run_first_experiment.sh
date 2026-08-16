@@ -1,8 +1,372 @@
 #!/usr/bin/env bash
 set -Eeuo pipefail
-ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/../.." && pwd)"; MANIFEST="${LAMBDA_MANIFEST:-$ROOT/cloud/lambda/instance_manifest.env}"; WORK_ROOT="${WORK_ROOT:-$ROOT/../agentic-work}"; DRY=0; ID=''; MODE=uninstrumented; LOG_DIR="$WORK_ROOT/logs/first-experiment"
-prev=''; for a in "$@"; do case "$a" in --dry-run) DRY=1;; --manifest) :;; --manifest=*) MANIFEST="${a#*=}";; --instance-id) :;; --instance-id=*) ID="${a#*=}";; --mode) :;; --mode=*) MODE="${a#*=}";; --work-root) :;; --work-root=*) WORK_ROOT="${a#*=}";; --log-dir) :;; --log-dir=*) LOG_DIR="${a#*=}";; -h|--help) echo 'Usage: lambda_run_first_experiment.sh [--manifest FILE] [--instance-id ID] [--mode uninstrumented|thin-telemetry] [--work-root DIR] [--dry-run]'; exit 0;; *) if [[ "$prev" == --manifest ]]; then MANIFEST="$a"; elif [[ "$prev" == --instance-id ]]; then ID="$a"; elif [[ "$prev" == --mode ]]; then MODE="$a"; elif [[ "$prev" == --work-root ]]; then WORK_ROOT="$a"; elif [[ "$prev" == --log-dir ]]; then LOG_DIR="$a"; else echo "unknown argument: $a" >&2; exit 2; fi;; esac; prev="$a"; done
-if [[ -f "$MANIFEST" ]]; then while IFS= read -r line || [[ -n "$line" ]]; do line="${line%%#*}"; key="${line%%=*}"; val="${line#*=}"; [[ "$key" == FIRST_LITE_INSTANCE_ID && -z "$ID" ]] && ID="$val"; done <"$MANIFEST"; fi
-case "$MODE" in uninstrumented) COMMAND="${SWE_AGENT_COMMAND:-}";; thin-telemetry) COMMAND="${SWE_AGENT_TELEMETRY_COMMAND:-}";; *) echo 'mode must be uninstrumented or thin-telemetry' >&2; exit 2;; esac
-if ((DRY)); then echo "DRY-RUN: validate vLLM, run one $MODE Lite instance ${ID:-<configured instance>}, then run the official evaluator; no work executes."; exit 0; fi
-[[ -n "$ID" ]] || { echo 'FIRST_LITE_INSTANCE_ID/--instance-id is required' >&2; exit 1; }; [[ -n "$COMMAND" ]] || { echo "command for mode $MODE is required" >&2; exit 1; }; [[ -n "${EVALUATE_COMMAND:-}" ]] || { echo 'EVALUATE_COMMAND must be the reviewed official evaluator command' >&2; exit 1; }; mkdir -p -- "$LOG_DIR"; export FIRST_LITE_INSTANCE_ID="$ID"; echo "running $MODE instance $ID"; bash -c "$COMMAND" 2>&1 | tee "$LOG_DIR/$ID.$MODE.agent.log"; echo 'running official evaluation'; bash -c "$EVALUATE_COMMAND" 2>&1 | tee "$LOG_DIR/$ID.$MODE.evaluation.log"; echo "first experiment complete; artifacts=$LOG_DIR"
+
+# Execute one reviewed SWE-agent command. This wrapper owns isolation, logs,
+# and evaluator handoff; it does not implement or replace SWE-agent.
+ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/../.." && pwd)"
+MANIFEST="${LAMBDA_MANIFEST:-$ROOT/cloud/lambda/instance_manifest.env}"
+WORK_ROOT_WAS_SET=0
+[[ -n "${WORK_ROOT+x}" ]] && WORK_ROOT_WAS_SET=1
+WORK_ROOT="${WORK_ROOT:-$ROOT/../agentic-work}"
+LOG_DIR=""
+ID=""
+MODE="uninstrumented"
+EXPERIMENT_ID=""
+DRY=0
+RESUME=0
+
+usage() {
+  echo 'Usage: lambda_run_first_experiment.sh [--manifest FILE] [--instance-id ID] [--experiment-id ID] [--attempt-id ID] [--mode uninstrumented|thin-telemetry] [--work-root DIR] [--log-dir DIR] [--resume] [--dry-run]'
+}
+
+while (($#)); do
+  case "$1" in
+    --dry-run) DRY=1; shift;;
+    --resume) RESUME=1; shift;;
+    --manifest) [[ $# -ge 2 ]] || { echo '--manifest requires a file' >&2; exit 2; }; MANIFEST="$2"; shift 2;;
+    --manifest=*) MANIFEST="${1#*=}"; shift;;
+    --instance-id) [[ $# -ge 2 ]] || { echo '--instance-id requires an ID' >&2; exit 2; }; ID="$2"; shift 2;;
+    --instance-id=*) ID="${1#*=}"; shift;;
+    --experiment-id) [[ $# -ge 2 ]] || { echo '--experiment-id requires an ID' >&2; exit 2; }; EXPERIMENT_ID="$2"; shift 2;;
+    --experiment-id=*) EXPERIMENT_ID="${1#*=}"; shift;;
+    --attempt-id) [[ $# -ge 2 ]] || { echo '--attempt-id requires an ID' >&2; exit 2; }; ATTEMPT_ID="$2"; shift 2;;
+    --attempt-id=*) ATTEMPT_ID="${1#*=}"; shift;;
+    --mode) [[ $# -ge 2 ]] || { echo '--mode requires a value' >&2; exit 2; }; MODE="$2"; shift 2;;
+    --mode=*) MODE="${1#*=}"; shift;;
+    --work-root) [[ $# -ge 2 ]] || { echo '--work-root requires a directory' >&2; exit 2; }; WORK_ROOT="$2"; WORK_ROOT_WAS_SET=1; shift 2;;
+    --work-root=*) WORK_ROOT="${1#*=}"; WORK_ROOT_WAS_SET=1; shift;;
+    --log-dir) [[ $# -ge 2 ]] || { echo '--log-dir requires a directory' >&2; exit 2; }; LOG_DIR="$2"; shift 2;;
+    --log-dir=*) LOG_DIR="${1#*=}"; shift;;
+    -h|--help) usage; exit 0;;
+    *) echo "unknown argument: $1" >&2; usage >&2; exit 2;;
+  esac
+done
+
+# Read only manifest keys; never source a cloud file that may contain secrets.
+manifest_value() {
+  local wanted="$1" line key value
+  [[ -f "$MANIFEST" ]] || return 0
+  while IFS= read -r line || [[ -n "$line" ]]; do
+    line="${line%%#*}"
+    [[ "$line" == *=* ]] || continue
+    key="${line%%=*}"; value="${line#*=}"
+    [[ "$key" == "$wanted" ]] && { printf '%s' "$value"; return 0; }
+  done <"$MANIFEST"
+  return 0
+}
+
+if (( ! WORK_ROOT_WAS_SET )); then
+  manifest_work_root="$(manifest_value WORK_ROOT)"
+  [[ -n "$manifest_work_root" ]] && WORK_ROOT="$manifest_work_root"
+fi
+
+[[ -n "$ID" ]] || ID="$(manifest_value FIRST_LITE_INSTANCE_ID)"
+[[ -n "$EXPERIMENT_ID" ]] || EXPERIMENT_ID="$(manifest_value EXPERIMENT_ID)"
+[[ -n "$EXPERIMENT_ID" ]] || EXPERIMENT_ID="first-lite-${ID:-unconfigured}"
+[[ -n "$LOG_DIR" ]] || LOG_DIR="$WORK_ROOT/logs/first-experiment/$EXPERIMENT_ID/$ID"
+
+case "$MODE" in
+  uninstrumented) COMMAND="${SWE_AGENT_COMMAND:-$(manifest_value SWE_AGENT_COMMAND)}";;
+  thin-telemetry) COMMAND="${SWE_AGENT_TELEMETRY_COMMAND:-$(manifest_value SWE_AGENT_TELEMETRY_COMMAND)}";;
+  *) echo 'mode must be uninstrumented or thin-telemetry' >&2; exit 2;;
+esac
+EVALUATOR="${EVALUATE_COMMAND:-$(manifest_value EVALUATE_COMMAND)}"
+SWE_AGENT_REVISION="${SWE_AGENT_REVISION:-$(manifest_value SWE_AGENT_REVISION)}"
+SWE_BENCH_REVISION="${SWE_BENCH_REVISION:-$(manifest_value SWE_BENCH_REVISION)}"
+MODEL_REVISION="${VLLM_MODEL_REVISION:-$(manifest_value VLLM_MODEL_REVISION)}"
+ATTEMPT_ID="${ATTEMPT_ID:-$(manifest_value ATTEMPT_ID)}"
+PREDICTION_PATH="${PREDICTION_PATH:-$(manifest_value PREDICTION_PATH)}"
+TIMEOUT_SECONDS="${FIRST_EXPERIMENT_TIMEOUT_SECONDS:-$(manifest_value FIRST_EXPERIMENT_TIMEOUT_SECONDS)}"
+[[ -n "$TIMEOUT_SECONDS" ]] || TIMEOUT_SECONDS=7200
+[[ -n "$ATTEMPT_ID" ]] || ATTEMPT_ID="attempt-001"
+METRICS_URL="${VLLM_METRICS_URL:-$(manifest_value VLLM_METRICS_URL)}"
+[[ -n "$METRICS_URL" ]] || METRICS_URL="http://127.0.0.1:8000/metrics"
+TELEMETRY_INTERVAL_SECONDS="${TELEMETRY_INTERVAL_SECONDS:-$(manifest_value TELEMETRY_INTERVAL_SECONDS)}"
+[[ -n "$TELEMETRY_INTERVAL_SECONDS" ]] || TELEMETRY_INTERVAL_SECONDS=1
+EVALUATOR_TIMEOUT_SECONDS="${SWE_BENCH_TIMEOUT_SECONDS:-$(manifest_value SWE_BENCH_TIMEOUT_SECONDS)}"
+[[ -n "$EVALUATOR_TIMEOUT_SECONDS" ]] || EVALUATOR_TIMEOUT_SECONDS=1800
+AGENT_OUTPUT_DIR="${SWE_AGENT_OUTPUT_DIR:-$(manifest_value SWE_AGENT_OUTPUT_DIR)}"
+[[ -n "$AGENT_OUTPUT_DIR" ]] || AGENT_OUTPUT_DIR="$WORK_ROOT/experiments/$EXPERIMENT_ID"
+
+RAW_DIR="$WORK_ROOT/data/raw/$EXPERIMENT_ID/lite/$ID/$ATTEMPT_ID"
+AGENT_LOG="$LOG_DIR/$ID.$MODE.agent.log"
+EVAL_LOG="$LOG_DIR/$ID.$MODE.evaluation.log"
+
+if ((DRY)); then
+  echo "DRY-RUN: direct SWE-agent mode=$MODE instance=${ID:-<configured instance>} experiment=$EXPERIMENT_ID attempt=$ATTEMPT_ID"
+  echo "DRY-RUN: output=$RAW_DIR stdout=$AGENT_LOG stderr=$EVAL_LOG"
+  if [[ -n "$COMMAND" ]]; then echo "DRY-RUN: command=$COMMAND"; else echo 'DRY-RUN: command=<SWE_AGENT_COMMAND required; no command executes>'; fi
+  if [[ -n "$EVALUATOR" ]]; then echo "DRY-RUN: evaluator=$EVALUATOR (runtime is separate from trajectory E2E)"; else echo 'DRY-RUN: evaluator=<EVALUATE_COMMAND required; no command executes>'; fi
+  echo "DRY-RUN: pins swe_agent=${SWE_AGENT_REVISION:-<missing>} swe_bench=${SWE_BENCH_REVISION:-<missing>} model=${MODEL_REVISION:-<missing>} timeout_seconds=$TIMEOUT_SECONDS"
+  exit 0
+fi
+
+[[ -n "$ID" ]] || { echo 'FIRST_LITE_INSTANCE_ID/--instance-id is required' >&2; exit 1; }
+[[ -n "$COMMAND" ]] || { echo "reviewed command for mode $MODE is required (SWE_AGENT_COMMAND or SWE_AGENT_TELEMETRY_COMMAND)" >&2; exit 1; }
+[[ -n "$EVALUATOR" ]] || { echo 'EVALUATE_COMMAND must be the reviewed official generated-prediction evaluator command' >&2; exit 1; }
+if [[ "$COMMAND" == *"VLLM_API_KEY"* && -z "${VLLM_API_KEY:-}" ]]; then
+  echo 'VLLM_API_KEY must be provided through the process environment; it is never read from or sourced from the manifest' >&2
+  exit 1
+fi
+[[ "$TIMEOUT_SECONDS" =~ ^[1-9][0-9]*$ ]] || { echo 'FIRST_EXPERIMENT_TIMEOUT_SECONDS must be a positive integer' >&2; exit 1; }
+[[ "$EVALUATOR_TIMEOUT_SECONDS" =~ ^[1-9][0-9]*$ ]] || { echo 'SWE_BENCH_TIMEOUT_SECONDS must be a positive integer' >&2; exit 1; }
+[[ "$TELEMETRY_INTERVAL_SECONDS" =~ ^[1-9][0-9]*$ ]] || { echo 'TELEMETRY_INTERVAL_SECONDS must be a positive integer' >&2; exit 1; }
+for pin in "$SWE_AGENT_REVISION" "$SWE_BENCH_REVISION" "$MODEL_REVISION"; do
+  [[ "$pin" =~ ^[0-9a-fA-F]{12,64}$ ]] || { echo 'refusing unpinned SWE-agent/SWE-bench/model revision' >&2; exit 1; }
+done
+if [[ "$COMMAND" == *" main "* || "$COMMAND" == *" latest "* || "$COMMAND" == *" master "* ]]; then
+  echo 'refusing floating revision in SWE-agent command' >&2; exit 1
+fi
+for required in 'run-batch' '--instances.type file' '--instances.path' '--agent.model.name' '--agent.model.api_base' '--agent.model.api_key' '--num_workers 1'; do
+  [[ "$COMMAND" == *"$required"* ]] || { echo "reviewed SWE-agent command is missing required contract: $required" >&2; exit 1; }
+done
+[[ "$COMMAND" != *"--instances.split"* ]] || { echo 'file-backed SWE-agent command must not specify an unsupported split flag' >&2; exit 1; }
+[[ "$EVALUATOR" == *"swebench.harness.run_evaluation"* && "$EVALUATOR" == *"--predictions_path"* && "$EVALUATOR" == *"--instance_ids"* ]] || { echo 'reviewed evaluator command is not the official generated-prediction contract' >&2; exit 1; }
+
+run_limited() {
+  local limit="$1"; shift
+  if command -v timeout >/dev/null 2>&1; then
+    timeout --signal=TERM --kill-after=30 "$limit" "$@"
+    return $?
+  fi
+  # macOS/local development lacks GNU timeout. Keep dry-run and fixture
+  # rehearsal safe without weakening the Linux path used for paid runs.
+  "$@" &
+  local child=$! deadline=$((SECONDS + limit))
+  while kill -0 "$child" 2>/dev/null && ((SECONDS < deadline)); do sleep 1; done
+  if kill -0 "$child" 2>/dev/null; then
+    kill -TERM "$child" 2>/dev/null || true
+    sleep 1
+    kill -KILL "$child" 2>/dev/null || true
+    wait "$child" 2>/dev/null || true
+    return 124
+  fi
+  wait "$child"
+}
+
+run_thin_observer() {
+  local agent_pid="$1" output="$RAW_DIR/events.jsonl" sample_count=0
+  touch "$RAW_DIR/telemetry_scrapes.jsonl"
+  sample_count="$(wc -l < "$output" 2>/dev/null | tr -d ' ')"
+  [[ "$sample_count" =~ ^[0-9]+$ ]] || sample_count=0
+  while kill -0 "$agent_pid" 2>/dev/null; do
+    python3 - "$output" "$RAW_DIR/telemetry_scrapes.jsonl" "$EXPERIMENT_ID" "$ID" "$ATTEMPT_ID" "$METRICS_URL" "$sample_count" <<'PY'
+import json, os, re, subprocess, sys, time, urllib.request, uuid
+
+events_path, scrape_path, run_id, instance_id, attempt_id, metrics_url, seq = sys.argv[1:]
+seq = int(seq)
+mono = time.monotonic_ns()
+utc = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
+metrics = {}
+metrics_error = None
+try:
+    raw = urllib.request.urlopen(metrics_url, timeout=3).read().decode("utf-8", "replace")
+    wanted = {
+        "vllm:request_success_total",
+        "vllm:prompt_tokens_total",
+        "vllm:generation_tokens_total",
+        "vllm:e2e_request_latency_seconds",
+    }
+    for line in raw.splitlines():
+        if not line or line.startswith("#"):
+            continue
+        match = re.match(r"^([^\s{]+)(?:\{[^}]*\})?\s+([-+0-9.eE]+)$", line)
+        if match and (match.group(1) in wanted or match.group(1).startswith("vllm:e2e_request_latency_seconds_")):
+            try:
+                metrics[match.group(1)] = float(match.group(2))
+            except ValueError:
+                pass
+except Exception as exc:
+    metrics_error = type(exc).__name__
+gpu = {}
+gpu_error = None
+try:
+    proc = subprocess.run(
+        ["nvidia-smi", "--query-gpu=name,memory.used,utilization.gpu", "--format=csv,noheader,nounits"],
+        check=True, capture_output=True, text=True, timeout=3,
+    )
+    parts = [part.strip() for part in proc.stdout.strip().split(",")]
+    if len(parts) >= 3:
+        gpu = {"name": parts[0], "memory_used_mib": float(parts[1]), "utilization_gpu_pct": float(parts[2])}
+except Exception as exc:
+    gpu_error = type(exc).__name__
+provenance = "measured" if metrics or gpu else "unavailable"
+row = {
+    "schema_version": "cr6.telemetry.v1", "seq": seq, "event_id": f"event-{uuid.uuid4().hex}",
+    "run_id": run_id, "attempt_id": attempt_id, "instance_id": instance_id,
+    "event_type": "telemetry_sample", "request_id": None, "action_id": None, "step_id": None,
+    "start_mono_ns": mono, "end_mono_ns": mono, "duration_ms": 0.0, "utc_recorded": utc,
+    "provenance": provenance,
+    "payload": {
+        "correlation_scope": "run_interval", "metrics_endpoint": metrics_url,
+        "metrics": metrics, "gpu": gpu, "metrics_error": metrics_error, "gpu_error": gpu_error,
+    },
+}
+encoded = (json.dumps(row, sort_keys=True, separators=(",", ":")) + "\n").encode()
+for path in (events_path, scrape_path):
+    fd = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_APPEND, 0o640)
+    try:
+        os.write(fd, encoded); os.fsync(fd)
+    finally:
+        os.close(fd)
+PY
+    sample_count=$((sample_count + 1))
+    sleep "$TELEMETRY_INTERVAL_SECONDS"
+  done
+  # Capture one final interval even if the agent completed before the first
+  # loop tick; unavailable fields remain explicitly marked as such.
+  python3 - "$output" "$RAW_DIR/telemetry_scrapes.jsonl" "$EXPERIMENT_ID" "$ID" "$ATTEMPT_ID" "$METRICS_URL" "$sample_count" <<'PY'
+import json, os, sys, time, urllib.request, uuid
+events_path, scrape_path, run_id, instance_id, attempt_id, metrics_url, seq = sys.argv[1:]
+try:
+    raw = urllib.request.urlopen(metrics_url, timeout=3).read().decode("utf-8", "replace")
+    metrics = {"raw_sha256": __import__("hashlib").sha256(raw.encode()).hexdigest(), "bytes": len(raw.encode())}
+    provenance = "measured"
+except Exception as exc:
+    metrics = {"error": type(exc).__name__}; provenance = "unavailable"
+now = time.monotonic_ns()
+row = {"schema_version":"cr6.telemetry.v1","seq":int(seq),"event_id":f"event-{uuid.uuid4().hex}","run_id":run_id,"attempt_id":attempt_id,"instance_id":instance_id,"event_type":"telemetry_sample","request_id":None,"action_id":None,"step_id":None,"start_mono_ns":now,"end_mono_ns":now,"duration_ms":0.0,"utc_recorded":time.strftime("%Y-%m-%dT%H:%M:%SZ",time.gmtime()),"provenance":provenance,"payload":{"correlation_scope":"run_interval","metrics_endpoint":metrics_url,"metrics":metrics,"gpu":{},"final":True}}
+encoded=(json.dumps(row,sort_keys=True,separators=(",",":"))+"\n").encode()
+for path in (events_path, scrape_path):
+    fd=os.open(path,os.O_WRONLY|os.O_CREAT|os.O_APPEND,0o640)
+    try: os.write(fd,encoded); os.fsync(fd)
+    finally: os.close(fd)
+PY
+  printf '%s\n' "$((sample_count + 1))" > "$RAW_DIR/telemetry_sample_count"
+}
+
+mkdir -p -- "$LOG_DIR" "$RAW_DIR"
+if [[ -e "$RAW_DIR/summary.json" ]] && grep -q '"status": "completed"' "$RAW_DIR/summary.json" 2>/dev/null; then
+  echo "successful attempt exists; use a new ATTEMPT_ID (raw attempts are append-only): $RAW_DIR" >&2
+  exit 1
+fi
+
+export FIRST_LITE_INSTANCE_ID="$ID" EXPERIMENT_ID ATTEMPT_ID AGENTIC_RUN_OUTPUT="$RAW_DIR"
+python3 - "$RAW_DIR" "$EXPERIMENT_ID" "$ID" "$ATTEMPT_ID" "$MODE" "$SWE_AGENT_REVISION" "$SWE_BENCH_REVISION" "$MODEL_REVISION" "$COMMAND" <<'PY'
+import hashlib, json, pathlib, sys
+root, run_id, instance_id, attempt_id, mode, swe, bench, model, command = sys.argv[1:]
+root = pathlib.Path(root)
+argv_hash = hashlib.sha256(command.encode()).hexdigest()
+config = {
+    "schema_version": "cr6.run-config.v1", "run_id": run_id,
+    "instance_id": instance_id, "attempt_id": attempt_id, "mode": mode,
+    "swe_agent_revision": swe, "swe_bench_revision": bench,
+    "model_revision": model, "command_hash": argv_hash,
+    "provenance": "measured", "command": command,
+}
+config_path = root / "config.json"
+encoded = json.dumps(config, indent=2, sort_keys=True) + "\n"
+if config_path.exists():
+    if config_path.read_text() != encoded:
+        raise SystemExit("attempt config already exists with different content; choose a new ATTEMPT_ID")
+else:
+    config_path.write_text(encoded)
+for name in ("events.jsonl", "model_calls.jsonl", "tool_calls.jsonl"):
+    (root / name).touch(exist_ok=True)
+for name, reason in (("prediction.json", "SWE-agent output path is not configured in this wrapper"), ("eval.json", "official evaluator runs separately"), ("summary.json", "run has not completed")):
+    path = root / name
+    if not path.exists():
+        path.write_text(json.dumps({"schema_version": "cr6.artifact.v1", "status": "unavailable", "provenance": "unavailable", "reason": reason}, sort_keys=True) + "\n")
+counters = root / "counters.parquet"
+if not counters.exists():
+    counters.write_text(json.dumps({"schema_version": "cr6.artifact.v1", "status": "unavailable", "provenance": "unavailable", "reason": "counter export requires pinned telemetry interface"}, sort_keys=True) + "\n")
+PY
+
+echo "running direct SWE-agent mode=$MODE instance=$ID"
+set +e
+started_ns="$(python3 -c 'import time; print(time.monotonic_ns())')"
+if [[ "$MODE" == thin-telemetry ]]; then
+  run_limited "$TIMEOUT_SECONDS" bash -c "$COMMAND" > >(tee -a "$AGENT_LOG") 2>&1 &
+  agent_pid=$!
+  run_thin_observer "$agent_pid" &
+  observer_pid=$!
+  wait "$agent_pid"
+  agent_rc=$?
+  wait "$observer_pid" || true
+else
+  run_limited "$TIMEOUT_SECONDS" bash -c "$COMMAND" > >(tee -a "$AGENT_LOG") 2>&1
+  agent_rc=$?
+fi
+eval_rc="unavailable"
+if ((agent_rc == 0)); then
+  echo "running official generated-prediction evaluation (separate runtime)"
+  run_limited "$EVALUATOR_TIMEOUT_SECONDS" bash -c "$EVALUATOR" > >(tee -a "$EVAL_LOG") 2>&1
+  eval_rc=$?
+fi
+ended_ns="$(python3 -c 'import time; print(time.monotonic_ns())')"
+set -e
+if [[ -n "$PREDICTION_PATH" && -f "$PREDICTION_PATH" ]] && grep -q '"status": "unavailable"' "$RAW_DIR/prediction.json" 2>/dev/null; then
+  cp -- "$PREDICTION_PATH" "$RAW_DIR/prediction.json"
+fi
+if [[ -d "$AGENT_OUTPUT_DIR" ]]; then
+  mkdir -p -- "$RAW_DIR/sweagent_output"
+  cp -a -- "$AGENT_OUTPUT_DIR/." "$RAW_DIR/sweagent_output/"
+fi
+python3 - "$RAW_DIR/eval.json" "$eval_rc" "$EVALUATOR" <<'PY'
+import hashlib, json, pathlib, sys
+path, result, command = sys.argv[1:]
+status = "unavailable" if result == "unavailable" else ("completed" if result == "0" else ("timeout" if result in {"124", "137"} else "failed"))
+pathlib.Path(path).write_text(json.dumps({
+    "schema_version": "cr6.evaluation.v1", "status": status,
+    "provenance": "measured" if result != "unavailable" else "unavailable",
+    "returncode": None if result == "unavailable" else int(result),
+    "command_sha256": hashlib.sha256(command.encode()).hexdigest() if command else None,
+    "runtime_excluded_from_trajectory": True,
+}, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+PY
+python3 - "$RAW_DIR/telemetry_contract.json" "$RAW_DIR/events.jsonl" "$MODE" <<'PY'
+import json, pathlib, sys
+out, events_path, mode = sys.argv[1:]
+rows = []
+path = pathlib.Path(events_path)
+if path.exists():
+    rows = [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines() if line.strip()]
+measured = sum(1 for row in rows if row.get("event_type") == "telemetry_sample" and row.get("provenance") == "measured")
+samples = sum(1 for row in rows if row.get("event_type") == "telemetry_sample")
+if mode == "thin-telemetry" and measured:
+    obj = {"schema_version":"cr6.telemetry-contract.v1","status":"measured","provenance":"measured","sample_count":samples,"measured_sample_count":measured,"correlation_scope":"run_interval","request_mutation":False}
+else:
+    obj = {"schema_version":"cr6.telemetry-contract.v1","status":"unavailable","provenance":"unavailable","sample_count":samples,"measured_sample_count":measured,"reason":"control run or no successful Prometheus/GPU interval sample","request_mutation":False}
+pathlib.Path(out).write_text(json.dumps(obj, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+PY
+python3 - "$RAW_DIR/summary.json" "$EXPERIMENT_ID" "$ID" "$ATTEMPT_ID" "$MODE" "$agent_rc" "$eval_rc" "$started_ns" "$ended_ns" <<'PY'
+import json, pathlib, sys
+path, run_id, instance_id, attempt_id, mode, agent_rc, eval_rc, start, end = sys.argv[1:]
+agent_rc = int(agent_rc); end = int(end); start = int(start)
+status = "completed" if agent_rc == 0 and eval_rc == "0" else ("timeout" if agent_rc in (124, 137) or eval_rc in ("124", "137") else ("runner_failed" if agent_rc else "evaluation_failed"))
+pathlib.Path(path).write_text(json.dumps({
+    "schema_version": "cr6.summary.v1", "run_id": run_id,
+    "instance_id": instance_id, "attempt_id": attempt_id, "mode": mode,
+    "status": status, "agent_returncode": agent_rc,
+    "evaluator_returncode": None if eval_rc == "unavailable" else int(eval_rc),
+    "start_mono_ns": start, "end_mono_ns": end,
+    "duration_ms": (end - start) / 1_000_000,
+    "evaluator_runtime_excluded_from_trajectory": True,
+    "provenance": "measured",
+}, indent=2, sort_keys=True) + "\n")
+PY
+python3 - "$RAW_DIR/summary.json" "$RAW_DIR/eval.json" "$RAW_DIR/evaluation.json" "$RAW_DIR/status.json" "$RAW_DIR/run_manifest.json" "$EVALUATOR" "$COMMAND" "$RAW_DIR" "$AGENT_OUTPUT_DIR" <<'PY'
+import hashlib, json, pathlib, sys, time
+summary_path, eval_path, evaluation_path, status_path, manifest_path, evaluator, command, raw_dir, output_dir = sys.argv[1:]
+summary = json.loads(pathlib.Path(summary_path).read_text(encoding="utf-8"))
+evaluation = json.loads(pathlib.Path(eval_path).read_text(encoding="utf-8"))
+pathlib.Path(evaluation_path).write_text(json.dumps(evaluation, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+pathlib.Path(status_path).write_text(json.dumps({
+    "schema_version":"cr6.status.v1", "status":summary["status"], "run_id":summary["run_id"],
+    "instance_id":summary["instance_id"], "attempt_id":summary["attempt_id"],
+    "agent_returncode":summary["agent_returncode"], "evaluator_returncode":summary["evaluator_returncode"],
+    "updated_at_utc":time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+}, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+pathlib.Path(manifest_path).write_text(json.dumps({
+    "schema_version":"cr6.run-manifest.v1", "run_id":summary["run_id"],
+    "instance_id":summary["instance_id"], "attempt_id":summary["attempt_id"], "mode":summary["mode"],
+    "raw_dir":raw_dir, "sweagent_output_dir":output_dir,
+    "agent_command_sha256":hashlib.sha256(command.encode()).hexdigest(),
+    "evaluator_command_sha256":hashlib.sha256(evaluator.encode()).hexdigest(),
+    "summary_sha256":hashlib.sha256(pathlib.Path(summary_path).read_bytes()).hexdigest(),
+    "provenance":"measured",
+}, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+PY
+echo "first experiment status: agent_rc=$agent_rc evaluator_rc=$eval_rc artifacts=$RAW_DIR logs=$LOG_DIR"
+if ((agent_rc != 0)); then exit "$agent_rc"; fi
+if [[ "$eval_rc" != 0 ]]; then exit "$eval_rc"; fi

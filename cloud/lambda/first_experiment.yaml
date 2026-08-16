@@ -1,28 +1,61 @@
-schema_version: 0.dev
-status: proposal
-git_commit: null
-dataset_revision: null
+schema_version: 1
+status: cloud-ready-pending-h100
+git_commit: 2fcffcf503ab0f4ca690530d3e83f42d27a6b236
+assignment_lock_hash: 02f485cdd8cca4aae242d2f1a5306184a95d7ee0fae42527d7153f48a3424761
 model:
   id: Qwen/Qwen3-Coder-30B-A3B-Instruct
-  revision: null
+  revision: b2cff646eb4bb1d68355c01b18ae02e7cf42d120
   precision: BF16
   health_check_context: 8192
   proposed_baseline_context: 32768
 serving:
   engine: vllm
-  revision: null
-  install_path: pending_linux_compatibility_resolution
-  tool_parser: pending_smoke_test
+  revision: 6d8d0a24c02bfd84d46b3016b865a44f048ae84b
+  version: 0.10.0
+  image: vllm/vllm-openai:v0.10.0
+  image_digest: sha256:05a31dc4185b042e91f4d2183689ac8a87bd845713d5c3f987563c5899878271
+  image_platform: linux/amd64
+  install_path: pinned_container
+  tool_parser: qwen3_coder
+  metrics_endpoint: http://127.0.0.1:8000/metrics
   port: 8000
 agent:
   name: SWE-agent
-  revision: null
+  revision: 0f3acafacabc0def8cc76b4e48acb4b6cf302cb9
+  version: 1.1.0
 datasets:
   lite:
-    first_instance_id: null
-    gold_smoke_instance_id: null
+    repo: SWE-bench/SWE-bench_Lite
+    revision: 69611d31007e1c6731db8bd5b5c3f2d33f5bab6e
+    rows: 300
+    manifest_sha256: 4c6a0f689c8b4ba32f4232d611b0c9a86d2fe379e4beb85c23d7c051f3652790
+    first_instance_id: astropy__astropy-12907
+    first_selected_row_sha256: 3ca941a2f9a10a97ca2813ccb6b0406ac6209f3be34894c2eab241516fdeed61
+    gold_smoke_instance_id: astropy__astropy-14182
+    gold_selected_row_sha256: f7ad14f23bd5d8419a1903d196edce904164768f94caad4670bdb9fd03d77dc5
   verified:
-    gold_smoke_instance_id: null
+    repo: SWE-bench/SWE-bench_Verified
+    revision: 91aa3ed51b709be6457e12d00300a6a596d4c6a3
+    rows: 500
+    manifest_sha256: 889bccf7ada1a43d211050ac666f3b31032997209afb10dccdc6ea52128a8435
+    gold_smoke_instance_id: astropy__astropy-14365
+    gold_selected_row_sha256: c428d68361b240d5b520e96cfbc4d4145527e40b49468d63f3986c3f1a646e64
+evaluator:
+  revision: 726c5461e2ef52d83cf1ea2107870a8bb3328d57
+  version: 4.1.0
+  module: swebench.harness.run_evaluation
+  namespace: swebench
+  platform: linux/amd64
+  images:
+    first_lite:
+      reference: swebench/sweb.eval.x86_64.astropy_1776_astropy-12907:latest
+      digest: sha256:483f26c8c89a879560ed3f2e47e470343a5a0b8bf5e08d8fe3ec7eac9201df88
+    gold_lite:
+      reference: swebench/sweb.eval.x86_64.astropy_1776_astropy-14182:latest
+      digest: sha256:1caa6363958e49791e9dc4c838fbfd8e8e134b7992e20e90def10072cb920c25
+    gold_verified:
+      reference: swebench/sweb.eval.x86_64.astropy_1776_astropy-14365:latest
+      digest: sha256:ac22529003ab4df5a84eb0e6be4b269b691c0f3b4aca582161bdfb581e1e9305
 execution:
   mode_order: [uninstrumented, thin-telemetry]
   max_steps: 30
@@ -32,7 +65,8 @@ execution:
   seed: 0
   timeout_minutes: 120
   output_root: /home/ubuntu/agentic-work/experiments
-provenance: proposed
+provenance: pinned-source-static-evidence
 notes: >-
-  This is not final until the actual Linux/H100 compatibility spike, one
-  tool-call health check, evaluator smoke, and root acceptance pass.
+  All source, model, dataset, and container references are immutable. The
+  status remains pending until Linux x86-64/H100 model fit, vLLM tool-call
+  health, and both official evaluator gold smokes pass on the rented host.
