@@ -153,7 +153,8 @@ class SweagentRunnerTests(unittest.TestCase):
                     "VLLM_METRICS_URL=http://127.0.0.1:" + str(server.server_port) + "/metrics",
                     "\n",
                 ]), encoding="utf-8")
-                env = os.environ.copy(); env["VLLM_API_KEY"] = "fixture"
+                env = os.environ.copy()
+                env["VLLM_API_KEY"] = "fixture"
                 result = subprocess.run([
                     "bash", str(script), "--manifest", str(manifest), "--work-root", str(root / "work"),
                     "--mode", "thin-telemetry",
@@ -167,7 +168,9 @@ class SweagentRunnerTests(unittest.TestCase):
                 self.assertFalse(contract["request_mutation"])
                 self.assertEqual(json.loads((raw / "status.json").read_text())["status"], "completed")
         finally:
-            server.shutdown(); server.server_close(); thread.join(timeout=2)
+            server.shutdown()
+            server.server_close()
+            thread.join(timeout=2)
 
     def test_shell_attempts_isolate_agent_and_evaluator_outputs(self):
         script = Path(__file__).resolve().parents[2] / "scripts" / "cloud" / "lambda_run_first_experiment.sh"
@@ -197,13 +200,15 @@ class SweagentRunnerTests(unittest.TestCase):
                 f"EVALUATOR_REPORT_DIR={root / 'work' / 'artifacts' / 'e1' / 'evaluation'}",
                 f"PREDICTION_PATH={base / 'preds.json'}", f"EVALUATE_COMMAND={evaluator}", "\n",
             ]), encoding="utf-8")
-            env = os.environ.copy(); env["VLLM_API_KEY"] = "fixture"
+            env = os.environ.copy()
+            env["VLLM_API_KEY"] = "fixture"
             def dry(attempt):
                 return subprocess.run([
                     "bash", str(script), "--manifest", str(manifest), "--instance-id", "i1",
                     "--experiment-id", "e1", "--attempt-id", attempt, "--dry-run",
                 ], env=env, capture_output=True, text=True, check=False)
-            control = dry("attempt-001"); thin = dry("attempt-002")
+            control = dry("attempt-001")
+            thin = dry("attempt-002")
             self.assertEqual(control.returncode, 0, control.stderr)
             self.assertEqual(thin.returncode, 0, thin.stderr)
             self.assertIn(f"--output_dir {base / 'attempt-001'}", control.stdout)

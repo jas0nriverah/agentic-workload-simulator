@@ -156,22 +156,42 @@ def check_external_cli(repo: Path | None, revision: str, label: str, python_bin:
             [executable, "--help"],
             [executable, "run-batch", "--config", str(repo / "config/default.yaml"), "--help"],
         ]
-        config_command = [executable, "--print_config"]
-        config_alt = [executable, "run-batch", "--config", str(repo / "config/default.yaml"), "--print_config"]
     else:
         python = python_bin or sys.executable
         if not (repo / "swebench/harness/run_evaluation.py").is_file():
             raise CheckFailure(f"detached {label} checkout lacks the evaluator module")
         commands = [[python, "-m", "swebench.harness.run_evaluation", "--help"]]
         config_command = [python, "-m", "swebench.harness.run_evaluation", "--help"]
-        config_alt = config_command
     for argv in commands:
         rc, output = command_result(argv, cwd=repo, timeout=30)
         if rc:
             raise CheckFailure(f"{label} CLI path failed ({' '.join(argv)}): {output}")
-    rc, output = command_result(config_command, cwd=repo, timeout=30)
-    if rc:
-        rc, output = command_result(config_alt, cwd=repo, timeout=30)
+    if label == "SWE-agent":
+        # SWE-agent's print-config path validates the complete nested config;
+        # invoking it with only --print_config (or only the default YAML)
+        # correctly fails because instances and model.name are required CLI
+        # inputs. Supply a disposable, empty file-instance source and a
+        # concrete model name, without starting a workload or contacting a
+        # provider.
+        with tempfile.TemporaryDirectory(prefix="sweagent-config-probe-") as temp:
+            instances = Path(temp) / "instances.json"
+            instances.write_text("[]\n", encoding="utf-8")
+            config_command = [
+                executable,
+                "run-batch",
+                "--config",
+                str(repo / "config/default.yaml"),
+                "--instances.type",
+                "file",
+                "--instances.path",
+                str(instances),
+                "--agent.model.name",
+                "openai/cloud-readiness-probe",
+                "--print_config",
+            ]
+            rc, output = command_result(config_command, cwd=repo, timeout=30)
+    else:
+        rc, output = command_result(config_command, cwd=repo, timeout=30)
     if rc:
         raise CheckFailure(f"{label} print_config/help path failed: {output}")
     return {"status": "pass", "detail": f"detached pin and {label} help/config paths passed"}
@@ -318,7 +338,11 @@ def inspect_registry(images: Iterable[tuple[str, str]], retries: int = 3) -> lis
         for attempt in range(retries):
             rc, text = command_result([docker, "manifest", "inspect", "--verbose", target], timeout=30)
             last = text
-            if rc == 0 and digest in text:
+            # The exact digest is part of ``target``.  Docker's verbose output
+            # does not reliably echo a single-platform manifest digest, so a
+            # successful inspect of the digest-qualified reference is the
+            # registry resolution check; require its explicit platform data.
+            if rc == 0:
                 if "linux" not in text.lower() or "amd64" not in text.lower():
                     raise CheckFailure(f"registry manifest lacks an explicit linux/amd64 platform: {target}")
                 break

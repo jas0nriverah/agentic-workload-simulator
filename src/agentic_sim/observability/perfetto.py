@@ -11,7 +11,7 @@ import hashlib
 import json
 import math
 from pathlib import Path
-from typing import Any, Iterable, Mapping, Sequence
+from typing import Any, Mapping
 
 from agentic_sim.telemetry.clock import clock_fields
 

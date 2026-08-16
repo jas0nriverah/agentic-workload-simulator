@@ -13,7 +13,7 @@ import json
 import math
 import statistics
 from collections.abc import Mapping, Sequence
-from typing import Any, Dict, Iterable, List, Optional, Tuple
+from typing import Any, Dict, Iterable, List, Optional
 
 
 class PairingError(ValueError):

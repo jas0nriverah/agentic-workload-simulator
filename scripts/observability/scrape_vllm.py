@@ -11,7 +11,6 @@ import argparse
 import hashlib
 import json
 import math
-import os
 import sys
 import urllib.error
 import urllib.request

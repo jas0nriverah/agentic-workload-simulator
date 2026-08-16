@@ -5,12 +5,12 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
 import time
 from pathlib import Path
 from typing import Any
 
 ROOT = Path(__file__).resolve().parents[2]
-import sys
 sys.path.insert(0, str(ROOT / "src"))
 
 from agentic_sim.observability.vllm_metrics import (  # noqa: E402

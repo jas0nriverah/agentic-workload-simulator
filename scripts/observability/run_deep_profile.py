@@ -7,11 +7,11 @@ import argparse
 import hashlib
 import json
 import subprocess
+import sys
 import time
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
-import sys
 sys.path.insert(0, str(ROOT / "src"))
 
 from agentic_sim.observability.profilers import build_nsys_command, build_strace_command  # noqa: E402

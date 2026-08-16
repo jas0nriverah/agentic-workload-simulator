@@ -11,7 +11,6 @@ from __future__ import annotations
 import argparse
 import datetime as _datetime
 import json
-import os
 import platform
 import socket
 import time

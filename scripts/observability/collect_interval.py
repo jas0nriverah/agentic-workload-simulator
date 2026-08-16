@@ -18,11 +18,6 @@ sys.path.insert(0, str(ROOT / "src"))
 
 from agentic_sim.observability.gpu import collect_dcgmi_sample, collect_nvidia_smi_sample  # noqa: E402
 from agentic_sim.telemetry.clock import clock_fields, monotonic_ns, utc_now  # noqa: E402
-from agentic_sim.observability.vllm_metrics import (  # noqa: E402
-    PrometheusSnapshot,
-    parse_prometheus_text,
-    required_families,
-)
 from scrape_vllm import snapshot_object, unavailable_object  # noqa: E402
 
 

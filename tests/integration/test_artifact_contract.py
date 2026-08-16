@@ -1,7 +1,6 @@
 import json
 import tempfile
 import unittest
-from pathlib import Path
 
 from agentic_sim.artifacts import append_jsonl, attempt_layout, inventory, validate_artifacts
 from agentic_sim.artifacts.contract import counter_state, initialize_attempt
