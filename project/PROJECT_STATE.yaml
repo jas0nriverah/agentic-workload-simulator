@@ -1,0 +1,58 @@
+schema_version: 1
+updated_at_utc: null
+overall_status: active
+phase: G0_LC1_LC3
+current_task: LC2-first-experiment
+last_verified_commit: null
+assignment_lock_hash: 02f485cdd8cca4aae242d2f1a5306184a95d7ee0fae42527d7153f48a3424761
+working_tree_dirty: true
+
+hardware:
+  development:
+    status: available
+    gpu: RTX_2080_Super_or_none_on_local_mac
+  final:
+    status: pending
+    platform: Lambda_1x_H100_PCIe_80GB
+
+billing:
+  provider: lambda
+  authorized: false
+  maximum_gate: null
+  maximum_gpu_hours: 0
+  maximum_dollars: 0
+  user_available_to_export: false
+  user_available_to_terminate: false
+
+configuration:
+  status: proposed
+  model: Qwen/Qwen3-Coder-30B-A3B-Instruct
+  precision: BF16
+  model_revision: null
+  sweagent_revision: null
+  vllm_revision: null
+  swebench_revision: null
+
+gates:
+  G0_requirements: passed
+  G1_direct_model_request: pending
+  G2_single_trajectory: pending
+  G3A_official_evaluation_reference_lock: pending
+  G4_instrumented_trajectory: pending
+  G5_five_instance_smoke: pending
+  G6_twenty_instance_pilot: pending
+  G3B_scoreboard_reproduction: pending
+  G7_step1_baseline: pending
+  G8_step2_sweeps: pending
+  G9_step3_deep_profile: pending
+  G10_step4_simulator: pending
+  G11_final_audit: pending
+
+next_actions:
+  - resolve Linux x86-64 dependency and pinned runtime matrix
+  - complete root-owned LC2 first-experiment proposal
+  - perform LC4 runbook rehearsal and LC5 integration audit
+  - run local tests and dry-run checks
+active_experiments: []
+active_agent_tasks: []
+blocker_ids: []

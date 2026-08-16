@@ -1,0 +1,30 @@
+- id: G0-bootstrap
+  objective: Create and verify the minimal local repository and state contract
+  status: done
+  owner: root
+  resource_class: CPU_ONLY
+- id: LC0-environment-audit
+  objective: Review Lambda environment assumptions and official references
+  status: done
+  owner: worker-c
+  resource_class: READ_ONLY_REVIEW
+- id: LC1-runtime-scripts
+  objective: Implement idempotent Lambda preflight/bootstrap/runtime scripts
+  status: done
+  owner: worker-a
+  resource_class: CPU_ONLY
+- id: LC2-first-experiment
+  objective: Prepare a reviewed first-experiment configuration proposal
+  status: pending
+  owner: root
+  resource_class: CPU_ONLY
+- id: LC3-collection-scripts
+  objective: Implement result collection, local verification, and workload stop scripts
+  status: done
+  owner: worker-b
+  resource_class: CPU_ONLY
+- id: LC4-runbook-review
+  objective: Independently rehearse the cloud runbook after LC1-LC3 freeze
+  status: pending
+  owner: worker-c
+  resource_class: READ_ONLY_REVIEW

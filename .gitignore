@@ -1,0 +1,14 @@
+.venv/
+.pytest_cache/
+.ruff_cache/
+__pycache__/
+*.pyc
+.DS_Store
+.env
+cloud/lambda/cloud_session.yaml
+cloud/lambda/instance_manifest.env
+data/raw/*
+data/processed/*
+artifacts/*
+!artifacts/.gitkeep
+work/

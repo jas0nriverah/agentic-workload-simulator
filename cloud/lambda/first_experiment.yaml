@@ -1,0 +1,38 @@
+schema_version: 0.dev
+status: proposal
+git_commit: null
+dataset_revision: null
+model:
+  id: Qwen/Qwen3-Coder-30B-A3B-Instruct
+  revision: null
+  precision: BF16
+  health_check_context: 8192
+  proposed_baseline_context: 32768
+serving:
+  engine: vllm
+  revision: null
+  install_path: pending_linux_compatibility_resolution
+  tool_parser: pending_smoke_test
+  port: 8000
+agent:
+  name: SWE-agent
+  revision: null
+datasets:
+  lite:
+    first_instance_id: null
+    gold_smoke_instance_id: null
+  verified:
+    gold_smoke_instance_id: null
+execution:
+  mode_order: [uninstrumented, thin-telemetry]
+  max_steps: 30
+  max_input_tokens: 32768
+  max_output_tokens: 2048
+  temperature: 0.0
+  seed: 0
+  timeout_minutes: 120
+  output_root: /home/ubuntu/agentic-work/experiments
+provenance: proposed
+notes: >-
+  This is not final until the actual Linux/H100 compatibility spike, one
+  tool-call health check, evaluator smoke, and root acceptance pass.
