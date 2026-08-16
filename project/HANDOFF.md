@@ -1,16 +1,23 @@
 # Handoff
 
-Phase: G0 / LC0-LC5 local cloud-ready foundation  
-Last verified result: G0/LC0/LC1/LC3/LC4/LC5 local checks pass; next checkpoint is pending  
-Current task: resolve LC2 runtime pins and wait for paid-session authorization inputs  
-Frozen decisions: assignment lock, Lambda target, no paid compute, no publish  
-Running jobs: none  
-Blockers: Linux/H100 runtime pins, reviewed evaluator commands, and user authorization for any paid session  
+Phase: CR0-CR12 local cloud-readiness completion
+Last verified result: static cloud-readiness PASS; local tests, dry-runs, clean-archive rehearsal, and independent reviews pass
+Current task: preserve the reviewed bundle; H100-only validation is the next task if the user later authorizes a paid session
+Frozen decisions: assignment lock, Lambda 1× H100 PCIe 80 GB target, Qwen3-Coder-30B-A3B BF16, pinned vLLM/SWE-agent/SWE-bench/datasets/images, no paid compute, no publish
+Running jobs: none
+Blockers: H100/Linux empirical validation and explicit user-paid-session authorization remain; no technical local blocker
+
+Provenance note: `cloud/lambda/first_experiment.yaml:git_commit` and
+`project/PROJECT_STATE.yaml:last_verified_commit` identify the last reviewed
+runtime-source freeze, not a self-referential Git hash. The exact repository
+transfer commit is the 40-hex value captured by `git rev-parse HEAD` immediately
+before creating `lambda-ready-<commit>.tar.zst`; its filename and checksum are
+the authoritative fresh-host bundle identity.
 
 Next three actions:
 
-1. Resolve Linux x86-64 dependency and pinned runtime matrix.
-2. Populate the authorized cloud-session manifest and reviewed evaluator commands.
-3. Run the real LC2 smoke, then proceed through the assignment gates.
+1. Transfer the locally verified bundle to a fresh Lambda Ubuntu x86-64/H100 host only after the user completes the paid-session gate.
+2. Run preflight, pinned bootstrap, vLLM health, Lite/Verified gold smokes, then one uninstrumented first Lite trajectory and its official evaluation.
+3. Run the same instance with thin telemetry, export/checksum the artifacts, stop workloads, and terminate the VM in the provider console before any G5/G6 expansion.
 
 Read next: `cloud/lambda/RUNBOOK.md`, `project/PROJECT_STATE.yaml`, and worker task reports.

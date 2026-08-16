@@ -1,9 +1,10 @@
 schema_version: 1
-updated_at_utc: 2026-08-16T00:45:59Z
-overall_status: active
-phase: G0_LC0_LC1_LC3_LC4_LC5
-current_task: LC2-first-experiment
-last_verified_commit: 6ff2c2891b7aa1dba4c2b89abdb9bd718fda7110
+updated_at_utc: 2026-08-16T06:11:14Z
+overall_status: cloud_ready_pending_h100
+phase: CR0_CR1_CR2_CR3_CR4_CR5_CR6_CR7_CR8_CR9_CR10_CR11_CR12
+current_task: CR12-final-cloud-readiness
+last_verified_commit: 58a99411947ca8aaba611f92e47848b4085681f8
+last_verified_commit_role: reviewed_observability_local_static
 assignment_lock_hash: 02f485cdd8cca4aae242d2f1a5306184a95d7ee0fae42527d7153f48a3424761
 working_tree_dirty: false
 
@@ -25,20 +26,29 @@ billing:
   user_available_to_terminate: false
 
 configuration:
-  status: proposed
+  status: pinned_static_evidence_h100_pending
   model: Qwen/Qwen3-Coder-30B-A3B-Instruct
   precision: BF16
-  model_revision: null
-  sweagent_revision: null
-  vllm_revision: null
-  swebench_revision: null
+  model_revision: b2cff646eb4bb1d68355c01b18ae02e7cf42d120
+  sweagent_revision: 0f3acafacabc0def8cc76b4e48acb4b6cf302cb9
+  vllm_revision: 6d8d0a24c02bfd84d46b3016b865a44f048ae84b
+  swebench_revision: 726c5461e2ef52d83cf1ea2107870a8bb3328d57
+
+cloud_readiness:
+  status: PASS_static_local
+  safe_to_rent_h100: false
+  h100_validation_required: true
+  sample_repository_unchanged: true
+  paid_compute_used: false
+  provider_api_used: false
+  published: false
 
 gates:
   G0_requirements: passed
-  G1_direct_model_request: pending
-  G2_single_trajectory: pending
-  G3A_official_evaluation_reference_lock: pending
-  G4_instrumented_trajectory: pending
+  G1_direct_model_request: pending_h100
+  G2_single_trajectory: pending_h100
+  G3A_official_evaluation_reference_lock: passed_static
+  G4_instrumented_trajectory: pending_h100
   G5_five_instance_smoke: pending
   G6_twenty_instance_pilot: pending
   G3B_scoreboard_reproduction: pending
@@ -49,9 +59,32 @@ gates:
   G11_final_audit: pending
 
 next_actions:
-  - resolve Linux x86-64 dependency and pinned runtime matrix
-  - obtain the user-authorized Lambda session inputs before any paid work
-  - execute the real Linux/H100 LC2 smoke only after revisions and evaluator commands are pinned
+  - if authorized later, run the exact H100-only validation sequence in cloud/lambda/RUNBOOK.md
+  - retain the uninstrumented trajectory as the control before thin telemetry
+  - do not expand to G5/G6 until the first generated prediction and evaluator artifacts pass review
 active_experiments: []
 active_agent_tasks: []
-blocker_ids: []
+blocker_ids:
+  - H100_VALIDATION_REMAINING
+  - PAID_SESSION_AUTHORIZATION_REQUIRED_FOR_SAFE_RENT
+
+observability:
+  status: bounded_additive_upgrade_pass_static
+  baseline_path_unchanged: true
+  accepted_features:
+    - lossless_pinned_vllm_prometheus_snapshots_and_aggregate_deltas
+    - paired_control_thin_overhead_accounting
+    - provenance_hardware_and_profile_sidecars
+    - optional_capability_probes_with_nvidia_smi_fallback
+    - dependency_free_nvtx_noop_ranges
+    - separate_strace_and_nsight_command_preparation
+    - bounded_memory_estimate
+    - deterministic_perfetto_compatible_export
+  rejected_or_deferred:
+    - default_otlp_tracing_on_vllm_v1
+    - unpinned_nvml_dcgm_nvtx_or_py_spy_dependencies
+    - synthetic_gpu_time_from_aggregate_metrics
+    - runtime_perfetto_sdk
+    - first_session_calibration_matrix
+  h100_only_observability_validation_required: true
+  local_static_checks_pending_final_review: false
