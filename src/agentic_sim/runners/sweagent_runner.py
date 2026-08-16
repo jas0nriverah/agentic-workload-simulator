@@ -164,24 +164,10 @@ def _load_request_config(tokens: Sequence[str]) -> tuple[dict[str, Any], Path | 
         config_indices = [index for index, token in enumerate(tokens) if token == "--config"]
     except TypeError as exc:  # defensive for callers passing a non-sequence
         raise RunnerContractError("command tokens are not iterable") from exc
+    obsolete_flags = ("--agent.model.completion_kwargs.max_tokens", "--agent.model.completion_kwargs.seed")
+    if any(flag in tokens for flag in obsolete_flags):
+        raise RunnerContractError("nested completion_kwargs CLI flags are rejected by SWE-agent v1.1.0; use request YAML")
     if len(config_indices) < 2:
-        # Keep fixture-only callers readable while making the production path
-        # fail closed. The real manifest never uses these rejected nested CLI
-        # options; they are accepted here only for the shell wrapper's local
-        # fake-agent tests, which do not launch SWE-agent.
-        direct = {
-            "max_tokens": "--agent.model.completion_kwargs.max_tokens",
-            "seed": "--agent.model.completion_kwargs.seed",
-        }
-        if all(flag in tokens for flag in direct.values()):
-            try:
-                values = {
-                    key: int(tokens[tokens.index(flag) + 1])
-                    for key, flag in direct.items()
-                }
-            except (IndexError, ValueError) as exc:
-                raise RunnerContractError("direct completion kwargs are not numeric") from exc
-            return values, None, None
         raise RunnerContractError("SWE-agent command must include a request YAML config fragment")
     path = Path(str(tokens[config_indices[-1] + 1])) if config_indices[-1] + 1 < len(tokens) else Path()
     if not path.is_file():
