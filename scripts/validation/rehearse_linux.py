@@ -22,6 +22,9 @@ import sys
 import tarfile
 import tempfile
 import time
+from urllib.error import HTTPError, URLError
+from urllib.parse import parse_qs, urlencode, urlparse
+from urllib.request import Request, urlopen
 from pathlib import Path
 from typing import Any, Iterable, Sequence
 
@@ -322,6 +325,83 @@ def check_dataset_manifest(path: Path | None, env: dict[str, str]) -> dict[str, 
     return {"status": "pass", "detail": "Lite/Verified revisions, counts, selected IDs, and row hashes passed"}
 
 
+def _registry_parts(reference: str) -> tuple[str, str]:
+    """Return registry host and repository for a Docker image reference."""
+    base = reference.split("@", 1)[0]
+    if "/" not in base:
+        return "registry-1.docker.io", f"library/{base.split(':', 1)[0]}"
+    first, repository = base.split("/", 1)
+    if "." in first or ":" in first or first == "localhost":
+        return first, repository.split(":", 1)[0]
+    return "registry-1.docker.io", base.split(":", 1)[0]
+
+
+def _registry_token(registry: str, repository: str) -> str | None:
+    if registry != "registry-1.docker.io":
+        return None
+    query = urlencode({"service": "registry.docker.io", "scope": f"repository:{repository}:pull"})
+    request = Request(f"https://auth.docker.io/token?{query}", headers={"Accept": "application/json"})
+    with urlopen(request, timeout=30) as response:
+        value = json.loads(response.read().decode("utf-8"))
+    token = value.get("token") or value.get("access_token")
+    if not isinstance(token, str) or not token:
+        raise CheckFailure(f"registry token response has no bearer token for {repository}")
+    return token
+
+
+def _registry_get(registry: str, repository: str, path: str, token: str | None) -> tuple[dict[str, Any], str | None]:
+    url = f"https://{registry}/v2/{repository}/{path}"
+    headers = {"Accept": "application/json"}
+    if token:
+        headers["Authorization"] = f"Bearer {token}"
+    try:
+        with urlopen(Request(url, headers=headers), timeout=30) as response:
+            body = json.loads(response.read().decode("utf-8"))
+            return body, response.headers.get("Docker-Content-Digest")
+    except HTTPError as exc:
+        # Support registries that require a bearer challenge rather than the
+        # Docker Hub token endpoint used above.
+        challenge = exc.headers.get("WWW-Authenticate", "")
+        if exc.code != 401 or not challenge.lower().startswith("bearer "):
+            raise
+        fields = parse_qs(urlparse(challenge[len("Bearer "):]).query)
+        realm = fields.get("realm", [""])[0]
+        service = fields.get("service", [""])[0]
+        scope = fields.get("scope", [f"repository:{repository}:pull"])[0]
+        if not realm:
+            raise
+        query = urlencode({"service": service, "scope": scope})
+        with urlopen(Request(f"{realm}?{query}", headers={"Accept": "application/json"}), timeout=30) as response:
+            auth = json.loads(response.read().decode("utf-8"))
+        bearer = auth.get("token") or auth.get("access_token")
+        if not isinstance(bearer, str) or not bearer:
+            raise CheckFailure(f"registry bearer challenge returned no token for {repository}")
+        headers["Authorization"] = f"Bearer {bearer}"
+        with urlopen(Request(url, headers=headers), timeout=30) as response:
+            body = json.loads(response.read().decode("utf-8"))
+            return body, response.headers.get("Docker-Content-Digest")
+
+
+def inspect_registry_http(reference: str, digest: str) -> dict[str, Any]:
+    registry, repository = _registry_parts(reference)
+    token = _registry_token(registry, repository)
+    manifest, content_digest = _registry_get(registry, repository, f"manifests/{digest}", token)
+    if content_digest and content_digest != digest:
+        raise CheckFailure(f"registry returned digest {content_digest}, expected {digest}")
+    platforms = [item.get("platform", {}) for item in manifest.get("manifests", []) if isinstance(item, dict)]
+    if platforms:
+        if not any(item.get("os") == "linux" and item.get("architecture") == "amd64" for item in platforms):
+            raise CheckFailure(f"registry manifest lacks an explicit linux/amd64 platform: {reference}@{digest}")
+        return {"status": "pass", "detail": "HTTP registry digest and linux/amd64 index platform verified"}
+    config_digest = (manifest.get("config") or {}).get("digest")
+    if not isinstance(config_digest, str) or not SHA_RE.fullmatch(config_digest):
+        raise CheckFailure(f"registry manifest has no immutable config digest: {reference}@{digest}")
+    config, _ = _registry_get(registry, repository, f"blobs/{config_digest}", token)
+    if config.get("os") != "linux" or config.get("architecture") != "amd64":
+        raise CheckFailure(f"registry image config is not linux/amd64: {reference}@{digest}")
+    return {"status": "pass", "detail": "HTTP registry digest and linux/amd64 image config verified"}
+
+
 def inspect_registry(images: Iterable[tuple[str, str]], retries: int = 3) -> list[dict[str, Any]]:
     docker = shutil.which("docker")
     output: list[dict[str, Any]] = []
@@ -331,25 +411,27 @@ def inspect_registry(images: Iterable[tuple[str, str]], retries: int = 3) -> lis
         if not digest or not SHA_RE.fullmatch(digest):
             raise CheckFailure(f"registry image {reference} has no immutable sha256 digest")
         if not docker:
-            output.append({"image": reference, "status": "capability", "detail": "docker unavailable; registry inspect not run"})
+            try:
+                checked = inspect_registry_http(reference, digest)
+            except CheckFailure:
+                raise
+            except (HTTPError, URLError, OSError, json.JSONDecodeError) as exc:
+                output.append({"image": reference, "status": "capability", "detail": f"docker unavailable and HTTP registry inspect unavailable: {type(exc).__name__}"})
+            else:
+                output.append({"image": reference, **checked})
             continue
-        target = reference.split("@", 1)[0] + "@" + digest
         last = ""
         for attempt in range(retries):
-            rc, text = command_result([docker, "manifest", "inspect", "--verbose", target], timeout=30)
-            last = text
-            # The exact digest is part of ``target``.  Docker's verbose output
-            # does not reliably echo a single-platform manifest digest, so a
-            # successful inspect of the digest-qualified reference is the
-            # registry resolution check; require its explicit platform data.
-            if rc == 0:
-                if "linux" not in text.lower() or "amd64" not in text.lower():
-                    raise CheckFailure(f"registry manifest lacks an explicit linux/amd64 platform: {target}")
+            try:
+                checked = inspect_registry_http(reference, digest)
+                output.append({"image": reference, **checked})
                 break
-            time.sleep(0.25 * (attempt + 1))
+            except (CheckFailure, HTTPError, URLError, OSError, json.JSONDecodeError) as exc:
+                last = f"{type(exc).__name__}: {exc}"
+                time.sleep(0.25 * (attempt + 1))
         else:
-            raise CheckFailure(f"registry digest/platform inspection failed after {retries} attempts for {target}: {last}")
-        output.append({"image": target, "status": "pass", "detail": "digest and linux/amd64 manifest text verified"})
+            raise CheckFailure(f"registry digest/platform inspection failed after {retries} attempts for {reference}@{digest}: {last}")
+        continue
     return output
 
 

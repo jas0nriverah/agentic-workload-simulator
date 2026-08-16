@@ -232,6 +232,9 @@ run_thin_observer() {
 }
 
 mkdir -p -- "$LOG_DIR" "$RAW_DIR"
+if (( RESUME )); then
+  [[ -f "$RAW_DIR/config.json" ]] || { echo "cannot resume an attempt without its immutable config: $RAW_DIR" >&2; exit 1; }
+fi
 if [[ -e "$RAW_DIR/summary.json" ]] && grep -q '"status": "completed"' "$RAW_DIR/summary.json" 2>/dev/null; then
   echo "successful attempt exists; use a new ATTEMPT_ID (raw attempts are append-only): $RAW_DIR" >&2
   exit 1
