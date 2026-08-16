@@ -75,7 +75,15 @@ def _cli_config(source_root: Path, command_text: str, project_root: Path | None 
         raise RuntimeError(f"pinned SWE-agent rejected manifest command: {(completed.stdout + completed.stderr)[-4000:]}")
     try:
         import yaml  # type: ignore
-        config = yaml.safe_load(completed.stdout)
+        # SWE-agent prints a short version banner to stdout before the YAML
+        # emitted by --print_config. Parse only the config document; do not
+        # weaken the check by accepting an empty or partial configuration.
+        output_lines = completed.stdout.splitlines()
+        try:
+            config_start = next(index for index, line in enumerate(output_lines) if line.startswith("agent:"))
+        except StopIteration:
+            raise RuntimeError("SWE-agent --print_config output lacks an agent mapping") from None
+        config = yaml.safe_load("\n".join(output_lines[config_start:]))
     except Exception as exc:
         raise RuntimeError(f"pinned SWE-agent --print_config did not emit parseable YAML: {exc}") from exc
     if not isinstance(config, dict) or not isinstance(config.get("agent"), dict):
