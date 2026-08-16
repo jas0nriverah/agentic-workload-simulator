@@ -103,6 +103,7 @@ if [[ -n "$BASE_PREDICTION_PATH" && "$BASE_PREDICTION_PATH" == "$BASE_AGENT_OUTP
 else
   PREDICTION_PATH="$AGENT_OUTPUT_DIR/preds.json"
 fi
+RAW_DIR="$WORK_ROOT/data/raw/$EXPERIMENT_ID/lite/$ID/$ATTEMPT_ID"
 
 # SWE-agent's run-batch refuses to redo an existing instance by default. Keep
 # the control and thin attempts physically separate while preserving every
@@ -116,7 +117,6 @@ EVALUATOR="${EVALUATOR//$BASE_EVALUATOR_REPORT_DIR/$EVALUATOR_REPORT_DIR}"
 EVALUATOR_RUN_ID="${EXPERIMENT_ID}-${ATTEMPT_ID}"
 EVALUATOR="${EVALUATOR//--run_id $EXPERIMENT_ID/--run_id $EVALUATOR_RUN_ID}"
 
-RAW_DIR="$WORK_ROOT/data/raw/$EXPERIMENT_ID/lite/$ID/$ATTEMPT_ID"
 AGENT_LOG="$LOG_DIR/$ID.$MODE.agent.log"
 EVAL_LOG="$LOG_DIR/$ID.$MODE.evaluation.log"
 
@@ -172,6 +172,27 @@ if [[ -n "$(manifest_value SWE_AGENT_OUTPUT_DIR)" ]]; then
 fi
 [[ "$EVALUATOR" == *"swebench.harness.run_evaluation"* && "$EVALUATOR" == *"--predictions_path"* && "$EVALUATOR" == *"--instance_ids"* ]] || { echo 'reviewed evaluator command is not the official generated-prediction contract' >&2; exit 1; }
 mkdir -p -- "$RAW_DIR"
+
+if (( RESUME )); then
+  [[ -f "$RAW_DIR/config.json" ]] || { echo "cannot resume an attempt without its immutable config: $RAW_DIR" >&2; exit 1; }
+fi
+if [[ -e "$RAW_DIR/summary.json" ]] && grep -q '"status": "completed"' "$RAW_DIR/summary.json" 2>/dev/null; then
+  echo "successful attempt exists; use a new ATTEMPT_ID (raw attempts are append-only): $RAW_DIR" >&2
+  exit 1
+fi
+
+# SWE-agent v1.1.0 rejects nested completion_kwargs.* CLI flags. The reviewed
+# manifest points at a tracked baseline fragment; each attempt receives an
+# immutable copy with its resolved max_tokens/seed values, and the command is
+# rewritten to that copy before validation and execution. Control and thin
+# modes therefore share the same resolved model/request payload.
+REQUEST_CONFIG_TEMPLATE="$(manifest_value SWE_AGENT_REQUEST_CONFIG)"
+if [[ -n "$REQUEST_CONFIG_TEMPLATE" && "$COMMAND" == *"$REQUEST_CONFIG_TEMPLATE"* ]]; then
+  REQUEST_CONFIG_PATH="$RAW_DIR/sweagent_request.yaml"
+  PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/scripts/cloud/write_sweagent_request_config.py" \
+    --output "$REQUEST_CONFIG_PATH" --max-tokens "$EXPERIMENT_MAX_OUTPUT_TOKENS" --seed "$EXPERIMENT_SEED"
+  COMMAND="${COMMAND//$REQUEST_CONFIG_TEMPLATE/$REQUEST_CONFIG_PATH}"
+fi
 validator_args=(--command "$COMMAND" --expected-instance "$ID" --expected-calls "$EXPERIMENT_MAX_CALLS"
   --expected-output-tokens "$EXPERIMENT_MAX_OUTPUT_TOKENS"
   --expected-observation-length "$EXPERIMENT_MAX_OBSERVATION_LENGTH"
@@ -232,13 +253,6 @@ run_thin_observer() {
 }
 
 mkdir -p -- "$LOG_DIR" "$RAW_DIR"
-if (( RESUME )); then
-  [[ -f "$RAW_DIR/config.json" ]] || { echo "cannot resume an attempt without its immutable config: $RAW_DIR" >&2; exit 1; }
-fi
-if [[ -e "$RAW_DIR/summary.json" ]] && grep -q '"status": "completed"' "$RAW_DIR/summary.json" 2>/dev/null; then
-  echo "successful attempt exists; use a new ATTEMPT_ID (raw attempts are append-only): $RAW_DIR" >&2
-  exit 1
-fi
 
 export FIRST_LITE_INSTANCE_ID="$ID" EXPERIMENT_ID ATTEMPT_ID AGENTIC_RUN_OUTPUT="$RAW_DIR" AGENTIC_SWE_OUTPUT_DIR="$AGENT_OUTPUT_DIR" AGENTIC_PREDICTION_PATH="$PREDICTION_PATH"
 python3 - "$RAW_DIR" "$EXPERIMENT_ID" "$ID" "$ATTEMPT_ID" "$MODE" "$SWE_AGENT_REVISION" "$SWE_BENCH_REVISION" "$MODEL_REVISION" "$COMMAND" "$RAW_DIR/resolved_command.json" <<'PY'

@@ -44,9 +44,9 @@ record before work starts.
   `91aa3ed51b709be6457e12d00300a6a596d4c6a3` (500 test rows).
 
 The baseline command resolves the assignment controls as 30 model calls,
-2048 provider/output tokens (`completion_kwargs.max_tokens` plus the SWE-agent
-metadata guard), 100,000 observation characters, temperature 0.0, and request
-seed 0. The four future sweep grids are recorded in
+2048 provider/output tokens (`completion_kwargs.max_tokens` in the pinned
+`sweagent_request.yaml` fragment plus the SWE-agent metadata guard), 100,000
+observation characters, temperature 0.0, and request seed 0. The four future sweep grids are recorded in
 `cloud/lambda/first_experiment.yaml`; the 32K input setting remains a fixed
 context guard.
 

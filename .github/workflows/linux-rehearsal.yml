@@ -90,6 +90,7 @@ jobs:
           python scripts/validation/verify_litellm_request.py \
             --swe-agent-root "$RUNNER_TEMP/SWE-agent" \
             --manifest cloud/lambda/instance_manifest.env.example \
+            --project-root "$GITHUB_WORKSPACE" \
             --strict
           python scripts/validation/inventory_sweagent_output.py \
             --root "$RUNNER_TEMP/trajectory" \

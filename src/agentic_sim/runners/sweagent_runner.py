@@ -109,7 +109,7 @@ def command_hash(command: Sequence[str] | str) -> str:
     return hashlib.sha256("\0".join(_argv(command)).encode("utf-8")).hexdigest()
 
 
-def build_command(*, executable: str = "sweagent", project: str | Path | None = None, config_path: str | Path | None = None, instances_path: str | Path, model: str, model_revision: str, api_base: str = "http://127.0.0.1:8000/v1", api_key: str = "$VLLM_API_KEY", instance_id: str, output_dir: str | Path, max_steps: int = 30, max_input_tokens: int = 32768, max_output_tokens: int = 2048, max_observation_length: int = 100_000, temperature: float = 0.0, seed: int = 0, per_instance_call_limit: int = 30, num_workers: int = 1, extra_args: Sequence[str] = ()) -> list[str]:
+def build_command(*, executable: str = "sweagent", project: str | Path | None = None, config_path: str | Path | None = None, request_config_path: str | Path | None = "cloud/lambda/sweagent_request.yaml", instances_path: str | Path, model: str, model_revision: str, api_base: str = "http://127.0.0.1:8000/v1", api_key: str = "$VLLM_API_KEY", instance_id: str, output_dir: str | Path, max_steps: int = 30, max_input_tokens: int = 32768, max_output_tokens: int = 2048, max_observation_length: int = 100_000, temperature: float = 0.0, seed: int = 0, per_instance_call_limit: int = 30, num_workers: int = 1, extra_args: Sequence[str] = ()) -> list[str]:
     """Construct SWE-agent v1.1.0's direct ``run-batch`` command.
 
     The local file path is intentional: passing a dataset name would silently
@@ -140,7 +140,13 @@ def build_command(*, executable: str = "sweagent", project: str | Path | None = 
     # ``max_input_tokens`` remains a fixed context guard.  The assignment's
     # output sweep is the provider request field below; SWE-agent's generic
     # max_output_tokens metadata alone is not sufficient for OpenAI/vLLM.
-    args += ["run-batch", "--config", str(config_path or "config/default.yaml"), "--instances.type", "file", "--instances.path", str(instances_path), "--instances.filter", f"^{instance_id}$", "--agent.model.name", model, "--agent.model.api_base", api_base, "--agent.model.api_key", api_key, "--agent.model.total_cost_limit", "0", "--agent.model.per_instance_cost_limit", "0", "--agent.model.per_instance_call_limit", str(per_instance_call_limit), "--agent.model.temperature", str(temperature), "--agent.model.max_input_tokens", str(max_input_tokens), "--agent.model.max_output_tokens", str(max_output_tokens), "--agent.model.completion_kwargs.max_tokens", str(max_output_tokens), "--agent.model.completion_kwargs.seed", str(seed), "--agent.templates.max_observation_length", str(max_observation_length), "--output_dir", str(output_dir), "--num_workers", str(num_workers)]
+    # SWE-agent v1.1.0 rejects nested completion_kwargs.* CLI flags, so the
+    # request fields are carried in a second YAML fragment that is resolved by
+    # the pinned parser and recorded in the run manifest.
+    args += ["run-batch", "--config", str(config_path or "config/default.yaml")]
+    if request_config_path is not None:
+        args += ["--config", str(request_config_path)]
+    args += ["--instances.type", "file", "--instances.path", str(instances_path), "--instances.filter", f"^{instance_id}$", "--agent.model.name", model, "--agent.model.api_base", api_base, "--agent.model.api_key", api_key, "--agent.model.total_cost_limit", "0", "--agent.model.per_instance_cost_limit", "0", "--agent.model.per_instance_call_limit", str(per_instance_call_limit), "--agent.model.temperature", str(temperature), "--agent.model.max_input_tokens", str(max_input_tokens), "--agent.model.max_output_tokens", str(max_output_tokens), "--agent.templates.max_observation_length", str(max_observation_length), "--output_dir", str(output_dir), "--num_workers", str(num_workers)]
     args.extend(str(item) for item in extra_args)
     return args
 
@@ -148,10 +154,55 @@ def build_command(*, executable: str = "sweagent", project: str | Path | None = 
 _EXPERIMENTAL_FLAGS = {
     "per_instance_call_limit": "--agent.model.per_instance_call_limit",
     "temperature": "--agent.model.temperature",
-    "max_output_tokens": "--agent.model.completion_kwargs.max_tokens",
     "observation_budget": "--agent.templates.max_observation_length",
-    "seed": "--agent.model.completion_kwargs.seed",
 }
+
+
+def _load_request_config(tokens: Sequence[str]) -> tuple[dict[str, Any], Path | None, str | None]:
+    """Load the completion kwargs fragment referenced by a real command."""
+    try:
+        config_indices = [index for index, token in enumerate(tokens) if token == "--config"]
+    except TypeError as exc:  # defensive for callers passing a non-sequence
+        raise RunnerContractError("command tokens are not iterable") from exc
+    if len(config_indices) < 2:
+        # Keep fixture-only callers readable while making the production path
+        # fail closed. The real manifest never uses these rejected nested CLI
+        # options; they are accepted here only for the shell wrapper's local
+        # fake-agent tests, which do not launch SWE-agent.
+        direct = {
+            "max_tokens": "--agent.model.completion_kwargs.max_tokens",
+            "seed": "--agent.model.completion_kwargs.seed",
+        }
+        if all(flag in tokens for flag in direct.values()):
+            try:
+                values = {
+                    key: int(tokens[tokens.index(flag) + 1])
+                    for key, flag in direct.items()
+                }
+            except (IndexError, ValueError) as exc:
+                raise RunnerContractError("direct completion kwargs are not numeric") from exc
+            return values, None, None
+        raise RunnerContractError("SWE-agent command must include a request YAML config fragment")
+    path = Path(str(tokens[config_indices[-1] + 1])) if config_indices[-1] + 1 < len(tokens) else Path()
+    if not path.is_file():
+        raise RunnerContractError(f"request YAML config fragment is unavailable: {path}")
+    raw_config = path.read_text(encoding="utf-8")
+    try:
+        loaded = json.loads(raw_config)
+    except json.JSONDecodeError:
+        try:
+            import yaml  # type: ignore
+
+            loaded = yaml.safe_load(raw_config)
+        except Exception as exc:  # pragma: no cover - exercised on the pinned Linux path
+            raise RunnerContractError(f"request YAML config fragment is not readable: {exc}") from exc
+    try:
+        completion = loaded["agent"]["model"]["completion_kwargs"]
+    except (KeyError, TypeError):
+        raise RunnerContractError("request YAML config fragment lacks agent.model.completion_kwargs") from None
+    if not isinstance(completion, dict):
+        raise RunnerContractError("agent.model.completion_kwargs must be a mapping")
+    return dict(completion), path, hashlib.sha256(path.read_bytes()).hexdigest()
 
 
 def resolved_experiment_settings(argv: Sequence[str] | str) -> dict[str, Any]:
@@ -174,17 +225,22 @@ def resolved_experiment_settings(argv: Sequence[str] | str) -> dict[str, Any]:
         input_limit = tokens[tokens.index("--agent.model.max_input_tokens") + 1]
     except (ValueError, IndexError):
         raise RunnerContractError("command is missing fixed input/output token guards") from None
+    completion: dict[str, Any] | None = None
+    request_config_path: Path | None = None
+    request_config_sha256: str | None = None
+    if "run-batch" in tokens:
+        completion, request_config_path, request_config_sha256 = _load_request_config(tokens)
     try:
         resolved = {
             "per_instance_call_limit": int(values["per_instance_call_limit"]),
             "temperature": float(values["temperature"]),
-            "max_output_tokens": int(values["max_output_tokens"]),
             "max_observation_length": int(values["observation_budget"]),
-            "seed": int(values["seed"]),
             "max_input_tokens": int(input_limit),
             "max_output_tokens_guard": int(guard),
+            "max_output_tokens": int((completion or {}).get("max_tokens")),
+            "seed": int((completion or {}).get("seed")),
         }
-    except ValueError as exc:
+    except (TypeError, ValueError) as exc:
         raise RunnerContractError(f"experimental setting is not numeric: {exc}") from None
     if resolved["max_output_tokens"] != resolved["max_output_tokens_guard"]:
         raise RunnerContractError("provider max_tokens and SWE-agent output guard disagree")
@@ -192,6 +248,9 @@ def resolved_experiment_settings(argv: Sequence[str] | str) -> dict[str, Any]:
         raise RunnerContractError("call, token, and observation settings must be positive")
     if not 0.0 <= resolved["temperature"] <= 2.0 or resolved["seed"] < 0:
         raise RunnerContractError("temperature or seed is outside the supported range")
+    if request_config_path is not None:
+        resolved["request_config_path"] = str(request_config_path)
+        resolved["request_config_sha256"] = request_config_sha256
     return resolved
 
 

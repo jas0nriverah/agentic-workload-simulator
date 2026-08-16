@@ -28,8 +28,11 @@ Status: frozen after CR4; implementation workers must consume this contract.
 The runner invokes the pinned SWE-agent directly with a local OpenAI-compatible
 endpoint (`http://127.0.0.1:8000/v1`), provider-prefixed served model, zero
 cost limits, one worker, 30 maximum model calls, a fixed 32768 input guard,
-2048 output metadata plus explicit `completion_kwargs.max_tokens`, seed 0 via
-`completion_kwargs.seed`, and a 100000-character observation budget.
+2048 output metadata plus `completion_kwargs.max_tokens` and seed 0 via the
+second pinned `cloud/lambda/sweagent_request.yaml` config fragment, and a
+100000-character observation budget. SWE-agent v1.1.0 rejects invented nested
+completion-kwargs CLI flags, so the wrapper writes an immutable per-attempt
+fragment for each resolved cell.
 `uninstrumented` is the first-session control. `thin-telemetry` may only
 capture approved event/Prometheus/GPU samples and must not mutate requests; it
 is deferred until the first raw trajectory is reviewed.

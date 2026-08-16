@@ -227,13 +227,20 @@ def check_command_contract(env: dict[str, str]) -> dict[str, Any]:
         raise CheckFailure(f"SWE-agent command missing required options: {missing}")
     if "--instances.split" in control:
         raise CheckFailure("unsupported invented --instances.split option is present")
+    config_indices = [index for index, token in enumerate(control) if token == "--config"]
+    if len(config_indices) < 2 or any(index + 1 >= len(control) for index in config_indices):
+        raise CheckFailure("SWE-agent command must include default and request YAML config fragments")
+    request_config = control[config_indices[-1] + 1]
+    expected_request_path = env.get("SWE_AGENT_REQUEST_CONFIG")
+    if expected_request_path and request_config != expected_request_path:
+        raise CheckFailure(f"request config path mismatch: {request_config!r} != {expected_request_path!r}")
+    if any(flag in control for flag in ("--agent.model.completion_kwargs.max_tokens", "--agent.model.completion_kwargs.seed")):
+        raise CheckFailure("nested completion_kwargs CLI flags are rejected by pinned SWE-agent; use request YAML")
     expected = {
         "--agent.model.temperature": EXPECTED["temperature"],
         "--agent.model.max_input_tokens": EXPECTED["max_input_tokens"],
         "--agent.model.max_output_tokens": EXPECTED["max_output_tokens"],
         "--agent.model.per_instance_call_limit": EXPECTED["call_limit"],
-        "--agent.model.completion_kwargs.max_tokens": EXPECTED["max_output_tokens"],
-        "--agent.model.completion_kwargs.seed": EXPECTED["seed"],
         "--agent.templates.max_observation_length": EXPECTED["max_observation_length"],
     }
     mismatches = {key: (option(control, key), value) for key, value in expected.items() if option(control, key) != value}
@@ -242,12 +249,18 @@ def check_command_contract(env: dict[str, str]) -> dict[str, Any]:
     api_key = option(control, "--agent.model.api_key")
     if api_key not in {"$VLLM_API_KEY", "${VLLM_API_KEY}"}:
         raise CheckFailure("SWE-agent command must use environment-provided $VLLM_API_KEY")
-    if option(control, "--agent.model.completion_kwargs.max_tokens") != option(control, "--agent.model.max_output_tokens"):
-        raise CheckFailure("completion_kwargs.max_tokens must equal the fixed max_output_tokens guard")
+    request_expected = {
+        "config.agent.model.completion_kwargs.max_tokens": env.get("EXPERIMENT_MAX_OUTPUT_TOKENS", EXPECTED["max_output_tokens"]),
+        "config.agent.model.completion_kwargs.seed": env.get("EXPERIMENT_SEED", EXPECTED["seed"]),
+    }
     path = option(control, "--instances.path")
     if not path or not Path(path).name.endswith((".json", ".jsonl")):
         raise CheckFailure("SWE-agent instances path must be a local JSON/JSONL file")
-    return {"status": "pass", "detail": "control/thin command equality and explicit knob mappings passed", "knobs": expected}
+    return {
+        "status": "pass",
+        "detail": "control/thin command equality, scalar mappings, and request-config mapping passed",
+        "knobs": {**expected, **request_expected},
+    }
 
 
 def check_host(env: dict[str, str], root: Path) -> dict[str, Any]:

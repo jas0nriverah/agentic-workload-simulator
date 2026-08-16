@@ -26,31 +26,38 @@ class SweagentRunnerTests(unittest.TestCase):
         self.assertNotIn("--model-revision", command)
 
     def test_four_assignment_knobs_and_request_fields_are_concrete(self):
-        command = build_command(
-            instances_path="/tmp/tasks.json",
-            instance_id="i1",
-            output_dir="/tmp/o",
-            model="openai/Qwen",
-            model_revision="b2cff646eb4bb1",
-            per_instance_call_limit=17,
-            max_output_tokens=1536,
-            max_observation_length=25_000,
-            temperature=0.5,
-            seed=2,
-        )
-        resolved = validate_experiment_command(command)
+        with tempfile.TemporaryDirectory() as tmp:
+            request_config = Path(tmp) / "request.yaml"
+            request_config.write_text(
+                '{"agent":{"model":{"completion_kwargs":{"max_tokens":1536,"seed":2}}}}\n',
+                encoding="utf-8",
+            )
+            command = build_command(
+                instances_path="/tmp/tasks.json",
+                instance_id="i1",
+                output_dir="/tmp/o",
+                model="openai/Qwen",
+                model_revision="b2cff646eb4bb1",
+                request_config_path=request_config,
+                per_instance_call_limit=17,
+                max_output_tokens=1536,
+                max_observation_length=25_000,
+                temperature=0.5,
+                seed=2,
+            )
+            resolved = validate_experiment_command(command)
         self.assertEqual(resolved["per_instance_call_limit"], 17)
         self.assertEqual(resolved["max_output_tokens"], 1536)
         self.assertEqual(resolved["max_observation_length"], 25_000)
         self.assertEqual(resolved["temperature"], 0.5)
         self.assertEqual(resolved["seed"], 2)
-        self.assertIn("--agent.model.completion_kwargs.max_tokens", command)
-        self.assertIn("--agent.model.completion_kwargs.seed", command)
+        self.assertIn("--config", command)
+        self.assertIn("--config", command)
         self.assertIn("--agent.templates.max_observation_length", command)
 
     def test_contradictory_output_guard_is_rejected(self):
         command = build_command(instances_path="/tmp/tasks.json", instance_id="i1", output_dir="/tmp/o", model="openai/Qwen", model_revision="b2cff646eb4bb1")
-        command[command.index("--agent.model.completion_kwargs.max_tokens") + 1] = "1024"
+        command[command.index("--agent.model.max_output_tokens") + 1] = "1024"
         with self.assertRaises(RunnerContractError):
             validate_experiment_command(command)
 

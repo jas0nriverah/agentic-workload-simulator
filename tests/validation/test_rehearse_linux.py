@@ -27,9 +27,9 @@ class RehearsalTests(unittest.TestCase):
         result = rehearse.check_command_contract(values)
         self.assertEqual(result["status"], "pass")
         self.assertEqual(
-            result["knobs"]["--agent.model.completion_kwargs.max_tokens"], "2048"
+            result["knobs"]["config.agent.model.completion_kwargs.max_tokens"], "2048"
         )
-        self.assertEqual(result["knobs"]["--agent.model.completion_kwargs.seed"], "0")
+        self.assertEqual(result["knobs"]["config.agent.model.completion_kwargs.seed"], "0")
         self.assertEqual(
             result["knobs"]["--agent.templates.max_observation_length"], "100000"
         )

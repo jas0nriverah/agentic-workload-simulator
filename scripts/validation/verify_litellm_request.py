@@ -23,14 +23,14 @@ def _manifest_command(path: Path) -> str:
     raise RuntimeError(f"manifest does not define SWE_AGENT_COMMAND: {path}")
 
 
-def _cli_config(source_root: Path, command_text: str) -> tuple[dict[str, Any], list[str], list[str]]:
+def _cli_config(source_root: Path, command_text: str, project_root: Path | None = None) -> tuple[dict[str, Any], list[str], list[str]]:
     """Resolve the exact manifest argv through pinned SWE-agent's parser.
 
     Lambda paths are intentionally absolute in the committed example manifest.
-    A rehearsal checkout lives under a temporary runner path, so only a missing
-    `--config` path is mapped to the detached checkout's equivalent default
-    config; all model, agent, request, and observation flags are passed
-    unchanged to the pinned CLI.
+    A rehearsal checkout lives under a temporary runner path, so the default
+    SWE-agent config is mapped to the detached checkout and the request
+    fragment is mapped to this project checkout. All scalar model, agent,
+    request, and observation flags are passed unchanged to the pinned CLI.
     """
     tokens = shlex.split(command_text)
     if "run-batch" not in tokens:
@@ -48,15 +48,21 @@ def _cli_config(source_root: Path, command_text: str) -> tuple[dict[str, Any], l
     argv = list(tokens)
     argv[0] = str(executable)
     rewrites: list[str] = []
-    try:
-        config_index = argv.index("--config")
-        config_path = Path(argv[config_index + 1])
-    except (ValueError, IndexError):
+    config_indices = [index for index, token in enumerate(argv) if token == "--config"]
+    if len(config_indices) < 2 or any(index + 1 >= len(argv) for index in config_indices):
         raise RuntimeError("manifest command must include --config") from None
-    if not config_path.is_file():
-        replacement = source_root / "config/default.yaml"
+    for ordinal, config_index in enumerate(config_indices):
+        config_path = Path(argv[config_index + 1])
+        if config_path.is_file():
+            continue
+        if ordinal == 0 or config_path.name == "default.yaml":
+            replacement = source_root / "config/default.yaml"
+        elif project_root is not None:
+            replacement = project_root / "cloud/lambda/sweagent_request.yaml"
+        else:
+            raise RuntimeError(f"request config fragment is unavailable: {config_path}")
         if not replacement.is_file():
-            raise RuntimeError(f"pinned SWE-agent default config is unavailable: {replacement}")
+            raise RuntimeError(f"pinned config replacement is unavailable: {replacement}")
         rewrites.append(f"--config:{config_path}->{replacement}")
         argv[config_index + 1] = str(replacement)
     env = os.environ.copy()
@@ -77,7 +83,7 @@ def _cli_config(source_root: Path, command_text: str) -> tuple[dict[str, Any], l
     return config, argv, rewrites
 
 
-def verify(source_root: Path, command_text: str | None = None) -> dict[str, Any]:
+def verify(source_root: Path, command_text: str | None = None, project_root: Path | None = None) -> dict[str, Any]:
     if not source_root.is_dir():
         return {"schema_version": "litellm-request-check.v1", "status": "capability", "detail": "SWE-agent source root not supplied"}
     sys.path.insert(0, str(source_root))
@@ -89,7 +95,7 @@ def verify(source_root: Path, command_text: str | None = None) -> dict[str, Any]
 
     if not command_text:
         return {"schema_version": "litellm-request-check.v1", "status": "capability", "detail": "exact SWE-agent manifest command not supplied"}
-    config_dict, resolved_argv, path_rewrites = _cli_config(source_root, command_text)
+    config_dict, resolved_argv, path_rewrites = _cli_config(source_root, command_text, project_root)
     model_dict = dict(config_dict["agent"].get("model", {}))
     if not model_dict.get("name"):
         raise RuntimeError("pinned SWE-agent config did not resolve agent.model.name")
@@ -165,13 +171,15 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument("--swe-agent-root", type=Path)
     parser.add_argument("--command", help="exact SWE_AGENT_COMMAND text from the reviewed manifest")
     parser.add_argument("--manifest", type=Path, help="read SWE_AGENT_COMMAND without sourcing the manifest")
+    parser.add_argument("--project-root", type=Path, help="project checkout containing cloud/lambda/sweagent_request.yaml")
     parser.add_argument("--strict", action="store_true")
     args = parser.parse_args(argv)
     try:
         command = args.command
         if args.manifest:
             command = _manifest_command(args.manifest)
-        result = verify(args.swe_agent_root.resolve() if args.swe_agent_root else Path(""), command)
+        project_root = args.project_root.resolve() if args.project_root else None
+        result = verify(args.swe_agent_root.resolve() if args.swe_agent_root else Path(""), command, project_root)
     except Exception as exc:
         result = {"schema_version": "litellm-request-check.v1", "status": "fail", "detail": str(exc)}
     print(json.dumps(result, indent=2, sort_keys=True))
