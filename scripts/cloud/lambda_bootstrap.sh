@@ -244,11 +244,11 @@ local_tests() {
   PYTHONPATH="$ROOT/src" "$VENV/bin/python" -m compileall -q "$ROOT/src" "$ROOT/scripts" "$ROOT/tests"
 }
 
+stage utilities 'for t in git curl jq rsync tmux tar zstd python3; do command -v "$t" >/dev/null || exit 1; done; python3 -m venv --help >/dev/null' utilities
 stage preflight 'python3 - "$WORK_ROOT/artifacts/manifests/lambda_preflight.json" <<"PY"
 import json,sys
 assert json.load(open(sys.argv[1], encoding="utf-8"))["status"] == "PASS"
 PY' preflight
-stage utilities 'for t in git curl jq rsync tmux tar zstd python3; do command -v "$t" >/dev/null || exit 1; done; python3 -m venv --help >/dev/null' utilities
 stage directories 'test -d "$REPOS" && test -d "$VENV" && test -d "$WORK_ROOT/datasets"' directories
 stage python_environment 'test -x "$VENV/bin/python" && "$VENV/bin/python" -c "import pip"' python_environment
 stage pinned_repositories 'test "$(git -C "$REPOS/SWE-agent" rev-parse HEAD)" = "$SWE_AGENT_REVISION" && test "$(git -C "$REPOS/SWE-bench" rev-parse HEAD)" = "$SWE_BENCH_REVISION"' repositories

@@ -62,9 +62,9 @@ class OfficialEvaluatorContractTests(unittest.TestCase):
             "if '{{.Os}}/{{.Architecture}}' in args:\n"
             "    print('linux/amd64')\n"
             "elif '14182' in args:\n"
-            f"    print({LITE_IMAGE!r} + '@' + {LITE_DIGEST!r})\n"
+            f"    print({LITE_IMAGE.split(':', 1)[0]!r} + '@' + {LITE_DIGEST!r})\n"
             "else:\n"
-            f"    print({VERIFIED_IMAGE!r} + '@' + {VERIFIED_DIGEST!r})\n",
+            f"    print({VERIFIED_IMAGE.split(':', 1)[0]!r} + '@' + {VERIFIED_DIGEST!r})\n",
             encoding="utf-8",
         )
         self.fake_evaluator = self.root / "fake-evaluator"
@@ -172,8 +172,8 @@ class OfficialEvaluatorContractTests(unittest.TestCase):
         self.assertIn("--predictions_path gold", result.stdout)
         self.assertIn("--instance_ids " + LITE_ID, result.stdout)
         self.assertIn("--instance_ids " + VERIFIED_ID, result.stdout)
-        self.assertIn(LITE_IMAGE + "@" + LITE_DIGEST, result.stdout)
-        self.assertIn(VERIFIED_IMAGE + "@" + VERIFIED_DIGEST, result.stdout)
+        self.assertIn(LITE_IMAGE.split(":", 1)[0] + "@" + LITE_DIGEST, result.stdout)
+        self.assertIn(VERIFIED_IMAGE.split(":", 1)[0] + "@" + VERIFIED_DIGEST, result.stdout)
         self.assertIn("no evaluator or Docker command executes", result.stdout)
         self.assertFalse((self.root / "out").exists())
 

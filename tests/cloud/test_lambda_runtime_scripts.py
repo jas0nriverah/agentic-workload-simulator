@@ -108,6 +108,27 @@ class LambdaRuntimeScriptTests(unittest.TestCase):
             self.assertIn("--tensor-parallel-size 1", result.stdout)
             self.assertIn("org/NonDefaultModel", result.stdout)
 
+    def test_start_uses_manifest_cache_and_never_pulls_after_bootstrap(self):
+        with tempfile.TemporaryDirectory() as temp:
+            manifest = pathlib.Path(temp) / "manifest.env"
+            manifest.write_text(
+                "\n".join([
+                    "WORK_ROOT=/tmp/non-default-work",
+                    "CACHE_ROOT=/tmp/non-default-cache",
+                    "VLLM_MODEL_REVISION=0123456789abcdef0123456789abcdef01234567",
+                    "VLLM_IMAGE=registry.example/vllm:v0.10.0@sha256:" + "a" * 64,
+                    "VLLM_IMAGE_DIGEST=sha256:" + "a" * 64,
+                    "VLLM_IMAGE_PLATFORM=linux/amd64",
+                    "VLLM_TOOL_PARSER=qwen3_coder",
+                    "VLLM_TENSOR_PARALLEL_SIZE=1",
+                ]) + "\n",
+                encoding="utf-8",
+            )
+            result = self.run_script(RUNTIME[3], "--manifest", str(manifest), "--dry-run")
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertIn("/tmp/non-default-cache/huggingface:/root/.cache/huggingface", result.stdout)
+            self.assertIn("--pull=never", result.stdout)
+
     def test_health_contract_uses_metrics_endpoint_not_chat_metrics(self):
         text = RUNTIME[4].read_text(encoding="utf-8")
         self.assertIn("/metrics", text)
@@ -127,11 +148,21 @@ class LambdaRuntimeScriptTests(unittest.TestCase):
         self.assertIn("tool-call-parser", text)
         self.assertIn("--gpus device=0", text)
 
+    def test_start_rechecks_image_digest_and_platform_before_launch(self):
+        text = RUNTIME[3].read_text(encoding="utf-8")
+        self.assertIn("pinned vLLM image digest mismatch", text)
+        self.assertIn("pinned vLLM image platform mismatch", text)
+        self.assertIn("--pull=never", text)
+
     def test_resume_validates_vllm_digest_and_platform(self):
         text = (ROOT / "scripts/cloud/lambda_bootstrap.sh").read_text(encoding="utf-8")
         self.assertIn("RepoDigests", text)
         self.assertIn("vLLM image digest mismatch", text)
         self.assertIn("vLLM image platform mismatch", text)
+
+    def test_bootstrap_installs_utilities_before_blocking_preflight(self):
+        text = (ROOT / "scripts/cloud/lambda_bootstrap.sh").read_text(encoding="utf-8")
+        self.assertLess(text.index("stage utilities"), text.index("stage preflight"))
 
     def test_preflight_dry_run_does_not_create_report(self):
         with tempfile.TemporaryDirectory() as temp:
@@ -139,6 +170,12 @@ class LambdaRuntimeScriptTests(unittest.TestCase):
             result = self.run_script(RUNTIME[0], "--dry-run", "--output", str(output))
             self.assertEqual(result.returncode, 0, result.stderr)
             self.assertFalse(output.exists())
+
+    def test_preflight_uses_authenticated_docker_registry_probe(self):
+        text = RUNTIME[0].read_text(encoding="utf-8")
+        self.assertIn("https://registry-1.docker.io/v2/", text)
+        self.assertIn("authentication required", text)
+        self.assertIn(":401", text)
 
 if __name__ == "__main__":
     unittest.main()

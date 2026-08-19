@@ -50,7 +50,18 @@ free_kib="$(df -Pk "${WORK_ROOT:-$ROOT/..}" 2>/dev/null | awk 'NR==2 {print $4}'
 docker_state="unavailable"; if command -v docker >/dev/null 2>&1 && docker info >/dev/null 2>&1; then docker_state="available"; else add_failure "Docker daemon is unavailable"; fi
 missing=(); for tool in git curl jq rsync tmux tar zstd; do command -v "$tool" >/dev/null 2>&1 || missing+=("$tool"); done; ((${#missing[@]} == 0)) || add_failure "missing required utilities: ${missing[*]}"
 if command -v ss >/dev/null 2>&1; then ss -H -ltn "sport = :$PORT" 2>/dev/null | grep -q . && add_failure "port $PORT is occupied"; elif command -v lsof >/dev/null 2>&1; then lsof -nP -iTCP:"$PORT" -sTCP:LISTEN >/dev/null 2>&1 && add_failure "port $PORT is occupied"; else add_warning "neither ss nor lsof is available for port check"; fi
-network_state="PASS"; for endpoint in https://github.com https://huggingface.co https://pypi.org https://registry-1.docker.io; do if ! curl --connect-timeout 5 --max-time 10 -fsSI "$endpoint" >/dev/null 2>&1; then network_state="BLOCKED"; add_failure "endpoint unreachable: $endpoint"; fi; done
+network_state="PASS"
+for endpoint in https://github.com https://huggingface.co https://pypi.org https://registry-1.docker.io/v2/; do
+  # Docker Hub deliberately returns 401/403 for an unauthenticated /v2/ probe.
+  # That response proves the registry is reachable; only transport failures or
+  # unexpected status codes should block a pinned image pull.
+  http_code="$(curl --connect-timeout 5 --max-time 10 -sS -o /dev/null -w '%{http_code}' "$endpoint" 2>/dev/null || true)"
+  case "$endpoint:$http_code" in
+    https://registry-1.docker.io/v2/:401|https://registry-1.docker.io/v2/:403) add_warning "registry reachable but authentication required: $endpoint (HTTP $http_code)";;
+    https://registry-1.docker.io/v2/:2??|https://registry-1.docker.io/v2/:3??|https://github.com:2??|https://github.com:3??|https://huggingface.co:2??|https://huggingface.co:3??|https://pypi.org:2??|https://pypi.org:3??) :;;
+    *) network_state="BLOCKED"; add_failure "endpoint unreachable or unexpected HTTP status ($http_code): $endpoint";;
+  esac
+done
 gpu_processes=""; if command -v nvidia-smi >/dev/null 2>&1; then gpu_processes="$(nvidia-smi --query-compute-apps=pid --format=csv,noheader 2>/dev/null | sed '/^[[:space:]]*$/d' | tr '\n' ' ' || true)"; fi; [[ -z "$gpu_processes" ]] || add_failure "unexpected GPU processes: $gpu_processes"
 status=PASS; ((${#failures[@]} == 0)) || status=BLOCKED; mkdir -p -- "$(dirname -- "$OUT")"
 python3 - "$OUT" "$status" "$os_release" "$arch" "$user_name" "$sudo_state" "$gpu" "$gpu_mem" "$gpu_count" "$compute" "$driver" "$cuda" "$docker_state" "$network_state" "$PORT" "$filesystem" "$cpu_cores" "$memory_bytes" "${failures[*]-}" "${warnings[*]-}" <<'PY'

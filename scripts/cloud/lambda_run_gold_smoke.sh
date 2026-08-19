@@ -288,9 +288,9 @@ PY
 fi
 
 print_image_check() {
-  local suite="$1" image="$2" digest="$3"
+  local suite="$1" image="$2" digest="$3" image_repo="${2%%:*}"
   printf 'IMAGE_CHECK[%s]: docker image inspect --format %q %q; require platform %q\n' "$suite" '{{.Os}}/{{.Architecture}}' "$image" "$EXPECTED_PLATFORM"
-  printf 'IMAGE_CHECK[%s]: docker image inspect --format %q %q; require RepoDigests contains %q\n' "$suite" '{{join .RepoDigests "\n"}}' "$image" "$image@$digest"
+  printf 'IMAGE_CHECK[%s]: docker image inspect --format %q %q; require RepoDigests contains %q\n' "$suite" '{{join .RepoDigests "\n"}}' "$image" "$image_repo@$digest"
 }
 
 run_suite() {
@@ -315,11 +315,12 @@ run_suite() {
   printf '\n'
   ((DRY_RUN)) && return 0
   command -v docker >/dev/null 2>&1 || die 'Docker is required for official SWE-bench evaluation'
-  local platform repo_digests
+  local platform repo_digests image_repo
   platform="$(docker image inspect --format '{{.Os}}/{{.Architecture}}' "$image" 2>/dev/null || true)"
   [[ "$platform" == "$EXPECTED_PLATFORM" ]] || die "$suite image platform mismatch"
   repo_digests="$(docker image inspect --format '{{join .RepoDigests "\n"}}' "$image" 2>/dev/null || true)"
-  grep -Fqx "$image@$digest" <<<"$repo_digests" || die "$suite image is not present at the pinned digest"
+  image_repo="${image%%:*}"
+  grep -Fqx "$image_repo@$digest" <<<"$repo_digests" || die "$suite image is not present at the pinned digest"
   [[ ! -e "$suite_root" ]] || die "gold output already exists: $suite_root"
   mkdir -p -- "$report_dir"
   python3 - "$manifest_path" "$suite" "$EXPERIMENT_TYPE" "$run_id" "$instance_id" "$SWE_BENCH_REVISION" "$dataset_path" "$image" "$digest" "$report_dir" "$log_path" <<'PY'

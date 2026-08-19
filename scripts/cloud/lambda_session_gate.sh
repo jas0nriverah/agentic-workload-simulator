@@ -53,8 +53,8 @@ def fail(message: str) -> None:
 
 if values.get("authorized", "false").lower() != "true":
     fail("authorized must be true")
-if values.get("provider") != "lambda":
-    fail("provider must be lambda")
+if values.get("provider") not in {"lambda", "lightning"}:
+    fail("provider must be lambda or lightning")
 try:
     dollars = float(values.get("maximum_dollars", "0"))
     gpu_hours = float(values.get("maximum_gpu_hours", "0"))
