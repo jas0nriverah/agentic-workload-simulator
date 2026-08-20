@@ -48,6 +48,9 @@ class LambdaRuntimeScriptTests(unittest.TestCase):
         self.assertIn("--require-hashes", (ROOT / "scripts/cloud/lambda_bootstrap.sh").read_text(encoding="utf-8"))
         self.assertEqual(hashlib.sha256((ROOT / "cloud/lambda/requirements-linux-x86_64.txt").read_bytes()).hexdigest(), PYTHON_LOCK_SHA256)
         self.assertIn("--tool-call-parser qwen3_coder", start.stdout)
+        self.assertIn("--model Qwen/Qwen3-Coder-30B-A3B-Instruct", start.stdout)
+        self.assertIn("HF_HUB_OFFLINE=1", start.stdout)
+        self.assertIn("TRANSFORMERS_OFFLINE=1", start.stdout)
         self.assertIn("--dtype bfloat16", start.stdout)
         self.assertIn("--max-model-len 32768", start.stdout)
 
