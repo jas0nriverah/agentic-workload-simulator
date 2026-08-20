@@ -49,6 +49,11 @@ The coordinator has implemented and locally tested:
   deterministic `image_name` field while preserving the raw measured row;
 - byte-preserving `.traj` inventory and collection support for SWE-agent's
   whole-document trajectory format and YAML run artifacts.
+- a lossless first-trajectory normalizer at
+  `scripts/validation/normalize_sweagent_trajectory.py`. It preserves the raw
+  `.traj`, retains each matched trace-log source line, emits 31 provider
+  `model_call` records, 30 exact tool-call joins, and one discarded post-limit
+  response without fabricating request timestamps or GPU correlation.
 
 The pushed coordinator branch is `pre-h100-hardening`; confirm its current
 HEAD before proceeding:
@@ -218,6 +223,29 @@ requirements-linux-x86_64-py312.txt; otherwise stop and resolve the lock.
 The command fields must point at the managed prefix, not
 /teamspace/.../agentic-work/venv.
 
+## Step 4.5 — local first-trajectory normalization (no billing)
+
+Before a second paid session, run the normalizer against the exported raw
+trajectory and its trace log. The command is additive and refuses to overwrite
+the raw source:
+
+~~~bash
+PYTHONPATH=src python3 scripts/validation/normalize_sweagent_trajectory.py \
+  --input /path/to/astropy__astropy-12907.traj \
+  --trace-log /path/to/astropy__astropy-12907.trace.log \
+  --output /path/to/first-control.normalized.jsonl \
+  --run-id first-lite-astropy__astropy-12907 \
+  --attempt-id attempt-002 \
+  --instance-id astropy__astropy-12907
+~~~
+
+The measured fixture must report 31 trace `ModelResponse` records, 30
+committed tool executions, one `discarded_limit_exceeded` response, and one
+`agent_terminal` event. Provider usage and SWE-agent `model_stats` remain
+separate. `request_id`, monotonic request intervals, and native vLLM joins must
+remain null/unavailable. Review the normalized JSONL and raw SHA before any
+thin-telemetry launch.
+
 ## Step 5 — preflight, dry-run, and bootstrap
 
 Keep a persistent log. The first invocation after this patch may rerun old
@@ -335,7 +363,7 @@ FIRST CONTROL TRAJECTORY: PASS (trajectory and official runner completed)
 OFFICIAL EVALUATION: UNRESOLVED (empty patch; resolved=0)
 ARTIFACT EXPORT: PASS (self-contained archive SHA-256 45f1fd6d328eb2d4c2626ca42a68c36ee8b40fef7afc20ddad59f5040f399ed5)
 H100 CREDITS USED: recorded session was within the untracked G3A authorization; exact provider balance should be read from the Lightning account
-H100-ONLY UNCERTAINTIES: control outcome is unresolved; thin telemetry, normalization, sweeps, profiling, and simulator remain deferred
+H100-ONLY UNCERTAINTIES: control outcome is unresolved; thin telemetry, sweeps, profiling, and simulator remain deferred; local normalization is complete and under review
 STUDIO STOPPED: NO (workloads stopped; post-stop sample verified 0 MiB and no lock; terminate the Studio in the UI)
 ~~~
 

@@ -7,13 +7,16 @@ only after the Lambda H100 gates pass.
 
 ## Current status
 
-- CR13 pre-H100 hardening: local static PASS; H100 validation pending
+- G4 local trajectory-contract review: local static PASS; the first H100
+  control and official evaluator have completed with an unresolved/empty-patch
+  outcome
 - Shared clock, resolved vLLM configuration, artifact v2, and four-knob
   command contracts passed local validation and independent review
 - Linux x86-64 rehearsal and first-trajectory inventory are free/local checks;
   unavailable host tools are reported explicitly and strict CI fails closed
-- No paid compute launched
-- No final empirical result exists
+- One paid H100 control session has completed; no thin-telemetry or sweep run
+  has been launched
+- No resolved-rate claim or final assignment result exists
 - Technical readiness does not authorize paid compute; the session gate remains
   fail-closed until the user supplies explicit authorization.
 
@@ -25,9 +28,10 @@ PYTHONPATH=src python3 -m unittest discover -s tests -v
 ```
 
 The Lambda runbook is at `cloud/lambda/RUNBOOK.md`. It is intentionally
-idempotent and does not contain credentials. The first paid session runs the
-gold smokes and one uninstrumented control trajectory only; thin telemetry and
-the four sweeps are deferred until the raw trajectory contract is reviewed.
+idempotent and does not contain credentials. The first paid control fixture is
+preserved and normalized locally by
+`scripts/validation/normalize_sweagent_trajectory.py`; thin telemetry and the
+four sweeps remain deferred until that fixture's review is complete.
 
 See `docs/assignment_traceability.md` for the frozen deliverable-to-evidence
 map and `project/PUBLIC_REFERENCE_LOCK.json` for the comparison-only public

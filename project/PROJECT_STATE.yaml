@@ -1,8 +1,8 @@
 schema_version: 1
-updated_at_utc: 2026-08-20T19:11:48Z
+updated_at_utc: 2026-08-20T20:29:51Z
 overall_status: g3a_h100_control_complete
-phase: CR0_CR1_CR2_CR3_CR4_CR5_CR6_CR7_CR8_CR9_CR10_CR11_CR12_CR13_G3A
-current_task: G3A-first-control-artifact-review
+phase: CR0_CR1_CR2_CR3_CR4_CR5_CR6_CR7_CR8_CR9_CR10_CR11_CR12_CR13_G3A_G4_LOCAL
+current_task: G4-local-lossless-trajectory-normalizer-review
 last_verified_commit: f953423
 last_verified_commit_role: h100_control_artifact_contract
 assignment_lock_hash: 02f485cdd8cca4aae242d2f1a5306184a95d7ee0fae42527d7153f48a3424761
@@ -14,7 +14,8 @@ hardware:
     gpu: RTX_2080_Super_or_none_on_local_mac
   final:
     status: validated
-    platform: Lambda_1x_H100_PCIe_80GB
+    target_platform: Lambda_1x_H100_PCIe_80GB
+    measured_platform: Lightning_1x_H100_80GB
 
 billing:
   provider: lightning
@@ -61,7 +62,7 @@ gates:
   G11_final_audit: pending
 
 next_actions:
-  - retain the uninstrumented trajectory as the control; implement the lossless normalizer locally before thin telemetry
+  - retain the uninstrumented trajectory as the control; review the completed lossless normalizer before thin telemetry
   - refresh the untracked Lightning authorization only if another paid launch is explicitly desired
   - do not expand to G5/G6 until the first generated prediction and evaluator artifacts pass review
 active_experiments: []

@@ -91,9 +91,11 @@
   files, and accidental presentation of a different public scaffold as an
   exact reproduction. They do not add instrumentation or change the
   assignment methodology.
-- Deferred: trajectory normalization, request/event correlation, interval
-  closure, cgroup/PSI attribution, Nsight Compute, sweeps, calibration, and
-  simulator fitting until the first real trajectory is exported.
+- Deferred at that point: request/event correlation, interval closure, cgroup/
+  PSI attribution, Nsight Compute, sweeps, calibration, and simulator fitting
+  until the first real trajectory was exported. The exported fixture is now
+  normalized under D-0009; the remaining timing/correlation work is still
+  deferred.
 
 ## D-0007 - Measured dataset source-file hashes
 
@@ -127,3 +129,36 @@
   it. Adding the derived field at the command boundary fixes the real runtime
   incompatibility without mutating raw evidence, changing the instance, or
   altering the evaluator methodology.
+
+## D-0009 - Lossless first-trajectory normalization contract
+
+- Status: accepted for local implementation; request-level timing deferred
+- Decision: normalize the first pinned SWE-agent `.traj` only as an additive
+  JSONL index. Preserve every raw trajectory/history/info record and the raw
+  source hash. When the trace log is supplied, retain each matched
+  `ModelResponse` source line and expose anchored provider response IDs, tool
+  call IDs, finish reasons, and usage as separate `model_call` records.
+- Correlation: join the 30 committed tool executions to assistant/tool history
+  and trace responses by exact tool-call ID. Keep the 31st provider response as
+  `discarded_limit_exceeded` because the call-limit warning was logged after
+  the request and no corresponding committed trajectory step exists. Emit the
+  synthetic `Exit due to cost limit` item as an `agent_terminal` record.
+- Accounting: preserve provider totals (531,236 prompt / 7,961 completion /
+  539,197 total) separately from SWE-agent `.traj` totals (478,411 input /
+  3,520 output / 31 API calls). These namespaces must not be reconciled or
+  substituted for one another.
+- Timing: retain SWE-agent `execution_time` as duration-only and trace log
+  timestamps as wall-clock observations. Request IDs, monotonic intervals,
+  native vLLM correlation, and GPU attribution remain explicitly unavailable;
+  no synthetic values are emitted.
+- Evidence: the raw `.traj` SHA-256 is
+  `e48fb12deac02ae196330fd4cf40c15d42defb8517ae428fd3099a2f284f6de7`;
+  the real fixture normalizes to 31 model-call records, 30 tool-execution
+  records, one terminal event, and 64 preserved history messages.
+- Rationale: the contract gives the assignment's event analysis a reviewable,
+  byte-preserving fixture without changing the SWE-agent scaffold or claiming
+  request-level measurements that the first run did not collect.
+- Immediate free/local review: inspect the normalized fixture and verify its
+  raw hashes before any new provider work. Deferred until a separately
+  authorized paid session: interval-union accounting closure, paired
+  thin-overhead run, Nsight/strace, sweeps, and G5/G6 expansion.
