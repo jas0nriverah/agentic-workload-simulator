@@ -40,6 +40,17 @@ class InventoryTests(unittest.TestCase):
             with self.assertRaises(inventory_module.CheckFailure):
                 inventory_module.inventory(root, 1024)
 
+    def test_inventory_recognizes_pinned_sweagent_yaml_contract_files(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            (root / "trajectory.traj").write_text('{"trajectory":[]}', encoding="utf-8")
+            (root / "preds.json").write_text('[]', encoding="utf-8")
+            (root / "run_batch.config.yaml").write_text("agent: {}\n", encoding="utf-8")
+            (root / "run_batch.log").write_text("done\n", encoding="utf-8")
+            (root / "run_batch_exit_statuses.yaml").write_text("instances_by_exit_status: {}\n", encoding="utf-8")
+            result = inventory_module.inventory(root, 1024)
+            self.assertEqual(set(result["artifact_kinds"]), {"trajectory", "predictions", "config", "log", "status"})
+
 
 if __name__ == "__main__":
     unittest.main()

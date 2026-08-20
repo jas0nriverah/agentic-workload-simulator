@@ -74,13 +74,13 @@ def classify(path: Path) -> str | None:
     suffix = path.suffix.lower()
     if suffix in {".traj", ".jsonl"} or "trajectory" in name:
         return "trajectory"
-    if suffix == ".json" and (name == "config.json" or "config" in name):
+    if suffix in {".json", ".yaml", ".yml"} and (name == "config.json" or "config" in name):
         return "config"
     if suffix == ".json" and ("pred" in name or "prediction" in name):
         return "predictions"
     if suffix in {".log", ".out", ".err"}:
         return "log"
-    if suffix == ".json" and "status" in name:
+    if suffix in {".json", ".yaml", ".yml"} and ("status" in name or "exit_status" in name):
         return "status"
     return None
 
