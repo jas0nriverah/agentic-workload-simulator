@@ -50,8 +50,8 @@ The coordinator has implemented and locally tested:
 - byte-preserving `.traj` inventory and collection support for SWE-agent's
   whole-document trajectory format and YAML run artifacts.
 
-The latest pushed coordinator branch is `pre-h100-hardening` at
-`f953423` (the handoff/state refresh commit). Confirm it before proceeding:
+The pushed coordinator branch is `pre-h100-hardening`; confirm its current
+HEAD before proceeding:
 
 ~~~bash
 cd /teamspace/studios/this_studio/agentic-workload-simulator
