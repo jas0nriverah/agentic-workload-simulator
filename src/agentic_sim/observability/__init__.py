@@ -33,6 +33,7 @@ from .vllm_metrics import (
 from .memory import estimate_memory, estimate_peak_memory, estimate_weight_bytes
 from .nvtx import annotate as nvtx_annotate, capability as nvtx_capability, range as nvtx_range
 from .overhead import PairingError, summarize_overhead_records, summarize_paired_overhead
+from .accounting import AccountingError, merge_intervals, summarize_interval_union
 from .perfetto import TraceExportError, export_perfetto_trace
 
 __all__ = [
@@ -64,6 +65,9 @@ __all__ = [
     "PairingError",
     "summarize_overhead_records",
     "summarize_paired_overhead",
+    "AccountingError",
+    "merge_intervals",
+    "summarize_interval_union",
     "TraceExportError",
     "export_perfetto_trace",
 ]

@@ -162,3 +162,19 @@
   raw hashes before any new provider work. Deferred until a separately
   authorized paid session: interval-union accounting closure, paired
   thin-overhead run, Nsight/strace, sweeps, and G5/G6 expansion.
+
+## D-0010 - Reset-safe interval-union accounting contract
+
+- Status: accepted for local implementation; empirical thin-run closure
+  remains H100-only
+- Decision: account timed event streams by merging overlapping monotonic
+  intervals only when `clock_id`, hostname, and boot ID match exactly. Report
+  raw duration, union duration, overlap, span, gaps, and coverage as derived
+  fields. Empty or incomplete streams remain explicitly unavailable.
+- Implementation: `agentic_sim.observability.accounting` and
+  `scripts/observability/account_intervals.py`.
+- Prohibition: the result is a timed-event union, not GPU device time; native
+  vLLM aggregate metrics cannot be used as request intervals or GPU time.
+- Rationale: this closes the accounting contract locally without fabricating
+  request correlation. A future authorized thin run must supply measured
+  intervals before any empirical accounting claim is made.

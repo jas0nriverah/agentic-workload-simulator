@@ -24,6 +24,12 @@
   status: done_local
   owner: root
   resource_class: CPU_ONLY
+
+- id: G4-local-interval-accounting-contract
+  objective: Implement reset-safe same-clock interval-union accounting with explicit overlap/gap and no GPU-time claims
+  status: done_local
+  owner: root
+  resource_class: CPU_ONLY
 - id: LC3-collection-scripts
   objective: Implement result collection, local verification, and workload stop scripts
   status: done

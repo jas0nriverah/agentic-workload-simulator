@@ -250,6 +250,22 @@ separate. `request_id`, monotonic request intervals, and native vLLM joins must
 remain null/unavailable. Review the normalized JSONL and raw SHA before any
 thin-telemetry launch.
 
+The local accounting and summary contracts are also runnable without billing:
+
+~~~bash
+PYTHONPATH=src python3 scripts/observability/account_intervals.py \
+  --input /path/to/events.jsonl \
+  --output /path/to/interval-union.json
+PYTHONPATH=src python3 scripts/validation/summarize_first_control.py \
+  --input /path/to/first-control.normalized.jsonl \
+  --output /path/to/first-control.summary.json
+~~~
+
+Interval accounting rejects cross-clock/host/boot merges and reports overlap
+and gaps as derived timed-event fields; it never claims GPU device time. The
+first-control summary is payload-free and keeps provider/SWE-agent token
+accounting separate.
+
 ## Step 5 — preflight, dry-run, and bootstrap
 
 Keep a persistent log. The first invocation after this patch may rerun old

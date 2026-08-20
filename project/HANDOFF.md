@@ -2,7 +2,7 @@
 
 Phase: G4 local first-trajectory normalization — local PASS
 Last verified result: local core/cloud tests, source hygiene, Linux rehearsal, release checks, independent review, and the first paid H100 control passed; the control evaluator measured unresolved/empty-patch
-Current task: G4 local normalized-fixture validation is complete; H100-only validation remains the next empirical phase
+Current task: G4 local normalized-fixture, interval-accounting, and first-control summary contracts are complete; H100-only validation remains the next empirical phase
 Frozen decisions: assignment lock, Lambda 1× H100 PCIe 80 GB target, Qwen3-Coder-30B-A3B BF16, pinned vLLM/SWE-agent/SWE-bench/datasets/images, no automatic thin rerun, no merge
 Running jobs: none
 Blockers: thin-telemetry/G5/G6 empirical validation and explicit user-paid-session authorization remain; no local technical blocker

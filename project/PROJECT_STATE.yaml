@@ -2,7 +2,7 @@ schema_version: 1
 updated_at_utc: 2026-08-20T20:45:09Z
 overall_status: g3a_h100_control_complete
 phase: CR0_CR1_CR2_CR3_CR4_CR5_CR6_CR7_CR8_CR9_CR10_CR11_CR12_CR13_G3A_G4_LOCAL
-current_task: G4-local-normalized-fixture-validator-complete
+current_task: G4-local-normalized-fixture-and-accounting-contracts-complete
 last_verified_commit: aa631cb0eadd871939a6429c337a679fd0e2d68b
 last_verified_commit_role: local_normalized_fixture_validator
 assignment_lock_hash: 02f485cdd8cca4aae242d2f1a5306184a95d7ee0fae42527d7153f48a3424761
@@ -62,7 +62,7 @@ gates:
   G11_final_audit: pending
 
 next_actions:
-  - retain the uninstrumented trajectory as the control; normalized fixture and validator are locally PASS
+  - retain the uninstrumented trajectory as the control; normalized fixture and interval-accounting contracts are locally PASS
   - refresh the untracked Lightning authorization only if another paid launch is explicitly desired
   - do not expand to G5/G6 until the first generated prediction and evaluator artifacts pass review
 active_experiments: []
