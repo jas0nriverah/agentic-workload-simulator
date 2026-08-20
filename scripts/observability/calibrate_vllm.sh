@@ -50,6 +50,7 @@ manifest_value() {
     key="${line%%=*}"; value="${line#*=}"
     [[ "$key" == "$wanted" ]] && { printf '%s' "$value"; return 0; }
   done < "$MANIFEST"
+  return 0
 }
 
 [[ -n "$MODEL" ]] || MODEL="$(manifest_value VLLM_MODEL)"

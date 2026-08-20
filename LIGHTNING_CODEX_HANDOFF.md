@@ -156,6 +156,14 @@ The output must be a real hash lock with the two header assertions above. If
 the resolver cannot produce one, stop before lambda_bootstrap.sh and report
 the unresolved Python-3.12 compatibility blocker.
 
+Validated provider lock in this checkout: 127 hash-pinned packages,
+`cloud/lambda/requirements-linux-x86_64-py312.txt`, SHA-256
+`9d23f97d8253d327e03c7541f165cb03a23a0a1ea429a45e4d300c9604047aa9`.
+The bootstrap retains `--only-binary=:all:` and `--require-hashes`. UV's
+synthetic manylinux2014-only binary probe does not accept `cbor2==6.1.4`, but
+the actual Studio pip selected its hashed CPython 3.12 manylinux_2_28 wheel;
+the provider lock's binary-only pip dry-run passes without source fallback.
+
 ## Step 4 — render and validate the Studio manifest
 
 Run this after the lock exists. The renderer automatically selects
