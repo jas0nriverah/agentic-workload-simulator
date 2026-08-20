@@ -94,3 +94,21 @@
 - Deferred: trajectory normalization, request/event correlation, interval
   closure, cgroup/PSI attribution, Nsight Compute, sweeps, calibration, and
   simulator fitting until the first real trajectory is exported.
+
+## D-0007 - Measured dataset source-file hashes
+
+- Status: accepted
+- Decision: replace the stale candidate dataset “manifest” hashes with the
+  SHA-256 of the exact pinned Hugging Face source Parquet retrieved on the
+  Lightning H100, and replace the selected-row fixtures with hashes of the
+  canonical one-row JSON files emitted by the pinned reader.
+- Evidence: Lite source `f46f2e3f003f2552932393da4b223e1e0456a2c71eba8b73ae58f29646c1278b`,
+  rows `astropy__astropy-12907=e117000983a3aabba8f43fb52e155d0cc6529b900ed476f59dc6cc065e970faa`
+  and `astropy__astropy-14182=87118fdd9b83e959aa533ea57a70557e95a7027fbce92b14879a98468f5a263b`;
+  Verified source `43ed5a3d1d98da36472c1ade65ddd2085d7b4ff694fcaf6a023a07c5c1f32f21`,
+  row `astropy__astropy-14365=4d0d91079bd056ff5d1940614ad71f025dd96f0498ceaf9ab71757efde87f5e3`.
+- Rationale: the prior values did not match either the raw pinned Parquet or a
+  direct `datasets` read of the same revisions. This is a provenance/validation
+  correction only: revisions, split, row counts, instance IDs, and evaluator
+  methodology are unchanged. No sample-repository result or fabricated score
+  is inherited.

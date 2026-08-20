@@ -41,6 +41,9 @@ The coordinator has implemented and locally tested:
   labeled exact managed-base allowlist in the managed Studio environment;
   never bypass an unknown pip-check conflict;
 - a recorded python-freeze.txt.
+- measured dataset provenance gates: the source Parquet bytes and each
+  selected one-row JSON are hashed and rechecked before any workload call;
+  the pinned reader is `huggingface_hub+pyarrow.parquet`.
 
 The exact coordinator commit is the commit containing this file. Confirm it
 before proceeding:
@@ -215,7 +218,18 @@ markers present. The pip-check audit must be either `PASS_CLEAN` or the exact
 `PASS_MANAGED_BASE_ALLOWLIST` status for the preinstalled Studio extras; any
 other conflict blocks launch. The
 bootstrap JSON must report the actual managed Python version and selected lock
-SHA.
+SHA. The dataset gate must report `provenance: measured`, the pinned reader,
+and these exact source/selected hashes recorded from the pinned revisions:
+Lite source `f46f2e3f003f2552932393da4b223e1e0456a2c71eba8b73ae58f29646c1278b`,
+Lite `astropy__astropy-12907`
+`e117000983a3aabba8f43fb52e155d0cc6529b900ed476f59dc6cc065e970faa`, Lite
+`astropy__astropy-14182`
+`87118fdd9b83e959aa533ea57a70557e95a7027fbce92b14879a98468f5a263b`, Verified
+source `43ed5a3d1d98da36472c1ade65ddd2085d7b4ff694fcaf6a023a07c5c1f32f21`,
+and Verified `astropy__astropy-14365`
+`4d0d91079bd056ff5d1940614ad71f025dd96f0498ceaf9ab71757efde87f5e3`.
+These values correct stale candidate constants; revisions, row IDs, and
+methodology are unchanged.
 
 ## Step 6 — runtime and first official control
 

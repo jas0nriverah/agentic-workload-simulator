@@ -60,6 +60,13 @@ vLLM server does not require an external provider credential; provide a
 process-only value such as `VLLM_API_KEY=local-only-key` when running the
 SWE-agent command, and never store it in the manifest or artifacts.
 
+The dataset gate is byte- and row-level, not a label check: the pinned
+`huggingface_hub+pyarrow.parquet` reader records the source Parquet path and
+SHA-256, and the bootstrap/gold/first-control gates recompute each selected
+canonical one-row JSON hash. The source Parquet SHA-256 values are Lite
+`f46f2e3f003f2552932393da4b223e1e0456a2c71eba8b73ae58f29646c1278b` and
+Verified `43ed5a3d1d98da36472c1ade65ddd2085d7b4ff694fcaf6a023a07c5c1f32f21`.
+
 ## Authorize the billed session
 
 Copy the untracked Lightning authorization template and fill the exact UTC

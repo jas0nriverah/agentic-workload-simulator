@@ -20,10 +20,10 @@ GENERATED_OUTPUT_ROOT=
 EXPECTED_SWE_BENCH_REVISION=726c5461e2ef52d83cf1ea2107870a8bb3328d57
 EXPECTED_LITE_DATASET_REPO=SWE-bench/SWE-bench_Lite
 EXPECTED_LITE_DATASET_REVISION=69611d31007e1c6731db8bd5b5c3f2d33f5bab6e
-EXPECTED_LITE_DATASET_SHA256=4c6a0f689c8b4ba32f4232d611b0c9a86d2fe379e4beb85c23d7c051f3652790
+EXPECTED_LITE_DATASET_SHA256=f46f2e3f003f2552932393da4b223e1e0456a2c71eba8b73ae58f29646c1278b
 EXPECTED_VERIFIED_DATASET_REPO=SWE-bench/SWE-bench_Verified
 EXPECTED_VERIFIED_DATASET_REVISION=91aa3ed51b709be6457e12d00300a6a596d4c6a3
-EXPECTED_VERIFIED_DATASET_SHA256=889bccf7ada1a43d211050ac666f3b31032997209afb10dccdc6ea52128a8435
+EXPECTED_VERIFIED_DATASET_SHA256=43ed5a3d1d98da36472c1ade65ddd2085d7b4ff694fcaf6a023a07c5c1f32f21
 EXPECTED_LITE_INSTANCE_ID=astropy__astropy-14182
 EXPECTED_VERIFIED_INSTANCE_ID=astropy__astropy-14365
 EXPECTED_NAMESPACE=swebench
@@ -237,11 +237,10 @@ if hashlib.sha256(canonical).hexdigest() != selected[0].get("sha256"):
     raise SystemExit(f"{suite} evaluator asset hash does not match datasets.json")
 if selected[0].get("sha256") != expected_selected_hash:
     raise SystemExit(f"{suite} evaluator asset hash does not match the reviewed selected-row hash")
-if expected_hash not in {
-    "4c6a0f689c8b4ba32f4232d611b0c9a86d2fe379e4beb85c23d7c051f3652790",
-    "889bccf7ada1a43d211050ac666f3b31032997209afb10dccdc6ea52128a8435",
-}:
-    raise SystemExit(f"{suite} dataset manifest hash is not reviewed")
+if section.get("source_file_sha256") != expected_hash:
+    raise SystemExit(f"{suite} source Parquet hash does not match the reviewed source-file hash")
+if pathlib.Path(section.get("source_file", "")).suffix != ".parquet":
+    raise SystemExit(f"{suite} dataset manifest does not identify a source Parquet file")
 print(f"validated {suite} dataset row {instance_id}")
 PY
 }

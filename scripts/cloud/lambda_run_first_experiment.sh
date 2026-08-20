@@ -75,6 +75,9 @@ EVALUATOR="${EVALUATE_COMMAND:-$(manifest_value EVALUATE_COMMAND)}"
 SWE_AGENT_REVISION="${SWE_AGENT_REVISION:-$(manifest_value SWE_AGENT_REVISION)}"
 SWE_BENCH_REVISION="${SWE_BENCH_REVISION:-$(manifest_value SWE_BENCH_REVISION)}"
 MODEL_REVISION="${VLLM_MODEL_REVISION:-$(manifest_value VLLM_MODEL_REVISION)}"
+DATASET_MANIFEST_PATH="${DATASET_MANIFEST_PATH:-$(manifest_value DATASET_MANIFEST_PATH)}"
+LITE_SOURCE_SHA256="${LITE_SOURCE_SHA256:-$(manifest_value LITE_DATASET_SHA256)}"
+LITE_FIRST_ROW_SHA256="${LITE_FIRST_ROW_SHA256:-$(manifest_value LITE_FIRST_DATASET_SHA256)}"
 ATTEMPT_ID="${ATTEMPT_ID:-$(manifest_value ATTEMPT_ID)}"
 PREDICTION_PATH="${PREDICTION_PATH:-$(manifest_value PREDICTION_PATH)}"
 TIMEOUT_SECONDS="${FIRST_EXPERIMENT_TIMEOUT_SECONDS:-$(manifest_value FIRST_EXPERIMENT_TIMEOUT_SECONDS)}"
@@ -166,6 +169,41 @@ if [[ -n "$EXPECTED_DATASET_PATH" ]]; then
   [[ "$COMMAND" == *"--instances.filter '^$ID$'"* ]] || { echo 'reviewed SWE-agent command instance filter does not match the selected Lite ID' >&2; exit 1; }
   [[ "$COMMAND" == *"--agent.model.name openai/$EXPECTED_MODEL"* ]] || { echo 'reviewed SWE-agent command model does not match the frozen model' >&2; exit 1; }
   [[ "$COMMAND" == *"--agent.model.api_base http://127.0.0.1:8000/v1"* ]] || { echo 'reviewed SWE-agent command API base is not the frozen localhost vLLM endpoint' >&2; exit 1; }
+fi
+if [[ -n "$EXPECTED_DATASET_PATH" && -n "$DATASET_MANIFEST_PATH" ]]; then
+  python3 - "$EXPECTED_DATASET_PATH" "$DATASET_MANIFEST_PATH" "$ID" "$LITE_SOURCE_SHA256" "$LITE_FIRST_ROW_SHA256" <<'PY'
+import hashlib
+import json
+import pathlib
+import sys
+
+asset_path = pathlib.Path(sys.argv[1])
+manifest_path = pathlib.Path(sys.argv[2])
+instance_id = sys.argv[3]
+expected_source = sys.argv[4]
+expected_row = sys.argv[5]
+if instance_id != "astropy__astropy-12907":
+    raise SystemExit("first paid control must use the reviewed Lite instance astropy__astropy-12907")
+if not asset_path.is_file() or asset_path.suffix != ".json":
+    raise SystemExit("reviewed Lite first-instance JSON asset is missing")
+manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+section = manifest.get("lite")
+if not isinstance(section, dict) or section.get("repo") != "SWE-bench/SWE-bench_Lite" or section.get("revision") != "69611d31007e1c6731db8bd5b5c3f2d33f5bab6e":
+    raise SystemExit("Lite dataset manifest revision/repository is not the reviewed pin")
+source = pathlib.Path(section.get("source_file", ""))
+if source.suffix != ".parquet" or not source.is_file() or hashlib.sha256(source.read_bytes()).hexdigest() != expected_source or section.get("source_file_sha256") != expected_source:
+    raise SystemExit("Lite source Parquet hash does not match the reviewed measured pin")
+values = json.loads(asset_path.read_text(encoding="utf-8"))
+if not isinstance(values, list) or len(values) != 1 or values[0].get("instance_id") != instance_id:
+    raise SystemExit("Lite first-instance asset is not the canonical one-row file")
+canonical = json.dumps(values, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode()
+if hashlib.sha256(canonical).hexdigest() != expected_row:
+    raise SystemExit("Lite first-instance canonical row hash does not match the reviewed measured pin")
+selected = [item for item in section.get("selected", []) if item.get("instance_id") == instance_id]
+if len(selected) != 1 or selected[0].get("sha256") != expected_row:
+    raise SystemExit("Lite first-instance selected-row hash is not the reviewed measured pin")
+print("validated Lite source Parquet and first control row provenance")
+PY
 fi
 if [[ -n "$(manifest_value SWE_AGENT_OUTPUT_DIR)" ]]; then
   [[ "$COMMAND" == *"--output_dir $AGENT_OUTPUT_DIR"* || "$COMMAND" == *"--output_dir \"$AGENT_OUTPUT_DIR\""* || "$COMMAND" == *"$AGENT_OUTPUT_DIR"* ]] || { echo 'reviewed SWE-agent command output directory is not isolated to this attempt' >&2; exit 1; }

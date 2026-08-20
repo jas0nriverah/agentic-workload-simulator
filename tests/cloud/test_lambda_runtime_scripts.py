@@ -51,6 +51,15 @@ class LambdaRuntimeScriptTests(unittest.TestCase):
         self.assertIn("--dtype bfloat16", start.stdout)
         self.assertIn("--max-model-len 32768", start.stdout)
 
+    def test_dataset_provenance_gates_use_measured_source_and_row_hashes(self):
+        bootstrap = (ROOT / "scripts/cloud/lambda_bootstrap.sh").read_text(encoding="utf-8")
+        gold = (ROOT / "scripts/cloud/lambda_run_gold_smoke.sh").read_text(encoding="utf-8")
+        first = (ROOT / "scripts/cloud/lambda_run_first_experiment.sh").read_text(encoding="utf-8")
+        for text in (bootstrap, gold, first):
+            self.assertIn("source_file_sha256", text)
+        self.assertIn("canonical one-row", first)
+        self.assertIn("hashlib.sha256(source.read_bytes())", bootstrap)
+
     def test_start_dry_run_propagates_non_default_manifest_values(self):
         with tempfile.TemporaryDirectory() as temp:
             manifest = pathlib.Path(temp) / "manifest.env"

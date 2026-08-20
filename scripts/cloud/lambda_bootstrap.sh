@@ -502,6 +502,7 @@ validate_model_and_datasets() {
   local dataset_out="$WORK_ROOT/artifacts/manifests/datasets.json"
   "$VENV/bin/python" - "$model_out" "$dataset_out" <<'PY'
 import json
+import hashlib
 import pathlib
 import sys
 
@@ -514,24 +515,41 @@ if not snapshot.is_dir() or not (snapshot / "config.json").is_file() or not list
     raise SystemExit("model snapshot is incomplete")
 datasets = json.loads(dataset_path.read_text(encoding="utf-8"))
 expected = {
-    "lite": ("SWE-bench/SWE-bench_Lite", "69611d31007e1c6731db8bd5b5c3f2d33f5bab6e", 300, {
-        "astropy__astropy-12907": "3ca941a2f9a10a97ca2813ccb6b0406ac6209f3be34894c2eab241516fdeed61",
-        "astropy__astropy-14182": "f7ad14f23bd5d8419a1903d196edce904164768f94caad4670bdb9fd03d77dc5",
+    "lite": ("SWE-bench/SWE-bench_Lite", "69611d31007e1c6731db8bd5b5c3f2d33f5bab6e", 300, "f46f2e3f003f2552932393da4b223e1e0456a2c71eba8b73ae58f29646c1278b", {
+        "astropy__astropy-12907": "e117000983a3aabba8f43fb52e155d0cc6529b900ed476f59dc6cc065e970faa",
+        "astropy__astropy-14182": "87118fdd9b83e959aa533ea57a70557e95a7027fbce92b14879a98468f5a263b",
     }),
-    "verified": ("SWE-bench/SWE-bench_Verified", "91aa3ed51b709be6457e12d00300a6a596d4c6a3", 500, {
-        "astropy__astropy-14365": "c428d68361b240d5b520e96cfbc4d4145527e40b49468d63f3986c3f1a646e64",
+    "verified": ("SWE-bench/SWE-bench_Verified", "91aa3ed51b709be6457e12d00300a6a596d4c6a3", 500, "43ed5a3d1d98da36472c1ade65ddd2085d7b4ff694fcaf6a023a07c5c1f32f21", {
+        "astropy__astropy-14365": "4d0d91079bd056ff5d1940614ad71f025dd96f0498ceaf9ab71757efde87f5e3",
     }),
 }
-for name, (repo, revision, rows, expected_selected) in expected.items():
+for name, (repo, revision, rows, expected_source_hash, expected_selected) in expected.items():
     section = datasets.get(name)
     if not isinstance(section, dict) or section.get("repo") != repo or section.get("revision") != revision or section.get("split") != "test" or section.get("rows") != rows:
         raise SystemExit(f"dataset manifest does not match the frozen {name} revision")
+    source = pathlib.Path(section.get("source_file", ""))
+    if source.suffix != ".parquet" or not source.is_file():
+        raise SystemExit(f"dataset {name} source Parquet is missing")
+    digest = hashlib.sha256(source.read_bytes()).hexdigest()
+    if section.get("source_file_sha256") != expected_source_hash or digest != expected_source_hash:
+        raise SystemExit(f"dataset {name} source Parquet hash does not match the measured pin")
+    if section.get("provenance") != "measured" or section.get("reader") != "huggingface_hub+pyarrow.parquet":
+        raise SystemExit(f"dataset {name} manifest lacks measured pinned-reader provenance")
     selected = {item.get("instance_id"): item for item in section.get("selected", [])}
     if set(selected) != set(expected_selected):
         raise SystemExit(f"dataset manifest selected IDs do not match the frozen {name} set")
     for instance_id, expected_hash in expected_selected.items():
         if selected[instance_id].get("sha256") != expected_hash:
             raise SystemExit(f"dataset manifest selected hash does not match the frozen {instance_id} row")
+        selected_path = pathlib.Path(selected[instance_id].get("path", ""))
+        if not selected_path.is_file():
+            raise SystemExit(f"selected dataset file is missing for {instance_id}")
+        values = json.loads(selected_path.read_text(encoding="utf-8"))
+        if not isinstance(values, list) or len(values) != 1 or values[0].get("instance_id") != instance_id:
+            raise SystemExit(f"selected dataset file is not the canonical one-row asset for {instance_id}")
+        canonical = json.dumps(values, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode()
+        if hashlib.sha256(canonical).hexdigest() != expected_hash:
+            raise SystemExit(f"selected dataset file hash does not match the measured {instance_id} row")
 print("validated pinned model and dataset manifests")
 PY
 }
