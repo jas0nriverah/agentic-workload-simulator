@@ -211,6 +211,33 @@ fi
 [[ "$EVALUATOR" == *"swebench.harness.run_evaluation"* && "$EVALUATOR" == *"--predictions_path"* && "$EVALUATOR" == *"--instance_ids"* ]] || { echo 'reviewed evaluator command is not the official generated-prediction contract' >&2; exit 1; }
 mkdir -p -- "$RAW_DIR"
 
+# SWE-agent v1.1.0's file-backed SimpleBatchInstance schema requires the
+# derived evaluator image name, while the pinned raw SWE-bench row does not
+# carry that field. Preserve the raw one-row asset and create an immutable
+# per-attempt compatibility view for SWE-agent only; the official evaluator
+# continues to receive the raw selected row.
+RUNTIME_DATASET_PATH=""
+if [[ -n "$EXPECTED_DATASET_PATH" && -f "$EXPECTED_DATASET_PATH" ]]; then
+  RUNTIME_DATASET_PATH="$RAW_DIR/sweagent_instances.json"
+  python3 - "$EXPECTED_DATASET_PATH" "$RUNTIME_DATASET_PATH" "$ID" <<'PY'
+import json
+import pathlib
+import sys
+
+source, destination, instance_id = map(pathlib.Path, sys.argv[1:])
+rows = json.loads(source.read_text(encoding="utf-8"))
+if not isinstance(rows, list) or len(rows) != 1 or rows[0].get("instance_id") != str(instance_id):
+    raise SystemExit("SWE-agent runtime view requires the selected canonical one-row asset")
+row = dict(rows[0])
+expected_image = f"swebench/sweb.eval.x86_64.{str(instance_id).replace('__', '_1776_')}:latest".lower()
+if row.get("image_name") not in (None, expected_image):
+    raise SystemExit("raw SWE-bench image_name conflicts with the deterministic evaluator image")
+row["image_name"] = expected_image
+destination.write_text(json.dumps([row], sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n", encoding="utf-8")
+PY
+  COMMAND="${COMMAND//$EXPECTED_DATASET_PATH/$RUNTIME_DATASET_PATH}"
+fi
+
 if (( RESUME )); then
   [[ -f "$RAW_DIR/config.json" ]] || { echo "cannot resume an attempt without its immutable config: $RAW_DIR" >&2; exit 1; }
 fi
@@ -237,7 +264,7 @@ validator_args=(--command "$COMMAND" --expected-instance "$ID" --expected-calls 
   --expected-temperature "$EXPERIMENT_TEMPERATURE" --expected-seed "$EXPERIMENT_SEED"
   --output "$RAW_DIR/resolved_command.json")
 [[ -n "$(manifest_value VLLM_MODEL)" ]] && validator_args+=(--expected-model "openai/$EXPECTED_MODEL")
-[[ -n "$EXPECTED_DATASET_PATH" ]] && validator_args+=(--expected-dataset-path "$EXPECTED_DATASET_PATH")
+[[ -n "$RUNTIME_DATASET_PATH" ]] && validator_args+=(--expected-dataset-path "$RUNTIME_DATASET_PATH")
 PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/scripts/cloud/validate_sweagent_command.py" "${validator_args[@]}" >/dev/null
 if [[ -n "$BASE_PREDICTION_PATH" ]]; then
   [[ "$EVALUATOR" == *"--predictions_path $PREDICTION_PATH"* || "$EVALUATOR" == *"$PREDICTION_PATH"* ]] || { echo 'reviewed evaluator prediction path is not isolated to this attempt' >&2; exit 1; }
@@ -292,7 +319,7 @@ run_thin_observer() {
 
 mkdir -p -- "$LOG_DIR" "$RAW_DIR"
 
-export FIRST_LITE_INSTANCE_ID="$ID" EXPERIMENT_ID ATTEMPT_ID AGENTIC_RUN_OUTPUT="$RAW_DIR" AGENTIC_SWE_OUTPUT_DIR="$AGENT_OUTPUT_DIR" AGENTIC_PREDICTION_PATH="$PREDICTION_PATH"
+export FIRST_LITE_INSTANCE_ID="$ID" EXPERIMENT_ID ATTEMPT_ID AGENTIC_RUN_OUTPUT="$RAW_DIR" AGENTIC_SWE_OUTPUT_DIR="$AGENT_OUTPUT_DIR" AGENTIC_PREDICTION_PATH="$PREDICTION_PATH" AGENTIC_SOURCE_DATASET_PATH="$EXPECTED_DATASET_PATH" AGENTIC_RUNTIME_DATASET_PATH="$RUNTIME_DATASET_PATH"
 python3 - "$RAW_DIR" "$EXPERIMENT_ID" "$ID" "$ATTEMPT_ID" "$MODE" "$SWE_AGENT_REVISION" "$SWE_BENCH_REVISION" "$MODEL_REVISION" "$COMMAND" "$RAW_DIR/resolved_command.json" <<'PY'
 import hashlib, json, os, pathlib, sys
 source_root = os.environ.get("AGENTIC_SOURCE_ROOT")
@@ -310,6 +337,8 @@ config = {
     "swe_agent_revision": swe, "swe_bench_revision": bench,
     "model_revision": model, "command_hash": argv_hash,
     "provenance": "measured", "command": command,
+    "source_dataset_path": os.environ.get("AGENTIC_SOURCE_DATASET_PATH") or None,
+    "runtime_dataset_path": os.environ.get("AGENTIC_RUNTIME_DATASET_PATH") or None,
     "resolved_experiment": resolved_command["resolved"],
     "request_contract": resolved_command["request_contract"],
     "control_thin_payload_equivalence": True,

@@ -112,3 +112,18 @@
   correction only: revisions, split, row counts, instance IDs, and evaluator
   methodology are unchanged. No sample-repository result or fabricated score
   is inherited.
+
+## D-0008 - SWE-agent runtime dataset compatibility view
+
+- Status: accepted for the first pinned trajectory
+- Decision: preserve the measured one-row SWE-bench JSON and its hash as the
+  evaluator source asset. For SWE-agent v1.1.0 only, derive an attempt-local
+  `sweagent_instances.json` that adds the deterministic `image_name` required
+  by its file-backed `SimpleBatchInstance` schema. Record both paths in the
+  attempt manifest; the official evaluator continues to consume the raw
+  selected-row asset.
+- Rationale: the pinned SWE-agent reader requires `image_name`, while the
+  canonical SWE-bench row emitted by the pinned dataset reader does not include
+  it. Adding the derived field at the command boundary fixes the real runtime
+  incompatibility without mutating raw evidence, changing the instance, or
+  altering the evaluator methodology.
