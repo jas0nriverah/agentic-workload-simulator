@@ -179,7 +179,7 @@ class LambdaRuntimeScriptTests(unittest.TestCase):
 
     def test_bootstrap_binds_lock_and_resume_markers_to_runtime_contract(self):
         text = (ROOT / "scripts/cloud/lambda_bootstrap.sh").read_text(encoding="utf-8")
-        for field in ("PYTHON_LOCK_PATH", "PYTHON_VERSION_EXACT", "bootstrap_fingerprint", "--python-platform x86_64-manylinux2014", "python-freeze.txt", "pip check"):
+        for field in ("PYTHON_LOCK_PATH", "PYTHON_VERSION_EXACT", "bootstrap_fingerprint", "--python-platform x86_64-manylinux2014", "python-freeze.txt", "pip_check_with_managed_allowlist", "python-pip-check.json"):
             self.assertIn(field, text)
         self.assertIn("grep -Fqx \"bootstrap_fingerprint=$BOOTSTRAP_FINGERPRINT\"", text)
 
@@ -202,10 +202,28 @@ class LambdaRuntimeScriptTests(unittest.TestCase):
         self.assertIn('( set -Eeuo pipefail; eval "$validator" )', text)
         self.assertIn('"${reinstall[@]}" --only-binary=:all: --require-hashes -r "$PYTHON_LOCK" || return 1', text)
         self.assertIn('"$REPOS/SWE-agent" -e "$REPOS/SWE-bench" -e "$ROOT" || return 1', text)
-        self.assertIn('"$VENV/bin/python" -m pip check || return 1', text)
+        self.assertIn('pip_check_with_managed_allowlist || return 1', text)
         self.assertIn('"$VENV/bin/python" -m pip freeze --all > "$WORK_ROOT/artifacts/manifests/python-freeze.txt" || return 1', text)
         self.assertIn("validate_python_environment || return 1", text)
-        self.assertIn('pip check >/dev/null || return 1', text)
+        self.assertIn('pip_check_with_managed_allowlist() {', text)
+
+    def test_managed_pip_check_allowlist_is_exact_and_fail_closed(self):
+        text = (ROOT / "scripts/cloud/lambda_bootstrap.sh").read_text(encoding="utf-8")
+        for fragment in (
+            '("matplotlib", "3.8.2", "numpy", "<2,>=1.21", "numpy", "2.4.6")',
+            '("scikit-learn", "1.3.2", "numpy", "<2.0,>=1.17.3", "numpy", "2.4.6")',
+            '("scipy", "1.11.4", "numpy", "<1.28.0,>=1.21.6", "numpy", "2.4.6")',
+            '("lightning-sdk", "2026.6.8", "urllib3", "<=2.5.0", "urllib3", "2.7.0")',
+        ):
+            self.assertIn(fragment, text)
+        for marker in ("PASS_MANAGED_BASE_ALLOWLIST", "unexpected_conflicts", "conflicts", "python-pip-check.txt", "python-pip-check.json", "canonicalize_name"):
+            self.assertIn(marker, text)
+        self.assertIn("if pip_status == 0:", text)
+        self.assertIn('environment_mode != "managed"', text)
+
+    def test_python_packages_imports_all_direct_workload_dependencies(self):
+        text = (ROOT / "scripts/cloud/lambda_bootstrap.sh").read_text(encoding="utf-8")
+        self.assertIn("import agentic_sim, datasets, docker, numpy, pandas, requests, sweagent, swebench, urllib3", text)
 
     def test_preflight_dry_run_does_not_create_report(self):
         with tempfile.TemporaryDirectory() as temp:

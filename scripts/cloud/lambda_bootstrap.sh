@@ -248,9 +248,180 @@ validate_python_environment() {
   fi
   "$VENV/bin/python" -c 'import pip' || return 1
 }
+pip_check_with_managed_allowlist() {
+  local report="$WORK_ROOT/artifacts/manifests/python-pip-check.txt"
+  local audit="$WORK_ROOT/artifacts/manifests/python-pip-check.json"
+  local raw_tmp audit_tmp pip_status classify_status
+  mkdir -p -- "$(dirname -- "$report")"
+  raw_tmp="$(mktemp "$report.tmp.XXXXXX")" || return 1
+  if PIP_DISABLE_PIP_VERSION_CHECK=1 PIP_NO_COLOR=1 LC_ALL=C \
+    "$VENV/bin/python" -m pip check >"$raw_tmp" 2>&1; then
+    pip_status=0
+  else
+    pip_status=$?
+  fi
+  if ! mv -f -- "$raw_tmp" "$report"; then
+    rm -f -- "$raw_tmp"
+    return 1
+  fi
+  audit_tmp="$(mktemp "$audit.tmp.XXXXXX")" || return 1
+  if "$VENV/bin/python" - "$report" "$audit_tmp" "$PYTHON_LOCK" "$PYTHON_ENV_MODE" "$pip_status" "$VENV/bin/python" <<'PY'
+import hashlib
+import importlib.metadata as metadata
+import json
+import pathlib
+import re
+import sys
+from packaging.requirements import Requirement
+from packaging.utils import canonicalize_name
+from packaging.version import Version
+
+report_path, audit_path, lock_path, environment_mode, status_text, python_executable = sys.argv[1:]
+pip_status = int(status_text)
+report = pathlib.Path(report_path)
+audit = pathlib.Path(audit_path)
+lock = pathlib.Path(lock_path)
+raw = report.read_text(encoding="utf-8", errors="replace")
+raw_lines = raw.splitlines()
+lines = list(raw_lines)
+allowed_records = {
+    ("matplotlib", "3.8.2", "numpy", "<2,>=1.21", "numpy", "2.4.6"),
+    ("scikit-learn", "1.3.2", "numpy", "<2.0,>=1.17.3", "numpy", "2.4.6"),
+    ("scipy", "1.11.4", "numpy", "<1.28.0,>=1.21.6", "numpy", "2.4.6"),
+    ("lightning-sdk", "2026.6.8", "urllib3", "<=2.5.0", "urllib3", "2.7.0"),
+}
+exact_lines = {
+    f"{owner} {owner_version} has requirement {dependency}{requirement}, but you have {installed} {installed_version}."
+    for owner, owner_version, dependency, requirement, installed, installed_version in allowed_records
+}
+locked_versions = {
+    canonicalize_name(match.group(1)): match.group(2)
+    for match in re.finditer(r"^([A-Za-z0-9_.-]+)==([^ \t\\]+)", lock.read_text(encoding="utf-8"), re.MULTILINE)
+}
+lock_digest = hashlib.sha256(lock.read_bytes()).hexdigest()
+base = {
+    "schema_version": "python-pip-check.v1",
+    "status": "FAIL",
+    "python_env_mode": environment_mode,
+    "python_executable": python_executable,
+    "python_version": sys.version.split()[0],
+    "pip_version": metadata.version("pip"),
+    "raw_report": str(report),
+    "raw_output_sha256": hashlib.sha256(raw.encode("utf-8", errors="replace")).hexdigest(),
+    "lock_path": str(lock),
+    "lock_sha256": lock_digest,
+    "pip_check_exit_code": pip_status,
+    "conflicts": [],
+    "unexpected_conflicts": [],
+}
+
+def finish(status, conflicts=None, unexpected=None):
+    base["status"] = status
+    base["conflicts"] = conflicts or []
+    base["unexpected_conflicts"] = unexpected or []
+    audit.write_text(json.dumps(base, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    if status in {"PASS_CLEAN", "PASS_MANAGED_BASE_ALLOWLIST"}:
+        print(f"pip check: {status}")
+        return 0
+    for item in base["unexpected_conflicts"] or ["pip check classification failed"]:
+        print(f"pip check blocking conflict: {item}", file=sys.stderr)
+    return 1
+
+if pip_status == 0:
+    raise SystemExit(finish("PASS_CLEAN") if raw == "" else finish("FAIL", unexpected=["non-canonical output for a successful pip check", *lines]))
+if pip_status != 1:
+    raise SystemExit(finish("FAIL", unexpected=[f"pip check exited with unsupported status {pip_status}", *lines]))
+if environment_mode != "managed":
+    raise SystemExit(finish("FAIL", unexpected=["nonzero pip check is not allowlisted for a venv", *lines]))
+if not lines or any(not line or line != line.strip() or "\x1b" in line for line in lines):
+    raise SystemExit(finish("FAIL", unexpected=["blank, whitespace-padded, or ANSI pip check output", *lines]))
+
+pattern = re.compile(r"^(?P<owner>[A-Za-z0-9_.-]+) (?P<owner_version>\S+) has requirement (?P<requirement>.+), but you have (?P<dependency>[A-Za-z0-9_.-]+) (?P<installed_version>\S+)\.$")
+records = []
+errors = []
+for line in lines:
+    if line not in exact_lines:
+        errors.append(f"unrecognized pip check line: {line}")
+        continue
+    match = pattern.fullmatch(line)
+    if not match:
+        errors.append(f"pip check line did not match the reviewed grammar: {line}")
+        continue
+    owner = canonicalize_name(match.group("owner"))
+    dependency = canonicalize_name(match.group("dependency"))
+    requirement_text = match.group("requirement")
+    try:
+        requirement = Requirement(f"{dependency}{requirement_text}")
+    except Exception as exc:
+        errors.append(f"invalid requirement in pip check line ({exc}): {line}")
+        continue
+    record = (owner, match.group("owner_version"), dependency, requirement_text, dependency, match.group("installed_version"))
+    records.append(record)
+    if record not in allowed_records:
+        errors.append(f"pip check tuple is outside the reviewed allowlist: {line}")
+        continue
+    if canonicalize_name(requirement.name) != dependency or requirement.marker or requirement.extras:
+        errors.append(f"requirement name/extras/marker mismatch: {line}")
+        continue
+    if requirement.specifier.contains(Version(match.group("installed_version")), prereleases=True):
+        errors.append(f"allowlisted requirement does not reject installed version: {line}")
+        continue
+    try:
+        owner_actual = metadata.version(owner)
+        dependency_actual = metadata.version(dependency)
+    except metadata.PackageNotFoundError as exc:
+        errors.append(f"pip check package metadata is missing ({exc}): {line}")
+        continue
+    if owner_actual != match.group("owner_version") or dependency_actual != match.group("installed_version"):
+        errors.append(f"pip check metadata version mismatch: {line}")
+        continue
+    owner_dist = metadata.distribution(owner)
+    metadata_match = False
+    for declared in owner_dist.requires or []:
+        try:
+            declared_requirement = Requirement(declared)
+        except Exception:
+            continue
+        if canonicalize_name(declared_requirement.name) == dependency and declared_requirement.specifier == requirement.specifier:
+            metadata_match = True
+            break
+    if not metadata_match:
+        errors.append(f"active Requires-Dist metadata does not match: {line}")
+        continue
+    if owner in locked_versions:
+        errors.append(f"allowlisted requiring distribution is present in the workload lock: {owner}")
+        continue
+    if locked_versions.get(dependency) != match.group("installed_version"):
+        errors.append(f"dependency is not pinned to the observed version in the workload lock: {dependency}")
+        continue
+    base["conflicts"].append({
+        "requiring_distribution": owner,
+        "requiring_version": match.group("owner_version"),
+        "requirement": requirement_text,
+        "installed_distribution": dependency,
+        "installed_version": match.group("installed_version"),
+        "classification": "managed_base_allowlisted",
+    })
+if len(records) != len(set(records)):
+    errors.append("duplicate pip check conflict record")
+if errors:
+    raise SystemExit(finish("FAIL", unexpected=errors))
+raise SystemExit(finish("PASS_MANAGED_BASE_ALLOWLIST", conflicts=base["conflicts"]))
+PY
+  then
+    classify_status=0
+  else
+    classify_status=$?
+  fi
+  if ! mv -f -- "$audit_tmp" "$audit"; then
+    rm -f -- "$audit_tmp"
+    return 1
+  fi
+  (( classify_status == 0 )) || return 1
+}
 validate_python_inventory() {
   validate_python_environment || return 1
-  "$VENV/bin/python" -m pip check >/dev/null || return 1
+  pip_check_with_managed_allowlist || return 1
   local current_freeze="$WORK_ROOT/artifacts/manifests/python-freeze.current.txt"
   "$VENV/bin/python" -m pip freeze --all > "$current_freeze" || {
     rm -f -- "$current_freeze"
@@ -274,9 +445,9 @@ python_packages() {
   [[ "$PYTHON_ENV_MODE" == managed ]] && reinstall+=(--force-reinstall)
   "$VENV/bin/pip" install --disable-pip-version-check --no-input "${reinstall[@]}" --only-binary=:all: --require-hashes -r "$PYTHON_LOCK" || return 1
   "$VENV/bin/pip" install --disable-pip-version-check --no-input --no-deps -e "$REPOS/SWE-agent" -e "$REPOS/SWE-bench" -e "$ROOT" || return 1
-  "$VENV/bin/python" -m pip check || return 1
+  pip_check_with_managed_allowlist || return 1
   "$VENV/bin/python" -m pip freeze --all > "$WORK_ROOT/artifacts/manifests/python-freeze.txt" || return 1
-  "$VENV/bin/python" -c 'import sweagent, swebench, agentic_sim; print("pinned Python packages import")' || return 1
+  "$VENV/bin/python" -c 'import agentic_sim, datasets, docker, numpy, pandas, requests, sweagent, swebench, urllib3; print("pinned workload packages import")' || return 1
 }
 runtime() {
   command -v docker >/dev/null 2>&1 && docker info >/dev/null 2>&1
@@ -377,7 +548,7 @@ PY' preflight
 stage directories 'test -d "$REPOS" && test -d "$VENV" && test -d "$WORK_ROOT/datasets"' directories
 stage python_environment 'validate_python_environment' python_environment
 stage pinned_repositories 'test "$(git -C "$REPOS/SWE-agent" rev-parse HEAD)" = "$SWE_AGENT_REVISION" && test "$(git -C "$REPOS/SWE-bench" rev-parse HEAD)" = "$SWE_BENCH_REVISION"' repositories
-stage python_packages 'validate_python_inventory && "$VENV/bin/python" -c "import sweagent, swebench, agentic_sim" && test -s "$PYTHON_LOCK" && test -s "$WORK_ROOT/artifacts/manifests/python-freeze.txt"' python_packages
+stage python_packages 'validate_python_inventory && "$VENV/bin/python" -c "import agentic_sim, datasets, docker, numpy, pandas, requests, sweagent, swebench, urllib3" && test -s "$PYTHON_LOCK" && test -s "$WORK_ROOT/artifacts/manifests/python-freeze.txt" && test -s "$WORK_ROOT/artifacts/manifests/python-pip-check.json"' python_packages
 stage runtime 'validate_runtime' runtime
 stage evaluator_images 'validate_evaluator_images' pull_evaluator_images
 stage model_and_datasets 'validate_model_and_datasets' model_and_datasets

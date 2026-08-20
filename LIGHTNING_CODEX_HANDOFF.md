@@ -37,7 +37,10 @@ The coordinator has implemented and locally tested:
 - Python lock-path selection and Python-version/header validation;
 - resume markers bound to a bootstrap fingerprint (manifest, code, lock,
   environment mode/root, version, and work root);
-- managed-environment pip check and a recorded python-freeze.txt.
+- a recorded pip-check audit: clean in an isolated venv, or an explicitly
+  labeled exact managed-base allowlist in the managed Studio environment;
+  never bypass an unknown pip-check conflict;
+- a recorded python-freeze.txt.
 
 The exact coordinator commit is the commit containing this file. Confirm it
 before proceeding:
@@ -207,7 +210,10 @@ scripts/cloud/lambda_bootstrap.sh \
 The real bootstrap may install the hash-locked host dependencies, clone the
 detached SWE-agent/SWE-bench revisions, download the pinned Qwen snapshot,
 pull/verify the three evaluator images, and run the local tests. It must finish
-with bootstrap.json, python-freeze.txt, and all stage markers present. The
+with bootstrap.json, python-freeze.txt, python-pip-check.json, and all stage
+markers present. The pip-check audit must be either `PASS_CLEAN` or the exact
+`PASS_MANAGED_BASE_ALLOWLIST` status for the preinstalled Studio extras; any
+other conflict blocks launch. The
 bootstrap JSON must report the actual managed Python version and selected lock
 SHA.
 
