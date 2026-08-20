@@ -45,7 +45,10 @@ def type_name(value: Any) -> str:
 def json_inventory(path: Path) -> dict[str, Any]:
     suffix = path.suffix.lower()
     raw = path.read_bytes()
-    if suffix == ".json":
+    # SWE-agent v1.1.0 writes `.traj` as one JSON document (not JSONL).
+    # Keep `.jsonl` as the only line-delimited format so inventory remains
+    # lossless and does not reject a genuine first trajectory.
+    if suffix in {".json", ".traj"}:
         value = json.loads(raw.decode("utf-8"))
         values = [value]
     else:
@@ -58,7 +61,7 @@ def json_inventory(path: Path) -> dict[str, Any]:
         for key in keys
     }
     return {
-        "format": "json" if suffix == ".json" else "jsonl",
+        "format": "json" if suffix in {".json", ".traj"} else "jsonl",
         "records": len(values),
         "top_level_types": sorted({type_name(value) for value in values}),
         "top_level_keys": keys,

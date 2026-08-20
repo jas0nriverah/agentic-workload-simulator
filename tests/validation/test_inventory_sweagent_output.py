@@ -28,6 +28,9 @@ class InventoryTests(unittest.TestCase):
             self.assertEqual(set(result["artifact_kinds"]), {"trajectory", "predictions", "config", "log", "status"})
             config = next(item for item in result["files"] if item["path"] == "config.json")
             self.assertEqual(config["json"]["top_level_keys"], ["enabled", "temperature"])
+            trajectory = next(item for item in result["files"] if item["path"] == "trajectory.traj")
+            self.assertEqual(trajectory["json"]["format"], "json")
+            self.assertEqual(trajectory["json"]["records"], 1)
             self.assertEqual({path.name: path.read_bytes() for path in root.iterdir()}, before)
 
     def test_inventory_rejects_secret_and_missing_required_kinds(self):
