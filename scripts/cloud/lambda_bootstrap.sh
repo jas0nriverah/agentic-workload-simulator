@@ -351,11 +351,12 @@ for line in lines:
     dependency = canonicalize_name(match.group("dependency"))
     requirement_text = match.group("requirement")
     try:
-        requirement = Requirement(f"{dependency}{requirement_text}")
+        requirement = Requirement(requirement_text)
     except Exception as exc:
         errors.append(f"invalid requirement in pip check line ({exc}): {line}")
         continue
-    record = (owner, match.group("owner_version"), dependency, requirement_text, dependency, match.group("installed_version"))
+    requirement_specifier = str(requirement.specifier)
+    record = (owner, match.group("owner_version"), dependency, requirement_specifier, dependency, match.group("installed_version"))
     records.append(record)
     if record not in allowed_records:
         errors.append(f"pip check tuple is outside the reviewed allowlist: {line}")
