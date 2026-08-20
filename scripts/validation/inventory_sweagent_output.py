@@ -116,7 +116,11 @@ def inventory(root: Path, max_file_bytes: int = 64 * 1024 * 1024) -> dict[str, A
     missing = sorted(required - found)
     if missing:
         raise CheckFailure(f"attempt inventory is missing required artifact kinds: {missing}")
-    scan_tree(root, max_file_bytes)
+    # SWE-agent logs and `.traj` records legitimately contain absolute paths
+    # from the isolated container. Release-source hygiene rejects private
+    # paths separately; this first-trajectory inventory must still preserve
+    # and hash those records without rewriting them.
+    scan_tree(root, max_file_bytes, reject_absolute_paths=False)
     return {
         "schema_version": "sweagent-output-inventory.v1",
         "status": "pass",

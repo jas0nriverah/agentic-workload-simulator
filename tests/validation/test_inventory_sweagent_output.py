@@ -17,7 +17,7 @@ class InventoryTests(unittest.TestCase):
     def test_inventory_hashes_and_reports_json_types_without_rewriting(self):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)
-            (root / "trajectory.traj").write_bytes(b'{"step":1}\n')
+            (root / "trajectory.traj").write_bytes(b'{"step":1,"container_path":"/root/model.patch"}\n')
             (root / "preds.json").write_bytes(b'[{"instance_id":"i1","model_patch":""}]\n')
             (root / "config.json").write_bytes(b'{"temperature":0.0,"enabled":true}\n')
             (root / "agent.log").write_bytes(b"trajectory output\n")
