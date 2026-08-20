@@ -106,3 +106,25 @@ class LambdaCollectionScriptTests(unittest.TestCase):
             )
             self.assertNotEqual(result.returncode, 0)
             self.assertIn("counter state", result.stderr)
+
+    def test_collection_accepts_sweagent_traj_and_empty_control_events(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = pathlib.Path(tmp)
+            source = root / "source"
+            output = root / "output"
+            source.mkdir()
+            for name, payload in {
+                "manifest.json": '{"run_id":"r1"}\n',
+                "predictions.json": '{"instance_id":"i1"}\n',
+                "i1.traj": '{"trajectory":[],"history":[]}\n',
+                "events.jsonl": "",
+                "evaluation.json": '{"resolved":false}\n',
+                "status.json": '{"status":"completed"}\n',
+                "counters.unavailable.json": '{"status":"unavailable","provenance":"unavailable","reason":"control"}\n',
+            }.items():
+                (source / name).write_text(payload, encoding="utf-8")
+            result = subprocess.run(
+                [str(SCRIPTS / "lambda_collect_results.sh"), "--source-root", str(source), "--output-dir", str(output), "--run-id", "traj-control"],
+                capture_output=True, text=True, check=False,
+            )
+            self.assertEqual(result.returncode, 0, result.stderr + result.stdout)
