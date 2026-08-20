@@ -30,8 +30,9 @@ PYTHONPATH=src python3 -m unittest discover -s tests -v
 The Lambda runbook is at `cloud/lambda/RUNBOOK.md`. It is intentionally
 idempotent and does not contain credentials. The first paid control fixture is
 preserved and normalized locally by
-`scripts/validation/normalize_sweagent_trajectory.py`; thin telemetry and the
-four sweeps remain deferred until that fixture's review is complete.
+  `scripts/validation/normalize_sweagent_trajectory.py` and checked with
+  `scripts/validation/validate_normalized_trajectory.py`; thin telemetry and
+  the four sweeps remain deferred until a fresh paid-session authorization.
 
 See `docs/assignment_traceability.md` for the frozen deliverable-to-evidence
 map and `project/PUBLIC_REFERENCE_LOCK.json` for the comparison-only public

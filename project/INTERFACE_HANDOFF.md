@@ -1,6 +1,6 @@
 # Cloud-readiness interface handoff
 
-Status: frozen after CR4; implementation workers must consume this contract.
+Status: frozen after CR13 and G4 local trajectory-contract review; implementation workers must consume this contract.
 
 ## Immutable runtime
 

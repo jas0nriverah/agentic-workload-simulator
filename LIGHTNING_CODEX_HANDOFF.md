@@ -237,6 +237,10 @@ PYTHONPATH=src python3 scripts/validation/normalize_sweagent_trajectory.py \
   --run-id first-lite-astropy__astropy-12907 \
   --attempt-id attempt-002 \
   --instance-id astropy__astropy-12907
+
+python3 scripts/validation/validate_normalized_trajectory.py \
+  --input /path/to/first-control.normalized.jsonl \
+  --expected-source-sha256 <raw-traj-sha256>
 ~~~
 
 The measured fixture must report 31 trace `ModelResponse` records, 30
@@ -363,7 +367,7 @@ FIRST CONTROL TRAJECTORY: PASS (trajectory and official runner completed)
 OFFICIAL EVALUATION: UNRESOLVED (empty patch; resolved=0)
 ARTIFACT EXPORT: PASS (self-contained archive SHA-256 45f1fd6d328eb2d4c2626ca42a68c36ee8b40fef7afc20ddad59f5040f399ed5)
 H100 CREDITS USED: recorded session was within the untracked G3A authorization; exact provider balance should be read from the Lightning account
-H100-ONLY UNCERTAINTIES: control outcome is unresolved; thin telemetry, sweeps, profiling, and simulator remain deferred; local normalization is complete and under review
+H100-ONLY UNCERTAINTIES: control outcome is unresolved; thin telemetry, sweeps, profiling, and simulator remain deferred; local normalization and its fail-closed validator are complete
 STUDIO STOPPED: NO (workloads stopped; post-stop sample verified 0 MiB and no lock; terminate the Studio in the UI)
 ~~~
 
