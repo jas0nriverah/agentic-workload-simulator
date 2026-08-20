@@ -51,7 +51,7 @@ The coordinator has implemented and locally tested:
   whole-document trajectory format and YAML run artifacts.
 
 The latest pushed coordinator branch is `pre-h100-hardening` at
-`1979d4029d62f94d0f0ff678fdbb809dbb3c840e`. Confirm it before proceeding:
+`f953423` (the handoff/state refresh commit). Confirm it before proceeding:
 
 ~~~bash
 cd /teamspace/studios/this_studio/agentic-workload-simulator
