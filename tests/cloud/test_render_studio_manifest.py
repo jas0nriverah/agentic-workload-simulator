@@ -1,5 +1,6 @@
 import pathlib
 import subprocess
+import sys
 import tempfile
 import unittest
 
@@ -47,6 +48,76 @@ class RenderStudioManifestTests(unittest.TestCase):
             result = self.run_script("--source", str(source), "--output", str(output))
             self.assertNotEqual(result.returncode, 0)
             self.assertEqual(output.read_text(encoding="utf-8"), "immutable\n")
+
+    def test_managed_studio_rewrites_python_contract_and_source_lock_path(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = pathlib.Path(temp)
+            env_root = pathlib.Path(sys.prefix)
+            source = root / "source.env"
+            output = root / "rendered.env"
+            source.write_text(
+                "PROJECT_ROOT=/home/ubuntu/agentic-workload-simulator\n"
+                "PYTHON_VERSION=3.11\n"
+                "PYTHON_LOCK_PATH=/home/ubuntu/agentic-work/source/agentic-workload-simulator/cloud/lambda/requirements-linux-x86_64.txt\n"
+                "EVALUATOR_PYTHON=/home/ubuntu/agentic-work/venv/bin/python\n"
+                "SWE_AGENT_COMMAND=/home/ubuntu/agentic-work/venv/bin/sweagent --help\n"
+                "VLLM_API_KEY=local-only-placeholder\n",
+                encoding="utf-8",
+            )
+            result = self.run_script(
+                "--source", str(source), "--output", str(output),
+                "--studio-root", "/teamspace/studios/this_studio",
+                "--python-env-mode", "managed",
+            )
+            self.assertEqual(result.returncode, 0, result.stderr)
+            rendered = output.read_text(encoding="utf-8")
+            self.assertIn("PYTHON_ENV_MODE=managed", rendered)
+            self.assertIn(f"PYTHON_ENV_ROOT={env_root}", rendered)
+            self.assertRegex(rendered, r"PYTHON_VERSION_EXACT=\d+\.\d+\.\d+")
+            self.assertIn("PYTHON_LOCK_PATH=/teamspace/studios/this_studio/agentic-workload-simulator/cloud/lambda/requirements-linux-x86_64.txt", rendered)
+            self.assertIn(f"EVALUATOR_PYTHON={env_root}/bin/python", rendered)
+            self.assertIn(f"SWE_AGENT_COMMAND={env_root}/bin/sweagent --help", rendered)
+            self.assertNotIn("/agentic-work/venv", rendered)
+
+    def test_venv_mode_keeps_lambda_python_version(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = pathlib.Path(temp)
+            source = root / "source.env"
+            output = root / "rendered.env"
+            source.write_text(
+                "PYTHON_VERSION=3.11\n"
+                "WORK_ROOT=/home/ubuntu/work\n"
+                "VLLM_API_KEY=local-only-placeholder\n",
+                encoding="utf-8",
+            )
+            result = self.run_script(
+                "--source", str(source), "--output", str(output),
+                "--studio-root", "/teamspace/studios/this_studio",
+                "--python-env-mode", "venv",
+            )
+            self.assertEqual(result.returncode, 0, result.stderr)
+            rendered = output.read_text(encoding="utf-8")
+            self.assertIn("PYTHON_ENV_MODE=venv", rendered)
+            self.assertIn("PYTHON_ENV_ROOT=/teamspace/studios/this_studio/agentic-work/venv", rendered)
+            self.assertIn("PYTHON_VERSION=3.11", rendered)
+
+    def test_dry_run_validates_without_writing_output(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = pathlib.Path(temp)
+            source = root / "source.env"
+            output = root / "rendered.env"
+            source.write_text(
+                "WORK_ROOT=/home/ubuntu/work\n"
+                "VLLM_API_KEY=local-only-placeholder\n",
+                encoding="utf-8",
+            )
+            result = self.run_script(
+                "--source", str(source), "--output", str(output),
+                "--studio-root", "/teamspace/studios/this_studio", "--dry-run",
+            )
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertIn("DRY-RUN", result.stdout)
+            self.assertFalse(output.exists())
 
 
 if __name__ == "__main__":

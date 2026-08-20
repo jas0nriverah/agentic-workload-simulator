@@ -13,8 +13,10 @@ Studio stopped while preparing the reviewed branch.
 ## Render the provider-local manifest
 
 From the checked-out repository, create the untracked manifest. The renderer
-only rewrites `/home/ubuntu` paths to the Studio workspace; all immutable pins
-and command contracts remain unchanged.
+rewrites `/home/ubuntu` paths to the Studio workspace and points command
+contracts at the Studio's already-managed Conda interpreter. This is required
+because a Lightning Studio permits one managed environment and rejects
+`python3 -m venv`; the canonical Lambda manifest still creates a fresh venv.
 
 ```bash
 scripts/cloud/render_studio_manifest.sh \
@@ -23,9 +25,40 @@ scripts/cloud/render_studio_manifest.sh \
   --force
 ```
 
-The generated manifest is local configuration. Never commit it, and provide a
-real `VLLM_API_KEY` only through the process environment when running the
-SWE-agent command.
+The rendered manifest records `PYTHON_ENV_MODE=managed`, the active Conda
+prefix, and the actual Python major/minor version. Re-run this command after
+pulling a bootstrap/renderer update; do not reuse a manifest rendered by an
+older commit.
+
+If the Studio reports Python 3.12 while the repository contains only the
+reviewed Python 3.11 lock, bootstrap will stop before downloads. That is
+intentional. Resolve a provider-specific lock from the existing pinned set on
+the Linux x86-64 Studio, then rerun the renderer so it selects the file:
+
+```bash
+python3 -m pip install --user uv
+uv pip compile cloud/lambda/requirements-linux-x86_64.txt \
+  --python-version 3.12 \
+  --python-platform x86_64-manylinux2014 \
+  --resolution highest --generate-hashes \
+  --output-file cloud/lambda/requirements-linux-x86_64-py312.txt
+head -n 5 cloud/lambda/requirements-linux-x86_64-py312.txt
+sha256sum cloud/lambda/requirements-linux-x86_64-py312.txt
+scripts/cloud/render_studio_manifest.sh \
+  --output cloud/lambda/instance_manifest.env \
+  --studio-root /teamspace/studios/this_studio --force
+```
+
+The generated lock must identify Python 3.12 and
+`x86_64-manylinux2014`; do not edit its header or relabel the 3.11 lock. Keep
+the lock and its SHA-256 in the local handoff/export until the reviewed branch
+is updated. If the resolver cannot produce a complete hash lock, stop and
+report that blocker rather than installing an unpinned environment.
+
+The generated manifest is local configuration. Never commit it. The local
+vLLM server does not require an external provider credential; provide a
+process-only value such as `VLLM_API_KEY=local-only-key` when running the
+SWE-agent command, and never store it in the manifest or artifacts.
 
 ## Authorize the billed session
 

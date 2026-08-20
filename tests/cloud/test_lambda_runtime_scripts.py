@@ -164,6 +164,49 @@ class LambdaRuntimeScriptTests(unittest.TestCase):
         text = (ROOT / "scripts/cloud/lambda_bootstrap.sh").read_text(encoding="utf-8")
         self.assertLess(text.index("stage utilities"), text.index("stage preflight"))
 
+    def test_bootstrap_supports_managed_studio_environment_without_venv_creation(self):
+        text = (ROOT / "scripts/cloud/lambda_bootstrap.sh").read_text(encoding="utf-8")
+        self.assertIn("PYTHON_ENV_MODE", text)
+        self.assertIn("managed Python environment is unavailable", text)
+        self.assertIn('[[ "$PYTHON_ENV_MODE" == managed ]] || mkdir -p -- "$VENV"', text)
+        self.assertIn('[[ "$PYTHON_ENV_MODE" != managed ]]', text)
+        with tempfile.TemporaryDirectory() as temp:
+            manifest = pathlib.Path(temp) / "managed.env"
+            manifest.write_text("PYTHON_ENV_MODE=managed\nPYTHON_ENV_ROOT=/opt/conda\n", encoding="utf-8")
+            result = self.run_script(RUNTIME[1], "--manifest", str(manifest), "--dry-run")
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertIn("use managed Python environment /opt/conda", result.stdout)
+
+    def test_bootstrap_binds_lock_and_resume_markers_to_runtime_contract(self):
+        text = (ROOT / "scripts/cloud/lambda_bootstrap.sh").read_text(encoding="utf-8")
+        for field in ("PYTHON_LOCK_PATH", "PYTHON_VERSION_EXACT", "bootstrap_fingerprint", "--python-platform x86_64-manylinux2014", "python-freeze.txt", "pip check"):
+            self.assertIn(field, text)
+        self.assertIn("grep -Fqx \"bootstrap_fingerprint=$BOOTSTRAP_FINGERPRINT\"", text)
+
+    def test_bootstrap_rejects_python_version_lock_mismatch_before_mutation(self):
+        with tempfile.TemporaryDirectory() as temp:
+            manifest = pathlib.Path(temp) / "bad-lock.env"
+            manifest.write_text(
+                "PYTHON_VERSION=3.12\n"
+                "PYTHON_LOCK_PATH=" + str(ROOT / "cloud/lambda/requirements-linux-x86_64.txt") + "\n"
+                "PYTHON_LOCK_SHA256=" + PYTHON_LOCK_SHA256 + "\n",
+                encoding="utf-8",
+            )
+            result = self.run_script(RUNTIME[1], "--manifest", str(manifest), "--dry-run")
+            self.assertNotEqual(result.returncode, 0)
+            self.assertIn("not resolved for Python 3.12", result.stderr)
+
+    def test_bootstrap_cannot_mask_failed_package_install_or_inventory_audit(self):
+        text = (ROOT / "scripts/cloud/lambda_bootstrap.sh").read_text(encoding="utf-8")
+        self.assertIn("( set -Eeuo pipefail; \"$@\" )", text)
+        self.assertIn('( set -Eeuo pipefail; eval "$validator" )', text)
+        self.assertIn('"${reinstall[@]}" --only-binary=:all: --require-hashes -r "$PYTHON_LOCK" || return 1', text)
+        self.assertIn('"$REPOS/SWE-agent" -e "$REPOS/SWE-bench" -e "$ROOT" || return 1', text)
+        self.assertIn('"$VENV/bin/python" -m pip check || return 1', text)
+        self.assertIn('"$VENV/bin/python" -m pip freeze --all > "$WORK_ROOT/artifacts/manifests/python-freeze.txt" || return 1', text)
+        self.assertIn("validate_python_environment || return 1", text)
+        self.assertIn('pip check >/dev/null || return 1', text)
+
     def test_preflight_dry_run_does_not_create_report(self):
         with tempfile.TemporaryDirectory() as temp:
             output = pathlib.Path(temp) / "preflight.json"
