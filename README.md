@@ -1,21 +1,24 @@
 # Agentic Workload Simulator
 
 Implementation of the Agentic Workload Simulator coding test. The assignment
-PDF remains the source of truth. This repository starts with the cloud-ready
-bootstrap and state machinery; empirical SWE-agent/SWE-bench results are added
-only after the Lambda H100 gates pass.
+PDF remains the source of truth. This repository contains the cloud-ready
+bootstrap and state machinery plus a compact, measured first-control record
+from a gated Lightning H100 session. The Lambda H100 remains the target
+platform; Lightning measurements are kept explicitly separate and are never
+presented as Lambda results.
 
 ## Current status
 
-- G4 local trajectory-contract review: local static PASS; the first H100
-  control and official evaluator have completed with an unresolved/empty-patch
-  outcome
+- G4 local trajectory-contract review: local static PASS; the first Lightning
+  H100 control and official evaluator have completed with an unresolved/empty-
+  patch outcome
 - Shared clock, resolved vLLM configuration, artifact v2, and four-knob
   command contracts passed local validation and independent review
 - Linux x86-64 rehearsal and first-trajectory inventory are free/local checks;
   unavailable host tools are reported explicitly and strict CI fails closed
-- One paid H100 control session has completed; no thin-telemetry or sweep run
-  has been launched
+- One paid Lightning H100 control session has completed, including both pinned
+  gold smokes and official generated-patch evaluation; no thin-telemetry or
+  sweep run has been launched
 - No resolved-rate claim or final assignment result exists
 - Technical readiness does not authorize paid compute; the session gate remains
   fail-closed until the user supplies explicit authorization.

@@ -18,7 +18,8 @@ deliverable to the first command/artifact that will produce evidence. A
 
 - Model/configuration: `Qwen/Qwen3-Coder-30B-A3B-Instruct`, BF16, 32K
   context guard, vLLM 0.10.0 with `qwen3_coder`, SWE-agent 1.1.0, and
-  SWE-bench 4.1.0. The H100 fit and tool-call health remain empirical.
+  SWE-bench 4.1.0. Fit and tool-call health were observed on Lightning; the
+  Lambda-target equivalence remains empirical.
 - The control command and thin command carry identical model/tool payloads;
   thin mode only observes the running process.
 - Native vLLM metrics remain server-aggregate. They are not assigned to a
@@ -27,6 +28,7 @@ deliverable to the first command/artifact that will produce evidence. A
   trajectory, official generated-patch evaluation, export/checksum, and
   termination. Thin telemetry is a separately authorized later session.
 - The first H100 control and gold-smoke outcomes are measured artifacts, but
-  the control produced an unresolved/empty patch. No resolved-rate claim,
+  the control produced an unresolved/empty patch on Lightning; no Lambda-host
+  result is implied. No resolved-rate claim,
   thin-overhead result, sweep result, latency claim, or simulator result is
   claimed by this document.

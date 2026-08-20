@@ -70,8 +70,9 @@ must inspect the three pinned `linux/amd64` image digests and emit a valid
 one-instance report.
 
 The current development environment is macOS arm64 without CUDA/Docker; it
-cannot prove these host-only conditions. No H100 empirical result is claimed
-until the recorded reports exist.
+cannot prove these host-only conditions. The repository contains measured
+Lightning H100 evidence in `project/FIRST_CONTROL_MEASURED.json`, but no
+Lambda-host empirical result is claimed until the target-host reports exist.
 
 ## Optional observability capabilities
 

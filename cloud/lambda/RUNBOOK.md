@@ -195,14 +195,19 @@ On the local machine, verify the received result archive explicitly:
   --receipt "$HOME/Downloads/lambda-results-first-session-final.verification_receipt.json"
 ```
 
-## H100-only validations still required
+## Lambda-target validations still required
 
-- Ubuntu x86-64/H100 preflight and model fit;
-- vLLM normal completion, parsed tool call, and native `/metrics` counters;
+The analogous checklist passed on the recorded Lightning H100 session. The
+following target-specific checks are still required before making a Lambda
+claim:
+
+- Lambda Ubuntu x86-64/H100 preflight and model fit;
+- vLLM normal completion, parsed tool call, and native `/metrics` counters on
+  the Lambda host;
 - exact amd64 evaluator image availability at all three digests;
 - Lite and Verified gold smoke reports;
 - first generated SWE-agent prediction and official evaluation;
-- measured artifact export and checksum verification.
+- measured artifact export and checksum verification from the Lambda host.
 
 Optional observability validations remain H100-only: actual DCGM field
 discovery, nvidia-smi field support, Nsight/strace permissions, measured

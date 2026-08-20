@@ -1,6 +1,8 @@
 # Cloud-readiness blockers and gates
 
-Technical cloud-readiness is `PASS_g3a_h100_control_complete`.
+Technical cloud-readiness is `PASS_g3a_lightning_h100_control_complete`.
+The Lambda 1× H100 PCIe remains the target; Lightning measurements below are
+not Lambda-host measurements.
 
 Measured H100 evidence is now present outside Git under the local
 `h100-artifacts/` directory and in the verified Lightning export:
@@ -29,7 +31,7 @@ H100 setup:
   untracked authorization file is not committed. Refresh it explicitly before
   any new paid run; do not infer authorization from available credits.
 
-No additional workload is running. The Lightning Studio itself must still be
+No additional workload is recorded as running. Verify the Lightning Studio is
 stopped/terminated in its UI when no further work is needed because stopping a
 container does not stop provider billing.
 

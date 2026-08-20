@@ -4,6 +4,16 @@ This is a provider adapter for the frozen Lambda-compatible runtime. It does
 not change the assignment, model, datasets, evaluator, or experiment order.
 The Lambda runbook remains the source of truth for the workload commands.
 
+## Recorded checkpoint
+
+One paid Lightning H100 session has already completed the pinned preflight,
+managed-Python bootstrap, vLLM health checks, Lite and Verified gold smokes,
+one uninstrumented Lite control, official evaluation, and export. The compact
+record is `project/FIRST_CONTROL_MEASURED.json`. Its unresolved/empty-patch
+outcome is preserved without a score claim. This provider evidence does not
+claim Lambda-host equivalence; do not rerun the control or start a new paid
+gate without a fresh explicit authorization.
+
 ## Before starting H100 billing
 
 Use a non-interruptible 1× H100 80 GB Studio. Verify the host is `x86_64`, has
@@ -30,30 +40,18 @@ prefix, and the actual Python major/minor version. Re-run this command after
 pulling a bootstrap/renderer update; do not reuse a manifest rendered by an
 older commit.
 
-If the Studio reports Python 3.12 while the repository contains only the
-reviewed Python 3.11 lock, bootstrap will stop before downloads. That is
-intentional. Resolve a provider-specific lock from the existing pinned set on
-the Linux x86-64 Studio, then rerun the renderer so it selects the file:
+If the Studio reports Python 3.12, the renderer now selects the checked-in
+Python 3.12 Linux lock automatically:
 
 ```bash
-python3 -m pip install --user uv
-uv pip compile cloud/lambda/requirements-linux-x86_64.txt \
-  --python-version 3.12 \
-  --python-platform x86_64-manylinux2014 \
-  --resolution highest --generate-hashes \
-  --output-file cloud/lambda/requirements-linux-x86_64-py312.txt
-head -n 5 cloud/lambda/requirements-linux-x86_64-py312.txt
+head -n 3 cloud/lambda/requirements-linux-x86_64-py312.txt
 sha256sum cloud/lambda/requirements-linux-x86_64-py312.txt
-scripts/cloud/render_studio_manifest.sh \
-  --output cloud/lambda/instance_manifest.env \
-  --studio-root /teamspace/studios/this_studio --force
 ```
 
-The generated lock must identify Python 3.12 and
-`x86_64-manylinux2014`; do not edit its header or relabel the 3.11 lock. Keep
-the lock and its SHA-256 in the local handoff/export until the reviewed branch
-is updated. If the resolver cannot produce a complete hash lock, stop and
-report that blocker rather than installing an unpinned environment.
+The checked-in lock identifies Python 3.12 and `x86_64-manylinux2014`; do not
+edit its header or relabel the 3.11 lock. If the provider reports another
+Python version, or the selected lock is missing or fails its hash check, stop
+and report that blocker rather than installing an unpinned environment.
 
 The generated manifest is local configuration. Never commit it. The local
 vLLM server does not require an external provider credential; provide a
