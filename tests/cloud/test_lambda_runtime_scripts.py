@@ -97,6 +97,8 @@ class LambdaRuntimeScriptTests(unittest.TestCase):
             self.assertIn('HF_CLI="${HF_CLI:-$PYTHON_ENV_ROOT/bin/hf}"', text)
             self.assertIn("--exclude '*optimizer*' --exclude '*checkpoint*'", text)
             self.assertIn("find -L \"$snapshot\"", text)
+            self.assertIn("pyarrow.parquet", text)
+            self.assertIn("hf_hub_download", text)
             result = self.run_script(RUNTIME[2], "--manifest", str(manifest), "--dry-run")
             self.assertEqual(result.returncode, 0, result.stderr)
             self.assertIn("with /opt/managed-python/bin/hf", result.stdout)

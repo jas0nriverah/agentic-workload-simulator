@@ -114,18 +114,32 @@ PY
 
 # Resolve exact dataset revisions once and retain only the selected rows needed
 # for the first trajectory and the two independent gold smokes.
-"$PYTHON_BIN" - "$DATASET_OUT" "$WORK_ROOT/datasets" "$LITE_REPO" "$LITE_REVISION" "$LITE_ROWS" "$LITE_FIRST_ID" "$LITE_GOLD_ID" "$VERIFIED_REPO" "$VERIFIED_REVISION" "$VERIFIED_ROWS" "$VERIFIED_GOLD_ID" <<'PY'
+"$PYTHON_BIN" - "$DATASET_OUT" "$WORK_ROOT/datasets" "$HF_DATASETS_CACHE" "$LITE_REPO" "$LITE_REVISION" "$LITE_ROWS" "$LITE_FIRST_ID" "$LITE_GOLD_ID" "$VERIFIED_REPO" "$VERIFIED_REVISION" "$VERIFIED_ROWS" "$VERIFIED_GOLD_ID" <<'PY'
 import hashlib, json, pathlib, sys
-from datasets import load_dataset
 
-(out, root, lite_repo, lite_rev, lite_rows, lite_first, lite_gold,
+import pyarrow.parquet as parquet
+from huggingface_hub import hf_hub_download
+
+(out, root, cache_dir, lite_repo, lite_rev, lite_rows, lite_first, lite_gold,
  verified_repo, verified_rev, verified_rows, verified_gold) = sys.argv[1:]
 root = pathlib.Path(root)
 def get(repo, rev, expected, ids, stem):
-    ds = load_dataset(repo, revision=rev, split="test")
-    if len(ds) != int(expected):
-        raise SystemExit(f"{repo}@{rev}: row count {len(ds)} != {expected}")
-    by_id = {str(row["instance_id"]): dict(row) for row in ds}
+    # The managed Studio base carries a SciPy binary built for NumPy 1.x,
+    # while the frozen workload lock pins NumPy 2.x.  Importing datasets
+    # triggers SciPy even for Parquet, so use the pinned HF client plus the
+    # already-present Parquet reader and preserve the same revision/row checks.
+    source = hf_hub_download(
+        repo_id=repo,
+        filename="data/test-00000-of-00001.parquet",
+        revision=rev,
+        repo_type="dataset",
+        cache_dir=cache_dir,
+    )
+    table = parquet.read_table(source)
+    rows = table.to_pylist()
+    if len(rows) != int(expected):
+        raise SystemExit(f"{repo}@{rev}: row count {len(rows)} != {expected}")
+    by_id = {str(row["instance_id"]): row for row in rows}
     missing = [i for i in ids if i not in by_id]
     if missing: raise SystemExit(f"{repo}@{rev}: missing IDs {missing}")
     rows = []
@@ -135,8 +149,9 @@ def get(repo, rev, expected, ids, stem):
         path = root / f"{stem}_{iid}.json"
         path.write_bytes(data + b"\n")
         rows.append({"instance_id": iid, "path": str(path), "sha256": hashlib.sha256(data).hexdigest(), "bytes": path.stat().st_size})
-    return {"repo": repo, "revision": rev, "split": "test", "rows": int(expected), "selected": rows}
-obj = {"schema_version": "datasets.v3", "lite": get(lite_repo, lite_rev, lite_rows, [lite_first, lite_gold], "lite"), "verified": get(verified_repo, verified_rev, verified_rows, [verified_gold], "verified"), "provenance": "measured"}
+    source_path = pathlib.Path(source)
+    return {"repo": repo, "revision": rev, "split": "test", "rows": int(expected), "source_file": str(source_path), "source_file_sha256": hashlib.sha256(source_path.read_bytes()).hexdigest(), "selected": rows}
+obj = {"schema_version": "datasets.v3", "lite": get(lite_repo, lite_rev, lite_rows, [lite_first, lite_gold], "lite"), "verified": get(verified_repo, verified_rev, verified_rows, [verified_gold], "verified"), "provenance": "measured", "reader": "huggingface_hub+pyarrow.parquet"}
 p = pathlib.Path(out); tmp = p.with_name(p.name + ".tmp"); tmp.write_text(json.dumps(obj, indent=2) + "\n"); tmp.replace(p)
 PY
 echo "Pinned model and dataset assets verified: $MODEL@$REVISION; manifest=$MODEL_OUT datasets=$DATASET_OUT"
