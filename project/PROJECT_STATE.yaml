@@ -1,6 +1,6 @@
 schema_version: 1
-updated_at_utc: 2026-08-20T21:04:22Z
-overall_status: g3a_h100_control_complete
+updated_at_utc: 2026-08-20T21:40:06Z
+overall_status: g3a_lightning_h100_control_complete
 phase: CR0_CR1_CR2_CR3_CR4_CR5_CR6_CR7_CR8_CR9_CR10_CR11_CR12_CR13_G3A_G4_LOCAL
 current_task: G4-local-normalized-fixture-and-accounting-contracts-complete
 last_verified_commit: aa84e8e69a6c5207a2b379cd7d7d9952e885c6a7
@@ -13,9 +13,11 @@ hardware:
     status: available
     gpu: RTX_2080_Super_or_none_on_local_mac
   final:
-    status: validated
+    status: lightning_measured_lambda_target_pending
     target_platform: Lambda_1x_H100_PCIe_80GB
+    target_validation: pending_empirical
     measured_platform: Lightning_1x_H100_80GB
+    measured_provider: lightning
 
 billing:
   provider: lightning
@@ -27,7 +29,7 @@ billing:
   user_available_to_terminate: false
 
 configuration:
-  status: pinned_h100_control_validated
+  status: pinned_lightning_h100_control_validated_lambda_target_pending
   model: Qwen/Qwen3-Coder-30B-A3B-Instruct
   precision: BF16
   model_revision: b2cff646eb4bb1d68355c01b18ae02e7cf42d120
@@ -36,11 +38,12 @@ configuration:
   swebench_revision: 726c5461e2ef52d83cf1ea2107870a8bb3328d57
 
 cloud_readiness:
-  status: PASS_g3a_h100_control_complete
+  status: PASS_g3a_lightning_h100_control_complete
   technical_safe_to_rent_h100: true
   paid_session_authorized: false
   safe_to_launch: false
   h100_validation_required: true
+  lambda_target_validation_required: true
   sample_repository_unchanged: true
   paid_compute_used: true
   provider_api_used: false
@@ -48,13 +51,13 @@ cloud_readiness:
 
 gates:
   G0_requirements: passed
-  G1_direct_model_request: passed_h100
-  G2_single_trajectory: completed_h100_unresolved
+  G1_direct_model_request: passed_lightning_h100
+  G2_single_trajectory: completed_lightning_h100_unresolved
   G3A_public_reference_lock: passed_static_comparison_only
   G4_instrumented_trajectory: pending_h100
   G5_five_instance_smoke: pending
   G6_twenty_instance_pilot: pending
-  G3B_h100_evaluator_validation: passed_h100_gold_smokes_and_official_runner
+  G3B_h100_evaluator_validation: passed_lightning_h100_gold_smokes_and_official_runner
   G7_step1_baseline: pending
   G8_step2_sweeps: pending
   G9_step3_deep_profile: pending

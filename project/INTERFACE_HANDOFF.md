@@ -20,8 +20,23 @@ Status: frozen after CR13 and G4 local trajectory-contract review; implementatio
   `astropy__astropy-14182`.
 - Verified: `SWE-bench/SWE-bench_Verified@91aa3ed51b709be6457e12d00300a6a596d4c6a3`,
   500 rows, gold smoke `astropy__astropy-14365`.
-- Candidate representation hashes are in `first_experiment.yaml`; a Linux
-  download must record the exact file/content hash before empirical use.
+- Source and selected-row hashes were measured from the pinned revisions on
+  Lightning and are recorded in `first_experiment.yaml` and the instance
+  manifest contract. A future Lambda-target download must verify those exact
+  bytes before empirical use; this does not turn Lightning evidence into a
+  Lambda measurement.
+
+## Current measured checkpoint
+
+- Provider: Lightning, one H100 80 GB, studio `eic-h100-first-control`.
+- Gold smokes: Lite `astropy__astropy-14182` 1/1 and Verified
+  `astropy__astropy-14365` 1/1.
+- First control: Lite `astropy__astropy-12907`, uninstrumented, official
+  evaluator `unresolved` with an empty patch; no resolved-rate claim.
+- Compact evidence: `project/FIRST_CONTROL_MEASURED.json`; raw trajectory and
+  self-contained export remain outside Git and are referenced by SHA-256.
+- Remaining target boundary: Lambda x86-64/H100 equivalence, thin telemetry,
+  sweeps, profiling, simulator fitting, and final report claims.
 
 ## Commands and boundaries
 

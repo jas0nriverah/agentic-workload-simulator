@@ -1,7 +1,7 @@
 schema_version: 1
-status: pre-h100-hardening-local-pass-h100-pending
+status: measured_lightning_g3a_control_complete_lambda_target_pending
 git_commit: c97b486d6774bc806b1298c656c1a721cc0506a9
-git_commit_role: pre_h100_hardening_release_reviewed
+git_commit_role: original_runtime_source_pointer_for_measured_control
 assignment_lock_hash: 02f485cdd8cca4aae242d2f1a5306184a95d7ee0fae42527d7153f48a3424761
 model:
   id: Qwen/Qwen3-Coder-30B-A3B-Instruct
@@ -24,6 +24,13 @@ runtime:
   python: '3.11'
   linux_x86_64_constraints: cloud/lambda/requirements-linux-x86_64.txt
   linux_x86_64_constraints_sha256: 7e1177bf4c0b4efe4d64895f39b340413336b77e02d2f72bbf5aad387accc9cc
+measurement:
+  provider: lightning
+  platform: Lightning_1x_H100_80GB
+  record: project/FIRST_CONTROL_MEASURED.json
+  control_status: unresolved_empty_patch
+  gold_smokes: lite_1_of_1_and_verified_1_of_1
+  lambda_target_host_validated: false
 agent:
   name: SWE-agent
   revision: 0f3acafacabc0def8cc76b4e48acb4b6cf302cb9
@@ -102,11 +109,13 @@ observability:
   otlp: deferred_default_vllm_v1_unsupported
   gpu_time_rule: nvidia-smi_and_prometheus_are_not_gpu_device_time
   direct_gpu_time_provenance: measured_gpu_only_from_separate_nsight_attempt
-provenance: pinned-source-static-evidence
+provenance: pinned-source-and-measured-lightning-evidence
 notes: >-
   All source, model, dataset, and container references are immutable. Local
-  hardening, Linux rehearsal, and independent review passed; Linux x86-64/H100
-  model fit, vLLM tool-call health, and both official evaluator gold smokes
-  remain empirical gates on the target host. Thin telemetry and the four
-  sweeps are not run in the first paid session; the first real trajectory is
+  hardening, Linux rehearsal, and independent review passed. The recorded H100
+  runtime gates, both gold smokes, first control, official evaluator, and
+  export were measured on Lightning; they validate that provider session only
+  and do not claim Lambda-host equivalence. Lambda x86-64/H100 target-host
+  validation remains explicit work. Thin telemetry and the four sweeps were
+  not run in the first paid session; the first real trajectory is preserved as
   the schema fixture.

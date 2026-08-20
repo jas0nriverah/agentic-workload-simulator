@@ -9,14 +9,14 @@
 
 ## D-0002 - Lambda target
 
-- Status: proposed
+- Status: accepted; target-host validation remains pending
 - Decision: prepare for one Lambda H100 PCIe 80 GB instance.
 - Rationale: enough VRAM for the preferred Qwen configuration candidate, with final fit tested on the actual host.
 - Approval needed: user billing authorization before launch.
 
 ## D-0003 - Cloud-readiness runtime pins
 
-- Status: accepted for local preparation; H100 acceptance pending
+- Status: accepted; Lightning H100 gates passed for the recorded control, Lambda target-host validation pending
 - Decision: keep `Qwen/Qwen3-Coder-30B-A3B-Instruct` in BF16 at revision
   `b2cff646eb4bb1d68355c01b18ae02e7cf42d120`; use vLLM `0.10.0` source commit
   `6d8d0a24c02bfd84d46b3016b865a44f048ae84b`, the amd64 image
@@ -28,14 +28,15 @@
   architecture and the matching Qwen3-Coder parser. The sample's v0.26.0 /
   Qwen3-Coder-Next FP8 combination is reference-only and is not silently
   inherited.
-- Dataset decision: use candidate immutable Lite revision
+- Dataset decision: use immutable Lite revision
   `69611d31007e1c6731db8bd5b5c3f2d33f5bab6e` and Verified revision
-  `91aa3ed51b709be6457e12d00300a6a596d4c6a3`, with the sample's manifest
-  hashes retained as candidate representation hashes pending a Linux-side
-  content verification.
+  `91aa3ed51b709be6457e12d00300a6a596d4c6a3`. Source and selected-row hashes
+  were measured from the pinned revisions on Lightning and are recorded in
+  D-0007, `first_experiment.yaml`, and the instance manifest contract.
 - H100-only acceptance: model fit, one normal completion, one parsed tool
   call, `/metrics` scrape, official evaluator container architecture/digest,
-  and gold-patch smokes.
+  and gold-patch smokes passed on Lightning. This is not a Lambda-host claim;
+  the target host must be validated separately.
 
 ## D-0004 - Bounded observability upgrade
 
