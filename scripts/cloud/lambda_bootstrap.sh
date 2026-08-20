@@ -523,6 +523,8 @@ expected = {
         "astropy__astropy-14365": "4d0d91079bd056ff5d1940614ad71f025dd96f0498ceaf9ab71757efde87f5e3",
     }),
 }
+if datasets.get("provenance") != "measured" or datasets.get("reader") != "huggingface_hub+pyarrow.parquet":
+    raise SystemExit("dataset manifest lacks measured pinned-reader provenance")
 for name, (repo, revision, rows, expected_source_hash, expected_selected) in expected.items():
     section = datasets.get(name)
     if not isinstance(section, dict) or section.get("repo") != repo or section.get("revision") != revision or section.get("split") != "test" or section.get("rows") != rows:
@@ -533,8 +535,6 @@ for name, (repo, revision, rows, expected_source_hash, expected_selected) in exp
     digest = hashlib.sha256(source.read_bytes()).hexdigest()
     if section.get("source_file_sha256") != expected_source_hash or digest != expected_source_hash:
         raise SystemExit(f"dataset {name} source Parquet hash does not match the measured pin")
-    if section.get("provenance") != "measured" or section.get("reader") != "huggingface_hub+pyarrow.parquet":
-        raise SystemExit(f"dataset {name} manifest lacks measured pinned-reader provenance")
     selected = {item.get("instance_id"): item for item in section.get("selected", [])}
     if set(selected) != set(expected_selected):
         raise SystemExit(f"dataset manifest selected IDs do not match the frozen {name} set")
