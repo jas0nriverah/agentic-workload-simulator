@@ -111,6 +111,7 @@ class RehearsalTests(unittest.TestCase):
                 "repo": "SWE-bench/SWE-bench_Lite",
                 "revision": rehearse.EXPECTED["lite_revision"],
                 "rows": 300,
+                "source_file_sha256": rehearse.EXPECTED["lite_source_hash"],
                 "selected": [
                     {"instance_id": rehearse.EXPECTED["lite_first"], "sha256": rehearse.EXPECTED["lite_first_hash"]},
                     {"instance_id": rehearse.EXPECTED["lite_gold"], "sha256": rehearse.EXPECTED["lite_gold_hash"]},
@@ -120,6 +121,7 @@ class RehearsalTests(unittest.TestCase):
                 "repo": "SWE-bench/SWE-bench_Verified",
                 "revision": rehearse.EXPECTED["verified_revision"],
                 "rows": 500,
+                "source_file_sha256": rehearse.EXPECTED["verified_source_hash"],
                 "selected": [
                     {"instance_id": rehearse.EXPECTED["verified_gold"], "sha256": rehearse.EXPECTED["verified_gold_hash"]}
                 ],
@@ -129,10 +131,26 @@ class RehearsalTests(unittest.TestCase):
             path = Path(temp) / "datasets.json"
             path.write_text(json.dumps(manifest), encoding="utf-8")
             self.assertEqual(rehearse.check_dataset_manifest(path, values)["status"], "pass")
+            manifest["lite"]["source_file_sha256"] = "0" * 64
+            path.write_text(json.dumps(manifest), encoding="utf-8")
+            with self.assertRaises(rehearse.CheckFailure):
+                rehearse.check_dataset_manifest(path, values)
+            manifest["lite"]["source_file_sha256"] = rehearse.EXPECTED["lite_source_hash"]
             manifest["lite"]["selected"][0]["sha256"] = "0" * 64
             path.write_text(json.dumps(manifest), encoding="utf-8")
             with self.assertRaises(rehearse.CheckFailure):
                 rehearse.check_dataset_manifest(path, values)
+
+    def test_linux_workflow_fixture_uses_current_dataset_contract(self):
+        workflow = (ROOT / ".github/workflows/linux-rehearsal.yml").read_text(encoding="utf-8")
+        for digest in (
+            rehearse.EXPECTED["lite_source_hash"],
+            rehearse.EXPECTED["lite_first_hash"],
+            rehearse.EXPECTED["lite_gold_hash"],
+            rehearse.EXPECTED["verified_source_hash"],
+            rehearse.EXPECTED["verified_gold_hash"],
+        ):
+            self.assertIn(digest, workflow)
 
 
 if __name__ == "__main__":

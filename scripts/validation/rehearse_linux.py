@@ -42,11 +42,13 @@ EXPECTED = {
     "lite_rows": "300",
     "verified_rows": "500",
     "lite_first": "astropy__astropy-12907",
-    "lite_first_hash": "3ca941a2f9a10a97ca2813ccb6b0406ac6209f3be34894c2eab241516fdeed61",
+    "lite_source_hash": "f46f2e3f003f2552932393da4b223e1e0456a2c71eba8b73ae58f29646c1278b",
+    "lite_first_hash": "e117000983a3aabba8f43fb52e155d0cc6529b900ed476f59dc6cc065e970faa",
     "lite_gold": "astropy__astropy-14182",
-    "lite_gold_hash": "f7ad14f23bd5d8419a1903d196edce904164768f94caad4670bdb9fd03d77dc5",
+    "lite_gold_hash": "87118fdd9b83e959aa533ea57a70557e95a7027fbce92b14879a98468f5a263b",
     "verified_gold": "astropy__astropy-14365",
-    "verified_gold_hash": "c428d68361b240d5b520e96cfbc4d4145527e40b49468d63f3986c3f1a646e64",
+    "verified_source_hash": "43ed5a3d1d98da36472c1ade65ddd2085d7b4ff694fcaf6a023a07c5c1f32f21",
+    "verified_gold_hash": "4d0d91079bd056ff5d1940614ad71f025dd96f0498ceaf9ab71757efde87f5e3",
     "lock_sha256": "7e1177bf4c0b4efe4d64895f39b340413336b77e02d2f72bbf5aad387accc9cc",
     "temperature": "0.0",
     "max_input_tokens": "32768",
@@ -307,10 +309,10 @@ def check_pins(env: dict[str, str]) -> dict[str, Any]:
         raise CheckFailure("VLLM_IMAGE_PLATFORM must be linux/amd64")
     hashes = {
         "PYTHON_LOCK_SHA256": EXPECTED["lock_sha256"],
-        "LITE_DATASET_SHA256": "4c6a0f689c8b4ba32f4232d611b0c9a86d2fe379e4beb85c23d7c051f3652790",
+        "LITE_DATASET_SHA256": EXPECTED["lite_source_hash"],
         "LITE_FIRST_DATASET_SHA256": EXPECTED["lite_first_hash"],
         "LITE_GOLD_DATASET_SHA256": EXPECTED["lite_gold_hash"],
-        "VERIFIED_DATASET_SHA256": "889bccf7ada1a43d211050ac666f3b31032997209afb10dccdc6ea52128a8435",
+        "VERIFIED_DATASET_SHA256": EXPECTED["verified_source_hash"],
         "VERIFIED_GOLD_DATASET_SHA256": EXPECTED["verified_gold_hash"],
     }
     for key, expected in hashes.items():
@@ -324,13 +326,15 @@ def check_dataset_manifest(path: Path | None, env: dict[str, str]) -> dict[str, 
         return {"status": "capability", "detail": "resolved dataset manifest not supplied; no dataset/model download attempted"}
     value = json.loads(path.read_text(encoding="utf-8"))
     expected_sections = {
-        "lite": (env.get("LITE_DATASET_REPO", "SWE-bench/SWE-bench_Lite"), EXPECTED["lite_revision"], EXPECTED["lite_rows"], [(EXPECTED["lite_first"], EXPECTED["lite_first_hash"]), (EXPECTED["lite_gold"], EXPECTED["lite_gold_hash"])]),
-        "verified": (env.get("VERIFIED_DATASET_REPO", "SWE-bench/SWE-bench_Verified"), EXPECTED["verified_revision"], EXPECTED["verified_rows"], [(EXPECTED["verified_gold"], EXPECTED["verified_gold_hash"])]),
+        "lite": (env.get("LITE_DATASET_REPO", "SWE-bench/SWE-bench_Lite"), EXPECTED["lite_revision"], EXPECTED["lite_rows"], EXPECTED["lite_source_hash"], [(EXPECTED["lite_first"], EXPECTED["lite_first_hash"]), (EXPECTED["lite_gold"], EXPECTED["lite_gold_hash"])]),
+        "verified": (env.get("VERIFIED_DATASET_REPO", "SWE-bench/SWE-bench_Verified"), EXPECTED["verified_revision"], EXPECTED["verified_rows"], EXPECTED["verified_source_hash"], [(EXPECTED["verified_gold"], EXPECTED["verified_gold_hash"])]),
     }
-    for name, (repo, revision, rows, selected) in expected_sections.items():
+    for name, (repo, revision, rows, source_hash, selected) in expected_sections.items():
         section = value.get(name)
         if not isinstance(section, dict) or section.get("repo") != repo or section.get("revision") != revision or str(section.get("rows")) != rows:
             raise CheckFailure(f"dataset {name} manifest repo/revision/row count is not pinned")
+        if section.get("source_file_sha256") != source_hash:
+            raise CheckFailure(f"dataset {name} source Parquet hash mismatch")
         selected_values = {str(item.get("instance_id")): item.get("sha256") for item in section.get("selected", [])}
         for instance_id, digest in selected:
             if selected_values.get(instance_id) != digest:

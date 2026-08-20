@@ -75,6 +75,9 @@ EVALUATOR="${EVALUATE_COMMAND:-$(manifest_value EVALUATE_COMMAND)}"
 SWE_AGENT_REVISION="${SWE_AGENT_REVISION:-$(manifest_value SWE_AGENT_REVISION)}"
 SWE_BENCH_REVISION="${SWE_BENCH_REVISION:-$(manifest_value SWE_BENCH_REVISION)}"
 MODEL_REVISION="${VLLM_MODEL_REVISION:-$(manifest_value VLLM_MODEL_REVISION)}"
+DATASET_MANIFEST_PATH="${DATASET_MANIFEST_PATH:-$(manifest_value DATASET_MANIFEST_PATH)}"
+LITE_SOURCE_SHA256="${LITE_SOURCE_SHA256:-$(manifest_value LITE_DATASET_SHA256)}"
+LITE_FIRST_ROW_SHA256="${LITE_FIRST_ROW_SHA256:-$(manifest_value LITE_FIRST_DATASET_SHA256)}"
 ATTEMPT_ID="${ATTEMPT_ID:-$(manifest_value ATTEMPT_ID)}"
 PREDICTION_PATH="${PREDICTION_PATH:-$(manifest_value PREDICTION_PATH)}"
 TIMEOUT_SECONDS="${FIRST_EXPERIMENT_TIMEOUT_SECONDS:-$(manifest_value FIRST_EXPERIMENT_TIMEOUT_SECONDS)}"
@@ -167,11 +170,73 @@ if [[ -n "$EXPECTED_DATASET_PATH" ]]; then
   [[ "$COMMAND" == *"--agent.model.name openai/$EXPECTED_MODEL"* ]] || { echo 'reviewed SWE-agent command model does not match the frozen model' >&2; exit 1; }
   [[ "$COMMAND" == *"--agent.model.api_base http://127.0.0.1:8000/v1"* ]] || { echo 'reviewed SWE-agent command API base is not the frozen localhost vLLM endpoint' >&2; exit 1; }
 fi
+if [[ -n "$EXPECTED_DATASET_PATH" && -n "$DATASET_MANIFEST_PATH" ]]; then
+  python3 - "$EXPECTED_DATASET_PATH" "$DATASET_MANIFEST_PATH" "$ID" "$LITE_SOURCE_SHA256" "$LITE_FIRST_ROW_SHA256" <<'PY'
+import hashlib
+import json
+import pathlib
+import sys
+
+asset_path = pathlib.Path(sys.argv[1])
+manifest_path = pathlib.Path(sys.argv[2])
+instance_id = sys.argv[3]
+expected_source = sys.argv[4]
+expected_row = sys.argv[5]
+if instance_id != "astropy__astropy-12907":
+    raise SystemExit("first paid control must use the reviewed Lite instance astropy__astropy-12907")
+if not asset_path.is_file() or asset_path.suffix != ".json":
+    raise SystemExit("reviewed Lite first-instance JSON asset is missing")
+manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+section = manifest.get("lite")
+if not isinstance(section, dict) or section.get("repo") != "SWE-bench/SWE-bench_Lite" or section.get("revision") != "69611d31007e1c6731db8bd5b5c3f2d33f5bab6e":
+    raise SystemExit("Lite dataset manifest revision/repository is not the reviewed pin")
+source = pathlib.Path(section.get("source_file", ""))
+if source.suffix != ".parquet" or not source.is_file() or hashlib.sha256(source.read_bytes()).hexdigest() != expected_source or section.get("source_file_sha256") != expected_source:
+    raise SystemExit("Lite source Parquet hash does not match the reviewed measured pin")
+values = json.loads(asset_path.read_text(encoding="utf-8"))
+if not isinstance(values, list) or len(values) != 1 or values[0].get("instance_id") != instance_id:
+    raise SystemExit("Lite first-instance asset is not the canonical one-row file")
+canonical = json.dumps(values, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode()
+if hashlib.sha256(canonical).hexdigest() != expected_row:
+    raise SystemExit("Lite first-instance canonical row hash does not match the reviewed measured pin")
+selected = [item for item in section.get("selected", []) if item.get("instance_id") == instance_id]
+if len(selected) != 1 or selected[0].get("sha256") != expected_row:
+    raise SystemExit("Lite first-instance selected-row hash is not the reviewed measured pin")
+print("validated Lite source Parquet and first control row provenance")
+PY
+fi
 if [[ -n "$(manifest_value SWE_AGENT_OUTPUT_DIR)" ]]; then
   [[ "$COMMAND" == *"--output_dir $AGENT_OUTPUT_DIR"* || "$COMMAND" == *"--output_dir \"$AGENT_OUTPUT_DIR\""* || "$COMMAND" == *"$AGENT_OUTPUT_DIR"* ]] || { echo 'reviewed SWE-agent command output directory is not isolated to this attempt' >&2; exit 1; }
 fi
 [[ "$EVALUATOR" == *"swebench.harness.run_evaluation"* && "$EVALUATOR" == *"--predictions_path"* && "$EVALUATOR" == *"--instance_ids"* ]] || { echo 'reviewed evaluator command is not the official generated-prediction contract' >&2; exit 1; }
 mkdir -p -- "$RAW_DIR"
+
+# SWE-agent v1.1.0's file-backed SimpleBatchInstance schema requires the
+# derived evaluator image name, while the pinned raw SWE-bench row does not
+# carry that field. Preserve the raw one-row asset and create an immutable
+# per-attempt compatibility view for SWE-agent only; the official evaluator
+# continues to receive the raw selected row.
+RUNTIME_DATASET_PATH=""
+if [[ -n "$EXPECTED_DATASET_PATH" && -f "$EXPECTED_DATASET_PATH" ]]; then
+  RUNTIME_DATASET_PATH="$RAW_DIR/sweagent_instances.json"
+  python3 - "$EXPECTED_DATASET_PATH" "$RUNTIME_DATASET_PATH" "$ID" <<'PY'
+import json
+import pathlib
+import sys
+
+source, destination, instance_id = map(pathlib.Path, sys.argv[1:])
+rows = json.loads(source.read_text(encoding="utf-8"))
+if not isinstance(rows, list) or len(rows) != 1 or rows[0].get("instance_id") != str(instance_id):
+    raise SystemExit("SWE-agent runtime view requires the selected canonical one-row asset")
+row = dict(rows[0])
+expected_image = f"swebench/sweb.eval.x86_64.{str(instance_id).replace('__', '_1776_')}:latest".lower()
+if row.get("image_name") not in (None, expected_image):
+    raise SystemExit("raw SWE-bench image_name conflicts with the deterministic evaluator image")
+row["image_name"] = expected_image
+destination.write_text(json.dumps([row], sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n", encoding="utf-8")
+PY
+  COMMAND="${COMMAND//$EXPECTED_DATASET_PATH/$RUNTIME_DATASET_PATH}"
+fi
 
 if (( RESUME )); then
   [[ -f "$RAW_DIR/config.json" ]] || { echo "cannot resume an attempt without its immutable config: $RAW_DIR" >&2; exit 1; }
@@ -199,7 +264,7 @@ validator_args=(--command "$COMMAND" --expected-instance "$ID" --expected-calls 
   --expected-temperature "$EXPERIMENT_TEMPERATURE" --expected-seed "$EXPERIMENT_SEED"
   --output "$RAW_DIR/resolved_command.json")
 [[ -n "$(manifest_value VLLM_MODEL)" ]] && validator_args+=(--expected-model "openai/$EXPECTED_MODEL")
-[[ -n "$EXPECTED_DATASET_PATH" ]] && validator_args+=(--expected-dataset-path "$EXPECTED_DATASET_PATH")
+[[ -n "$RUNTIME_DATASET_PATH" ]] && validator_args+=(--expected-dataset-path "$RUNTIME_DATASET_PATH")
 PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/scripts/cloud/validate_sweagent_command.py" "${validator_args[@]}" >/dev/null
 if [[ -n "$BASE_PREDICTION_PATH" ]]; then
   [[ "$EVALUATOR" == *"--predictions_path $PREDICTION_PATH"* || "$EVALUATOR" == *"$PREDICTION_PATH"* ]] || { echo 'reviewed evaluator prediction path is not isolated to this attempt' >&2; exit 1; }
@@ -254,7 +319,7 @@ run_thin_observer() {
 
 mkdir -p -- "$LOG_DIR" "$RAW_DIR"
 
-export FIRST_LITE_INSTANCE_ID="$ID" EXPERIMENT_ID ATTEMPT_ID AGENTIC_RUN_OUTPUT="$RAW_DIR" AGENTIC_SWE_OUTPUT_DIR="$AGENT_OUTPUT_DIR" AGENTIC_PREDICTION_PATH="$PREDICTION_PATH"
+export FIRST_LITE_INSTANCE_ID="$ID" EXPERIMENT_ID ATTEMPT_ID AGENTIC_RUN_OUTPUT="$RAW_DIR" AGENTIC_SWE_OUTPUT_DIR="$AGENT_OUTPUT_DIR" AGENTIC_PREDICTION_PATH="$PREDICTION_PATH" AGENTIC_SOURCE_DATASET_PATH="$EXPECTED_DATASET_PATH" AGENTIC_RUNTIME_DATASET_PATH="$RUNTIME_DATASET_PATH"
 python3 - "$RAW_DIR" "$EXPERIMENT_ID" "$ID" "$ATTEMPT_ID" "$MODE" "$SWE_AGENT_REVISION" "$SWE_BENCH_REVISION" "$MODEL_REVISION" "$COMMAND" "$RAW_DIR/resolved_command.json" <<'PY'
 import hashlib, json, os, pathlib, sys
 source_root = os.environ.get("AGENTIC_SOURCE_ROOT")
@@ -272,6 +337,8 @@ config = {
     "swe_agent_revision": swe, "swe_bench_revision": bench,
     "model_revision": model, "command_hash": argv_hash,
     "provenance": "measured", "command": command,
+    "source_dataset_path": os.environ.get("AGENTIC_SOURCE_DATASET_PATH") or None,
+    "runtime_dataset_path": os.environ.get("AGENTIC_RUNTIME_DATASET_PATH") or None,
     "resolved_experiment": resolved_command["resolved"],
     "request_contract": resolved_command["request_contract"],
     "control_thin_payload_equivalence": True,

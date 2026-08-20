@@ -1,0 +1,18 @@
+# Untracked local authorization file. Fill this only immediately before a
+# billed Lightning session; leave this example unauthorized in Git.
+authorized: false
+provider: lightning
+console_price_per_gpu_hour: 4.50
+maximum_gpu_hours: 0
+maximum_dollars: 0
+maximum_gate: null  # G3A | G5 | G6
+authorized_start_utc: null
+stop_launching_utc: null
+begin_export_utc: null
+hard_console_termination_utc: null
+export_buffer_minutes: 45
+user_available_to_export: false
+user_available_to_terminate: false
+persistent_storage_authorized: false
+persistent_storage_end_state: none  # none | retain | delete_with_user_approval
+backup_destination: null

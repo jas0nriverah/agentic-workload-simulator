@@ -62,9 +62,9 @@ class OfficialEvaluatorContractTests(unittest.TestCase):
             "if '{{.Os}}/{{.Architecture}}' in args:\n"
             "    print('linux/amd64')\n"
             "elif '14182' in args:\n"
-            f"    print({LITE_IMAGE!r} + '@' + {LITE_DIGEST!r})\n"
+            f"    print({LITE_IMAGE.split(':', 1)[0]!r} + '@' + {LITE_DIGEST!r})\n"
             "else:\n"
-            f"    print({VERIFIED_IMAGE!r} + '@' + {VERIFIED_DIGEST!r})\n",
+            f"    print({VERIFIED_IMAGE.split(':', 1)[0]!r} + '@' + {VERIFIED_DIGEST!r})\n",
             encoding="utf-8",
         )
         self.fake_evaluator = self.root / "fake-evaluator"
@@ -101,6 +101,8 @@ class OfficialEvaluatorContractTests(unittest.TestCase):
                         "revision": "69611d31007e1c6731db8bd5b5c3f2d33f5bab6e",
                         "split": "test",
                         "rows": 300,
+                        "source_file_sha256": "f46f2e3f003f2552932393da4b223e1e0456a2c71eba8b73ae58f29646c1278b",
+                        "source_file": "fixture-lite.parquet",
                         "selected": [{"instance_id": LITE_ID, "path": str(self.lite), "sha256": hashlib.sha256(lite_canonical).hexdigest()}],
                     },
                     "verified": {
@@ -108,6 +110,8 @@ class OfficialEvaluatorContractTests(unittest.TestCase):
                         "revision": "91aa3ed51b709be6457e12d00300a6a596d4c6a3",
                         "split": "test",
                         "rows": 500,
+                        "source_file_sha256": "43ed5a3d1d98da36472c1ade65ddd2085d7b4ff694fcaf6a023a07c5c1f32f21",
+                        "source_file": "fixture-verified.parquet",
                         "selected": [{"instance_id": VERIFIED_ID, "path": str(self.verified), "sha256": hashlib.sha256(verified_canonical).hexdigest()}],
                     },
                 }
@@ -121,13 +125,13 @@ class OfficialEvaluatorContractTests(unittest.TestCase):
                     "SWE_BENCH_REVISION=" + SWE_BENCH_REVISION,
                     "LITE_DATASET_REPO=SWE-bench/SWE-bench_Lite",
                     "LITE_DATASET_REVISION=69611d31007e1c6731db8bd5b5c3f2d33f5bab6e",
-                    "LITE_DATASET_SHA256=4c6a0f689c8b4ba32f4232d611b0c9a86d2fe379e4beb85c23d7c051f3652790",
+                    "LITE_DATASET_SHA256=f46f2e3f003f2552932393da4b223e1e0456a2c71eba8b73ae58f29646c1278b",
                     "LITE_GOLD_DATASET_SHA256=" + self.lite_selected_hash,
                     "LITE_DATASET_PATH=" + str(self.lite),
                     "DATASET_MANIFEST_PATH=" + str(datasets_manifest),
                     "VERIFIED_DATASET_REPO=SWE-bench/SWE-bench_Verified",
                     "VERIFIED_DATASET_REVISION=91aa3ed51b709be6457e12d00300a6a596d4c6a3",
-                    "VERIFIED_DATASET_SHA256=889bccf7ada1a43d211050ac666f3b31032997209afb10dccdc6ea52128a8435",
+                    "VERIFIED_DATASET_SHA256=43ed5a3d1d98da36472c1ade65ddd2085d7b4ff694fcaf6a023a07c5c1f32f21",
                     "VERIFIED_GOLD_DATASET_SHA256=" + self.verified_selected_hash,
                     "VERIFIED_DATASET_PATH=" + str(self.verified),
                     "GOLD_LITE_INSTANCE_ID=" + LITE_ID,
@@ -172,8 +176,8 @@ class OfficialEvaluatorContractTests(unittest.TestCase):
         self.assertIn("--predictions_path gold", result.stdout)
         self.assertIn("--instance_ids " + LITE_ID, result.stdout)
         self.assertIn("--instance_ids " + VERIFIED_ID, result.stdout)
-        self.assertIn(LITE_IMAGE + "@" + LITE_DIGEST, result.stdout)
-        self.assertIn(VERIFIED_IMAGE + "@" + VERIFIED_DIGEST, result.stdout)
+        self.assertIn(LITE_IMAGE.split(":", 1)[0] + "@" + LITE_DIGEST, result.stdout)
+        self.assertIn(VERIFIED_IMAGE.split(":", 1)[0] + "@" + VERIFIED_DIGEST, result.stdout)
         self.assertIn("no evaluator or Docker command executes", result.stdout)
         self.assertFalse((self.root / "out").exists())
 
@@ -210,6 +214,14 @@ class OfficialEvaluatorContractTests(unittest.TestCase):
         self.assertEqual(resolved.returncode, 0, resolved.stdout)
         status_path = self.root / "out/lite-astropy__astropy-14182/status.json"
         self.assertEqual(json.loads(status_path.read_text())["status"], "resolved")
+        run_manifest = self.root / "out/lite-astropy__astropy-14182/run_manifest.json"
+        manifest_value = json.loads(run_manifest.read_text())
+        self.assertEqual(manifest_value["status"], "resolved")
+        self.assertEqual(manifest_value["evaluator_exit_code"], 0)
+        self.assertEqual(
+            manifest_value["report_path"],
+            str(self.root / "out/lite-astropy__astropy-14182/gold.gold-lite-astropy__astropy-14182.json"),
+        )
 
         content = self.manifest.read_text(encoding="utf-8")
         content = content.replace("GOLD_OUTPUT_ROOT=" + str(self.root / "out"), "GOLD_OUTPUT_ROOT=" + str(self.root / "out-unresolved"))
@@ -218,6 +230,10 @@ class OfficialEvaluatorContractTests(unittest.TestCase):
         self.assertEqual(unresolved.returncode, 3, unresolved.stdout)
         status_path = self.root / "out-unresolved/lite-astropy__astropy-14182/status.json"
         self.assertEqual(json.loads(status_path.read_text())["status"], "unresolved")
+        self.assertEqual(
+            json.loads((self.root / "out-unresolved/lite-astropy__astropy-14182/run_manifest.json").read_text())["status"],
+            "unresolved",
+        )
 
         content = content.replace("GOLD_OUTPUT_ROOT=" + str(self.root / "out-unresolved"), "GOLD_OUTPUT_ROOT=" + str(self.root / "out-error"))
         self.manifest.write_text(content, encoding="utf-8")

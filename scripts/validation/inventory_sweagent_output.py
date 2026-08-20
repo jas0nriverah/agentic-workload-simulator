@@ -45,7 +45,10 @@ def type_name(value: Any) -> str:
 def json_inventory(path: Path) -> dict[str, Any]:
     suffix = path.suffix.lower()
     raw = path.read_bytes()
-    if suffix == ".json":
+    # SWE-agent v1.1.0 writes `.traj` as one JSON document (not JSONL).
+    # Keep `.jsonl` as the only line-delimited format so inventory remains
+    # lossless and does not reject a genuine first trajectory.
+    if suffix in {".json", ".traj"}:
         value = json.loads(raw.decode("utf-8"))
         values = [value]
     else:
@@ -58,7 +61,7 @@ def json_inventory(path: Path) -> dict[str, Any]:
         for key in keys
     }
     return {
-        "format": "json" if suffix == ".json" else "jsonl",
+        "format": "json" if suffix in {".json", ".traj"} else "jsonl",
         "records": len(values),
         "top_level_types": sorted({type_name(value) for value in values}),
         "top_level_keys": keys,
@@ -71,13 +74,13 @@ def classify(path: Path) -> str | None:
     suffix = path.suffix.lower()
     if suffix in {".traj", ".jsonl"} or "trajectory" in name:
         return "trajectory"
-    if suffix == ".json" and (name == "config.json" or "config" in name):
+    if suffix in {".json", ".yaml", ".yml"} and (name == "config.json" or "config" in name):
         return "config"
     if suffix == ".json" and ("pred" in name or "prediction" in name):
         return "predictions"
     if suffix in {".log", ".out", ".err"}:
         return "log"
-    if suffix == ".json" and "status" in name:
+    if suffix in {".json", ".yaml", ".yml"} and ("status" in name or "exit_status" in name):
         return "status"
     return None
 
@@ -113,7 +116,11 @@ def inventory(root: Path, max_file_bytes: int = 64 * 1024 * 1024) -> dict[str, A
     missing = sorted(required - found)
     if missing:
         raise CheckFailure(f"attempt inventory is missing required artifact kinds: {missing}")
-    scan_tree(root, max_file_bytes)
+    # SWE-agent logs and `.traj` records legitimately contain absolute paths
+    # from the isolated container. Release-source hygiene rejects private
+    # paths separately; this first-trajectory inventory must still preserve
+    # and hash those records without rewriting them.
+    scan_tree(root, max_file_bytes, reject_absolute_paths=False)
     return {
         "schema_version": "sweagent-output-inventory.v1",
         "status": "pass",

@@ -1,6 +1,6 @@
 # Cloud-readiness interface handoff
 
-Status: frozen after CR4; implementation workers must consume this contract.
+Status: frozen after CR13 and G4 local trajectory-contract review; implementation workers must consume this contract.
 
 ## Immutable runtime
 
@@ -61,6 +61,13 @@ Unavailable JSON-in-`.parquet` fixtures from the old contract are labeled
 `legacy_unavailable` and are never rewritten. Retry attempts are named
 and append-only. A run-level manifest records command/config hashes, revisions,
 IDs, host clocks, metrics references, and evaluator handoff.
+
+The first pinned SWE-agent control additionally has an additive normalized
+index from `scripts/validation/normalize_sweagent_trajectory.py`. It preserves
+the raw `.traj` hash and records trajectory/history rows, exact structural
+tool-call joins, trace `ModelResponse` rows, the post-limit discarded response,
+and the synthetic terminal event. It does not alter the required attempt files
+or assign request-level timing where the source has none.
 
 ## Required environment
 

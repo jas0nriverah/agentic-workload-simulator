@@ -1,17 +1,39 @@
 # Cloud-readiness blockers and gates
 
-Technical cloud-readiness is `PASS_static_local_h100_pending`: the shared-clock,
-resolved-command, artifact-v2, Linux-rehearsal, and independent-review checks
-passed locally. The following are deliberately outstanding and cannot be
-proven on this macOS arm64 host:
+Technical cloud-readiness is `PASS_g3a_h100_control_complete`.
 
-- `H100_VALIDATION_REMAINING`: Linux x86-64/H100 model fit, vLLM tool/parser
-  health, native `/metrics`, evaluator image pulls, gold smokes, and the first
-  real generated trajectory still require the target host.
-- `PAID_SESSION_AUTHORIZATION_REQUIRED_FOR_SAFE_RENT`: the committed session
-  example is fail-closed (`authorized: false`, zero caps). A user-completed
-  session file and console controls are required before any paid launch.
+Measured H100 evidence is now present outside Git under the local
+`h100-artifacts/` directory and in the verified Lightning export:
 
-No cloud resource was rented, no provider API was contacted, and no repository
-was published during this phase. Technical readiness is not authorization to
-spend money; the paid-session gate remains explicitly closed.
+- Linux x86-64/H100 preflight and pinned managed-Python bootstrap passed.
+- vLLM model fit, normal completion, parsed `qwen3_coder` tool call, native
+  `/metrics`, and GPU sampling passed.
+- Lite and Verified gold smokes each resolved their pinned one-row instance.
+- The first uninstrumented Lite trajectory and official evaluator completed.
+  The measured result was `unresolved` with an empty patch; this is an outcome,
+  not a harness failure or a fabricated success.
+- The trajectory inventory and self-contained export checksum passed; the
+  archive contains the raw control data, evaluator report, derived row,
+  trajectory, logs, and inventory (39 verified files, no large-file
+  exclusions). vLLM was stopped and an independent post-stop GPU sample
+  recorded 0 MiB used, 0% utilization, no Docker processes, and no GPU lock.
+
+Remaining blockers are methodological or authorization boundaries, not missing
+H100 setup:
+
+- `FIRST_CONTROL_UNRESOLVED_OUTCOME_REQUIRES_REVIEW`: the control fixture is
+  preserved and the lossless `.traj` normalizer is implemented locally. Review
+  the agent behavior and evaluator outcome before interpreting or changing
+  experimental settings; do not turn the unresolved result into a score claim.
+- `PAID_SESSION_AUTHORIZATION_REQUIRED_FOR_ANY_FUTURE_LAUNCH`: the current
+  untracked authorization file is not committed. Refresh it explicitly before
+  any new paid run; do not infer authorization from available credits.
+
+No additional workload is running. The Lightning Studio itself must still be
+stopped/terminated in its UI when no further work is needed because stopping a
+container does not stop provider billing.
+
+The measured export is outside Git at the local handoff path
+`h100-artifacts/lambda-results-first-lite-astropy__astropy-12907-control-self-contained.tar.gz`
+with SHA-256
+`45f1fd6d328eb2d4c2626ca42a68c36ee8b40fef7afc20ddad59f5040f399ed5`.

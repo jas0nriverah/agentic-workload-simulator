@@ -54,8 +54,9 @@ The selected local task files are `lite_astropy__astropy-12907.json`,
 `lite_astropy__astropy-14182.json`, and
 `verified_astropy__astropy-14365.json` under
 `/home/ubuntu/agentic-work/datasets`. Their selected-row hashes are recorded
-in `datasets.json` after the pinned download; the full-representation hashes
-remain in `instance_manifest.env.example` and `first_experiment.yaml`.
+in `datasets.json` after the pinned download. The same source-file and selected
+row hashes are mirrored in `instance_manifest.env.example` and
+`first_experiment.yaml`; no unmeasured “full representation” hash is used.
 
 ## Runtime evidence required on H100
 

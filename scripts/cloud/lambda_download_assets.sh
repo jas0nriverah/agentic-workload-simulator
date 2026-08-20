@@ -6,6 +6,8 @@ ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/../.." && pwd -P)"
 MANIFEST="${LAMBDA_MANIFEST:-$ROOT/cloud/lambda/instance_manifest.env}"
 WORK_ROOT="${WORK_ROOT:-$ROOT/../agentic-work}"
 CACHE_ROOT="${CACHE_ROOT:-$WORK_ROOT/cache}"
+PYTHON_ENV_MODE="${PYTHON_ENV_MODE:-venv}"
+PYTHON_ENV_ROOT="${PYTHON_ENV_ROOT:-}"
 MODEL="${VLLM_MODEL:-Qwen/Qwen3-Coder-30B-A3B-Instruct}"
 REVISION="${VLLM_MODEL_REVISION:-b2cff646eb4bb1d68355c01b18ae02e7cf42d120}"
 MIN_FREE_GIB="${MIN_FREE_GIB:-120}"
@@ -43,16 +45,25 @@ manifest_value() {
   done < "$MANIFEST"
   return 0
 }
-for key in CACHE_ROOT VLLM_MODEL VLLM_MODEL_REVISION LITE_DATASET_REPO LITE_DATASET_REVISION LITE_DATASET_ROWS FIRST_LITE_INSTANCE_ID GOLD_LITE_INSTANCE_ID VERIFIED_DATASET_REPO VERIFIED_DATASET_REVISION VERIFIED_DATASET_ROWS GOLD_VERIFIED_INSTANCE_ID MIN_FREE_GIB; do
+for key in CACHE_ROOT PYTHON_ENV_MODE PYTHON_ENV_ROOT VLLM_MODEL VLLM_MODEL_REVISION LITE_DATASET_REPO LITE_DATASET_REVISION LITE_DATASET_ROWS FIRST_LITE_INSTANCE_ID GOLD_LITE_INSTANCE_ID VERIFIED_DATASET_REPO VERIFIED_DATASET_REVISION VERIFIED_DATASET_ROWS GOLD_VERIFIED_INSTANCE_ID MIN_FREE_GIB; do
   value="$(manifest_value "$key")"; [[ -n "$value" ]] || continue
   case "$key" in
-    CACHE_ROOT) CACHE_ROOT="$value";; VLLM_MODEL) MODEL="$value";; VLLM_MODEL_REVISION) REVISION="$value";;
+    CACHE_ROOT) CACHE_ROOT="$value";; PYTHON_ENV_MODE) PYTHON_ENV_MODE="$value";; PYTHON_ENV_ROOT) PYTHON_ENV_ROOT="$value";; VLLM_MODEL) MODEL="$value";; VLLM_MODEL_REVISION) REVISION="$value";;
     LITE_DATASET_REPO) LITE_REPO="$value";; LITE_DATASET_REVISION) LITE_REVISION="$value";; LITE_DATASET_ROWS) LITE_ROWS="$value";;
     FIRST_LITE_INSTANCE_ID) LITE_FIRST_ID="$value";; GOLD_LITE_INSTANCE_ID) LITE_GOLD_ID="$value";;
     VERIFIED_DATASET_REPO) VERIFIED_REPO="$value";; VERIFIED_DATASET_REVISION) VERIFIED_REVISION="$value";; VERIFIED_DATASET_ROWS) VERIFIED_ROWS="$value";;
     GOLD_VERIFIED_INSTANCE_ID) VERIFIED_GOLD_ID="$value";; MIN_FREE_GIB) MIN_FREE_GIB="$value";;
   esac
 done
+case "$PYTHON_ENV_MODE" in
+  managed)
+    [[ -n "$PYTHON_ENV_ROOT" ]] || { echo 'managed Python environment root is missing' >&2; exit 1; }
+    ;;
+  venv)
+    PYTHON_ENV_ROOT="${PYTHON_ENV_ROOT:-$WORK_ROOT/venv}"
+    ;;
+  *) echo "PYTHON_ENV_MODE must be managed or venv: $PYTHON_ENV_MODE" >&2; exit 1;;
+esac
 
 [[ "$REVISION" =~ ^[0-9a-fA-F]{40}$ ]] || { echo 'immutable 40-hex VLLM_MODEL_REVISION is required' >&2; exit 1; }
 [[ "$LITE_REVISION" =~ ^[0-9a-fA-F]{40}$ && "$VERIFIED_REVISION" =~ ^[0-9a-fA-F]{40}$ ]] || { echo 'immutable dataset revisions are required' >&2; exit 1; }
@@ -63,8 +74,8 @@ done
 HF_HOME="${HF_HOME:-$CACHE_ROOT/huggingface}"
 HF_HUB_CACHE="${HF_HUB_CACHE:-$HF_HOME/hub}"
 HF_DATASETS_CACHE="${HF_DATASETS_CACHE:-$CACHE_ROOT/datasets-cache}"
-PYTHON_BIN="${PYTHON_BIN:-$WORK_ROOT/venv/bin/python}"
-HF_CLI="${HF_CLI:-$WORK_ROOT/venv/bin/hf}"
+PYTHON_BIN="${PYTHON_BIN:-$PYTHON_ENV_ROOT/bin/python}"
+HF_CLI="${HF_CLI:-$PYTHON_ENV_ROOT/bin/hf}"
 MODEL_OUT="$WORK_ROOT/artifacts/manifests/model_download.json"
 DATASET_OUT="$WORK_ROOT/artifacts/manifests/datasets.json"
 
@@ -78,18 +89,20 @@ EOF
   exit 0
 fi
 
-command -v "$PYTHON_BIN" >/dev/null 2>&1 || { echo "pinned venv Python is unavailable: $PYTHON_BIN" >&2; exit 1; }
+command -v "$PYTHON_BIN" >/dev/null 2>&1 || { echo "pinned Python is unavailable: $PYTHON_BIN" >&2; exit 1; }
 command -v "$HF_CLI" >/dev/null 2>&1 || { echo "huggingface_hub CLI is unavailable: $HF_CLI" >&2; exit 1; }
 mkdir -p -- "$HF_HUB_CACHE" "$HF_DATASETS_CACHE" "$WORK_ROOT/datasets" "$WORK_ROOT/logs" "$WORK_ROOT/artifacts/manifests"
 free_kib="$(df -Pk "$CACHE_ROOT" | awk 'NR==2 {print $4}')"; min_kib=$((MIN_FREE_GIB * 1024 * 1024)); [[ "$free_kib" =~ ^[0-9]+$ && "$free_kib" -ge "$min_kib" ]] || { echo "insufficient free space before asset download" >&2; exit 1; }
 
 start="$(date +%s)"; export HF_HOME HF_HUB_CACHE HF_DATASETS_CACHE
-"$HF_CLI" download "$MODEL" --repo-type model --revision "$REVISION" --cache-dir "$HF_HUB_CACHE" --exclude '*optimizer*' '*checkpoint*' 2>&1 | tee "$WORK_ROOT/logs/model_download.log"
+"$HF_CLI" download "$MODEL" --repo-type model --revision "$REVISION" --cache-dir "$HF_HUB_CACHE" --exclude '*optimizer*' --exclude '*checkpoint*' 2>&1 | tee "$WORK_ROOT/logs/model_download.log"
 end="$(date +%s)"
 snapshot="$(find "$HF_HUB_CACHE" -type d -path "*/snapshots/$REVISION" -print -quit 2>/dev/null || true)"
 [[ -n "$snapshot" && -d "$snapshot" ]] || { echo 'immutable model snapshot not found' >&2; exit 1; }
 [[ -s "$snapshot/config.json" ]] || { echo 'model config.json missing' >&2; exit 1; }
-shard_count="$(find "$snapshot" -type f -name '*.safetensors' | wc -l | tr -d ' ')"; [[ "$shard_count" =~ ^[0-9]+$ && "$shard_count" -gt 0 ]] || { echo 'model safetensors are missing' >&2; exit 1; }
+# Hugging Face snapshots use relative symlinks into the content-addressed
+# blobs directory. Follow those links when counting the measured weight files.
+shard_count="$(find -L "$snapshot" -maxdepth 1 -type f -name '*.safetensors' | wc -l | tr -d ' ')"; [[ "$shard_count" =~ ^[0-9]+$ && "$shard_count" -gt 0 ]] || { echo 'model safetensors are missing' >&2; exit 1; }
 "$PYTHON_BIN" - "$MODEL_OUT" "$MODEL" "$REVISION" "$snapshot" "$start" "$end" "$shard_count" <<'PY'
 import json, pathlib, sys
 out, model, revision, snapshot, start, end, shards = sys.argv[1:]
@@ -101,18 +114,32 @@ PY
 
 # Resolve exact dataset revisions once and retain only the selected rows needed
 # for the first trajectory and the two independent gold smokes.
-"$PYTHON_BIN" - "$DATASET_OUT" "$WORK_ROOT/datasets" "$LITE_REPO" "$LITE_REVISION" "$LITE_ROWS" "$LITE_FIRST_ID" "$LITE_GOLD_ID" "$VERIFIED_REPO" "$VERIFIED_REVISION" "$VERIFIED_ROWS" "$VERIFIED_GOLD_ID" <<'PY'
+"$PYTHON_BIN" - "$DATASET_OUT" "$WORK_ROOT/datasets" "$HF_DATASETS_CACHE" "$LITE_REPO" "$LITE_REVISION" "$LITE_ROWS" "$LITE_FIRST_ID" "$LITE_GOLD_ID" "$VERIFIED_REPO" "$VERIFIED_REVISION" "$VERIFIED_ROWS" "$VERIFIED_GOLD_ID" <<'PY'
 import hashlib, json, pathlib, sys
-from datasets import load_dataset
 
-(out, root, lite_repo, lite_rev, lite_rows, lite_first, lite_gold,
+import pyarrow.parquet as parquet
+from huggingface_hub import hf_hub_download
+
+(out, root, cache_dir, lite_repo, lite_rev, lite_rows, lite_first, lite_gold,
  verified_repo, verified_rev, verified_rows, verified_gold) = sys.argv[1:]
 root = pathlib.Path(root)
 def get(repo, rev, expected, ids, stem):
-    ds = load_dataset(repo, revision=rev, split="test")
-    if len(ds) != int(expected):
-        raise SystemExit(f"{repo}@{rev}: row count {len(ds)} != {expected}")
-    by_id = {str(row["instance_id"]): dict(row) for row in ds}
+    # The managed Studio base carries a SciPy binary built for NumPy 1.x,
+    # while the frozen workload lock pins NumPy 2.x.  Importing datasets
+    # triggers SciPy even for Parquet, so use the pinned HF client plus the
+    # already-present Parquet reader and preserve the same revision/row checks.
+    source = hf_hub_download(
+        repo_id=repo,
+        filename="data/test-00000-of-00001.parquet",
+        revision=rev,
+        repo_type="dataset",
+        cache_dir=cache_dir,
+    )
+    table = parquet.read_table(source)
+    rows = table.to_pylist()
+    if len(rows) != int(expected):
+        raise SystemExit(f"{repo}@{rev}: row count {len(rows)} != {expected}")
+    by_id = {str(row["instance_id"]): row for row in rows}
     missing = [i for i in ids if i not in by_id]
     if missing: raise SystemExit(f"{repo}@{rev}: missing IDs {missing}")
     rows = []
@@ -122,8 +149,9 @@ def get(repo, rev, expected, ids, stem):
         path = root / f"{stem}_{iid}.json"
         path.write_bytes(data + b"\n")
         rows.append({"instance_id": iid, "path": str(path), "sha256": hashlib.sha256(data).hexdigest(), "bytes": path.stat().st_size})
-    return {"repo": repo, "revision": rev, "split": "test", "rows": int(expected), "selected": rows}
-obj = {"schema_version": "datasets.v3", "lite": get(lite_repo, lite_rev, lite_rows, [lite_first, lite_gold], "lite"), "verified": get(verified_repo, verified_rev, verified_rows, [verified_gold], "verified"), "provenance": "measured"}
+    source_path = pathlib.Path(source)
+    return {"repo": repo, "revision": rev, "split": "test", "rows": int(expected), "source_file": str(source_path), "source_file_sha256": hashlib.sha256(source_path.read_bytes()).hexdigest(), "selected": rows}
+obj = {"schema_version": "datasets.v3", "lite": get(lite_repo, lite_rev, lite_rows, [lite_first, lite_gold], "lite"), "verified": get(verified_repo, verified_rev, verified_rows, [verified_gold], "verified"), "provenance": "measured", "reader": "huggingface_hub+pyarrow.parquet"}
 p = pathlib.Path(out); tmp = p.with_name(p.name + ".tmp"); tmp.write_text(json.dumps(obj, indent=2) + "\n"); tmp.replace(p)
 PY
 echo "Pinned model and dataset assets verified: $MODEL@$REVISION; manifest=$MODEL_OUT datasets=$DATASET_OUT"

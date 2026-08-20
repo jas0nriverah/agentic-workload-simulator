@@ -48,8 +48,23 @@ class LambdaRuntimeScriptTests(unittest.TestCase):
         self.assertIn("--require-hashes", (ROOT / "scripts/cloud/lambda_bootstrap.sh").read_text(encoding="utf-8"))
         self.assertEqual(hashlib.sha256((ROOT / "cloud/lambda/requirements-linux-x86_64.txt").read_bytes()).hexdigest(), PYTHON_LOCK_SHA256)
         self.assertIn("--tool-call-parser qwen3_coder", start.stdout)
+        self.assertIn("--model Qwen/Qwen3-Coder-30B-A3B-Instruct", start.stdout)
+        self.assertIn("HF_HUB_OFFLINE=1", start.stdout)
+        self.assertIn("TRANSFORMERS_OFFLINE=1", start.stdout)
         self.assertIn("--dtype bfloat16", start.stdout)
         self.assertIn("--max-model-len 32768", start.stdout)
+
+    def test_dataset_provenance_gates_use_measured_source_and_row_hashes(self):
+        bootstrap = (ROOT / "scripts/cloud/lambda_bootstrap.sh").read_text(encoding="utf-8")
+        gold = (ROOT / "scripts/cloud/lambda_run_gold_smoke.sh").read_text(encoding="utf-8")
+        first = (ROOT / "scripts/cloud/lambda_run_first_experiment.sh").read_text(encoding="utf-8")
+        for text in (bootstrap, gold, first):
+            self.assertIn("source_file_sha256", text)
+        self.assertIn("canonical one-row", first)
+        self.assertIn("hashlib.sha256(source.read_bytes())", bootstrap)
+        self.assertIn("sweagent_instances.json", first)
+        self.assertIn("image_name", first)
+        self.assertIn("source_dataset_path", first)
 
     def test_start_dry_run_propagates_non_default_manifest_values(self):
         with tempfile.TemporaryDirectory() as temp:
@@ -83,6 +98,26 @@ class LambdaRuntimeScriptTests(unittest.TestCase):
             self.assertEqual(result.returncode, 0, result.stderr)
             self.assertNotIn(secret, result.stdout + result.stderr)
 
+    def test_download_assets_resolves_managed_python_from_manifest(self):
+        with tempfile.TemporaryDirectory() as temp:
+            manifest = pathlib.Path(temp) / "managed.env"
+            manifest.write_text(
+                "PYTHON_ENV_MODE=managed\n"
+                "PYTHON_ENV_ROOT=/opt/managed-python\n",
+                encoding="utf-8",
+            )
+            text = RUNTIME[2].read_text(encoding="utf-8")
+            self.assertIn("PYTHON_ENV_ROOT", text)
+            self.assertIn('PYTHON_BIN="${PYTHON_BIN:-$PYTHON_ENV_ROOT/bin/python}"', text)
+            self.assertIn('HF_CLI="${HF_CLI:-$PYTHON_ENV_ROOT/bin/hf}"', text)
+            self.assertIn("--exclude '*optimizer*' --exclude '*checkpoint*'", text)
+            self.assertIn("find -L \"$snapshot\"", text)
+            self.assertIn("pyarrow.parquet", text)
+            self.assertIn("hf_hub_download", text)
+            result = self.run_script(RUNTIME[2], "--manifest", str(manifest), "--dry-run")
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertIn("with /opt/managed-python/bin/hf", result.stdout)
+
     def test_non_default_vllm_manifest_values_reach_dry_run_command(self):
         with tempfile.TemporaryDirectory() as temp:
             manifest = pathlib.Path(temp) / "manifest.env"
@@ -108,6 +143,27 @@ class LambdaRuntimeScriptTests(unittest.TestCase):
             self.assertIn("--tensor-parallel-size 1", result.stdout)
             self.assertIn("org/NonDefaultModel", result.stdout)
 
+    def test_start_uses_manifest_cache_and_never_pulls_after_bootstrap(self):
+        with tempfile.TemporaryDirectory() as temp:
+            manifest = pathlib.Path(temp) / "manifest.env"
+            manifest.write_text(
+                "\n".join([
+                    "WORK_ROOT=/tmp/non-default-work",
+                    "CACHE_ROOT=/tmp/non-default-cache",
+                    "VLLM_MODEL_REVISION=0123456789abcdef0123456789abcdef01234567",
+                    "VLLM_IMAGE=registry.example/vllm:v0.10.0@sha256:" + "a" * 64,
+                    "VLLM_IMAGE_DIGEST=sha256:" + "a" * 64,
+                    "VLLM_IMAGE_PLATFORM=linux/amd64",
+                    "VLLM_TOOL_PARSER=qwen3_coder",
+                    "VLLM_TENSOR_PARALLEL_SIZE=1",
+                ]) + "\n",
+                encoding="utf-8",
+            )
+            result = self.run_script(RUNTIME[3], "--manifest", str(manifest), "--dry-run")
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertIn("/tmp/non-default-cache/huggingface:/root/.cache/huggingface", result.stdout)
+            self.assertIn("--pull=never", result.stdout)
+
     def test_health_contract_uses_metrics_endpoint_not_chat_metrics(self):
         text = RUNTIME[4].read_text(encoding="utf-8")
         self.assertIn("/metrics", text)
@@ -118,6 +174,7 @@ class LambdaRuntimeScriptTests(unittest.TestCase):
         self.assertIn("vllm:e2e_request_latency_seconds_(bucket|count|sum)", text)
         self.assertIn("vllm_config", text)
         self.assertIn("server manifest does not match instance manifest", text)
+        self.assertIn("current server log attempt", text)
 
     def test_atomic_gpu_lease_and_resolved_config_are_explicit(self):
         text = RUNTIME[3].read_text(encoding="utf-8")
@@ -127,11 +184,82 @@ class LambdaRuntimeScriptTests(unittest.TestCase):
         self.assertIn("tool-call-parser", text)
         self.assertIn("--gpus device=0", text)
 
+    def test_start_rechecks_image_digest_and_platform_before_launch(self):
+        text = RUNTIME[3].read_text(encoding="utf-8")
+        self.assertIn("pinned vLLM image digest mismatch", text)
+        self.assertIn("pinned vLLM image platform mismatch", text)
+        self.assertIn("--pull=never", text)
+
     def test_resume_validates_vllm_digest_and_platform(self):
         text = (ROOT / "scripts/cloud/lambda_bootstrap.sh").read_text(encoding="utf-8")
         self.assertIn("RepoDigests", text)
         self.assertIn("vLLM image digest mismatch", text)
         self.assertIn("vLLM image platform mismatch", text)
+
+    def test_bootstrap_installs_utilities_before_blocking_preflight(self):
+        text = (ROOT / "scripts/cloud/lambda_bootstrap.sh").read_text(encoding="utf-8")
+        self.assertLess(text.index("stage utilities"), text.index("stage preflight"))
+
+    def test_bootstrap_supports_managed_studio_environment_without_venv_creation(self):
+        text = (ROOT / "scripts/cloud/lambda_bootstrap.sh").read_text(encoding="utf-8")
+        self.assertIn("PYTHON_ENV_MODE", text)
+        self.assertIn("managed Python environment is unavailable", text)
+        self.assertIn('[[ "$PYTHON_ENV_MODE" == managed ]] || mkdir -p -- "$VENV"', text)
+        self.assertIn('[[ "$PYTHON_ENV_MODE" != managed ]]', text)
+        with tempfile.TemporaryDirectory() as temp:
+            manifest = pathlib.Path(temp) / "managed.env"
+            manifest.write_text("PYTHON_ENV_MODE=managed\nPYTHON_ENV_ROOT=/opt/conda\n", encoding="utf-8")
+            result = self.run_script(RUNTIME[1], "--manifest", str(manifest), "--dry-run")
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertIn("use managed Python environment /opt/conda", result.stdout)
+
+    def test_bootstrap_binds_lock_and_resume_markers_to_runtime_contract(self):
+        text = (ROOT / "scripts/cloud/lambda_bootstrap.sh").read_text(encoding="utf-8")
+        for field in ("PYTHON_LOCK_PATH", "PYTHON_VERSION_EXACT", "bootstrap_fingerprint", "--python-platform x86_64-manylinux2014", "python-freeze.txt", "pip_check_with_managed_allowlist", "python-pip-check.json"):
+            self.assertIn(field, text)
+        self.assertIn("grep -Fqx \"bootstrap_fingerprint=$BOOTSTRAP_FINGERPRINT\"", text)
+
+    def test_bootstrap_rejects_python_version_lock_mismatch_before_mutation(self):
+        with tempfile.TemporaryDirectory() as temp:
+            manifest = pathlib.Path(temp) / "bad-lock.env"
+            manifest.write_text(
+                "PYTHON_VERSION=3.12\n"
+                "PYTHON_LOCK_PATH=" + str(ROOT / "cloud/lambda/requirements-linux-x86_64.txt") + "\n"
+                "PYTHON_LOCK_SHA256=" + PYTHON_LOCK_SHA256 + "\n",
+                encoding="utf-8",
+            )
+            result = self.run_script(RUNTIME[1], "--manifest", str(manifest), "--dry-run")
+            self.assertNotEqual(result.returncode, 0)
+            self.assertIn("not resolved for Python 3.12", result.stderr)
+
+    def test_bootstrap_cannot_mask_failed_package_install_or_inventory_audit(self):
+        text = (ROOT / "scripts/cloud/lambda_bootstrap.sh").read_text(encoding="utf-8")
+        self.assertIn("( set -Eeuo pipefail; \"$@\" )", text)
+        self.assertIn('( set -Eeuo pipefail; eval "$validator" )', text)
+        self.assertIn('"${reinstall[@]}" --only-binary=:all: --require-hashes -r "$PYTHON_LOCK" || return 1', text)
+        self.assertIn('"$REPOS/SWE-agent" -e "$REPOS/SWE-bench" -e "$ROOT" || return 1', text)
+        self.assertIn('pip_check_with_managed_allowlist || return 1', text)
+        self.assertIn('"$VENV/bin/python" -m pip freeze --all > "$WORK_ROOT/artifacts/manifests/python-freeze.txt" || return 1', text)
+        self.assertIn("validate_python_environment || return 1", text)
+        self.assertIn('pip_check_with_managed_allowlist() {', text)
+
+    def test_managed_pip_check_allowlist_is_exact_and_fail_closed(self):
+        text = (ROOT / "scripts/cloud/lambda_bootstrap.sh").read_text(encoding="utf-8")
+        for fragment in (
+            '("matplotlib", "3.8.2", "numpy", "<2,>=1.21", "numpy", "2.4.6")',
+            '("scikit-learn", "1.3.2", "numpy", "<2.0,>=1.17.3", "numpy", "2.4.6")',
+            '("scipy", "1.11.4", "numpy", "<1.28.0,>=1.21.6", "numpy", "2.4.6")',
+            '("lightning-sdk", "2026.6.8", "urllib3", "<=2.5.0", "urllib3", "2.7.0")',
+        ):
+            self.assertIn(fragment, text)
+        for marker in ("PASS_MANAGED_BASE_ALLOWLIST", "unexpected_conflicts", "conflicts", "python-pip-check.txt", "python-pip-check.json", "canonicalize_name"):
+            self.assertIn(marker, text)
+        self.assertIn("if pip_status == 0:", text)
+        self.assertIn('environment_mode != "managed"', text)
+
+    def test_python_packages_imports_all_direct_workload_dependencies(self):
+        text = (ROOT / "scripts/cloud/lambda_bootstrap.sh").read_text(encoding="utf-8")
+        self.assertIn("import agentic_sim, datasets, docker, numpy, pandas, requests, sweagent, swebench, urllib3", text)
 
     def test_preflight_dry_run_does_not_create_report(self):
         with tempfile.TemporaryDirectory() as temp:
@@ -139,6 +267,12 @@ class LambdaRuntimeScriptTests(unittest.TestCase):
             result = self.run_script(RUNTIME[0], "--dry-run", "--output", str(output))
             self.assertEqual(result.returncode, 0, result.stderr)
             self.assertFalse(output.exists())
+
+    def test_preflight_uses_authenticated_docker_registry_probe(self):
+        text = RUNTIME[0].read_text(encoding="utf-8")
+        self.assertIn("https://registry-1.docker.io/v2/", text)
+        self.assertIn("authentication required", text)
+        self.assertIn(":401", text)
 
 if __name__ == "__main__":
     unittest.main()

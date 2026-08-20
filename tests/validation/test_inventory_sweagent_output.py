@@ -17,7 +17,7 @@ class InventoryTests(unittest.TestCase):
     def test_inventory_hashes_and_reports_json_types_without_rewriting(self):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)
-            (root / "trajectory.traj").write_bytes(b'{"step":1}\n')
+            (root / "trajectory.traj").write_bytes(b'{"step":1,"container_path":"/root/model.patch"}\n')
             (root / "preds.json").write_bytes(b'[{"instance_id":"i1","model_patch":""}]\n')
             (root / "config.json").write_bytes(b'{"temperature":0.0,"enabled":true}\n')
             (root / "agent.log").write_bytes(b"trajectory output\n")
@@ -28,6 +28,9 @@ class InventoryTests(unittest.TestCase):
             self.assertEqual(set(result["artifact_kinds"]), {"trajectory", "predictions", "config", "log", "status"})
             config = next(item for item in result["files"] if item["path"] == "config.json")
             self.assertEqual(config["json"]["top_level_keys"], ["enabled", "temperature"])
+            trajectory = next(item for item in result["files"] if item["path"] == "trajectory.traj")
+            self.assertEqual(trajectory["json"]["format"], "json")
+            self.assertEqual(trajectory["json"]["records"], 1)
             self.assertEqual({path.name: path.read_bytes() for path in root.iterdir()}, before)
 
     def test_inventory_rejects_secret_and_missing_required_kinds(self):
@@ -36,6 +39,17 @@ class InventoryTests(unittest.TestCase):
             (root / "trajectory.traj").write_text('{"api_key":"' + "x" * 24 + '"}\n', encoding="utf-8")
             with self.assertRaises(inventory_module.CheckFailure):
                 inventory_module.inventory(root, 1024)
+
+    def test_inventory_recognizes_pinned_sweagent_yaml_contract_files(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            (root / "trajectory.traj").write_text('{"trajectory":[]}', encoding="utf-8")
+            (root / "preds.json").write_text('[]', encoding="utf-8")
+            (root / "run_batch.config.yaml").write_text("agent: {}\n", encoding="utf-8")
+            (root / "run_batch.log").write_text("done\n", encoding="utf-8")
+            (root / "run_batch_exit_statuses.yaml").write_text("instances_by_exit_status: {}\n", encoding="utf-8")
+            result = inventory_module.inventory(root, 1024)
+            self.assertEqual(set(result["artifact_kinds"]), {"trajectory", "predictions", "config", "log", "status"})
 
 
 if __name__ == "__main__":

@@ -15,7 +15,19 @@
   resource_class: CPU_ONLY
 - id: LC2-first-experiment
   objective: Prepare a reviewed first-experiment configuration proposal
-  status: ready_pending_runtime_pins
+  status: done_first_control_measured
+  owner: root
+  resource_class: CPU_ONLY
+
+- id: G4-local-normalized-fixture-validator
+  objective: Validate the lossless normalized first-control index without inventing timing or request correlations
+  status: done_local
+  owner: root
+  resource_class: CPU_ONLY
+
+- id: G4-local-interval-accounting-contract
+  objective: Implement reset-safe same-clock interval-union accounting with explicit overlap/gap and no GPU-time claims
+  status: done_local
   owner: root
   resource_class: CPU_ONLY
 - id: LC3-collection-scripts

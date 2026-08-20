@@ -20,10 +20,10 @@ GENERATED_OUTPUT_ROOT=
 EXPECTED_SWE_BENCH_REVISION=726c5461e2ef52d83cf1ea2107870a8bb3328d57
 EXPECTED_LITE_DATASET_REPO=SWE-bench/SWE-bench_Lite
 EXPECTED_LITE_DATASET_REVISION=69611d31007e1c6731db8bd5b5c3f2d33f5bab6e
-EXPECTED_LITE_DATASET_SHA256=4c6a0f689c8b4ba32f4232d611b0c9a86d2fe379e4beb85c23d7c051f3652790
+EXPECTED_LITE_DATASET_SHA256=f46f2e3f003f2552932393da4b223e1e0456a2c71eba8b73ae58f29646c1278b
 EXPECTED_VERIFIED_DATASET_REPO=SWE-bench/SWE-bench_Verified
 EXPECTED_VERIFIED_DATASET_REVISION=91aa3ed51b709be6457e12d00300a6a596d4c6a3
-EXPECTED_VERIFIED_DATASET_SHA256=889bccf7ada1a43d211050ac666f3b31032997209afb10dccdc6ea52128a8435
+EXPECTED_VERIFIED_DATASET_SHA256=43ed5a3d1d98da36472c1ade65ddd2085d7b4ff694fcaf6a023a07c5c1f32f21
 EXPECTED_LITE_INSTANCE_ID=astropy__astropy-14182
 EXPECTED_VERIFIED_INSTANCE_ID=astropy__astropy-14365
 EXPECTED_NAMESPACE=swebench
@@ -237,11 +237,10 @@ if hashlib.sha256(canonical).hexdigest() != selected[0].get("sha256"):
     raise SystemExit(f"{suite} evaluator asset hash does not match datasets.json")
 if selected[0].get("sha256") != expected_selected_hash:
     raise SystemExit(f"{suite} evaluator asset hash does not match the reviewed selected-row hash")
-if expected_hash not in {
-    "4c6a0f689c8b4ba32f4232d611b0c9a86d2fe379e4beb85c23d7c051f3652790",
-    "889bccf7ada1a43d211050ac666f3b31032997209afb10dccdc6ea52128a8435",
-}:
-    raise SystemExit(f"{suite} dataset manifest hash is not reviewed")
+if section.get("source_file_sha256") != expected_hash:
+    raise SystemExit(f"{suite} source Parquet hash does not match the reviewed source-file hash")
+if pathlib.Path(section.get("source_file", "")).suffix != ".parquet":
+    raise SystemExit(f"{suite} dataset manifest does not identify a source Parquet file")
 print(f"validated {suite} dataset row {instance_id}")
 PY
 }
@@ -288,9 +287,9 @@ PY
 fi
 
 print_image_check() {
-  local suite="$1" image="$2" digest="$3"
+  local suite="$1" image="$2" digest="$3" image_repo="${2%%:*}"
   printf 'IMAGE_CHECK[%s]: docker image inspect --format %q %q; require platform %q\n' "$suite" '{{.Os}}/{{.Architecture}}' "$image" "$EXPECTED_PLATFORM"
-  printf 'IMAGE_CHECK[%s]: docker image inspect --format %q %q; require RepoDigests contains %q\n' "$suite" '{{join .RepoDigests "\n"}}' "$image" "$image@$digest"
+  printf 'IMAGE_CHECK[%s]: docker image inspect --format %q %q; require RepoDigests contains %q\n' "$suite" '{{join .RepoDigests "\n"}}' "$image" "$image_repo@$digest"
 }
 
 run_suite() {
@@ -315,11 +314,12 @@ run_suite() {
   printf '\n'
   ((DRY_RUN)) && return 0
   command -v docker >/dev/null 2>&1 || die 'Docker is required for official SWE-bench evaluation'
-  local platform repo_digests
+  local platform repo_digests image_repo
   platform="$(docker image inspect --format '{{.Os}}/{{.Architecture}}' "$image" 2>/dev/null || true)"
   [[ "$platform" == "$EXPECTED_PLATFORM" ]] || die "$suite image platform mismatch"
   repo_digests="$(docker image inspect --format '{{join .RepoDigests "\n"}}' "$image" 2>/dev/null || true)"
-  grep -Fqx "$image@$digest" <<<"$repo_digests" || die "$suite image is not present at the pinned digest"
+  image_repo="${image%%:*}"
+  grep -Fqx "$image_repo@$digest" <<<"$repo_digests" || die "$suite image is not present at the pinned digest"
   [[ ! -e "$suite_root" ]] || die "gold output already exists: $suite_root"
   mkdir -p -- "$report_dir"
   python3 - "$manifest_path" "$suite" "$EXPERIMENT_TYPE" "$run_id" "$instance_id" "$SWE_BENCH_REVISION" "$dataset_path" "$image" "$digest" "$report_dir" "$log_path" <<'PY'
@@ -406,6 +406,19 @@ pathlib.Path(output).write_text(json.dumps({
     "run_id": run_id, "suite": suite, "instance_id": instance_id,
     "finished_at_utc": datetime.now(timezone.utc).isoformat(),
 }, indent=2) + "\n", encoding="utf-8")
+PY
+  python3 - "$manifest_path" "$classification" "$evaluator_rc" "$report_path" <<'PY'
+import json
+import pathlib
+import sys
+from datetime import datetime, timezone
+path, status, rc, report = sys.argv[1:]
+value = json.loads(pathlib.Path(path).read_text(encoding="utf-8"))
+value["status"] = status
+value["evaluator_exit_code"] = int(rc)
+value["report_path"] = report
+value["finished_at_utc"] = datetime.now(timezone.utc).isoformat()
+pathlib.Path(path).write_text(json.dumps(value, indent=2) + "\n", encoding="utf-8")
 PY
   printf 'RESULT[%s]: %s (status=%s)\n' "$suite" "$report_path" "$classification"
   case "$classification" in resolved) return 0 ;; unresolved) return 3 ;; *) return 1 ;; esac

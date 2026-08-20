@@ -91,6 +91,90 @@
   files, and accidental presentation of a different public scaffold as an
   exact reproduction. They do not add instrumentation or change the
   assignment methodology.
-- Deferred: trajectory normalization, request/event correlation, interval
-  closure, cgroup/PSI attribution, Nsight Compute, sweeps, calibration, and
-  simulator fitting until the first real trajectory is exported.
+- Deferred at that point: request/event correlation, interval closure, cgroup/
+  PSI attribution, Nsight Compute, sweeps, calibration, and simulator fitting
+  until the first real trajectory was exported. The exported fixture is now
+  normalized under D-0009; the remaining timing/correlation work is still
+  deferred.
+
+## D-0007 - Measured dataset source-file hashes
+
+- Status: accepted
+- Decision: replace the stale candidate dataset “manifest” hashes with the
+  SHA-256 of the exact pinned Hugging Face source Parquet retrieved on the
+  Lightning H100, and replace the selected-row fixtures with hashes of the
+  canonical one-row JSON files emitted by the pinned reader.
+- Evidence: Lite source `f46f2e3f003f2552932393da4b223e1e0456a2c71eba8b73ae58f29646c1278b`,
+  rows `astropy__astropy-12907=e117000983a3aabba8f43fb52e155d0cc6529b900ed476f59dc6cc065e970faa`
+  and `astropy__astropy-14182=87118fdd9b83e959aa533ea57a70557e95a7027fbce92b14879a98468f5a263b`;
+  Verified source `43ed5a3d1d98da36472c1ade65ddd2085d7b4ff694fcaf6a023a07c5c1f32f21`,
+  row `astropy__astropy-14365=4d0d91079bd056ff5d1940614ad71f025dd96f0498ceaf9ab71757efde87f5e3`.
+- Rationale: the prior values did not match either the raw pinned Parquet or a
+  direct `datasets` read of the same revisions. This is a provenance/validation
+  correction only: revisions, split, row counts, instance IDs, and evaluator
+  methodology are unchanged. No sample-repository result or fabricated score
+  is inherited.
+
+## D-0008 - SWE-agent runtime dataset compatibility view
+
+- Status: accepted for the first pinned trajectory
+- Decision: preserve the measured one-row SWE-bench JSON and its hash as the
+  evaluator source asset. For SWE-agent v1.1.0 only, derive an attempt-local
+  `sweagent_instances.json` that adds the deterministic `image_name` required
+  by its file-backed `SimpleBatchInstance` schema. Record both paths in the
+  attempt manifest; the official evaluator continues to consume the raw
+  selected-row asset.
+- Rationale: the pinned SWE-agent reader requires `image_name`, while the
+  canonical SWE-bench row emitted by the pinned dataset reader does not include
+  it. Adding the derived field at the command boundary fixes the real runtime
+  incompatibility without mutating raw evidence, changing the instance, or
+  altering the evaluator methodology.
+
+## D-0009 - Lossless first-trajectory normalization contract
+
+- Status: accepted for local implementation; request-level timing deferred
+- Decision: normalize the first pinned SWE-agent `.traj` only as an additive
+  JSONL index. Preserve every raw trajectory/history/info record and the raw
+  source hash. When the trace log is supplied, retain each matched
+  `ModelResponse` source line and expose anchored provider response IDs, tool
+  call IDs, finish reasons, and usage as separate `model_call` records.
+- Correlation: join the 30 committed tool executions to assistant/tool history
+  and trace responses by exact tool-call ID. Keep the 31st provider response as
+  `discarded_limit_exceeded` because the call-limit warning was logged after
+  the request and no corresponding committed trajectory step exists. Emit the
+  synthetic `Exit due to cost limit` item as an `agent_terminal` record.
+- Accounting: preserve provider totals (531,236 prompt / 7,961 completion /
+  539,197 total) separately from SWE-agent `.traj` totals (478,411 input /
+  3,520 output / 31 API calls). These namespaces must not be reconciled or
+  substituted for one another.
+- Timing: retain SWE-agent `execution_time` as duration-only and trace log
+  timestamps as wall-clock observations. Request IDs, monotonic intervals,
+  native vLLM correlation, and GPU attribution remain explicitly unavailable;
+  no synthetic values are emitted.
+- Evidence: the raw `.traj` SHA-256 is
+  `e48fb12deac02ae196330fd4cf40c15d42defb8517ae428fd3099a2f284f6de7`;
+  the real fixture normalizes to 31 model-call records, 30 tool-execution
+  records, one terminal event, and 64 preserved history messages.
+- Rationale: the contract gives the assignment's event analysis a reviewable,
+  byte-preserving fixture without changing the SWE-agent scaffold or claiming
+  request-level measurements that the first run did not collect.
+- Immediate free/local review: inspect the normalized fixture and verify its
+  raw hashes before any new provider work. Deferred until a separately
+  authorized paid session: interval-union accounting closure, paired
+  thin-overhead run, Nsight/strace, sweeps, and G5/G6 expansion.
+
+## D-0010 - Reset-safe interval-union accounting contract
+
+- Status: accepted for local implementation; empirical thin-run closure
+  remains H100-only
+- Decision: account timed event streams by merging overlapping monotonic
+  intervals only when `clock_id`, hostname, and boot ID match exactly. Report
+  raw duration, union duration, overlap, span, gaps, and coverage as derived
+  fields. Empty or incomplete streams remain explicitly unavailable.
+- Implementation: `agentic_sim.observability.accounting` and
+  `scripts/observability/account_intervals.py`.
+- Prohibition: the result is a timed-event union, not GPU device time; native
+  vLLM aggregate metrics cannot be used as request intervals or GPU time.
+- Rationale: this closes the accounting contract locally without fabricating
+  request correlation. A future authorized thin run must supply measured
+  intervals before any empirical accounting claim is made.

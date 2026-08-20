@@ -1,4 +1,5 @@
 import subprocess
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -29,6 +30,36 @@ class OptionalScriptContractTests(unittest.TestCase):
         ]
         for command in commands:
             result = subprocess.run(command, cwd=ROOT, capture_output=True, text=True, check=False)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertIn("DRY-RUN", result.stdout)
+
+    def test_calibration_dry_run_tolerates_missing_optional_manifest_keys(self):
+        with tempfile.TemporaryDirectory() as temp:
+            manifest = Path(temp) / "manifest.env"
+            manifest.write_text(
+                "VLLM_MODEL=Qwen/Qwen3-Coder-30B-A3B-Instruct\n"
+                "VLLM_MODEL_REVISION=" + "a" * 40 + "\n"
+                "VLLM_VERSION=0.10.0\n"
+                "CACHE_ROOT=/tmp/calibration-cache\n",
+                encoding="utf-8",
+            )
+            result = subprocess.run(
+                [
+                    "bash",
+                    str(ROOT / "scripts/observability/calibrate_vllm.sh"),
+                    "--manifest",
+                    str(manifest),
+                    "--output",
+                    "/tmp/obs-cal",
+                    "--first-result-marker",
+                    "/tmp/marker",
+                    "--dry-run",
+                ],
+                cwd=ROOT,
+                capture_output=True,
+                text=True,
+                check=False,
+            )
             self.assertEqual(result.returncode, 0, result.stderr)
             self.assertIn("DRY-RUN", result.stdout)
 

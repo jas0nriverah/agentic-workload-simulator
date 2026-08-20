@@ -83,7 +83,12 @@ def classify(path):
     return None
 
 def validate_json(path):
-    if path.suffix.lower() in {".jsonl", ".traj"}:
+    if path.suffix.lower() == ".traj":
+        # SWE-agent v1.1.0 writes a trajectory as one JSON document, despite
+        # the historical `.traj` suffix. Do not reinterpret it as JSONL.
+        with path.open("r", encoding="utf-8") as handle: value = json.load(handle)
+        if value in (None, [], {}): raise ValueError("empty JSON artifact")
+    elif path.suffix.lower() == ".jsonl":
         count = 0
         with path.open("r", encoding="utf-8") as handle:
             for line_number, line in enumerate(handle, 1):
@@ -91,7 +96,11 @@ def validate_json(path):
                 try: json.loads(line)
                 except json.JSONDecodeError as exc: raise ValueError(f"invalid JSON line {line_number}: {exc}") from exc
                 count += 1
-        if count == 0: raise ValueError("empty JSONL artifact")
+        # Control runs intentionally have no telemetry/model/tool events. An
+        # empty event stream is a valid measured absence; counters use their
+        # separate unavailable marker contract.
+        if count == 0 and path.name not in {"events.jsonl", "model_calls.jsonl", "tool_calls.jsonl"}:
+            raise ValueError("empty JSONL artifact")
     else:
         with path.open("r", encoding="utf-8") as handle: value = json.load(handle)
         if value in (None, [], {}): raise ValueError("empty JSON artifact")
