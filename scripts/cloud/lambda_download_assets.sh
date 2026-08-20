@@ -100,7 +100,9 @@ end="$(date +%s)"
 snapshot="$(find "$HF_HUB_CACHE" -type d -path "*/snapshots/$REVISION" -print -quit 2>/dev/null || true)"
 [[ -n "$snapshot" && -d "$snapshot" ]] || { echo 'immutable model snapshot not found' >&2; exit 1; }
 [[ -s "$snapshot/config.json" ]] || { echo 'model config.json missing' >&2; exit 1; }
-shard_count="$(find "$snapshot" -type f -name '*.safetensors' | wc -l | tr -d ' ')"; [[ "$shard_count" =~ ^[0-9]+$ && "$shard_count" -gt 0 ]] || { echo 'model safetensors are missing' >&2; exit 1; }
+# Hugging Face snapshots use relative symlinks into the content-addressed
+# blobs directory. Follow those links when counting the measured weight files.
+shard_count="$(find -L "$snapshot" -maxdepth 1 -type f -name '*.safetensors' | wc -l | tr -d ' ')"; [[ "$shard_count" =~ ^[0-9]+$ && "$shard_count" -gt 0 ]] || { echo 'model safetensors are missing' >&2; exit 1; }
 "$PYTHON_BIN" - "$MODEL_OUT" "$MODEL" "$REVISION" "$snapshot" "$start" "$end" "$shard_count" <<'PY'
 import json, pathlib, sys
 out, model, revision, snapshot, start, end, shards = sys.argv[1:]
