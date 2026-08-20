@@ -171,6 +171,7 @@ class LambdaRuntimeScriptTests(unittest.TestCase):
         self.assertIn("vllm:e2e_request_latency_seconds_(bucket|count|sum)", text)
         self.assertIn("vllm_config", text)
         self.assertIn("server manifest does not match instance manifest", text)
+        self.assertIn("current server log attempt", text)
 
     def test_atomic_gpu_lease_and_resolved_config_are_explicit(self):
         text = RUNTIME[3].read_text(encoding="utf-8")

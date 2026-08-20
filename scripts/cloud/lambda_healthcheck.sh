@@ -34,7 +34,24 @@ if [[ -f "$ROOT/scripts/observability/scrape_vllm.py" ]]; then
     }
 fi
 if command -v nvidia-smi >/dev/null 2>&1; then nvidia-smi --query-gpu=name,memory.used,utilization.gpu --format=csv,noheader > "$GPU_SAMPLE" || { echo 'telemetry-contract failure: GPU sample failed' >&2; exit 3; }; else echo 'telemetry-contract failure: nvidia-smi unavailable' >&2; exit 3; fi
-log="$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1])).get("log_path", ""))' "$SERVER_MANIFEST")"; if [[ -n "$log" && -f "$log" ]] && grep -Eiq 'out of memory|cuda error|fatal|traceback' "$log"; then echo 'server failure: fatal/OOM text in log' >&2; exit 1; fi
+log="$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1], encoding="utf-8")).get("log_path", ""))' "$SERVER_MANIFEST")"
+if [[ -n "$log" && -f "$log" ]]; then
+  if ! python3 - "$log" <<'PY'
+import pathlib
+import re
+import sys
+
+lines = pathlib.Path(sys.argv[1]).read_text(encoding="utf-8", errors="replace").splitlines()
+starts = [i for i, line in enumerate(lines) if "api_server.py:1755" in line or "Started server process" in line]
+scope = lines[starts[-1]:] if starts else lines[-200:]
+if any(re.search(r"out of memory|cuda error|fatal|traceback", line, re.I) for line in scope):
+    raise SystemExit(1)
+PY
+  then
+    echo 'server failure: fatal/OOM text in current server log attempt' >&2
+    exit 1
+  fi
+fi
 PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 - "$HEALTH_OUT" "$model" <<'PY'
 import json,pathlib,sys,time
 from agentic_sim.telemetry.clock import clock_metadata
