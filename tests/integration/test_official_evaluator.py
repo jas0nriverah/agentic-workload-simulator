@@ -214,6 +214,14 @@ class OfficialEvaluatorContractTests(unittest.TestCase):
         self.assertEqual(resolved.returncode, 0, resolved.stdout)
         status_path = self.root / "out/lite-astropy__astropy-14182/status.json"
         self.assertEqual(json.loads(status_path.read_text())["status"], "resolved")
+        run_manifest = self.root / "out/lite-astropy__astropy-14182/run_manifest.json"
+        manifest_value = json.loads(run_manifest.read_text())
+        self.assertEqual(manifest_value["status"], "resolved")
+        self.assertEqual(manifest_value["evaluator_exit_code"], 0)
+        self.assertEqual(
+            manifest_value["report_path"],
+            str(self.root / "out/lite-astropy__astropy-14182/gold.gold-lite-astropy__astropy-14182.json"),
+        )
 
         content = self.manifest.read_text(encoding="utf-8")
         content = content.replace("GOLD_OUTPUT_ROOT=" + str(self.root / "out"), "GOLD_OUTPUT_ROOT=" + str(self.root / "out-unresolved"))
@@ -222,6 +230,10 @@ class OfficialEvaluatorContractTests(unittest.TestCase):
         self.assertEqual(unresolved.returncode, 3, unresolved.stdout)
         status_path = self.root / "out-unresolved/lite-astropy__astropy-14182/status.json"
         self.assertEqual(json.loads(status_path.read_text())["status"], "unresolved")
+        self.assertEqual(
+            json.loads((self.root / "out-unresolved/lite-astropy__astropy-14182/run_manifest.json").read_text())["status"],
+            "unresolved",
+        )
 
         content = content.replace("GOLD_OUTPUT_ROOT=" + str(self.root / "out-unresolved"), "GOLD_OUTPUT_ROOT=" + str(self.root / "out-error"))
         self.manifest.write_text(content, encoding="utf-8")

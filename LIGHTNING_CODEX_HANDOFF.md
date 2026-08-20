@@ -10,7 +10,8 @@ Finish the provider-specific Linux x86-64 rehearsal and, only after every gate
 passes, run the first official SWE-agent control trajectory required by the EIC
 assignment. The assignment PDF and the frozen repository plan remain the
 sources of truth. Do not redesign the experiment, change the model, start the
-four sweeps, or invent a result.
+four sweeps, or invent a result. The G3A first session has now been executed;
+the measured outcome is recorded below.
 
 The first session is deliberately narrow:
 
@@ -44,15 +45,42 @@ The coordinator has implemented and locally tested:
 - measured dataset provenance gates: the source Parquet bytes and each
   selected one-row JSON are hashed and rechecked before any workload call;
   the pinned reader is `huggingface_hub+pyarrow.parquet`.
+- a SWE-agent v1.1.0 compatibility view that adds only the required
+  deterministic `image_name` field while preserving the raw measured row;
+- byte-preserving `.traj` inventory and collection support for SWE-agent's
+  whole-document trajectory format and YAML run artifacts.
 
-The exact coordinator commit is the commit containing this file. Confirm it
-before proceeding:
+The latest pushed coordinator branch is `pre-h100-hardening` at
+`420d351ae4bffed1070ac7a316353fbef0d4486a`. Confirm it before proceeding:
 
 ~~~bash
 cd /teamspace/studios/this_studio/agentic-workload-simulator
 git rev-parse HEAD
 git status --short
 ~~~
+
+## Measured G3A session result
+
+On 2026-08-20 UTC, the existing Lightning Studio passed Linux/H100 preflight,
+managed-Python bootstrap, vLLM health, both one-row gold smokes, and the first
+official control launch. The control instance was
+`astropy__astropy-12907`; attempt `attempt-002` produced a genuine 31-call
+SWE-agent `.traj` and the official evaluator returned code 0. The official
+result was `unresolved` with an empty patch (`resolved=0`, `empty_patch=1`),
+which must remain an honest measured result.
+
+The lossless trajectory inventory passed and the self-contained verified export
+is
+`lambda-results-first-lite-astropy__astropy-12907-control-self-contained.tar.gz`
+with SHA-256
+`45f1fd6d328eb2d4c2626ca42a68c36ee8b40fef7afc20ddad59f5040f399ed5`. It
+contains the raw control data under `control-data/`, the derived SWE-agent row,
+evaluator report, trajectory, experiment logs, and inventory; 39 files passed
+round-trip verification with no large-file exclusions. vLLM was stopped, the
+GPU lease was removed, and an independent post-stop sample recorded `0 MiB /`
+`81559 MiB`, `0 %`, no Docker processes, and no GPU lock in
+`artifacts/manifests/post_stop_gpu_sample.txt`. The Studio itself still
+requires explicit stop/termination in the Lightning UI.
 
 The Studio has one managed Conda environment and rejects python3 -m venv.
 The canonical Lambda path still uses a fresh Python 3.11 venv. The Studio
@@ -267,10 +295,17 @@ Studio. Use the repository's collection/inventory tools; do not normalize a
 .traj yet.
 
 ~~~bash
+EXPORT_STAGE="$(mktemp -d /tmp/first-control-export.XXXXXX)"
+mkdir -p "$EXPORT_STAGE/control-data" "$EXPORT_STAGE/experiments" "$EXPORT_STAGE/manifests"
+cp -a /teamspace/studios/this_studio/agentic-work/data/raw/first-lite-astropy__astropy-12907/lite/astropy__astropy-12907/attempt-002 "$EXPORT_STAGE/control-data/"
+cp -a /teamspace/studios/this_studio/agentic-work/experiments/first-lite-astropy__astropy-12907/attempt-002 "$EXPORT_STAGE/experiments/"
+cp -a /teamspace/studios/this_studio/agentic-work/artifacts/manifests/first-trajectory-inventory.json "$EXPORT_STAGE/manifests/"
 scripts/cloud/lambda_collect_results.sh \
-  --source-root /teamspace/studios/this_studio/agentic-work/data/raw/first-lite-astropy__astropy-12907 \
+  --source-root "$EXPORT_STAGE" \
   --output-dir /teamspace/studios/this_studio/agentic-work/export \
-  --run-id first-lite-astropy__astropy-12907-control
+  --run-id first-lite-astropy__astropy-12907-control-self-contained \
+  --large-threshold 10000000000
+rm -rf "$EXPORT_STAGE"
 python3 scripts/validation/inventory_sweagent_output.py \
   --root /teamspace/studios/this_studio/agentic-work/experiments/first-lite-astropy__astropy-12907 \
   --output /teamspace/studios/this_studio/agentic-work/artifacts/manifests/first-trajectory-inventory.json
@@ -286,6 +321,23 @@ Studio in the Lightning UI. Do not leave a billed H100 running while waiting
 for review.
 
 ## Completion report to return
+
+For the completed 2026-08-20 G3A session, the report is:
+
+~~~text
+LINUX PREFLIGHT: PASS
+PYTHON LOCK: PASS (requirements-linux-x86_64-py312.txt; SHA-256 9d23f97d8253d327e03c7541f165cb03a23a0a1ea429a45e4d300c9604047aa9)
+BOOTSTRAP: PASS
+VLLM HEALTH: PASS
+LITE GOLD SMOKE: PASS (astropy__astropy-14182, resolved)
+VERIFIED GOLD SMOKE: PASS (astropy__astropy-14365, resolved)
+FIRST CONTROL TRAJECTORY: PASS (trajectory and official runner completed)
+OFFICIAL EVALUATION: UNRESOLVED (empty patch; resolved=0)
+ARTIFACT EXPORT: PASS (self-contained archive SHA-256 45f1fd6d328eb2d4c2626ca42a68c36ee8b40fef7afc20ddad59f5040f399ed5)
+H100 CREDITS USED: recorded session was within the untracked G3A authorization; exact provider balance should be read from the Lightning account
+H100-ONLY UNCERTAINTIES: control outcome is unresolved; thin telemetry, normalization, sweeps, profiling, and simulator remain deferred
+STUDIO STOPPED: NO (workloads stopped; post-stop sample verified 0 MiB and no lock; terminate the Studio in the UI)
+~~~
 
 Return exact command output paths, commit/lock hashes, runtime version, credit
 usage, and these fields. Never fill a field with an estimate or invented

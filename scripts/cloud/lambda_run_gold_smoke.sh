@@ -407,6 +407,19 @@ pathlib.Path(output).write_text(json.dumps({
     "finished_at_utc": datetime.now(timezone.utc).isoformat(),
 }, indent=2) + "\n", encoding="utf-8")
 PY
+  python3 - "$manifest_path" "$classification" "$evaluator_rc" "$report_path" <<'PY'
+import json
+import pathlib
+import sys
+from datetime import datetime, timezone
+path, status, rc, report = sys.argv[1:]
+value = json.loads(pathlib.Path(path).read_text(encoding="utf-8"))
+value["status"] = status
+value["evaluator_exit_code"] = int(rc)
+value["report_path"] = report
+value["finished_at_utc"] = datetime.now(timezone.utc).isoformat()
+pathlib.Path(path).write_text(json.dumps(value, indent=2) + "\n", encoding="utf-8")
+PY
   printf 'RESULT[%s]: %s (status=%s)\n' "$suite" "$report_path" "$classification"
   case "$classification" in resolved) return 0 ;; unresolved) return 3 ;; *) return 1 ;; esac
 }
