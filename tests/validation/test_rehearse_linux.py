@@ -141,6 +141,17 @@ class RehearsalTests(unittest.TestCase):
             with self.assertRaises(rehearse.CheckFailure):
                 rehearse.check_dataset_manifest(path, values)
 
+    def test_linux_workflow_fixture_uses_current_dataset_contract(self):
+        workflow = (ROOT / ".github/workflows/linux-rehearsal.yml").read_text(encoding="utf-8")
+        for digest in (
+            rehearse.EXPECTED["lite_source_hash"],
+            rehearse.EXPECTED["lite_first_hash"],
+            rehearse.EXPECTED["lite_gold_hash"],
+            rehearse.EXPECTED["verified_source_hash"],
+            rehearse.EXPECTED["verified_gold_hash"],
+        ):
+            self.assertIn(digest, workflow)
+
 
 if __name__ == "__main__":
     unittest.main()
