@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 import pathlib
 import sys
 from collections import Counter
@@ -21,7 +22,7 @@ def _percentile(values: list[float], percent: float) -> float | None:
         return None
     ordered = sorted(values)
     position = (len(ordered) - 1) * percent / 100.0
-    lower, upper = int(position), int(position + 0.999999999)
+    lower, upper = math.floor(position), math.ceil(position)
     if lower == upper:
         return ordered[lower]
     return ordered[lower] + (ordered[upper] - ordered[lower]) * (position - lower)
@@ -29,6 +30,8 @@ def _percentile(values: list[float], percent: float) -> float | None:
 
 def _stats(values: Iterable[float]) -> dict[str, Any]:
     numbers = [float(value) for value in values]
+    if any(not math.isfinite(value) for value in numbers):
+        raise ValueError("execution-time samples must be finite")
     return {
         "count": len(numbers),
         "sum": sum(numbers),
@@ -90,7 +93,7 @@ def summarize(rows: list[dict[str, Any]]) -> dict[str, Any]:
         "reported_tool_execution_time_s": _stats(tool_seconds),
         "token_accounting": manifest.get("usage"),
         "agent_exit_status": info.get("raw_record", {}).get("exit_status"),
-        "submission": info.get("raw_record", {}).get("submission"),
+        "submission_present": info.get("raw_record", {}).get("submission") is not None,
         "timing_boundary": {
             "request_level_timestamps": "unavailable",
             "monotonic_intervals": "unavailable",

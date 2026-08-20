@@ -22,6 +22,7 @@ class SummarizeFirstControlTests(unittest.TestCase):
             self.assertEqual(result["timing_boundary"]["request_level_timestamps"], "unavailable")
             self.assertFalse(result["timing_boundary"]["gpu_time_claim"])
             self.assertNotIn("raw_record", result)
+            self.assertFalse(result["submission_present"])
 
 
 if __name__ == "__main__":
