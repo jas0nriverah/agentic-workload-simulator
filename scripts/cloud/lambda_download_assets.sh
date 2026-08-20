@@ -95,7 +95,7 @@ mkdir -p -- "$HF_HUB_CACHE" "$HF_DATASETS_CACHE" "$WORK_ROOT/datasets" "$WORK_RO
 free_kib="$(df -Pk "$CACHE_ROOT" | awk 'NR==2 {print $4}')"; min_kib=$((MIN_FREE_GIB * 1024 * 1024)); [[ "$free_kib" =~ ^[0-9]+$ && "$free_kib" -ge "$min_kib" ]] || { echo "insufficient free space before asset download" >&2; exit 1; }
 
 start="$(date +%s)"; export HF_HOME HF_HUB_CACHE HF_DATASETS_CACHE
-"$HF_CLI" download "$MODEL" --repo-type model --revision "$REVISION" --cache-dir "$HF_HUB_CACHE" --exclude '*optimizer*' '*checkpoint*' 2>&1 | tee "$WORK_ROOT/logs/model_download.log"
+"$HF_CLI" download "$MODEL" --repo-type model --revision "$REVISION" --cache-dir "$HF_HUB_CACHE" --exclude '*optimizer*' --exclude '*checkpoint*' 2>&1 | tee "$WORK_ROOT/logs/model_download.log"
 end="$(date +%s)"
 snapshot="$(find "$HF_HUB_CACHE" -type d -path "*/snapshots/$REVISION" -print -quit 2>/dev/null || true)"
 [[ -n "$snapshot" && -d "$snapshot" ]] || { echo 'immutable model snapshot not found' >&2; exit 1; }
