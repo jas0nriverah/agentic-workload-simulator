@@ -1,10 +1,10 @@
 schema_version: 1
-updated_at_utc: 2026-08-20T20:45:09Z
+updated_at_utc: 2026-08-20T21:04:22Z
 overall_status: g3a_h100_control_complete
 phase: CR0_CR1_CR2_CR3_CR4_CR5_CR6_CR7_CR8_CR9_CR10_CR11_CR12_CR13_G3A_G4_LOCAL
 current_task: G4-local-normalized-fixture-and-accounting-contracts-complete
-last_verified_commit: aa631cb0eadd871939a6429c337a679fd0e2d68b
-last_verified_commit_role: local_normalized_fixture_validator
+last_verified_commit: aa84e8e69a6c5207a2b379cd7d7d9952e885c6a7
+last_verified_commit_role: local_normalized_fixture_interval_accounting_summary
 assignment_lock_hash: 02f485cdd8cca4aae242d2f1a5306184a95d7ee0fae42527d7153f48a3424761
 working_tree_dirty: false
 
@@ -40,7 +40,7 @@ cloud_readiness:
   technical_safe_to_rent_h100: true
   paid_session_authorized: false
   safe_to_launch: false
-  h100_validation_required: false
+  h100_validation_required: true
   sample_repository_unchanged: true
   paid_compute_used: true
   provider_api_used: false
@@ -89,5 +89,5 @@ observability:
     - synthetic_gpu_time_from_aggregate_metrics
     - runtime_perfetto_sdk
     - first_session_calibration_matrix
-  h100_only_observability_validation_required: false
+  h100_only_observability_validation_required: true
   local_static_checks_pending_final_review: false

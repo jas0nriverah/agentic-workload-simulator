@@ -14,6 +14,13 @@ transfer commit is the 40-hex value captured by `git rev-parse HEAD` immediately
 before creating `lambda-ready-<commit>.tar.zst`; its filename and checksum are
 the authoritative fresh-host bundle identity.
 
+Current release identity: commit
+`aa84e8e69a6c5207a2b379cd7d7d9952e885c6a7`; bundle
+`lambda-ready-aa84e8e69a6c5207a2b379cd7d7d9952e885c6a7.tar.zst`; SHA-256
+`39b112e323dae1d16cf560d4f0fb07f5a2c578bf5ec3b44537936b06697bd7ee`. The
+bundle was extracted and tested in a fresh directory on the Lightning Linux
+x86-64/H100 host with no vLLM or model workload started.
+
 Next three actions:
 
 1. Retain the normalized first-control JSONL, validator PASS, and raw/trace SHA-256 values; do not rerun the completed control.

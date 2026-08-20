@@ -339,8 +339,9 @@ session.
 ## Step 7 — export, inventory, and stop
 
 Preserve raw files byte-for-byte and record checksums before stopping the
-Studio. Use the repository's collection/inventory tools; do not normalize a
-.traj yet.
+Studio. Use the repository's collection/inventory tools. The first control is
+now normalized locally after export; never rewrite or replace the raw `.traj`
+while doing so.
 
 ~~~bash
 EXPORT_STAGE="$(mktemp -d /tmp/first-control-export.XXXXXX)"
