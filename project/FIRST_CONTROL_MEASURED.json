@@ -1,0 +1,74 @@
+{
+  "schema_version": "first-control-measurement.v1",
+  "provenance": "measured",
+  "measured_at_utc": "2026-08-20T18:41:37Z",
+  "provider": "lightning",
+  "studio": "eic-h100-first-control",
+  "target_platform": "Lambda_1x_H100_PCIe_80GB",
+  "measured_platform": "Lightning_1x_H100_80GB",
+  "runtime": {
+    "model": "Qwen/Qwen3-Coder-30B-A3B-Instruct",
+    "model_revision": "b2cff646eb4bb1d68355c01b18ae02e7cf42d120",
+    "precision": "BF16",
+    "context_length": 32768,
+    "vllm": "0.10.0",
+    "vllm_image_digest": "sha256:05a31dc4185b042e91f4d2183689ac8a87bd845713d5c3f987563c5899878271",
+    "tool_parser": "qwen3_coder",
+    "swe_agent_revision": "0f3acafacabc0def8cc76b4e48acb4b6cf302cb9",
+    "swe_bench_revision": "726c5461e2ef52d83cf1ea2107870a8bb3328d57"
+  },
+  "gold_smokes": {
+    "lite": {
+      "instance_id": "astropy__astropy-14182",
+      "resolved": 1,
+      "total": 1
+    },
+    "verified": {
+      "instance_id": "astropy__astropy-14365",
+      "resolved": 1,
+      "total": 1
+    }
+  },
+  "control": {
+    "run_id": "first-lite-astropy__astropy-12907",
+    "attempt_id": "attempt-002",
+    "instance_id": "astropy__astropy-12907",
+    "mode": "uninstrumented",
+    "configured_call_limit": 30,
+    "provider_api_calls_observed": 31,
+    "committed_model_calls": 30,
+    "discarded_limit_exceeded_calls": 1,
+    "tool_executions": 30,
+    "agent_returncode": 0,
+    "evaluator_returncode": 0,
+    "exit_status": "exit_cost",
+    "official_status": "unresolved",
+    "resolved": 0,
+    "empty_patch": 1,
+    "submission_present": false,
+    "trajectory_seconds": 225.635,
+    "trajectory_timing_scope": "SWE-agent reported duration; evaluator excluded",
+    "request_level_timestamps": "unavailable",
+    "native_vllm_request_correlation": false,
+    "gpu_time_claim": false
+  },
+  "accounting": {
+    "provider_prompt_tokens": 531236,
+    "provider_completion_tokens": 7961,
+    "provider_total_tokens": 539197,
+    "sweagent_input_tokens": 478411,
+    "sweagent_output_tokens": 3520,
+    "sweagent_api_calls": 31,
+    "namespaces_are_not_substitutable": true
+  },
+  "artifacts": {
+    "trajectory_sha256": "e48fb12deac02ae196330fd4cf40c15d42defb8517ae428fd3099a2f284f6de7",
+    "provider_trace_sha256": "6ed34c5d5fd134a275977aefb768bbd15484ac9dd447a6850d2ae491e3a2e99c",
+    "normalized_records": 160,
+    "normalized_model_calls": 31,
+    "normalized_tool_executions": 30,
+    "normalized_validator": "PASS",
+    "export_sha256": "45f1fd6d328eb2d4c2626ca42a68c36ee8b40fef7afc20ddad59f5040f399ed5"
+  },
+  "interpretation": "The control completed and the official evaluator ran, but the measured prediction was unresolved with an empty patch. This is not a resolved-rate claim and does not justify changing the frozen model or scaffold before review."
+}

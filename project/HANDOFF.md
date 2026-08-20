@@ -18,6 +18,10 @@ The release bundle is generated from the exact final Git commit with
 `git archive`, then hashed and tested after clean extraction. The accompanying
 first-control report records the immutable commit, bundle filename, and
 SHA-256 for each handoff; a new bundle is required after any source change.
+The compact measured control record is tracked at
+`project/FIRST_CONTROL_MEASURED.json` and appended to
+`project/EXPERIMENT_LEDGER.jsonl`; raw trajectories and the self-contained
+export remain outside Git and are referenced by their SHA-256 values.
 
 Next three actions:
 
