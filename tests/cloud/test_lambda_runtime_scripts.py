@@ -83,6 +83,22 @@ class LambdaRuntimeScriptTests(unittest.TestCase):
             self.assertEqual(result.returncode, 0, result.stderr)
             self.assertNotIn(secret, result.stdout + result.stderr)
 
+    def test_download_assets_resolves_managed_python_from_manifest(self):
+        with tempfile.TemporaryDirectory() as temp:
+            manifest = pathlib.Path(temp) / "managed.env"
+            manifest.write_text(
+                "PYTHON_ENV_MODE=managed\n"
+                "PYTHON_ENV_ROOT=/opt/managed-python\n",
+                encoding="utf-8",
+            )
+            text = RUNTIME[2].read_text(encoding="utf-8")
+            self.assertIn("PYTHON_ENV_ROOT", text)
+            self.assertIn('PYTHON_BIN="${PYTHON_BIN:-$PYTHON_ENV_ROOT/bin/python}"', text)
+            self.assertIn('HF_CLI="${HF_CLI:-$PYTHON_ENV_ROOT/bin/hf}"', text)
+            result = self.run_script(RUNTIME[2], "--manifest", str(manifest), "--dry-run")
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertIn("with /opt/managed-python/bin/hf", result.stdout)
+
     def test_non_default_vllm_manifest_values_reach_dry_run_command(self):
         with tempfile.TemporaryDirectory() as temp:
             manifest = pathlib.Path(temp) / "manifest.env"

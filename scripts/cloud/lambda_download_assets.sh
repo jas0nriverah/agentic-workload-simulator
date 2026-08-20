@@ -6,6 +6,8 @@ ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/../.." && pwd -P)"
 MANIFEST="${LAMBDA_MANIFEST:-$ROOT/cloud/lambda/instance_manifest.env}"
 WORK_ROOT="${WORK_ROOT:-$ROOT/../agentic-work}"
 CACHE_ROOT="${CACHE_ROOT:-$WORK_ROOT/cache}"
+PYTHON_ENV_MODE="${PYTHON_ENV_MODE:-venv}"
+PYTHON_ENV_ROOT="${PYTHON_ENV_ROOT:-}"
 MODEL="${VLLM_MODEL:-Qwen/Qwen3-Coder-30B-A3B-Instruct}"
 REVISION="${VLLM_MODEL_REVISION:-b2cff646eb4bb1d68355c01b18ae02e7cf42d120}"
 MIN_FREE_GIB="${MIN_FREE_GIB:-120}"
@@ -43,16 +45,25 @@ manifest_value() {
   done < "$MANIFEST"
   return 0
 }
-for key in CACHE_ROOT VLLM_MODEL VLLM_MODEL_REVISION LITE_DATASET_REPO LITE_DATASET_REVISION LITE_DATASET_ROWS FIRST_LITE_INSTANCE_ID GOLD_LITE_INSTANCE_ID VERIFIED_DATASET_REPO VERIFIED_DATASET_REVISION VERIFIED_DATASET_ROWS GOLD_VERIFIED_INSTANCE_ID MIN_FREE_GIB; do
+for key in CACHE_ROOT PYTHON_ENV_MODE PYTHON_ENV_ROOT VLLM_MODEL VLLM_MODEL_REVISION LITE_DATASET_REPO LITE_DATASET_REVISION LITE_DATASET_ROWS FIRST_LITE_INSTANCE_ID GOLD_LITE_INSTANCE_ID VERIFIED_DATASET_REPO VERIFIED_DATASET_REVISION VERIFIED_DATASET_ROWS GOLD_VERIFIED_INSTANCE_ID MIN_FREE_GIB; do
   value="$(manifest_value "$key")"; [[ -n "$value" ]] || continue
   case "$key" in
-    CACHE_ROOT) CACHE_ROOT="$value";; VLLM_MODEL) MODEL="$value";; VLLM_MODEL_REVISION) REVISION="$value";;
+    CACHE_ROOT) CACHE_ROOT="$value";; PYTHON_ENV_MODE) PYTHON_ENV_MODE="$value";; PYTHON_ENV_ROOT) PYTHON_ENV_ROOT="$value";; VLLM_MODEL) MODEL="$value";; VLLM_MODEL_REVISION) REVISION="$value";;
     LITE_DATASET_REPO) LITE_REPO="$value";; LITE_DATASET_REVISION) LITE_REVISION="$value";; LITE_DATASET_ROWS) LITE_ROWS="$value";;
     FIRST_LITE_INSTANCE_ID) LITE_FIRST_ID="$value";; GOLD_LITE_INSTANCE_ID) LITE_GOLD_ID="$value";;
     VERIFIED_DATASET_REPO) VERIFIED_REPO="$value";; VERIFIED_DATASET_REVISION) VERIFIED_REVISION="$value";; VERIFIED_DATASET_ROWS) VERIFIED_ROWS="$value";;
     GOLD_VERIFIED_INSTANCE_ID) VERIFIED_GOLD_ID="$value";; MIN_FREE_GIB) MIN_FREE_GIB="$value";;
   esac
 done
+case "$PYTHON_ENV_MODE" in
+  managed)
+    [[ -n "$PYTHON_ENV_ROOT" ]] || { echo 'managed Python environment root is missing' >&2; exit 1; }
+    ;;
+  venv)
+    PYTHON_ENV_ROOT="${PYTHON_ENV_ROOT:-$WORK_ROOT/venv}"
+    ;;
+  *) echo "PYTHON_ENV_MODE must be managed or venv: $PYTHON_ENV_MODE" >&2; exit 1;;
+esac
 
 [[ "$REVISION" =~ ^[0-9a-fA-F]{40}$ ]] || { echo 'immutable 40-hex VLLM_MODEL_REVISION is required' >&2; exit 1; }
 [[ "$LITE_REVISION" =~ ^[0-9a-fA-F]{40}$ && "$VERIFIED_REVISION" =~ ^[0-9a-fA-F]{40}$ ]] || { echo 'immutable dataset revisions are required' >&2; exit 1; }
@@ -63,8 +74,8 @@ done
 HF_HOME="${HF_HOME:-$CACHE_ROOT/huggingface}"
 HF_HUB_CACHE="${HF_HUB_CACHE:-$HF_HOME/hub}"
 HF_DATASETS_CACHE="${HF_DATASETS_CACHE:-$CACHE_ROOT/datasets-cache}"
-PYTHON_BIN="${PYTHON_BIN:-$WORK_ROOT/venv/bin/python}"
-HF_CLI="${HF_CLI:-$WORK_ROOT/venv/bin/hf}"
+PYTHON_BIN="${PYTHON_BIN:-$PYTHON_ENV_ROOT/bin/python}"
+HF_CLI="${HF_CLI:-$PYTHON_ENV_ROOT/bin/hf}"
 MODEL_OUT="$WORK_ROOT/artifacts/manifests/model_download.json"
 DATASET_OUT="$WORK_ROOT/artifacts/manifests/datasets.json"
 
@@ -78,7 +89,7 @@ EOF
   exit 0
 fi
 
-command -v "$PYTHON_BIN" >/dev/null 2>&1 || { echo "pinned venv Python is unavailable: $PYTHON_BIN" >&2; exit 1; }
+command -v "$PYTHON_BIN" >/dev/null 2>&1 || { echo "pinned Python is unavailable: $PYTHON_BIN" >&2; exit 1; }
 command -v "$HF_CLI" >/dev/null 2>&1 || { echo "huggingface_hub CLI is unavailable: $HF_CLI" >&2; exit 1; }
 mkdir -p -- "$HF_HUB_CACHE" "$HF_DATASETS_CACHE" "$WORK_ROOT/datasets" "$WORK_ROOT/logs" "$WORK_ROOT/artifacts/manifests"
 free_kib="$(df -Pk "$CACHE_ROOT" | awk 'NR==2 {print $4}')"; min_kib=$((MIN_FREE_GIB * 1024 * 1024)); [[ "$free_kib" =~ ^[0-9]+$ && "$free_kib" -ge "$min_kib" ]] || { echo "insufficient free space before asset download" >&2; exit 1; }
