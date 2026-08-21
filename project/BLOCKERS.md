@@ -10,10 +10,14 @@ Measured H100 evidence is now present outside Git under the local
 - Linux x86-64/H100 preflight and pinned managed-Python bootstrap passed.
 - vLLM model fit, normal completion, parsed `qwen3_coder` tool call, native
   `/metrics`, and GPU sampling passed.
-- Lite and Verified gold smokes each resolved their pinned one-row instance.
-- The first uninstrumented Lite trajectory and official evaluator completed.
-  The measured result was `unresolved` with an empty patch; this is an outcome,
-  not a harness failure or a fabricated success.
+- Lite and Verified gold smokes completed the official evaluator. The pre-fix
+  replicas had empty patches because `repo_name` was omitted; after the runtime
+  fix, Lite and Verified generated non-empty patches but both remained
+  officially unresolved. No resolved score is claimed.
+- The first uninstrumented Lite trajectory and subsequent fixed Lite/Verified
+  trajectories and official evaluators completed. The fixed runs generated
+  non-empty patches but were unresolved; this is an outcome, not a harness
+  failure or a fabricated success.
 - The trajectory inventory and self-contained export checksum passed; the
   archive contains the raw control data, evaluator report, derived row,
   trajectory, logs, and inventory (39 verified files, no large-file

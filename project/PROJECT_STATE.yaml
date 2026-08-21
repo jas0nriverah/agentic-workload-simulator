@@ -1,9 +1,9 @@
 schema_version: 1
-updated_at_utc: 2026-08-21T04:31:00Z
+updated_at_utc: 2026-08-21T04:57:00Z
 overall_status: g3a_lightning_h100_control_complete
 phase: CR0_CR1_CR2_CR3_CR4_CR5_CR6_CR7_CR8_CR9_CR10_CR11_CR12_CR13_G3A_G4_LOCAL
-current_task: G4-lightning-thin-and-gold-trajectories-recorded
-last_verified_commit: aa84e8e69a6c5207a2b379cd7d7d9952e885c6a7
+current_task: G4-lightning-repo-fix-verified-and-lite-trajectories-recorded
+last_verified_commit: 711d04542b957e324b249842153597c14ca370f3
 last_verified_commit_role: local_normalized_fixture_interval_accounting_summary
 assignment_lock_hash: 02f485cdd8cca4aae242d2f1a5306184a95d7ee0fae42527d7153f48a3424761
 working_tree_dirty: false
@@ -66,7 +66,7 @@ gates:
 
 next_actions:
   - retain the uninstrumented trajectory and paired thin/gold records in project/PAID_SESSION_MEASUREMENTS.json
-  - review the measured empty-patch outcomes before making any model or scaffold change
+  - review the fixed non-empty unresolved patches before making any model or scaffold change
   - do not claim resolved rate or causal telemetry overhead; request-level correlation remains unavailable
   - refresh the untracked Lightning authorization only if another paid launch is explicitly desired
 active_experiments: []

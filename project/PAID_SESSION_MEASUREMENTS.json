@@ -159,8 +159,27 @@
       "tool_executions": 34,
       "terminal_events": 0,
       "normalized_source_sha256": "5ca3b18fa61fd098cd0ec9e10b13fba8c68a3efe7fdba0c9f1d49ed70d86c4d7"
+    },
+    {
+      "studio": "mystifying-kapitsa-2",
+      "attempt_id": "worker-00",
+      "run_id": "verified-gold-fixed",
+      "dataset": "verified",
+      "instance_id": "astropy__astropy-14365",
+      "mode": "uninstrumented-parallel-shard-repo-fix",
+      "agent_returncode": 0,
+      "evaluator_returncode": 0,
+      "official_resolved": 0,
+      "empty_patch": 0,
+      "patch_present": true,
+      "patch_bytes": 617,
+      "normalized_validator": "PASS",
+      "model_calls": 0,
+      "tool_executions": 28,
+      "terminal_events": 0,
+      "normalized_source_sha256": "e388a87ded80c4ad2030d5d9e92f9a8151e35989a88b398b258e456d50f96979"
     }
   ],
-  "interpretation": "All listed runs are measured and structurally valid. The pre-fix runs produced empty patches because repo_name was omitted; the fixed runs produced non-empty patches and official evaluation completed but reported unresolved. No resolved-rate or model-quality claim is made. Request-level timestamps and native vLLM request correlation remain unavailable, so telemetry runs are not causal overhead estimates.",
+  "interpretation": "All listed runs are measured and structurally valid. The pre-fix runs produced empty patches because repo_name was omitted; the fixed runs produced non-empty patches and official evaluation completed but reported unresolved. The fixed Verified run also generated a 617-byte patch and completed official evaluation with resolved=0. No resolved-rate or model-quality claim is made. Request-level timestamps and native vLLM request correlation remain unavailable, so telemetry runs are not causal overhead estimates.",
   "raw_artifacts": "Remain in the corresponding Lightning Studio agentic-work trees; hashes above identify normalized trajectory sources."
 }
