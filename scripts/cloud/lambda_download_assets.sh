@@ -74,8 +74,13 @@ done
 HF_HOME="${HF_HOME:-$CACHE_ROOT/huggingface}"
 HF_HUB_CACHE="${HF_HUB_CACHE:-$HF_HOME/hub}"
 HF_DATASETS_CACHE="${HF_DATASETS_CACHE:-$CACHE_ROOT/datasets-cache}"
-PYTHON_BIN="${PYTHON_BIN:-$PYTHON_ENV_ROOT/bin/python}"
-HF_CLI="${HF_CLI:-$PYTHON_ENV_ROOT/bin/hf}"
+if [[ "$PYTHON_ENV_MODE" == managed ]]; then
+  PYTHON_BIN="${PYTHON_BIN:-$PYTHON_ENV_ROOT/bin/python3}"
+  HF_CLI="${HF_CLI:-$HOME/.local/bin/hf}"
+else
+  PYTHON_BIN="${PYTHON_BIN:-$PYTHON_ENV_ROOT/bin/python}"
+  HF_CLI="${HF_CLI:-$PYTHON_ENV_ROOT/bin/hf}"
+fi
 MODEL_OUT="$WORK_ROOT/artifacts/manifests/model_download.json"
 DATASET_OUT="$WORK_ROOT/artifacts/manifests/datasets.json"
 
