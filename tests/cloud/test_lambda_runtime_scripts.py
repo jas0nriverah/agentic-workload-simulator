@@ -64,6 +64,7 @@ class LambdaRuntimeScriptTests(unittest.TestCase):
         self.assertIn("hashlib.sha256(source.read_bytes())", bootstrap)
         self.assertIn("sweagent_instances.json", first)
         self.assertIn("image_name", first)
+        self.assertIn('row["repo_name"] = "testbed"', first)
         self.assertIn("source_dataset_path", first)
 
     def test_start_dry_run_propagates_non_default_manifest_values(self):

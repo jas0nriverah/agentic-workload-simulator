@@ -207,6 +207,10 @@ def main(argv: list[str] | None = None) -> int:
             if runtime.get("image_name") not in (None, expected_image):
                 raise ParallelBatchError(f"dataset image_name conflicts for {row['instance_id']}")
             runtime["image_name"] = expected_image
+            # SWE-agent v1.1.0 expects `repo_name` for a pre-existing checkout.
+            # Raw SWE-bench rows expose `repo` instead; leaving this unset makes
+            # autosubmission run from `/` and silently yield empty patches.
+            runtime["repo_name"] = "testbed"
             runtime_rows.append(runtime)
         runtime_path = attempt_root / "sweagent_instances.json"
         source_snapshot_path = attempt_root / "evaluator_instances.json"
