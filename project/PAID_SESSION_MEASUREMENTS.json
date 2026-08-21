@@ -121,8 +121,46 @@
       "tool_executions": 29,
       "terminal_events": 1,
       "normalized_source_sha256": "e66d2d3dde2f42f34bb5835065db387c91a959119c177549ccb3b8e89aa77c04"
+    },
+    {
+      "studio": "lucid-saha-434",
+      "attempt_id": "worker-00",
+      "run_id": "lite-gold-fixed",
+      "dataset": "lite",
+      "instance_id": "astropy__astropy-14182",
+      "mode": "uninstrumented-parallel-shard-repo-fix",
+      "agent_returncode": 0,
+      "evaluator_returncode": 0,
+      "official_resolved": 0,
+      "empty_patch": 0,
+      "patch_present": true,
+      "patch_bytes": 5827,
+      "normalized_validator": "PASS",
+      "model_calls": 31,
+      "tool_executions": 30,
+      "terminal_events": 1,
+      "normalized_source_sha256": "e9d43bf40a269c2f29bcc614cafb101f05a801b25e346ef17c68e414d804252c"
+    },
+    {
+      "studio": "lucid-saha-434",
+      "attempt_id": "worker-00",
+      "run_id": "lite-calls50-fixed",
+      "dataset": "lite",
+      "instance_id": "astropy__astropy-14182",
+      "mode": "uninstrumented-parallel-shard-repo-fix-calls50",
+      "agent_returncode": 0,
+      "evaluator_returncode": 0,
+      "official_resolved": 0,
+      "empty_patch": 0,
+      "patch_present": true,
+      "patch_bytes": 622,
+      "normalized_validator": "PASS",
+      "model_calls": 34,
+      "tool_executions": 34,
+      "terminal_events": 0,
+      "normalized_source_sha256": "5ca3b18fa61fd098cd0ec9e10b13fba8c68a3efe7fdba0c9f1d49ed70d86c4d7"
     }
   ],
-  "interpretation": "All listed runs are measured and structurally valid. Official evaluation completed with empty generated patches and zero resolved instances; no resolved-rate or model-quality claim is made. Request-level timestamps and native vLLM request correlation remain unavailable, so telemetry runs are not causal overhead estimates.",
+  "interpretation": "All listed runs are measured and structurally valid. The pre-fix runs produced empty patches because repo_name was omitted; the fixed runs produced non-empty patches and official evaluation completed but reported unresolved. No resolved-rate or model-quality claim is made. Request-level timestamps and native vLLM request correlation remain unavailable, so telemetry runs are not causal overhead estimates.",
   "raw_artifacts": "Remain in the corresponding Lightning Studio agentic-work trees; hashes above identify normalized trajectory sources."
 }
