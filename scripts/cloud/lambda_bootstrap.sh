@@ -104,9 +104,9 @@ esac
 if [[ "$PYTHON_ENV_MODE" == managed ]]; then
   # Managed Studio images expose python3 under the environment prefix; they
   # do not necessarily provide the venv-style /usr/bin/python name.
-  PYTHON_BIN="$PYTHON_BIN"
+  PYTHON_BIN="$VENV/bin/python3"
 else
-  PYTHON_BIN="$PYTHON_BIN"
+  PYTHON_BIN="$VENV/bin/python"
 fi
 [[ -x "$PYTHON_BIN" ]] || { echo "Python executable is unavailable: $PYTHON_BIN" >&2; exit 1; }
 LOG_DIR="${LOG_DIR:-$WORK_ROOT/logs/bootstrap}"
