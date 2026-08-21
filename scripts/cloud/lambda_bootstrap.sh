@@ -339,7 +339,13 @@ def finish(status, conflicts=None, unexpected=None):
     return 1
 
 if pip_status == 0:
-    raise SystemExit(finish("PASS_CLEAN") if raw == "" else finish("FAIL", unexpected=["non-canonical output for a successful pip check", *lines]))
+    # pip versions differ: recent releases print this informational sentence,
+    # while older releases return an empty report. Preserve the raw artifact
+    # but treat both forms as a clean successful check.
+    normalized = raw.strip()
+    if normalized in {"", "No broken requirements found."}:
+        raise SystemExit(finish("PASS_CLEAN"))
+    raise SystemExit(finish("FAIL", unexpected=["non-canonical output for a successful pip check", *lines]))
 if pip_status != 1:
     raise SystemExit(finish("FAIL", unexpected=[f"pip check exited with unsupported status {pip_status}", *lines]))
 if environment_mode != "managed":
