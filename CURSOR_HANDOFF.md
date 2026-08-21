@@ -41,6 +41,29 @@ Observed task outcomes:
 Do not invent a resolved rate, average latency, CPU/GPU ratio, sweep effect,
 or simulator accuracy from these results.
 
+## Important execution clarification
+
+The recorded Lightning work was real paid H100 execution, not merely setup or
+smoke validation. Eleven workload attempts launched SWE-agent, produced real
+trajectories/patches, and ran the official evaluator successfully. The reason
+the assignment is incomplete is evidence quality and coverage, not absence of
+execution:
+
+- Two Lite `astropy__astropy-12907` attempts officially resolved, but their
+  patches contained debug/scratch files and therefore are not clean-submission
+  benchmark evidence.
+- Lite `astropy__astropy-14182` and Verified `astropy__astropy-14365` produced
+  non-empty patches but remained unresolved.
+- Earlier attempts were also real runs, but are diagnostic because a missing
+  repository-path parameter caused empty patches.
+- The next phase must therefore prioritize clean generated patches, broader
+  Lite/Verified coverage, and the required sweeps—not repeat setup-only checks.
+
+Do not describe the existing measured runs as “only smoke tests.” Do describe
+their limitations precisely: one-instance/low-coverage evidence, scratch-file
+contamination in the resolved patches, and no valid aggregate assignment
+statistics yet.
+
 ## Remaining assignment work, in order
 
 1. Reproduce clean generated patches. Remove/avoid debug and scratch files in
