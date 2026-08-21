@@ -1,0 +1,75 @@
+diff --git a/test_header_rows.py b/test_header_rows.py
+new file mode 100644
+index 000000000..bcfe3d355
+--- /dev/null
++++ b/test_header_rows.py
+@@ -0,0 +1,68 @@
++#!/usr/bin/env python
++
++import tempfile
++import os
++from io import StringIO
++from astropy.io import ascii
++
++# Test data with multiple header rows
++test_data_with_headers = """# Comment line 1
++# Comment line 2
++======= =========
++   Col1      Col2
++======= =========
++   1.2    "hello"
++   2.4  's worlds
++======= =========
++"""
++
++def test_current_behavior():
++    print("Testing current behavior without header_rows...")
++    
++    # Test reading without header_rows
++    reader = ascii.get_reader(Reader=ascii.RST)
++    try:
++        dat = reader.read(test_data_with_headers)
++        print("Successfully read table:")
++        print("Column names:", dat.colnames)
++        print("Data:", dat)
++    except Exception as e:
++        print("Error reading table:", e)
++
++def test_header_rows_support():
++    print("\nTesting header_rows support...")
++    
++    # Test reading with header_rows
++    try:
++        reader = ascii.get_reader(Reader=ascii.RST, header_rows=["comment1", "comment2"])
++        dat = reader.read(test_data_with_headers)
++        print("Successfully read table with header_rows:")
++        print("Column names:", dat.colnames)
++        print("Data:", dat)
++    except Exception as e:
++        print("Error reading table with header_rows:", e)
++        import traceback
++        traceback.print_exc()
++
++def test_write_with_header_rows():
++    print("\nTesting write with header_rows...")
++    
++    # First read some data
++    reader = ascii.get_reader(Reader=ascii.RST)
++    dat = reader.read(test_data_with_headers)
++    
++    # Try to write with header_rows
++    try:
++        out = StringIO()
++        ascii.write(dat, out, Writer=ascii.RST, header_rows=["comment1", "comment2"])
++        print("Successfully wrote table with header_rows:")
++        print(out.getvalue())
++    except Exception as e:
++        print("Error writing table with header_rows:", e)
++        import traceback
++        traceback.print_exc()
++
++if __name__ == "__main__":
++    test_current_behavior()
++    test_header_rows_support()
++    test_write_with_header_rows()
+\ No newline at end of file

@@ -1,0 +1,49 @@
+{
+  "schema_version": "modal-lite-control-measured.v1",
+  "provenance": "measured",
+  "provider": "modal",
+  "status": "completed_resolved_non_clean",
+  "gpu_request": "H100!",
+  "model": "Qwen/Qwen3-Coder-30B-A3B-Instruct",
+  "model_revision": "b2cff646eb4bb1d68355c01b18ae02e7cf42d120",
+  "vllm_image": "vllm/vllm-openai:v0.10.0@sha256:05a31dc4185b042e91f4d2183689ac8a87bd845713d5c3f987563c5899878271",
+  "swe_agent_revision": "0f3acafacabc0def8cc76b4e48acb4b6cf302cb9",
+  "swe_agent_version": "1.1.0",
+  "swe_bench_revision": "726c5461e2ef52d83cf1ea2107870a8bb3328d57",
+  "swe_bench_version": "4.1.0",
+  "dataset": "SWE-bench/SWE-bench_Lite",
+  "dataset_revision": "69611d31007e1c6731db8bd5b5c3f2d33f5bab6e",
+  "evaluator_dataset_revision_observed": "b0dde1093fe417d83b7184254edf8199c1f0dff5",
+  "evaluator_dataset_revision_contract_enforced": false,
+  "instance_id": "astropy__astropy-12907",
+  "base_commit": "d16bfe05a744909de4b27f5875fe0d4ed41ce607",
+  "prompt_variant": "full_official_problem_statement",
+  "started_at_utc": "2026-08-21T14:00:52Z",
+  "agent_ended_at_utc": "2026-08-21T14:17:05Z",
+  "completed_at_utc": "2026-08-21T14:18:45Z",
+  "trajectory_wall_seconds": 973,
+  "official_evaluation_seconds": 77.58,
+  "agent_returncode": 0,
+  "official_evaluator_returncode": 0,
+  "official_resolved": 1,
+  "official_unresolved": 0,
+  "empty_patch": 0,
+  "patch_bytes": 2845,
+  "patch_files": [
+    "astropy/modeling/separable.py",
+    "reproduce_issue.py"
+  ],
+  "scratch_files": [
+    "reproduce_issue.py"
+  ],
+  "clean_submission": false,
+  "artifacts": {
+    "trajectory_sha256": "3a324d5ad21d65cc5fe5abaa3ef989ccb838509326f45cf5988e11494a1002da",
+    "prediction_sha256": "ee1c915a5fe30f389f0a6061f8b25642542f9ca76e86e709ce298813913044bb",
+    "evaluator_stdout_sha256": "6c22654d36ef67870c882ac94853fddccc3cbd219fa1923105108fa37fdb3fb1",
+    "agent_result_sha256": "22a06ff8c67c248126e7e7851f072347469f4dd3fb39e182606466c117d2722f",
+    "patch_sha256": "681ffe18c44e4442243029c1d5e85e2e4f9f81e13aeb51f5e71aae3e85c6e0bb"
+  },
+  "command_sha256": "958c074c018d8eaef47d04abd1a1030663bee61d950870f757896b2e0e85bd8d",
+  "interpretation": "The full official problem statement produced a measured 1/1 resolved result with no evaluator errors. The generated patch still included the required reproduction script, so this is an official resolved score but not a clean-submission result. The raw artifacts remain in the eic-results Modal volume under lite-control-full-prompt."
+}

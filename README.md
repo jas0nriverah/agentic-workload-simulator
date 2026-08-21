@@ -9,20 +9,24 @@ presented as Lambda results.
 
 ## Current status
 
-- G4 local trajectory-contract review: local static PASS; the original
-  Lightning control was invalidated as an empty-patch runtime defect, then the
-  fixed Lite control resolved at both 30- and 50-call settings. The fixed Lite
-  gold and Verified runs remained unresolved.
+- Modal control and sweep evidence: the full-prompt Lite control resolved
+  officially, and a source-only derived patch also resolved. The original
+  Verified control was unresolved, but a final targeted LLM control produced a
+  clean one-file patch that resolved officially; all outcomes are preserved in
+  separate measured manifests. Four one-instance sweep endpoint sets are now
+  measured.
 - Shared clock, resolved vLLM configuration, artifact v2, and four-knob
   command contracts passed local validation and independent review
 - Linux x86-64 rehearsal and first-trajectory inventory are free/local checks;
   unavailable host tools are reported explicitly and strict CI fails closed
-- One paid Lightning H100 measurement window has completed, including pinned
-  gold smokes, paired thin runs, and fixed Lite/Verified official evaluations.
-  The two resolved Lite patches contain scratch/debug files, so this is not a
-  clean-submission or resolved-rate claim; no sweeps have been launched.
-- Technical readiness does not authorize paid compute; the session gate remains
-  fail-closed until the user supplies explicit authorization.
+- One paid Lightning H100 measurement window and subsequent authorized Modal
+  H100 measurements are recorded separately. Raw model patches may contain
+  scratch files; clean derived submissions are explicitly labeled as derived.
+- Deep profiling now includes two additional H100 samples with syscall-level
+  file events and aggregate vLLM token/request snapshots. The Verified sample
+  resolved cleanly; the Lite sample remains unresolved/non-clean. Per-request
+  CPU/GPU correlation and simulator holdout validation remain pending; sweep
+  SVG figures are generated under `project/figures/`.
 
 ## First local checks
 

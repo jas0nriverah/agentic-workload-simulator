@@ -1,0 +1,33 @@
+{
+  "schema_version": "modal-clean-prediction-measured.v1",
+  "provenance": "derived_from_measured_prediction",
+  "provider": "modal",
+  "status": "completed_resolved",
+  "gpu_used": false,
+  "source_model_run": "project/MODAL_LITE_FOURTH_INSTANCE_MEASURED.json",
+  "source_prediction_sha256": "a676f106f77550d7c49e2c1bed41090eef48decd5b970fe62fad1c5a95e028d9",
+  "dataset": "SWE-bench/SWE-bench_Lite",
+  "dataset_revision_intended": "69611d31007e1c6731db8bd5b5c3f2d33f5bab6e",
+  "evaluator_dataset_revision_observed": "b0dde1093fe417d83b7184254edf8199c1f0dff5",
+  "evaluator_dataset_revision_contract_enforced": false,
+  "swe_bench_revision": "726c5461e2ef52d83cf1ea2107870a8bb3328d57",
+  "instance_id": "astropy__astropy-6938",
+  "base_commit": "c76af9ed6bb89bfba45b9f5bc1e635188278e2fa",
+  "source_path": "astropy/io/fits/fitsrec.py",
+  "patch_mode": "production_only",
+  "official_evaluation_seconds": 40.28,
+  "official_evaluator_returncode": 0,
+  "official_resolved": 1,
+  "official_unresolved": 0,
+  "empty_patch": 0,
+  "evaluator_errors": 0,
+  "clean_submission": true,
+  "artifacts": {
+    "clean_prediction_sha256": "6f2ab490be2527e4cce8e1e9bdc3c419bb771a553890afb47595691450a46429",
+    "clean_patch_sha256": "c6a29d070973692e10373a9485fcef9a8c51dbc0cf2ffd8725278f5f017bc947",
+    "prepare_result_sha256": "702ac305993dd4123a1b527b6ea6953add08ab48b8427a1e813635051027c6ba",
+    "evaluator_stdout_sha256": "9d96dbb562e71482c82a67e8f63c33b790c8c7ad2a57132688fa1167e6e8341b",
+    "evaluation_report_sha256": "4cfd655743d6cc20818d828a6ca470011d6c66fcffbcae2f90a8f71c9d565c91"
+  },
+  "interpretation": "The measured LLM source change was retained and helper files were removed by the provenance-preserving clean evaluator. The resulting one-file patch resolves officially."
+}

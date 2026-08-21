@@ -1,0 +1,60 @@
+{
+  "figures": {
+    "calls": {
+      "infrastructure_failure_cells": [],
+      "knob": "agent.model.per_instance_call_limit",
+      "label": "Call limit",
+      "measured_cells": 3,
+      "resolved_cells": [
+        "lite-sweep-calls50"
+      ],
+      "unit": "calls"
+    },
+    "combined": {
+      "format": "self-contained SVG",
+      "panels": [
+        "calls",
+        "tokens",
+        "observation",
+        "temperature"
+      ],
+      "source": "project/MODAL_LITE_SWEEP_MEASURED.json"
+    },
+    "observation": {
+      "infrastructure_failure_cells": [],
+      "knob": "agent.templates.max_observation_length",
+      "label": "Maximum observation length",
+      "measured_cells": 3,
+      "resolved_cells": [
+        "lite-sweep-observation25k",
+        "lite-sweep-observation50k"
+      ],
+      "unit": "tokens"
+    },
+    "temperature": {
+      "infrastructure_failure_cells": [
+        "lite-sweep-temp08-initial",
+        "lite-sweep-temp05-initial"
+      ],
+      "knob": "agent.model.temperature",
+      "label": "Temperature",
+      "measured_cells": 5,
+      "resolved_cells": [
+        "lite-sweep-temp05-retry"
+      ],
+      "unit": "unitless"
+    },
+    "tokens": {
+      "infrastructure_failure_cells": [],
+      "knob": "completion_kwargs.max_tokens",
+      "label": "Completion max tokens",
+      "measured_cells": 3,
+      "resolved_cells": [
+        "lite-sweep-tokens4096"
+      ],
+      "unit": "tokens"
+    }
+  },
+  "schema_version": "modal-lite-sweep-figures.v1",
+  "source": "project/MODAL_LITE_SWEEP_MEASURED.json"
+}

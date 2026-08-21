@@ -1,0 +1,43 @@
+{
+  "cpu_file_trace_lines": {
+    "Lite": {
+      "parsed lines": 316682.0,
+      "raw lines": 364534.0
+    },
+    "Verified": {
+      "parsed lines": 112082.0,
+      "raw lines": 144735.0
+    }
+  },
+  "interpretation": "Comparison of two measured one-instance runs; server aggregate counters are not per-request GPU timings.",
+  "phase_seconds": {
+    "Lite": {
+      "prediction_collection": 213.729508345,
+      "repository_prepare": 11.776138014,
+      "sweagent_trajectory": 213.720010204,
+      "vllm_service_ready": 115.031745824
+    },
+    "Verified": {
+      "prediction_collection": 92.10482855599999,
+      "repository_prepare": 9.664987715999999,
+      "sweagent_trajectory": 92.098594557,
+      "vllm_service_ready": 115.030828869
+    }
+  },
+  "provenance": "derived",
+  "schema_version": "modal-deep-profile-comparison.v1",
+  "sources": [
+    "project/MODAL_VERIFIED_DEEP_PROFILE_MEASURED.json",
+    "project/MODAL_LITE_DEEP_PROFILE_PARALLEL_MEASURED.json"
+  ],
+  "vllm_aggregate": {
+    "Lite": {
+      "generation": 7919.0,
+      "prompt": 620456.0
+    },
+    "Verified": {
+      "generation": 2867.0,
+      "prompt": 189786.0
+    }
+  }
+}

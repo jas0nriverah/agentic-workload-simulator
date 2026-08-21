@@ -1,0 +1,32 @@
+{
+  "aggregate_syscall_duration_seconds": 3.584904,
+  "interpretation": "Aggregate strace file-event evidence; no per-request CPU attribution.",
+  "parsed_events": 112082,
+  "provenance": "derived",
+  "raw_lines": 144735,
+  "schema_version": "modal-cpu-file-events-summary.v1",
+  "source": "cpu_file_events.strace",
+  "syscalls": {
+    "access": 1167,
+    "chdir": 45,
+    "chmod": 28,
+    "chown": 1,
+    "execve": 991,
+    "faccessat2": 14,
+    "fchmodat": 10,
+    "getcwd": 226,
+    "link": 2,
+    "listxattr": 21,
+    "mkdir": 74,
+    "newfstatat": 81304,
+    "openat": 27439,
+    "readlink": 418,
+    "rename": 246,
+    "rmdir": 12,
+    "statfs": 4,
+    "statx": 35,
+    "unlink": 17,
+    "unlinkat": 7,
+    "utimensat": 21
+  }
+}

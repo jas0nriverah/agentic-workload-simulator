@@ -1,0 +1,131 @@
+diff --git a/astropy/io/fits/fitsrec.py b/astropy/io/fits/fitsrec.py
+index 574b4073b..d24bafebb 100644
+--- a/astropy/io/fits/fitsrec.py
++++ b/astropy/io/fits/fitsrec.py
+@@ -1261,7 +1261,7 @@ class FITS_rec(np.recarray):
+ 
+         # Replace exponent separator in floating point numbers
+         if 'D' in format:
+-            output_field.replace(encode_ascii('E'), encode_ascii('D'))
++            output_field[:] = output_field.replace(b"E", b"D")
+ 
+ 
+ def _get_recarray_field(array, key):
+diff --git a/reproduce_issue.py b/reproduce_issue.py
+new file mode 100644
+index 000000000..4283539fa
+--- /dev/null
++++ b/reproduce_issue.py
+@@ -0,0 +1,74 @@
++#!/usr/bin/env python
++"""
++Script to reproduce the issue with _scale_back_ascii function.
++"""
++
++import numpy as np
++from astropy.io.fits.fitsrec import FITS_rec
++from astropy.io.fits.column import _AsciiColDefs
++
++# Create a simple test case to demonstrate the issue
++def test_scale_back_ascii():
++    print("Testing _scale_back_ascii function...")
++    
++    # Create a mock scenario similar to what would happen in real usage
++    # We'll create a simple ASCII table structure
++    
++    # Mock column definitions with D format
++    class MockColDef:
++        def __init__(self, format_str):
++            self.format = format_str
++            
++    class MockColDefs:
++        def __init__(self):
++            self.columns = []
++            
++        def __getitem__(self, idx):
++            return self.columns[idx]
++            
++        def __len__(self):
++            return len(self.columns)
++            
++        @property
++        def starts(self):
++            return [0, 10]  # Mock start positions
++            
++        @property
++        def spans(self):
++            return [10, 10]  # Mock span sizes
++    
++    # Create a mock FITS_rec instance
++    class MockFITSRec(FITS_rec):
++        def __init__(self):
++            self._coldefs = MockColDefs()
++            
++        def _scale_back_ascii(self, col_idx, input_field, output_field):
++            # Call the parent method to see current behavior
++            return super()._scale_back_ascii(col_idx, input_field, output_field)
++    
++    # Create test data
++    input_field = np.array([1.23456789e+10, 2.34567890e-05], dtype=np.float64)
++    output_field = np.array(['          ', '          '], dtype='S10')
++    
++    # Add a mock column definition with D format
++    mock_col_defs = MockColDefs()
++    mock_col_defs.columns.append(MockColDef('D10.5'))  # D format
++    mock_col_defs.columns.append(MockColDef('A10'))   # A format
++    
++    # Create a mock FITS_rec instance
++    fits_rec = MockFITSRec()
++    fits_rec._coldefs = mock_col_defs
++    
++    print("Input field:", input_field)
++    print("Output field before:", output_field)
++    
++    # Try calling the method
++    try:
++        fits_rec._scale_back_ascii(0, input_field, output_field)
++        print("Output field after:", output_field)
++        print("SUCCESS: Method executed without error")
++    except Exception as e:
++        print("ERROR:", e)
++
++if __name__ == "__main__":
++    test_scale_back_ascii()
+\ No newline at end of file
+diff --git a/test_fix.py b/test_fix.py
+new file mode 100644
+index 000000000..adeede6e0
+--- /dev/null
++++ b/test_fix.py
+@@ -0,0 +1,30 @@
++#!/usr/bin/env python
++"""
++Simple test to verify the fix conceptually works.
++"""
++
++import numpy as np
++
++# Simulate the behavior of the fix
++def test_replace_behavior():
++    print("Testing string replacement behavior...")
++    
++    # Create test data similar to what would be in output_field
++    output_field = np.array(['1.23E+10', '2.34E-05'], dtype='S10')
++    print("Original output_field:", output_field)
++    
++    # Current (incorrect) approach - no assignment
++    result1 = output_field.replace(b'E', b'D')
++    print("After replace() without assignment:", output_field)
++    print("Result of replace():", result1)
++    
++    # Fixed approach - with assignment
++    output_field_copy = output_field.copy()
++    output_field_copy[:] = output_field_copy.replace(b'E', b'D')
++    print("After replace() with assignment:", output_field_copy)
++    
++    # Verify the difference
++    print("Are they equal?", np.array_equal(output_field, output_field_copy))
++
++if __name__ == "__main__":
++    test_replace_behavior()
+\ No newline at end of file

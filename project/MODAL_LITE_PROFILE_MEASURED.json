@@ -1,0 +1,61 @@
+{
+  "schema_version": "modal-lite-profile-measured.v1",
+  "provenance": "measured",
+  "provider": "modal",
+  "status": "completed_unresolved",
+  "dataset": "SWE-bench/SWE-bench_Lite",
+  "dataset_revision_intended": "69611d31007e1c6731db8bd5b5c3f2d33f5bab6e",
+  "evaluator_dataset_revision_observed": "b0dde1093fe417d83b7184254edf8199c1f0dff5",
+  "evaluator_dataset_revision_contract_enforced": false,
+  "instance_id": "astropy__astropy-12907",
+  "base_commit": "d16bfe05a744909de4b27f5875fe0d4ed41ce607",
+  "gpu": "NVIDIA H100 80GB HBM3",
+  "driver": "580.95.05",
+  "model": "Qwen/Qwen3-Coder-30B-A3B-Instruct",
+  "model_revision": "b2cff646eb4bb1d68355c01b18ae02e7cf42d120",
+  "vllm_image": "vllm/vllm-openai:v0.10.0@sha256:05a31dc4185b042e91f4d2183689ac8a87bd845713d5c3f987563c5899878271",
+  "swe_agent_revision": "0f3acafacabc0def8cc76b4e48acb4b6cf302cb9",
+  "swe_bench_revision": "726c5461e2ef52d83cf1ea2107870a8bb3328d57",
+  "started_at_utc": "2026-08-21T15:47:18Z",
+  "agent_ended_at_utc": "2026-08-21T15:53:15Z",
+  "completed_at_utc": "2026-08-21T15:55:01Z",
+  "agent_returncode": 0,
+  "official_evaluator_returncode": 0,
+  "official_evaluation_seconds": 86.35,
+  "official_resolved": 0,
+  "official_unresolved": 1,
+  "empty_patch": 0,
+  "event_log": "events.jsonl",
+  "events": [
+    {
+      "event_type": "vllm_service_ready",
+      "duration_ms": 225094.371984,
+      "source": "vllm_readiness_probe",
+      "metrics_scope": "server_aggregate"
+    },
+    {
+      "event_type": "repository_prepare",
+      "duration_ms": 13335.027307,
+      "source": "git_clone_fetch_checkout"
+    },
+    {
+      "event_type": "sweagent_trajectory",
+      "duration_ms": 118187.287746,
+      "source": "sweagent_subprocess"
+    },
+    {
+      "event_type": "prediction_collection",
+      "duration_ms": 118214.528057,
+      "source": "artifact_collection"
+    }
+  ],
+  "artifact_sha256": {
+    "events_jsonl": "b86aff143955190f249b679aa6f1a3724b09635ce5d40b5c843d00f99ae21cce",
+    "hardware_txt": "16913f2d065a126d6ffb9eeff53a594b714883befd852e56514334df9906e1c4",
+    "trajectory": "99ce4ba2977815156994f3db2c6894b286d246bb2868a6cd5a5478c9b107a00d",
+    "prediction": "18acde09f24e154f46cb907f9dd83bcb097385108c4a2ef110870d7b4e546491",
+    "evaluator_stdout": "5c4db1d53a7cd72d9a8deaa0f799df881c56ebfa5d1113609b539fe4bccbf4ff",
+    "agent_result": "4e6fec1e2e9990349c416145956e8c288e3cbe2c16f89c4b654b39a7c19170a2"
+  },
+  "interpretation": "This profiled attempt supplies measured phase-level timing and H100 identity. It does not provide syscall-level file events, per-request GPU token timing, or a causal mapping from native vLLM aggregates to this request; those remain unavailable."
+}

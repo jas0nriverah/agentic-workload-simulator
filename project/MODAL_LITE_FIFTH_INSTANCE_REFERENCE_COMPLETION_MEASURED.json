@@ -1,0 +1,33 @@
+{
+  "schema_version": "modal-reference-completion-measured.v1",
+  "provenance": "derived_reference_completion",
+  "provider": "modal",
+  "status": "completed_resolved",
+  "gpu_used": false,
+  "source_model_run": "project/MODAL_LITE_FIFTH_INSTANCE_MEASURED.json",
+  "source_prediction_sha256": "6a2d77faf85df3bbedbca5d740faba30a3a2ddc38fffae6338e38683d5dcbb37",
+  "dataset": "SWE-bench/SWE-bench_Lite",
+  "dataset_revision_intended": "69611d31007e1c6731db8bd5b5c3f2d33f5bab6e",
+  "evaluator_dataset_revision_observed": "b0dde1093fe417d83b7184254edf8199c1f0dff5",
+  "evaluator_dataset_revision_contract_enforced": false,
+  "swe_bench_revision": "726c5461e2ef52d83cf1ea2107870a8bb3328d57",
+  "instance_id": "astropy__astropy-7746",
+  "base_commit": "d5bd3f68bb6d5ce3a61bdce9883ee750d1afade5",
+  "source_path": "astropy/wcs/wcs.py",
+  "patch_mode": "reference_completion_wcs",
+  "official_evaluation_seconds": 44.35,
+  "official_evaluator_returncode": 0,
+  "official_resolved": 1,
+  "official_unresolved": 0,
+  "empty_patch": 0,
+  "evaluator_errors": 0,
+  "clean_submission": true,
+  "reference_change": "add the missing empty-shape early return in _return_single_array",
+  "artifacts": {
+    "clean_prediction_sha256": "1045ab97f98bcfd0e3f6315ff5169e870d46bd8c3c5a7f9e6e656c895666d307",
+    "clean_patch_sha256": "580bfe4e748d955e4d55268155f81f25bbe1cdc7f641342e9659a7a64b99d329",
+    "prepare_result_sha256": "465591af5d5281e9c570f11ed6291617bef33d20f6f81ea4383775aa7cb40867",
+    "evaluator_stdout_sha256": "5f5a15bbdc0c7855005929ac9447d6cbd0d1b442fa0594480834de26be8db755"
+  },
+  "interpretation": "The measured LLM output was retained as the source artifact. The derived completion adds the second upstream empty-shape guard and resolves officially; it is not an LLM-generated success."
+}

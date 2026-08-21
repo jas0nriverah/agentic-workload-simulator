@@ -1,0 +1,66 @@
+2026-08-21 17:04:39,993 - INFO - Creating container for astropy__astropy-12907...
+2026-08-21 17:04:41,426 - INFO - Container for astropy__astropy-12907 created: bd906fdc019d578ad4f28936cf7108c4d317bfde8bdee648d791cda4dc6c31e5
+2026-08-21 17:04:41,624 - INFO - Container for astropy__astropy-12907 started: bd906fdc019d578ad4f28936cf7108c4d317bfde8bdee648d791cda4dc6c31e5
+2026-08-21 17:04:41,626 - INFO - Intermediate patch for astropy__astropy-12907 written to logs/run_evaluation/modal-lite-deep-profile-parallel/sweagent-output/astropy__astropy-12907/patch.diff, now applying to container...
+2026-08-21 17:04:41,787 - INFO - >>>>> Applied Patch:
+/tmp/patch.diff:45: trailing whitespace.
+    
+/tmp/patch.diff:48: trailing whitespace.
+    
+/tmp/patch.diff:52: trailing whitespace.
+    
+/tmp/patch.diff:56: trailing whitespace.
+    
+/tmp/patch.diff:59: trailing whitespace.
+    
+Checking patch astropy/modeling/separable.py...
+warning: astropy/modeling/separable.py has type 100755, expected 100644
+Checking patch reproduce_issue.py...
+Checking patch test_existing_functionality.py...
+Checking patch test_fix.py...
+Checking patch test_fix_detailed.py...
+Applied patch astropy/modeling/separable.py cleanly.
+Applied patch reproduce_issue.py cleanly.
+Applied patch test_existing_functionality.py cleanly.
+Applied patch test_fix.py cleanly.
+Applied patch test_fix_detailed.py cleanly.
+warning: squelched 22 whitespace errors
+warning: 27 lines add whitespace errors.
+
+2026-08-21 17:04:42,102 - INFO - Git diff before:
+diff --git a/astropy/modeling/separable.py b/astropy/modeling/separable.py
+index a308e2729..334fbc2b4 100755
+--- a/astropy/modeling/separable.py
++++ b/astropy/modeling/separable.py
+@@ -262,8 +262,6 @@ def _cdot(left, right):
+         Result from this operation.
+     """
+ 
+-    left, right = right, left
+-
+     def _n_inputs_outputs(input, position):
+         """
+         Return ``n_inputs``, ``n_outputs`` for a model or coord_matrix.
+2026-08-21 17:04:42,103 - INFO - Eval script for astropy__astropy-12907 written to logs/run_evaluation/modal-lite-deep-profile-parallel/sweagent-output/astropy__astropy-12907/eval.sh; copying to container...
+2026-08-21 17:05:27,941 - INFO - Test runtime: 45.76 seconds
+2026-08-21 17:05:27,945 - INFO - Test output for astropy__astropy-12907 written to logs/run_evaluation/modal-lite-deep-profile-parallel/sweagent-output/astropy__astropy-12907/test_output.txt
+2026-08-21 17:05:28,001 - INFO - Git diff after:
+diff --git a/astropy/modeling/separable.py b/astropy/modeling/separable.py
+index a308e2729..334fbc2b4 100755
+--- a/astropy/modeling/separable.py
++++ b/astropy/modeling/separable.py
+@@ -262,8 +262,6 @@ def _cdot(left, right):
+         Result from this operation.
+     """
+ 
+-    left, right = right, left
+-
+     def _n_inputs_outputs(input, position):
+         """
+         Return ``n_inputs``, ``n_outputs`` for a model or coord_matrix.
+2026-08-21 17:05:28,001 - INFO - Grading answer for astropy__astropy-12907...
+2026-08-21 17:05:28,008 - INFO - report: {'astropy__astropy-12907': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['astropy/modeling/tests/test_separable.py::test_separable[compound_model6-result6]', 'astropy/modeling/tests/test_separable.py::test_separable[compound_model9-result9]']}, 'PASS_TO_PASS': {'success': ['astropy/modeling/tests/test_separable.py::test_coord_matrix', 'astropy/modeling/tests/test_separable.py::test_cstack', 'astropy/modeling/tests/test_separable.py::test_arith_oper', 'astropy/modeling/tests/test_separable.py::test_separable[compound_model4-result4]', 'astropy/modeling/tests/test_separable.py::test_separable[compound_model7-result7]', 'astropy/modeling/tests/test_separable.py::test_separable[compound_model8-result8]', 'astropy/modeling/tests/test_separable.py::test_custom_model_separable'], 'failure': ['astropy/modeling/tests/test_separable.py::test_cdot', 'astropy/modeling/tests/test_separable.py::test_separable[compound_model0-result0]', 'astropy/modeling/tests/test_separable.py::test_separable[compound_model1-result1]', 'astropy/modeling/tests/test_separable.py::test_separable[compound_model2-result2]', 'astropy/modeling/tests/test_separable.py::test_separable[compound_model3-result3]', 'astropy/modeling/tests/test_separable.py::test_separable[compound_model5-result5]']}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for astropy__astropy-12907: resolved: False
+2026-08-21 17:05:28,009 - INFO - Attempting to stop container sweb.eval.astropy__astropy-12907.modal-lite-deep-profile-parallel...
+2026-08-21 17:05:43,105 - INFO - Attempting to remove container sweb.eval.astropy__astropy-12907.modal-lite-deep-profile-parallel...
+2026-08-21 17:05:43,122 - INFO - Container sweb.eval.astropy__astropy-12907.modal-lite-deep-profile-parallel removed.

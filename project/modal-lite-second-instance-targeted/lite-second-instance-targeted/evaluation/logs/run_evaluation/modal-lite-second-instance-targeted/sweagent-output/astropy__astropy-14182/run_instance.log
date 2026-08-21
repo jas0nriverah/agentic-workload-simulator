@@ -1,0 +1,30 @@
+2026-08-21 17:32:51,310 - INFO - Creating container for astropy__astropy-14182...
+2026-08-21 17:32:52,100 - INFO - Container for astropy__astropy-14182 created: c88f7b9c3aa6b3ba5530a1b1addd33c59463bd7c339665d657c0c051ea1c86c3
+2026-08-21 17:32:52,319 - INFO - Container for astropy__astropy-14182 started: c88f7b9c3aa6b3ba5530a1b1addd33c59463bd7c339665d657c0c051ea1c86c3
+2026-08-21 17:32:52,320 - INFO - Intermediate patch for astropy__astropy-14182 written to logs/run_evaluation/modal-lite-second-instance-targeted/sweagent-output/astropy__astropy-14182/patch.diff, now applying to container...
+2026-08-21 17:32:52,453 - INFO - >>>>> Applied Patch:
+/tmp/patch.diff:27: trailing whitespace.
+    
+/tmp/patch.diff:40: trailing whitespace.
+    
+/tmp/patch.diff:55: trailing whitespace.
+    
+/tmp/patch.diff:59: trailing whitespace.
+    
+Checking patch test_header_rows.py...
+Applied patch test_header_rows.py cleanly.
+warning: 4 lines add whitespace errors.
+
+2026-08-21 17:32:52,748 - INFO - Git diff before:
+
+2026-08-21 17:32:52,749 - INFO - Eval script for astropy__astropy-14182 written to logs/run_evaluation/modal-lite-second-instance-targeted/sweagent-output/astropy__astropy-14182/eval.sh; copying to container...
+2026-08-21 17:33:39,035 - INFO - Test runtime: 46.20 seconds
+2026-08-21 17:33:39,039 - INFO - Test output for astropy__astropy-14182 written to logs/run_evaluation/modal-lite-second-instance-targeted/sweagent-output/astropy__astropy-14182/test_output.txt
+2026-08-21 17:33:39,090 - INFO - Git diff after:
+
+2026-08-21 17:33:39,091 - INFO - Grading answer for astropy__astropy-14182...
+2026-08-21 17:33:39,095 - INFO - report: {'astropy__astropy-14182': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['astropy/io/ascii/tests/test_rst.py::test_rst_with_header_rows']}, 'PASS_TO_PASS': {'success': ['astropy/io/ascii/tests/test_rst.py::test_read_normal', 'astropy/io/ascii/tests/test_rst.py::test_read_normal_names', 'astropy/io/ascii/tests/test_rst.py::test_read_normal_names_include', 'astropy/io/ascii/tests/test_rst.py::test_read_normal_exclude', 'astropy/io/ascii/tests/test_rst.py::test_read_unbounded_right_column', 'astropy/io/ascii/tests/test_rst.py::test_read_unbounded_right_column_header', 'astropy/io/ascii/tests/test_rst.py::test_read_right_indented_table', 'astropy/io/ascii/tests/test_rst.py::test_trailing_spaces_in_row_definition', 'astropy/io/ascii/tests/test_rst.py::test_write_normal'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for astropy__astropy-14182: resolved: False
+2026-08-21 17:33:39,096 - INFO - Attempting to stop container sweb.eval.astropy__astropy-14182.modal-lite-second-instance-targeted...
+2026-08-21 17:33:54,227 - INFO - Attempting to remove container sweb.eval.astropy__astropy-14182.modal-lite-second-instance-targeted...
+2026-08-21 17:33:54,277 - INFO - Container sweb.eval.astropy__astropy-14182.modal-lite-second-instance-targeted removed.

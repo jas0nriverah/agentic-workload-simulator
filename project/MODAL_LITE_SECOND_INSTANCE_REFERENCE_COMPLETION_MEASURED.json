@@ -1,0 +1,33 @@
+{
+  "schema_version": "modal-reference-completion-measured.v1",
+  "provenance": "derived_reference_completion",
+  "provider": "modal",
+  "status": "completed_resolved",
+  "gpu_used": false,
+  "source_model_run": "project/MODAL_LITE_SECOND_INSTANCE_MEASURED.json",
+  "source_prediction_sha256": "007a7f8aa8a4a02d154b5dc4fe69cfccfea560a31d5d036a0305eef35e6a1e7f",
+  "dataset": "SWE-bench/SWE-bench_Lite",
+  "dataset_revision_intended": "69611d31007e1c6731db8bd5b5c3f2d33f5bab6e",
+  "evaluator_dataset_revision_observed": "b0dde1093fe417d83b7184254edf8199c1f0dff5",
+  "evaluator_dataset_revision_contract_enforced": false,
+  "swe_bench_revision": "726c5461e2ef52d83cf1ea2107870a8bb3328d57",
+  "instance_id": "astropy__astropy-14182",
+  "base_commit": "a5917978be39d13cd90b517e1de4e7a539ffaa48",
+  "source_path": "astropy/io/ascii/rst.py",
+  "reference_change": "remove fixed start_line; accept header_rows; use dynamic header separator and read offset",
+  "reference_source": "https://github.com/astropy/astropy/pull/19558.patch",
+  "official_evaluation_seconds": 70.85,
+  "official_evaluator_returncode": 0,
+  "official_resolved": 1,
+  "official_unresolved": 0,
+  "empty_patch": 0,
+  "evaluator_errors": 0,
+  "clean_submission": true,
+  "artifacts": {
+    "clean_prediction_sha256": "235f36d2733c44d1de48610fd0eb073c4ab2d81111cf7e6912f5e4cd3d5908ae",
+    "clean_patch_sha256": "93e2d7e14b4b8ff11d967591ccfac1a4477cd115a05a0236b594d6d4251cfd9a",
+    "prepare_result_sha256": "4b5753d274e25fff3034ee454f199c7c17ec148edd287cc3677a0efdcf6bcf0c",
+    "evaluator_stdout_sha256": "e6d930ca9972619912fbc5f152e7602374ffca9be614cf2325ccc650efb0561b"
+  },
+  "interpretation": "The measured LLM output was retained as the source artifact. The derived completion adds the missing upstream RST behavior and resolves the hidden three-header-row round-trip test. This is an officially evaluated clean patch, but it is not an LLM-generated success."
+}

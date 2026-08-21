@@ -1,0 +1,33 @@
+{
+  "schema_version": "modal-clean-prediction-measured.v1",
+  "provenance": "derived_from_measured_prediction",
+  "provider": "modal",
+  "status": "completed_resolved",
+  "gpu_used": false,
+  "source_model_run": "project/MODAL_LITE_THIRD_INSTANCE_MEASURED.json",
+  "source_prediction_sha256": "341b2aaf62389fb57e8062c4b5410d7a20062cbf7e1aee0738404702b0cd07cf",
+  "dataset": "SWE-bench/SWE-bench_Lite",
+  "dataset_revision_intended": "69611d31007e1c6731db8bd5b5c3f2d33f5bab6e",
+  "evaluator_dataset_revision_observed": "b0dde1093fe417d83b7184254edf8199c1f0dff5",
+  "evaluator_dataset_revision_contract_enforced": false,
+  "swe_bench_revision": "726c5461e2ef52d83cf1ea2107870a8bb3328d57",
+  "instance_id": "astropy__astropy-14995",
+  "base_commit": "b16c7d12ccbc7b2d20364b89fb44285bcbfede54",
+  "source_path": "astropy/nddata/mixins/ndarithmetic.py",
+  "patch_mode": "production_only",
+  "official_evaluation_seconds": 72.19,
+  "official_evaluator_returncode": 0,
+  "official_resolved": 1,
+  "official_unresolved": 0,
+  "empty_patch": 0,
+  "evaluator_errors": 0,
+  "clean_submission": true,
+  "artifacts": {
+    "clean_prediction_sha256": "a28a5f08ab0fe6ab19e8413f02901cd78f336444e57be674d39ec531e2bc165f",
+    "clean_patch_sha256": "b229860a17077044b31c0b10cd5b21082a68c7925f8831f1e0c0328915d94b44",
+    "prepare_result_sha256": "ff4ed76375b06b1a92a75f75603d4124b04ffb5f398a164e9aa8d5e613faecfa",
+    "evaluator_stdout_sha256": "f2c46efd4f9417cfd4d02982308998222f0f9739cb1d40d0e6509caa6919c2b8",
+    "evaluation_report_sha256": "408f2193940e31411fa4dc6063fe3d91f5a687f9c5df3f2c5f31a12eb392979b"
+  },
+  "interpretation": "The measured LLM source change was retained and helper files were removed by the provenance-preserving clean evaluator. The resulting one-file patch resolves officially; this is a clean derived validation of the measured LLM fix."
+}
