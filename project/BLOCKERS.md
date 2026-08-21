@@ -11,13 +11,16 @@ Measured H100 evidence is now present outside Git under the local
 - vLLM model fit, normal completion, parsed `qwen3_coder` tool call, native
   `/metrics`, and GPU sampling passed.
 - Lite and Verified gold smokes completed the official evaluator. The pre-fix
-  replicas had empty patches because `repo_name` was omitted; after the runtime
-  fix, Lite and Verified generated non-empty patches but both remained
-  officially unresolved. No resolved score is claimed.
+  replicas had empty patches because `repo_name` was omitted. After the runtime
+  fix, the 12907 Lite runs resolved officially, but their patches included
+  debug/scratch files and require cleanliness review. Fixed 14182 Lite and
+  14365 Verified runs generated non-empty patches but remained officially
+  unresolved. No clean-submission or resolved-rate claim is made.
 - The first uninstrumented Lite trajectory and subsequent fixed Lite/Verified
-  trajectories and official evaluators completed. The fixed runs generated
-  non-empty patches but were unresolved; this is an outcome, not a harness
-  failure or a fabricated success.
+  trajectories and official evaluators completed. The fixed 12907 Lite runs
+  resolved officially but need patch-cleanliness review; fixed 14182 Lite and
+  14365 Verified runs were unresolved. These are outcomes, not harness
+  failures or fabricated successes.
 - The trajectory inventory and self-contained export checksum passed; the
   archive contains the raw control data, evaluator report, derived row,
   trajectory, logs, and inventory (39 verified files, no large-file
