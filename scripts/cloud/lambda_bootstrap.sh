@@ -243,7 +243,9 @@ python_environment() {
     echo "Python exact version mismatch: manifest=$PYTHON_VERSION_EXACT actual=$actual_python_exact" >&2
     return 1
   fi
-  "$PYTHON_BIN" -m pip install --disable-pip-version-check --no-input --only-binary=:all: 'pip==24.3.1' 'setuptools==75.6.0' 'wheel==0.45.1'
+  local pip_flags=()
+  [[ "$PYTHON_ENV_MODE" == managed ]] && pip_flags+=(--break-system-packages)
+  "$PYTHON_BIN" -m pip install "${pip_flags[@]}" --disable-pip-version-check --no-input --only-binary=:all: 'pip==24.3.1' 'setuptools==75.6.0' 'wheel==0.45.1'
 }
 validate_python_environment() {
   [[ -x "$PYTHON_BIN" ]] || return 1
@@ -451,8 +453,10 @@ clone_pinned() {
 repositories() { clone_pinned "$SWE_AGENT_URL" "$SWE_AGENT_REVISION" "$REPOS/SWE-agent"; clone_pinned "$SWE_BENCH_URL" "$SWE_BENCH_REVISION" "$REPOS/SWE-bench"; }
 python_packages() {
   local reinstall=()
+  local pip_flags=()
   [[ "$PYTHON_ENV_MODE" == managed ]] && reinstall+=(--force-reinstall)
-  "$VENV/bin/pip" install --disable-pip-version-check --no-input "${reinstall[@]}" --only-binary=:all: --require-hashes -r "$PYTHON_LOCK" || return 1
+  [[ "$PYTHON_ENV_MODE" == managed ]] && pip_flags+=(--break-system-packages)
+  "$PYTHON_BIN" -m pip install "${pip_flags[@]}" --disable-pip-version-check --no-input "${reinstall[@]}" --only-binary=:all: --require-hashes -r "$PYTHON_LOCK" || return 1
   "$VENV/bin/pip" install --disable-pip-version-check --no-input --no-deps -e "$REPOS/SWE-agent" -e "$REPOS/SWE-bench" -e "$ROOT" || return 1
   pip_check_with_managed_allowlist || return 1
   "$PYTHON_BIN" -m pip freeze --all > "$WORK_ROOT/artifacts/manifests/python-freeze.txt" || return 1
