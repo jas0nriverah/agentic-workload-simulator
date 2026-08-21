@@ -27,10 +27,10 @@ Measured H100 evidence is now present outside Git under the local
 Remaining blockers are methodological or authorization boundaries, not missing
 H100 setup:
 
-- `FIRST_CONTROL_UNRESOLVED_OUTCOME_REQUIRES_REVIEW`: the control fixture is
-  preserved and the lossless `.traj` normalizer is implemented locally. Review
-  the agent behavior and evaluator outcome before interpreting or changing
-  experimental settings; do not turn the unresolved result into a score claim.
+- `FIRST_CONTROL_PATCH_CLEANLINESS_REQUIRES_REVIEW`: the fixed Lite control
+  resolved officially, but its patch included debug/scratch files. Review the
+  generated patch and trajectory before treating the one-instance resolution as
+  a clean result or changing experimental settings.
 - `PAID_SESSION_AUTHORIZATION_REQUIRED_FOR_ANY_FUTURE_LAUNCH`: the current
   untracked authorization file is not committed. Refresh it explicitly before
   any new paid run; do not infer authorization from available credits.

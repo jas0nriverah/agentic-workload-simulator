@@ -23,7 +23,7 @@ The compact measured control record is tracked at
 `project/EXPERIMENT_LEDGER.jsonl`; raw trajectories and the self-contained
 export remain outside Git and are referenced by their SHA-256 values.
 
-Measured cloud evidence: `project/PAID_SESSION_MEASUREMENTS.json` records the paired thin runs and distinct Lite/Verified trajectories. Every listed evaluator returned `rc=0`, every listed normalizer passed, and the pre-fix runs were empty because the runtime omitted `repo_name`. After that runner fix, Lite and Verified runs generated non-empty patches but remained officially unresolved; no resolved-rate or model-quality claim is permitted.
+Measured cloud evidence: `project/PAID_SESSION_MEASUREMENTS.json` records the paired thin runs and distinct Lite/Verified trajectories. Every listed evaluator returned `rc=0` and every listed normalizer passed. The pre-fix runs were empty because the runtime omitted `repo_name`; after that runner fix, one Lite control resolved officially, while the other fixed Lite and Verified runs were non-empty but unresolved. The resolved patch included scratch/debug files, so no resolved-rate or clean-submission claim is permitted.
 
 Next three actions:
 

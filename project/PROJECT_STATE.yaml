@@ -2,7 +2,7 @@ schema_version: 1
 updated_at_utc: 2026-08-21T04:57:00Z
 overall_status: g3a_lightning_h100_control_complete
 phase: CR0_CR1_CR2_CR3_CR4_CR5_CR6_CR7_CR8_CR9_CR10_CR11_CR12_CR13_G3A_G4_LOCAL
-current_task: G4-lightning-repo-fix-verified-and-lite-trajectories-recorded
+current_task: G4-lightning-fixed-lite-resolved-verified-unresolved-recorded
 last_verified_commit: 711d04542b957e324b249842153597c14ca370f3
 last_verified_commit_role: local_normalized_fixture_interval_accounting_summary
 assignment_lock_hash: 02f485cdd8cca4aae242d2f1a5306184a95d7ee0fae42527d7153f48a3424761
@@ -52,7 +52,7 @@ cloud_readiness:
 gates:
   G0_requirements: passed
   G1_direct_model_request: passed_lightning_h100
-  G2_single_trajectory: completed_lightning_h100_unresolved
+  G2_single_trajectory: completed_lightning_h100_one_resolved_patch_needs_cleanliness_review
   G3A_public_reference_lock: passed_static_comparison_only
   G4_instrumented_trajectory: passed_lightning_h100_structural_validation
   G5_five_instance_smoke: pending
@@ -72,7 +72,7 @@ next_actions:
 active_experiments: []
 active_agent_tasks: []
 blocker_ids:
-  - FIRST_CONTROL_UNRESOLVED_OUTCOME_REQUIRES_REVIEW
+  - FIRST_CONTROL_PATCH_CLEANLINESS_REQUIRES_REVIEW
   - PAID_SESSION_AUTHORIZATION_REQUIRED_FOR_ANY_FUTURE_LAUNCH
 
 observability:
