@@ -109,6 +109,7 @@ else
   PYTHON_BIN="$VENV/bin/python"
 fi
 [[ -x "$PYTHON_BIN" ]] || { echo "Python executable is unavailable: $PYTHON_BIN" >&2; exit 1; }
+export PATH="$VENV/bin:$HOME/.local/bin:$PATH"
 LOG_DIR="${LOG_DIR:-$WORK_ROOT/logs/bootstrap}"
 STATE="$WORK_ROOT/state/bootstrap"; REPOS="$WORK_ROOT/repos"
 
@@ -457,7 +458,7 @@ python_packages() {
   [[ "$PYTHON_ENV_MODE" == managed ]] && reinstall+=(--force-reinstall)
   [[ "$PYTHON_ENV_MODE" == managed ]] && pip_flags+=(--break-system-packages)
   "$PYTHON_BIN" -m pip install "${pip_flags[@]}" --disable-pip-version-check --no-input "${reinstall[@]}" --only-binary=:all: --require-hashes -r "$PYTHON_LOCK" || return 1
-  "$VENV/bin/pip" install --disable-pip-version-check --no-input --no-deps -e "$REPOS/SWE-agent" -e "$REPOS/SWE-bench" -e "$ROOT" || return 1
+  "$PYTHON_BIN" -m pip install "${pip_flags[@]}" --disable-pip-version-check --no-input --no-deps -e "$REPOS/SWE-agent" -e "$REPOS/SWE-bench" -e "$ROOT" || return 1
   pip_check_with_managed_allowlist || return 1
   "$PYTHON_BIN" -m pip freeze --all > "$WORK_ROOT/artifacts/manifests/python-freeze.txt" || return 1
   "$PYTHON_BIN" -c 'import agentic_sim, datasets, docker, numpy, pandas, requests, sweagent, swebench, urllib3; print("pinned workload packages import")' || return 1
@@ -467,7 +468,7 @@ runtime() {
   command -v tmux >/dev/null 2>&1
   docker pull "$VLLM_IMAGE" >/dev/null
   validate_runtime
-  "$VENV/bin/sweagent" --help >/dev/null
+  sweagent --help >/dev/null
   "$PYTHON_BIN" -m swebench.harness.run_evaluation --help >/dev/null
 }
 validate_runtime() {
@@ -479,7 +480,7 @@ validate_runtime() {
   grep -Fqx "$repo@$digest" <<<"$repo_digests" || { echo "vLLM image digest mismatch: expected $repo@$digest" >&2; return 1; }
   platform="$(docker image inspect --format '{{.Os}}/{{.Architecture}}' "$VLLM_IMAGE")"
   [[ "$platform" == "$VLLM_IMAGE_PLATFORM" ]] || { echo "vLLM image platform mismatch: $platform" >&2; return 1; }
-  "$VENV/bin/sweagent" --help >/dev/null
+  sweagent --help >/dev/null
   "$PYTHON_BIN" -m swebench.harness.run_evaluation --help >/dev/null
 }
 pull_evaluator_images() {
