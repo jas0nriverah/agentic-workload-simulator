@@ -124,3 +124,38 @@ sed -n '1,240p' docs/REPORT_TEMPLATE.md
 At the end, report three separate statuses: infrastructure readiness, paid
 authorization, and empirical assignment completion. A successful evaluator
 run is evidence of one run, not evidence that the full assignment is done.
+
+## Modal handoff — 2026-08-21
+
+The next execution provider is Modal, not Lightning. A Modal notebook is
+running with one NVIDIA H100 80 GB, 16 CPU cores, and 64 GiB RAM.
+
+Authentication and repository access were verified without printing the
+secret:
+
+- Modal Secret name: `github-secret`
+- Secret key: `GITHUB_TOKEN`
+- GitHub API check: `HTTP_200`
+- Repository: `jas0nriverah/agentic-workload-simulator`
+- Branch: `parallel-h100-shards`
+- Verified clone commit: `1478d624b8c5c91a1c35344b57906cf4fe298906`
+
+The token value must never be pasted into chat, notebook output, a command
+line, or this file. The Modal notebook has no Docker daemon, so do not use the
+Lambda Docker bootstrap unchanged. Adapt the pinned runtime to a Modal
+function/image while preserving the assignment, model, evaluator, and
+artifact contracts. The prior direct clone failed because it did not use
+`GIT_ASKPASS`; the secure askpass clone succeeded.
+
+### Immediate Modal next action
+
+Use the already-authenticated Modal notebook to run the real pinned control
+trajectory and official evaluator. Do not spend the remaining session on
+another API/secret check. Record the exact command, resolved configuration,
+commit, model/runtime versions, raw trajectory, generated patch, evaluator
+report, and hashes. If the Modal adaptation cannot run the official evaluator,
+stop and record the exact blocker rather than substituting an unofficial score.
+
+Do not start sweeps or thin telemetry until the first new raw trajectory is
+inventoried and normalized locally. Preserve all raw artifacts and update the
+assignment state with measured results only.
