@@ -4,15 +4,15 @@ The attached coding-test PDF is authoritative. This matrix maps each required
 deliverable to the first command/artifact that will produce evidence. A
 `pending_h100` entry is an explicit validation boundary, not a result.
 
-| Assignment requirement | Future command / source of truth | Artifact or table | Report destination | Local acceptance |
-| --- | --- | --- | --- | --- |
-| Step 1 baseline, Lite and Verified | `lambda_run_first_experiment.sh --mode uninstrumented`; `swebench.harness.run_evaluation` | `run_manifest.json`, `.traj`, `preds.json`, official evaluation report | Baseline resolved rate/E2E table and plots | Command contract, evaluator isolation, archive round-trip |
-| Four hyperparameter sweeps | Resolved SWE-agent `run-batch` commands after the G6 pilot | One run manifest per cell with call limit, `completion_kwargs.max_tokens`, observation length, temperature, and seed | Per-parameter plots plus consolidated comparison | `validate_sweagent_command.py`; Linux `--print_config` rehearsal |
-| CPU/GPU event-level analysis | Thin observer plus reviewed normalizer and reset-safe interval accounting | `events.jsonl`, normalized model/tool index, interval-union report, Prometheus snapshots, GPU samples | Event taxonomy, CPU/GPU boundary table, selected case study | Normalized fixture/interval validators; unified clock identity; no cross-host/boot merge |
-| Detailed high CPU-to-GPU case study | Separate, authorized `strace`/Nsight Systems attempt after first fixture | Raw profiler output and provenance sidecars | Step 3 case-study section | Capability probing and safe command dry-runs only pre-H100 |
-| Hardware-parameterized simulator | Calibration and normalized real events after Step 3 | Simulator inputs, predictions, latency-error evaluation | Step 4 model and error plots | Deferred until real fixture and calibration |
-| Gold-patch smokes | `lambda_run_gold_smoke.sh --suite lite|verified` | Gold smoke reports and image/dataset hashes | Runtime/evaluator validation appendix | Static official command validation; H100-only execution |
-| Publication-quality report | Post-experiment aggregation and plotting | Immutable manifests, figures, tables, narrative | Final submission write-up | Provenance and secret/path scans |
+| Assignment requirement | Status | Future command / source of truth | Artifact or table | Report destination | Local acceptance |
+| --- | --- | --- | --- | --- | --- |
+| Step 1 baseline, Lite and Verified | measured_partial | `lambda_run_first_experiment.sh --mode uninstrumented`; `swebench.harness.run_evaluation` | `run_manifest.json`, `.traj`, `preds.json`, official evaluation report | Baseline resolved rate/E2E table and plots | Command contract, evaluator isolation, archive round-trip |
+| Four hyperparameter sweeps | pending_h100 | Resolved SWE-agent `run-batch` commands after the G6 pilot | One run manifest per cell with call limit, `completion_kwargs.max_tokens`, observation length, temperature, and seed | Per-parameter plots plus consolidated comparison | `validate_sweagent_command.py`; Linux `--print_config` rehearsal |
+| CPU/GPU event-level analysis | contract_only | Thin observer plus reviewed normalizer and reset-safe interval accounting | `events.jsonl`, normalized model/tool index, interval-union report, Prometheus snapshots, GPU samples | Event taxonomy, CPU/GPU boundary table, selected case study | Normalized fixture/interval validators; unified clock identity; no cross-host/boot merge |
+| Detailed high CPU-to-GPU case study | pending_h100 | Separate, authorized `strace`/Nsight Systems attempt after first fixture | Raw profiler output and provenance sidecars | Step 3 case-study section | Capability probing and safe command dry-runs only pre-H100 |
+| Hardware-parameterized simulator | pending_h100 | Calibration and normalized real events after Step 3 | Simulator inputs, predictions, latency-error evaluation | Step 4 model and error plots | Deferred until real fixture and calibration |
+| Gold-patch smokes | measured_lightning | `lambda_run_gold_smoke.sh --suite lite|verified` | Gold smoke reports and image/dataset hashes | Runtime/evaluator validation appendix | Static official command validation; H100-only execution |
+| Publication-quality report | scaffold_only | Post-experiment aggregation and plotting | Immutable manifests, figures, tables, narrative | Final submission write-up | Provenance and secret/path scans |
 
 ## Frozen execution boundaries
 
