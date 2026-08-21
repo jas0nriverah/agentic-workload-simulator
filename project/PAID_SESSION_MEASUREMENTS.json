@@ -198,8 +198,28 @@
       "tool_executions": 27,
       "terminal_events": 0,
       "normalized_source_sha256": "d605c5a0721c7232dde81e86d70a5975dd9b65723cf26d066387c7309c10690f"
+    },
+    {
+      "studio": "mystifying-kapitsa-2",
+      "attempt_id": "worker-00",
+      "run_id": "lite12907-calls50-fixed",
+      "dataset": "lite",
+      "instance_id": "astropy__astropy-12907",
+      "mode": "uninstrumented-parallel-shard-repo-fix-calls50",
+      "agent_returncode": 0,
+      "evaluator_returncode": 0,
+      "official_resolved": 1,
+      "empty_patch": 0,
+      "patch_present": true,
+      "patch_bytes": 8673,
+      "patch_quality_note": "Evaluator resolved; generated patch again included debug_actual.py/debug_detailed.py and other scratch files, so this is not a clean-submission claim.",
+      "normalized_validator": "PASS",
+      "model_calls": null,
+      "tool_executions": 27,
+      "terminal_events": 0,
+      "normalized_source_sha256": "675d1681f91ae2b7a6e1a9254849219c0cd82aec7982829d4e18ae6d81fdd38c"
     }
   ],
-  "interpretation": "All listed runs are measured and structurally valid. The pre-fix runs produced empty patches because repo_name was omitted. After the runtime fix, Lite astropy-12907 resolved officially once, while the fixed Lite astropy-14182 and Verified astropy-14365 runs generated non-empty patches but remained unresolved. The resolved Lite patch included scratch/debug files, so it is not presented as a clean submission. This is one-instance evidence, not a resolved-rate or model-quality claim. Request-level timestamps and native vLLM request correlation remain unavailable, so telemetry runs are not causal overhead estimates.",
+  "interpretation": "All listed runs are measured and structurally valid. The pre-fix runs produced empty patches because repo_name was omitted. After the runtime fix, Lite astropy-12907 resolved officially at both 30-call and 50-call settings, while the fixed Lite astropy-14182 and Verified astropy-14365 runs generated non-empty patches but remained unresolved. Both resolved Lite patches included scratch/debug files, so they are not presented as clean submissions. This is one-instance evidence, not a resolved-rate or model-quality claim. Request-level timestamps and native vLLM request correlation remain unavailable, so telemetry runs are not causal overhead estimates.",
   "raw_artifacts": "Remain in the corresponding Lightning Studio agentic-work trees; hashes above identify normalized trajectory sources."
 }

@@ -23,7 +23,7 @@ The compact measured control record is tracked at
 `project/EXPERIMENT_LEDGER.jsonl`; raw trajectories and the self-contained
 export remain outside Git and are referenced by their SHA-256 values.
 
-Measured cloud evidence: `project/PAID_SESSION_MEASUREMENTS.json` records the paired thin runs and distinct Lite/Verified trajectories. Every listed evaluator returned `rc=0` and every listed normalizer passed. The pre-fix runs were empty because the runtime omitted `repo_name`; after that runner fix, one Lite control resolved officially, while the other fixed Lite and Verified runs were non-empty but unresolved. The resolved patch included scratch/debug files, so no resolved-rate or clean-submission claim is permitted.
+Measured cloud evidence: `project/PAID_SESSION_MEASUREMENTS.json` records the paired thin runs and distinct Lite/Verified trajectories. Every listed evaluator returned `rc=0` and every listed normalizer passed. The pre-fix runs were empty because the runtime omitted `repo_name`; after that runner fix, the Lite astropy-12907 control resolved at both 30- and 50-call settings, while the fixed Lite astropy-14182 and Verified runs were non-empty but unresolved. Both resolved patches included scratch/debug files, so no resolved-rate or clean-submission claim is permitted.
 
 Next three actions:
 
