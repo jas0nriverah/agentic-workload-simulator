@@ -109,7 +109,7 @@ def command_hash(command: Sequence[str] | str) -> str:
     return hashlib.sha256("\0".join(_argv(command)).encode("utf-8")).hexdigest()
 
 
-def build_command(*, executable: str = "sweagent", project: str | Path | None = None, config_path: str | Path | None = None, request_config_path: str | Path | None = "cloud/lambda/sweagent_request.yaml", instances_path: str | Path, model: str, model_revision: str, api_base: str = "http://127.0.0.1:8000/v1", api_key: str = "$VLLM_API_KEY", instance_id: str, output_dir: str | Path, max_steps: int = 30, max_input_tokens: int = 32768, max_output_tokens: int = 2048, max_observation_length: int = 100_000, temperature: float = 0.0, seed: int = 0, per_instance_call_limit: int = 30, num_workers: int = 1, extra_args: Sequence[str] = ()) -> list[str]:
+def build_command(*, executable: str = "sweagent", project: str | Path | None = None, config_path: str | Path | None = None, request_config_path: str | Path | None = "cloud/lambda/sweagent_request.yaml", instances_path: str | Path, model: str, model_revision: str, api_base: str = "http://127.0.0.1:8000/v1", api_key: str = "$VLLM_API_KEY", instance_id: str | None, output_dir: str | Path, max_steps: int = 30, max_input_tokens: int = 32768, max_output_tokens: int = 2048, max_observation_length: int = 100_000, temperature: float = 0.0, seed: int = 0, per_instance_call_limit: int = 30, num_workers: int = 1, extra_args: Sequence[str] = ()) -> list[str]:
     """Construct SWE-agent v1.1.0's direct ``run-batch`` command.
 
     The local file path is intentional: passing a dataset name would silently
@@ -146,7 +146,12 @@ def build_command(*, executable: str = "sweagent", project: str | Path | None = 
     args += ["run-batch", "--config", str(config_path or "config/default.yaml")]
     if request_config_path is not None:
         args += ["--config", str(request_config_path)]
-    args += ["--instances.type", "file", "--instances.path", str(instances_path), "--instances.filter", f"^{instance_id}$", "--agent.model.name", model, "--agent.model.api_base", api_base, "--agent.model.api_key", api_key, "--agent.model.total_cost_limit", "0", "--agent.model.per_instance_cost_limit", "0", "--agent.model.per_instance_call_limit", str(per_instance_call_limit), "--agent.model.temperature", str(temperature), "--agent.model.max_input_tokens", str(max_input_tokens), "--agent.model.max_output_tokens", str(max_output_tokens), "--agent.templates.max_observation_length", str(max_observation_length), "--output_dir", str(output_dir), "--num_workers", str(num_workers)]
+    args += ["--instances.type", "file", "--instances.path", str(instances_path)]
+    if instance_id is not None:
+        if not instance_id:
+            raise RunnerContractError("instance_id must be non-empty when an instance filter is requested")
+        args += ["--instances.filter", f"^{instance_id}$"]
+    args += ["--agent.model.name", model, "--agent.model.api_base", api_base, "--agent.model.api_key", api_key, "--agent.model.total_cost_limit", "0", "--agent.model.per_instance_cost_limit", "0", "--agent.model.per_instance_call_limit", str(per_instance_call_limit), "--agent.model.temperature", str(temperature), "--agent.model.max_input_tokens", str(max_input_tokens), "--agent.model.max_output_tokens", str(max_output_tokens), "--agent.templates.max_observation_length", str(max_observation_length), "--output_dir", str(output_dir), "--num_workers", str(num_workers)]
     args.extend(str(item) for item in extra_args)
     return args
 
