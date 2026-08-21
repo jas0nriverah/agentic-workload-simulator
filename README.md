@@ -42,3 +42,8 @@ paid-session authorization.
 See `docs/assignment_traceability.md` for the frozen deliverable-to-evidence
 map and `project/PUBLIC_REFERENCE_LOCK.json` for the comparison-only public
 reference lock. No public result is claimed by either file.
+
+For independent post-control throughput, see
+[`cloud/lightning/PARALLEL_RUNBOOK.md`](cloud/lightning/PARALLEL_RUNBOOK.md).
+It keeps one vLLM/SWE-agent worker per isolated GPU and writes deterministic,
+resume-safe shards without changing the single-control contract.

@@ -112,3 +112,11 @@ scripts/cloud/lambda_run_first_experiment.sh --manifest cloud/lambda/instance_ma
 
 Then export/checksum artifacts, stop workloads, and stop the Studio. Do not
 start the four sweeps or thin telemetry in the first session.
+
+## Parallel throughput after the control gate
+
+For independent uninstrumented trajectories, use the additive
+[`cloud/lightning/PARALLEL_RUNBOOK.md`](../lightning/PARALLEL_RUNBOOK.md). It
+plans deterministic disjoint shards and runs one `--num_workers 1` worker per
+GPU-isolated Studio. It does not replace the single-control fixture, bypass
+the session gate, or turn a multi-GPU batch into one tensor-parallel result.
