@@ -179,3 +179,17 @@
 - Rationale: this closes the accounting contract locally without fabricating
   request correlation. A future authorized thin run must supply measured
   intervals before any empirical accounting claim is made.
+### D-0011 — Runtime repository identity is required for official submission
+
+- **Decision:** Runtime dataset views must set `repo_name: "testbed"` in
+  addition to the SWE-bench row's `repo` and `image_name` fields.
+- **Evidence:** Pinned SWE-agent v1.1.0 uses `repo_name` when constructing the
+  environment and submission path. Omitting it caused the first Lightning
+  runs to submit from `/` and produce empty patches. After the fix, the
+  official evaluator received non-empty patches on Lite and Verified runs.
+- **Scope:** This repairs the runtime compatibility view only; it does not
+  change the assignment model, prompt, temperature, or evaluator methodology.
+- **Result:** Lite `astropy__astropy-12907` resolved at both 30 and 50 call
+  limits; Lite `astropy__astropy-14182` and Verified `astropy__astropy-14365`
+  remained unresolved. The two resolved patches contained scratch/debug files,
+  so they are not clean-submission or resolved-rate claims.
