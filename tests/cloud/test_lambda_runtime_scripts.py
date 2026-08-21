@@ -64,6 +64,7 @@ class LambdaRuntimeScriptTests(unittest.TestCase):
         self.assertIn("hashlib.sha256(source.read_bytes())", bootstrap)
         self.assertIn("sweagent_instances.json", first)
         self.assertIn("image_name", first)
+        self.assertIn('row["repo_name"] = "testbed"', first)
         self.assertIn("source_dataset_path", first)
 
     def test_start_dry_run_propagates_non_default_manifest_values(self):
@@ -239,7 +240,7 @@ class LambdaRuntimeScriptTests(unittest.TestCase):
         self.assertIn('"${reinstall[@]}" --only-binary=:all: --require-hashes -r "$PYTHON_LOCK" || return 1', text)
         self.assertIn('"$REPOS/SWE-agent" -e "$REPOS/SWE-bench" -e "$ROOT" || return 1', text)
         self.assertIn('pip_check_with_managed_allowlist || return 1', text)
-        self.assertIn('"$VENV/bin/python" -m pip freeze --all > "$WORK_ROOT/artifacts/manifests/python-freeze.txt" || return 1', text)
+        self.assertIn('"$PYTHON_BIN" -m pip freeze --all > "$WORK_ROOT/artifacts/manifests/python-freeze.txt" || return 1', text)
         self.assertIn("validate_python_environment || return 1", text)
         self.assertIn('pip_check_with_managed_allowlist() {', text)
 

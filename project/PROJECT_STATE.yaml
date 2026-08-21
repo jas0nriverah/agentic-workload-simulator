@@ -1,10 +1,10 @@
 schema_version: 1
-updated_at_utc: 2026-08-20T21:40:06Z
+updated_at_utc: 2026-08-21T11:56:04Z
 overall_status: g3a_lightning_h100_control_complete
 phase: CR0_CR1_CR2_CR3_CR4_CR5_CR6_CR7_CR8_CR9_CR10_CR11_CR12_CR13_G3A_G4_LOCAL
-current_task: G4-local-normalized-fixture-and-accounting-contracts-complete
-last_verified_commit: aa84e8e69a6c5207a2b379cd7d7d9952e885c6a7
-last_verified_commit_role: local_normalized_fixture_interval_accounting_summary
+current_task: G4-lightning-fixed-outcomes-recorded-cleanliness-review-pending
+last_verified_commit: de20e23777638837c954ef24020776ddabdf2d02
+last_verified_commit_role: assignment_fidelity_report_template_and_measured_results
 assignment_lock_hash: 02f485cdd8cca4aae242d2f1a5306184a95d7ee0fae42527d7153f48a3424761
 working_tree_dirty: false
 
@@ -52,9 +52,9 @@ cloud_readiness:
 gates:
   G0_requirements: passed
   G1_direct_model_request: passed_lightning_h100
-  G2_single_trajectory: completed_lightning_h100_unresolved
+  G2_single_trajectory: completed_lightning_h100_one_resolved_patch_needs_cleanliness_review
   G3A_public_reference_lock: passed_static_comparison_only
-  G4_instrumented_trajectory: pending_h100
+  G4_instrumented_trajectory: passed_lightning_h100_structural_validation
   G5_five_instance_smoke: pending
   G6_twenty_instance_pilot: pending
   G3B_h100_evaluator_validation: passed_lightning_h100_gold_smokes_and_official_runner
@@ -65,13 +65,14 @@ gates:
   G11_final_audit: pending
 
 next_actions:
-  - retain the uninstrumented trajectory as the control; normalized fixture and interval-accounting contracts are locally PASS
+  - retain the uninstrumented trajectory and paired thin/gold records in project/PAID_SESSION_MEASUREMENTS.json
+  - review the fixed non-empty unresolved patches before making any model or scaffold change
+  - do not claim resolved rate or causal telemetry overhead; request-level correlation remains unavailable
   - refresh the untracked Lightning authorization only if another paid launch is explicitly desired
-  - do not expand to G5/G6 until the first generated prediction and evaluator artifacts pass review
 active_experiments: []
 active_agent_tasks: []
 blocker_ids:
-  - FIRST_CONTROL_UNRESOLVED_OUTCOME_REQUIRES_REVIEW
+  - FIRST_CONTROL_PATCH_CLEANLINESS_REQUIRES_REVIEW
   - PAID_SESSION_AUTHORIZATION_REQUIRED_FOR_ANY_FUTURE_LAUNCH
 
 observability:

@@ -74,8 +74,16 @@ done
 HF_HOME="${HF_HOME:-$CACHE_ROOT/huggingface}"
 HF_HUB_CACHE="${HF_HUB_CACHE:-$HF_HOME/hub}"
 HF_DATASETS_CACHE="${HF_DATASETS_CACHE:-$CACHE_ROOT/datasets-cache}"
-PYTHON_BIN="${PYTHON_BIN:-$PYTHON_ENV_ROOT/bin/python}"
-HF_CLI="${HF_CLI:-$PYTHON_ENV_ROOT/bin/hf}"
+if [[ "$PYTHON_ENV_MODE" == managed ]]; then
+  PYTHON_BIN="${PYTHON_BIN:-$PYTHON_ENV_ROOT/bin/python3}"
+  # Prefer the CLI installed alongside the resolved managed interpreter. The
+  # mutating path falls back to the user's pinned installation location when
+  # the managed environment exposes Python but not console scripts.
+  HF_CLI="${HF_CLI:-$PYTHON_ENV_ROOT/bin/hf}"
+else
+  PYTHON_BIN="${PYTHON_BIN:-$PYTHON_ENV_ROOT/bin/python}"
+  HF_CLI="${HF_CLI:-$PYTHON_ENV_ROOT/bin/hf}"
+fi
 MODEL_OUT="$WORK_ROOT/artifacts/manifests/model_download.json"
 DATASET_OUT="$WORK_ROOT/artifacts/manifests/datasets.json"
 
@@ -90,6 +98,9 @@ EOF
 fi
 
 command -v "$PYTHON_BIN" >/dev/null 2>&1 || { echo "pinned Python is unavailable: $PYTHON_BIN" >&2; exit 1; }
+if [[ "$PYTHON_ENV_MODE" == managed && ! -x "$HF_CLI" && -x "$HOME/.local/bin/hf" ]]; then
+  HF_CLI="$HOME/.local/bin/hf"
+fi
 command -v "$HF_CLI" >/dev/null 2>&1 || { echo "huggingface_hub CLI is unavailable: $HF_CLI" >&2; exit 1; }
 mkdir -p -- "$HF_HUB_CACHE" "$HF_DATASETS_CACHE" "$WORK_ROOT/datasets" "$WORK_ROOT/logs" "$WORK_ROOT/artifacts/manifests"
 free_kib="$(df -Pk "$CACHE_ROOT" | awk 'NR==2 {print $4}')"; min_kib=$((MIN_FREE_GIB * 1024 * 1024)); [[ "$free_kib" =~ ^[0-9]+$ && "$free_kib" -ge "$min_kib" ]] || { echo "insufficient free space before asset download" >&2; exit 1; }

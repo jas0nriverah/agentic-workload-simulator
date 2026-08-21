@@ -31,8 +31,10 @@ Status: frozen after CR13 and G4 local trajectory-contract review; implementatio
 - Provider: Lightning, one H100 80 GB, studio `eic-h100-first-control`.
 - Gold smokes: Lite `astropy__astropy-14182` 1/1 and Verified
   `astropy__astropy-14365` 1/1.
-- First control: Lite `astropy__astropy-12907`, uninstrumented, official
-  evaluator `unresolved` with an empty patch; no resolved-rate claim.
+- First control: the original pre-fix Lite `astropy__astropy-12907` was
+  `unresolved` with an empty patch because `repo_name` was omitted. The fixed
+  rerun resolved at both 30- and 50-call settings, but both generated patches
+  included scratch/debug files; no resolved-rate or clean-submission claim.
 - Compact evidence: `project/FIRST_CONTROL_MEASURED.json`; raw trajectory and
   self-contained export remain outside Git and are referenced by SHA-256.
 - Remaining target boundary: Lambda x86-64/H100 equivalence, thin telemetry,

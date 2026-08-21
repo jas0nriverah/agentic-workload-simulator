@@ -6,13 +6,16 @@ The Lambda runbook remains the source of truth for the workload commands.
 
 ## Recorded checkpoint
 
-One paid Lightning H100 session has already completed the pinned preflight,
+One paid Lightning H100 measurement window has completed the pinned preflight,
 managed-Python bootstrap, vLLM health checks, Lite and Verified gold smokes,
-one uninstrumented Lite control, official evaluation, and export. The compact
-record is `project/FIRST_CONTROL_MEASURED.json`. Its unresolved/empty-patch
-outcome is preserved without a score claim. This provider evidence does not
-claim Lambda-host equivalence; do not rerun the control or start a new paid
-gate without a fresh explicit authorization.
+paired thin runs, and fixed Lite/Verified official evaluations. The original
+control record remains in `project/FIRST_CONTROL_MEASURED.json`; the complete
+follow-up table is `project/PAID_SESSION_MEASUREMENTS.json`. The fixed Lite
+12907 control resolved at both 30- and 50-call settings, but both patches
+included scratch/debug files; the fixed Lite 14182 and Verified 14365 runs
+were unresolved. This provider evidence does not claim Lambda-host
+equivalence; do not start another paid gate without fresh explicit
+authorization.
 
 ## Before starting H100 billing
 

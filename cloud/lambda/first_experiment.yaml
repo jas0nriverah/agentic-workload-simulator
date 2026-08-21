@@ -31,6 +31,14 @@ measurement:
   control_status: unresolved_empty_patch
   gold_smokes: lite_1_of_1_and_verified_1_of_1
   lambda_target_host_validated: false
+  # Historical first-control fields above are preserved byte-for-byte in
+  # project/FIRST_CONTROL_MEASURED.json. The runtime compatibility defect was
+  # fixed in follow-up runs; see the complete measured table below.
+  follow_up_record: project/PAID_SESSION_MEASUREMENTS.json
+  follow_up_runtime_fix: add_repo_name_testbed_to_runtime_dataset_views
+  follow_up_lite_12907: resolved_at_30_and_50_calls_with_scratch_files
+  follow_up_lite_14182: unresolved_nonempty_patch
+  follow_up_verified_14365: unresolved_nonempty_patch
 agent:
   name: SWE-agent
   revision: 0f3acafacabc0def8cc76b4e48acb4b6cf302cb9

@@ -233,6 +233,11 @@ expected_image = f"swebench/sweb.eval.x86_64.{str(instance_id).replace('__', '_1
 if row.get("image_name") not in (None, expected_image):
     raise SystemExit("raw SWE-bench image_name conflicts with the deterministic evaluator image")
 row["image_name"] = expected_image
+# SWE-agent v1.1.0's SimpleBatchInstance uses repo_name (not the raw
+# SWE-bench `repo` field) to select the pre-existing /testbed checkout.
+# Without this compatibility field the submission command runs in `/`, so
+# autosubmission cannot create model.patch and every prediction is empty.
+row["repo_name"] = "testbed"
 destination.write_text(json.dumps([row], sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n", encoding="utf-8")
 PY
   COMMAND="${COMMAND//$EXPECTED_DATASET_PATH/$RUNTIME_DATASET_PATH}"

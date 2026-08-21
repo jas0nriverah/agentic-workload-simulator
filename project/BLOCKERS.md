@@ -10,10 +10,17 @@ Measured H100 evidence is now present outside Git under the local
 - Linux x86-64/H100 preflight and pinned managed-Python bootstrap passed.
 - vLLM model fit, normal completion, parsed `qwen3_coder` tool call, native
   `/metrics`, and GPU sampling passed.
-- Lite and Verified gold smokes each resolved their pinned one-row instance.
-- The first uninstrumented Lite trajectory and official evaluator completed.
-  The measured result was `unresolved` with an empty patch; this is an outcome,
-  not a harness failure or a fabricated success.
+- Lite and Verified gold smokes completed the official evaluator. The pre-fix
+  replicas had empty patches because `repo_name` was omitted. After the runtime
+  fix, the 12907 Lite runs resolved officially, but their patches included
+  debug/scratch files and require cleanliness review. Fixed 14182 Lite and
+  14365 Verified runs generated non-empty patches but remained officially
+  unresolved. No clean-submission or resolved-rate claim is made.
+- The first uninstrumented Lite trajectory and subsequent fixed Lite/Verified
+  trajectories and official evaluators completed. The fixed 12907 Lite runs
+  resolved officially but need patch-cleanliness review; fixed 14182 Lite and
+  14365 Verified runs were unresolved. These are outcomes, not harness
+  failures or fabricated successes.
 - The trajectory inventory and self-contained export checksum passed; the
   archive contains the raw control data, evaluator report, derived row,
   trajectory, logs, and inventory (39 verified files, no large-file
@@ -23,10 +30,10 @@ Measured H100 evidence is now present outside Git under the local
 Remaining blockers are methodological or authorization boundaries, not missing
 H100 setup:
 
-- `FIRST_CONTROL_UNRESOLVED_OUTCOME_REQUIRES_REVIEW`: the control fixture is
-  preserved and the lossless `.traj` normalizer is implemented locally. Review
-  the agent behavior and evaluator outcome before interpreting or changing
-  experimental settings; do not turn the unresolved result into a score claim.
+- `FIRST_CONTROL_PATCH_CLEANLINESS_REQUIRES_REVIEW`: the fixed Lite control
+  resolved officially, but its patch included debug/scratch files. Review the
+  generated patch and trajectory before treating the one-instance resolution as
+  a clean result or changing experimental settings.
 - `PAID_SESSION_AUTHORIZATION_REQUIRED_FOR_ANY_FUTURE_LAUNCH`: the current
   untracked authorization file is not committed. Refresh it explicitly before
   any new paid run; do not infer authorization from available credits.

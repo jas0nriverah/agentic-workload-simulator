@@ -155,6 +155,11 @@ fi
 [[ -n "$DATASET_MANIFEST_PATH" ]] || DATASET_MANIFEST_PATH="$WORK_ROOT/artifacts/manifests/datasets.json"
 [[ -n "$SWE_BENCH_EVALUATOR_ROOT" ]] || SWE_BENCH_EVALUATOR_ROOT="$WORK_ROOT/repos/SWE-bench"
 [[ -n "$EVALUATOR_PYTHON" ]] || EVALUATOR_PYTHON="$WORK_ROOT/venv/bin/python"
+if [[ ! -x "$EVALUATOR_PYTHON" && -x /usr/bin/python3 ]]; then
+  # Managed Lightning Studios do not have a venv path; use their pinned
+  # system Python when the manifest omits an explicit evaluator executable.
+  EVALUATOR_PYTHON=/usr/bin/python3
+fi
 [[ -n "$GOLD_OUTPUT_ROOT" ]] || GOLD_OUTPUT_ROOT="$WORK_ROOT/artifacts/gold-smoke"
 [[ -n "$GENERATED_OUTPUT_ROOT" ]] || GENERATED_OUTPUT_ROOT="$WORK_ROOT/artifacts/generated-evaluation"
 

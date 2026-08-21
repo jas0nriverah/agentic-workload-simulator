@@ -101,6 +101,14 @@ case "$PYTHON_ENV_MODE" in
     ;;
   *) echo "PYTHON_ENV_MODE must be managed or venv: $PYTHON_ENV_MODE" >&2; exit 1;;
 esac
+if [[ "$PYTHON_ENV_MODE" == managed ]]; then
+  # Managed Studio images expose python3 under the environment prefix; they
+  # do not necessarily provide the venv-style /usr/bin/python name.
+  PYTHON_BIN="$VENV/bin/python3"
+else
+  PYTHON_BIN="$VENV/bin/python"
+fi
+export PATH="$VENV/bin:$HOME/.local/bin:$PATH"
 LOG_DIR="${LOG_DIR:-$WORK_ROOT/logs/bootstrap}"
 STATE="$WORK_ROOT/state/bootstrap"; REPOS="$WORK_ROOT/repos"
 
@@ -167,6 +175,11 @@ EOF
   exit 0
 fi
 
+# A dry-run validates pins and command construction without requiring the
+# target host's Python environment to exist. Only a mutating bootstrap may
+# require the resolved interpreter to be present.
+[[ -x "$PYTHON_BIN" ]] || { echo "Python executable is unavailable: $PYTHON_BIN" >&2; exit 1; }
+
 mkdir -p -- "$LOG_DIR" "$STATE" "$WORK_ROOT/artifacts/manifests"
 exec > >(tee -a "$LOG_DIR/bootstrap.log") 2>&1
 
@@ -217,16 +230,16 @@ directories() {
 }
 python_environment() {
   if [[ "$PYTHON_ENV_MODE" == managed ]]; then
-    [[ -x "$VENV/bin/python" ]] || { echo "managed Python environment is unavailable: $VENV" >&2; return 1; }
-    [[ "$("$VENV/bin/python" -c 'import sys; print(sys.prefix)')" == "$VENV" ]] || {
+    [[ -x "$PYTHON_BIN" ]] || { echo "managed Python environment is unavailable: $VENV" >&2; return 1; }
+    [[ "$("$PYTHON_BIN" -c 'import sys; print(sys.prefix)')" == "$VENV" ]] || {
       echo "managed Python prefix mismatch: expected $VENV" >&2
       return 1
     }
   else
-    [[ -x "$VENV/bin/python" ]] || python3 -m venv "$VENV"
+    [[ -x "$PYTHON_BIN" ]] || python3 -m venv "$VENV"
   fi
-  actual_python_version="$("$VENV/bin/python" -c 'import sys; print(f"{sys.version_info.major}.{sys.version_info.minor}")')"
-  actual_python_exact="$("$VENV/bin/python" -c 'import platform; print(platform.python_version())')"
+  actual_python_version="$("$PYTHON_BIN" -c 'import sys; print(f"{sys.version_info.major}.{sys.version_info.minor}")')"
+  actual_python_exact="$("$PYTHON_BIN" -c 'import platform; print(platform.python_version())')"
   [[ "$actual_python_version" == "$PYTHON_VERSION" ]] || {
     echo "Python version mismatch: manifest=$PYTHON_VERSION actual=$actual_python_version" >&2
     return 1
@@ -235,18 +248,20 @@ python_environment() {
     echo "Python exact version mismatch: manifest=$PYTHON_VERSION_EXACT actual=$actual_python_exact" >&2
     return 1
   fi
-  "$VENV/bin/python" -m pip install --disable-pip-version-check --no-input --only-binary=:all: 'pip==24.3.1' 'setuptools==75.6.0' 'wheel==0.45.1'
+  local pip_flags=()
+  [[ "$PYTHON_ENV_MODE" == managed ]] && pip_flags+=(--break-system-packages)
+  "$PYTHON_BIN" -m pip install "${pip_flags[@]}" --disable-pip-version-check --no-input --only-binary=:all: 'pip==24.3.1' 'setuptools==75.6.0' 'wheel==0.45.1'
 }
 validate_python_environment() {
-  [[ -x "$VENV/bin/python" ]] || return 1
-  [[ "$("$VENV/bin/python" -c 'import sys; print(sys.prefix)')" == "$VENV" ]] || return 1
-  actual_python_version="$("$VENV/bin/python" -c 'import sys; print(f"{sys.version_info.major}.{sys.version_info.minor}")')"
+  [[ -x "$PYTHON_BIN" ]] || return 1
+  [[ "$("$PYTHON_BIN" -c 'import sys; print(sys.prefix)')" == "$VENV" ]] || return 1
+  actual_python_version="$("$PYTHON_BIN" -c 'import sys; print(f"{sys.version_info.major}.{sys.version_info.minor}")')"
   [[ "$actual_python_version" == "$PYTHON_VERSION" ]] || return 1
   if [[ -n "$PYTHON_VERSION_EXACT" ]]; then
-    actual_python_exact="$("$VENV/bin/python" -c 'import platform; print(platform.python_version())')"
+    actual_python_exact="$("$PYTHON_BIN" -c 'import platform; print(platform.python_version())')"
     [[ "$actual_python_exact" == "$PYTHON_VERSION_EXACT" ]] || return 1
   fi
-  "$VENV/bin/python" -c 'import pip' || return 1
+  "$PYTHON_BIN" -c 'import pip' || return 1
 }
 pip_check_with_managed_allowlist() {
   local report="$WORK_ROOT/artifacts/manifests/python-pip-check.txt"
@@ -255,7 +270,7 @@ pip_check_with_managed_allowlist() {
   mkdir -p -- "$(dirname -- "$report")"
   raw_tmp="$(mktemp "$report.tmp.XXXXXX")" || return 1
   if PIP_DISABLE_PIP_VERSION_CHECK=1 PIP_NO_COLOR=1 LC_ALL=C \
-    "$VENV/bin/python" -m pip check >"$raw_tmp" 2>&1; then
+    "$PYTHON_BIN" -m pip check >"$raw_tmp" 2>&1; then
     pip_status=0
   else
     pip_status=$?
@@ -265,7 +280,7 @@ pip_check_with_managed_allowlist() {
     return 1
   fi
   audit_tmp="$(mktemp "$audit.tmp.XXXXXX")" || return 1
-  if "$VENV/bin/python" - "$report" "$audit_tmp" "$PYTHON_LOCK" "$PYTHON_ENV_MODE" "$pip_status" "$VENV/bin/python" <<'PY'
+  if "$PYTHON_BIN" - "$report" "$audit_tmp" "$PYTHON_LOCK" "$PYTHON_ENV_MODE" "$pip_status" "$PYTHON_BIN" <<'PY'
 import hashlib
 import importlib.metadata as metadata
 import json
@@ -328,7 +343,13 @@ def finish(status, conflicts=None, unexpected=None):
     return 1
 
 if pip_status == 0:
-    raise SystemExit(finish("PASS_CLEAN") if raw == "" else finish("FAIL", unexpected=["non-canonical output for a successful pip check", *lines]))
+    # pip versions differ: recent releases print this informational sentence,
+    # while older releases return an empty report. Preserve the raw artifact
+    # but treat both forms as a clean successful check.
+    normalized = raw.strip()
+    if normalized in {"", "No broken requirements found."}:
+        raise SystemExit(finish("PASS_CLEAN"))
+    raise SystemExit(finish("FAIL", unexpected=["non-canonical output for a successful pip check", *lines]))
 if pip_status != 1:
     raise SystemExit(finish("FAIL", unexpected=[f"pip check exited with unsupported status {pip_status}", *lines]))
 if environment_mode != "managed":
@@ -424,7 +445,7 @@ validate_python_inventory() {
   validate_python_environment || return 1
   pip_check_with_managed_allowlist || return 1
   local current_freeze="$WORK_ROOT/artifacts/manifests/python-freeze.current.txt"
-  "$VENV/bin/python" -m pip freeze --all > "$current_freeze" || {
+  "$PYTHON_BIN" -m pip freeze --all > "$current_freeze" || {
     rm -f -- "$current_freeze"
     return 1
   }
@@ -443,20 +464,22 @@ clone_pinned() {
 repositories() { clone_pinned "$SWE_AGENT_URL" "$SWE_AGENT_REVISION" "$REPOS/SWE-agent"; clone_pinned "$SWE_BENCH_URL" "$SWE_BENCH_REVISION" "$REPOS/SWE-bench"; }
 python_packages() {
   local reinstall=()
+  local pip_flags=()
   [[ "$PYTHON_ENV_MODE" == managed ]] && reinstall+=(--force-reinstall)
-  "$VENV/bin/pip" install --disable-pip-version-check --no-input "${reinstall[@]}" --only-binary=:all: --require-hashes -r "$PYTHON_LOCK" || return 1
-  "$VENV/bin/pip" install --disable-pip-version-check --no-input --no-deps -e "$REPOS/SWE-agent" -e "$REPOS/SWE-bench" -e "$ROOT" || return 1
+  [[ "$PYTHON_ENV_MODE" == managed ]] && pip_flags+=(--break-system-packages)
+  "$PYTHON_BIN" -m pip install "${pip_flags[@]}" --disable-pip-version-check --no-input "${reinstall[@]}" --only-binary=:all: --require-hashes -r "$PYTHON_LOCK" || return 1
+  "$PYTHON_BIN" -m pip install "${pip_flags[@]}" --disable-pip-version-check --no-input --no-deps -e "$REPOS/SWE-agent" -e "$REPOS/SWE-bench" -e "$ROOT" || return 1
   pip_check_with_managed_allowlist || return 1
-  "$VENV/bin/python" -m pip freeze --all > "$WORK_ROOT/artifacts/manifests/python-freeze.txt" || return 1
-  "$VENV/bin/python" -c 'import agentic_sim, datasets, docker, numpy, pandas, requests, sweagent, swebench, urllib3; print("pinned workload packages import")' || return 1
+  "$PYTHON_BIN" -m pip freeze --all > "$WORK_ROOT/artifacts/manifests/python-freeze.txt" || return 1
+  "$PYTHON_BIN" -c 'import agentic_sim, datasets, docker, numpy, pandas, requests, sweagent, swebench, urllib3; print("pinned workload packages import")' || return 1
 }
 runtime() {
   command -v docker >/dev/null 2>&1 && docker info >/dev/null 2>&1
   command -v tmux >/dev/null 2>&1
   docker pull "$VLLM_IMAGE" >/dev/null
   validate_runtime
-  "$VENV/bin/sweagent" --help >/dev/null
-  "$VENV/bin/python" -m swebench.harness.run_evaluation --help >/dev/null
+  sweagent --help >/dev/null
+  "$PYTHON_BIN" -m swebench.harness.run_evaluation --help >/dev/null
 }
 validate_runtime() {
   local platform image_ref repo digest repo_digests
@@ -467,8 +490,8 @@ validate_runtime() {
   grep -Fqx "$repo@$digest" <<<"$repo_digests" || { echo "vLLM image digest mismatch: expected $repo@$digest" >&2; return 1; }
   platform="$(docker image inspect --format '{{.Os}}/{{.Architecture}}' "$VLLM_IMAGE")"
   [[ "$platform" == "$VLLM_IMAGE_PLATFORM" ]] || { echo "vLLM image platform mismatch: $platform" >&2; return 1; }
-  "$VENV/bin/sweagent" --help >/dev/null
-  "$VENV/bin/python" -m swebench.harness.run_evaluation --help >/dev/null
+  sweagent --help >/dev/null
+  "$PYTHON_BIN" -m swebench.harness.run_evaluation --help >/dev/null
 }
 pull_evaluator_images() {
   local image digest pair
@@ -500,7 +523,7 @@ validate_evaluator_images() {
 validate_model_and_datasets() {
   local model_out="$WORK_ROOT/artifacts/manifests/model_download.json"
   local dataset_out="$WORK_ROOT/artifacts/manifests/datasets.json"
-  "$VENV/bin/python" - "$model_out" "$dataset_out" <<'PY'
+  "$PYTHON_BIN" - "$model_out" "$dataset_out" <<'PY'
 import json
 import hashlib
 import pathlib
@@ -555,11 +578,11 @@ PY
 }
 model_and_datasets() { (( SKIP_MODEL )) || "$ROOT/scripts/cloud/lambda_download_assets.sh" --manifest "$MANIFEST" --work-root "$WORK_ROOT"; }
 local_tests() {
-  PYTHONPATH="$ROOT/src" "$VENV/bin/python" -m unittest discover -s "$ROOT/tests" -v
-  PYTHONPATH="$ROOT/src" "$VENV/bin/python" -m compileall -q "$ROOT/src" "$ROOT/scripts" "$ROOT/tests"
+  PYTHONPATH="$ROOT/src" "$PYTHON_BIN" -m unittest discover -s "$ROOT/tests" -v
+  PYTHONPATH="$ROOT/src" "$PYTHON_BIN" -m compileall -q "$ROOT/src" "$ROOT/scripts" "$ROOT/tests"
 }
 
-stage utilities 'for t in git curl jq rsync tmux tar zstd python3; do command -v "$t" >/dev/null || exit 1; done; if [[ "$PYTHON_ENV_MODE" == managed ]]; then test -x "$VENV/bin/python"; else python3 -m venv --help >/dev/null; fi' utilities
+stage utilities 'for t in git curl jq rsync tmux tar zstd python3; do command -v "$t" >/dev/null || exit 1; done; if [[ "$PYTHON_ENV_MODE" == managed ]]; then test -x "$PYTHON_BIN"; else python3 -m venv --help >/dev/null; fi' utilities
 stage preflight 'python3 - "$WORK_ROOT/artifacts/manifests/lambda_preflight.json" <<"PY"
 import json,sys
 assert json.load(open(sys.argv[1], encoding="utf-8"))["status"] == "PASS"
@@ -567,14 +590,14 @@ PY' preflight
 stage directories 'test -d "$REPOS" && test -d "$VENV" && test -d "$WORK_ROOT/datasets"' directories
 stage python_environment 'validate_python_environment' python_environment
 stage pinned_repositories 'test "$(git -C "$REPOS/SWE-agent" rev-parse HEAD)" = "$SWE_AGENT_REVISION" && test "$(git -C "$REPOS/SWE-bench" rev-parse HEAD)" = "$SWE_BENCH_REVISION"' repositories
-stage python_packages 'validate_python_inventory && "$VENV/bin/python" -c "import agentic_sim, datasets, docker, numpy, pandas, requests, sweagent, swebench, urllib3" && test -s "$PYTHON_LOCK" && test -s "$WORK_ROOT/artifacts/manifests/python-freeze.txt" && test -s "$WORK_ROOT/artifacts/manifests/python-pip-check.json"' python_packages
+stage python_packages 'validate_python_inventory && "$PYTHON_BIN" -c "import agentic_sim, datasets, docker, numpy, pandas, requests, sweagent, swebench, urllib3" && test -s "$PYTHON_LOCK" && test -s "$WORK_ROOT/artifacts/manifests/python-freeze.txt" && test -s "$WORK_ROOT/artifacts/manifests/python-pip-check.json"' python_packages
 stage runtime 'validate_runtime' runtime
 stage evaluator_images 'validate_evaluator_images' pull_evaluator_images
 stage model_and_datasets 'validate_model_and_datasets' model_and_datasets
-stage tests 'PYTHONPATH="$ROOT/src" "$VENV/bin/python" -m unittest discover -s "$ROOT/tests" >/dev/null' local_tests
+stage tests 'PYTHONPATH="$ROOT/src" "$PYTHON_BIN" -m unittest discover -s "$ROOT/tests" >/dev/null' local_tests
 
-if [[ -z "$PYTHON_VERSION_EXACT" && -x "$VENV/bin/python" ]]; then
-  PYTHON_VERSION_EXACT="$("$VENV/bin/python" -c 'import platform; print(platform.python_version())')"
+if [[ -z "$PYTHON_VERSION_EXACT" && -x "$PYTHON_BIN" ]]; then
+  PYTHON_VERSION_EXACT="$("$PYTHON_BIN" -c 'import platform; print(platform.python_version())')"
 fi
 python3 - "$WORK_ROOT/artifacts/manifests/bootstrap.json" "$VLLM_VERSION" "$VLLM_REVISION" "$VLLM_IMAGE" "$SWE_AGENT_REVISION" "$SWE_BENCH_REVISION" "$PYTHON_ENV_MODE" "$VENV" "$PYTHON_VERSION" "$PYTHON_VERSION_EXACT" "$PYTHON_LOCK" "$lock_digest" "$BOOTSTRAP_FINGERPRINT" <<'PY'
 import json,pathlib,sys,time
