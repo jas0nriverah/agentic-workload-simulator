@@ -1,0 +1,61 @@
+{
+  "schema_version": "modal-verified-control-measured.v1",
+  "provenance": "measured",
+  "provider": "modal",
+  "status": "completed_unresolved_non_clean",
+  "gpu_request": "H100!",
+  "model": "Qwen/Qwen3-Coder-30B-A3B-Instruct",
+  "model_revision": "b2cff646eb4bb1d68355c01b18ae02e7cf42d120",
+  "vllm_image": "vllm/vllm-openai:v0.10.0@sha256:05a31dc4185b042e91f4d2183689ac8a87bd845713d5c3f987563c5899878271",
+  "swe_agent_revision": "0f3acafacabc0def8cc76b4e48acb4b6cf302cb9",
+  "swe_agent_version": "1.1.0",
+  "swe_bench_revision": "726c5461e2ef52d83cf1ea2107870a8bb3328d57",
+  "swe_bench_version": "4.1.0",
+  "dataset": "SWE-bench/SWE-bench_Verified",
+  "dataset_revision": "91aa3ed51b709be6457e12d00300a6a596d4c6a3",
+  "evaluator_dataset_revision_observed": "78f471bf655a3137b2e8a75af1501690ec009ec3",
+  "evaluator_dataset_revision_contract_enforced": false,
+  "instance_id": "astropy__astropy-14365",
+  "base_commit": "7269fa3e33e8d02485a647da91a5a2a60a06af61",
+  "started_at_utc": "2026-08-21T16:18:16Z",
+  "agent_ended_at_utc": "2026-08-21T16:21:47Z",
+  "completed_at_utc": "2026-08-21T16:23:17Z",
+  "trajectory_wall_seconds": 211,
+  "official_evaluation_seconds": 72.32,
+  "agent_returncode": 0,
+  "official_evaluator_returncode": 0,
+  "official_resolved": 0,
+  "official_unresolved": 1,
+  "empty_patch": 0,
+  "evaluator_errors": 0,
+  "patch_bytes": 14163,
+  "patch_files": [
+    "astropy/io/ascii/qdp.py",
+    "comprehensive_test.py",
+    "reproduce_issue.py",
+    "simple_test.py",
+    "verify_fix.py"
+  ],
+  "scratch_files": [
+    "comprehensive_test.py",
+    "reproduce_issue.py",
+    "simple_test.py",
+    "verify_fix.py"
+  ],
+  "clean_submission": false,
+  "refined_prompt_scope": [
+    "case-insensitive READ command matching",
+    "case-insensitive NO data-token parsing",
+    "exactly one production source file"
+  ],
+  "failure_evidence": "astropy/io/ascii/tests/test_qdp.py::test_roundtrip_example_comma failed with ValueError: Inconsistent number of columns",
+  "artifacts": {
+    "trajectory_sha256": "7ec4031456990492b189120a1e3e739311e93825933f86f57fe23424a64e9e18",
+    "prediction_sha256": "c94a29d48bbf656b75ed83ad700a7813ca9eb65c12cd4efa57a177adf71b0e15",
+    "evaluator_stdout_sha256": "d61fd3f51c24c55461033b4426226d413b841f57d69300a7def307b50dcfe2b8",
+    "agent_result_sha256": "32b701f25a94e2d614b000d6e041b871aef38c50aee9c2fc0b19c674a24c18f7",
+    "patch_sha256": "6771172bcc21229858bc66049bcbfd24343112d842ac72738e8fed3098b7b78e"
+  },
+  "command_sha256": "ef6233f23456bfc9cfa7c20ec59b912a5f472ef24be4375da70c5074a4934837",
+  "interpretation": "The refined prompt caused the model to find both core uppercase-only locations, but it over-edited regex definitions and added a non-equivalent fill_values change. Official evaluation failed one comma-delimiter regression test, so this remains unresolved and non-clean."
+}

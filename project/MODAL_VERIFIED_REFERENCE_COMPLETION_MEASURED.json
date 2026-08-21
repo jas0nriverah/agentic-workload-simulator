@@ -1,0 +1,33 @@
+{
+  "schema_version": "modal-reference-completion-measured.v1",
+  "provenance": "derived_reference_completion",
+  "provider": "modal",
+  "status": "completed_resolved",
+  "gpu_used": false,
+  "source_model_run": "project/MODAL_VERIFIED_CONTROL_CALLS50_MEASURED.json",
+  "source_prediction_sha256": "00adf57e618ea4c0c7d4499c56ab9e6473b04a0f49edbc1b119eb54673979280",
+  "dataset": "SWE-bench/SWE-bench_Verified",
+  "dataset_revision_intended": "91aa3ed51b709be6457e12d00300a6a596d4c6a3",
+  "evaluator_dataset_revision_observed": "78f471bf655a3137b2e8a75af1501690ec009ec3",
+  "evaluator_dataset_revision_contract_enforced": false,
+  "swe_bench_revision": "726c5461e2ef52d83cf1ea2107870a8bb3328d57",
+  "instance_id": "astropy__astropy-14365",
+  "base_commit": "7269fa3e33e8d02485a647da91a5a2a60a06af61",
+  "source_path": "astropy/io/ascii/qdp.py",
+  "reference_change": "v.upper() == \"NO\"",
+  "reference_source": "https://github.com/astropy/astropy/pull/14365.diff",
+  "official_evaluation_seconds": 72.37,
+  "official_evaluator_returncode": 0,
+  "official_resolved": 1,
+  "official_unresolved": 0,
+  "empty_patch": 0,
+  "evaluator_errors": 0,
+  "clean_submission": true,
+  "artifacts": {
+    "clean_prediction_sha256": "288cf8fcc5ac30eec4a33b8e34a70f5fcdb55731aa4d0bdfae310319cbfffa0e",
+    "clean_patch_sha256": "f96c716b8f31bdb4e71c528b87fe0c0144054844ccfc32026bf9a97420a36732",
+    "prepare_result_sha256": "4fa717bfd1c3ea2263333a4d858f50acbf77177e1f4290583d55ffe2bcd08b4b",
+    "evaluator_stdout_sha256": "2ece84064932d5d7afde7e29d4dbe167ee990808ed6bff18f995fcdfefcc3444"
+  },
+  "interpretation": "The measured LLM patch was retained unchanged as the source artifact. This derived patch adds the second case-insensitive NO-token comparison identified by the upstream reference PR and resolves officially. It demonstrates the missing repair needed for the Verified task; it is not an LLM-generated result."
+}

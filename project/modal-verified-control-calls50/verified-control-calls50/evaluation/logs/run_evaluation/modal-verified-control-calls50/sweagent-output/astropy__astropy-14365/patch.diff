@@ -1,0 +1,582 @@
+diff --git a/astropy/io/ascii/qdp.py b/astropy/io/ascii/qdp.py
+index 83a4f004a..768beb0de 100644
+--- a/astropy/io/ascii/qdp.py
++++ b/astropy/io/ascii/qdp.py
+@@ -68,7 +68,7 @@ def _line_type(line, delimiter=None):
+     _new_re = rf"NO({sep}NO)+"
+     _data_re = rf"({_decimal_re}|NO|[-+]?nan)({sep}({_decimal_re}|NO|[-+]?nan))*)"
+     _type_re = rf"^\s*((?P<command>{_command_re})|(?P<new>{_new_re})|(?P<data>{_data_re})?\s*(\!(?P<comment>.*))?\s*$"
+-    _line_type_re = re.compile(_type_re)
++    _line_type_re = re.compile(_type_re, re.IGNORECASE)
+     line = line.strip()
+     if not line:
+         return "comment"
+diff --git a/comprehensive_test.py b/comprehensive_test.py
+new file mode 100644
+index 000000000..0d6765872
+--- /dev/null
++++ b/comprehensive_test.py
+@@ -0,0 +1,129 @@
++#!/usr/bin/env python3
++"""Comprehensive test to verify the fix for QDP case sensitivity issue."""
++
++import re
++
++def test_original_issue():
++    """Test the exact scenario described in the issue."""
++    
++    # The issue states that a QDP file with `read serr 1 2` should work
++    # instead of raising an unrecognized-line error
++    
++    # This is the pattern that was failing before our fix
++    _command_re = r"READ [TS]ERR(\s+[0-9]+)+"
++    
++    # Our fix adds re.IGNORECASE flag
++    pattern_with_ignore = re.compile(_command_re, re.IGNORECASE)
++    
++    # Test the specific case mentioned in the issue
++    test_line = "read serr 1 2"
++    
++    print("=== Testing Original Issue Scenario ===")
++    print(f"Testing line: '{test_line}'")
++    
++    # Before fix (without IGNORECASE) - this would fail
++    pattern_without_ignore = re.compile(_command_re)
++    match_without = pattern_without_ignore.match(test_line)
++    
++    # After fix (with IGNORECASE) - this should work
++    match_with = pattern_with_ignore.match(test_line)
++    
++    print(f"Without IGNORECASE: {'MATCH' if match_without else 'NO MATCH'}")
++    print(f"With IGNORECASE: {'MATCH' if match_with else 'NO MATCH'}")
++    
++    if match_with:
++        print("✅ SUCCESS: The issue has been fixed!")
++        return True
++    else:
++        print("❌ FAILURE: The issue persists")
++        return False
++
++def test_various_case_combinations():
++    """Test various combinations of case to ensure robustness."""
++    
++    _command_re = r"READ [TS]ERR(\s+[0-9]+)+"
++    pattern = re.compile(_command_re, re.IGNORECASE)
++    
++    test_cases = [
++        "READ SERR 1 2",
++        "read serr 1 2", 
++        "Read Serr 1 2",
++        "READ TERR 3",
++        "read terr 3",
++        "READ serr 1",
++        "read SERR 1",
++        "READ sErr 1 2 3",
++        "read SeRR 1 2 3"
++    ]
++    
++    print("\n=== Testing Various Case Combinations ===")
++    all_passed = True
++    
++    for test_line in test_cases:
++        match = pattern.match(test_line)
++        status = "✅ PASS" if match else "❌ FAIL"
++        print(f"{status}: '{test_line}'")
++        if not match:
++            all_passed = False
++    
++    return all_passed
++
++def test_edge_cases():
++    """Test edge cases to make sure we didn't break anything."""
++    
++    _command_re = r"READ [TS]ERR(\s+[0-9]+)+"
++    pattern = re.compile(_command_re, re.IGNORECASE)
++    
++    # Valid commands that should still work
++    valid_commands = [
++        "READ SERR 1",
++        "READ TERR 2 3 4",
++        "READ SERR 10",
++        "READ TERR 1 2 3 4 5"
++    ]
++    
++    # Invalid commands that should not match
++    invalid_commands = [
++        "READ SERR",      # Missing numbers
++        "READ XERR 1",    # Invalid ERR type
++        "read xerr 1",    # Invalid ERR type (lowercase)
++        "WRONG COMMAND",  # Completely wrong
++        "READ SERR ABC",  # Non-numeric
++    ]
++    
++    print("\n=== Testing Edge Cases ===")
++    
++    # Test valid commands
++    print("Valid commands (should match):")
++    for cmd in valid_commands:
++        match = pattern.match(cmd)
++        status = "✅ PASS" if match else "❌ FAIL"
++        print(f"  {status}: '{cmd}'")
++    
++    # Test invalid commands
++    print("\nInvalid commands (should NOT match):")
++    all_passed = True
++    for cmd in invalid_commands:
++        match = pattern.match(cmd)
++        status = "✅ PASS" if not match else "❌ FAIL"
++        print(f"  {status}: '{cmd}'")
++        if match:
++            all_passed = False
++    
++    return all_passed
++
++if __name__ == "__main__":
++    print("Comprehensive test for QDP case sensitivity fix")
++    print("=" * 50)
++    
++    test1 = test_original_issue()
++    test2 = test_various_case_combinations()
++    test3 = test_edge_cases()
++    
++    print("\n" + "=" * 50)
++    if test1 and test2 and test3:
++        print("🎉 ALL TESTS PASSED! The fix is working correctly.")
++        exit(0)
++    else:
++        print("❌ SOME TESTS FAILED!")
++        exit(1)
+\ No newline at end of file
+diff --git a/focused_test.py b/focused_test.py
+new file mode 100644
+index 000000000..f7c3a8a08
+--- /dev/null
++++ b/focused_test.py
+@@ -0,0 +1,46 @@
++#!/usr/bin/env python3
++"""Focused test on just the command matching part."""
++
++import re
++
++def test_command_matching():
++    """Test just the command matching part."""
++    
++    # The exact command pattern from the file
++    _command_re = r"READ [TS]ERR(\s+[0-9]+)+"
++    
++    # Test both patterns
++    pattern_no_ignore = re.compile(_command_re)
++    pattern_with_ignore = re.compile(_command_re, re.IGNORECASE)
++    
++    test_commands = [
++        "READ SERR 3",
++        "read serr 3", 
++        "READ TERR 1",
++        "read terr 1",
++        "READ serr 3",
++        "read SERR 3"
++    ]
++    
++    print("=== Testing Command Matching ===")
++    print(f"Pattern: {_command_re}")
++    print()
++    
++    print("Without IGNORECASE:")
++    for cmd in test_commands:
++        match = pattern_no_ignore.match(cmd)
++        if match:
++            print(f"  ✓ '{cmd}' -> MATCH")
++        else:
++            print(f"  ✗ '{cmd}' -> NO MATCH")
++    
++    print("\nWith IGNORECASE:")
++    for cmd in test_commands:
++        match = pattern_with_ignore.match(cmd)
++        if match:
++            print(f"  ✓ '{cmd}' -> MATCH")
++        else:
++            print(f"  ✗ '{cmd}' -> NO MATCH")
++
++if __name__ == "__main__":
++    test_command_matching()
+\ No newline at end of file
+diff --git a/reproduce_issue.py b/reproduce_issue.py
+new file mode 100644
+index 000000000..3447c7ff0
+--- /dev/null
++++ b/reproduce_issue.py
+@@ -0,0 +1,57 @@
++#!/usr/bin/env python
++"""
++Script to reproduce the QDP case sensitivity issue.
++"""
++
++import tempfile
++import os
++from astropy.io import ascii
++from astropy.table import Table
++
++def test_case_sensitivity():
++    # Test with uppercase commands (should work)
++    qdp_uppercase = """
++    ! Initial comment line 1
++    ! Initial comment line 2
++    READ TERR 1
++    READ SERR 3
++    ! Table 0 comment
++    !a a(pos) a(neg) b c ce d
++    53000.5   0.25  -0.5   1  1.5  3.5 2
++    54000.5   1.25  -1.5   2  2.5  4.5 3
++    NO NO NO NO NO
++    """
++    
++    # Test with lowercase commands (currently fails)
++    qdp_lowercase = """
++    ! Initial comment line 1
++    ! Initial comment line 2
++    read terr 1
++    read serr 3
++    ! Table 0 comment
++    !a a(pos) a(neg) b c ce d
++    53000.5   0.25  -0.5   1  1.5  3.5 2
++    54000.5   1.25  -1.5   2  2.5  4.5 3
++    NO NO NO NO NO
++    """
++    
++    print("Testing uppercase commands...")
++    try:
++        table_upper = ascii.read(qdp_uppercase, format="qdp", table_id=0, names=["a", "b", "c", "d"])
++        print("SUCCESS: Uppercase commands work")
++        print(f"Table shape: {table_upper.shape}")
++        print(f"Column names: {table_upper.colnames}")
++    except Exception as e:
++        print(f"FAILED: Uppercase commands failed with error: {e}")
++    
++    print("\nTesting lowercase commands...")
++    try:
++        table_lower = ascii.read(qdp_lowercase, format="qdp", table_id=0, names=["a", "b", "c", "d"])
++        print("SUCCESS: Lowercase commands work")
++        print(f"Table shape: {table_lower.shape}")
++        print(f"Column names: {table_lower.colnames}")
++    except Exception as e:
++        print(f"FAILED: Lowercase commands failed with error: {e}")
++
++if __name__ == "__main__":
++    test_case_sensitivity()
+\ No newline at end of file
+diff --git a/simple_test.py b/simple_test.py
+new file mode 100644
+index 000000000..516bb5e8d
+--- /dev/null
++++ b/simple_test.py
+@@ -0,0 +1,54 @@
++#!/usr/bin/env python3
++"""Simple test to demonstrate the case sensitivity issue."""
++
++import re
++
++def test_command_matching():
++    """Test command matching with different cases."""
++    
++    # Current regex pattern from the code
++    _command_re = r"READ [TS]ERR(\s+[0-9]+)+"
++    
++    # Pattern that would handle both cases
++    _command_re_case_insensitive = r"(READ|read) ([TS]|ts)ERR(\s+[0-9]+)+"
++    
++    # Even better - case insensitive flag
++    _command_re_with_flag = r"READ [TS]ERR(\s+[0-9]+)+"
++    
++    print("Current pattern:", _command_re)
++    print("Case-insensitive pattern:", _command_re_case_insensitive)
++    
++    # Test cases
++    test_lines = [
++        "READ SERR 3",
++        "read serr 3", 
++        "READ TERR 1",
++        "read terr 1",
++        "READ serr 3",
++        "read SERR 3"
++    ]
++    
++    # Compile with current pattern
++    current_pattern = re.compile(_command_re)
++    
++    # Compile with case-insensitive flag
++    case_insensitive_pattern = re.compile(_command_re_with_flag, re.IGNORECASE)
++    
++    print("\n=== Testing current pattern ===")
++    for line in test_lines:
++        match = current_pattern.match(line)
++        if match:
++            print(f"'{line}' -> MATCH")
++        else:
++            print(f"'{line}' -> NO MATCH")
++            
++    print("\n=== Testing case-insensitive pattern ===")
++    for line in test_lines:
++        match = case_insensitive_pattern.match(line)
++        if match:
++            print(f"'{line}' -> MATCH")
++        else:
++            print(f"'{line}' -> NO MATCH")
++
++if __name__ == "__main__":
++    test_command_matching()
+\ No newline at end of file
+diff --git a/test_qdp_regex.py b/test_qdp_regex.py
+new file mode 100644
+index 000000000..2b9a044da
+--- /dev/null
++++ b/test_qdp_regex.py
+@@ -0,0 +1,51 @@
++#!/usr/bin/env python3
++"""Test the QDP regex patterns directly."""
++
++import re
++
++def test_line_type():
++    """Test the _line_type function logic directly."""
++    
++    # This is the problematic regex from the current implementation
++    _decimal_re = r"[+-]?(\d+(\.\d*)?|\.\d+)([eE][+-]?\d+)?"
++    _command_re = r"READ [TS]ERR(\s+[0-9]+)+"
++    
++    # Create the full regex pattern
++    _new_re = rf"NO(\s+NO)+"
++    _data_re = rf"({_decimal_re}|NO|[-+]?nan)(\s+({_decimal_re}|NO|[-+]?nan))*"
++    _type_re = rf"^\s*((?P<command>{_command_re})|(?P<new>{_new_re})|(?P<data>{_data_re})?\s*(\!(?P<comment>.*))?\s*$"
++    _line_type_re = re.compile(_type_re)
++    
++    test_cases = [
++        ("READ SERR 3", "command"),
++        ("read serr 3", "command"),  # This should work but currently doesn't
++        ("READ TERR 1", "command"),
++        ("read terr 1", "command"),  # This should work but currently doesn't
++        ("53000.5   0.25  -0.5", "data,3"),
++        ("NO NO NO", "new"),
++        ("", "comment"),
++        ("! comment", "comment"),
++    ]
++    
++    print("Testing current regex pattern:")
++    for line, expected_type in test_cases:
++        line = line.strip()
++        if not line:
++            result = "comment"
++        else:
++            match = _line_type_re.match(line)
++            if match is None:
++                result = "UNRECOGNIZED"
++            else:
++                for type_, val in match.groupdict().items():
++                    if val is None:
++                        continue
++                    if type_ == "data":
++                        result = f"data,{len(val.split())}"
++                    else:
++                        result = type_
++        
++        print(f"Line: '{line}' -> Expected: {expected_type}, Got: {result}")
++
++if __name__ == "__main__":
++    test_line_type()
+\ No newline at end of file
+diff --git a/test_regex_directly.py b/test_regex_directly.py
+new file mode 100644
+index 000000000..d64d8a321
+--- /dev/null
++++ b/test_regex_directly.py
+@@ -0,0 +1,93 @@
++#!/usr/bin/env python3
++"""Test the regex pattern directly without importing astropy."""
++
++import re
++
++def test_regex_patterns():
++    """Test the regex patterns that were modified."""
++    
++    # Original problematic pattern
++    _decimal_re = r"[+-]?(\d+(\.\d*)?|\.\d+)([eE][+-]?\d+)?"
++    _command_re = r"READ [TS]ERR(\s+[0-9]+)+"
++    _new_re = rf"NO(\s+NO)+"
++    _data_re = rf"({_decimal_re}|NO|[-+]?nan)(\s+({_decimal_re}|NO|[-+]?nan))*"
++    
++    # Test the old way (without IGNORECASE)
++    _type_re_old = rf"^\s*((?P<command>{_command_re})|(?P<new>{_new_re})|(?P<data>{_data_re})?\s*(\!(?P<comment>.*))?\s*$"
++    _line_type_re_old = re.compile(_type_re_old)
++    
++    # Test the new way (with IGNORECASE)
++    _type_re_new = rf"^\s*((?P<command>{_command_re})|(?P<new>{_new_re})|(?P<data>{_data_re})?\s*(\!(?P<comment>.*))?\s*$"
++    _line_type_re_new = re.compile(_type_re_new, re.IGNORECASE)
++    
++    test_cases = [
++        ("READ SERR 3", "command"),
++        ("read serr 3", "command"),  
++        ("READ TERR 1", "command"),
++        ("read terr 1", "command"),
++        ("53000.5   0.25  -0.5", "data,3"),
++        ("NO NO NO", "new"),
++        ("", "comment"),
++        ("! comment", "comment"),
++    ]
++    
++    print("=== Testing OLD pattern (no IGNORECASE) ===")
++    old_results = []
++    for line, expected_type in test_cases:
++        line = line.strip()
++        if not line:
++            result = "comment"
++        else:
++            match = _line_type_re_old.match(line)
++            if match is None:
++                result = "UNRECOGNIZED"
++            else:
++                for type_, val in match.groupdict().items():
++                    if val is None:
++                        continue
++                    if type_ == "data":
++                        result = f"data,{len(val.split())}"
++                    else:
++                        result = type_
++        old_results.append((line, expected_type, result))
++        print(f"'{line}' -> Expected: {expected_type}, Got: {result}")
++    
++    print("\n=== Testing NEW pattern (with IGNORECASE) ===")
++    new_results = []
++    for line, expected_type in test_cases:
++        line = line.strip()
++        if not line:
++            result = "comment"
++        else:
++            match = _line_type_re_new.match(line)
++            if match is None:
++                result = "UNRECOGNIZED"
++            else:
++                for type_, val in match.groupdict().items():
++                    if val is None:
++                        continue
++                    if type_ == "data":
++                        result = f"data,{len(val.split())}"
++                    else:
++                        result = type_
++        new_results.append((line, expected_type, result))
++        print(f"'{line}' -> Expected: {expected_type}, Got: {result}")
++    
++    # Check results
++    print("\n=== RESULTS COMPARISON ===")
++    old_all_correct = all(expected == got for _, expected, got in old_results)
++    new_all_correct = all(expected == got for _, expected, got in new_results)
++    
++    print(f"Old pattern correct: {old_all_correct}")
++    print(f"New pattern correct: {new_all_correct}")
++    
++    if new_all_correct:
++        print("✅ SUCCESS: New pattern fixes the case sensitivity issue!")
++        return True
++    else:
++        print("❌ FAILURE: New pattern still has issues")
++        return False
++
++if __name__ == "__main__":
++    success = test_regex_patterns()
++    exit(0 if success else 1)
+\ No newline at end of file
+diff --git a/verify_fix.py b/verify_fix.py
+new file mode 100644
+index 000000000..0d7e2fdb1
+--- /dev/null
++++ b/verify_fix.py
+@@ -0,0 +1,90 @@
++#!/usr/bin/env python3
++"""Verify that the QDP case sensitivity fix works."""
++
++import sys
++import os
++
++# Add the current directory to Python path to import our modified module
++sys.path.insert(0, '/testbed')
++
++def test_line_type_function():
++    """Test the _line_type function directly."""
++    try:
++        from astropy.io.ascii.qdp import _line_type
++        
++        test_cases = [
++            ("READ SERR 3", "command"),
++            ("read serr 3", "command"),  # This should now work
++            ("READ TERR 1", "command"),
++            ("read terr 1", "command"),  # This should now work
++            ("53000.5   0.25  -0.5", "data,3"),
++            ("NO NO NO", "new"),
++            ("", "comment"),
++            ("! comment", "comment"),
++        ]
++        
++        print("Testing _line_type function after fix:")
++        all_passed = True
++        for line, expected_type in test_cases:
++            try:
++                result = _line_type(line)
++                if result == expected_type:
++                    print(f"✓ '{line}' -> {result}")
++                else:
++                    print(f"✗ '{line}' -> Expected: {expected_type}, Got: {result}")
++                    all_passed = False
++            except Exception as e:
++                print(f"✗ '{line}' -> ERROR: {e}")
++                all_passed = False
++                
++        return all_passed
++        
++    except ImportError as e:
++        print(f"Failed to import _line_type: {e}")
++        return False
++
++def test_full_qdp_reading():
++    """Test reading a complete QDP file with lowercase commands."""
++    try:
++        from astropy.io import ascii
++        from astropy.table import Table
++        
++        # Test with lowercase commands
++        qdp_lowercase = """
++        ! Initial comment line 1
++        ! Initial comment line 2
++        read terr 1
++        read serr 3
++        ! Table 0 comment
++        !a a(pos) a(neg) b c ce d
++        53000.5   0.25  -0.5   1  1.5  3.5 2
++        54000.5   1.25  -1.5   2  2.5  4.5 3
++        NO NO NO NO NO
++        """
++        
++        print("\nTesting full QDP reading with lowercase commands:")
++        try:
++            table = ascii.read(qdp_lowercase, format="qdp", table_id=0, names=["a", "b", "c", "d"])
++            print(f"✓ SUCCESS: Read table with shape {table.shape}")
++            print(f"  Column names: {table.colnames}")
++            return True
++        except Exception as e:
++            print(f"✗ FAILED: {e}")
++            return False
++            
++    except ImportError as e:
++        print(f"Failed to import ascii or Table: {e}")
++        return False
++
++if __name__ == "__main__":
++    print("Verifying QDP case sensitivity fix...\n")
++    
++    test1_passed = test_line_type_function()
++    test2_passed = test_full_qdp_reading()
++    
++    if test1_passed and test2_passed:
++        print("\n🎉 ALL TESTS PASSED! The fix works correctly.")
++        sys.exit(0)
++    else:
++        print("\n❌ SOME TESTS FAILED!")
++        sys.exit(1)
+\ No newline at end of file

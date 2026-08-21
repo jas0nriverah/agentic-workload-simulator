@@ -1,0 +1,418 @@
+diff --git a/astropy/modeling/separable.py b/astropy/modeling/separable.py
+index a308e2729..334fbc2b4 100644
+--- a/astropy/modeling/separable.py
++++ b/astropy/modeling/separable.py
+@@ -262,8 +262,6 @@ def _cdot(left, right):
+         Result from this operation.
+     """
+ 
+-    left, right = right, left
+-
+     def _n_inputs_outputs(input, position):
+         """
+         Return ``n_inputs``, ``n_outputs`` for a model or coord_matrix.
+diff --git a/reproduce_issue.py b/reproduce_issue.py
+new file mode 100644
+index 000000000..22e48b4e7
+--- /dev/null
++++ b/reproduce_issue.py
+@@ -0,0 +1,64 @@
++#!/usr/bin/env python
++"""
++Script to reproduce the nested CompoundModel separability_matrix bug.
++"""
++
++import sys
++import os
++sys.path.insert(0, '/testbed')
++
++import numpy as np
++
++# Try to import astropy modules directly
++try:
++    from astropy.modeling import models
++    from astropy.modeling.projections import Pix2Sky_Gnomonic
++    from astropy.modeling.models import Linear1D
++except ImportError as e:
++    print(f"Import error: {e}")
++    # Try alternative import method
++    import astropy.modeling.models as models
++    from astropy.modeling.projections import Pix2Sky_Gnomonic
++    from astropy.modeling.models import Linear1D
++
++def main():
++    print("Testing the separability matrix bug...")
++    
++    # Import models
++    m = models
++    
++    # Create the problematic model as described in the issue
++    # m.Pix2Sky_TAN() & (m.Linear1D(10) & m.Linear1D(5))
++    model = Pix2Sky_Gnomonic() & (Linear1D(10) & Linear1D(5))
++    
++    print(f"Model: {model}")
++    print(f"Model n_inputs: {model.n_inputs}")
++    print(f"Model n_outputs: {model.n_outputs}")
++    
++    # Check separability
++    from astropy.modeling.separable import is_separable, separability_matrix
++    
++    try:
++        sep_result = is_separable(model)
++        print(f"is_separable result: {sep_result}")
++        
++        sep_matrix = separability_matrix(model)
++        print(f"separability_matrix result:\n{sep_matrix}")
++        
++        # Expected behavior: 
++        # Since we have Pix2Sky_Gnomonic (2 inputs -> 2 outputs) & (Linear1D(10) (1 input -> 1 output) & Linear1D(5) (1 input -> 1 output))
++        # The total should be 2 inputs -> 4 outputs
++        # The separability matrix should show independence between inputs and outputs
++        
++        print("\nExpected behavior:")
++        print("- The two Linear1D models should be independent")
++        print("- Each Linear1D should only depend on its own input")
++        print("- The separability matrix should show proper independence")
++        
++    except Exception as e:
++        print(f"Error occurred: {e}")
++        import traceback
++        traceback.print_exc()
++
++if __name__ == "__main__":
++    main()
+\ No newline at end of file
+diff --git a/test_existing_functionality.py b/test_existing_functionality.py
+new file mode 100644
+index 000000000..9f9dd6bc1
+--- /dev/null
++++ b/test_existing_functionality.py
+@@ -0,0 +1,96 @@
++#!/usr/bin/env python
++"""
++Test existing functionality to make sure our fix doesn't break anything.
++"""
++
++import sys
++import os
++sys.path.insert(0, '/testbed')
++
++# Import the functions we want to test
++try:
++    from astropy.modeling.separable import (
++        _coord_matrix, is_separable, _cdot, _cstack, _arith_oper, 
++        separability_matrix, _separable
++    )
++    from astropy.modeling.models import Polynomial1D, Polynomial2D, Shift, Scale, Mapping
++    from astropy.modeling.core import ModelDefinitionError
++    import numpy as np
++    print("Successfully imported astropy components")
++except Exception as e:
++    print(f"Failed to import: {e}")
++    # Let's try to test the functions directly by copying their logic
++    print("Testing with direct implementation...")
++
++# Test the functions we modified
++def test_cdot():
++    """Test the _cdot function"""
++    print("Testing _cdot function...")
++    
++    # Create simple test models
++    p1 = Polynomial1D(1, name='p1')
++    p2 = Polynomial2D(1, name='p2')
++    
++    # Test with simple arrays to avoid complex model dependencies
++    left_array = np.array([[1, 0], [0, 1]])  # 2x2
++    right_array = np.array([[1, 1], [1, 1]])  # 2x2
++    
++    print("Left array:")
++    print(left_array)
++    print("Right array:")
++    print(right_array)
++    
++    # Test the dot product (this is what _cdot does)
++    try:
++        result = np.dot(left_array, right_array)
++        print("Dot product result:")
++        print(result)
++    except Exception as e:
++        print(f"Error in dot product: {e}")
++
++def test_cstack():
++    """Test the _cstack function"""
++    print("\nTesting _cstack function...")
++    
++    # Simple arrays
++    left_array = np.array([[1], [0]])  # 2x1
++    right_array = np.array([[0], [1]])  # 2x1
++    
++    print("Left array:")
++    print(left_array)
++    print("Right array:")
++    print(right_array)
++    
++    # Test horizontal stack
++    try:
++        result = np.hstack([left_array, right_array])
++        print("Hstack result:")
++        print(result)
++    except Exception as e:
++        print(f"Error in hstack: {e}")
++
++def test_coord_matrix():
++    """Test the _coord_matrix function with simple cases"""
++    print("\nTesting _coord_matrix function...")
++    
++    # Simple test with a 1D polynomial
++    p1 = Polynomial1D(1, name='p1')
++    print(f"Polynomial1D n_inputs: {p1.n_inputs}, n_outputs: {p1.n_outputs}")
++    
++    # Test with position 'left' and noutp = 2
++    try:
++        # This would normally call _coord_matrix(p1, 'left', 2)
++        # Let's simulate what it should do
++        mat = np.zeros((2, p1.n_inputs))
++        for i in range(p1.n_inputs):
++            mat[i, i] = 1
++        print("Simulated coordinate matrix for Polynomial1D:")
++        print(mat)
++    except Exception as e:
++        print(f"Error in coord matrix: {e}")
++
++if __name__ == "__main__":
++    test_cdot()
++    test_cstack()
++    test_coord_matrix()
++    print("\nBasic functionality tests completed.")
+\ No newline at end of file
+diff --git a/test_fix.py b/test_fix.py
+new file mode 100644
+index 000000000..27a5e60b2
+--- /dev/null
++++ b/test_fix.py
+@@ -0,0 +1,88 @@
++#!/usr/bin/env python
++"""
++Test script to demonstrate the fix conceptually.
++"""
++
++import numpy as np
++
++# Simulate the key functions to show the difference
++
++def simulate_coord_matrix(model, pos, noutp):
++    """Simulate the _coord_matrix function"""
++    # Simplified version for demonstration
++    if hasattr(model, 'n_inputs') and hasattr(model, 'n_outputs'):
++        # Simple identity matrix for demonstration
++        mat = np.zeros((noutp, model.n_inputs))
++        for i in range(min(model.n_inputs, noutp)):
++            mat[i, i] = 1
++        return mat
++    else:
++        return model
++
++def simulate_cstack(left, right):
++    """Simulate the _cstack function"""
++    # This simulates the & operation
++    noutp = left.shape[0] + right.shape[0]  # Simplified
++    
++    # Create coordinate matrices
++    cleft = np.zeros((noutp, left.shape[1]))
++    cleft[:left.shape[0], :left.shape[1]] = left
++    
++    cright = np.zeros((noutp, right.shape[1]))
++    cright[-right.shape[0]:, -right.shape[1]:] = right
++    
++    return np.hstack([cleft, cright])
++
++def simulate_dot_product_with_swap(left, right):
++    """Simulate the old buggy _cdot with swap"""
++    # This is the buggy version that swaps left and right
++    left, right = right, left
++    return np.dot(left, right)
++
++def simulate_dot_product_no_swap(left, right):
++    """Simulate the corrected _cdot without swap"""
++    return np.dot(left, right)
++
++# Test case: Pix2Sky_Gnomonic (2 inputs -> 2 outputs) & (Linear1D(10) (1 input -> 1 output) & Linear1D(5) (1 input -> 1 output))
++
++# Simulate the coordinate matrices
++pix2sky_coords = np.array([[1, 0], [0, 1]])  # 2 inputs -> 2 outputs
++linear1d_10_coords = np.array([[1]])  # 1 input -> 1 output
++linear1d_5_coords = np.array([[1]])   # 1 input -> 1 output
++
++print("Original coordinate matrices:")
++print("Pix2Sky_Gnomonic coords:")
++print(pix2sky_coords)
++print("Linear1D(10) coords:")
++print(linear1d_10_coords)
++print("Linear1D(5) coords:")
++print(linear1d_5_coords)
++
++# First, stack the Linear1D models horizontally (&)
++linear_stack = simulate_cstack(linear1d_10_coords, linear1d_5_coords)
++print("\nStacked Linear1D models (Linear1D(10) & Linear1D(5)):")
++print(linear_stack)
++
++# Now combine with Pix2Sky using vertical composition (|)
++print("\nCombining with Pix2Sky using | operator:")
++
++# Old buggy way (with swap)
++try:
++    result_old = simulate_dot_product_with_swap(pix2sky_coords, linear_stack)
++    print("Old buggy result (with swap):")
++    print(result_old)
++except Exception as e:
++    print(f"Old buggy result failed: {e}")
++
++# New correct way (without swap)
++try:
++    result_new = simulate_dot_product_no_swap(pix2sky_coords, linear_stack)
++    print("New correct result (without swap):")
++    print(result_new)
++except Exception as e:
++    print(f"New correct result failed: {e}")
++
++print("\nExplanation:")
++print("The correct order should be: Pix2Sky_Gnomonic | (Linear1D(10) & Linear1D(5))")
++print("Which means: pix2sky_coords @ linear_stack")
++print("Not: linear_stack @ pix2sky_coords (which would be the swapped version)")
+\ No newline at end of file
+diff --git a/test_fix_detailed.py b/test_fix_detailed.py
+new file mode 100644
+index 000000000..730624202
+--- /dev/null
++++ b/test_fix_detailed.py
+@@ -0,0 +1,129 @@
++#!/usr/bin/env python
++"""
++More detailed test to show the real issue with separability.
++"""
++
++import numpy as np
++
++# Let's think about what happens in a more complex scenario
++# Let's say we have:
++# Pix2Sky_Gnomonic() & (Linear1D(10) & Linear1D(5))
++
++# Pix2Sky_Gnomonic: 2 inputs -> 2 outputs
++# Linear1D(10) & Linear1D(5): 2 inputs -> 2 outputs (via & operation)
++
++# So overall: 2 inputs -> 4 outputs
++
++# The separability matrix should show:
++# - First 2 outputs depend on first 2 inputs (Pix2Sky part)
++# - Last 2 outputs depend on last 2 inputs (Linear1D part)
++
++def simulate_coord_matrix_simple(model_type, n_inputs, n_outputs):
++    """Simple simulation of coordinate matrix creation"""
++    mat = np.zeros((n_outputs, n_inputs))
++    # For simplicity, assume identity-like mapping
++    for i in range(min(n_inputs, n_outputs)):
++        mat[i, i] = 1
++    return mat
++
++def simulate_cstack(left_mat, right_mat):
++    """Simulate the & operation"""
++    # Stack horizontally
++    return np.hstack([left_mat, right_mat])
++
++def simulate_dot_product(left_mat, right_mat):
++    """Simulate the | operation (matrix multiplication)"""
++    # This is where the bug was - swapping arguments
++    # The correct order should be left_mat @ right_mat
++    return np.dot(left_mat, right_mat)
++
++# Simulate the problematic case
++# Pix2Sky_Gnomonic: 2 inputs -> 2 outputs
++# Linear1D(10) & Linear1D(5): 2 inputs -> 2 outputs
++
++pix2sky = simulate_coord_matrix_simple('Pix2Sky', 2, 2)
++linear_stack = simulate_coord_matrix_simple('LinearStack', 2, 2)  # This is the result of Linear1D(10) & Linear1D(5)
++
++print("Pix2Sky_Gnomonic coordinate matrix (2x2):")
++print(pix2sky)
++print("\nLinear1D stack coordinate matrix (2x2):")
++print(linear_stack)
++
++print("\nCorrect order (Pix2Sky | LinearStack):")
++correct_result = simulate_dot_product(pix2sky, linear_stack)
++print(correct_result)
++
++print("\nBuggy order (LinearStack | Pix2Sky) - this is what happened before:")
++# This is what would happen with the swap
++buggy_result = simulate_dot_product(linear_stack, pix2sky)  # Swapped
++print(buggy_result)
++
++print("\nBut wait, let's think about what the correct separability matrix should be!")
++print("For a model like: Pix2Sky_Gnomonic() & (Linear1D(10) & Linear1D(5))")
++print("We have 2 inputs -> 4 outputs")
++
++# Let's build the full separability matrix properly
++# The full model is: Pix2Sky_Gnomonic() & (Linear1D(10) & Linear1D(5))
++# Which means: (Pix2Sky_Gnomonic() & Linear1D(10)) & Linear1D(5) 
++# Or more precisely: Pix2Sky_Gnomonic() | (Linear1D(10) & Linear1D(5))
++
++# Let's trace through the actual process:
++# Step 1: Linear1D(10) & Linear1D(5) -> creates a 2x2 matrix
++# Step 2: Pix2Sky_Gnomonic() | (Linear1D(10) & Linear1D(5)) -> dot product
++
++# But actually, let's think of it differently:
++# The full model is: Pix2Sky_Gnomonic() & (Linear1D(10) & Linear1D(5))
++# This means: 
++# - Left side: Pix2Sky_Gnomonic() (2 inputs -> 2 outputs)  
++# - Right side: (Linear1D(10) & Linear1D(5)) (2 inputs -> 2 outputs)
++# - Overall: 2 inputs -> 4 outputs via horizontal stacking
++
++# But then when we compose with |, we get:
++# Pix2Sky_Gnomonic() | (Linear1D(10) & Linear1D(5)) 
++# This means: Pix2Sky_Gnomonic() takes the output of (Linear1D(10) & Linear1D(5)) as input
++# But that doesn't make sense because they're stacked horizontally...
++
++# Let me re-read the issue more carefully...
++
++print("\nRe-reading the issue: m.Pix2Sky_TAN() & (m.Linear1D(10) & m.Linear1D(5))")
++print("This means: Pix2Sky_TAN() & (Linear1D(10) & Linear1D(5))")
++print("So we have:")
++print("- Left: Pix2Sky_TAN() (2 inputs -> 2 outputs)")
++print("- Right: (Linear1D(10) & Linear1D(5)) (2 inputs -> 2 outputs)")
++print("- Overall: 2 inputs -> 4 outputs via & operation")
++
++print("\nThe separability matrix should show:")
++print("- Outputs 0,1 depend on inputs 0,1 (from Pix2Sky)")
++print("- Outputs 2,3 depend on inputs 2,3 (from Linear1D)")
++
++# Let's simulate the correct separability matrix construction
++# For the & operation, we get a horizontal stack of coordinate matrices
++# For the | operation, we get a dot product
++
++# Let's simulate the correct behavior:
++# 1. Create coordinate matrices for each component
++pix2sky_coords = simulate_coord_matrix_simple('Pix2Sky', 2, 2)
++linear1d_10_coords = simulate_coord_matrix_simple('Linear1D_10', 1, 1)
++linear1d_5_coords = simulate_coord_matrix_simple('Linear1D_5', 1, 1)
++
++print("\nIndividual coordinate matrices:")
++print("Pix2Sky:", pix2sky_coords)
++print("Linear1D(10):", linear1d_10_coords)
++print("Linear1D(5):", linear1d_5_coords)
++
++# First, stack the Linear1D models horizontally
++linear_combined = simulate_cstack(linear1d_10_coords, linear1d_5_coords)
++print("\nCombined Linear1D models (10 & 5):")
++print(linear_combined)
++
++# Then, stack the Pix2Sky with the combined Linear1D models horizontally
++# This is the & operation
++full_stack = simulate_cstack(pix2sky_coords, linear_combined)
++print("\nFull horizontal stack (Pix2Sky & Linear1D(10) & Linear1D(5)):")
++print(full_stack)
++
++print("\nBut wait, that's not right either. Let me think about the actual AST structure.")
++
++print("\nActually, the issue is in the _cdot function which handles the | operator.")
++print("When we have A | B, we compute A @ B, but due to the swap, we computed B @ A.")
++print("This affects the order of operations in nested compound models.")
+\ No newline at end of file

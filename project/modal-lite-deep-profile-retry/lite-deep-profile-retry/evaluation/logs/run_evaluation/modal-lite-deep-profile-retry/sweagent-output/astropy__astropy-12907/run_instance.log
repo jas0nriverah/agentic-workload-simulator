@@ -1,0 +1,78 @@
+2026-08-21 16:42:25,604 - INFO - Creating container for astropy__astropy-12907...
+2026-08-21 16:42:26,862 - INFO - Container for astropy__astropy-12907 created: f4f5141a2d4ec0ffbd4ba3fc8f76eda463b42219d2aec64c847058b87bd1e35d
+2026-08-21 16:42:27,068 - INFO - Container for astropy__astropy-12907 started: f4f5141a2d4ec0ffbd4ba3fc8f76eda463b42219d2aec64c847058b87bd1e35d
+2026-08-21 16:42:27,070 - INFO - Intermediate patch for astropy__astropy-12907 written to logs/run_evaluation/modal-lite-deep-profile-retry/sweagent-output/astropy__astropy-12907/patch.diff, now applying to container...
+2026-08-21 16:42:27,231 - INFO - >>>>> Applied Patch:
+/tmp/patch.diff:49: trailing whitespace.
+    
+/tmp/patch.diff:51: trailing whitespace.
+    
+/tmp/patch.diff:60: trailing whitespace.
+    
+/tmp/patch.diff:69: trailing whitespace.
+            
+/tmp/patch.diff:73: trailing whitespace.
+    
+Checking patch astropy/modeling/separable.py...
+warning: astropy/modeling/separable.py has type 100755, expected 100644
+Checking patch reproduce_issue.py...
+Applied patch astropy/modeling/separable.py cleanly.
+Applied patch reproduce_issue.py cleanly.
+warning: squelched 2 whitespace errors
+warning: 7 lines add whitespace errors.
+
+2026-08-21 16:42:27,513 - INFO - Git diff before:
+diff --git a/astropy/modeling/separable.py b/astropy/modeling/separable.py
+index a308e2729..16b833e56 100755
+--- a/astropy/modeling/separable.py
++++ b/astropy/modeling/separable.py
+@@ -241,8 +241,16 @@ def _cstack(left, right):
+     if isinstance(right, Model):
+         cright = _coord_matrix(right, 'right', noutp)
+     else:
+-        cright = np.zeros((noutp, right.shape[1]))
+-        cright[-right.shape[0]:, -right.shape[1]:] = 1
++        # Handle the case where right is a CompoundModel (not a Model)
++        # We need to get the separability matrix for the right operand
++        if hasattr(right, '_calculate_separability_matrix'):
++            # This is a CompoundModel, so we should process it properly
++            right_separable = _separable(right)
++            cright = np.zeros((noutp, right_separable.shape[1]))
++            cright[-right_separable.shape[0]:, -right_separable.shape[1]:] = right_separable
++        else:
++            cright = np.zeros((noutp, right.shape[1]))
++            cright[-right.shape[0]:, -right.shape[1]:] = 1
+ 
+     return np.hstack([cleft, cright])
+2026-08-21 16:42:27,515 - INFO - Eval script for astropy__astropy-12907 written to logs/run_evaluation/modal-lite-deep-profile-retry/sweagent-output/astropy__astropy-12907/eval.sh; copying to container...
+2026-08-21 16:43:13,273 - INFO - Test runtime: 45.67 seconds
+2026-08-21 16:43:13,277 - INFO - Test output for astropy__astropy-12907 written to logs/run_evaluation/modal-lite-deep-profile-retry/sweagent-output/astropy__astropy-12907/test_output.txt
+2026-08-21 16:43:13,345 - INFO - Git diff after:
+diff --git a/astropy/modeling/separable.py b/astropy/modeling/separable.py
+index a308e2729..16b833e56 100755
+--- a/astropy/modeling/separable.py
++++ b/astropy/modeling/separable.py
+@@ -241,8 +241,16 @@ def _cstack(left, right):
+     if isinstance(right, Model):
+         cright = _coord_matrix(right, 'right', noutp)
+     else:
+-        cright = np.zeros((noutp, right.shape[1]))
+-        cright[-right.shape[0]:, -right.shape[1]:] = 1
++        # Handle the case where right is a CompoundModel (not a Model)
++        # We need to get the separability matrix for the right operand
++        if hasattr(right, '_calculate_separability_matrix'):
++            # This is a CompoundModel, so we should process it properly
++            right_separable = _separable(right)
++            cright = np.zeros((noutp, right_separable.shape[1]))
++            cright[-right_separable.shape[0]:, -right_separable.shape[1]:] = right_separable
++        else:
++            cright = np.zeros((noutp, right.shape[1]))
++            cright[-right.shape[0]:, -right.shape[1]:] = 1
+ 
+     return np.hstack([cleft, cright])
+2026-08-21 16:43:13,345 - INFO - Grading answer for astropy__astropy-12907...
+2026-08-21 16:43:13,350 - INFO - report: {'astropy__astropy-12907': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['astropy/modeling/tests/test_separable.py::test_separable[compound_model6-result6]', 'astropy/modeling/tests/test_separable.py::test_separable[compound_model9-result9]']}, 'PASS_TO_PASS': {'success': ['astropy/modeling/tests/test_separable.py::test_coord_matrix', 'astropy/modeling/tests/test_separable.py::test_cdot', 'astropy/modeling/tests/test_separable.py::test_cstack', 'astropy/modeling/tests/test_separable.py::test_arith_oper', 'astropy/modeling/tests/test_separable.py::test_separable[compound_model0-result0]', 'astropy/modeling/tests/test_separable.py::test_separable[compound_model1-result1]', 'astropy/modeling/tests/test_separable.py::test_separable[compound_model2-result2]', 'astropy/modeling/tests/test_separable.py::test_separable[compound_model3-result3]', 'astropy/modeling/tests/test_separable.py::test_separable[compound_model4-result4]', 'astropy/modeling/tests/test_separable.py::test_separable[compound_model5-result5]', 'astropy/modeling/tests/test_separable.py::test_separable[compound_model7-result7]', 'astropy/modeling/tests/test_separable.py::test_separable[compound_model8-result8]', 'astropy/modeling/tests/test_separable.py::test_custom_model_separable'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for astropy__astropy-12907: resolved: False
+2026-08-21 16:43:13,351 - INFO - Attempting to stop container sweb.eval.astropy__astropy-12907.modal-lite-deep-profile-retry...
+2026-08-21 16:43:28,510 - INFO - Attempting to remove container sweb.eval.astropy__astropy-12907.modal-lite-deep-profile-retry...
+2026-08-21 16:43:28,567 - INFO - Container sweb.eval.astropy__astropy-12907.modal-lite-deep-profile-retry removed.

@@ -1,0 +1,64 @@
+2026-08-21 17:00:55,923 - INFO - Creating container for astropy__astropy-14365...
+2026-08-21 17:00:57,303 - INFO - Container for astropy__astropy-14365 created: 44c309bc40fb11cea8b94b8458f5404908ba9da8722603e3c79e01bb362d261d
+2026-08-21 17:00:57,545 - INFO - Container for astropy__astropy-14365 started: 44c309bc40fb11cea8b94b8458f5404908ba9da8722603e3c79e01bb362d261d
+2026-08-21 17:00:57,547 - INFO - Intermediate patch for astropy__astropy-14365 written to logs/run_evaluation/modal-verified-deep-profile/sweagent-output/astropy__astropy-14365/patch.diff, now applying to container...
+2026-08-21 17:00:57,676 - INFO - >>>>> Applied Patch:
+Checking patch astropy/io/ascii/qdp.py...
+warning: astropy/io/ascii/qdp.py has type 100755, expected 100644
+Applied patch astropy/io/ascii/qdp.py cleanly.
+
+2026-08-21 17:00:57,956 - INFO - Git diff before:
+diff --git a/astropy/io/ascii/qdp.py b/astropy/io/ascii/qdp.py
+index 83a4f004a..5324dc81c 100755
+--- a/astropy/io/ascii/qdp.py
++++ b/astropy/io/ascii/qdp.py
+@@ -68,7 +68,7 @@ def _line_type(line, delimiter=None):
+     _new_re = rf"NO({sep}NO)+"
+     _data_re = rf"({_decimal_re}|NO|[-+]?nan)({sep}({_decimal_re}|NO|[-+]?nan))*)"
+     _type_re = rf"^\s*((?P<command>{_command_re})|(?P<new>{_new_re})|(?P<data>{_data_re})?\s*(\!(?P<comment>.*))?\s*$"
+-    _line_type_re = re.compile(_type_re)
++    _line_type_re = re.compile(_type_re, re.IGNORECASE)
+     line = line.strip()
+     if not line:
+         return "comment"
+@@ -306,7 +306,7 @@ def _get_tables_from_qdp_file(qdp_file, input_colnames=None, delimiter=None):
+ 
+             values = []
+             for v in line.split(delimiter):
+-                if v == "NO":
++                if v.upper() == "NO":
+                     values.append(np.ma.masked)
+                 else:
+                     # Understand if number is int or float
+2026-08-21 17:00:57,958 - INFO - Eval script for astropy__astropy-14365 written to logs/run_evaluation/modal-verified-deep-profile/sweagent-output/astropy__astropy-14365/eval.sh; copying to container...
+2026-08-21 17:01:29,279 - INFO - Test runtime: 31.24 seconds
+2026-08-21 17:01:29,286 - INFO - Test output for astropy__astropy-14365 written to logs/run_evaluation/modal-verified-deep-profile/sweagent-output/astropy__astropy-14365/test_output.txt
+2026-08-21 17:01:29,350 - INFO - Git diff after:
+diff --git a/astropy/io/ascii/qdp.py b/astropy/io/ascii/qdp.py
+index 83a4f004a..5324dc81c 100755
+--- a/astropy/io/ascii/qdp.py
++++ b/astropy/io/ascii/qdp.py
+@@ -68,7 +68,7 @@ def _line_type(line, delimiter=None):
+     _new_re = rf"NO({sep}NO)+"
+     _data_re = rf"({_decimal_re}|NO|[-+]?nan)({sep}({_decimal_re}|NO|[-+]?nan))*)"
+     _type_re = rf"^\s*((?P<command>{_command_re})|(?P<new>{_new_re})|(?P<data>{_data_re})?\s*(\!(?P<comment>.*))?\s*$"
+-    _line_type_re = re.compile(_type_re)
++    _line_type_re = re.compile(_type_re, re.IGNORECASE)
+     line = line.strip()
+     if not line:
+         return "comment"
+@@ -306,7 +306,7 @@ def _get_tables_from_qdp_file(qdp_file, input_colnames=None, delimiter=None):
+ 
+             values = []
+             for v in line.split(delimiter):
+-                if v == "NO":
++                if v.upper() == "NO":
+                     values.append(np.ma.masked)
+                 else:
+                     # Understand if number is int or float
+2026-08-21 17:01:29,350 - INFO - Grading answer for astropy__astropy-14365...
+2026-08-21 17:01:29,354 - INFO - report: {'astropy__astropy-14365': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': True, 'tests_status': {'FAIL_TO_PASS': {'success': ['astropy/io/ascii/tests/test_qdp.py::test_roundtrip[True]'], 'failure': []}, 'PASS_TO_PASS': {'success': ['astropy/io/ascii/tests/test_qdp.py::test_get_tables_from_qdp_file', 'astropy/io/ascii/tests/test_qdp.py::test_roundtrip[False]', 'astropy/io/ascii/tests/test_qdp.py::test_read_example', 'astropy/io/ascii/tests/test_qdp.py::test_roundtrip_example', 'astropy/io/ascii/tests/test_qdp.py::test_roundtrip_example_comma', 'astropy/io/ascii/tests/test_qdp.py::test_read_write_simple', 'astropy/io/ascii/tests/test_qdp.py::test_read_write_simple_specify_name', 'astropy/io/ascii/tests/test_qdp.py::test_get_lines_from_qdp'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for astropy__astropy-14365: resolved: True
+2026-08-21 17:01:29,355 - INFO - Attempting to stop container sweb.eval.astropy__astropy-14365.modal-verified-deep-profile...
+2026-08-21 17:01:44,490 - INFO - Attempting to remove container sweb.eval.astropy__astropy-14365.modal-verified-deep-profile...
+2026-08-21 17:01:44,505 - INFO - Container sweb.eval.astropy__astropy-14365.modal-verified-deep-profile removed.

@@ -1,0 +1,72 @@
+2026-08-21 17:22:18,295 - INFO - Creating container for astropy__astropy-14182...
+2026-08-21 17:22:19,396 - INFO - Container for astropy__astropy-14182 created: 6751f9bced99ccbebc72a57b70020be1deaf47d6940da8d1a7790019c6815ddb
+2026-08-21 17:22:19,615 - INFO - Container for astropy__astropy-14182 started: 6751f9bced99ccbebc72a57b70020be1deaf47d6940da8d1a7790019c6815ddb
+2026-08-21 17:22:19,616 - INFO - Intermediate patch for astropy__astropy-14182 written to logs/run_evaluation/modal-lite-second-instance/sweagent-output/astropy__astropy-14182/patch.diff, now applying to container...
+2026-08-21 17:22:19,774 - INFO - >>>>> Applied Patch:
+/tmp/patch.diff:68: trailing whitespace.
+    
+/tmp/patch.diff:73: trailing whitespace.
+    
+/tmp/patch.diff:77: trailing whitespace.
+    
+/tmp/patch.diff:82: trailing whitespace.
+        
+/tmp/patch.diff:87: trailing whitespace.
+    
+Checking patch astropy/io/ascii/rst.py...
+warning: astropy/io/ascii/rst.py has type 100755, expected 100644
+Checking patch reproduce_issue.py...
+Checking patch simple_test.py...
+Checking patch test_expected_behavior.py...
+Checking patch test_rst_header_rows.py...
+Checking patch verify_fix.py...
+Applied patch astropy/io/ascii/rst.py cleanly.
+Applied patch reproduce_issue.py cleanly.
+Applied patch simple_test.py cleanly.
+Applied patch test_expected_behavior.py cleanly.
+Applied patch test_rst_header_rows.py cleanly.
+Applied patch verify_fix.py cleanly.
+warning: squelched 21 whitespace errors
+warning: 26 lines add whitespace errors.
+
+2026-08-21 17:22:20,068 - INFO - Git diff before:
+diff --git a/astropy/io/ascii/rst.py b/astropy/io/ascii/rst.py
+index abdeba8ef..78e42b7d6 100755
+--- a/astropy/io/ascii/rst.py
++++ b/astropy/io/ascii/rst.py
+@@ -57,8 +57,8 @@ class RST(FixedWidth):
+     data_class = SimpleRSTData
+     header_class = SimpleRSTHeader
+ 
+-    def __init__(self):
+-        super().__init__(delimiter_pad=None, bookend=False)
++    def __init__(self, header_rows=None):
++        super().__init__(delimiter_pad=None, bookend=False, header_rows=header_rows)
+ 
+     def write(self, lines):
+         lines = super().write(lines)
+2026-08-21 17:22:20,069 - INFO - Eval script for astropy__astropy-14182 written to logs/run_evaluation/modal-lite-second-instance/sweagent-output/astropy__astropy-14182/eval.sh; copying to container...
+2026-08-21 17:23:06,499 - INFO - Test runtime: 46.34 seconds
+2026-08-21 17:23:06,502 - INFO - Test output for astropy__astropy-14182 written to logs/run_evaluation/modal-lite-second-instance/sweagent-output/astropy__astropy-14182/test_output.txt
+2026-08-21 17:23:06,551 - INFO - Git diff after:
+diff --git a/astropy/io/ascii/rst.py b/astropy/io/ascii/rst.py
+index abdeba8ef..78e42b7d6 100755
+--- a/astropy/io/ascii/rst.py
++++ b/astropy/io/ascii/rst.py
+@@ -57,8 +57,8 @@ class RST(FixedWidth):
+     data_class = SimpleRSTData
+     header_class = SimpleRSTHeader
+ 
+-    def __init__(self):
+-        super().__init__(delimiter_pad=None, bookend=False)
++    def __init__(self, header_rows=None):
++        super().__init__(delimiter_pad=None, bookend=False, header_rows=header_rows)
+ 
+     def write(self, lines):
+         lines = super().write(lines)
+2026-08-21 17:23:06,551 - INFO - Grading answer for astropy__astropy-14182...
+2026-08-21 17:23:06,556 - INFO - report: {'astropy__astropy-14182': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['astropy/io/ascii/tests/test_rst.py::test_rst_with_header_rows']}, 'PASS_TO_PASS': {'success': ['astropy/io/ascii/tests/test_rst.py::test_read_normal', 'astropy/io/ascii/tests/test_rst.py::test_read_normal_names', 'astropy/io/ascii/tests/test_rst.py::test_read_normal_names_include', 'astropy/io/ascii/tests/test_rst.py::test_read_normal_exclude', 'astropy/io/ascii/tests/test_rst.py::test_read_unbounded_right_column', 'astropy/io/ascii/tests/test_rst.py::test_read_unbounded_right_column_header', 'astropy/io/ascii/tests/test_rst.py::test_read_right_indented_table', 'astropy/io/ascii/tests/test_rst.py::test_trailing_spaces_in_row_definition', 'astropy/io/ascii/tests/test_rst.py::test_write_normal'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for astropy__astropy-14182: resolved: False
+2026-08-21 17:23:06,557 - INFO - Attempting to stop container sweb.eval.astropy__astropy-14182.modal-lite-second-instance...
+2026-08-21 17:23:21,663 - INFO - Attempting to remove container sweb.eval.astropy__astropy-14182.modal-lite-second-instance...
+2026-08-21 17:23:21,701 - INFO - Container sweb.eval.astropy__astropy-14182.modal-lite-second-instance removed.

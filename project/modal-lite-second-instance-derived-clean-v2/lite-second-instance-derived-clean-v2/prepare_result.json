@@ -1,0 +1,15 @@
+{
+  "schema_version": "modal-clean-prediction.v1",
+  "provenance": "derived_from_measured_prediction",
+  "instance_id": "astropy__astropy-14182",
+  "raw_prediction": "/results/lite-second-instance/preds.json",
+  "clean_prediction": "/results/lite-second-instance-derived-clean-v2/preds-clean.json",
+  "raw_prediction_sha256": "007a7f8aa8a4a02d154b5dc4fe69cfccfea560a31d5d036a0305eef35e6a1e7f",
+  "clean_prediction_sha256": "59d6a5034b1ff5b22fbc38ae2548b3dcdb66fadb61db323998becdb32115f903",
+  "clean_patch_sha256": "fcac820af306c431f912da31f1c3690fe942f0aecca52b32827c99334169ead8",
+  "clean_patch_files": [
+    "astropy/io/ascii/rst.py"
+  ],
+  "dataset": "SWE-bench/SWE-bench_Lite",
+  "patch_mode": "reference_completion_rst"
+}

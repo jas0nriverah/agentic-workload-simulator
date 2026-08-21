@@ -1,0 +1,52 @@
+{
+  "schema_version": "modal-verified-control-measured.v1",
+  "provenance": "measured",
+  "provider": "modal",
+  "status": "completed_resolved_clean",
+  "gpu_request": "H100!",
+  "model": "Qwen/Qwen3-Coder-30B-A3B-Instruct",
+  "model_revision": "b2cff646eb4bb1d68355c01b18ae02e7cf42d120",
+  "vllm_image": "vllm/vllm-openai:v0.10.0@sha256:05a31dc4185b042e91f4d2183689ac8a87bd845713d5c3f987563c5899878271",
+  "swe_agent_revision": "0f3acafacabc0def8cc76b4e48acb4b6cf302cb9",
+  "swe_agent_version": "1.1.0",
+  "swe_bench_revision": "726c5461e2ef52d83cf1ea2107870a8bb3328d57",
+  "swe_bench_version": "4.1.0",
+  "dataset": "SWE-bench/SWE-bench_Verified",
+  "dataset_revision": "91aa3ed51b709be6457e12d00300a6a596d4c6a3",
+  "evaluator_dataset_revision_observed": "78f471bf655a3137b2e8a75af1501690ec009ec3",
+  "evaluator_dataset_revision_contract_enforced": false,
+  "instance_id": "astropy__astropy-14365",
+  "base_commit": "7269fa3e33e8d02485a647da91a5a2a60a06af61",
+  "started_at_utc": "2026-08-21T16:24:09Z",
+  "agent_ended_at_utc": "2026-08-21T16:27:17Z",
+  "completed_at_utc": "2026-08-21T16:28:48Z",
+  "trajectory_wall_seconds": 188,
+  "official_evaluation_seconds": 73.98,
+  "agent_returncode": 0,
+  "official_evaluator_returncode": 0,
+  "official_resolved": 1,
+  "official_unresolved": 0,
+  "empty_patch": 0,
+  "evaluator_errors": 0,
+  "patch_bytes": 989,
+  "patch_files": [
+    "astropy/io/ascii/qdp.py"
+  ],
+  "scratch_files": [],
+  "clean_submission": true,
+  "prompt_scope": [
+    "case-insensitive READ command matching",
+    "case-insensitive NO data-token parsing",
+    "exactly two source edits",
+    "exactly one production source file"
+  ],
+  "artifacts": {
+    "trajectory_sha256": "5de2cb79f9d58b6cfa7502b959619dc579388840d278919cebc63c7dbf8c205a",
+    "prediction_sha256": "bd2d4234111e78f8ef718b4efd6f8469ef5577b8fd304d3fc6b2f0edbd756892",
+    "evaluator_stdout_sha256": "4a774860565f013d1f46a695c066f7cacb6a70dbe24e919c9dbc6ddbbc2ced5d",
+    "agent_result_sha256": "627e5934fd9cef10913bab5b809544bfb0c79650ec37f32e5f247ebb8fb7611b",
+    "patch_sha256": "9ec595d8e57b2b78dfc07d934cd1ed72f0aaee68883e5ba11a7d59722887d35b"
+  },
+  "command_sha256": "1dbbb30cd753051819776430126f7f2cc879aa206718f62c2216d01efbf31988",
+  "interpretation": "The targeted prompt produced the minimal complete two-edit source patch with no scratch files. The official SWE-bench Verified evaluator resolved the instance with return code 0."
+}

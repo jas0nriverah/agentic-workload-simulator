@@ -1,0 +1,33 @@
+{
+  "schema_version": "modal-clean-prediction-measured.v1",
+  "provenance": "derived_from_measured_prediction",
+  "provider": "modal",
+  "status": "completed_resolved_clean",
+  "source_measurement": "project/MODAL_LITE_CONTROL_FULL_PROMPT_MEASURED.json",
+  "gpu_request": "none_for_derivation",
+  "swe_bench_revision": "726c5461e2ef52d83cf1ea2107870a8bb3328d57",
+  "dataset": "SWE-bench/SWE-bench_Lite",
+  "evaluator_dataset_revision_observed": "b0dde1093fe417d83b7184254edf8199c1f0dff5",
+  "evaluator_dataset_revision_contract_enforced": false,
+  "instance_id": "astropy__astropy-12907",
+  "base_commit": "d16bfe05a744909de4b27f5875fe0d4ed41ce607",
+  "derived_at_utc": "2026-08-21T14:21:58Z",
+  "official_evaluation_started_at_utc": "2026-08-21T14:22:05Z",
+  "official_evaluation_seconds": 86.76,
+  "official_evaluator_returncode": 0,
+  "official_resolved": 1,
+  "official_unresolved": 0,
+  "empty_patch": 0,
+  "clean_patch_files": [
+    "astropy/modeling/separable.py"
+  ],
+  "removed_nonproduction_files": [
+    "reproduce_issue.py"
+  ],
+  "raw_prediction_sha256": "ee1c915a5fe30f389f0a6061f8b25642542f9ca76e86e709ce298813913044bb",
+  "clean_prediction_sha256": "7c4cfde2ce22beb3a73224970740f500ceca123b77a70eb4c89d25900e108469",
+  "clean_patch_sha256": "22f69d5fdf2b32b73e0f460922ef14ffd5134703730c3efe85dc8d0a5dc4b75c",
+  "evaluator_stdout_sha256": "4ded281511db99e3ccaf0ead0e2d0fb363c04657e0f5e551c10180e04b66a149",
+  "preparation_sha256": "67082d49726da69a4560930ba79663f01d7fba4777e4a7a17125351d48c43bf1",
+  "interpretation": "The derived prediction removes only the agent-created reproduction script from the measured raw patch. The official evaluator resolved the resulting source-only patch with no errors. This is a clean derived submission, not a claim that the raw model output was clean."
+}

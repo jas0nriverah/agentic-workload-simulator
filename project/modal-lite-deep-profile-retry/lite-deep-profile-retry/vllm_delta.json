@@ -1,0 +1,3206 @@
+{
+  "after_snapshot": "2026-08-21T16:44:04.123Z",
+  "aggregation_scope": "aggregate_delta",
+  "attempt_id": "lite-deep-profile-retry",
+  "before_snapshot": "2026-08-21T16:44:04.117Z",
+  "counters": [
+    {
+      "after": 1787330351.4533374,
+      "aggregation_scope": "aggregate_delta",
+      "before": 1787330351.4533374,
+      "delta": 0.0,
+      "labels": {
+        "engine": "0",
+        "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+      },
+      "measurement_class": "aggregate_server_metric",
+      "name": "vllm:generation_tokens_created",
+      "provenance": "derived",
+      "reason": null,
+      "status": "measured"
+    },
+    {
+      "after": 4372.0,
+      "aggregation_scope": "aggregate_delta",
+      "before": 0.0,
+      "delta": 4372.0,
+      "labels": {
+        "engine": "0",
+        "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+      },
+      "measurement_class": "aggregate_server_metric",
+      "name": "vllm:generation_tokens_total",
+      "provenance": "derived",
+      "reason": null,
+      "status": "measured"
+    },
+    {
+      "after": 1787330351.4532583,
+      "aggregation_scope": "aggregate_delta",
+      "before": 1787330351.4532583,
+      "delta": 0.0,
+      "labels": {
+        "engine": "0",
+        "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+      },
+      "measurement_class": "aggregate_server_metric",
+      "name": "vllm:gpu_prefix_cache_hits_created",
+      "provenance": "derived",
+      "reason": null,
+      "status": "measured"
+    },
+    {
+      "after": 332912.0,
+      "aggregation_scope": "aggregate_delta",
+      "before": 0.0,
+      "delta": 332912.0,
+      "labels": {
+        "engine": "0",
+        "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+      },
+      "measurement_class": "aggregate_server_metric",
+      "name": "vllm:gpu_prefix_cache_hits_total",
+      "provenance": "derived",
+      "reason": null,
+      "status": "measured"
+    },
+    {
+      "after": 1787330351.4532351,
+      "aggregation_scope": "aggregate_delta",
+      "before": 1787330351.4532351,
+      "delta": 0.0,
+      "labels": {
+        "engine": "0",
+        "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+      },
+      "measurement_class": "aggregate_server_metric",
+      "name": "vllm:gpu_prefix_cache_queries_created",
+      "provenance": "derived",
+      "reason": null,
+      "status": "measured"
+    },
+    {
+      "after": 348426.0,
+      "aggregation_scope": "aggregate_delta",
+      "before": 0.0,
+      "delta": 348426.0,
+      "labels": {
+        "engine": "0",
+        "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+      },
+      "measurement_class": "aggregate_server_metric",
+      "name": "vllm:gpu_prefix_cache_queries_total",
+      "provenance": "derived",
+      "reason": null,
+      "status": "measured"
+    },
+    {
+      "after": 1787330351.4533093,
+      "aggregation_scope": "aggregate_delta",
+      "before": 1787330351.4533093,
+      "delta": 0.0,
+      "labels": {
+        "engine": "0",
+        "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+      },
+      "measurement_class": "aggregate_server_metric",
+      "name": "vllm:num_preemptions_created",
+      "provenance": "derived",
+      "reason": null,
+      "status": "measured"
+    },
+    {
+      "after": 0.0,
+      "aggregation_scope": "aggregate_delta",
+      "before": 0.0,
+      "delta": 0.0,
+      "labels": {
+        "engine": "0",
+        "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+      },
+      "measurement_class": "aggregate_server_metric",
+      "name": "vllm:num_preemptions_total",
+      "provenance": "derived",
+      "reason": null,
+      "status": "measured"
+    },
+    {
+      "after": 1787330351.453297,
+      "aggregation_scope": "aggregate_delta",
+      "before": 1787330351.453297,
+      "delta": 0.0,
+      "labels": {
+        "engine": "0",
+        "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+      },
+      "measurement_class": "aggregate_server_metric",
+      "name": "vllm:prefix_cache_hits_created",
+      "provenance": "derived",
+      "reason": null,
+      "status": "measured"
+    },
+    {
+      "after": 332912.0,
+      "aggregation_scope": "aggregate_delta",
+      "before": 0.0,
+      "delta": 332912.0,
+      "labels": {
+        "engine": "0",
+        "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+      },
+      "measurement_class": "aggregate_server_metric",
+      "name": "vllm:prefix_cache_hits_total",
+      "provenance": "derived",
+      "reason": null,
+      "status": "measured"
+    },
+    {
+      "after": 1787330351.453287,
+      "aggregation_scope": "aggregate_delta",
+      "before": 1787330351.453287,
+      "delta": 0.0,
+      "labels": {
+        "engine": "0",
+        "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+      },
+      "measurement_class": "aggregate_server_metric",
+      "name": "vllm:prefix_cache_queries_created",
+      "provenance": "derived",
+      "reason": null,
+      "status": "measured"
+    },
+    {
+      "after": 348426.0,
+      "aggregation_scope": "aggregate_delta",
+      "before": 0.0,
+      "delta": 348426.0,
+      "labels": {
+        "engine": "0",
+        "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+      },
+      "measurement_class": "aggregate_server_metric",
+      "name": "vllm:prefix_cache_queries_total",
+      "provenance": "derived",
+      "reason": null,
+      "status": "measured"
+    },
+    {
+      "after": 1787330351.4533207,
+      "aggregation_scope": "aggregate_delta",
+      "before": 1787330351.4533207,
+      "delta": 0.0,
+      "labels": {
+        "engine": "0",
+        "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+      },
+      "measurement_class": "aggregate_server_metric",
+      "name": "vllm:prompt_tokens_created",
+      "provenance": "derived",
+      "reason": null,
+      "status": "measured"
+    },
+    {
+      "after": 348426.0,
+      "aggregation_scope": "aggregate_delta",
+      "before": 0.0,
+      "delta": 348426.0,
+      "labels": {
+        "engine": "0",
+        "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+      },
+      "measurement_class": "aggregate_server_metric",
+      "name": "vllm:prompt_tokens_total",
+      "provenance": "derived",
+      "reason": null,
+      "status": "measured"
+    },
+    {
+      "after": 1787330351.4533777,
+      "aggregation_scope": "aggregate_delta",
+      "before": 1787330351.4533777,
+      "delta": 0.0,
+      "labels": {
+        "engine": "0",
+        "finished_reason": "abort",
+        "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+      },
+      "measurement_class": "aggregate_server_metric",
+      "name": "vllm:request_success_created",
+      "provenance": "derived",
+      "reason": null,
+      "status": "measured"
+    },
+    {
+      "after": 1787330351.453368,
+      "aggregation_scope": "aggregate_delta",
+      "before": 1787330351.453368,
+      "delta": 0.0,
+      "labels": {
+        "engine": "0",
+        "finished_reason": "length",
+        "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+      },
+      "measurement_class": "aggregate_server_metric",
+      "name": "vllm:request_success_created",
+      "provenance": "derived",
+      "reason": null,
+      "status": "measured"
+    },
+    {
+      "after": 1787330351.4533615,
+      "aggregation_scope": "aggregate_delta",
+      "before": 1787330351.4533615,
+      "delta": 0.0,
+      "labels": {
+        "engine": "0",
+        "finished_reason": "stop",
+        "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+      },
+      "measurement_class": "aggregate_server_metric",
+      "name": "vllm:request_success_created",
+      "provenance": "derived",
+      "reason": null,
+      "status": "measured"
+    },
+    {
+      "after": 0.0,
+      "aggregation_scope": "aggregate_delta",
+      "before": 0.0,
+      "delta": 0.0,
+      "labels": {
+        "engine": "0",
+        "finished_reason": "abort",
+        "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+      },
+      "measurement_class": "aggregate_server_metric",
+      "name": "vllm:request_success_total",
+      "provenance": "derived",
+      "reason": null,
+      "status": "measured"
+    },
+    {
+      "after": 0.0,
+      "aggregation_scope": "aggregate_delta",
+      "before": 0.0,
+      "delta": 0.0,
+      "labels": {
+        "engine": "0",
+        "finished_reason": "length",
+        "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+      },
+      "measurement_class": "aggregate_server_metric",
+      "name": "vllm:request_success_total",
+      "provenance": "derived",
+      "reason": null,
+      "status": "measured"
+    },
+    {
+      "after": 31.0,
+      "aggregation_scope": "aggregate_delta",
+      "before": 0.0,
+      "delta": 31.0,
+      "labels": {
+        "engine": "0",
+        "finished_reason": "stop",
+        "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+      },
+      "measurement_class": "aggregate_server_metric",
+      "name": "vllm:request_success_total",
+      "provenance": "derived",
+      "reason": null,
+      "status": "measured"
+    }
+  ],
+  "derived_at_utc": "2026-08-21T16:44:04Z",
+  "histograms": [
+    {
+      "aggregation_scope": "aggregate_delta",
+      "deltas": [
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "+Inf",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:e2e_request_latency_seconds_bucket",
+          "series": "('vllm:e2e_request_latency_seconds_bucket', (('engine', '0'), ('le', '+Inf'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 2.0,
+          "labels": {
+            "engine": "0",
+            "le": "0.3",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:e2e_request_latency_seconds_bucket",
+          "series": "('vllm:e2e_request_latency_seconds_bucket', (('engine', '0'), ('le', '0.3'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 21.0,
+          "labels": {
+            "engine": "0",
+            "le": "0.5",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:e2e_request_latency_seconds_bucket",
+          "series": "('vllm:e2e_request_latency_seconds_bucket', (('engine', '0'), ('le', '0.5'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 25.0,
+          "labels": {
+            "engine": "0",
+            "le": "0.8",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:e2e_request_latency_seconds_bucket",
+          "series": "('vllm:e2e_request_latency_seconds_bucket', (('engine', '0'), ('le', '0.8'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 25.0,
+          "labels": {
+            "engine": "0",
+            "le": "1.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:e2e_request_latency_seconds_bucket",
+          "series": "('vllm:e2e_request_latency_seconds_bucket', (('engine', '0'), ('le', '1.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 26.0,
+          "labels": {
+            "engine": "0",
+            "le": "1.5",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:e2e_request_latency_seconds_bucket",
+          "series": "('vllm:e2e_request_latency_seconds_bucket', (('engine', '0'), ('le', '1.5'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "10.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:e2e_request_latency_seconds_bucket",
+          "series": "('vllm:e2e_request_latency_seconds_bucket', (('engine', '0'), ('le', '10.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "120.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:e2e_request_latency_seconds_bucket",
+          "series": "('vllm:e2e_request_latency_seconds_bucket', (('engine', '0'), ('le', '120.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "15.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:e2e_request_latency_seconds_bucket",
+          "series": "('vllm:e2e_request_latency_seconds_bucket', (('engine', '0'), ('le', '15.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "1920.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:e2e_request_latency_seconds_bucket",
+          "series": "('vllm:e2e_request_latency_seconds_bucket', (('engine', '0'), ('le', '1920.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 26.0,
+          "labels": {
+            "engine": "0",
+            "le": "2.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:e2e_request_latency_seconds_bucket",
+          "series": "('vllm:e2e_request_latency_seconds_bucket', (('engine', '0'), ('le', '2.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 26.0,
+          "labels": {
+            "engine": "0",
+            "le": "2.5",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:e2e_request_latency_seconds_bucket",
+          "series": "('vllm:e2e_request_latency_seconds_bucket', (('engine', '0'), ('le', '2.5'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "20.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:e2e_request_latency_seconds_bucket",
+          "series": "('vllm:e2e_request_latency_seconds_bucket', (('engine', '0'), ('le', '20.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "240.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:e2e_request_latency_seconds_bucket",
+          "series": "('vllm:e2e_request_latency_seconds_bucket', (('engine', '0'), ('le', '240.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "30.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:e2e_request_latency_seconds_bucket",
+          "series": "('vllm:e2e_request_latency_seconds_bucket', (('engine', '0'), ('le', '30.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "40.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:e2e_request_latency_seconds_bucket",
+          "series": "('vllm:e2e_request_latency_seconds_bucket', (('engine', '0'), ('le', '40.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "480.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:e2e_request_latency_seconds_bucket",
+          "series": "('vllm:e2e_request_latency_seconds_bucket', (('engine', '0'), ('le', '480.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 29.0,
+          "labels": {
+            "engine": "0",
+            "le": "5.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:e2e_request_latency_seconds_bucket",
+          "series": "('vllm:e2e_request_latency_seconds_bucket', (('engine', '0'), ('le', '5.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "50.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:e2e_request_latency_seconds_bucket",
+          "series": "('vllm:e2e_request_latency_seconds_bucket', (('engine', '0'), ('le', '50.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "60.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:e2e_request_latency_seconds_bucket",
+          "series": "('vllm:e2e_request_latency_seconds_bucket', (('engine', '0'), ('le', '60.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "7680.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:e2e_request_latency_seconds_bucket",
+          "series": "('vllm:e2e_request_latency_seconds_bucket', (('engine', '0'), ('le', '7680.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "960.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:e2e_request_latency_seconds_bucket",
+          "series": "('vllm:e2e_request_latency_seconds_bucket', (('engine', '0'), ('le', '960.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:e2e_request_latency_seconds_count",
+          "series": "('vllm:e2e_request_latency_seconds_count', (('engine', '0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 0.0,
+          "labels": {
+            "engine": "0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:e2e_request_latency_seconds_created",
+          "series": "('vllm:e2e_request_latency_seconds_created', (('engine', '0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.985262870788574,
+          "labels": {
+            "engine": "0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:e2e_request_latency_seconds_sum",
+          "series": "('vllm:e2e_request_latency_seconds_sum', (('engine', '0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        }
+      ],
+      "family_name": "vllm:e2e_request_latency_seconds",
+      "measurement_class": "aggregate_server_metric",
+      "provenance": "derived",
+      "reason": null,
+      "status": "measured"
+    },
+    {
+      "aggregation_scope": "aggregate_delta",
+      "deltas": [
+        {
+          "delta": 4372.0,
+          "labels": {
+            "engine": "0",
+            "le": "+Inf",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:iteration_tokens_total_bucket",
+          "series": "('vllm:iteration_tokens_total_bucket', (('engine', '0'), ('le', '+Inf'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 4341.0,
+          "labels": {
+            "engine": "0",
+            "le": "1.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:iteration_tokens_total_bucket",
+          "series": "('vllm:iteration_tokens_total_bucket', (('engine', '0'), ('le', '1.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 4341.0,
+          "labels": {
+            "engine": "0",
+            "le": "1024.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:iteration_tokens_total_bucket",
+          "series": "('vllm:iteration_tokens_total_bucket', (('engine', '0'), ('le', '1024.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 4341.0,
+          "labels": {
+            "engine": "0",
+            "le": "128.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:iteration_tokens_total_bucket",
+          "series": "('vllm:iteration_tokens_total_bucket', (('engine', '0'), ('le', '128.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 4341.0,
+          "labels": {
+            "engine": "0",
+            "le": "16.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:iteration_tokens_total_bucket",
+          "series": "('vllm:iteration_tokens_total_bucket', (('engine', '0'), ('le', '16.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 4369.0,
+          "labels": {
+            "engine": "0",
+            "le": "16384.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:iteration_tokens_total_bucket",
+          "series": "('vllm:iteration_tokens_total_bucket', (('engine', '0'), ('le', '16384.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 4344.0,
+          "labels": {
+            "engine": "0",
+            "le": "2048.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:iteration_tokens_total_bucket",
+          "series": "('vllm:iteration_tokens_total_bucket', (('engine', '0'), ('le', '2048.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 4341.0,
+          "labels": {
+            "engine": "0",
+            "le": "256.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:iteration_tokens_total_bucket",
+          "series": "('vllm:iteration_tokens_total_bucket', (('engine', '0'), ('le', '256.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 4341.0,
+          "labels": {
+            "engine": "0",
+            "le": "32.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:iteration_tokens_total_bucket",
+          "series": "('vllm:iteration_tokens_total_bucket', (('engine', '0'), ('le', '32.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 4345.0,
+          "labels": {
+            "engine": "0",
+            "le": "4096.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:iteration_tokens_total_bucket",
+          "series": "('vllm:iteration_tokens_total_bucket', (('engine', '0'), ('le', '4096.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 4341.0,
+          "labels": {
+            "engine": "0",
+            "le": "512.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:iteration_tokens_total_bucket",
+          "series": "('vllm:iteration_tokens_total_bucket', (('engine', '0'), ('le', '512.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 4341.0,
+          "labels": {
+            "engine": "0",
+            "le": "64.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:iteration_tokens_total_bucket",
+          "series": "('vllm:iteration_tokens_total_bucket', (('engine', '0'), ('le', '64.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 4341.0,
+          "labels": {
+            "engine": "0",
+            "le": "8.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:iteration_tokens_total_bucket",
+          "series": "('vllm:iteration_tokens_total_bucket', (('engine', '0'), ('le', '8.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 4346.0,
+          "labels": {
+            "engine": "0",
+            "le": "8192.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:iteration_tokens_total_bucket",
+          "series": "('vllm:iteration_tokens_total_bucket', (('engine', '0'), ('le', '8192.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 4372.0,
+          "labels": {
+            "engine": "0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:iteration_tokens_total_count",
+          "series": "('vllm:iteration_tokens_total_count', (('engine', '0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 0.0,
+          "labels": {
+            "engine": "0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:iteration_tokens_total_created",
+          "series": "('vllm:iteration_tokens_total_created', (('engine', '0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 352798.0,
+          "labels": {
+            "engine": "0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:iteration_tokens_total_sum",
+          "series": "('vllm:iteration_tokens_total_sum', (('engine', '0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        }
+      ],
+      "family_name": "vllm:iteration_tokens_total",
+      "measurement_class": "aggregate_server_metric",
+      "provenance": "derived",
+      "reason": null,
+      "status": "measured"
+    },
+    {
+      "aggregation_scope": "aggregate_delta",
+      "deltas": [
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "+Inf",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_decode_time_seconds_bucket",
+          "series": "('vllm:request_decode_time_seconds_bucket', (('engine', '0'), ('le', '+Inf'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 8.0,
+          "labels": {
+            "engine": "0",
+            "le": "0.3",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_decode_time_seconds_bucket",
+          "series": "('vllm:request_decode_time_seconds_bucket', (('engine', '0'), ('le', '0.3'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 23.0,
+          "labels": {
+            "engine": "0",
+            "le": "0.5",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_decode_time_seconds_bucket",
+          "series": "('vllm:request_decode_time_seconds_bucket', (('engine', '0'), ('le', '0.5'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 25.0,
+          "labels": {
+            "engine": "0",
+            "le": "0.8",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_decode_time_seconds_bucket",
+          "series": "('vllm:request_decode_time_seconds_bucket', (('engine', '0'), ('le', '0.8'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 26.0,
+          "labels": {
+            "engine": "0",
+            "le": "1.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_decode_time_seconds_bucket",
+          "series": "('vllm:request_decode_time_seconds_bucket', (('engine', '0'), ('le', '1.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 26.0,
+          "labels": {
+            "engine": "0",
+            "le": "1.5",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_decode_time_seconds_bucket",
+          "series": "('vllm:request_decode_time_seconds_bucket', (('engine', '0'), ('le', '1.5'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "10.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_decode_time_seconds_bucket",
+          "series": "('vllm:request_decode_time_seconds_bucket', (('engine', '0'), ('le', '10.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "120.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_decode_time_seconds_bucket",
+          "series": "('vllm:request_decode_time_seconds_bucket', (('engine', '0'), ('le', '120.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "15.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_decode_time_seconds_bucket",
+          "series": "('vllm:request_decode_time_seconds_bucket', (('engine', '0'), ('le', '15.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "1920.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_decode_time_seconds_bucket",
+          "series": "('vllm:request_decode_time_seconds_bucket', (('engine', '0'), ('le', '1920.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 26.0,
+          "labels": {
+            "engine": "0",
+            "le": "2.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_decode_time_seconds_bucket",
+          "series": "('vllm:request_decode_time_seconds_bucket', (('engine', '0'), ('le', '2.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 27.0,
+          "labels": {
+            "engine": "0",
+            "le": "2.5",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_decode_time_seconds_bucket",
+          "series": "('vllm:request_decode_time_seconds_bucket', (('engine', '0'), ('le', '2.5'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "20.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_decode_time_seconds_bucket",
+          "series": "('vllm:request_decode_time_seconds_bucket', (('engine', '0'), ('le', '20.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "240.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_decode_time_seconds_bucket",
+          "series": "('vllm:request_decode_time_seconds_bucket', (('engine', '0'), ('le', '240.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "30.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_decode_time_seconds_bucket",
+          "series": "('vllm:request_decode_time_seconds_bucket', (('engine', '0'), ('le', '30.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "40.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_decode_time_seconds_bucket",
+          "series": "('vllm:request_decode_time_seconds_bucket', (('engine', '0'), ('le', '40.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "480.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_decode_time_seconds_bucket",
+          "series": "('vllm:request_decode_time_seconds_bucket', (('engine', '0'), ('le', '480.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 29.0,
+          "labels": {
+            "engine": "0",
+            "le": "5.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_decode_time_seconds_bucket",
+          "series": "('vllm:request_decode_time_seconds_bucket', (('engine', '0'), ('le', '5.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "50.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_decode_time_seconds_bucket",
+          "series": "('vllm:request_decode_time_seconds_bucket', (('engine', '0'), ('le', '50.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "60.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_decode_time_seconds_bucket",
+          "series": "('vllm:request_decode_time_seconds_bucket', (('engine', '0'), ('le', '60.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "7680.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_decode_time_seconds_bucket",
+          "series": "('vllm:request_decode_time_seconds_bucket', (('engine', '0'), ('le', '7680.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "960.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_decode_time_seconds_bucket",
+          "series": "('vllm:request_decode_time_seconds_bucket', (('engine', '0'), ('le', '960.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_decode_time_seconds_count",
+          "series": "('vllm:request_decode_time_seconds_count', (('engine', '0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 0.0,
+          "labels": {
+            "engine": "0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_decode_time_seconds_created",
+          "series": "('vllm:request_decode_time_seconds_created', (('engine', '0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 30.563988613000078,
+          "labels": {
+            "engine": "0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_decode_time_seconds_sum",
+          "series": "('vllm:request_decode_time_seconds_sum', (('engine', '0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        }
+      ],
+      "family_name": "vllm:request_decode_time_seconds",
+      "measurement_class": "aggregate_server_metric",
+      "provenance": "derived",
+      "reason": null,
+      "status": "measured"
+    },
+    {
+      "aggregation_scope": "aggregate_delta",
+      "deltas": [
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "+Inf",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_generation_tokens_bucket",
+          "series": "('vllm:request_generation_tokens_bucket', (('engine', '0'), ('le', '+Inf'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 0.0,
+          "labels": {
+            "engine": "0",
+            "le": "1.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_generation_tokens_bucket",
+          "series": "('vllm:request_generation_tokens_bucket', (('engine', '0'), ('le', '1.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 0.0,
+          "labels": {
+            "engine": "0",
+            "le": "10.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_generation_tokens_bucket",
+          "series": "('vllm:request_generation_tokens_bucket', (('engine', '0'), ('le', '10.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 24.0,
+          "labels": {
+            "engine": "0",
+            "le": "100.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_generation_tokens_bucket",
+          "series": "('vllm:request_generation_tokens_bucket', (('engine', '0'), ('le', '100.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "1000.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_generation_tokens_bucket",
+          "series": "('vllm:request_generation_tokens_bucket', (('engine', '0'), ('le', '1000.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "10000.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_generation_tokens_bucket",
+          "series": "('vllm:request_generation_tokens_bucket', (('engine', '0'), ('le', '10000.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 0.0,
+          "labels": {
+            "engine": "0",
+            "le": "2.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_generation_tokens_bucket",
+          "series": "('vllm:request_generation_tokens_bucket', (('engine', '0'), ('le', '2.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 0.0,
+          "labels": {
+            "engine": "0",
+            "le": "20.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_generation_tokens_bucket",
+          "series": "('vllm:request_generation_tokens_bucket', (('engine', '0'), ('le', '20.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 26.0,
+          "labels": {
+            "engine": "0",
+            "le": "200.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_generation_tokens_bucket",
+          "series": "('vllm:request_generation_tokens_bucket', (('engine', '0'), ('le', '200.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "2000.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_generation_tokens_bucket",
+          "series": "('vllm:request_generation_tokens_bucket', (('engine', '0'), ('le', '2000.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "20000.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_generation_tokens_bucket",
+          "series": "('vllm:request_generation_tokens_bucket', (('engine', '0'), ('le', '20000.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 0.0,
+          "labels": {
+            "engine": "0",
+            "le": "5.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_generation_tokens_bucket",
+          "series": "('vllm:request_generation_tokens_bucket', (('engine', '0'), ('le', '5.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 11.0,
+          "labels": {
+            "engine": "0",
+            "le": "50.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_generation_tokens_bucket",
+          "series": "('vllm:request_generation_tokens_bucket', (('engine', '0'), ('le', '50.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 28.0,
+          "labels": {
+            "engine": "0",
+            "le": "500.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_generation_tokens_bucket",
+          "series": "('vllm:request_generation_tokens_bucket', (('engine', '0'), ('le', '500.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "5000.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_generation_tokens_bucket",
+          "series": "('vllm:request_generation_tokens_bucket', (('engine', '0'), ('le', '5000.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_generation_tokens_count",
+          "series": "('vllm:request_generation_tokens_count', (('engine', '0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 0.0,
+          "labels": {
+            "engine": "0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_generation_tokens_created",
+          "series": "('vllm:request_generation_tokens_created', (('engine', '0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 4372.0,
+          "labels": {
+            "engine": "0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_generation_tokens_sum",
+          "series": "('vllm:request_generation_tokens_sum', (('engine', '0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        }
+      ],
+      "family_name": "vllm:request_generation_tokens",
+      "measurement_class": "aggregate_server_metric",
+      "provenance": "derived",
+      "reason": null,
+      "status": "measured"
+    },
+    {
+      "aggregation_scope": "aggregate_delta",
+      "deltas": [
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "+Inf",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_inference_time_seconds_bucket",
+          "series": "('vllm:request_inference_time_seconds_bucket', (('engine', '0'), ('le', '+Inf'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 2.0,
+          "labels": {
+            "engine": "0",
+            "le": "0.3",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_inference_time_seconds_bucket",
+          "series": "('vllm:request_inference_time_seconds_bucket', (('engine', '0'), ('le', '0.3'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 21.0,
+          "labels": {
+            "engine": "0",
+            "le": "0.5",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_inference_time_seconds_bucket",
+          "series": "('vllm:request_inference_time_seconds_bucket', (('engine', '0'), ('le', '0.5'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 25.0,
+          "labels": {
+            "engine": "0",
+            "le": "0.8",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_inference_time_seconds_bucket",
+          "series": "('vllm:request_inference_time_seconds_bucket', (('engine', '0'), ('le', '0.8'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 25.0,
+          "labels": {
+            "engine": "0",
+            "le": "1.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_inference_time_seconds_bucket",
+          "series": "('vllm:request_inference_time_seconds_bucket', (('engine', '0'), ('le', '1.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 26.0,
+          "labels": {
+            "engine": "0",
+            "le": "1.5",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_inference_time_seconds_bucket",
+          "series": "('vllm:request_inference_time_seconds_bucket', (('engine', '0'), ('le', '1.5'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "10.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_inference_time_seconds_bucket",
+          "series": "('vllm:request_inference_time_seconds_bucket', (('engine', '0'), ('le', '10.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "120.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_inference_time_seconds_bucket",
+          "series": "('vllm:request_inference_time_seconds_bucket', (('engine', '0'), ('le', '120.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "15.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_inference_time_seconds_bucket",
+          "series": "('vllm:request_inference_time_seconds_bucket', (('engine', '0'), ('le', '15.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "1920.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_inference_time_seconds_bucket",
+          "series": "('vllm:request_inference_time_seconds_bucket', (('engine', '0'), ('le', '1920.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 26.0,
+          "labels": {
+            "engine": "0",
+            "le": "2.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_inference_time_seconds_bucket",
+          "series": "('vllm:request_inference_time_seconds_bucket', (('engine', '0'), ('le', '2.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 26.0,
+          "labels": {
+            "engine": "0",
+            "le": "2.5",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_inference_time_seconds_bucket",
+          "series": "('vllm:request_inference_time_seconds_bucket', (('engine', '0'), ('le', '2.5'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "20.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_inference_time_seconds_bucket",
+          "series": "('vllm:request_inference_time_seconds_bucket', (('engine', '0'), ('le', '20.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "240.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_inference_time_seconds_bucket",
+          "series": "('vllm:request_inference_time_seconds_bucket', (('engine', '0'), ('le', '240.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "30.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_inference_time_seconds_bucket",
+          "series": "('vllm:request_inference_time_seconds_bucket', (('engine', '0'), ('le', '30.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "40.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_inference_time_seconds_bucket",
+          "series": "('vllm:request_inference_time_seconds_bucket', (('engine', '0'), ('le', '40.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "480.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_inference_time_seconds_bucket",
+          "series": "('vllm:request_inference_time_seconds_bucket', (('engine', '0'), ('le', '480.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 29.0,
+          "labels": {
+            "engine": "0",
+            "le": "5.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_inference_time_seconds_bucket",
+          "series": "('vllm:request_inference_time_seconds_bucket', (('engine', '0'), ('le', '5.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "50.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_inference_time_seconds_bucket",
+          "series": "('vllm:request_inference_time_seconds_bucket', (('engine', '0'), ('le', '50.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "60.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_inference_time_seconds_bucket",
+          "series": "('vllm:request_inference_time_seconds_bucket', (('engine', '0'), ('le', '60.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "7680.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_inference_time_seconds_bucket",
+          "series": "('vllm:request_inference_time_seconds_bucket', (('engine', '0'), ('le', '7680.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "960.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_inference_time_seconds_bucket",
+          "series": "('vllm:request_inference_time_seconds_bucket', (('engine', '0'), ('le', '960.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_inference_time_seconds_count",
+          "series": "('vllm:request_inference_time_seconds_count', (('engine', '0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 0.0,
+          "labels": {
+            "engine": "0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_inference_time_seconds_created",
+          "series": "('vllm:request_inference_time_seconds_created', (('engine', '0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.913761789000063,
+          "labels": {
+            "engine": "0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_inference_time_seconds_sum",
+          "series": "('vllm:request_inference_time_seconds_sum', (('engine', '0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        }
+      ],
+      "family_name": "vllm:request_inference_time_seconds",
+      "measurement_class": "aggregate_server_metric",
+      "provenance": "derived",
+      "reason": null,
+      "status": "measured"
+    },
+    {
+      "aggregation_scope": "aggregate_delta",
+      "deltas": [
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "+Inf",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_max_num_generation_tokens_bucket",
+          "series": "('vllm:request_max_num_generation_tokens_bucket', (('engine', '0'), ('le', '+Inf'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 0.0,
+          "labels": {
+            "engine": "0",
+            "le": "1.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_max_num_generation_tokens_bucket",
+          "series": "('vllm:request_max_num_generation_tokens_bucket', (('engine', '0'), ('le', '1.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 0.0,
+          "labels": {
+            "engine": "0",
+            "le": "10.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_max_num_generation_tokens_bucket",
+          "series": "('vllm:request_max_num_generation_tokens_bucket', (('engine', '0'), ('le', '10.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 24.0,
+          "labels": {
+            "engine": "0",
+            "le": "100.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_max_num_generation_tokens_bucket",
+          "series": "('vllm:request_max_num_generation_tokens_bucket', (('engine', '0'), ('le', '100.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "1000.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_max_num_generation_tokens_bucket",
+          "series": "('vllm:request_max_num_generation_tokens_bucket', (('engine', '0'), ('le', '1000.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "10000.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_max_num_generation_tokens_bucket",
+          "series": "('vllm:request_max_num_generation_tokens_bucket', (('engine', '0'), ('le', '10000.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 0.0,
+          "labels": {
+            "engine": "0",
+            "le": "2.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_max_num_generation_tokens_bucket",
+          "series": "('vllm:request_max_num_generation_tokens_bucket', (('engine', '0'), ('le', '2.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 0.0,
+          "labels": {
+            "engine": "0",
+            "le": "20.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_max_num_generation_tokens_bucket",
+          "series": "('vllm:request_max_num_generation_tokens_bucket', (('engine', '0'), ('le', '20.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 26.0,
+          "labels": {
+            "engine": "0",
+            "le": "200.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_max_num_generation_tokens_bucket",
+          "series": "('vllm:request_max_num_generation_tokens_bucket', (('engine', '0'), ('le', '200.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "2000.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_max_num_generation_tokens_bucket",
+          "series": "('vllm:request_max_num_generation_tokens_bucket', (('engine', '0'), ('le', '2000.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "20000.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_max_num_generation_tokens_bucket",
+          "series": "('vllm:request_max_num_generation_tokens_bucket', (('engine', '0'), ('le', '20000.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 0.0,
+          "labels": {
+            "engine": "0",
+            "le": "5.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_max_num_generation_tokens_bucket",
+          "series": "('vllm:request_max_num_generation_tokens_bucket', (('engine', '0'), ('le', '5.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 11.0,
+          "labels": {
+            "engine": "0",
+            "le": "50.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_max_num_generation_tokens_bucket",
+          "series": "('vllm:request_max_num_generation_tokens_bucket', (('engine', '0'), ('le', '50.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 28.0,
+          "labels": {
+            "engine": "0",
+            "le": "500.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_max_num_generation_tokens_bucket",
+          "series": "('vllm:request_max_num_generation_tokens_bucket', (('engine', '0'), ('le', '500.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "5000.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_max_num_generation_tokens_bucket",
+          "series": "('vllm:request_max_num_generation_tokens_bucket', (('engine', '0'), ('le', '5000.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_max_num_generation_tokens_count",
+          "series": "('vllm:request_max_num_generation_tokens_count', (('engine', '0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 0.0,
+          "labels": {
+            "engine": "0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_max_num_generation_tokens_created",
+          "series": "('vllm:request_max_num_generation_tokens_created', (('engine', '0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 4372.0,
+          "labels": {
+            "engine": "0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_max_num_generation_tokens_sum",
+          "series": "('vllm:request_max_num_generation_tokens_sum', (('engine', '0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        }
+      ],
+      "family_name": "vllm:request_max_num_generation_tokens",
+      "measurement_class": "aggregate_server_metric",
+      "provenance": "derived",
+      "reason": null,
+      "status": "measured"
+    },
+    {
+      "aggregation_scope": "aggregate_delta",
+      "deltas": [
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "+Inf",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_params_max_tokens_bucket",
+          "series": "('vllm:request_params_max_tokens_bucket', (('engine', '0'), ('le', '+Inf'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 0.0,
+          "labels": {
+            "engine": "0",
+            "le": "1.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_params_max_tokens_bucket",
+          "series": "('vllm:request_params_max_tokens_bucket', (('engine', '0'), ('le', '1.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 0.0,
+          "labels": {
+            "engine": "0",
+            "le": "10.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_params_max_tokens_bucket",
+          "series": "('vllm:request_params_max_tokens_bucket', (('engine', '0'), ('le', '10.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 0.0,
+          "labels": {
+            "engine": "0",
+            "le": "100.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_params_max_tokens_bucket",
+          "series": "('vllm:request_params_max_tokens_bucket', (('engine', '0'), ('le', '100.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 0.0,
+          "labels": {
+            "engine": "0",
+            "le": "1000.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_params_max_tokens_bucket",
+          "series": "('vllm:request_params_max_tokens_bucket', (('engine', '0'), ('le', '1000.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "10000.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_params_max_tokens_bucket",
+          "series": "('vllm:request_params_max_tokens_bucket', (('engine', '0'), ('le', '10000.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 0.0,
+          "labels": {
+            "engine": "0",
+            "le": "2.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_params_max_tokens_bucket",
+          "series": "('vllm:request_params_max_tokens_bucket', (('engine', '0'), ('le', '2.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 0.0,
+          "labels": {
+            "engine": "0",
+            "le": "20.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_params_max_tokens_bucket",
+          "series": "('vllm:request_params_max_tokens_bucket', (('engine', '0'), ('le', '20.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 0.0,
+          "labels": {
+            "engine": "0",
+            "le": "200.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_params_max_tokens_bucket",
+          "series": "('vllm:request_params_max_tokens_bucket', (('engine', '0'), ('le', '200.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 0.0,
+          "labels": {
+            "engine": "0",
+            "le": "2000.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_params_max_tokens_bucket",
+          "series": "('vllm:request_params_max_tokens_bucket', (('engine', '0'), ('le', '2000.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "20000.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_params_max_tokens_bucket",
+          "series": "('vllm:request_params_max_tokens_bucket', (('engine', '0'), ('le', '20000.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 0.0,
+          "labels": {
+            "engine": "0",
+            "le": "5.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_params_max_tokens_bucket",
+          "series": "('vllm:request_params_max_tokens_bucket', (('engine', '0'), ('le', '5.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 0.0,
+          "labels": {
+            "engine": "0",
+            "le": "50.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_params_max_tokens_bucket",
+          "series": "('vllm:request_params_max_tokens_bucket', (('engine', '0'), ('le', '50.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 0.0,
+          "labels": {
+            "engine": "0",
+            "le": "500.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_params_max_tokens_bucket",
+          "series": "('vllm:request_params_max_tokens_bucket', (('engine', '0'), ('le', '500.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "5000.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_params_max_tokens_bucket",
+          "series": "('vllm:request_params_max_tokens_bucket', (('engine', '0'), ('le', '5000.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_params_max_tokens_count",
+          "series": "('vllm:request_params_max_tokens_count', (('engine', '0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 0.0,
+          "labels": {
+            "engine": "0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_params_max_tokens_created",
+          "series": "('vllm:request_params_max_tokens_created', (('engine', '0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 63488.0,
+          "labels": {
+            "engine": "0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_params_max_tokens_sum",
+          "series": "('vllm:request_params_max_tokens_sum', (('engine', '0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        }
+      ],
+      "family_name": "vllm:request_params_max_tokens",
+      "measurement_class": "aggregate_server_metric",
+      "provenance": "derived",
+      "reason": null,
+      "status": "measured"
+    },
+    {
+      "aggregation_scope": "aggregate_delta",
+      "deltas": [
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "+Inf",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_params_n_bucket",
+          "series": "('vllm:request_params_n_bucket', (('engine', '0'), ('le', '+Inf'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "1.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_params_n_bucket",
+          "series": "('vllm:request_params_n_bucket', (('engine', '0'), ('le', '1.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "10.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_params_n_bucket",
+          "series": "('vllm:request_params_n_bucket', (('engine', '0'), ('le', '10.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "2.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_params_n_bucket",
+          "series": "('vllm:request_params_n_bucket', (('engine', '0'), ('le', '2.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "20.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_params_n_bucket",
+          "series": "('vllm:request_params_n_bucket', (('engine', '0'), ('le', '20.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "5.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_params_n_bucket",
+          "series": "('vllm:request_params_n_bucket', (('engine', '0'), ('le', '5.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_params_n_count",
+          "series": "('vllm:request_params_n_count', (('engine', '0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 0.0,
+          "labels": {
+            "engine": "0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_params_n_created",
+          "series": "('vllm:request_params_n_created', (('engine', '0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_params_n_sum",
+          "series": "('vllm:request_params_n_sum', (('engine', '0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        }
+      ],
+      "family_name": "vllm:request_params_n",
+      "measurement_class": "aggregate_server_metric",
+      "provenance": "derived",
+      "reason": null,
+      "status": "measured"
+    },
+    {
+      "aggregation_scope": "aggregate_delta",
+      "deltas": [
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "+Inf",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_prefill_time_seconds_bucket",
+          "series": "('vllm:request_prefill_time_seconds_bucket', (('engine', '0'), ('le', '+Inf'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "0.3",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_prefill_time_seconds_bucket",
+          "series": "('vllm:request_prefill_time_seconds_bucket', (('engine', '0'), ('le', '0.3'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "0.5",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_prefill_time_seconds_bucket",
+          "series": "('vllm:request_prefill_time_seconds_bucket', (('engine', '0'), ('le', '0.5'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "0.8",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_prefill_time_seconds_bucket",
+          "series": "('vllm:request_prefill_time_seconds_bucket', (('engine', '0'), ('le', '0.8'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "1.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_prefill_time_seconds_bucket",
+          "series": "('vllm:request_prefill_time_seconds_bucket', (('engine', '0'), ('le', '1.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "1.5",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_prefill_time_seconds_bucket",
+          "series": "('vllm:request_prefill_time_seconds_bucket', (('engine', '0'), ('le', '1.5'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "10.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_prefill_time_seconds_bucket",
+          "series": "('vllm:request_prefill_time_seconds_bucket', (('engine', '0'), ('le', '10.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "120.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_prefill_time_seconds_bucket",
+          "series": "('vllm:request_prefill_time_seconds_bucket', (('engine', '0'), ('le', '120.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "15.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_prefill_time_seconds_bucket",
+          "series": "('vllm:request_prefill_time_seconds_bucket', (('engine', '0'), ('le', '15.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "1920.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_prefill_time_seconds_bucket",
+          "series": "('vllm:request_prefill_time_seconds_bucket', (('engine', '0'), ('le', '1920.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "2.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_prefill_time_seconds_bucket",
+          "series": "('vllm:request_prefill_time_seconds_bucket', (('engine', '0'), ('le', '2.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "2.5",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_prefill_time_seconds_bucket",
+          "series": "('vllm:request_prefill_time_seconds_bucket', (('engine', '0'), ('le', '2.5'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "20.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_prefill_time_seconds_bucket",
+          "series": "('vllm:request_prefill_time_seconds_bucket', (('engine', '0'), ('le', '20.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "240.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_prefill_time_seconds_bucket",
+          "series": "('vllm:request_prefill_time_seconds_bucket', (('engine', '0'), ('le', '240.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "30.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_prefill_time_seconds_bucket",
+          "series": "('vllm:request_prefill_time_seconds_bucket', (('engine', '0'), ('le', '30.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "40.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_prefill_time_seconds_bucket",
+          "series": "('vllm:request_prefill_time_seconds_bucket', (('engine', '0'), ('le', '40.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "480.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_prefill_time_seconds_bucket",
+          "series": "('vllm:request_prefill_time_seconds_bucket', (('engine', '0'), ('le', '480.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "5.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_prefill_time_seconds_bucket",
+          "series": "('vllm:request_prefill_time_seconds_bucket', (('engine', '0'), ('le', '5.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "50.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_prefill_time_seconds_bucket",
+          "series": "('vllm:request_prefill_time_seconds_bucket', (('engine', '0'), ('le', '50.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "60.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_prefill_time_seconds_bucket",
+          "series": "('vllm:request_prefill_time_seconds_bucket', (('engine', '0'), ('le', '60.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "7680.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_prefill_time_seconds_bucket",
+          "series": "('vllm:request_prefill_time_seconds_bucket', (('engine', '0'), ('le', '7680.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "960.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_prefill_time_seconds_bucket",
+          "series": "('vllm:request_prefill_time_seconds_bucket', (('engine', '0'), ('le', '960.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_prefill_time_seconds_count",
+          "series": "('vllm:request_prefill_time_seconds_count', (('engine', '0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 0.0,
+          "labels": {
+            "engine": "0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_prefill_time_seconds_created",
+          "series": "('vllm:request_prefill_time_seconds_created', (('engine', '0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 1.3497731759999851,
+          "labels": {
+            "engine": "0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_prefill_time_seconds_sum",
+          "series": "('vllm:request_prefill_time_seconds_sum', (('engine', '0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        }
+      ],
+      "family_name": "vllm:request_prefill_time_seconds",
+      "measurement_class": "aggregate_server_metric",
+      "provenance": "derived",
+      "reason": null,
+      "status": "measured"
+    },
+    {
+      "aggregation_scope": "aggregate_delta",
+      "deltas": [
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "+Inf",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_prompt_tokens_bucket",
+          "series": "('vllm:request_prompt_tokens_bucket', (('engine', '0'), ('le', '+Inf'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 0.0,
+          "labels": {
+            "engine": "0",
+            "le": "1.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_prompt_tokens_bucket",
+          "series": "('vllm:request_prompt_tokens_bucket', (('engine', '0'), ('le', '1.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 0.0,
+          "labels": {
+            "engine": "0",
+            "le": "10.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_prompt_tokens_bucket",
+          "series": "('vllm:request_prompt_tokens_bucket', (('engine', '0'), ('le', '10.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 0.0,
+          "labels": {
+            "engine": "0",
+            "le": "100.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_prompt_tokens_bucket",
+          "series": "('vllm:request_prompt_tokens_bucket', (('engine', '0'), ('le', '100.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 0.0,
+          "labels": {
+            "engine": "0",
+            "le": "1000.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_prompt_tokens_bucket",
+          "series": "('vllm:request_prompt_tokens_bucket', (('engine', '0'), ('le', '1000.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 7.0,
+          "labels": {
+            "engine": "0",
+            "le": "10000.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_prompt_tokens_bucket",
+          "series": "('vllm:request_prompt_tokens_bucket', (('engine', '0'), ('le', '10000.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 0.0,
+          "labels": {
+            "engine": "0",
+            "le": "2.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_prompt_tokens_bucket",
+          "series": "('vllm:request_prompt_tokens_bucket', (('engine', '0'), ('le', '2.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 0.0,
+          "labels": {
+            "engine": "0",
+            "le": "20.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_prompt_tokens_bucket",
+          "series": "('vllm:request_prompt_tokens_bucket', (('engine', '0'), ('le', '20.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 0.0,
+          "labels": {
+            "engine": "0",
+            "le": "200.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_prompt_tokens_bucket",
+          "series": "('vllm:request_prompt_tokens_bucket', (('engine', '0'), ('le', '200.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 3.0,
+          "labels": {
+            "engine": "0",
+            "le": "2000.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_prompt_tokens_bucket",
+          "series": "('vllm:request_prompt_tokens_bucket', (('engine', '0'), ('le', '2000.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "20000.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_prompt_tokens_bucket",
+          "series": "('vllm:request_prompt_tokens_bucket', (('engine', '0'), ('le', '20000.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 0.0,
+          "labels": {
+            "engine": "0",
+            "le": "5.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_prompt_tokens_bucket",
+          "series": "('vllm:request_prompt_tokens_bucket', (('engine', '0'), ('le', '5.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 0.0,
+          "labels": {
+            "engine": "0",
+            "le": "50.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_prompt_tokens_bucket",
+          "series": "('vllm:request_prompt_tokens_bucket', (('engine', '0'), ('le', '50.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 0.0,
+          "labels": {
+            "engine": "0",
+            "le": "500.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_prompt_tokens_bucket",
+          "series": "('vllm:request_prompt_tokens_bucket', (('engine', '0'), ('le', '500.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 4.0,
+          "labels": {
+            "engine": "0",
+            "le": "5000.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_prompt_tokens_bucket",
+          "series": "('vllm:request_prompt_tokens_bucket', (('engine', '0'), ('le', '5000.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_prompt_tokens_count",
+          "series": "('vllm:request_prompt_tokens_count', (('engine', '0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 0.0,
+          "labels": {
+            "engine": "0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_prompt_tokens_created",
+          "series": "('vllm:request_prompt_tokens_created', (('engine', '0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 348426.0,
+          "labels": {
+            "engine": "0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_prompt_tokens_sum",
+          "series": "('vllm:request_prompt_tokens_sum', (('engine', '0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        }
+      ],
+      "family_name": "vllm:request_prompt_tokens",
+      "measurement_class": "aggregate_server_metric",
+      "provenance": "derived",
+      "reason": null,
+      "status": "measured"
+    },
+    {
+      "aggregation_scope": "aggregate_delta",
+      "deltas": [
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "+Inf",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_queue_time_seconds_bucket",
+          "series": "('vllm:request_queue_time_seconds_bucket', (('engine', '0'), ('le', '+Inf'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "0.3",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_queue_time_seconds_bucket",
+          "series": "('vllm:request_queue_time_seconds_bucket', (('engine', '0'), ('le', '0.3'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "0.5",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_queue_time_seconds_bucket",
+          "series": "('vllm:request_queue_time_seconds_bucket', (('engine', '0'), ('le', '0.5'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "0.8",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_queue_time_seconds_bucket",
+          "series": "('vllm:request_queue_time_seconds_bucket', (('engine', '0'), ('le', '0.8'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "1.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_queue_time_seconds_bucket",
+          "series": "('vllm:request_queue_time_seconds_bucket', (('engine', '0'), ('le', '1.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "1.5",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_queue_time_seconds_bucket",
+          "series": "('vllm:request_queue_time_seconds_bucket', (('engine', '0'), ('le', '1.5'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "10.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_queue_time_seconds_bucket",
+          "series": "('vllm:request_queue_time_seconds_bucket', (('engine', '0'), ('le', '10.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "120.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_queue_time_seconds_bucket",
+          "series": "('vllm:request_queue_time_seconds_bucket', (('engine', '0'), ('le', '120.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "15.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_queue_time_seconds_bucket",
+          "series": "('vllm:request_queue_time_seconds_bucket', (('engine', '0'), ('le', '15.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "1920.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_queue_time_seconds_bucket",
+          "series": "('vllm:request_queue_time_seconds_bucket', (('engine', '0'), ('le', '1920.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "2.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_queue_time_seconds_bucket",
+          "series": "('vllm:request_queue_time_seconds_bucket', (('engine', '0'), ('le', '2.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "2.5",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_queue_time_seconds_bucket",
+          "series": "('vllm:request_queue_time_seconds_bucket', (('engine', '0'), ('le', '2.5'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "20.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_queue_time_seconds_bucket",
+          "series": "('vllm:request_queue_time_seconds_bucket', (('engine', '0'), ('le', '20.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "240.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_queue_time_seconds_bucket",
+          "series": "('vllm:request_queue_time_seconds_bucket', (('engine', '0'), ('le', '240.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "30.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_queue_time_seconds_bucket",
+          "series": "('vllm:request_queue_time_seconds_bucket', (('engine', '0'), ('le', '30.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "40.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_queue_time_seconds_bucket",
+          "series": "('vllm:request_queue_time_seconds_bucket', (('engine', '0'), ('le', '40.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "480.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_queue_time_seconds_bucket",
+          "series": "('vllm:request_queue_time_seconds_bucket', (('engine', '0'), ('le', '480.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "5.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_queue_time_seconds_bucket",
+          "series": "('vllm:request_queue_time_seconds_bucket', (('engine', '0'), ('le', '5.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "50.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_queue_time_seconds_bucket",
+          "series": "('vllm:request_queue_time_seconds_bucket', (('engine', '0'), ('le', '50.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "60.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_queue_time_seconds_bucket",
+          "series": "('vllm:request_queue_time_seconds_bucket', (('engine', '0'), ('le', '60.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "7680.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_queue_time_seconds_bucket",
+          "series": "('vllm:request_queue_time_seconds_bucket', (('engine', '0'), ('le', '7680.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "960.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_queue_time_seconds_bucket",
+          "series": "('vllm:request_queue_time_seconds_bucket', (('engine', '0'), ('le', '960.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_queue_time_seconds_count",
+          "series": "('vllm:request_queue_time_seconds_count', (('engine', '0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 0.0,
+          "labels": {
+            "engine": "0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_queue_time_seconds_created",
+          "series": "('vllm:request_queue_time_seconds_created', (('engine', '0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 0.0024711969999486882,
+          "labels": {
+            "engine": "0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:request_queue_time_seconds_sum",
+          "series": "('vllm:request_queue_time_seconds_sum', (('engine', '0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        }
+      ],
+      "family_name": "vllm:request_queue_time_seconds",
+      "measurement_class": "aggregate_server_metric",
+      "provenance": "derived",
+      "reason": null,
+      "status": "measured"
+    },
+    {
+      "aggregation_scope": "aggregate_delta",
+      "deltas": [
+        {
+          "delta": 4341.0,
+          "labels": {
+            "engine": "0",
+            "le": "+Inf",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:time_per_output_token_seconds_bucket",
+          "series": "('vllm:time_per_output_token_seconds_bucket', (('engine', '0'), ('le', '+Inf'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 4340.0,
+          "labels": {
+            "engine": "0",
+            "le": "0.01",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:time_per_output_token_seconds_bucket",
+          "series": "('vllm:time_per_output_token_seconds_bucket', (('engine', '0'), ('le', '0.01'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 4341.0,
+          "labels": {
+            "engine": "0",
+            "le": "0.025",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:time_per_output_token_seconds_bucket",
+          "series": "('vllm:time_per_output_token_seconds_bucket', (('engine', '0'), ('le', '0.025'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 4341.0,
+          "labels": {
+            "engine": "0",
+            "le": "0.05",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:time_per_output_token_seconds_bucket",
+          "series": "('vllm:time_per_output_token_seconds_bucket', (('engine', '0'), ('le', '0.05'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 4341.0,
+          "labels": {
+            "engine": "0",
+            "le": "0.075",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:time_per_output_token_seconds_bucket",
+          "series": "('vllm:time_per_output_token_seconds_bucket', (('engine', '0'), ('le', '0.075'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 4341.0,
+          "labels": {
+            "engine": "0",
+            "le": "0.1",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:time_per_output_token_seconds_bucket",
+          "series": "('vllm:time_per_output_token_seconds_bucket', (('engine', '0'), ('le', '0.1'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 4341.0,
+          "labels": {
+            "engine": "0",
+            "le": "0.15",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:time_per_output_token_seconds_bucket",
+          "series": "('vllm:time_per_output_token_seconds_bucket', (('engine', '0'), ('le', '0.15'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 4341.0,
+          "labels": {
+            "engine": "0",
+            "le": "0.2",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:time_per_output_token_seconds_bucket",
+          "series": "('vllm:time_per_output_token_seconds_bucket', (('engine', '0'), ('le', '0.2'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 4341.0,
+          "labels": {
+            "engine": "0",
+            "le": "0.3",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:time_per_output_token_seconds_bucket",
+          "series": "('vllm:time_per_output_token_seconds_bucket', (('engine', '0'), ('le', '0.3'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 4341.0,
+          "labels": {
+            "engine": "0",
+            "le": "0.4",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:time_per_output_token_seconds_bucket",
+          "series": "('vllm:time_per_output_token_seconds_bucket', (('engine', '0'), ('le', '0.4'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 4341.0,
+          "labels": {
+            "engine": "0",
+            "le": "0.5",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:time_per_output_token_seconds_bucket",
+          "series": "('vllm:time_per_output_token_seconds_bucket', (('engine', '0'), ('le', '0.5'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 4341.0,
+          "labels": {
+            "engine": "0",
+            "le": "0.75",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:time_per_output_token_seconds_bucket",
+          "series": "('vllm:time_per_output_token_seconds_bucket', (('engine', '0'), ('le', '0.75'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 4341.0,
+          "labels": {
+            "engine": "0",
+            "le": "1.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:time_per_output_token_seconds_bucket",
+          "series": "('vllm:time_per_output_token_seconds_bucket', (('engine', '0'), ('le', '1.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 4341.0,
+          "labels": {
+            "engine": "0",
+            "le": "10.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:time_per_output_token_seconds_bucket",
+          "series": "('vllm:time_per_output_token_seconds_bucket', (('engine', '0'), ('le', '10.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 4341.0,
+          "labels": {
+            "engine": "0",
+            "le": "2.5",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:time_per_output_token_seconds_bucket",
+          "series": "('vllm:time_per_output_token_seconds_bucket', (('engine', '0'), ('le', '2.5'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 4341.0,
+          "labels": {
+            "engine": "0",
+            "le": "20.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:time_per_output_token_seconds_bucket",
+          "series": "('vllm:time_per_output_token_seconds_bucket', (('engine', '0'), ('le', '20.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 4341.0,
+          "labels": {
+            "engine": "0",
+            "le": "40.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:time_per_output_token_seconds_bucket",
+          "series": "('vllm:time_per_output_token_seconds_bucket', (('engine', '0'), ('le', '40.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 4341.0,
+          "labels": {
+            "engine": "0",
+            "le": "5.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:time_per_output_token_seconds_bucket",
+          "series": "('vllm:time_per_output_token_seconds_bucket', (('engine', '0'), ('le', '5.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 4341.0,
+          "labels": {
+            "engine": "0",
+            "le": "7.5",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:time_per_output_token_seconds_bucket",
+          "series": "('vllm:time_per_output_token_seconds_bucket', (('engine', '0'), ('le', '7.5'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 4341.0,
+          "labels": {
+            "engine": "0",
+            "le": "80.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:time_per_output_token_seconds_bucket",
+          "series": "('vllm:time_per_output_token_seconds_bucket', (('engine', '0'), ('le', '80.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 4341.0,
+          "labels": {
+            "engine": "0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:time_per_output_token_seconds_count",
+          "series": "('vllm:time_per_output_token_seconds_count', (('engine', '0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 0.0,
+          "labels": {
+            "engine": "0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:time_per_output_token_seconds_created",
+          "series": "('vllm:time_per_output_token_seconds_created', (('engine', '0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 30.563988613000078,
+          "labels": {
+            "engine": "0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:time_per_output_token_seconds_sum",
+          "series": "('vllm:time_per_output_token_seconds_sum', (('engine', '0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        }
+      ],
+      "family_name": "vllm:time_per_output_token_seconds",
+      "measurement_class": "aggregate_server_metric",
+      "provenance": "derived",
+      "reason": null,
+      "status": "measured"
+    },
+    {
+      "aggregation_scope": "aggregate_delta",
+      "deltas": [
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "+Inf",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:time_to_first_token_seconds_bucket",
+          "series": "('vllm:time_to_first_token_seconds_bucket', (('engine', '0'), ('le', '+Inf'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 0.0,
+          "labels": {
+            "engine": "0",
+            "le": "0.001",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:time_to_first_token_seconds_bucket",
+          "series": "('vllm:time_to_first_token_seconds_bucket', (('engine', '0'), ('le', '0.001'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 0.0,
+          "labels": {
+            "engine": "0",
+            "le": "0.005",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:time_to_first_token_seconds_bucket",
+          "series": "('vllm:time_to_first_token_seconds_bucket', (('engine', '0'), ('le', '0.005'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 0.0,
+          "labels": {
+            "engine": "0",
+            "le": "0.01",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:time_to_first_token_seconds_bucket",
+          "series": "('vllm:time_to_first_token_seconds_bucket', (('engine', '0'), ('le', '0.01'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 0.0,
+          "labels": {
+            "engine": "0",
+            "le": "0.02",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:time_to_first_token_seconds_bucket",
+          "series": "('vllm:time_to_first_token_seconds_bucket', (('engine', '0'), ('le', '0.02'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 16.0,
+          "labels": {
+            "engine": "0",
+            "le": "0.04",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:time_to_first_token_seconds_bucket",
+          "series": "('vllm:time_to_first_token_seconds_bucket', (('engine', '0'), ('le', '0.04'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 24.0,
+          "labels": {
+            "engine": "0",
+            "le": "0.06",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:time_to_first_token_seconds_bucket",
+          "series": "('vllm:time_to_first_token_seconds_bucket', (('engine', '0'), ('le', '0.06'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 28.0,
+          "labels": {
+            "engine": "0",
+            "le": "0.08",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:time_to_first_token_seconds_bucket",
+          "series": "('vllm:time_to_first_token_seconds_bucket', (('engine', '0'), ('le', '0.08'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 30.0,
+          "labels": {
+            "engine": "0",
+            "le": "0.1",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:time_to_first_token_seconds_bucket",
+          "series": "('vllm:time_to_first_token_seconds_bucket', (('engine', '0'), ('le', '0.1'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "0.25",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:time_to_first_token_seconds_bucket",
+          "series": "('vllm:time_to_first_token_seconds_bucket', (('engine', '0'), ('le', '0.25'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "0.5",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:time_to_first_token_seconds_bucket",
+          "series": "('vllm:time_to_first_token_seconds_bucket', (('engine', '0'), ('le', '0.5'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "0.75",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:time_to_first_token_seconds_bucket",
+          "series": "('vllm:time_to_first_token_seconds_bucket', (('engine', '0'), ('le', '0.75'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "1.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:time_to_first_token_seconds_bucket",
+          "series": "('vllm:time_to_first_token_seconds_bucket', (('engine', '0'), ('le', '1.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "10.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:time_to_first_token_seconds_bucket",
+          "series": "('vllm:time_to_first_token_seconds_bucket', (('engine', '0'), ('le', '10.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "160.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:time_to_first_token_seconds_bucket",
+          "series": "('vllm:time_to_first_token_seconds_bucket', (('engine', '0'), ('le', '160.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "2.5",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:time_to_first_token_seconds_bucket",
+          "series": "('vllm:time_to_first_token_seconds_bucket', (('engine', '0'), ('le', '2.5'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "20.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:time_to_first_token_seconds_bucket",
+          "series": "('vllm:time_to_first_token_seconds_bucket', (('engine', '0'), ('le', '20.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "2560.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:time_to_first_token_seconds_bucket",
+          "series": "('vllm:time_to_first_token_seconds_bucket', (('engine', '0'), ('le', '2560.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "40.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:time_to_first_token_seconds_bucket",
+          "series": "('vllm:time_to_first_token_seconds_bucket', (('engine', '0'), ('le', '40.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "5.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:time_to_first_token_seconds_bucket",
+          "series": "('vllm:time_to_first_token_seconds_bucket', (('engine', '0'), ('le', '5.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "640.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:time_to_first_token_seconds_bucket",
+          "series": "('vllm:time_to_first_token_seconds_bucket', (('engine', '0'), ('le', '640.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "7.5",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:time_to_first_token_seconds_bucket",
+          "series": "('vllm:time_to_first_token_seconds_bucket', (('engine', '0'), ('le', '7.5'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "le": "80.0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:time_to_first_token_seconds_bucket",
+          "series": "('vllm:time_to_first_token_seconds_bucket', (('engine', '0'), ('le', '80.0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 31.0,
+          "labels": {
+            "engine": "0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:time_to_first_token_seconds_count",
+          "series": "('vllm:time_to_first_token_seconds_count', (('engine', '0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 0.0,
+          "labels": {
+            "engine": "0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:time_to_first_token_seconds_created",
+          "series": "('vllm:time_to_first_token_seconds_created', (('engine', '0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        },
+        {
+          "delta": 1.426459550857544,
+          "labels": {
+            "engine": "0",
+            "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+          },
+          "name": "vllm:time_to_first_token_seconds_sum",
+          "series": "('vllm:time_to_first_token_seconds_sum', (('engine', '0'), ('model_name', 'Qwen/Qwen3-Coder-30B-A3B-Instruct')))"
+        }
+      ],
+      "family_name": "vllm:time_to_first_token_seconds",
+      "measurement_class": "aggregate_server_metric",
+      "provenance": "derived",
+      "reason": null,
+      "status": "measured"
+    }
+  ],
+  "instantaneous_end": [
+    {
+      "aggregation_scope": "server_aggregate",
+      "labels": {
+        "engine": "0",
+        "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+      },
+      "measurement_class": "instantaneous_server_metric",
+      "name": "vllm:num_requests_running",
+      "provenance": "measured",
+      "value": 0.0
+    },
+    {
+      "aggregation_scope": "server_aggregate",
+      "labels": {
+        "engine": "0",
+        "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+      },
+      "measurement_class": "instantaneous_server_metric",
+      "name": "vllm:num_requests_waiting",
+      "provenance": "measured",
+      "value": 0.0
+    },
+    {
+      "aggregation_scope": "server_aggregate",
+      "labels": {
+        "engine": "0",
+        "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+      },
+      "measurement_class": "instantaneous_server_metric",
+      "name": "vllm:gpu_cache_usage_perc",
+      "provenance": "measured",
+      "value": 0.00012049644535483406
+    },
+    {
+      "aggregation_scope": "server_aggregate",
+      "labels": {
+        "engine": "0",
+        "model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+      },
+      "measurement_class": "instantaneous_server_metric",
+      "name": "vllm:kv_cache_usage_perc",
+      "provenance": "measured",
+      "value": 0.00012049644535483406
+    },
+    {
+      "aggregation_scope": "server_aggregate",
+      "labels": {
+        "block_size": "16",
+        "cache_dtype": "auto",
+        "calculate_kv_scales": "False",
+        "cpu_kvcache_space_bytes": "None",
+        "cpu_offload_gb": "0.0",
+        "enable_prefix_caching": "True",
+        "engine": "0",
+        "gpu_memory_utilization": "0.9",
+        "is_attention_free": "False",
+        "mamba_page_size_padded": "None",
+        "num_cpu_blocks": "None",
+        "num_gpu_blocks": "8299",
+        "num_gpu_blocks_override": "None",
+        "prefix_caching_hash_algo": "builtin",
+        "sliding_window": "None",
+        "swap_space": "4.0",
+        "swap_space_bytes": "4294967296.0"
+      },
+      "measurement_class": "instantaneous_server_metric",
+      "name": "vllm:cache_config_info",
+      "provenance": "measured",
+      "value": 1.0
+    }
+  ],
+  "measurement_class": "aggregate_server_metric",
+  "provenance": "derived",
+  "request_id": null,
+  "run_id": "modal-lite-deep-profile-retry",
+  "schema_version": "observability.vllm-delta.v1",
+  "status": "derived"
+}
