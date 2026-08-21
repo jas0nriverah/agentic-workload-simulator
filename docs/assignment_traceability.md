@@ -27,8 +27,11 @@ deliverable to the first command/artifact that will produce evidence. A
 - A first paid session stops after gold smokes, one uninstrumented Lite
   trajectory, official generated-patch evaluation, export/checksum, and
   termination. Thin telemetry is a separately authorized later session.
-- The first H100 control and gold-smoke outcomes are measured artifacts, but
-  the control produced an unresolved/empty patch on Lightning; no Lambda-host
-  result is implied. No resolved-rate claim,
-  thin-overhead result, sweep result, latency claim, or simulator result is
-  claimed by this document.
+- The original H100 control and gold-smoke outcomes are measured artifacts,
+  but the original control's empty patch was traced to an omitted
+  `repo_name` compatibility field. Fixed follow-up Lite/Verified evaluations
+  are recorded separately in `project/PAID_SESSION_MEASUREMENTS.json`; two
+  Lite runs resolved but included scratch/debug files, while the fixed Lite
+  gold and Verified runs were unresolved. No Lambda-host result, resolved-rate
+  claim, thin-overhead result, sweep result, latency claim, or simulator result
+  is claimed by this document.

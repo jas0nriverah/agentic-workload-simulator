@@ -9,17 +9,18 @@ presented as Lambda results.
 
 ## Current status
 
-- G4 local trajectory-contract review: local static PASS; the first Lightning
-  H100 control and official evaluator have completed with an unresolved/empty-
-  patch outcome
+- G4 local trajectory-contract review: local static PASS; the original
+  Lightning control was invalidated as an empty-patch runtime defect, then the
+  fixed Lite control resolved at both 30- and 50-call settings. The fixed Lite
+  gold and Verified runs remained unresolved.
 - Shared clock, resolved vLLM configuration, artifact v2, and four-knob
   command contracts passed local validation and independent review
 - Linux x86-64 rehearsal and first-trajectory inventory are free/local checks;
   unavailable host tools are reported explicitly and strict CI fails closed
-- One paid Lightning H100 control session has completed, including both pinned
-  gold smokes and official generated-patch evaluation; no thin-telemetry or
-  sweep run has been launched
-- No resolved-rate claim or final assignment result exists
+- One paid Lightning H100 measurement window has completed, including pinned
+  gold smokes, paired thin runs, and fixed Lite/Verified official evaluations.
+  The two resolved Lite patches contain scratch/debug files, so this is not a
+  clean-submission or resolved-rate claim; no sweeps have been launched.
 - Technical readiness does not authorize paid compute; the session gate remains
   fail-closed until the user supplies explicit authorization.
 

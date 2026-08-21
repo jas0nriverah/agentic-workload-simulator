@@ -1,7 +1,7 @@
 # Handoff
 
 Phase: post-G3A Lightning control / G4 measured thin-and-gold trajectories — structural PASS
-Last verified result: local core/cloud tests, source hygiene, Linux rehearsal, release checks, independent review, and the first paid Lightning H100 control passed; the control evaluator measured unresolved/empty-patch
+Last verified result: local core/cloud tests, source hygiene, Linux rehearsal, release checks, independent review, and the fixed Lightning H100 follow-up runs passed structurally; the original control was unresolved/empty-patch due to the now-fixed `repo_name` runtime defect
 Current task: G4 local contracts plus paired Lightning thin runs and one Lite/Verified gold-row trajectory each are recorded; Lambda-target validation and the next empirical phase remain
 Frozen decisions: assignment lock, Lambda 1× H100 PCIe 80 GB target, Qwen3-Coder-30B-A3B BF16, pinned vLLM/SWE-agent/SWE-bench/datasets/images, no automatic thin rerun, no unreviewed automatic merge
 Running jobs: vLLM remains loaded in the two Lightning Studios; no SWE-agent job is required by this handoff
