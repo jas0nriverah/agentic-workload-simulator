@@ -73,7 +73,7 @@ EXPECTED_VLLM_IMAGE='vllm/vllm-openai:v0.10.0@sha256:05a31dc4185b042e91f4d218368
 CMD=(docker run --rm --network host --ipc=host --gpus device=0
   --entrypoint vllm -e HF_HOME=/root/.cache/huggingface -e HF_HUB_OFFLINE=1
   -v "$HF_CACHE:/root/.cache/huggingface" "$VLLM_IMAGE"
-  bench serve --backend vllm --base-url "$BASE_URL" --model "$MODEL"
+  bench serve --backend vllm --base-url "$BASE_URL" --model "$MODEL" --revision "$MODEL_REVISION"
   --dataset-name random --random-input-len "$INPUT_LEN" --random-output-len "$OUTPUT_LEN"
   --num-prompts "$NUM_PROMPTS" --max-concurrency "$MAX_CONCURRENCY" --save-result --save-detailed
   --result-dir "$OUTPUT")
