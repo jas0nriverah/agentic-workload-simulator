@@ -1,0 +1,121 @@
+{
+  "schema_version": "gcp-h100-measurements.v1",
+  "provider": "Google Cloud",
+  "project": "project-3d59272d-3213-4e06-97b",
+  "zone": "us-central1-a",
+  "instance": "instance-20260822-182111",
+  "hardware": "a3-highgpu-1g / NVIDIA H100 80GB",
+  "repository_branch": "parallel-h100-shards",
+  "repository_commit": "1ec7e57",
+  "provenance": "measured; source artifacts remain on the VM export directory",
+  "source_root": "/home/jasonrivera691/eic-work",
+  "configuration": {
+    "model": "Qwen/Qwen3-Coder-30B-A3B-Instruct",
+    "precision": "BF16",
+    "vllm": "v0.10.0",
+    "swe_agent_revision": "0f3acafacabc0def8cc76b4e48acb4b6cf302cb9",
+    "swe_bench_revision": "726c5461e2ef52d83cf1ea2107870a8bb3328d57",
+    "vllm_image_digest": "sha256:05a31dc4185b042e91f4d2183689ac8a87bd845713d5c3f987563c5899878271",
+    "context_length": 32768,
+    "gpu_memory_utilization": 0.9,
+    "tool_parser": "qwen3_coder"
+  },
+  "health": {
+    "status": "PASS",
+    "manifest": "/home/jasonrivera691/eic-work/artifacts/manifests/lambda_healthcheck.json",
+    "metrics_endpoint": "/metrics",
+    "clock_id": "CLOCK_MONOTONIC_RAW"
+  },
+  "control": {
+    "run_id": "gcp-first-control",
+    "attempt_id": "attempt-002",
+    "instance_id": "astropy__astropy-12907",
+    "mode": "uninstrumented",
+    "agent_returncode": 0,
+    "evaluator_returncode": 0,
+    "resolved": 1,
+    "unresolved": 0,
+    "empty_patches": 0,
+    "errors": 0,
+    "trajectory_root": "/home/jasonrivera691/eic-work/data/raw/gcp-first-control/lite/astropy__astropy-12907/attempt-002",
+    "evaluation_report": "/home/jasonrivera691/eic-work/artifacts/gcp-h100-pilot/evaluation/attempt-002/attempt-002.gcp-first-control-attempt-002.json"
+  },
+  "thin_paired": {
+    "run_id": "gcp-thin-paired",
+    "attempt_id": "attempt-004",
+    "agent_returncode": 0,
+    "evaluator_returncode": 0,
+    "resolved": 1,
+    "unresolved": 0,
+    "trajectory_root": "/home/jasonrivera691/eic-work/data/raw/gcp-thin-paired/lite/astropy__astropy-12907/attempt-004",
+    "note": "Control and thin payloads were kept identical; request-level GPU attribution remains unavailable."
+  },
+  "gold_smokes": [
+    {
+      "suite": "lite",
+      "instance_id": "astropy__astropy-14182",
+      "status": "resolved",
+      "evaluator_returncode": 0,
+      "root": "/home/jasonrivera691/eic-work/artifacts/gold-smoke-004/lite-astropy__astropy-14182"
+    },
+    {
+      "suite": "verified",
+      "instance_id": "astropy__astropy-14365",
+      "status": "resolved",
+      "evaluator_returncode": 0,
+      "root": "/home/jasonrivera691/eic-work/artifacts/gold-smoke-004/verified-astropy__astropy-14365"
+    }
+  ],
+  "production_batch": {
+    "batch_id": "lite-production-2",
+    "dataset_rows": 2,
+    "shards": 2,
+    "workers": [
+      {
+        "worker": "worker-00",
+        "instance_id": "astropy__astropy-12907",
+        "status": "completed",
+        "agent_returncode": 0,
+        "evaluator_returncode": 0,
+        "status_artifact": "/home/jasonrivera691/eic-work/artifacts/batches/lite-production-2/worker-00/attempt-001/worker_status.json"
+      },
+      {
+        "worker": "worker-01",
+        "instance_id": "astropy__astropy-14182",
+        "status": "completed",
+        "agent_returncode": 0,
+        "evaluator_returncode": 0,
+        "status_artifact": "/home/jasonrivera691/eic-work/artifacts/batches/lite-production-2/worker-01/attempt-001/worker_status.json"
+      }
+    ]
+  },
+  "calibration": {
+    "status": "completed",
+    "artifact": "/home/jasonrivera691/eic-work/artifacts/calibration-gcp-control-006/service_calibration.json",
+    "requests": 1,
+    "input_tokens": 512,
+    "output_tokens": 64,
+    "duration_seconds": 0.4,
+    "request_throughput_per_second": 2.48,
+    "output_throughput_tokens_per_second": 158.94,
+    "mean_ttft_ms": 18.77,
+    "mean_tpot_ms": 6.08,
+    "mean_itl_ms": 6.08,
+    "p99_itl_ms": 6.34,
+    "gpu_time_claim": false
+  },
+  "profiling": {
+    "strace_capability": "available",
+    "nsys": "unavailable",
+    "ncu": "unavailable",
+    "profile_output": "/home/jasonrivera691/eic-work/artifacts/profiles/gcp-strace-health",
+    "status": "existing immutable profile; no overwrite attempted"
+  },
+  "limitations": [
+    "The GCP production sample covers two Lite Astropy rows, not the assignment's six-repository population baseline.",
+    "Gold evaluator runs have no SWE-agent trajectory and therefore record counters.unavailable.json.",
+    "The paired control/thin runs do not yet provide lossless request-to-vLLM GPU attribution.",
+    "No causal CPU:model-serving ratio, simulator holdout error, or population sweep claim is made from this evidence.",
+    "The final export archive must be verified after the SSH console reconnects; raw artifacts are not committed to Git."
+  ]
+}

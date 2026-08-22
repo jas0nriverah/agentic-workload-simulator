@@ -80,6 +80,20 @@ The request proxy records request IDs, timing boundaries, status, body hashes,
 sizes, and returned token counts without recording prompts, responses, or API
 keys.
 
+### Completed GCP H100 pilot
+
+The quota-enabled GCP VM has produced measured end-to-end evidence. The
+tracked summary is `project/GCP_H100_MEASUREMENTS.json`; raw artifacts remain
+under `/home/jasonrivera691/eic-work` on the VM. The uninstrumented Lite
+control (`astropy__astropy-12907`) resolved 1/1 with agent and official
+evaluator return code 0. Its paired thin-telemetry run also resolved 1/1.
+Lite and Verified gold smokes both resolved 1/1, and a two-worker/two-row Lite
+batch completed with agent and evaluator return code 0 on both workers. A
+one-request vLLM calibration measured TTFT, TPOT, and ITL; it deliberately
+makes no GPU-time claim. This is valuable pilot evidence, but it is not yet
+the assignment's six-repository baseline or event-level CPU:model-serving
+correlation, so population and simulator claims remain pending.
+
 The last verified GCP console state, before the user reported fixing it, was:
 
 - H100 regional quota in `us-east4`: `0`
