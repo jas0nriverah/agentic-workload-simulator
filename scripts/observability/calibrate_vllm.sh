@@ -62,8 +62,11 @@ manifest_image="$(manifest_value VLLM_IMAGE)"
 [[ -n "$manifest_image" ]] && VLLM_IMAGE="$manifest_image"
 HF_CACHE="$(manifest_value HF_HUB_CACHE)"
 cache_root="$(manifest_value CACHE_ROOT)"
-if [[ -z "$HF_CACHE" && -n "$cache_root" ]]; then HF_CACHE="$cache_root/huggingface/hub"; fi
-[[ -n "$HF_CACHE" ]] || HF_CACHE="/home/ubuntu/agentic-work/cache/huggingface/hub"
+# HF_HOME is the directory mounted into the container.  It must contain the
+# `hub/` child; mounting the hub directory itself one level too high makes
+# Transformers unable to resolve the already-downloaded model offline.
+if [[ -z "$HF_CACHE" && -n "$cache_root" ]]; then HF_CACHE="$cache_root/huggingface"; fi
+[[ -n "$HF_CACHE" ]] || HF_CACHE="/home/ubuntu/agentic-work/cache/huggingface"
 EXPECTED_VLLM_IMAGE='vllm/vllm-openai:v0.10.0@sha256:05a31dc4185b042e91f4d2183689ac8a87bd845713d5c3f987563c5899878271'
 [[ "$VLLM_IMAGE" == "$EXPECTED_VLLM_IMAGE" ]] || { (( DRY )) || { echo "refusing non-frozen vLLM image: $VLLM_IMAGE" >&2; exit 1; }; }
 
