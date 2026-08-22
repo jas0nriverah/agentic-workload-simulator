@@ -9,7 +9,9 @@ MANIFEST="$ROOT/cloud/lambda/instance_manifest.env"
 SESSION="$ROOT/cloud/lambda/cloud_session.yaml"
 OUTPUT=""
 MARKER=""
-BASE_URL="http://127.0.0.1:8000/v1"
+# vLLM's bench client appends the API prefix from --endpoint.  Keep the base
+# host URL here so it does not construct /v1/v1/completions.
+BASE_URL="http://127.0.0.1:8000"
 MODEL=""
 MODEL_REVISION=""
 VLLM_VERSION="0.10.0"
@@ -29,7 +31,7 @@ while (($#)); do
     --session) SESSION="$2"; shift 2;;
     --output) OUTPUT="$2"; shift 2;;
     --first-result-marker) MARKER="$2"; shift 2;;
-    --base-url) BASE_URL="$2"; shift 2;;
+    --base-url) BASE_URL="${2%/v1}"; shift 2;;
     --model) MODEL="$2"; shift 2;;
     --input-len) INPUT_LEN="$2"; shift 2;;
     --output-len) OUTPUT_LEN="$2"; shift 2;;
