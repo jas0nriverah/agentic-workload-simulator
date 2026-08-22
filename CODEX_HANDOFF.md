@@ -204,6 +204,18 @@ recording the reason, affected manifests, and interpretation impact.
 
 ## Required final experiment report
 
+### Current GCP collection-contract status
+
+The narrow gold-smoke collection fix is implemented and pushed in commits
+`1ec7e57` and `2bf8310`. New gold-smoke reports create exactly one explicit
+`counters.unavailable.json` marker when no trajectory telemetry exists; they do
+not fabricate Parquet. The corresponding local collection/runtime/evaluator
+tests pass (37 targeted tests; 111 full tests). Existing remote gold-smoke
+directories still need the marker repair and a fresh immutable export archive.
+Do that on the live VM before shutdown. The VM must remain running while this
+export, diverse production sampling, calibration, and any selected profiling
+remain useful.
+
 When the session ends, report:
 
 - successful and failed trajectory counts
