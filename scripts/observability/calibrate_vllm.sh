@@ -69,11 +69,14 @@ if [[ -z "$HF_CACHE" && -n "$cache_root" ]]; then HF_CACHE="$cache_root/huggingf
 [[ -n "$HF_CACHE" ]] || HF_CACHE="/home/ubuntu/agentic-work/cache/huggingface"
 EXPECTED_VLLM_IMAGE='vllm/vllm-openai:v0.10.0@sha256:05a31dc4185b042e91f4d2183689ac8a87bd845713d5c3f987563c5899878271'
 [[ "$VLLM_IMAGE" == "$EXPECTED_VLLM_IMAGE" ]] || { (( DRY )) || { echo "refusing non-frozen vLLM image: $VLLM_IMAGE" >&2; exit 1; }; }
+MODEL_SLUG="${MODEL//\//--}"
+TOKENIZER_PATH="/root/.cache/huggingface/hub/models--${MODEL_SLUG}/snapshots/${MODEL_REVISION}"
 
 CMD=(docker run --rm --network host --ipc=host --gpus device=0
   --entrypoint vllm -e HF_HOME=/root/.cache/huggingface -e HF_HUB_OFFLINE=1
   -v "$HF_CACHE:/root/.cache/huggingface" "$VLLM_IMAGE"
-  bench serve --backend vllm --base-url "$BASE_URL" --model "$MODEL" --revision "$MODEL_REVISION"
+  bench serve --backend vllm --base-url "$BASE_URL" --model "$MODEL"
+  --tokenizer "$TOKENIZER_PATH"
   --dataset-name random --random-input-len "$INPUT_LEN" --random-output-len "$OUTPUT_LEN"
   --num-prompts "$NUM_PROMPTS" --max-concurrency "$MAX_CONCURRENCY" --save-result --save-detailed
   --result-dir "$OUTPUT")
