@@ -1,0 +1,17 @@
+# Copy to an untracked file and fill this in before any paid GCP operation.
+# This file is deliberately unauthorized and must not be committed with
+# authorized=true or real account details.
+authorized: false
+provider: gcp
+project: project-3d59272d-3213-4e06-97b
+zone: us-central1-a
+maximum_gpu_hours: 4
+maximum_dollars: 30
+maximum_gate: G3A
+authorized_start_utc: 2026-08-22T00:00:00Z
+stop_launching_utc: 2026-08-23T00:00:00Z
+begin_export_utc: 2026-08-23T00:30:00Z
+hard_console_termination_utc: 2026-08-23T01:00:00Z
+user_available_to_export: false
+user_available_to_terminate: false
+backup_destination: /mnt/eic-work/export

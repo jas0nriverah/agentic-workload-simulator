@@ -89,6 +89,8 @@ TELEMETRY_INTERVAL_SECONDS="${TELEMETRY_INTERVAL_SECONDS:-$(manifest_value TELEM
 [[ -n "$TELEMETRY_INTERVAL_SECONDS" ]] || TELEMETRY_INTERVAL_SECONDS=1
 EVALUATOR_TIMEOUT_SECONDS="${SWE_BENCH_TIMEOUT_SECONDS:-$(manifest_value SWE_BENCH_TIMEOUT_SECONDS)}"
 [[ -n "$EVALUATOR_TIMEOUT_SECONDS" ]] || EVALUATOR_TIMEOUT_SECONDS=1800
+MODEL_API_BASE="${EIC_MODEL_API_BASE:-$(manifest_value EIC_MODEL_API_BASE)}"
+[[ -n "$MODEL_API_BASE" ]] || MODEL_API_BASE="http://127.0.0.1:8000/v1"
 EXPERIMENT_MAX_CALLS="${EXPERIMENT_MAX_CALLS:-$(manifest_value EXPERIMENT_MAX_CALLS)}"; [[ -n "$EXPERIMENT_MAX_CALLS" ]] || EXPERIMENT_MAX_CALLS=30
 EXPERIMENT_MAX_OUTPUT_TOKENS="${EXPERIMENT_MAX_OUTPUT_TOKENS:-$(manifest_value EXPERIMENT_MAX_OUTPUT_TOKENS)}"; [[ -n "$EXPERIMENT_MAX_OUTPUT_TOKENS" ]] || EXPERIMENT_MAX_OUTPUT_TOKENS=2048
 EXPERIMENT_MAX_OBSERVATION_LENGTH="${EXPERIMENT_MAX_OBSERVATION_LENGTH:-$(manifest_value EXPERIMENT_MAX_OBSERVATION_LENGTH)}"; [[ -n "$EXPERIMENT_MAX_OBSERVATION_LENGTH" ]] || EXPERIMENT_MAX_OBSERVATION_LENGTH=100000
@@ -116,6 +118,11 @@ if [[ -n "$BASE_AGENT_OUTPUT_DIR" ]]; then
   COMMAND="${COMMAND//$BASE_AGENT_OUTPUT_DIR/$AGENT_OUTPUT_DIR}"
   EVALUATOR="${EVALUATOR//$BASE_AGENT_OUTPUT_DIR/$AGENT_OUTPUT_DIR}"
 fi
+[[ "$MODEL_API_BASE" =~ ^http://127\.0\.0\.1:[0-9]{1,5}/v1$ ]] || {
+  echo "EIC_MODEL_API_BASE must be a localhost v1 endpoint: $MODEL_API_BASE" >&2
+  exit 1
+}
+COMMAND="${COMMAND//http:\/\/127.0.0.1:8000\/v1/$MODEL_API_BASE}"
 EVALUATOR="${EVALUATOR//$BASE_EVALUATOR_REPORT_DIR/$EVALUATOR_REPORT_DIR}"
 EVALUATOR_RUN_ID="${EXPERIMENT_ID}-${ATTEMPT_ID}"
 EVALUATOR="${EVALUATOR//--run_id $EXPERIMENT_ID/--run_id $EVALUATOR_RUN_ID}"
@@ -168,7 +175,7 @@ if [[ -n "$EXPECTED_DATASET_PATH" ]]; then
   [[ "$COMMAND" == *"--instances.path $EXPECTED_DATASET_PATH"* ]] || { echo 'reviewed SWE-agent command dataset path does not match the frozen Lite asset' >&2; exit 1; }
   [[ "$COMMAND" == *"--instances.filter '^$ID$'"* ]] || { echo 'reviewed SWE-agent command instance filter does not match the selected Lite ID' >&2; exit 1; }
   [[ "$COMMAND" == *"--agent.model.name openai/$EXPECTED_MODEL"* ]] || { echo 'reviewed SWE-agent command model does not match the frozen model' >&2; exit 1; }
-  [[ "$COMMAND" == *"--agent.model.api_base http://127.0.0.1:8000/v1"* ]] || { echo 'reviewed SWE-agent command API base is not the frozen localhost vLLM endpoint' >&2; exit 1; }
+  [[ "$COMMAND" == *"--agent.model.api_base $MODEL_API_BASE"* ]] || { echo 'reviewed SWE-agent command API base is not the configured localhost vLLM endpoint' >&2; exit 1; }
 fi
 if [[ -n "$EXPECTED_DATASET_PATH" && -n "$DATASET_MANIFEST_PATH" ]]; then
   python3 - "$EXPECTED_DATASET_PATH" "$DATASET_MANIFEST_PATH" "$ID" "$LITE_SOURCE_SHA256" "$LITE_FIRST_ROW_SHA256" <<'PY'
