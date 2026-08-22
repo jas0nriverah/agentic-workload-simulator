@@ -61,6 +61,35 @@ class LambdaSessionGateTests(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertIn("paid-session gate passed", result.stdout)
 
+    def test_gcp_provider_is_supported_with_explicit_window_and_cap(self):
+        now = datetime.now(timezone.utc)
+        values = {
+            "authorized": "true",
+            "provider": "gcp",
+            "maximum_gpu_hours": "4",
+            "maximum_dollars": "30",
+            "maximum_gate": "G3A",
+            "authorized_start_utc": (now - timedelta(minutes=5)).isoformat(),
+            "stop_launching_utc": (now + timedelta(hours=2)).isoformat(),
+            "begin_export_utc": (now + timedelta(hours=2)).isoformat(),
+            "hard_console_termination_utc": (now + timedelta(hours=3)).isoformat(),
+            "user_available_to_export": "true",
+            "user_available_to_terminate": "true",
+            "backup_destination": "/tmp/eic-gcp-export",
+        }
+        with TemporaryDirectory() as temp:
+            session = Path(temp) / "gcp.yaml"
+            session.write_text("\n".join(f"{key}: {value}" for key, value in values.items()) + "\n")
+            result = subprocess.run(
+                ["bash", str(SCRIPT), "--session", str(session), "--gate", "G3A"],
+                cwd=ROOT,
+                text=True,
+                capture_output=True,
+                check=False,
+            )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn("paid-session gate passed", result.stdout)
+
 
 if __name__ == "__main__":
     unittest.main()

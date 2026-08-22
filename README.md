@@ -3,9 +3,9 @@
 Implementation of the Agentic Workload Simulator coding test. The assignment
 PDF remains the source of truth. This repository contains the cloud-ready
 bootstrap and state machinery plus a compact, measured first-control record
-from a gated Lightning H100 session. The Lambda H100 remains the target
-platform; Lightning measurements are kept explicitly separate and are never
-presented as Lambda results.
+from a gated Lightning H100 session. The planned next measurement path is a
+single GCP A3 H100 Spot VM; Lightning measurements are kept explicitly
+separate and are never presented as GCP or Lambda results.
 
 ## Current status
 
@@ -43,6 +43,13 @@ preserved and normalized locally by
 accounting and a payload-free first-control summary are implemented locally;
 empirical thin telemetry and the four sweeps remain deferred until a fresh
 paid-session authorization.
+
+The GCP H100 setup and bounded pilot are documented in
+[`cloud/gcp/RUNBOOK.md`](cloud/gcp/RUNBOOK.md). The project currently has no
+self-service adjustable H100 quota, so no GCP measurement is claimed until
+that access is granted. Request-aware profiled attempts use
+`scripts/observability/request_proxy.py`, which records timing and hashes
+without storing prompts or responses.
 
 See `docs/assignment_traceability.md` for the frozen deliverable-to-evidence
 map and `project/PUBLIC_REFERENCE_LOCK.json` for the comparison-only public
