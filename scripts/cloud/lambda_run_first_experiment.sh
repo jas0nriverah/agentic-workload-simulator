@@ -125,7 +125,23 @@ fi
 COMMAND="${COMMAND//http:\/\/127.0.0.1:8000\/v1/$MODEL_API_BASE}"
 EVALUATOR="${EVALUATOR//$BASE_EVALUATOR_REPORT_DIR/$EVALUATOR_REPORT_DIR}"
 EVALUATOR_RUN_ID="${EXPERIMENT_ID}-${ATTEMPT_ID}"
-EVALUATOR="${EVALUATOR//--run_id $EXPERIMENT_ID/--run_id $EVALUATOR_RUN_ID}"
+# The reviewed manifest may use a human-readable base run ID (for example
+# `gcp-h100-pilot`) rather than EXPERIMENT_ID.  Always replace the value
+# attached to the official evaluator's --run_id flag so every attempt gets an
+# isolated report namespace; never rely on the two names coinciding.
+if [[ "$EVALUATOR" == *"--run_id"* ]]; then
+  EVALUATOR="$(python3 - "$EVALUATOR" "$EVALUATOR_RUN_ID" <<'PY'
+import re
+import sys
+
+command, run_id = sys.argv[1:]
+updated, count = re.subn(r"(--run_id\s+)([^\s]+)", lambda m: m.group(1) + run_id, command, count=1)
+if count != 1:
+    raise SystemExit("official evaluator --run_id flag is present but has no value")
+print(updated, end="")
+PY
+)"
+fi
 
 AGENT_LOG="$LOG_DIR/$ID.$MODE.agent.log"
 EVAL_LOG="$LOG_DIR/$ID.$MODE.evaluation.log"
