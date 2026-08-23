@@ -3,7 +3,7 @@ updated_at_utc: 2026-08-23T05:36:00Z
 overall_status: gcp_h100_measurement_in_progress
 phase: CR0_CR1_CR2_CR3_CR4_CR5_CR6_CR7_CR8_CR9_CR10_CR11_CR12_CR13_G3A_G4_LOCAL
 current_task: G10-gap-audit-timing-profiling-calibration-simulator-after-call-limit-condition
-last_verified_commit: 6563029b027c904dde2b6d159b74696e23eebcc0
+last_verified_commit: 8016fcc8f99269c16fbcce3358972df344964dce
 last_verified_commit_role: measured_gcp_h100_batches_request_profile_and_simulator_contract
 assignment_lock_hash: 02f485cdd8cca4aae242d2f1a5306184a95d7ee0fae42527d7153f48a3424761
 working_tree_dirty: false
@@ -62,7 +62,7 @@ gates:
   G7_step1_baseline: pending
   G8_step2_sweeps: measured_partial_temperature_0.2_and_call_limit_20_conditions_no_more_sweep_queued
   G9_step3_deep_profile: partial_gcp_h100_request_boundary_high_frequency_direct_dmon_case_study_and_cuda_microbenchmark_measured_container_cuda_trace_unavailable
-  G10_step4_simulator: service_calibration_matrix_and_aligned_request_gpu_overlap_measured_gpu_seconds_and_holdout_error_pending
+  G10_step4_simulator: service_calibration_matrix_and_aligned_request_gpu_overlap_measured_cuda_event_sampler_limit_exposed_gpu_seconds_and_holdout_error_pending
   G11_final_audit: pending
 
 next_actions:
@@ -74,7 +74,7 @@ next_actions:
   - use project/GCP_H100_GAP_AUDIT_20260823.md as the current explicit remaining-gap ledger
   - retain project/GCP_H100_SIMULATOR_HOLDOUT_STATUS_20260823.json; do not fit or report simulator error without decomposed records
   - retain project/GCP_H100_SERVICE_CALIBRATION_REQUEST_METRICS_20260823.json; use server-side deltas for calibration analysis but do not treat them as GPU seconds
-  - retain project/GCP_H100_ALIGNED_REQUEST_GPU_20260823.json; use shared CLOCK_MONOTONIC_RAW overlap for the CPU/GPU case study but do not infer per-request device seconds
+  - retain project/GCP_H100_ALIGNED_REQUEST_GPU_20260823.json and project/GCP_H100_GPU_UTIL_CUDA_EVENT_CALIBRATION_20260823.json; use shared CLOCK_MONOTONIC_RAW overlap and CUDA-event sampler-limit evidence for the CPU/GPU case study but do not infer per-request device seconds
   - aggregate the four assignment sweeps and produce report-ready figures from immutable manifests
   - perform the final assignment-gap audit only after the remaining GPU-dependent evidence is complete
 active_experiments: []

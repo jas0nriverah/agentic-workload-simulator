@@ -53,6 +53,10 @@ are resolved.
 
 ## Next action order
 
+### CUDA-event/utilization calibration result
+
+The isolated H100 probe completed successfully and provides CUDA-event ground truth plus contemporaneous aggregate utilization samples. Because the kernels were shorter than the 50 ms sampler period, utilization overlap was zero/near-zero; this exposes sampler-resolution limits rather than providing a usable conversion. Per-request vLLM GPU seconds and held-out simulator error remain open. Do not treat this artifact as an E2E calibration row.
+
 Preserve and push the direct case-study manifest and this audit; continue only
 with a named gap-closing operation: container-native profiling if feasible,
 otherwise offline simulator-contract/holdout preparation and report aggregation

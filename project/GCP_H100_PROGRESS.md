@@ -191,4 +191,8 @@ per-request GPU time is inferred.
 
 ## Interpretation
 
+## H100 CUDA-event/utilization calibration (2026-08-23)
+
+An isolated in-container Torch matmul probe recorded CUDA-event execution time while a host sampler captured 50 ms `nvidia-smi` utilization samples on the same `CLOCK_MONOTONIC_RAW` clock. Three sizes completed successfully (1024×20, 2048×10, 4096×5; CUDA-event durations 1.009 ms, 0.474 ms, and 0.916 ms). The aggregate sampler observed zero or near-zero overlap because each kernel completed between samples. This is boundary evidence about sampler resolution, not a valid per-request vLLM GPU-seconds calibration; raw provenance is preserved in `GCP_H100_GPU_UTIL_CUDA_EVENT_CALIBRATION_20260823.json`.
+
 These are real generated-patch evaluations on the pinned GCP H100 runtime. Resolved-rate claims are limited to the listed batches and are not extrapolated to the assignment target. Profiling, simulator fitting, and report synthesis must use the raw artifacts and preserve incomplete/unresolved outcomes. The remaining high-value work is, in order: request-level CPU/model/GPU timing evidence, profiling for the CPU/GPU case study, vLLM calibration for the simulator, held-out simulator validation/error, repository/category diversity for final plots, and only then any sweep condition shown to be required by the assignment.
