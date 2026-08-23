@@ -31,7 +31,32 @@ This file records only measured Google Cloud H100 evidence from the live session
 
 The first Verified batch has one reproducible incomplete Django environment build; the batch03 retry also has one incomplete environment outcome. Both are retained as incomplete outcomes, not silently removed. The separate `verified-django-retry` reproduced the same `edit_anthropic` environment-install failure and is not counted as a completed evaluation.
 
-The listed GCP artifacts contain 31 completed Lite evaluations (including one production run) and 28 completed Verified evaluations, with two incomplete Verified outcomes in the listed batches. These totals are descriptive of the recorded batches only; they are not an assignment-wide resolved-rate claim.
+The listed GCP artifacts contain 32 completed Lite evaluations (including the additional
+`astropy__astropy-14182` run) and 29 completed Verified evaluations (including the
+additional `astropy__astropy-14365` run), with two incomplete Verified outcomes in the
+listed batches. These totals are descriptive of the recorded batches only; they are not
+an assignment-wide resolved-rate claim.
+
+### Additional pinned production runs (2026-08-23)
+
+- Lite `astropy__astropy-14182` (`gcp-h100-additional-lite-20260823`): one worker,
+  agent return code 0, official evaluator return code 0, completed, non-empty patch,
+  unresolved by the official evaluator. Source/evaluator dataset SHA-256:
+  `2a81fb7ede9f2f824ad2a7c093edc1b4114cc7e935e04ab0915de3f60811fb66`.
+  Runtime dataset SHA-256:
+  `4b0d788ea0adc873297c2ef9aadd0ead1245301fb6b7757129d5b186c3aa3eb6`.
+  The worker ran from `2026-08-23T03:58:42Z` to `2026-08-23T04:02:07Z`.
+- Verified `astropy__astropy-14365` (`gcp-h100-additional-verified-20260823`):
+  one worker, agent return code 0, official evaluator return code 0, completed,
+  non-empty patch, unresolved by the official evaluator. Source/evaluator dataset
+  SHA-256: `7e5484a2bf332963c2f20c538d1618813e33e2cc6108824869ef8b80f0ddf740`.
+  Runtime dataset SHA-256:
+  `898a1d687277b62100dcd1cabccf47340168e9f32ebac3daee76cc146cc04d03`.
+  The worker ran from `2026-08-23T04:03:52Z` to `2026-08-23T04:08:28Z`.
+
+The two additional runs are measured evidence, not resolved-rate claims. Their exact
+worker/evaluator command hashes and raw paths are retained in the corresponding
+tracked evidence manifests and on the VM.
 
 ## Active/queued work
 
@@ -81,9 +106,20 @@ server and stored hashes plus timing metadata, never prompts or responses.
   responsiveness measurement, not a task-throughput or resolved-rate claim.
 - These measurements extend the evidence base without changing the pinned
   model, vLLM, SWE-agent, evaluator, or experiment settings. The remaining
-  simulator blocker is unchanged because no paired per-request CPU/GPU/score
-  record exists.
+  simulator blocker is narrowed: a paired control/thin end-to-end record now
+  exists, but request-level GPU attribution and a measured simulator holdout still
+  do not.
+
+## Paired thin/control record (2026-08-23)
+
+`project/GCP_H100_THIN_20260823.json` records the paired thin-telemetry run for
+the same `astropy__astropy-12907` control instance. Both agent and official
+evaluator returned zero; the official evaluator marked the generated non-empty
+patch unresolved. The run captured 77 telemetry/profile samples with all required
+vLLM metric families present, plus a real `counters.unavailable.json` marker.
+The host GPU samples and vLLM metrics are server/host aggregate observations; no
+per-request GPU time is inferred.
 
 ## Interpretation
 
-These are real generated-patch evaluations on the pinned GCP H100 runtime. Resolved-rate claims are limited to the listed batches and are not extrapolated to the assignment target. Profiling, simulator fitting, and report synthesis must use the raw artifacts and preserve incomplete/unresolved outcomes. Remaining high-value work is request-level GPU attribution or an explicit validated limitation, simulator calibration/holdout validation, sweep/report aggregation, and the final requirement audit.
+These are real generated-patch evaluations on the pinned GCP H100 runtime. Resolved-rate claims are limited to the listed batches and are not extrapolated to the assignment target. Profiling, simulator fitting, and report synthesis must use the raw artifacts and preserve incomplete/unresolved outcomes. Remaining high-value work is request-level GPU attribution or an explicit validated limitation, simulator calibration/holdout validation, assignment sweep/report aggregation, and the final requirement audit.

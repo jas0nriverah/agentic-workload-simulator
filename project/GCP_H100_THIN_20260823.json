@@ -1,0 +1,36 @@
+{
+  "schema_version": "gcp-h100-thin-run.v1",
+  "provenance": "measured",
+  "provider": "Google Cloud",
+  "vm": "instance-20260822-182111",
+  "zone": "us-central1-a",
+  "hardware": "NVIDIA H100 80GB HBM3",
+  "experiment_id": "gcp-h100-thin-20260823",
+  "attempt_id": "thin-01",
+  "dataset": "SWE-bench_Lite",
+  "instance_id": "astropy__astropy-12907",
+  "mode": "thin-telemetry",
+  "clock": {
+    "clock_id": "CLOCK_MONOTONIC_RAW",
+    "hostname": "instance-20260822-182111",
+    "boot_id": "24714e4f-4b78-4c1a-9111-d4c2ca8fb4cb0"
+  },
+  "started_at_utc": "2026-08-23T03:48:02.836Z",
+  "ended_at_utc": "2026-08-23T03:49:28.472Z",
+  "duration_ms": 85634.556869,
+  "agent_returncode": 0,
+  "evaluator_returncode": 0,
+  "official_resolved": 0,
+  "official_unresolved": 1,
+  "empty_patch": 0,
+  "telemetry_sample_count": 77,
+  "request_or_tool_event_count": 0,
+  "vllm_metrics_status": "measured",
+  "vllm_missing_required_metric_families": [],
+  "artifact_contract": {
+    "real_counters_parquet": false,
+    "unavailable_marker": "counters.unavailable.json"
+  },
+  "raw_artifact_root": "/home/jasonrivera691/eic-work/data/raw/gcp-h100-thin-20260823/lite/astropy__astropy-12907/thin-01",
+  "claim_boundary": "Paired end-to-end thin/control evidence with shared clock and aggregate host/vLLM observations; per-request GPU attribution is unavailable."
+}
