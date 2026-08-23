@@ -35,7 +35,8 @@ are resolved.
 3. **Simulator calibration/holdout:** the standalone CUDA matmul benchmark is a
    real GPU measurement but is not a vLLM/SWE-agent calibration set. No measured
    paired CPU/GPU decomposition exists, so no simulator fit or held-out error
-   claim is permitted.
+   claim is permitted. The explicit status is retained in
+   `GCP_H100_SIMULATOR_HOLDOUT_STATUS_20260823.json`.
 4. **Repository/category diversity:** current GCP production evidence is
    dominated by Astropy rows. The recorded batches are not an assignment-wide
    population and must not be generalized to one.
@@ -54,4 +55,3 @@ otherwise offline simulator-contract/holdout preparation and report aggregation
 from immutable manifests. Do not launch more hyperparameter conditions merely to
 consume GPU time. Keep the VM and vLLM service available while useful authorized
 work remains, and do not infer completion from this audit alone.
-

@@ -1,0 +1,28 @@
+{
+  "schema_version": "gcp-h100-simulator-holdout-status.v1",
+  "provenance": "measured_state_audit",
+  "status": "blocked_by_missing_paired_decomposition",
+  "reference_implementation": "src/agentic_sim/simulator.py",
+  "required_record_fields": [
+    "observed_seconds",
+    "cpu_seconds",
+    "gpu_seconds_at_reference",
+    "reference_score",
+    "provenance"
+  ],
+  "available_evidence": {
+    "request_boundary_profile": "project/GCP_H100_REQUEST_PROFILE_20260823.json",
+    "direct_aggregate_gpu_case_study": "project/GCP_H100_CPU_GPU_CASE_STUDY_20260823.json",
+    "direct_aggregate_gpu_case_study_hires": "project/GCP_H100_CPU_GPU_CASE_STUDY_HIRES_20260823.json",
+    "standalone_cuda_benchmark": "project/GCP_H100_CUDA_CALIBRATION_20260823.json",
+    "paired_thin_control": "project/GCP_H100_THIN_20260823.json"
+  },
+  "rejection_reasons": [
+    "The request profile has boundary timing but no per-run CPU/GPU decomposition.",
+    "The dmon case studies are aggregate GPU samples and cannot be converted into gpu_seconds_at_reference.",
+    "The standalone CUDA matmul benchmark is not representative of vLLM/SWE-agent request phases.",
+    "The paired thin/control record has aggregate host and server metrics, not per-request device time."
+  ],
+  "holdout_result": null,
+  "claim_boundary": "No fitted simulator, prediction, or held-out error is reported until at least two measured or explicitly calibrated decomposed records exist."
+}

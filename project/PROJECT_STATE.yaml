@@ -1,5 +1,5 @@
 schema_version: 1
-updated_at_utc: 2026-08-23T04:58:00Z
+updated_at_utc: 2026-08-23T05:02:00Z
 overall_status: gcp_h100_measurement_in_progress
 phase: CR0_CR1_CR2_CR3_CR4_CR5_CR6_CR7_CR8_CR9_CR10_CR11_CR12_CR13_G3A_G4_LOCAL
 current_task: G10-gap-audit-timing-profiling-calibration-simulator-after-call-limit-condition
@@ -72,6 +72,7 @@ next_actions:
   - preserve the high-frequency direct case-study manifest and raw SHA-256 values
   - calibrate and hold out simulator predictions before making any latency-ratio claim
   - use project/GCP_H100_GAP_AUDIT_20260823.md as the current explicit remaining-gap ledger
+  - retain project/GCP_H100_SIMULATOR_HOLDOUT_STATUS_20260823.json; do not fit or report simulator error without decomposed records
   - aggregate the four assignment sweeps and produce report-ready figures from immutable manifests
   - perform the final assignment-gap audit only after the remaining GPU-dependent evidence is complete
 active_experiments: []
