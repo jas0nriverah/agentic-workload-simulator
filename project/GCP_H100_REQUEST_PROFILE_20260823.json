@@ -1,0 +1,74 @@
+{
+  "schema_version": "gcp-h100-request-profile.v1",
+  "provenance": "measured",
+  "provider": "Google Cloud",
+  "vm": "instance-20260822-182111",
+  "zone": "us-central1-a",
+  "hardware": "NVIDIA H100 80GB HBM3",
+  "clock": {
+    "clock_id": "CLOCK_MONOTONIC_RAW",
+    "hostname": "instance-20260822-182111",
+    "boot_id": "24714e4f-4b78-4c1a-9111-d4c2ca8b4cb0"
+  },
+  "configuration": {
+    "model": "Qwen/Qwen3-Coder-30B-A3B-Instruct",
+    "model_revision": "b2cff646eb4bb1d68355c01b18ae02e7cf42d120",
+    "vllm": "0.10.0",
+    "vllm_image_digest": "sha256:05a31dc4185b042e91f4d2183689ac8a87bd845713d5c3f987563c5899878271",
+    "swe_agent_revision": "0f3acafacabc0def8cc76b4e48acb4b6cf302cb9",
+    "swe_bench_revision": "726c5461e2ef52d83cf1ea2107870a8bb3328d57",
+    "upstream_port": 8000,
+    "proxy_port": 8001,
+    "payloads_unchanged": true,
+    "prompt_response_payloads_stored": false
+  },
+  "synthetic_matrix": [
+    {"input_tokens": 512, "output_tokens": 64, "http_status": 200, "duration_ms": 410.088},
+    {"input_tokens": 512, "output_tokens": 512, "http_status": 200, "duration_ms": 452.656},
+    {"input_tokens": 4096, "output_tokens": 64, "http_status": 200, "duration_ms": 417.899},
+    {"input_tokens": 4096, "output_tokens": 512, "http_status": 200, "duration_ms": 591.985},
+    {"input_tokens": 16384, "output_tokens": 64, "http_status": 200, "duration_ms": 461.488},
+    {"input_tokens": 16384, "output_tokens": 512, "http_status": 200, "duration_ms": 644.424}
+  ],
+  "real_trajectory": {
+    "run_id": "gcp-h100-proxy-profile3-20260823",
+    "attempt_id": "proxy-01",
+    "dataset": "SWE-bench_Lite",
+    "instance_id": "astropy__astropy-12907",
+    "mode": "thin-telemetry",
+    "proxy_event_count": 31,
+    "agent_returncode": 0,
+    "evaluator_returncode": 0,
+    "official_resolved": 0,
+    "official_unresolved": 1,
+    "empty_patch": 0,
+    "profile_event_count": 86,
+    "profile_telemetry_scrape_count": 86,
+    "model_call_event_count": 0,
+    "raw_artifact_root": "/home/jasonrivera691/eic-work/data/raw/gcp-h100-proxy-profile3-20260823/lite/astropy__astropy-12907/proxy-01",
+    "request_event_artifact": "/home/jasonrivera691/eic-work/artifacts/observability/request-profile-20260823/request_events.jsonl",
+    "metrics_artifact": "/home/jasonrivera691/eic-work/artifacts/observability/request-profile-20260823/vllm.metrics.prom",
+    "trajectory_bytes": 1935797,
+    "patch_bytes": 10294
+  },
+  "concurrency_profile": {
+    "artifact": "/home/jasonrivera691/eic-work/artifacts/observability/request_concurrency_20260823.json",
+    "total_requests": 15,
+    "concurrency_levels": [1, 2, 4, 8],
+    "http_200": 15,
+    "http_errors": 0,
+    "claim_boundary": "Measured synthetic proxy traffic only; this does not represent SWE-agent trajectory throughput or per-request GPU attribution."
+  },
+  "interpretation": {
+    "request_boundary_timing": "measured",
+    "request_identity_to_gpu_time": "unavailable",
+    "vllm_metrics_scope": "server_aggregate",
+    "gpu_utilization_per_request": "unavailable",
+    "prompt_response_content": "intentionally_not_recorded",
+    "claim_boundary": "This profile proves lossless request-boundary timing and shared clock identity. It does not assign GPU time or aggregate vLLM counters to individual requests."
+  },
+  "sha256_prefix_recorded_during_session": {
+    "request_events_jsonl": "54287a6439e70bb1cbb11e3de90a9db5e005d",
+    "vllm_metrics_prom": "c188916748f3e5a5085418f09c0844d"
+  }
+}

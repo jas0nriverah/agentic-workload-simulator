@@ -9,7 +9,9 @@ MANIFEST="$ROOT/cloud/lambda/instance_manifest.env"
 SESSION="$ROOT/cloud/lambda/cloud_session.yaml"
 OUTPUT=""
 MARKER=""
-BASE_URL="http://127.0.0.1:8000/v1"
+# vLLM's bench client appends the API prefix from --endpoint.  Keep the base
+# host URL here so it does not construct /v1/v1/completions.
+BASE_URL="http://127.0.0.1:8000"
 MODEL=""
 MODEL_REVISION=""
 VLLM_VERSION="0.10.0"
@@ -29,7 +31,7 @@ while (($#)); do
     --session) SESSION="$2"; shift 2;;
     --output) OUTPUT="$2"; shift 2;;
     --first-result-marker) MARKER="$2"; shift 2;;
-    --base-url) BASE_URL="$2"; shift 2;;
+    --base-url) BASE_URL="${2%/v1}"; shift 2;;
     --model) MODEL="$2"; shift 2;;
     --input-len) INPUT_LEN="$2"; shift 2;;
     --output-len) OUTPUT_LEN="$2"; shift 2;;
@@ -62,15 +64,21 @@ manifest_image="$(manifest_value VLLM_IMAGE)"
 [[ -n "$manifest_image" ]] && VLLM_IMAGE="$manifest_image"
 HF_CACHE="$(manifest_value HF_HUB_CACHE)"
 cache_root="$(manifest_value CACHE_ROOT)"
-if [[ -z "$HF_CACHE" && -n "$cache_root" ]]; then HF_CACHE="$cache_root/huggingface/hub"; fi
-[[ -n "$HF_CACHE" ]] || HF_CACHE="/home/ubuntu/agentic-work/cache/huggingface/hub"
+# HF_HOME is the directory mounted into the container.  It must contain the
+# `hub/` child; mounting the hub directory itself one level too high makes
+# Transformers unable to resolve the already-downloaded model offline.
+if [[ -z "$HF_CACHE" && -n "$cache_root" ]]; then HF_CACHE="$cache_root/huggingface"; fi
+[[ -n "$HF_CACHE" ]] || HF_CACHE="/home/ubuntu/agentic-work/cache/huggingface"
 EXPECTED_VLLM_IMAGE='vllm/vllm-openai:v0.10.0@sha256:05a31dc4185b042e91f4d2183689ac8a87bd845713d5c3f987563c5899878271'
 [[ "$VLLM_IMAGE" == "$EXPECTED_VLLM_IMAGE" ]] || { (( DRY )) || { echo "refusing non-frozen vLLM image: $VLLM_IMAGE" >&2; exit 1; }; }
+MODEL_SLUG="${MODEL//\//--}"
+TOKENIZER_PATH="/root/.cache/huggingface/hub/models--${MODEL_SLUG}/snapshots/${MODEL_REVISION}"
 
 CMD=(docker run --rm --network host --ipc=host --gpus device=0
   --entrypoint vllm -e HF_HOME=/root/.cache/huggingface -e HF_HUB_OFFLINE=1
   -v "$HF_CACHE:/root/.cache/huggingface" "$VLLM_IMAGE"
   bench serve --backend vllm --base-url "$BASE_URL" --model "$MODEL"
+  --tokenizer "$TOKENIZER_PATH"
   --dataset-name random --random-input-len "$INPUT_LEN" --random-output-len "$OUTPUT_LEN"
   --num-prompts "$NUM_PROMPTS" --max-concurrency "$MAX_CONCURRENCY" --save-result --save-detailed
   --result-dir "$OUTPUT")

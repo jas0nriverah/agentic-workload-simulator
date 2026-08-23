@@ -23,6 +23,20 @@ Record the exact command/config hash for every condition. Keep control and
 thin telemetry payloads identical; report telemetry as observation overhead
 only when the paired timing boundary and provenance support that comparison.
 
+### 1.1 GCP H100 measured evidence
+
+The first Google Cloud H100 session is recorded in
+`project/GCP_H100_MEASUREMENTS.json`. It contains one genuine uninstrumented
+Lite trajectory (`astropy__astropy-12907`) resolved by the official evaluator,
+a paired thin-telemetry trajectory that also resolved, Lite and Verified gold
+smokes that resolved, and a two-worker/two-row Lite batch whose workers and
+official evaluators both completed successfully. The service calibration
+record reports measured request/TTFT/TPOT/ITL values but deliberately makes no
+GPU-time claim. The GCP sample is evidence of a working end-to-end pipeline,
+not a six-repository population baseline. Request-level CPU:model-serving
+correlation, simulator holdout error, and the assignment's population claims
+remain `PENDING` until the required event-level data exists.
+
 ## 2. Step 1 — baseline and repository categories
 
 ### 2.1 Accuracy and end-to-end latency (Deliverable 1)

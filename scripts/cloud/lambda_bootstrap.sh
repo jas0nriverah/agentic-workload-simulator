@@ -175,11 +175,6 @@ EOF
   exit 0
 fi
 
-# A dry-run validates pins and command construction without requiring the
-# target host's Python environment to exist. Only a mutating bootstrap may
-# require the resolved interpreter to be present.
-[[ -x "$PYTHON_BIN" ]] || { echo "Python executable is unavailable: $PYTHON_BIN" >&2; exit 1; }
-
 mkdir -p -- "$LOG_DIR" "$STATE" "$WORK_ROOT/artifacts/manifests"
 exec > >(tee -a "$LOG_DIR/bootstrap.log") 2>&1
 

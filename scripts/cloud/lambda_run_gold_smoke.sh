@@ -327,6 +327,11 @@ run_suite() {
   grep -Fqx "$image_repo@$digest" <<<"$repo_digests" || die "$suite image is not present at the pinned digest"
   [[ ! -e "$suite_root" ]] || die "gold output already exists: $suite_root"
   mkdir -p -- "$report_dir"
+  # Gold-only evaluator runs do not execute an agent trajectory, so they
+  # cannot produce request/GPU counters.  Record that fact explicitly to
+  # satisfy artifact contract v2 without fabricating telemetry.
+  printf '%s\n' '{"artifact":"counters.unavailable.json","provenance":"unavailable","reason":"gold evaluator smoke has no trajectory telemetry","schema_version":"cr6.artifact.v2","status":"unavailable"}' \
+    > "$suite_root/counters.unavailable.json"
   python3 - "$manifest_path" "$suite" "$EXPERIMENT_TYPE" "$run_id" "$instance_id" "$SWE_BENCH_REVISION" "$dataset_path" "$image" "$digest" "$report_dir" "$log_path" <<'PY'
 import json
 import pathlib

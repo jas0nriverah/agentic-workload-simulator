@@ -80,6 +80,20 @@ The request proxy records request IDs, timing boundaries, status, body hashes,
 sizes, and returned token counts without recording prompts, responses, or API
 keys.
 
+### Completed GCP H100 pilot
+
+The quota-enabled GCP VM has produced measured end-to-end evidence. The
+tracked summary is `project/GCP_H100_MEASUREMENTS.json`; raw artifacts remain
+under `/home/jasonrivera691/eic-work` on the VM. The uninstrumented Lite
+control (`astropy__astropy-12907`) resolved 1/1 with agent and official
+evaluator return code 0. Its paired thin-telemetry run also resolved 1/1.
+Lite and Verified gold smokes both resolved 1/1, and a two-worker/two-row Lite
+batch completed with agent and evaluator return code 0 on both workers. A
+one-request vLLM calibration measured TTFT, TPOT, and ITL; it deliberately
+makes no GPU-time claim. This is valuable pilot evidence, but it is not yet
+the assignment's six-repository baseline or event-level CPU:model-serving
+correlation, so population and simulator claims remain pending.
+
 The last verified GCP console state, before the user reported fixing it, was:
 
 - H100 regional quota in `us-east4`: `0`
@@ -189,6 +203,18 @@ Do not change the frozen experimental design after the smoke gate without
 recording the reason, affected manifests, and interpretation impact.
 
 ## Required final experiment report
+
+### Current GCP collection-contract status
+
+The narrow gold-smoke collection fix is implemented and pushed in commits
+`1ec7e57` and `2bf8310`. New gold-smoke reports create exactly one explicit
+`counters.unavailable.json` marker when no trajectory telemetry exists; they do
+not fabricate Parquet. The corresponding local collection/runtime/evaluator
+tests pass (37 targeted tests; 111 full tests). Existing remote gold-smoke
+directories still need the marker repair and a fresh immutable export archive.
+Do that on the live VM before shutdown. The VM must remain running while this
+export, diverse production sampling, calibration, and any selected profiling
+remain useful.
 
 When the session ends, report:
 

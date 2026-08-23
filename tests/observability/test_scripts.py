@@ -1,4 +1,6 @@
 import subprocess
+import importlib.util
+import sys
 import tempfile
 import unittest
 from pathlib import Path
@@ -8,6 +10,23 @@ ROOT = Path(__file__).resolve().parents[2]
 
 
 class OptionalScriptContractTests(unittest.TestCase):
+    def test_deep_profile_reads_nested_and_legacy_capability_shapes(self):
+        module_path = ROOT / "scripts/observability/run_deep_profile.py"
+        spec = importlib.util.spec_from_file_location("run_deep_profile", module_path)
+        self.assertIsNotNone(spec)
+        module = importlib.util.module_from_spec(spec)
+        sys.modules[spec.name] = module
+        spec.loader.exec_module(module)
+        for payload in (
+            {"tools": {"tools": {"nsys": {"status": "available", "executable": "/usr/bin/nsys"}}}},
+            {"tools": {"nsys": {"status": "available", "executable": "/usr/bin/nsys"}}},
+        ):
+            with tempfile.TemporaryDirectory() as temp:
+                manifest = Path(temp) / "capabilities.json"
+                manifest.write_text(__import__("json").dumps(payload), encoding="utf-8")
+                result = module._capability(manifest, "nsys")
+                self.assertEqual(result["executable"], "/usr/bin/nsys")
+
     def test_calibration_is_pinned_container_only(self):
         text = (ROOT / "scripts/observability/calibrate_vllm.sh").read_text(encoding="utf-8")
         self.assertIn("vllm/vllm-openai:v0.10.0@sha256:", text)

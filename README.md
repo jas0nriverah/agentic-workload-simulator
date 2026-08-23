@@ -2,10 +2,9 @@
 
 Implementation of the Agentic Workload Simulator coding test. The assignment
 PDF remains the source of truth. This repository contains the cloud-ready
-bootstrap and state machinery plus a compact, measured first-control record
-from a gated Lightning H100 session. The planned next measurement path is a
-single GCP A3 H100 Spot VM; Lightning measurements are kept explicitly
-separate and are never presented as GCP or Lambda results.
+bootstrap and state machinery plus measured controls from Lightning/Modal and
+a live Google Cloud A3 H100 session. Provider-specific measurements remain
+explicitly separate and are never presented as interchangeable results.
 
 ## Current status
 
@@ -19,14 +18,16 @@ separate and are never presented as GCP or Lambda results.
   command contracts passed local validation and independent review
 - Linux x86-64 rehearsal and first-trajectory inventory are free/local checks;
   unavailable host tools are reported explicitly and strict CI fails closed
-- One paid Lightning H100 measurement window and subsequent authorized Modal
-  H100 measurements are recorded separately. Raw model patches may contain
+- One paid Lightning H100 measurement window, subsequent Modal H100
+  measurements, and a Google Cloud H100 measurement window are recorded
+  separately. Raw model patches may contain
   scratch files; clean derived submissions are explicitly labeled as derived.
-- Deep profiling now includes two additional H100 samples with syscall-level
-  file events and aggregate vLLM token/request snapshots. The Verified sample
-  resolved cleanly; the Lite sample remains unresolved/non-clean. Per-request
-  CPU/GPU correlation and simulator holdout validation remain pending; sweep
-  SVG figures are generated under `project/figures/`.
+- Deep profiling now includes H100 samples with syscall-level file events and
+  aggregate vLLM token/request snapshots. The Verified sample resolved cleanly;
+  the Lite sample remains unresolved/non-clean. A GCP proxy profile records 31
+  real request boundaries without storing payloads. Per-request GPU attribution
+  and simulator holdout validation remain pending; sweep SVG figures are
+  generated under `project/figures/`.
 
 ## First local checks
 
@@ -45,11 +46,18 @@ empirical thin telemetry and the four sweeps remain deferred until a fresh
 paid-session authorization.
 
 The GCP H100 setup and bounded pilot are documented in
-[`cloud/gcp/RUNBOOK.md`](cloud/gcp/RUNBOOK.md). The project currently has no
-self-service adjustable H100 quota, so no GCP measurement is claimed until
-that access is granted. Request-aware profiled attempts use
+[`cloud/gcp/RUNBOOK.md`](cloud/gcp/RUNBOOK.md). Measured GCP evidence is
+indexed in `project/GCP_H100_PROGRESS.md` and
+`project/GCP_H100_REQUEST_PROFILE_20260823.json`. Request-aware profiled attempts use
 `scripts/observability/request_proxy.py`, which records timing and hashes
 without storing prompts or responses.
+
+The simulator implementation is `src/agentic_sim/simulator.py` and the
+offline driver is `scripts/analysis/evaluate_simulator.py`. It requires an
+explicit measured/calibrated CPU/GPU phase decomposition and reports holdout
+error as derived evidence; it will reject aggregate vLLM counters or GPU
+utilization as fake per-request GPU time. No simulator holdout claim is made
+until such decomposed records are collected.
 
 See `docs/assignment_traceability.md` for the frozen deliverable-to-evidence
 map and `project/PUBLIC_REFERENCE_LOCK.json` for the comparison-only public
