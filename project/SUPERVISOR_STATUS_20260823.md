@@ -1,6 +1,6 @@
 # Supervisor status — 2026-08-23
 
-Last checked: 2026-08-23 20:11 UTC
+Last checked: 2026-08-23 20:19 UTC
 
 ## Current state
 
@@ -14,10 +14,13 @@ Last checked: 2026-08-23 20:11 UTC
 - `project/PROJECT_STATE.yaml` reports `active_experiments: []` and
   `active_agent_tasks: []`. The latest recorded task is the G10 profiled
   request-diversity checkpoint.
-- The GCP VM instances page currently shows no active VM rows. The measured
-  GCP artifacts identify the earlier H100 VM as
-  `instance-20260822-182111` in `us-central1-a`; do not assume it is still
-  running.
+- The direct GCP details page confirms
+  `instance-20260822-182111` is currently `Running` in `us-central1-a` with
+  `a3-highgpu-1g`, one NVIDIA H100 80GB, Spot provisioning, and external IP
+  `34.132.119.55`. The VM list itself is suffering a console loading issue.
+- Direct SSH from the local host was denied by public key. SSH-in-browser could
+  be opened, but its authorization flow ended with `Failed to get access
+  token`; no remote process inspection was possible.
 
 ## Completed evidence since the earlier handoff
 
@@ -43,10 +46,13 @@ Last checked: 2026-08-23 20:11 UTC
 
 ## Supervisor decision
 
-No expensive run should be restarted from this host. If Codex resumes, allow it
-to continue from the latest immutable checkpoint. If intervention is required,
-the next useful action is a specifically named gap-closing operation capable of
-producing paired CPU/model-serving/GPU evidence—not another completed sweep or
-plotting pass. Preserve all remote artifacts before any VM shutdown.
+No expensive run should be restarted from this host. The H100 is live but its
+workload is unverified, so treat it as potentially idle and do not assume that
+Codex is consuming it productively. If Codex resumes or SSH access is repaired,
+inspect processes, `nvidia-smi`, logs, and artifact timestamps before starting
+anything. The next useful action is a specifically named gap-closing operation
+capable of producing paired CPU/model-serving/GPU evidence—not another
+completed sweep or plotting pass. Preserve all remote artifacts before any VM
+shutdown.
 
 This file is an operational observation log, not experimental evidence.
