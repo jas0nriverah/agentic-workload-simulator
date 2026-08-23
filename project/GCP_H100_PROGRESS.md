@@ -242,3 +242,10 @@ These are real generated-patch evaluations on the pinned GCP H100 runtime. Resol
 - Compact evidence: project/GCP_H100_VLLM_CALIBRATION_20260823E.json and .md.
 - Measured median TTFT: 24.84 / 33.80 / 62.84 ms; median TPOT: 6.33 / 5.94 / 6.03 ms; output throughput: 151.68 / 157.84 / 145.19 tok/s (128 / 512 / 2048 input).
 - This is service calibration only. No GPU-time claim, fit, or holdout error was fabricated; aggregate NVML remains insufficient for gpu_seconds_at_reference.
+
+## 2026-08-23 G — request-level profile with 5 ms NVML + vLLM metrics
+- Completed one pinned uninstrumented Lite SWE-agent trajectory for `astropy__astropy-12907` through the local request proxy; agent and official evaluator both exited 0. The generated patch was officially unresolved and is retained as an outcome.
+- Captured 31 serialized request boundaries, 2,186 vLLM metric snapshots, and 45,108 direct NVML samples. All aligned records share the same host, boot identity, and `CLOCK_MONOTONIC_RAW` clock.
+- Compact evidence: `project/GCP_H100_REQUEST_PROFILE_20260823G.json` and `.md`. Aggregate proxy duration was 58.788029 s over 432,289 prompt and 8,388 completion tokens. vLLM cumulative deltas were 57.900302 s E2E, 57.835214 s inference, 0.002357 s queue, 0.903220 s TTFT, and 57.004277 s TPOT. NVML utilization-overlap estimate was 44.192767 active seconds.
+- The NVML value is explicitly a utilization-integral proxy, not exact per-request device time or kernel attribution. It must not be used as `gpu_seconds_at_reference` for simulator fitting.
+- This closes the serialized request-boundary/timing evidence gap and strengthens the CPU/model/GPU case study. Exact per-request GPU attribution and NCU hardware-counter profiling remain blocked by the container/permission boundary.

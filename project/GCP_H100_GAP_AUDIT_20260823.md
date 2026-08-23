@@ -105,3 +105,11 @@ A third pinned Astropy Lite trajectory was run while direct NVML and vLLM metric
 Calibration gap: CLOSED for serving-latency anchors. The live pinned vLLM/H100 run measured three input-length points (128, 512, 2048; 16 prompts each; output 64; concurrency 1) and persisted compact JSON/Markdown evidence.
 
 Remaining GPU-dependent gaps: exact per-request GPU attribution; kernel-level NCU profiling (container permission blocker); simulator fit and sealed holdout error requiring defensible gpu_seconds_at_reference; any additional repository/category run only if a final plot still lacks required coverage.
+
+## 2026-08-23 G reassessment
+- Request-level CPU/model timing: **CLOSED for serialized aggregate evidence**. The G profile has 31 one-to-one proxy boundaries aligned to vLLM metric intervals and 5 ms NVML samples on one host/boot/`CLOCK_MONOTONIC_RAW` clock, with request/token metadata and hashes.
+- CPU/GPU profiling: **PARTIAL**. The existing strace CPU/tool profile and NVML-overlap profiles are retained. Exact kernel/device attribution is **BLOCKED**: NCU reports `ERR_NVGPUCTRPERM`, and the vLLM server runs in a container namespace that the host Nsight wrapper cannot cross. Do not fabricate kernel timings.
+- vLLM calibration: **CLOSED for serving-latency anchors** by the E calibration (128/512/2048 input tokens; 16 prompts each; output 64; concurrency 1).
+- Simulator fit/holdout error: **BLOCKED** until a defensible measured `gpu_seconds_at_reference` exists. NVML utilization overlap remains a proxy and is not suitable for fitting that target.
+- Workload diversity: existing pinned Lite/Verified manifests and diverse production artifacts are sufficient for current coverage; no additional generic sweep is justified without a named missing plot/requirement.
+- Next highest-value H100 work is therefore limited to a permission-safe profiling/calibration attempt only if it can add exact attribution; otherwise preserve the G evidence and defer simulator fitting/plots/report synthesis offline. Keep the VM/services live under the unattended execution policy.
