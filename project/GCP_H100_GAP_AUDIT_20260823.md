@@ -50,8 +50,10 @@ are resolved.
    overlap, but no measured per-request GPU-seconds decomposition exists, so no
    simulator fit or held-out error claim is permitted. The explicit status is retained in
    `GCP_H100_SIMULATOR_HOLDOUT_STATUS_20260823.json`.
-4. **Repository/category diversity:** current GCP production evidence is
-   dominated by Astropy rows. The recorded batches are not an assignment-wide
+4. **Repository/category diversity:** one additional non-Astropy Lite trajectory
+   is now recorded for `pallets/flask` (`pallets__flask-5063`) in
+   `GCP_H100_DIVERSITY_FLASK_5063_20260823.json`. It was officially evaluated
+   and unresolved. The GCP production evidence is still not an assignment-wide
    population and must not be generalized to one.
 5. **Full four-point sweep:** only the measured temperature and call-limit
    conditions are available. This is intentional under the current stop-sweep
