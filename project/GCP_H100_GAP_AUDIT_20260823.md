@@ -24,6 +24,11 @@ are resolved.
   under file/process/network `strace` with 31 successful request boundaries and
   835 concurrent H100 samples. This closes the existence/provenance gap for a
   CPU/tool case study, but not per-request device seconds.
+- Container-native NCU capability: measured and blocked by the host GPU
+  performance-counter policy. The container NCU microbenchmark connected and
+  executed matrix sizes 1024/2048/4096, but emitted `ERR_NVGPUCTRPERM` and
+  produced no report. No kernel metrics are claimed; see
+  `GCP_H100_CONTAINER_NCU_CAPABILITY_20260823.json`.
 - Hyperparameter evidence: one temperature point (0.2) and one call-limit
   point (20) were measured. Per the deadline policy, no additional sweep
   conditions are queued unless a deliverable is otherwise unsupported.
@@ -36,9 +41,9 @@ are resolved.
    also did not produce per-record deltas; validated aggregate server deltas
    remain in `GCP_H100_SERVICE_CALIBRATION_REQUEST_METRICS_20260823.json`.
 2. **Container-native kernel profiling:** host Nsight did not cross the vLLM
-   container namespace. A container-native profile would close this gap, but
-   no new profiling run should be launched unless it can be collected without
-   disrupting active work and produces report-ready evidence.
+   container namespace, and the measured container-native NCU capability probe
+   is blocked by `ERR_NVGPUCTRPERM`. No kernel metrics are available from this
+   VM under the current permission policy.
 3. **Simulator calibration/holdout:** the standalone CUDA matmul benchmark is a
    real GPU measurement but is not a vLLM/SWE-agent calibration set. The aligned
    probe supplies a predeclared calibration/holdout split and aggregate GPU
