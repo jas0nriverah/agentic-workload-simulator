@@ -31,7 +31,7 @@ This file records only measured Google Cloud H100 evidence from the live session
 
 The first Verified batch has one reproducible incomplete Django environment build; the batch03 retry also has one incomplete environment outcome. Both are retained as incomplete outcomes, not silently removed. The separate `verified-django-retry` reproduced the same `edit_anthropic` environment-install failure and is not counted as a completed evaluation.
 
-The listed GCP artifacts contain 32 completed Lite evaluations (including the additional
+The listed GCP artifacts contain 34 completed Lite evaluations (including the additional
 `astropy__astropy-14182` run) and 29 completed Verified evaluations (including the
 additional `astropy__astropy-14365` run), with two incomplete Verified outcomes in the
 listed batches. These totals are descriptive of the recorded batches only; they are not
@@ -57,6 +57,19 @@ an assignment-wide resolved-rate claim.
 The two additional runs are measured evidence, not resolved-rate claims. Their exact
 worker/evaluator command hashes and raw paths are retained in the corresponding
 tracked evidence manifests and on the VM.
+
+### Controlled temperature condition (2026-08-23)
+
+- `gcp-h100-temp02-lite-20260823` reused the pinned two-row Lite production set
+  with only `agent.model.temperature` changed from the frozen baseline `0.0` to
+  `0.2`; model, vLLM, dataset, evaluator, call-limit, output-limit, and
+  observation-limit settings were unchanged.
+- Both instances completed agent and official evaluation with return code 0;
+  both generated non-empty patches were unresolved, with zero incomplete and zero
+  evaluator-error outcomes. Exact hashes are in
+  `project/GCP_H100_TEMP02_LITE_20260823.json`.
+- This is one measured point in the assignment temperature sweep, not the full
+  four-point sweep and not a resolved-rate claim.
 
 ## Active/queued work
 
