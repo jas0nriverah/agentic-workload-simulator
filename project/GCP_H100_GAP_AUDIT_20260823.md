@@ -33,6 +33,11 @@ are resolved.
   `psf/requests` (`psf__requests-2317`) ran through the request proxy, producing
   31 `CLOCK_MONOTONIC_RAW` request-boundary records and an official unresolved
   evaluation; see `GCP_H100_DIVERSITY_REQUESTS_2317_20260823.json`.
+- Targeted CPU/tool profiling: a second `psf/requests-2317` trajectory ran
+  under file/process/network `strace` with contemporaneous aggregate
+  `nvidia-smi dmon` samples and 32 request records; see
+  `GCP_H100_PROFILE_REQUESTS_2317_20260823.json`. This adds a second-repository
+  CPU/GPU case-study observation, but does not provide per-request device time.
 - Hyperparameter evidence: one temperature point (0.2) and one call-limit
   point (20) were measured. Per the deadline policy, no additional sweep
   conditions are queued unless a deliverable is otherwise unsupported.
@@ -65,9 +70,10 @@ are resolved.
 6. **Outcome quality:** several generated patches are unresolved, and at least
    one Verified run is incomplete due to an environment-build failure. These
    outcomes are part of the result, not data to be removed.
-7. **Profile-only trajectory outcome:** the new strace trajectory exited
-   `exit_cost` with an empty patch. It is retained as measured profiling
-   evidence and must not be counted as a resolved SWE-bench result.
+7. **Profile-only trajectory outcome:** the new `psf/requests` strace trajectory
+   completed with a non-empty patch but remained unresolved under the official
+   evaluator. It is retained as measured profiling evidence and must not be
+   counted as a resolved SWE-bench result.
 
 ## Next action order
 
@@ -75,9 +81,9 @@ are resolved.
 
 The isolated H100 probe completed successfully and provides CUDA-event ground truth plus contemporaneous aggregate utilization samples. Because the kernels were shorter than the 50 ms sampler period, utilization overlap was zero/near-zero; this exposes sampler-resolution limits rather than providing a usable conversion. Per-request vLLM GPU seconds and held-out simulator error remain open. Do not treat this artifact as an E2E calibration row.
 
-Preserve and push the direct case-study manifest and this audit; continue only
-with a named gap-closing operation: container-native profiling if feasible,
-otherwise offline simulator-contract/holdout preparation and report aggregation
-from immutable manifests. Do not launch more hyperparameter conditions merely to
-consume GPU time. Keep the VM and vLLM service available while useful authorized
-work remains, and do not infer completion from this audit alone.
+The targeted `psf/requests` CPU/tool profile is now persisted in
+`GCP_H100_PROFILE_REQUESTS_2317_20260823.json`. Continue only with another
+named gap-closing GPU operation if it can obtain evidence not already present;
+do not launch more hyperparameter conditions merely to consume GPU time. Keep
+the VM and vLLM service available while useful authorized work remains, and do
+not infer completion from this audit alone.
