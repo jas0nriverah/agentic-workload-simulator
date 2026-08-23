@@ -1,6 +1,6 @@
 schema_version: 1
-updated_at_utc: 2026-08-21T11:56:04Z
-overall_status: g3a_lightning_h100_control_complete
+updated_at_utc: 2026-08-23T00:55:00Z
+overall_status: gcp_h100_measurement_in_progress
 phase: CR0_CR1_CR2_CR3_CR4_CR5_CR6_CR7_CR8_CR9_CR10_CR11_CR12_CR13_G3A_G4_LOCAL
 current_task: G4-lightning-fixed-outcomes-recorded-cleanliness-review-pending
 last_verified_commit: de20e23777638837c954ef24020776ddabdf2d02
@@ -13,20 +13,20 @@ hardware:
     status: available
     gpu: RTX_2080_Super_or_none_on_local_mac
   final:
-    status: lightning_measured_lambda_target_pending
-    target_platform: Lambda_1x_H100_PCIe_80GB
-    target_validation: pending_empirical
-    measured_platform: Lightning_1x_H100_80GB
-    measured_provider: lightning
+    status: gcp_h100_measured_in_progress
+    target_platform: GCP_a3-highgpu-1g_1x_H100_80GB
+    target_validation: active_empirical
+    measured_platform: GCP_1x_H100_80GB
+    measured_provider: google_cloud
 
 billing:
-  provider: lightning
-  authorized: false  # session authorization was consumed; refresh before any new launch
-  maximum_gate: G3A
-  maximum_gpu_hours: 6
-  maximum_dollars: 25
-  user_available_to_export: false
-  user_available_to_terminate: false
+  provider: google_cloud
+  authorized: true  # user explicitly authorized the unattended GCP session
+  maximum_gate: unattended_execution
+  maximum_gpu_hours: null
+  maximum_dollars: null
+  user_available_to_export: true
+  user_available_to_terminate: true
 
 configuration:
   status: pinned_lightning_h100_control_validated_lambda_target_pending
@@ -38,12 +38,13 @@ configuration:
   swebench_revision: 726c5461e2ef52d83cf1ea2107870a8bb3328d57
 
 cloud_readiness:
-  status: PASS_g3a_lightning_h100_control_complete
+  status: PASS_gcp_h100_runtime_verified_experiments_in_progress
   technical_safe_to_rent_h100: true
-  paid_session_authorized: false
-  safe_to_launch: false
+  paid_session_authorized: true
+  safe_to_launch: true
   h100_validation_required: true
-  lambda_target_validation_required: true
+  lambda_target_validation_required: false
+  gcp_h100_validation_in_progress: true
   sample_repository_unchanged: true
   paid_compute_used: true
   provider_api_used: false
@@ -55,25 +56,28 @@ gates:
   G2_single_trajectory: completed_lightning_h100_one_resolved_patch_needs_cleanliness_review
   G3A_public_reference_lock: passed_static_comparison_only
   G4_instrumented_trajectory: passed_lightning_h100_structural_validation
-  G5_five_instance_smoke: pending
-  G6_twenty_instance_pilot: pending
+  G5_five_instance_smoke: measured_gcp_h100_batches
+  G6_twenty_instance_pilot: measured_gcp_h100_batches
   G3B_h100_evaluator_validation: passed_lightning_h100_gold_smokes_and_official_runner
   G7_step1_baseline: pending
   G8_step2_sweeps: pending
-  G9_step3_deep_profile: pending
+  G9_step3_deep_profile: partial_gcp_h100_path_validated_container_cuda_trace_pending
   G10_step4_simulator: pending
   G11_final_audit: pending
 
 next_actions:
-  - retain the uninstrumented trajectory and paired thin/gold records in project/PAID_SESSION_MEASUREMENTS.json
-  - review the fixed non-empty unresolved patches before making any model or scaffold change
-  - do not claim resolved rate or causal telemetry overhead; request-level correlation remains unavailable
-  - refresh the untracked Lightning authorization only if another paid launch is explicitly desired
+  - retain all GCP H100 generated-patch artifacts and evaluator logs, including incomplete and unresolved outcomes
+  - complete request/event correlation and a profiler path that can observe CUDA kernels inside the vLLM container
+  - calibrate and hold out simulator predictions before making any latency-ratio claim
+  - aggregate the four assignment sweeps and produce report-ready figures from immutable manifests
+  - perform the final assignment-gap audit only after the remaining GPU-dependent evidence is complete
 active_experiments: []
 active_agent_tasks: []
 blocker_ids:
   - FIRST_CONTROL_PATCH_CLEANLINESS_REQUIRES_REVIEW
-  - PAID_SESSION_AUTHORIZATION_REQUIRED_FOR_ANY_FUTURE_LAUNCH
+  - REQUEST_LEVEL_CPU_GPU_CORRELATION_UNAVAILABLE
+  - CONTAINER_CUDA_KERNEL_PROFILE_UNAVAILABLE
+  - SIMULATOR_HOLDOUT_NOT_MEASURED
 
 observability:
   status: bounded_additive_upgrade_pass_static
@@ -95,3 +99,5 @@ observability:
     - first_session_calibration_matrix
   h100_only_observability_validation_required: true
   local_static_checks_pending_final_review: false
+  gcp_h100_calibration_artifact: /home/jasonrivera691/eic-work/artifacts/observability/calibration-20260822.log
+  gcp_h100_nsys_probe_artifact: /home/jasonrivera691/eic-work/artifacts/observability/nsys-probe-20260823.nsys-rep
