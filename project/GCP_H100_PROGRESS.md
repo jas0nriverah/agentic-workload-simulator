@@ -235,3 +235,10 @@ These are real generated-patch evaluations on the pinned GCP H100 runtime. Resol
 - Aggregate vLLM deltas: 418,748 prompt tokens, 5,058 generation tokens, 31 successful requests, 34.471246 s E2E histogram sum, 34.406256 s inference sum, 0.858443 s TTFT sum.
 - Compact artifacts: project/GCP_H100_REQUEST_PROFILE_20260823E.json and .md.
 - Limitation remains: no exact per-request GPU/kernel attribution; do not use this aggregate estimate as simulator gpu_seconds_at_reference.
+
+## 2026-08-23E calibration checkpoint
+
+- Completed pinned vLLM serving calibration on the live H100 at input lengths 128, 512, and 2048 tokens; 16 prompts per condition, output length 64, concurrency 1.
+- Compact evidence: project/GCP_H100_VLLM_CALIBRATION_20260823E.json and .md.
+- Measured median TTFT: 24.84 / 33.80 / 62.84 ms; median TPOT: 6.33 / 5.94 / 6.03 ms; output throughput: 151.68 / 157.84 / 145.19 tok/s (128 / 512 / 2048 input).
+- This is service calibration only. No GPU-time claim, fit, or holdout error was fabricated; aggregate NVML remains insufficient for gpu_seconds_at_reference.
