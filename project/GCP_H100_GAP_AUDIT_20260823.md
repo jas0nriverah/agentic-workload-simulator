@@ -14,7 +14,9 @@ are resolved.
   vLLM metric families and a real unavailable-counters marker.
 - Request timing: a 31-event SWE-agent request-boundary profile exists, plus a
   direct four-request CPU/wall versus aggregate-H100 case study in
-  `GCP_H100_CPU_GPU_CASE_STUDY_20260823.json`.
+  `GCP_H100_CPU_GPU_CASE_STUDY_20260823.json`. A follow-up six-request probe
+  aligns request intervals and 50-ms aggregate GPU samples on
+  `CLOCK_MONOTONIC_RAW` in `GCP_H100_ALIGNED_REQUEST_GPU_20260823.json`.
 - Profiling: syscall, passive dmon, Nsight probe metadata, and a container CUDA
   micro-probe are retained. The host Nsight wrapper did not observe CUDA kernels
   inside the vLLM container.
@@ -24,18 +26,20 @@ are resolved.
 
 ## Remaining gaps and claim boundaries
 
-1. **Per-request GPU attribution:** not measured. The direct case study is
-   aggregate dmon evidence and uses `CLOCK_MONOTONIC`; the trajectory profile
-   uses `CLOCK_MONOTONIC_RAW`. Do not merge their intervals or label dmon
-   samples as request GPU time.
+1. **Per-request GPU attribution:** not measured. The aligned follow-up shares
+   `CLOCK_MONOTONIC_RAW` and reports aggregate utilization overlap per request,
+   but it does not assign device seconds to a request. Its vLLM counter parser
+   also did not produce per-record deltas; validated aggregate server deltas
+   remain in `GCP_H100_SERVICE_CALIBRATION_REQUEST_METRICS_20260823.json`.
 2. **Container-native kernel profiling:** host Nsight did not cross the vLLM
    container namespace. A container-native profile would close this gap, but
    no new profiling run should be launched unless it can be collected without
    disrupting active work and produces report-ready evidence.
 3. **Simulator calibration/holdout:** the standalone CUDA matmul benchmark is a
-   real GPU measurement but is not a vLLM/SWE-agent calibration set. No measured
-   paired CPU/GPU decomposition exists, so no simulator fit or held-out error
-   claim is permitted. The explicit status is retained in
+   real GPU measurement but is not a vLLM/SWE-agent calibration set. The aligned
+   probe supplies a predeclared calibration/holdout split and aggregate GPU
+   overlap, but no measured per-request GPU-seconds decomposition exists, so no
+   simulator fit or held-out error claim is permitted. The explicit status is retained in
    `GCP_H100_SIMULATOR_HOLDOUT_STATUS_20260823.json`.
 4. **Repository/category diversity:** current GCP production evidence is
    dominated by Astropy rows. The recorded batches are not an assignment-wide

@@ -167,6 +167,18 @@ simulator-calibration record.
   exists, but request-level GPU attribution and a measured simulator holdout still
   do not.
 
+## Aligned request/GPU overlap probe (2026-08-23)
+
+`project/GCP_H100_ALIGNED_REQUEST_GPU_20260823.json` records six serial direct
+vLLM requests (four predeclared calibration rows and two predeclared holdout
+rows) with request start/end and 50-ms H100 samples on the same
+`CLOCK_MONOTONIC_RAW` clock. All six returned HTTP 200. Aggregate GPU
+utilization overlapped each request, with 51 total samples, 35 active samples,
+35.196% mean utilization, and 85% maximum utilization. The raw request,
+sample, and metrics files remain on the VM with recorded SHA-256 values. This
+provides aligned aggregate overlap only: it does not assign device seconds per
+request, and this probe did not produce validated vLLM counter deltas.
+
 ## Paired thin/control record (2026-08-23)
 
 `project/GCP_H100_THIN_20260823.json` records the paired thin-telemetry run for
