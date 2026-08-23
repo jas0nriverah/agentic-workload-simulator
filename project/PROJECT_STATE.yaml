@@ -1,5 +1,5 @@
 schema_version: 1
-updated_at_utc: 2026-08-23T04:50:00Z
+updated_at_utc: 2026-08-23T04:58:00Z
 overall_status: gcp_h100_measurement_in_progress
 phase: CR0_CR1_CR2_CR3_CR4_CR5_CR6_CR7_CR8_CR9_CR10_CR11_CR12_CR13_G3A_G4_LOCAL
 current_task: G10-gap-audit-timing-profiling-calibration-simulator-after-call-limit-condition
@@ -61,7 +61,7 @@ gates:
   G3B_h100_evaluator_validation: passed_lightning_h100_gold_smokes_and_official_runner
   G7_step1_baseline: pending
   G8_step2_sweeps: measured_partial_temperature_0.2_and_call_limit_20_conditions_no_more_sweep_queued
-  G9_step3_deep_profile: partial_gcp_h100_request_boundary_direct_dmon_case_study_and_cuda_microbenchmark_measured_container_cuda_trace_unavailable
+  G9_step3_deep_profile: partial_gcp_h100_request_boundary_high_frequency_direct_dmon_case_study_and_cuda_microbenchmark_measured_container_cuda_trace_unavailable
   G10_step4_simulator: paired_thin_control_and_direct_aggregate_gpu_case_study_measured_request_level_gpu_attribution_and_holdout_pending
   G11_final_audit: pending
 
@@ -69,6 +69,7 @@ next_actions:
   - retain all GCP H100 generated-patch artifacts and evaluator logs, including incomplete and unresolved outcomes
   - preserve the measured request-boundary profile, CUDA calibration, and concurrency profile; keep the container-native CUDA trace limitation explicit
   - preserve the direct CPU/wall versus aggregate-H100 case-study manifest and its monotonic-clock limitation
+  - preserve the high-frequency direct case-study manifest and raw SHA-256 values
   - calibrate and hold out simulator predictions before making any latency-ratio claim
   - use project/GCP_H100_GAP_AUDIT_20260823.md as the current explicit remaining-gap ledger
   - aggregate the four assignment sweeps and produce report-ready figures from immutable manifests

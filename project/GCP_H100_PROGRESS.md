@@ -139,6 +139,16 @@ timestamps are not directly mergeable with the trajectory profile's
 files remain on the VM with SHA-256 values in the tracked manifest. The probe is
 also deliberately not an SWE-agent trajectory or simulator-calibration record.
 
+### Higher-frequency follow-up probe
+
+`project/GCP_H100_CPU_GPU_CASE_STUDY_HIRES_20260823.json` adds six serial
+direct-vLLM requests with 100-ms `nvidia-smi` sampling. All six returned HTTP
+200; wall durations were 399.788--402.308 ms (mean 401.307 ms). Across 47 GPU
+samples, 35 had nonzero SM utilization (maximum 86%; mean 41.809%) and mean
+power was 187.825 W. This strengthens the temporal case-study evidence but
+remains aggregate GPU sampling, not per-request GPU attribution, and is not a
+simulator-calibration record.
+
 - Standalone CUDA calibration is recorded in
   `project/GCP_H100_CUDA_CALIBRATION_20260823.json`. A pinned-container
   `torch 2.7.1+cu128` microbenchmark measured 100 warmed-up float16 matmuls at
