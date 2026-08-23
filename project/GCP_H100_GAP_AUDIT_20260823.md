@@ -91,3 +91,7 @@ not infer completion from this audit alone.
 ## Follow-up measurement: request-profile C (2026-08-23)
 
 A pinned Astropy Lite trajectory completed with agent_rc=0 and evaluator_rc=0. Direct NVML sampling at 20 ms and proxy boundaries shared host, boot identity, and CLOCK_MONOTONIC_RAW. The compact manifest retains 31 aligned request boundaries from the sampler window and reports 33.051809 aggregate utilization-overlap GPU-active seconds. This is a bounded aggregate estimate only; it is not kernel attribution or profiler-derived device time, so simulator fitting/holdout error remains prohibited. The official generated patch was unresolved.
+
+## Follow-up measurement: request-profile D (2026-08-23)
+
+A second pinned Astropy Lite trajectory was captured with approximately 5 ms direct NVML sampling. Thirty-one proxy boundaries aligned on the same host, boot, and CLOCK_MONOTONIC_RAW; the compact manifest reports 27.545960 aggregate utilization-overlap GPU-active seconds. This higher-resolution aggregate estimate strengthens the CPU/model/GPU timing case study but does not provide kernel attribution or profiler-derived gpu_seconds_at_reference. The official generated patch was unresolved.

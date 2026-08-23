@@ -1,0 +1,388 @@
+{
+  "aggregate_gpu_active_seconds_nvml_util_estimate": 27.54596,
+  "alignment_coverage": 0.313131,
+  "attempt_id": "nvml-05",
+  "boot_ids": [
+    "741f21cd-b530-4306-b4ee-a01e70fb33c0"
+  ],
+  "clock_ids": [
+    "CLOCK_MONOTONIC_RAW"
+  ],
+  "duration_ms_summary": {
+    "count": 31,
+    "p50": 423.599,
+    "p95": 7180.48,
+    "sum": 39933.499
+  },
+  "experiment_id": "gcp-request-profile4",
+  "hostnames": [
+    "instance-20260822-182111"
+  ],
+  "instance_id": "astropy__astropy-12907",
+  "interpretation": "Aggregate NVML utilization integrated over same-host CLOCK_MONOTONIC_RAW request intervals; bounded GPU-activity estimate, not exact kernel/device attribution and not a substitute for profiler-derived gpu_seconds_at_reference.",
+  "nvml_sample_count": 49299,
+  "nvml_sample_file": "/home/jasonrivera691/eic-work/artifacts/observability/request-profile-20260823d/nvml_raw.jsonl",
+  "request_count_aligned": 31,
+  "request_count_total": 99,
+  "request_event_file": "/home/jasonrivera691/eic-work/artifacts/observability/request-profile-20260823b/request_events.jsonl",
+  "request_mono_range_ns": [
+    6118097349389,
+    6170173798358
+  ],
+  "requests": [
+    {
+      "completion_tokens": 76,
+      "duration_ms": 482.182,
+      "end_mono_ns": 6118579531513,
+      "gpu_active_seconds_nvml_util_estimate": 0.236852,
+      "prompt_tokens": 1621,
+      "request_id": "request-c58dc0b9824d48d493bf5f7ea712e9cb",
+      "start_mono_ns": 6118097349389,
+      "status_code": 200,
+      "total_tokens": 1697
+    },
+    {
+      "completion_tokens": 50,
+      "duration_ms": 325.84,
+      "end_mono_ns": 6119228308870,
+      "gpu_active_seconds_nvml_util_estimate": 0.10606,
+      "prompt_tokens": 2774,
+      "request_id": "request-8590c5fd7af5489fadd78c7ac6842bba",
+      "start_mono_ns": 6118902469081,
+      "status_code": 200,
+      "total_tokens": 2824
+    },
+    {
+      "completion_tokens": 57,
+      "duration_ms": 374.663,
+      "end_mono_ns": 6119902357305,
+      "gpu_active_seconds_nvml_util_estimate": 0.117457,
+      "prompt_tokens": 3579,
+      "request_id": "request-5dc09a2e44224eaf8b5afeb3236a5e77",
+      "start_mono_ns": 6119527694167,
+      "status_code": 200,
+      "total_tokens": 3636
+    },
+    {
+      "completion_tokens": 60,
+      "duration_ms": 409.986,
+      "end_mono_ns": 6120626246782,
+      "gpu_active_seconds_nvml_util_estimate": 0.10253,
+      "prompt_tokens": 7645,
+      "request_id": "request-8bfb5ad05c064da9bfe4e343c1f170d3",
+      "start_mono_ns": 6120216260829,
+      "status_code": 200,
+      "total_tokens": 7705
+    },
+    {
+      "completion_tokens": 64,
+      "duration_ms": 451.804,
+      "end_mono_ns": 6121387054256,
+      "gpu_active_seconds_nvml_util_estimate": 0.157251,
+      "prompt_tokens": 9887,
+      "request_id": "request-88053930f34440039ff505f8d464942e",
+      "start_mono_ns": 6120935250078,
+      "status_code": 200,
+      "total_tokens": 9951
+    },
+    {
+      "completion_tokens": 43,
+      "duration_ms": 310.959,
+      "end_mono_ns": 6122828545120,
+      "gpu_active_seconds_nvml_util_estimate": 0.069778,
+      "prompt_tokens": 10065,
+      "request_id": "request-f1a584ba7ea04916be452c6a29e5fa4c",
+      "start_mono_ns": 6122517585819,
+      "status_code": 200,
+      "total_tokens": 10108
+    },
+    {
+      "completion_tokens": 46,
+      "duration_ms": 332.681,
+      "end_mono_ns": 6123440446383,
+      "gpu_active_seconds_nvml_util_estimate": 0.085636,
+      "prompt_tokens": 10132,
+      "request_id": "request-a9416a32f2224aa4a638deb0e45a68df",
+      "start_mono_ns": 6123107765709,
+      "status_code": 200,
+      "total_tokens": 10178
+    },
+    {
+      "completion_tokens": 56,
+      "duration_ms": 403.633,
+      "end_mono_ns": 6124115539370,
+      "gpu_active_seconds_nvml_util_estimate": 0.130991,
+      "prompt_tokens": 10489,
+      "request_id": "request-99656a02bbc04b42b3aec659130af81b",
+      "start_mono_ns": 6123711905916,
+      "status_code": 200,
+      "total_tokens": 10545
+    },
+    {
+      "completion_tokens": 56,
+      "duration_ms": 406.289,
+      "end_mono_ns": 6124831423619,
+      "gpu_active_seconds_nvml_util_estimate": 0.106915,
+      "prompt_tokens": 11209,
+      "request_id": "request-0bd3f0192f5640669c0c4bf28b59d712",
+      "start_mono_ns": 6124425134724,
+      "status_code": 200,
+      "total_tokens": 11265
+    },
+    {
+      "completion_tokens": 59,
+      "duration_ms": 423.599,
+      "end_mono_ns": 6125526434391,
+      "gpu_active_seconds_nvml_util_estimate": 0.155814,
+      "prompt_tokens": 11906,
+      "request_id": "request-68fc60f5c17d4479949130e3bdbe3db3",
+      "start_mono_ns": 6125102835320,
+      "status_code": 200,
+      "total_tokens": 11965
+    },
+    {
+      "completion_tokens": 63,
+      "duration_ms": 455.502,
+      "end_mono_ns": 6126291774232,
+      "gpu_active_seconds_nvml_util_estimate": 0.163168,
+      "prompt_tokens": 12400,
+      "request_id": "request-0b3988b2e90645b8a6ee536eb54f7683",
+      "start_mono_ns": 6125836272372,
+      "status_code": 200,
+      "total_tokens": 12463
+    },
+    {
+      "completion_tokens": 42,
+      "duration_ms": 313.622,
+      "end_mono_ns": 6126880605292,
+      "gpu_active_seconds_nvml_util_estimate": 0.020574,
+      "prompt_tokens": 12487,
+      "request_id": "request-83315fdfef1a4c0f8df4e1e0688c8e4a",
+      "start_mono_ns": 6126566982897,
+      "status_code": 200,
+      "total_tokens": 12529
+    },
+    {
+      "completion_tokens": 44,
+      "duration_ms": 323.734,
+      "end_mono_ns": 6127477064821,
+      "gpu_active_seconds_nvml_util_estimate": 0.045334,
+      "prompt_tokens": 12553,
+      "request_id": "request-903d1ab3b2334361a65a1b035bb0ba6d",
+      "start_mono_ns": 6127153331316,
+      "status_code": 200,
+      "total_tokens": 12597
+    },
+    {
+      "completion_tokens": 40,
+      "duration_ms": 300.083,
+      "end_mono_ns": 6128053360402,
+      "gpu_active_seconds_nvml_util_estimate": 0.034746,
+      "prompt_tokens": 12621,
+      "request_id": "request-5379d6b93fb1433895be605b292cb8eb",
+      "start_mono_ns": 6127753277105,
+      "status_code": 200,
+      "total_tokens": 12661
+    },
+    {
+      "completion_tokens": 65,
+      "duration_ms": 465.579,
+      "end_mono_ns": 6128793834009,
+      "gpu_active_seconds_nvml_util_estimate": 0.162245,
+      "prompt_tokens": 12685,
+      "request_id": "request-be6acc8d0c6c41ce92b584c82992d1f0",
+      "start_mono_ns": 6128328254937,
+      "status_code": 200,
+      "total_tokens": 12750
+    },
+    {
+      "completion_tokens": 345,
+      "duration_ms": 2308.885,
+      "end_mono_ns": 6131423749517,
+      "gpu_active_seconds_nvml_util_estimate": 1.756889,
+      "prompt_tokens": 13434,
+      "request_id": "request-0fd7304487d54decb9832d0496b382ed",
+      "start_mono_ns": 6129114864719,
+      "status_code": 200,
+      "total_tokens": 13779
+    },
+    {
+      "completion_tokens": 58,
+      "duration_ms": 435.691,
+      "end_mono_ns": 6132160234395,
+      "gpu_active_seconds_nvml_util_estimate": 0.140505,
+      "prompt_tokens": 13875,
+      "request_id": "request-74f72c38f5c94d18b8fd7cb1cba134c7",
+      "start_mono_ns": 6131724543623,
+      "status_code": 200,
+      "total_tokens": 13933
+    },
+    {
+      "completion_tokens": 77,
+      "duration_ms": 577.171,
+      "end_mono_ns": 6133055963641,
+      "gpu_active_seconds_nvml_util_estimate": 0.316118,
+      "prompt_tokens": 14204,
+      "request_id": "request-527ab72025b64cd7be8ae2ad4bf56583",
+      "start_mono_ns": 6132478792868,
+      "status_code": 200,
+      "total_tokens": 14281
+    },
+    {
+      "completion_tokens": 54,
+      "duration_ms": 420.151,
+      "end_mono_ns": 6133796695547,
+      "gpu_active_seconds_nvml_util_estimate": 0.075782,
+      "prompt_tokens": 14466,
+      "request_id": "request-3c7be15f3be547a9a3b5cf0809c3660d",
+      "start_mono_ns": 6133376544149,
+      "status_code": 200,
+      "total_tokens": 14520
+    },
+    {
+      "completion_tokens": 60,
+      "duration_ms": 447.123,
+      "end_mono_ns": 6134526669068,
+      "gpu_active_seconds_nvml_util_estimate": 0.207912,
+      "prompt_tokens": 14547,
+      "request_id": "request-5b46c682149c431992d5c4332f9f3a7d",
+      "start_mono_ns": 6134079546087,
+      "status_code": 200,
+      "total_tokens": 14607
+    },
+    {
+      "completion_tokens": 497,
+      "duration_ms": 3398.547,
+      "end_mono_ns": 6138251924084,
+      "gpu_active_seconds_nvml_util_estimate": 2.729026,
+      "prompt_tokens": 15521,
+      "request_id": "request-9d389589790b43e5afb73ac63698acdb",
+      "start_mono_ns": 6134853377160,
+      "status_code": 200,
+      "total_tokens": 16018
+    },
+    {
+      "completion_tokens": 30,
+      "duration_ms": 254.713,
+      "end_mono_ns": 6138839322376,
+      "gpu_active_seconds_nvml_util_estimate": 0.0,
+      "prompt_tokens": 16049,
+      "request_id": "request-2d9a6a487bb64109bb9db9e4769eca9a",
+      "start_mono_ns": 6138584609311,
+      "status_code": 200,
+      "total_tokens": 16079
+    },
+    {
+      "completion_tokens": 1005,
+      "duration_ms": 6783.217,
+      "end_mono_ns": 6146741277344,
+      "gpu_active_seconds_nvml_util_estimate": 5.605183,
+      "prompt_tokens": 16339,
+      "request_id": "request-6620493df0ed4b2fa20f1c65c2adf7a0",
+      "start_mono_ns": 6139958060698,
+      "status_code": 200,
+      "total_tokens": 17344
+    },
+    {
+      "completion_tokens": 32,
+      "duration_ms": 270.949,
+      "end_mono_ns": 6147449046786,
+      "gpu_active_seconds_nvml_util_estimate": 0.106567,
+      "prompt_tokens": 17376,
+      "request_id": "request-c6ba29651e6f42c480edfdb167a049ea",
+      "start_mono_ns": 6147178097528,
+      "status_code": 200,
+      "total_tokens": 17408
+    },
+    {
+      "completion_tokens": 118,
+      "duration_ms": 1568.423,
+      "end_mono_ns": 6149712462925,
+      "gpu_active_seconds_nvml_util_estimate": 0.580611,
+      "prompt_tokens": 17803,
+      "request_id": "request-887b9c475d424580a2a8bc5dfd9940f5",
+      "start_mono_ns": 6148144040307,
+      "status_code": 200,
+      "total_tokens": 17921
+    },
+    {
+      "completion_tokens": 1136,
+      "duration_ms": 7776.375,
+      "end_mono_ns": 6157824860118,
+      "gpu_active_seconds_nvml_util_estimate": 6.52367,
+      "prompt_tokens": 18565,
+      "request_id": "request-832e4c060a484a80a3912829453f378b",
+      "start_mono_ns": 6150048485238,
+      "status_code": 200,
+      "total_tokens": 19701
+    },
+    {
+      "completion_tokens": 31,
+      "duration_ms": 272.158,
+      "end_mono_ns": 6158442385534,
+      "gpu_active_seconds_nvml_util_estimate": 0.100549,
+      "prompt_tokens": 19732,
+      "request_id": "request-64bb0ff73720464da625d9f31b56af98",
+      "start_mono_ns": 6158170227303,
+      "status_code": 200,
+      "total_tokens": 19763
+    },
+    {
+      "completion_tokens": 818,
+      "duration_ms": 5716.142,
+      "end_mono_ns": 6164858031503,
+      "gpu_active_seconds_nvml_util_estimate": 4.790924,
+      "prompt_tokens": 20499,
+      "request_id": "request-708b33cf4b434ca5a9c6e0a1d0a2df3e",
+      "start_mono_ns": 6159141889680,
+      "status_code": 200,
+      "total_tokens": 21317
+    },
+    {
+      "completion_tokens": 31,
+      "duration_ms": 274.405,
+      "end_mono_ns": 6165479100337,
+      "gpu_active_seconds_nvml_util_estimate": 0.081269,
+      "prompt_tokens": 21350,
+      "request_id": "request-2626dfbc3afd44cba63955726b32a590",
+      "start_mono_ns": 6165204695465,
+      "status_code": 200,
+      "total_tokens": 21381
+    },
+    {
+      "completion_tokens": 247,
+      "duration_ms": 1789.873,
+      "end_mono_ns": 6167975123224,
+      "gpu_active_seconds_nvml_util_estimate": 1.40342,
+      "prompt_tokens": 21866,
+      "request_id": "request-a215f367be984ddb9c79fcfd3bdbd584",
+      "start_mono_ns": 6166185250229,
+      "status_code": 200,
+      "total_tokens": 22113
+    },
+    {
+      "completion_tokens": 257,
+      "duration_ms": 1859.521,
+      "end_mono_ns": 6170173798358,
+      "gpu_active_seconds_nvml_util_estimate": 1.432184,
+      "prompt_tokens": 22530,
+      "request_id": "request-0ac40fbc5bbf49fbace228c532b633f3",
+      "start_mono_ns": 6168314277679,
+      "status_code": 200,
+      "total_tokens": 22787
+    }
+  ],
+  "sample_clock_id": "CLOCK_MONOTONIC_RAW",
+  "sample_hostname": "instance-20260822-182111",
+  "sample_mono_range_ns": [
+    6067614390685,
+    6318265742416
+  ],
+  "schema_version": "project.gcp-h100-request-profile.v2",
+  "token_summary": {
+    "completion": 5617,
+    "prompt": 420209,
+    "total": 425826
+  },
+  "trajectory_status": "agent_rc=0,evaluator_rc=0,official_resolved=false"
+}

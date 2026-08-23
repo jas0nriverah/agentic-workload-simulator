@@ -218,3 +218,10 @@ These are real generated-patch evaluations on the pinned GCP H100 runtime. Resol
 - Captured 16,819 direct NVML samples at 20 ms cadence using CLOCK_MONOTONIC_RAW on the same host/boot as the proxy. The proxy file contained 67 boundaries; 31 fell inside this sampler window and were retained as the aligned subset.
 - Compact evidence: project/GCP_H100_REQUEST_PROFILE_20260823C.json and .md. The aligned subset covers 31 requests, 46,025.916 ms request duration, 427,737 tokens, and an aggregate 33.051809 GPU-active-second estimate from utilization integration.
 - This is aggregate NVML utilization overlap, not exact per-request kernel/device time. It improves timing evidence but does not close the profiler-derived gpu_seconds_at_reference requirement or justify simulator fitting.
+
+## 2026-08-23 D — 5 ms aligned request/NVML profile
+
+- Completed a second pinned Lite trajectory with the same Astropy instance and unchanged model/agent settings; agent_rc=0 and evaluator_rc=0, official generated patch unresolved.
+- Captured 49,299 direct NVML samples at approximately 5 ms target cadence. The proxy file contained 99 boundaries across prior and current runs; 31 fell inside this sampler window.
+- Compact evidence: project/GCP_H100_REQUEST_PROFILE_20260823D.json and .md. The aligned subset covers 31 requests, 39,933.499 ms request duration, 425,826 tokens, and an aggregate 27.545960 GPU-active-second estimate from utilization integration.
+- This improves temporal resolution for the aggregate CPU/model/GPU case study but remains an NVML utilization estimate, not exact per-request kernel/device time; simulator fit/holdout remains blocked by the existing contract.
