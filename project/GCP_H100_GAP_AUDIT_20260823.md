@@ -29,6 +29,10 @@ are resolved.
   executed matrix sizes 1024/2048/4096, but emitted `ERR_NVGPUCTRPERM` and
   produced no report. No kernel metrics are claimed; see
   `GCP_H100_CONTAINER_NCU_CAPABILITY_20260823.json`.
+- Request-aware diversity: one additional non-Astropy Lite trajectory for
+  `psf/requests` (`psf__requests-2317`) ran through the request proxy, producing
+  31 `CLOCK_MONOTONIC_RAW` request-boundary records and an official unresolved
+  evaluation; see `GCP_H100_DIVERSITY_REQUESTS_2317_20260823.json`.
 - Hyperparameter evidence: one temperature point (0.2) and one call-limit
   point (20) were measured. Per the deadline policy, no additional sweep
   conditions are queued unless a deliverable is otherwise unsupported.
@@ -50,11 +54,11 @@ are resolved.
    overlap, but no measured per-request GPU-seconds decomposition exists, so no
    simulator fit or held-out error claim is permitted. The explicit status is retained in
    `GCP_H100_SIMULATOR_HOLDOUT_STATUS_20260823.json`.
-4. **Repository/category diversity:** one additional non-Astropy Lite trajectory
-   is now recorded for `pallets/flask` (`pallets__flask-5063`) in
-   `GCP_H100_DIVERSITY_FLASK_5063_20260823.json`. It was officially evaluated
-   and unresolved. The GCP production evidence is still not an assignment-wide
-   population and must not be generalized to one.
+4. **Repository/category diversity:** two additional non-Astropy Lite
+   trajectories are now recorded for `pallets/flask` (`pallets__flask-5063`) and
+   `psf/requests` (`psf__requests-2317`) in their measured manifests. Both were
+   officially evaluated and unresolved. The GCP production evidence is still
+   not an assignment-wide population and must not be generalized to one.
 5. **Full four-point sweep:** only the measured temperature and call-limit
    conditions are available. This is intentional under the current stop-sweep
    instruction; the report must label the sweep partial.

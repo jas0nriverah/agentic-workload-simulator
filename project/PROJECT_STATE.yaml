@@ -1,10 +1,10 @@
 schema_version: 1
-updated_at_utc: 2026-08-23T06:15:00Z
+updated_at_utc: 2026-08-23T07:07:35Z
 overall_status: gcp_h100_measurement_in_progress
 phase: CR0_CR1_CR2_CR3_CR4_CR5_CR6_CR7_CR8_CR9_CR10_CR11_CR12_CR13_G3A_G4_LOCAL
-current_task: G10-cpu-tool-strace-profile-recorded-next-per-request-device-attribution-gap
-last_verified_commit: 8016fcc8f99269c16fbcce3358972df344964dce
-last_verified_commit_role: measured_gcp_h100_batches_request_profile_and_simulator_contract
+current_task: G10-request-aware-diversity-trajectory-recorded-next-per-request-device-attribution-gap
+last_verified_commit: 04a7131588f5604f30d7a237814b5af4243101fb
+last_verified_commit_role: measured_gcp_h100_diversity_flask_checkpoint
 assignment_lock_hash: 02f485cdd8cca4aae242d2f1a5306184a95d7ee0fae42527d7153f48a3424761
 working_tree_dirty: false
 
@@ -67,6 +67,7 @@ gates:
 
 next_actions:
   - retain all GCP H100 generated-patch artifacts and evaluator logs, including incomplete and unresolved outcomes
+  - preserve the request-aware psf/requests trajectory and its 31-event CLOCK_MONOTONIC_RAW proxy profile in project/GCP_H100_DIVERSITY_REQUESTS_2317_20260823.json
   - preserve the measured request-boundary profile, CUDA calibration, concurrency profile, and CPU/tool strace profile; keep the container-native CUDA trace limitation explicit
   - preserve the direct CPU/wall versus aggregate-H100 case-study manifest and its monotonic-clock limitation
   - preserve the high-frequency direct case-study manifest and raw SHA-256 values
