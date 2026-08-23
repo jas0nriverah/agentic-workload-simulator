@@ -1,0 +1,111 @@
+{
+  "schema_version": "gcp-h100-service-calibration-request-metrics.v1",
+  "provenance": "measured",
+  "recorded_at_utc": "2026-08-23T05:14:32Z",
+  "host": "instance-20260822-182111",
+  "platform": "GCP_a3-highgpu-1g_1x_H100_80GB",
+  "model": "Qwen/Qwen3-Coder-30B-A3B-Instruct",
+  "endpoint": "http://127.0.0.1:8000/v1/completions",
+  "clock_id": "CLOCK_MONOTONIC_RAW",
+  "serial_isolation": true,
+  "all_http_200": true,
+  "holdout_defined_before_measurement": true,
+  "vllm_metrics_are_aggregate": true,
+  "gpu_time_attribution": false,
+  "raw_remote_artifacts": {
+    "requests": "/home/jasonrivera691/eic-work/artifacts/observability/service-calibration-request-metrics-20260823/requests.jsonl",
+    "requests_sha256": "0e92b6e25a425d7f405c4e500ea34b926146d145a8c8f7f83b2d81704c702f9a",
+    "gpu_samples": "/home/jasonrivera691/eic-work/artifacts/observability/service-calibration-request-metrics-20260823/gpu_100ms.jsonl",
+    "gpu_samples_sha256": "d6e3cd1dce88c1f323ce9e0f6bab403da5fa57b7ce4e0b1045314e1a32897654"
+  },
+  "gpu_sampling_summary": {
+    "sample_count": 31,
+    "active_samples": 10,
+    "active_fraction": 0.3225806451612903,
+    "mean_gpu_util_percent": 10.709677419354839,
+    "max_gpu_util_percent": 85.0,
+    "sampling_period_ms_target": 100,
+    "interpretation": "aggregate sampler only; not per-request GPU attribution"
+  },
+  "records": [
+    {
+      "split": "calibration",
+      "case_id": "cal_16_16",
+      "prompt_tokens": 21,
+      "completion_tokens": 16,
+      "wall_ms": 112.153567,
+      "server_e2e_seconds": 0.1074526309967041,
+      "server_queue_seconds": 0.00007322299643419683,
+      "server_prefill_seconds": 0.014284937999036629,
+      "server_decode_seconds": 0.09185069600061979,
+      "server_ttft_seconds": 0.015873432159423828,
+      "server_output_token_observations": 15
+    },
+    {
+      "split": "calibration",
+      "case_id": "cal_128_32",
+      "prompt_tokens": 133,
+      "completion_tokens": 32,
+      "wall_ms": 212.393249,
+      "server_e2e_seconds": 0.2075200080871582,
+      "server_queue_seconds": 0.00007282599835889414,
+      "server_prefill_seconds": 0.015984726000169758,
+      "server_decode_seconds": 0.1903645400016103,
+      "server_ttft_seconds": 0.017340898513793945,
+      "server_output_token_observations": 31
+    },
+    {
+      "split": "calibration",
+      "case_id": "cal_512_64",
+      "prompt_tokens": 517,
+      "completion_tokens": 10,
+      "wall_ms": 85.20981,
+      "server_e2e_seconds": 0.07947254180908203,
+      "server_queue_seconds": 0.00007312000525846806,
+      "server_prefill_seconds": 0.022562435995496344,
+      "server_decode_seconds": 0.05573203200037824,
+      "server_ttft_seconds": 0.02420973777770996,
+      "server_output_token_observations": 9
+    },
+    {
+      "split": "calibration",
+      "case_id": "cal_1024_96",
+      "prompt_tokens": 1029,
+      "completion_tokens": 10,
+      "wall_ms": 107.839206,
+      "server_e2e_seconds": 0.10091781616210938,
+      "server_queue_seconds": 0.00007982600072486877,
+      "server_prefill_seconds": 0.04256222899857676,
+      "server_decode_seconds": 0.056806683001923375,
+      "server_ttft_seconds": 0.04432082176208496,
+      "server_output_token_observations": 9
+    },
+    {
+      "split": "holdout",
+      "case_id": "hold_256_48",
+      "prompt_tokens": 261,
+      "completion_tokens": 8,
+      "wall_ms": 62.106063,
+      "server_e2e_seconds": 0.05679202079772949,
+      "server_queue_seconds": 0.00007353499677259147,
+      "server_prefill_seconds": 0.01187849300185917,
+      "server_decode_seconds": 0.043715177998819854,
+      "server_ttft_seconds": 0.013409614562988281,
+      "server_output_token_observations": 7
+    },
+    {
+      "split": "holdout",
+      "case_id": "hold_768_80",
+      "prompt_tokens": 773,
+      "completion_tokens": 6,
+      "wall_ms": 51.291376,
+      "server_e2e_seconds": 0.04506492614746094,
+      "server_queue_seconds": 0.00007142499816836476,
+      "server_prefill_seconds": 0.012089297000784427,
+      "server_decode_seconds": 0.03147986700059846,
+      "server_ttft_seconds": 0.01375269889831543,
+      "server_output_token_observations": 5
+    }
+  ],
+  "scientific_boundary": "These records provide serial-isolated CPU wall time and vLLM server-side prefill/decode/TTFT deltas. The Prometheus counters remain aggregate and the nvidia-smi samples are aggregate; no GPU seconds are assigned to an individual request, so this artifact cannot by itself unlock simulator fitting or a held-out error claim."
+}
