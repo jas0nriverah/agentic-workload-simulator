@@ -71,10 +71,28 @@ tracked evidence manifests and on the VM.
 - This is one measured point in the assignment temperature sweep, not the full
   four-point sweep and not a resolved-rate claim.
 
+### Call-limit condition (2026-08-23; sweep expansion stopped)
+
+- `gcp-h100-calls20-lite-20260823` reused the same two pinned Lite rows while
+  changing only `agent.model.per_instance_call_limit` from the frozen baseline
+  `30` to `20`. The worker and evaluator commands both returned zero.
+- The worker status is `completed`, but the evaluator report records **2
+  submitted, 1 completed, 0 incomplete, 0 resolved, 1 unresolved, 1 empty
+  patch, and 0 errors**. The empty patch is `astropy__astropy-12907`; the
+  other submitted prediction is non-empty and unresolved. This discrepancy is
+  preserved exactly in `project/GCP_H100_CALLS20_LITE_20260823.json` and is
+  not presented as a two-instance resolved-rate result.
+- This is the final additional sweep condition for the current execution. No
+  further temperature, call-limit, token-limit, or observation-limit runs are
+  queued unless a later gap audit demonstrates that an assignment deliverable
+  is otherwise unsupported.
+
 ## Active/queued work
 
 - The earlier unattended chain `/home/jasonrivera691/eic-work/chain_batches.sh` has completed; no batch worker is currently active.
-- The extra Verified run used unused instance `astropy__astropy-12907`; it completed with a non-empty unresolved patch and zero evaluator errors.
+- The call-limit worker completed at `2026-08-23T04:36:25Z`; no additional
+  hyperparameter sweep condition is queued. Remaining work is limited to
+  named timing/profiling/calibration/simulator/diversity gaps below.
 
 ## Other measured observability
 
@@ -135,4 +153,4 @@ per-request GPU time is inferred.
 
 ## Interpretation
 
-These are real generated-patch evaluations on the pinned GCP H100 runtime. Resolved-rate claims are limited to the listed batches and are not extrapolated to the assignment target. Profiling, simulator fitting, and report synthesis must use the raw artifacts and preserve incomplete/unresolved outcomes. Remaining high-value work is request-level GPU attribution or an explicit validated limitation, simulator calibration/holdout validation, assignment sweep/report aggregation, and the final requirement audit.
+These are real generated-patch evaluations on the pinned GCP H100 runtime. Resolved-rate claims are limited to the listed batches and are not extrapolated to the assignment target. Profiling, simulator fitting, and report synthesis must use the raw artifacts and preserve incomplete/unresolved outcomes. The remaining high-value work is, in order: request-level CPU/model/GPU timing evidence, profiling for the CPU/GPU case study, vLLM calibration for the simulator, held-out simulator validation/error, repository/category diversity for final plots, and only then any sweep condition shown to be required by the assignment.

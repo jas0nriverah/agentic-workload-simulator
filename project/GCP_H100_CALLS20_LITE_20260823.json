@@ -1,0 +1,55 @@
+{
+  "schema_version": "parallel-worker.v1",
+  "provenance": "measured",
+  "experiment_id": "gcp-h100-calls20-lite-20260823",
+  "batch_id": "calls20-lite",
+  "dataset": "lite",
+  "instance_ids": [
+    "astropy__astropy-12907",
+    "astropy__astropy-14182"
+  ],
+  "started_at_utc": "2026-08-23T04:32:20Z",
+  "ended_at_utc": "2026-08-23T04:36:25Z",
+  "settings": {
+    "agent_model_per_instance_call_limit": 20,
+    "baseline_call_limit": 30,
+    "temperature": 0.0,
+    "max_input_tokens": 32768,
+    "max_output_tokens": 2048,
+    "max_observation_length": 100000,
+    "all_other_pinned_settings_unchanged": true
+  },
+  "agent_returncode": 0,
+  "evaluator_returncode": 0,
+  "agent_command_sha256": "7b0ea6c5d811ff41d5e02582e545354af895003633f16dd8d76cd67711abf132",
+  "evaluator_command_sha256": "15ff246477c1878d732390167ae32e211165f52dd813902ee50b38a9c45e35fa",
+  "source_dataset_sha256": "047ea66c1fa6e2e981b4d7ec7a3e9f1952477df1fc3b9b62e1e652cd001727c1",
+  "evaluator_dataset_sha256": "a01dc34ecc1a67fc1934492bc3626333a235f422132d5ac8f2c5c0ffd7f40c05",
+  "runtime_dataset_sha256": "eb75677c31f2c698a69bc70cf8c05c0fe5f40751a805cb49266de714d44e9f0b",
+  "evaluator_counts": {
+    "instances_submitted": 2,
+    "instances_completed": 1,
+    "instances_incomplete": 0,
+    "instances_resolved": 0,
+    "instances_unresolved": 1,
+    "instances_empty_patches": 1,
+    "instances_with_errors": 0,
+    "unstopped_containers": 0,
+    "unremoved_images": 2
+  },
+  "outcomes": {
+    "astropy__astropy-12907": {
+      "model_patch_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "model_patch_empty": true
+    },
+    "astropy__astropy-14182": {
+      "model_patch_empty": false,
+      "model_patch_sha256": "not_recorded_in_tracked_manifest"
+    }
+  },
+  "interpretation": "Measured call-limit condition. The worker completed and both agent/evaluator commands returned zero, but the official evaluator processed only one of two submitted instances: one empty patch and one unresolved non-empty patch. This is not a resolved-rate claim and is not comparable to a fully completed two-instance condition.",
+  "raw_artifact_root": "/home/jasonrivera691/eic-work/batches/gcp-h100-calls20-lite-20260823/worker-00/attempt-001",
+  "worker_status_path": "worker_status.json",
+  "predictions_path": "sweagent_output/preds.json",
+  "evaluator_log_path": "evaluator.log"
+}
