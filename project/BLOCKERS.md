@@ -31,6 +31,9 @@ H100 setup:
   remaining limitation is narrower: vLLM metrics are server-aggregate and no
   per-request GPU time or utilization is assigned. The profile deliberately
   does not turn aggregate counters into device-time claims.
+  A direct high-resolution follow-up is recorded in
+  `project/GCP_H100_CPU_GPU_CASE_STUDY_HIRES_20260823.json`; it improves
+  temporal resolution but retains the same non-attribution boundary.
 - `CONTAINER_CUDA_KERNEL_PROFILE_UNAVAILABLE`: host Nsight Systems produces a
   valid probe artifact, but wrapping `docker exec` does not expose container
   CUDA kernels to the host trace. Do not call the micro-probe a kernel profile.

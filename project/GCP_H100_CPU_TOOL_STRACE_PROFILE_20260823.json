@@ -1,0 +1,100 @@
+{
+  "schema_version": "gcp-h100-cpu-tool-strace-profile.v1",
+  "provenance": "measured",
+  "recorded_at_utc": "2026-08-23T06:04:30Z",
+  "provider": "google_cloud",
+  "vm": "instance-20260822-182111",
+  "zone": "us-central1-a",
+  "gpu": "NVIDIA H100 80GB HBM3",
+  "model": "Qwen/Qwen3-Coder-30B-A3B-Instruct",
+  "model_revision": "b2cff646eb4bb1d68355c01b18ae02e7cf42d120",
+  "vllm": "0.10.0",
+  "task": "astropy__astropy-12907",
+  "experiment": "gcp-h100-cpu-tool-profile-20260823",
+  "run": {
+    "agent_returncode": 0,
+    "start_utc": "2026-08-23T06:02:35.031910Z",
+    "end_utc": "2026-08-23T06:04:29.992551Z",
+    "duration_s": 114.96072253,
+    "clock_id": "CLOCK_MONOTONIC_RAW",
+    "start_mono_ns": 41644739838451,
+    "end_mono_ns": 41759700560981,
+    "trajectory_history_events": 64,
+    "trajectory_action_events": 31,
+    "request_proxy_events": 31,
+    "request_status_codes": {"200": 31},
+    "prompt_tokens": 561374,
+    "completion_tokens": 7535,
+    "total_tokens": 568909,
+    "model_request_duration_ms_sum": 55703.478467,
+    "gpu_samples": 835,
+    "gpu_active_samples": 414,
+    "gpu_mean_utilization_percent": 40.225149700598806,
+    "gpu_max_utilization_percent": 95.0,
+    "strace_lines": 27843,
+    "strace_file_operation_lines": 25423,
+    "strace_process_operation_lines": 46,
+    "strace_network_operation_lines": 561
+  },
+  "artifacts": {
+    "trajectory": {
+      "remote_path": "/home/jasonrivera691/eic-work/experiments/gcp-h100-cpu-tool-profile-20260823/astropy__astropy-12907/astropy__astropy-12907.traj",
+      "bytes": 2563582,
+      "sha256": "ef315198f4444d06e44e6d2dcbce67854629ef6524c1b092d090ddd3a6b55afd"
+    },
+    "predictions": {
+      "remote_path": "/home/jasonrivera691/eic-work/experiments/gcp-h100-cpu-tool-profile-20260823/preds.json",
+      "bytes": 184,
+      "sha256": "5585a3272a31d3dcb60f2cbecc882509cfbb0be0cb1e8cbea76ad159c54f123c"
+    },
+    "strace": {
+      "remote_path": "/home/jasonrivera691/eic-work/artifacts/observability/cpu-tool-strace-profile-20260823/strace.log",
+      "bytes": 6591008,
+      "sha256": "72b57a2d088768fc7da49eebdded0a2bc8c0bfc853d85c3a4d1612dcfb054d93"
+    },
+    "gpu_samples": {
+      "remote_path": "/home/jasonrivera691/eic-work/artifacts/observability/cpu-tool-strace-profile-20260823/gpu_samples.csv",
+      "bytes": 50508,
+      "sha256": "aec9235b4cd01fe02fe36a683ebae6e9a446980203d17886a154d30c3fdef3cb"
+    },
+    "agent_log": {
+      "remote_path": "/home/jasonrivera691/eic-work/artifacts/observability/cpu-tool-strace-profile-20260823/agent.log",
+      "bytes": 416288,
+      "sha256": "ee5cd6993d9d51ad876c1d9e3470ace04a728bd97cbdd14b39d5e9de8bcc4f2f"
+    },
+    "request_proxy_events": {
+      "remote_path": "/home/jasonrivera691/eic-work/artifacts/observability/request-profile-20260823/request_events.jsonl",
+      "bytes": 83483,
+      "sha256": "b275193a42dab83924dd0401a0f1066a90e6b08ddff56fd5c2d45347e683b732"
+    }
+  },
+  "outcome": {
+    "official_evaluator_run": false,
+    "official_evaluator_status": "deferred_for_profile_only_run",
+    "prediction_empty_patch": true,
+    "batch_exit_status": "exit_cost",
+    "resolved": false,
+    "interpretation": "A real 115-second SWE-agent trajectory produced request-level model timing plus CPU file/process/network syscall evidence and contemporaneous H100 utilization. It did not produce a usable patch or an official resolved outcome."
+  },
+  "clock_contract": {
+    "python_and_gpu_sampler_clock": "CLOCK_MONOTONIC_RAW",
+    "request_proxy_clock": "CLOCK_MONOTONIC_RAW",
+    "strace_timestamp_clock": "realtime_epoch_from_strace_ttt",
+    "merge_rule": "Proxy/GPU/run metadata can be joined by monotonic interval. Strace timestamps require an explicit run-start offset and are not silently treated as monotonic."
+  },
+  "measurement_value": {
+    "closes": [
+      "real SWE-agent CPU/file/process/network activity captured alongside model-request boundaries",
+      "request/token/context timing for one profiled trajectory",
+      "H100 utilization sampled over the full profiled trajectory"
+    ],
+    "does_not_close": [
+      "per-request device seconds or CUDA-kernel attribution",
+      "container-native Nsight kernel profile",
+      "simulator fit or held-out prediction error",
+      "official resolved SWE-bench result for this profile-only run"
+    ]
+  },
+  "raw_artifacts_retained_remote": true,
+  "raw_artifacts_committed": false
+}

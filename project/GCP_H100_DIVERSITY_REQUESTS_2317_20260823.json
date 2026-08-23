@@ -1,0 +1,81 @@
+{
+  "schema_version": "gcp-h100-diversity-request-aware-trajectory.v1",
+  "provenance": "measured",
+  "recorded_at_utc": "2026-08-23T07:07:35Z",
+  "provider": "google_cloud",
+  "vm": "instance-20260822-182111",
+  "zone": "us-central1-a",
+  "gpu": "NVIDIA H100 80GB HBM3",
+  "suite": "lite",
+  "instance_id": "psf__requests-2317",
+  "repository": "psf/requests",
+  "version": "2.31",
+  "experiment_id": "gcp-h100-diversity-requests-2317-20260823",
+  "worker": "worker-00",
+  "run": {
+    "started_at_utc": "2026-08-23T06:58:00Z",
+    "ended_at_utc": "2026-08-23T07:07:35Z",
+    "agent_returncode": 0,
+    "evaluator_returncode": 0,
+    "status": "completed",
+    "trajectory_request_events": 31,
+    "request_proxy": {
+      "listen_port": 8002,
+      "upstream_port": 8000,
+      "event_path_remote": "/home/jasonrivera691/eic-work/artifacts/observability/request-profile-requests-2317-20260823.jsonl",
+      "event_sha256": "0191993032edda99b71aac62e2e812a4086513b63317dfc2b3b7424c14852845",
+      "clock_id": "CLOCK_MONOTONIC_RAW",
+      "clock_host": "instance-20260822-182111",
+      "boot_id": "24714e4f-4b78-4c1a-9111-d4c2ca8fb4cb",
+      "request_boundaries_joined": true
+    },
+    "gpu_seconds_attribution": false
+  },
+  "official_evaluator": {
+    "instances_submitted": 1,
+    "instances_completed": 1,
+    "resolved": 0,
+    "unresolved": 1,
+    "errors": 0,
+    "empty_patch": 0,
+    "report_remote_path": "/home/jasonrivera691/eic-work/batches/gcp-h100-diversity-requests-2317-20260823/worker-00/attempt-001/evaluator_report/sweagent_output.gcp-h100-diversity-requests-2317-20260823-diversity-requests-2317-worker-00.json",
+    "interpretation": "Official evaluator completed without infrastructure error; the generated patch was unresolved."
+  },
+  "artifacts": {
+    "worker_status": {
+      "remote_path": "/home/jasonrivera691/eic-work/batches/gcp-h100-diversity-requests-2317-20260823/worker-00/attempt-001/worker_status.json",
+      "runtime_dataset_sha256": "fd9409499a40e47a89cf7580beae79d3911554d458af23a78c696771d53270e0",
+      "source_dataset_sha256": "ea4e9656dd443874b24da86a907c3dcc7ea74eda043029b7aae5cf39efa2baa3",
+      "evaluator_dataset_sha256": "e1fe34cc17b8b01a5f81ae97fd8e22181096993bae7a139bc3551045e69c1d8e",
+      "agent_command_sha256": "c82d672b6ba132fd408397f998954c954c8aefe49c6c7141529d11e3779f189b",
+      "evaluator_command_sha256": "f3a24f58639374d5f0627df5ea35d6fe190cd7bd33a17eeb58b2d1601d7c2547"
+    },
+    "trajectory": {
+      "remote_path": "/home/jasonrivera691/eic-work/batches/gcp-h100-diversity-requests-2317-20260823/worker-00/attempt-001/sweagent_output/psf__requests-2317/psf__requests-2317.traj",
+      "bytes": 1768139,
+      "sha256": "8d2ce05023d3e53d42ea232f355dc270776427962514b0703d0a1c15ee878919"
+    },
+    "patch": {
+      "remote_path": "/home/jasonrivera691/eic-work/batches/gcp-h100-diversity-requests-2317-20260823/worker-00/attempt-001/sweagent_output/psf__requests-2317/psf__requests-2317.patch",
+      "bytes": 10269,
+      "sha256": "a284fc5c8226b58d1e11b83272dc644303bd027dec095847b1cf126e0602632c"
+    },
+    "agent_log_remote": "/home/jasonrivera691/eic-work/batches/gcp-h100-diversity-requests-2317-20260823/worker-00/attempt-001/agent.log",
+    "evaluator_log_remote": "/home/jasonrivera691/eic-work/batches/gcp-h100-diversity-requests-2317-20260823/worker-00/attempt-001/evaluator.log"
+  },
+  "measurement_value": {
+    "closes": [
+      "one request-aware non-Astropy Lite repository/category trajectory with official evaluator provenance",
+      "request-level model-serving boundaries on the same CLOCK_MONOTONIC_RAW host clock",
+      "a retained real trajectory and generated patch for later lossless inventory"
+    ],
+    "does_not_close": [
+      "a resolved requests instance",
+      "per-request GPU device-time attribution",
+      "simulator calibration or held-out error",
+      "assignment-wide repository/category diversity"
+    ]
+  },
+  "raw_artifacts_retained_remote": true,
+  "raw_artifacts_committed": false
+}

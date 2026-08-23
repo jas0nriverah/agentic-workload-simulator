@@ -118,8 +118,23 @@ server and stored hashes plus timing metadata, never prompts or responses.
   `instance-20260822-182111`, and boot ID
   `24714e4f-4b78-4c1a-9111-d4c2ca8b4cb0`.
 - This closes the lossless request-boundary timing gap. It does **not** assign
-  GPU time to requests: `/metrics` remains server-aggregate and the host
-  Nsight wrapper still cannot observe CUDA kernels inside the vLLM container.
+GPU time to requests: `/metrics` remains server-aggregate and the host
+Nsight wrapper still cannot observe CUDA kernels inside the vLLM container.
+
+## CPU/tool syscall profile (2026-08-23)
+
+`project/GCP_H100_CPU_TOOL_STRACE_PROFILE_20260823.json` records one real
+115-second SWE-agent trajectory for `astropy__astropy-12907` under `strace`
+(`file,process,network`) with a concurrent 100-ms H100 sampler. The run
+produced 31 successful model-request boundaries, 561,374 prompt tokens,
+7,535 completion tokens, 27,843 syscall lines (25,423 file-operation lines,
+46 process-operation lines, 561 network-operation lines), and 835 H100
+samples (414 active; mean utilization 40.23%, maximum 95%). Raw files and
+hashes remain on the VM; raw logs are not copied into Git. The prediction was
+empty and exited `exit_cost`, so this is timing/profiling evidence only, not an
+official resolved result. The proxy and sampler share `CLOCK_MONOTONIC_RAW`;
+strace `-ttt` timestamps are realtime and require an explicit offset before
+any event-level merge.
 
 ## H100 CUDA and concurrency measurements (2026-08-23)
 
@@ -139,6 +154,16 @@ timestamps are not directly mergeable with the trajectory profile's
 files remain on the VM with SHA-256 values in the tracked manifest. The probe is
 also deliberately not an SWE-agent trajectory or simulator-calibration record.
 
+### Higher-frequency follow-up probe
+
+`project/GCP_H100_CPU_GPU_CASE_STUDY_HIRES_20260823.json` adds six serial
+direct-vLLM requests with 100-ms `nvidia-smi` sampling. All six returned HTTP
+200; wall durations were 399.788--402.308 ms (mean 401.307 ms). Across 47 GPU
+samples, 35 had nonzero SM utilization (maximum 86%; mean 41.809%) and mean
+power was 187.825 W. This strengthens the temporal case-study evidence but
+remains aggregate GPU sampling, not per-request GPU attribution, and is not a
+simulator-calibration record.
+
 - Standalone CUDA calibration is recorded in
   `project/GCP_H100_CUDA_CALIBRATION_20260823.json`. A pinned-container
   `torch 2.7.1+cu128` microbenchmark measured 100 warmed-up float16 matmuls at
@@ -157,6 +182,18 @@ also deliberately not an SWE-agent trajectory or simulator-calibration record.
   exists, but request-level GPU attribution and a measured simulator holdout still
   do not.
 
+## Aligned request/GPU overlap probe (2026-08-23)
+
+`project/GCP_H100_ALIGNED_REQUEST_GPU_20260823.json` records six serial direct
+vLLM requests (four predeclared calibration rows and two predeclared holdout
+rows) with request start/end and 50-ms H100 samples on the same
+`CLOCK_MONOTONIC_RAW` clock. All six returned HTTP 200. Aggregate GPU
+utilization overlapped each request, with 51 total samples, 35 active samples,
+35.196% mean utilization, and 85% maximum utilization. The raw request,
+sample, and metrics files remain on the VM with recorded SHA-256 values. This
+provides aligned aggregate overlap only: it does not assign device seconds per
+request, and this probe did not produce validated vLLM counter deltas.
+
 ## Paired thin/control record (2026-08-23)
 
 `project/GCP_H100_THIN_20260823.json` records the paired thin-telemetry run for
@@ -168,5 +205,9 @@ The host GPU samples and vLLM metrics are server/host aggregate observations; no
 per-request GPU time is inferred.
 
 ## Interpretation
+
+## H100 CUDA-event/utilization calibration (2026-08-23)
+
+An isolated in-container Torch matmul probe recorded CUDA-event execution time while a host sampler captured 50 ms `nvidia-smi` utilization samples on the same `CLOCK_MONOTONIC_RAW` clock. Three sizes completed successfully (1024×20, 2048×10, 4096×5; CUDA-event durations 1.009 ms, 0.474 ms, and 0.916 ms). The aggregate sampler observed zero or near-zero overlap because each kernel completed between samples. This is boundary evidence about sampler resolution, not a valid per-request vLLM GPU-seconds calibration; raw provenance is preserved in `GCP_H100_GPU_UTIL_CUDA_EVENT_CALIBRATION_20260823.json`.
 
 These are real generated-patch evaluations on the pinned GCP H100 runtime. Resolved-rate claims are limited to the listed batches and are not extrapolated to the assignment target. Profiling, simulator fitting, and report synthesis must use the raw artifacts and preserve incomplete/unresolved outcomes. The remaining high-value work is, in order: request-level CPU/model/GPU timing evidence, profiling for the CPU/GPU case study, vLLM calibration for the simulator, held-out simulator validation/error, repository/category diversity for final plots, and only then any sweep condition shown to be required by the assignment.

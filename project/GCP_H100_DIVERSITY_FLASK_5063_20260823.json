@@ -1,0 +1,70 @@
+{
+  "schema_version": "gcp-h100-diversity-trajectory.v1",
+  "provenance": "measured",
+  "recorded_at_utc": "2026-08-23T06:32:08Z",
+  "provider": "google_cloud",
+  "vm": "instance-20260822-182111",
+  "zone": "us-central1-a",
+  "gpu": "NVIDIA H100 80GB HBM3",
+  "suite": "lite",
+  "instance_id": "pallets__flask-5063",
+  "repository": "pallets/flask",
+  "version": "2.3",
+  "experiment_id": "gcp-h100-diversity-flask-20260823",
+  "worker": "worker-00",
+  "run": {
+    "started_at_utc": "2026-08-23T06:29:07Z",
+    "ended_at_utc": "2026-08-23T06:32:08Z",
+    "agent_returncode": 0,
+    "evaluator_returncode": 0,
+    "status": "completed",
+    "trajectory_request_events": 31,
+    "request_proxy_join": "not_available_for_this_run; command used direct vLLM endpoint",
+    "gpu_seconds_attribution": false
+  },
+  "official_evaluator": {
+    "instances_submitted": 1,
+    "instances_completed": 1,
+    "resolved": 0,
+    "unresolved": 1,
+    "errors": 0,
+    "empty_patch": 0,
+    "interpretation": "Official evaluator completed without infrastructure error; the generated patch was unresolved."
+  },
+  "artifacts": {
+    "batch_manifest": {
+      "remote_path": "/home/jasonrivera691/eic-work/batches/gcp-h100-diversity-flask-20260823/batch_manifest.json",
+      "sha256": "125f067138443a078677f5575eb3507abcd067234909e99c22d2857fd19832ca"
+    },
+    "worker_status": {
+      "remote_path": "/home/jasonrivera691/eic-work/batches/gcp-h100-diversity-flask-20260823/worker-00/attempt-001/worker_status.json",
+      "runtime_dataset_sha256": "50fb6fad1311916ad0de56f8e87006375ed296d934a0d7fb793d561c5e888bf3",
+      "source_dataset_sha256": "bafee64b40a712db1ee39d973ac12ff1eba4ce8355b00e74df5eda7a904a5ac9"
+    },
+    "trajectory": {
+      "remote_path": "/home/jasonrivera691/eic-work/batches/gcp-h100-diversity-flask-20260823/worker-00/attempt-001/sweagent_output/pallets__flask-5063/pallets__flask-5063.traj",
+      "bytes": 2538299,
+      "sha256": "d54ead88f8bbf81c7e9cb314920ca29c8063e2d52f8101450b18e5f95c1a961d"
+    },
+    "patch": {
+      "remote_path": "/home/jasonrivera691/eic-work/batches/gcp-h100-diversity-flask-20260823/worker-00/attempt-001/sweagent_output/pallets__flask-5063/pallets__flask-5063.patch",
+      "bytes": 16553,
+      "sha256": "1ab463f3c5396967f091c8895d53127157f9a2336bbb1160b4f42618fc59c6ee"
+    },
+    "agent_log_remote": "/home/jasonrivera691/eic-work/batches/gcp-h100-diversity-flask-20260823/worker-00/attempt-001/agent.log",
+    "evaluator_log_remote": "/home/jasonrivera691/eic-work/batches/gcp-h100-diversity-flask-20260823/worker-00/attempt-001/evaluator.log"
+  },
+  "measurement_value": {
+    "closes": [
+      "one non-Astropy Lite repository/category trajectory with official evaluator provenance",
+      "a retained real trajectory and generated patch for later lossless inventory"
+    ],
+    "does_not_close": [
+      "a resolved Flask instance",
+      "per-request GPU device-time attribution",
+      "simulator calibration or held-out error"
+    ]
+  },
+  "raw_artifacts_retained_remote": true,
+  "raw_artifacts_committed": false
+}

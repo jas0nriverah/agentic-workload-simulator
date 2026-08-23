@@ -1,0 +1,61 @@
+{
+  "schema_version": "gcp-h100-cpu-gpu-case-study-hires.v1",
+  "provenance": "measured",
+  "provider": "google_cloud",
+  "vm": "instance-20260822-182111",
+  "zone": "us-central1-a",
+  "gpu": "NVIDIA H100 80GB HBM3",
+  "observed_utc": {
+    "gpu_samples_start": "2026-08-23T04:55:38.311Z",
+    "gpu_samples_end": "2026-08-23T04:55:42.220Z"
+  },
+  "clock_id": "CLOCK_MONOTONIC",
+  "clock_source": "Python time.monotonic_ns() for request intervals",
+  "endpoint": {
+    "url": "http://127.0.0.1:8000/v1/completions",
+    "model": "Qwen/Qwen3-Coder-30B-A3B-Instruct",
+    "max_tokens": 64,
+    "temperature": 0.0,
+    "seed": 0,
+    "request_count": 6,
+    "serial": true
+  },
+  "requests": [
+    {"index": 0, "duration_ms": 402.308167, "http_status": 200, "response_bytes": 675},
+    {"index": 1, "duration_ms": 399.787862, "http_status": 200, "response_bytes": 675},
+    {"index": 2, "duration_ms": 402.085132, "http_status": 200, "response_bytes": 675},
+    {"index": 3, "duration_ms": 401.418608, "http_status": 200, "response_bytes": 675},
+    {"index": 4, "duration_ms": 400.222928, "http_status": 200, "response_bytes": 675},
+    {"index": 5, "duration_ms": 402.018355, "http_status": 200, "response_bytes": 675}
+  ],
+  "request_summary": {
+    "count": 6,
+    "all_http_200": true,
+    "mean_duration_ms": 401.306842,
+    "min_duration_ms": 399.787862,
+    "max_duration_ms": 402.308167,
+    "p50_duration_ms": 401.7209815
+  },
+  "gpu_sampler": {
+    "tool": "nvidia-smi --query-gpu=timestamp,utilization.gpu,memory.used,power.draw --loop-ms=100",
+    "sample_count": 47,
+    "sample_period_ms": 100,
+    "active_sm_gt0_samples": 35,
+    "max_sm_percent": 86,
+    "mean_sm_percent": 41.8085106383,
+    "mean_power_w": 187.824893617,
+    "max_power_w": 239.53,
+    "resident_memory_mib": 74457,
+    "interpretation": "Higher-frequency aggregate samples show repeated GPU activity during the six request intervals, while still not assigning GPU time to individual requests."
+  },
+  "raw_artifacts": [
+    {"path": "/home/jasonrivera691/eic-work/artifacts/observability/cpu-gpu-case-study-hires-20260823/requests.jsonl", "sha256": "bc862355ebbb829d23a938b34ae56c9828ba2fab8ba73707eefe58f2ab32d1da"},
+    {"path": "/home/jasonrivera691/eic-work/artifacts/observability/cpu-gpu-case-study-hires-20260823/gpu_100ms.csv", "sha256": "2fba1e53e1151165b5efab7a7b2bf0421829fa44ff8e3a0b9d44b7ab1b099e0f"}
+  ],
+  "raw_schema_note": "The request collector wrote the byte-count field as response_byes; the tracked manifest uses the corrected semantic name response_bytes without altering the immutable raw file.",
+  "claim_boundary": [
+    "This is direct vLLM wall/request timing plus higher-frequency aggregate H100 activity.",
+    "It is not per-request GPU attribution, an SWE-agent trajectory, an official SWE-bench result, or simulator calibration.",
+    "CLOCK_MONOTONIC intervals are not directly mergeable with the trajectory profile's CLOCK_MONOTONIC_RAW intervals without a measured conversion."
+  ]
+}

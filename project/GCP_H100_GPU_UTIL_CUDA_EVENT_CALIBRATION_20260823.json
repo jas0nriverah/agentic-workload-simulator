@@ -1,0 +1,25 @@
+{
+  "schema_version": "gcp-h100-gpu-util-cuda-event-calibration.v1",
+  "recorded_at_utc": "2026-08-23T05:42:41Z",
+  "hostname": "instance-20260822-182111",
+  "gpu": "NVIDIA H100 80GB HBM3",
+  "container": "vllm-agentic",
+  "clock_id": "CLOCK_MONOTONIC_RAW",
+  "provenance": "measured",
+  "raw_gpu_samples": "/home/jasonrivera691/eic-work/artifacts/observability/gpu-util-calibration-20260823/gpu_samples.jsonl",
+  "raw_gpu_samples_sha256": "b41ed49c125475f438727aad761e5839d75c32ffe60a1bf9e66b6b5f47dc421b",
+  "sample_count": 94,
+  "cuda_event_ground_truth": "torch.cuda.Event elapsed time around isolated matmul loops",
+  "rows": [
+    {"matrix": 1024, "loops": 20, "cuda_event_ms": 1.0088319778442383, "wall_ms": 1862.300625, "overlap_samples": 26, "mean_util_overlap_percent": 0.0, "max_util_overlap_percent": 0.0, "returncode": 0},
+    {"matrix": 2048, "loops": 10, "cuda_event_ms": 0.47353601455688477, "wall_ms": 1861.532173, "overlap_samples": 26, "mean_util_overlap_percent": 0.0, "max_util_overlap_percent": 0.0, "returncode": 0},
+    {"matrix": 4096, "loops": 5, "cuda_event_ms": 0.9162880182266235, "wall_ms": 1854.675358, "overlap_samples": 26, "mean_util_overlap_percent": 0.23076923076923078, "max_util_overlap_percent": 2.0, "returncode": 0}
+  ],
+  "interpretation": {
+    "aggregate_utilization_overlap_observed": true,
+    "calibration_fit_ready": false,
+    "per_request_vllm_gpu_seconds_available": false,
+    "reason": "The isolated matmul kernels completed between 50 ms nvidia-smi samples; utilization overlap was zero or near zero despite nonzero CUDA-event durations. This is a sampling-resolution limitation, not evidence of zero GPU work.",
+    "scientific_boundary": "This measurement records CUDA-event ground truth for isolated matmul workloads and contemporaneous aggregate utilization samples. It does not establish per-request vLLM GPU seconds and must not be used as an E2E simulator calibration row."
+  }
+}
