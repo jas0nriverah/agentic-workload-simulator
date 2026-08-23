@@ -25,8 +25,12 @@ H100 setup:
   resolved officially, but its patch included debug/scratch files. Review the
   generated patch and trajectory before treating the one-instance resolution as
   a clean result or changing experimental settings.
-- `REQUEST_LEVEL_CPU_GPU_CORRELATION_UNAVAILABLE`: current vLLM metrics are
-  server-aggregate and are not assigned to individual SWE-agent requests.
+- `REQUEST_LEVEL_GPU_ATTRIBUTION_UNAVAILABLE`: a lossless request-boundary
+  profile is now measured in `project/GCP_H100_REQUEST_PROFILE_20260823.json`
+  (31 real trajectory requests plus a six-cell synthetic matrix). The
+  remaining limitation is narrower: vLLM metrics are server-aggregate and no
+  per-request GPU time or utilization is assigned. The profile deliberately
+  does not turn aggregate counters into device-time claims.
 - `CONTAINER_CUDA_KERNEL_PROFILE_UNAVAILABLE`: host Nsight Systems produces a
   valid probe artifact, but wrapping `docker exec` does not expose container
   CUDA kernels to the host trace. Do not call the micro-probe a kernel profile.

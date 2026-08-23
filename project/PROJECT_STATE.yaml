@@ -1,12 +1,12 @@
 schema_version: 1
-updated_at_utc: 2026-08-23T00:55:00Z
+updated_at_utc: 2026-08-23T01:20:00Z
 overall_status: gcp_h100_measurement_in_progress
 phase: CR0_CR1_CR2_CR3_CR4_CR5_CR6_CR7_CR8_CR9_CR10_CR11_CR12_CR13_G3A_G4_LOCAL
-current_task: G4-lightning-fixed-outcomes-recorded-cleanliness-review-pending
-last_verified_commit: de20e23777638837c954ef24020776ddabdf2d02
-last_verified_commit_role: assignment_fidelity_report_template_and_measured_results
+current_task: G9-request-boundary-profile-complete-gpu-attribution-and-simulator-pending
+last_verified_commit: 669a556
+last_verified_commit_role: measured_gcp_h100_batches_and_request_profile_pending_commit
 assignment_lock_hash: 02f485cdd8cca4aae242d2f1a5306184a95d7ee0fae42527d7153f48a3424761
-working_tree_dirty: false
+working_tree_dirty: true
 
 hardware:
   development:
@@ -61,13 +61,13 @@ gates:
   G3B_h100_evaluator_validation: passed_lightning_h100_gold_smokes_and_official_runner
   G7_step1_baseline: pending
   G8_step2_sweeps: pending
-  G9_step3_deep_profile: partial_gcp_h100_path_validated_container_cuda_trace_pending
+  G9_step3_deep_profile: partial_gcp_h100_request_boundary_profile_complete_container_cuda_trace_pending
   G10_step4_simulator: pending
   G11_final_audit: pending
 
 next_actions:
   - retain all GCP H100 generated-patch artifacts and evaluator logs, including incomplete and unresolved outcomes
-  - complete request/event correlation and a profiler path that can observe CUDA kernels inside the vLLM container
+  - preserve the measured request-boundary profile and determine whether a container-native CUDA trace is feasible without changing the workload
   - calibrate and hold out simulator predictions before making any latency-ratio claim
   - aggregate the four assignment sweeps and produce report-ready figures from immutable manifests
   - perform the final assignment-gap audit only after the remaining GPU-dependent evidence is complete
@@ -75,7 +75,7 @@ active_experiments: []
 active_agent_tasks: []
 blocker_ids:
   - FIRST_CONTROL_PATCH_CLEANLINESS_REQUIRES_REVIEW
-  - REQUEST_LEVEL_CPU_GPU_CORRELATION_UNAVAILABLE
+  - REQUEST_LEVEL_GPU_ATTRIBUTION_UNAVAILABLE
   - CONTAINER_CUDA_KERNEL_PROFILE_UNAVAILABLE
   - SIMULATOR_HOLDOUT_NOT_MEASURED
 
@@ -101,3 +101,4 @@ observability:
   local_static_checks_pending_final_review: false
   gcp_h100_calibration_artifact: /home/jasonrivera691/eic-work/artifacts/observability/calibration-20260822.log
   gcp_h100_nsys_probe_artifact: /home/jasonrivera691/eic-work/artifacts/observability/nsys-probe-20260823.nsys-rep
+  gcp_h100_request_profile_manifest: project/GCP_H100_REQUEST_PROFILE_20260823.json

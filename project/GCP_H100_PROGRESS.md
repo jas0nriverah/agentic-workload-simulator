@@ -47,6 +47,24 @@ The listed GCP artifacts contain 31 completed Lite evaluations (including one pr
 - Nsight Systems probe: `artifacts/observability/nsys-probe-20260823.nsys-rep` with `nsys-probe-20260823.profile_manifest.json`; host tool path and metadata validated on H100.
 - Container CUDA micro-probe: `artifacts/observability/nsys-cuda-micro-20260823.nsys-rep` and its profile manifest. The host Nsight wrapper around `docker exec` produced no CUDA trace rows because the vLLM container namespace is not traced by the host tool; this is a profiling limitation, not a kernel measurement.
 
+## Request-boundary profile (2026-08-23)
+
+`project/GCP_H100_REQUEST_PROFILE_20260823.json` records the additive proxy
+profile. The proxy forwarded the same model/tool payloads to the pinned vLLM
+server and stored hashes plus timing metadata, never prompts or responses.
+
+- Synthetic matrix: 6 serial requests, all HTTP 200, input lengths 512/4096/16384
+  and output lengths 64/512; measured durations 410.088--644.424 ms.
+- Real SWE-agent trajectory: 31 request-boundary events, 86 profile events and
+  86 telemetry scrapes; agent and official evaluator both returned zero; the
+  generated patch was non-empty but unresolved.
+- All events share `CLOCK_MONOTONIC_RAW`, hostname
+  `instance-20260822-182111`, and boot ID
+  `24714e4f-4b78-4c1a-9111-d4c2ca8b4cb0`.
+- This closes the lossless request-boundary timing gap. It does **not** assign
+  GPU time to requests: `/metrics` remains server-aggregate and the host
+  Nsight wrapper still cannot observe CUDA kernels inside the vLLM container.
+
 ## Interpretation
 
-These are real generated-patch evaluations on the pinned GCP H100 runtime. Resolved-rate claims are limited to the listed batches and are not extrapolated to the assignment target. Profiling, simulator fitting, and report synthesis must use the raw artifacts and preserve incomplete/unresolved outcomes. Remaining high-value work is request/event correlation, a profiler path that can observe container CUDA kernels, simulator calibration/holdout validation, sweep/report aggregation, and the final requirement audit.
+These are real generated-patch evaluations on the pinned GCP H100 runtime. Resolved-rate claims are limited to the listed batches and are not extrapolated to the assignment target. Profiling, simulator fitting, and report synthesis must use the raw artifacts and preserve incomplete/unresolved outcomes. Remaining high-value work is request-level GPU attribution or an explicit validated limitation, simulator calibration/holdout validation, sweep/report aggregation, and the final requirement audit.
