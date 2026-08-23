@@ -1,0 +1,32 @@
+{
+  "schema_version": "gcp-h100-cuda-calibration.v1",
+  "provenance": "measured",
+  "provider": "Google Cloud",
+  "vm": "instance-20260822-182111",
+  "zone": "us-central1-a",
+  "hardware": "NVIDIA H100 80GB HBM3",
+  "runtime": {
+    "torch": "2.7.1+cu128",
+    "cuda": "12.8",
+    "container": "vllm-agentic",
+    "driver": "580.173.02"
+  },
+  "benchmark": {
+    "operation": "standalone_batched_matmul",
+    "warmup_iterations": 10,
+    "measured_iterations": 100,
+    "precision": "float16",
+    "rows": [
+      {"n": 512, "cuda_ms_per_matmul": 0.01297920048236847, "wall_ms_per_matmul": 0.017436100097256713},
+      {"n": 1024, "cuda_ms_per_matmul": 0.012489599734544754, "wall_ms_per_matmul": 0.015541900211246684},
+      {"n": 2048, "cuda_ms_per_matmul": 0.02698880136013031, "wall_ms_per_matmul": 0.02999460011778865},
+      {"n": 4096, "cuda_ms_per_matmul": 0.17813760042190552, "wall_ms_per_matmul": 0.18105800008925144}
+    ]
+  },
+  "raw_artifact": "/home/jasonrivera691/eic-work/artifacts/observability/gcp_h100_cuda_calibration_20260823.json",
+  "interpretation": {
+    "claim_boundary": "This is a measured standalone CUDA microbenchmark on the pinned H100 runtime. It is not SWE-agent request latency, vLLM GPU time, or an end-to-end simulator calibration record.",
+    "usable_for_simulator": false,
+    "reason_not_simulator_calibration": "The rows do not contain paired CPU time, observed end-to-end time, or task score." 
+  }
+}

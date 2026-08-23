@@ -65,6 +65,25 @@ server and stored hashes plus timing metadata, never prompts or responses.
   GPU time to requests: `/metrics` remains server-aggregate and the host
   Nsight wrapper still cannot observe CUDA kernels inside the vLLM container.
 
+## H100 CUDA and concurrency measurements (2026-08-23)
+
+- Standalone CUDA calibration is recorded in
+  `project/GCP_H100_CUDA_CALIBRATION_20260823.json`. A pinned-container
+  `torch 2.7.1+cu128` microbenchmark measured 100 warmed-up float16 matmuls at
+  matrix sizes 512, 1024, 2048, and 4096. CUDA-event time ranged from
+  0.01249--0.17814 ms per matmul. This is a real GPU measurement, but it is
+  deliberately not treated as vLLM or SWE-agent request time and cannot by
+  itself calibrate the simulator.
+- Synthetic request concurrency is recorded in
+  `project/GCP_H100_CONCURRENCY_20260823.json`: 15 HTTP-200 requests through
+  the additive proxy at concurrency 1, 2, 4, and 8. Wall time for the groups
+  was 34.916, 44.515, 47.395, and 52.974 ms respectively. This is a proxy
+  responsiveness measurement, not a task-throughput or resolved-rate claim.
+- These measurements extend the evidence base without changing the pinned
+  model, vLLM, SWE-agent, evaluator, or experiment settings. The remaining
+  simulator blocker is unchanged because no paired per-request CPU/GPU/score
+  record exists.
+
 ## Interpretation
 
 These are real generated-patch evaluations on the pinned GCP H100 runtime. Resolved-rate claims are limited to the listed batches and are not extrapolated to the assignment target. Profiling, simulator fitting, and report synthesis must use the raw artifacts and preserve incomplete/unresolved outcomes. Remaining high-value work is request-level GPU attribution or an explicit validated limitation, simulator calibration/holdout validation, sweep/report aggregation, and the final requirement audit.
