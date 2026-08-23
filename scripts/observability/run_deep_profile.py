@@ -28,7 +28,12 @@ def _capability(path: Path, mode: str) -> dict:
     except (OSError, json.JSONDecodeError) as exc:
         raise SystemExit(f"invalid capability manifest: {path}: {type(exc).__name__}") from exc
     tool = "strace" if mode == "strace" else "nsys"
-    record = value.get("tools", {}).get(tool, {})
+    tools = value.get("tools", {})
+    # Capability manifests emitted by the runtime probe wrap individual tool
+    # records under ``tools.tools``.  Accept the original flat shape as well
+    # so older measured manifests remain readable without being rewritten.
+    records = tools.get("tools", {}) if isinstance(tools.get("tools"), dict) else tools
+    record = records.get(tool, {})
     if record.get("status") != "available":
         raise SystemExit(f"{tool} is not recorded as available in capability manifest")
     executable = record.get("executable")
