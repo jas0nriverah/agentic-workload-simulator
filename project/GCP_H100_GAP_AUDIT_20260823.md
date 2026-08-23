@@ -20,6 +20,10 @@ are resolved.
 - Profiling: syscall, passive dmon, Nsight probe metadata, and a container CUDA
   micro-probe are retained. The host Nsight wrapper did not observe CUDA kernels
   inside the vLLM container.
+- CPU/tool profiling: one real 115-second SWE-agent trajectory was captured
+  under file/process/network `strace` with 31 successful request boundaries and
+  835 concurrent H100 samples. This closes the existence/provenance gap for a
+  CPU/tool case study, but not per-request device seconds.
 - Hyperparameter evidence: one temperature point (0.2) and one call-limit
   point (20) were measured. Per the deadline policy, no additional sweep
   conditions are queued unless a deliverable is otherwise unsupported.
@@ -50,6 +54,9 @@ are resolved.
 6. **Outcome quality:** several generated patches are unresolved, and at least
    one Verified run is incomplete due to an environment-build failure. These
    outcomes are part of the result, not data to be removed.
+7. **Profile-only trajectory outcome:** the new strace trajectory exited
+   `exit_cost` with an empty patch. It is retained as measured profiling
+   evidence and must not be counted as a resolved SWE-bench result.
 
 ## Next action order
 

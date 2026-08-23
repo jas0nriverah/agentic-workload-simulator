@@ -1,8 +1,8 @@
 schema_version: 1
-updated_at_utc: 2026-08-23T05:36:00Z
+updated_at_utc: 2026-08-23T06:15:00Z
 overall_status: gcp_h100_measurement_in_progress
 phase: CR0_CR1_CR2_CR3_CR4_CR5_CR6_CR7_CR8_CR9_CR10_CR11_CR12_CR13_G3A_G4_LOCAL
-current_task: G10-gap-audit-timing-profiling-calibration-simulator-after-call-limit-condition
+current_task: G10-cpu-tool-strace-profile-recorded-next-per-request-device-attribution-gap
 last_verified_commit: 8016fcc8f99269c16fbcce3358972df344964dce
 last_verified_commit_role: measured_gcp_h100_batches_request_profile_and_simulator_contract
 assignment_lock_hash: 02f485cdd8cca4aae242d2f1a5306184a95d7ee0fae42527d7153f48a3424761
@@ -67,7 +67,7 @@ gates:
 
 next_actions:
   - retain all GCP H100 generated-patch artifacts and evaluator logs, including incomplete and unresolved outcomes
-  - preserve the measured request-boundary profile, CUDA calibration, and concurrency profile; keep the container-native CUDA trace limitation explicit
+  - preserve the measured request-boundary profile, CUDA calibration, concurrency profile, and CPU/tool strace profile; keep the container-native CUDA trace limitation explicit
   - preserve the direct CPU/wall versus aggregate-H100 case-study manifest and its monotonic-clock limitation
   - preserve the high-frequency direct case-study manifest and raw SHA-256 values
   - calibrate and hold out simulator predictions before making any latency-ratio claim
@@ -84,6 +84,7 @@ blocker_ids:
   - REQUEST_LEVEL_GPU_ATTRIBUTION_UNAVAILABLE
   - CONTAINER_CUDA_KERNEL_PROFILE_UNAVAILABLE
   - SIMULATOR_HOLDOUT_NOT_MEASURED
+  - CPU_TOOL_PROFILE_PATCH_EMPTY_NOT_EVALUATED
 
 observability:
   status: bounded_additive_upgrade_pass_static

@@ -118,8 +118,23 @@ server and stored hashes plus timing metadata, never prompts or responses.
   `instance-20260822-182111`, and boot ID
   `24714e4f-4b78-4c1a-9111-d4c2ca8b4cb0`.
 - This closes the lossless request-boundary timing gap. It does **not** assign
-  GPU time to requests: `/metrics` remains server-aggregate and the host
-  Nsight wrapper still cannot observe CUDA kernels inside the vLLM container.
+GPU time to requests: `/metrics` remains server-aggregate and the host
+Nsight wrapper still cannot observe CUDA kernels inside the vLLM container.
+
+## CPU/tool syscall profile (2026-08-23)
+
+`project/GCP_H100_CPU_TOOL_STRACE_PROFILE_20260823.json` records one real
+115-second SWE-agent trajectory for `astropy__astropy-12907` under `strace`
+(`file,process,network`) with a concurrent 100-ms H100 sampler. The run
+produced 31 successful model-request boundaries, 561,374 prompt tokens,
+7,535 completion tokens, 27,843 syscall lines (25,423 file-operation lines,
+46 process-operation lines, 561 network-operation lines), and 835 H100
+samples (414 active; mean utilization 40.23%, maximum 95%). Raw files and
+hashes remain on the VM; raw logs are not copied into Git. The prediction was
+empty and exited `exit_cost`, so this is timing/profiling evidence only, not an
+official resolved result. The proxy and sampler share `CLOCK_MONOTONIC_RAW`;
+strace `-ttt` timestamps are realtime and require an explicit offset before
+any event-level merge.
 
 ## H100 CUDA and concurrency measurements (2026-08-23)
 
