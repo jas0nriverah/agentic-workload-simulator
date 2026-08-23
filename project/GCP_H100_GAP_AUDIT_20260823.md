@@ -95,3 +95,7 @@ A pinned Astropy Lite trajectory completed with agent_rc=0 and evaluator_rc=0. D
 ## Follow-up measurement: request-profile D (2026-08-23)
 
 A second pinned Astropy Lite trajectory was captured with approximately 5 ms direct NVML sampling. Thirty-one proxy boundaries aligned on the same host, boot, and CLOCK_MONOTONIC_RAW; the compact manifest reports 27.545960 aggregate utilization-overlap GPU-active seconds. This higher-resolution aggregate estimate strengthens the CPU/model/GPU timing case study but does not provide kernel attribution or profiler-derived gpu_seconds_at_reference. The official generated patch was unresolved.
+
+## Follow-up measurement: request-profile E (2026-08-23)
+
+A third pinned Astropy Lite trajectory was run while direct NVML and vLLM metric samplers recorded on CLOCK_MONOTONIC_RAW. Thirty-one proxy boundaries aligned within the sampler window. The compact E manifest records aggregate utilization overlap (25.060305 GPU-active seconds), request/token metadata, cumulative vLLM server-metric deltas, trajectory hash, and evaluator-report hash. The official generated patch was unresolved. This strengthens the CPU/model/GPU timing case study but does not establish exact per-request GPU attribution or simulator gpu_seconds_at_reference. NCU remains blocked by ERR_NVGPUCTRPERM.
