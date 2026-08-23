@@ -87,3 +87,7 @@ named gap-closing GPU operation if it can obtain evidence not already present;
 do not launch more hyperparameter conditions merely to consume GPU time. Keep
 the VM and vLLM service available while useful authorized work remains, and do
 not infer completion from this audit alone.
+
+## Follow-up measurement: request-profile C (2026-08-23)
+
+A pinned Astropy Lite trajectory completed with agent_rc=0 and evaluator_rc=0. Direct NVML sampling at 20 ms and proxy boundaries shared host, boot identity, and CLOCK_MONOTONIC_RAW. The compact manifest retains 31 aligned request boundaries from the sampler window and reports 33.051809 aggregate utilization-overlap GPU-active seconds. This is a bounded aggregate estimate only; it is not kernel attribution or profiler-derived device time, so simulator fitting/holdout error remains prohibited. The official generated patch was unresolved.
