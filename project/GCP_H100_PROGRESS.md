@@ -123,6 +123,22 @@ server and stored hashes plus timing metadata, never prompts or responses.
 
 ## H100 CUDA and concurrency measurements (2026-08-23)
 
+## Direct CPU/GPU timing case study (2026-08-23)
+
+`project/GCP_H100_CPU_GPU_CASE_STUDY_20260823.json` records four serial HTTP-200
+requests sent directly to the pinned vLLM server while `nvidia-smi dmon` sampled
+the H100 at one-second intervals. Request wall durations were 404.588, 397.925,
+398.469, and 399.174 ms (mean 400.039 ms; p50 398.822 ms). The sampler observed
+an active aggregate row at 85% SM, 39% memory, and 268 W, with idle rows at 0%
+SM and 0% memory outside the request window.
+
+This closes the coarse request-level CPU/wall-versus-aggregate-GPU case-study
+gap. It does not provide per-request GPU time: the probe's `CLOCK_MONOTONIC`
+timestamps are not directly mergeable with the trajectory profile's
+`CLOCK_MONOTONIC_RAW` timestamps, and `nvidia-smi dmon` is aggregate. The raw
+files remain on the VM with SHA-256 values in the tracked manifest. The probe is
+also deliberately not an SWE-agent trajectory or simulator-calibration record.
+
 - Standalone CUDA calibration is recorded in
   `project/GCP_H100_CUDA_CALIBRATION_20260823.json`. A pinned-container
   `torch 2.7.1+cu128` microbenchmark measured 100 warmed-up float16 matmuls at
