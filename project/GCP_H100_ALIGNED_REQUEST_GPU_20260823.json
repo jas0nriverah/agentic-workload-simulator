@@ -1,0 +1,40 @@
+{
+  "schema_version": "gcp-h100-aligned-request-gpu-probe.v1",
+  "provenance": "measured",
+  "recorded_at_utc": "2026-08-23T05:33:53Z",
+  "host": "instance-20260822-182111",
+  "platform": "GCP_a3-highgpu-1g_1x_H100_80GB",
+  "model": "Qwen/Qwen3-Coder-30B-A3B-Instruct",
+  "endpoint": "http://127.0.0.1:8000/v1/completions",
+  "clock_id": "CLOCK_MONOTONIC_RAW",
+  "serial_isolation": true,
+  "all_http_200": true,
+  "holdout_defined_before_measurement": true,
+  "vllm_metrics_delta_recorded": false,
+  "vllm_metrics_note": "The raw metrics scrape was retained, but this probe's parser did not produce per-record deltas; do not infer server timing from this artifact. Use GCP_H100_SERVICE_CALIBRATION_REQUEST_METRICS_20260823.json for validated aggregate vLLM counter deltas.",
+  "raw_remote_artifacts": {
+    "requests": "/home/jasonrivera691/eic-work/artifacts/observability/service-calibration-aligned-dmon-20260823/requests.jsonl",
+    "requests_sha256": "3312beaf51266dc90172cde644fa49bc8bd39e71776e03284d3489251c2f1689",
+    "gpu_samples": "/home/jasonrivera691/eic-work/artifacts/observability/service-calibration-aligned-dmon-20260823/gpu_50ms.jsonl",
+    "gpu_samples_sha256": "0b7495c0ee1dc3949392a709b44793572d9e703f228cfd567048898b6eb72e2c",
+    "metrics": "/home/jasonrivera691/eic-work/artifacts/observability/service-calibration-aligned-dmon-20260823/metrics.jsonl",
+    "metrics_sha256": "0f64a3b10be9fe5c1af50aa9e106976b2f2b0e2d2f32ec1ebf4b6897331747f3"
+  },
+  "gpu_sampling_summary": {
+    "sample_period_target_ms": 50,
+    "sample_count": 51,
+    "active_samples": 35,
+    "mean_gpu_util_percent": 35.19607843137255,
+    "max_gpu_util_percent": 85.0,
+    "alignment": "request intervals and samples share CLOCK_MONOTONIC_RAW; overlap is aggregate utilization only"
+  },
+  "records": [
+    {"case_id":"cal_128","split":"calibration","prompt_tokens":265,"completion_tokens":32,"wall_ms":225.621825,"start_mono_ns":39919609740419,"end_mono_ns":39919835362244,"gpu_samples_overlap":4,"gpu_active_samples_overlap":1,"gpu_mean_util_overlap":21.25,"gpu_max_util_overlap":85.0,"http_status":200},
+    {"case_id":"cal_512","split":"calibration","prompt_tokens":1033,"completion_tokens":32,"wall_ms":249.936899,"start_mono_ns":39920196837112,"end_mono_ns":39920446774011,"gpu_samples_overlap":3,"gpu_active_samples_overlap":0,"gpu_mean_util_overlap":0.0,"gpu_max_util_overlap":0.0,"http_status":200},
+    {"case_id":"cal_1024","split":"calibration","prompt_tokens":2089,"completion_tokens":32,"wall_ms":260.637776,"start_mono_ns":39920808096442,"end_mono_ns":39921068734218,"gpu_samples_overlap":4,"gpu_active_samples_overlap":1,"gpu_mean_util_overlap":18.25,"gpu_max_util_overlap":73.0,"http_status":200},
+    {"case_id":"cal_2048","split":"calibration","prompt_tokens":4105,"completion_tokens":32,"wall_ms":282.941774,"start_mono_ns":39921429777902,"end_mono_ns":39921712719676,"gpu_samples_overlap":4,"gpu_active_samples_overlap":2,"gpu_mean_util_overlap":33.5,"gpu_max_util_overlap":67.0,"http_status":200},
+    {"case_id":"hold_256","split":"holdout","prompt_tokens":521,"completion_tokens":32,"wall_ms":211.727634,"start_mono_ns":39922073297483,"end_mono_ns":39922285025117,"gpu_samples_overlap":3,"gpu_active_samples_overlap":1,"gpu_mean_util_overlap":11.333333333333334,"gpu_max_util_overlap":34.0,"http_status":200},
+    {"case_id":"hold_768","split":"holdout","prompt_tokens":1545,"completion_tokens":32,"wall_ms":216.562554,"start_mono_ns":39922646165706,"end_mono_ns":39922862728260,"gpu_samples_overlap":3,"gpu_active_samples_overlap":1,"gpu_mean_util_overlap":18.0,"gpu_max_util_overlap":54.0,"http_status":200}
+  ],
+  "scientific_boundary": "This closes an aligned request-interval versus aggregate GPU-utilization measurement gap and provides a predeclared calibration/holdout split. It does not assign GPU seconds to individual requests, does not provide vLLM server deltas for these rows, and cannot by itself fit the simulator or claim held-out prediction error."
+}

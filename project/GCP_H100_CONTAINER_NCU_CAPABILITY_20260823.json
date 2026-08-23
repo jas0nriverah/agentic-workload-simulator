@@ -1,0 +1,35 @@
+{
+  "schema_version": "gcp-h100-container-ncu-capability.v1",
+  "provenance": "measured_capability",
+  "recorded_at_utc": "2026-08-23T06:20:00Z",
+  "host": "instance-20260822-182111",
+  "gpu": "NVIDIA H100 80GB HBM3",
+  "container": "vllm-agentic",
+  "tool": {
+    "path": "/usr/local/cuda/bin/ncu",
+    "version": "2025.1.1.0",
+    "mode": "container-native microbenchmark",
+    "matrices": [1024, 2048, 4096],
+    "launch_count": 12
+  },
+  "observed": {
+    "microbenchmark_process_connected": true,
+    "microbenchmark_matrix_sizes_printed": true,
+    "ncu_report_created": false,
+    "ncu_report": null,
+    "error": "ERR_NVGPUCTRPERM: The user does not have permission to access NVIDIA GPU Performance Counters on target device 0",
+    "profiling_ready": false
+  },
+  "scope": {
+    "vllm_server_restarted": false,
+    "cuda_driver_changed": false,
+    "experiment_settings_changed": false,
+    "kernel_metrics_claimed": false,
+    "raw_command_output_retained_remotely": true
+  },
+  "limitations": [
+    "Host nsys is unavailable and the host wrapper did not cross the vLLM container namespace.",
+    "Container NCU cannot collect hardware performance-counter metrics under the current GPU permission policy.",
+    "This capability probe does not provide vLLM/SWE-agent kernel timing or simulator calibration data."
+  ]
+}

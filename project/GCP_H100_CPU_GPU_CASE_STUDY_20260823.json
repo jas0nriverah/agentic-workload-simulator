@@ -1,0 +1,54 @@
+{
+  "schema_version": "gcp-h100-cpu-gpu-case-study.v1",
+  "provenance": "measured",
+  "observed_at_utc": "2026-08-23T04:46:02Z/2026-08-23T04:46:22Z",
+  "provider": "google_cloud",
+  "vm": "instance-20260822-182111",
+  "zone": "us-central1-a",
+  "gpu": "NVIDIA H100 80GB HBM3",
+  "gpu_memory_mib": 81559,
+  "clock_id": "CLOCK_MONOTONIC",
+  "clock_source": "Python time.monotonic_ns()",
+  "clock_note": "This direct probe uses CLOCK_MONOTONIC. It must not be interval-merged with the request profile's CLOCK_MONOTONIC_RAW events without a recorded conversion.",
+  "endpoint": {
+    "url": "http://127.0.0.1:8000/v1/completions",
+    "model": "Qwen/Qwen3-Coder-30B-A3B-Instruct",
+    "max_tokens": 64,
+    "temperature": 0.0,
+    "seed": 0,
+    "prompt_policy": "A minimal READY probe; prompt and response contents are intentionally not persisted."
+  },
+  "requests": [
+    {"index": 0, "start_mono_ns": 37053239048115, "end_mono_ns": 37053643635773, "duration_ms": 404.587658, "http_status": 200, "response_bytes": 675},
+    {"index": 1, "start_mono_ns": 37053643726542, "end_mono_ns": 37054041651397, "duration_ms": 397.924855, "http_status": 200, "response_bytes": 675},
+    {"index": 2, "start_mono_ns": 37054041711528, "end_mono_ns": 37054440180350, "duration_ms": 398.468822, "http_status": 200, "response_bytes": 675},
+    {"index": 3, "start_mono_ns": 37054440240241, "end_mono_ns": 37054839414657, "duration_ms": 399.174416, "http_status": 200, "response_bytes": 675}
+  ],
+  "request_summary": {
+    "count": 4,
+    "all_http_200": true,
+    "mean_duration_ms": 400.03893775,
+    "p50_duration_ms": 398.821619,
+    "min_duration_ms": 397.924855,
+    "max_duration_ms": 404.587658,
+    "serial_request_order": true
+  },
+  "gpu_sampler": {
+    "tool": "nvidia-smi dmon",
+    "sample_period_seconds": 1,
+    "metrics": ["power_w", "gpu_temperature_c", "memory_temperature_c", "sm_percent", "mem_percent", "framebuffer_mib"],
+    "baseline_observation": {"power_w": 117, "sm_percent": 0, "mem_percent": 0, "framebuffer_mib": 74457},
+    "active_observation": {"power_w": 268, "gpu_temperature_c": 37, "memory_temperature_c": 45, "sm_percent": 85, "mem_percent": 39, "framebuffer_mib": 74457},
+    "interpretation": "The sampler observed aggregate GPU activity during the probe window and idle aggregate rows outside it; samples are not assigned to individual requests."
+  },
+  "raw_artifacts": [
+    {"path": "/home/jasonrivera691/eic-work/artifacts/observability/cpu-gpu-case-study-20260823/direct_requests.jsonl", "sha256": "baf4bf7d7114d82d5a027fa4c197a8ec9b748ab7d2ca67a41a860c20f17f8c49"},
+    {"path": "/home/jasonrivera691/eic-work/artifacts/observability/cpu-gpu-case-study-20260823/gpu_dmon_direct.txt", "sha256": "030958e4ec68400d6e818f01087ab374ad0ce3f0752560016f748050f69fd060"}
+  ],
+  "claim_boundary": [
+    "Measured direct vLLM request wall intervals plus coarse aggregate H100 dmon activity.",
+    "This is a request-level CPU/wall timing case study, not per-request GPU-time attribution.",
+    "It is not an SWE-agent trajectory, official SWE-bench result, or simulator calibration dataset.",
+    "The aggregate sampler and direct probe use CLOCK_MONOTONIC and cannot be merged with CLOCK_MONOTONIC_RAW trajectory events without calibration."
+  ]
+}

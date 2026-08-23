@@ -1,0 +1,121 @@
+{
+  "schema_version": "gcp-h100-profiled-trajectory.v1",
+  "provenance": "measured",
+  "recorded_at_utc": "2026-08-23T07:47:04Z",
+  "experiment_id": "gcp-h100-profile-requests-2317-rerun-20260823",
+  "batch_id": "profile-requests-2317-rerun",
+  "suite": "lite",
+  "instance_id": "psf__requests-2317",
+  "provider": "google_cloud",
+  "vm": "instance-20260822-182111",
+  "zone": "us-central1-a",
+  "gpu": "NVIDIA H100 80GB HBM3",
+  "driver": "580.173.02",
+  "cuda": "13.0",
+  "runtime": {
+    "model": "Qwen/Qwen3-Coder-30B-A3B-Instruct",
+    "model_revision": "b2cff646eb4bb1d68355c01b18ae02e7cf42d120",
+    "vllm_version": "0.10.0",
+    "vllm_image_digest": "sha256:05a31dc4185b042e91f4d2183689ac8a87bd845713d5c3f987563c5899878271",
+    "endpoint": "http://127.0.0.1:8002",
+    "source_commit": "ea68d5d6e28166552926c3298ddf4199fbc20814",
+    "clock_id": "CLOCK_MONOTONIC_RAW",
+    "hostname": "instance-20260822-182111",
+    "boot_id": "24714e4f-4b78-4c1a-9111-d4c2ca8fb4cb"
+  },
+  "run": {
+    "start_utc": "2026-08-23T07:22:31Z",
+    "end_utc": "2026-08-23T07:47:04Z",
+    "agent_returncode": 0,
+    "evaluator_returncode": 0,
+    "agent_command_sha256": "d32ce50ffe031d538d8c993507d9e355dfb65ac43500f04220ad217b3fc6b787",
+    "evaluator_command_sha256": "7b05faa17657c5cbd2b11911d610eb6cfb3a62eca1f9544209d4af8b5ce1e770",
+    "evaluator_dataset_sha256": "e1fe34cc17b8b01a5f81ae97fd8e22181096993bae7a139bc3551045e69c1d8e",
+    "runtime_dataset_sha256": "fd9409499a40e47a89cf7580beae79d3911554d458af23a78c696771d53270e0",
+    "source_dataset_sha256": "ea4e9656dd443874b24da86a907c3dcc7ea74eda043029b7aae5cf39efa2baa3",
+    "status": "completed"
+  },
+  "evaluator": {
+    "submitted": 1,
+    "completed": 1,
+    "resolved": 0,
+    "unresolved": 1,
+    "errors": 0,
+    "empty_patches": 0,
+    "log_path": "/home/jasonrivera691/eic-work/batches/gcp-h100-profile-requests-2317-rerun-20260823/evaluator.log",
+    "report_json": null,
+    "report_note": "The evaluator log says a report was written, but no report JSON was present under the persisted eic-work tree; the log and predictions remain the authoritative retained evidence."
+  },
+  "profiling": {
+    "strace": {
+      "tool": "strace",
+      "filters": ["file", "desc", "process", "network"],
+      "timestamp_mode": "realtime_epoch_from_strace_ttt",
+      "raw_path": "/home/jasonrivera691/eic-work/batches/gcp-h100-profile-requests-2317-rerun-20260823/cpu_events.strace",
+      "sha256": "b925597261270af96ba20b70b14aeda928bf0dca4002ba2c9e806cbb9cf921f",
+      "lines": 176174
+    },
+    "gpu_sampler": {
+      "tool": "nvidia-smi dmon",
+      "flags": "-s pucvmet -d 1 -o DT",
+      "raw_path": "/home/jasonrivera691/eic-work/batches/gcp-h100-profile-requests-2317-rerun-20260823/gpu.dmon",
+      "sha256": "6b7093b4ebc9c0a8b6a7cd6a95385483248c8a2c6d4599a07e4f402b53903619",
+      "raw_lines": 1523,
+      "scope": "aggregate_gpu_samples"
+    }
+  },
+  "artifacts": {
+    "trajectory": {
+      "path": "/home/jasonrivera691/eic-work/batches/gcp-h100-profile-requests-2317-rerun-20260823/psf__requests-2317/psf__requests-2317.traj",
+      "bytes": 1561216,
+      "sha256": "40aae9264101bfdecf02bd137d02c2cc866ac3fecb988c800a27a30192153e38"
+    },
+    "patch": {
+      "path": "/home/jasonrivera691/eic-work/batches/gcp-h100-profile-requests-2317-rerun-20260823/psf__requests-2317/patch.diff",
+      "bytes": 12102,
+      "sha256": "0c322b675e7211922be24845ed40dbd59f4537eb3c5a4634cb6ec52ecfd6e9ac"
+    },
+    "predictions": {
+      "path": "/home/jasonrivera691/eic-work/batches/gcp-h100-profile-requests-2317-rerun-20260823/preds.json",
+      "bytes": 12899,
+      "sha256": "ef3b43f0d1d8e4a85920b386cc4094f8610db045bc36f3c4acdad481d41ca1fc"
+    },
+    "request_events": {
+      "path": "/home/jasonrivera691/eic-work/artifacts/observability/request-profile-requests-2317-20260823.jsonl",
+      "sha256": "f2c9924e4c30160e9686b1c91e1a1f0dd516c332ca0ba807409870fffcfee8f7",
+      "line_count": 63,
+      "profile_run_delta_estimate": 32,
+      "delta_note": "Append-only file had 31 lines at the preceding checkpoint; 32 additional request records were observed during this run."
+    }
+  },
+  "measurement_contract": {
+    "request_clock": "CLOCK_MONOTONIC_RAW",
+    "request_sample": {
+      "status": 200,
+      "prompt_tokens": 14350,
+      "completion_tokens": 299,
+      "total_tokens": 14649,
+      "duration_ms": 2080.52214,
+      "utc_recorded": "2026-08-23T07:24:24.915Z"
+    },
+    "per_request_gpu_device_seconds": false,
+    "gpu_measurement_scope": "aggregate_dmon",
+    "strace_merge_rule": "Strace realtime timestamps require an explicit run-start offset and are not silently treated as monotonic."
+  },
+  "measurement_value": {
+    "closes": [
+      "CPU file/process/network activity captured during a real SWE-agent trajectory in a second repository",
+      "request-level model timing, token counts, and context sizes for the profiled trajectory",
+      "contemporaneous aggregate H100 utilization samples for the CPU/GPU case-study evidence"
+    ],
+    "does_not_close": [
+      "per-request GPU device seconds or CUDA-kernel attribution",
+      "simulator calibration fit or held-out prediction error",
+      "assignment-wide repository/category coverage",
+      "a resolved SWE-bench outcome for this profile-only run"
+    ]
+  },
+  "claim_boundary": "Measured profiling evidence only; the trajectory is not counted as a resolved benchmark result and aggregate dmon samples are not converted into per-request device time.",
+  "raw_artifacts_retained_remote": true,
+  "raw_artifacts_committed": false
+}

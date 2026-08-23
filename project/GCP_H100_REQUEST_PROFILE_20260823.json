@@ -51,6 +51,14 @@
     "trajectory_bytes": 1935797,
     "patch_bytes": 10294
   },
+  "concurrency_profile": {
+    "artifact": "/home/jasonrivera691/eic-work/artifacts/observability/request_concurrency_20260823.json",
+    "total_requests": 15,
+    "concurrency_levels": [1, 2, 4, 8],
+    "http_200": 15,
+    "http_errors": 0,
+    "claim_boundary": "Measured synthetic proxy traffic only; this does not represent SWE-agent trajectory throughput or per-request GPU attribution."
+  },
   "interpretation": {
     "request_boundary_timing": "measured",
     "request_identity_to_gpu_time": "unavailable",
