@@ -1,7 +1,8 @@
 # H100 final validation — fresh VM handoff
 
 This handoff is for a new Codex session on a dedicated H100 host. The protocol
-is sealed but has not been launched. Read this file, then read
+definition is sealed; this startup flow does not authorize or repeat
+calibration or holdout. Read this file, then read
 `configs/h100_final_validation.json` and
 `docs/H100_FINAL_VALIDATION_PROTOCOL.md`; the JSON is the source of truth. The
 scope is H100 only. Do not broaden the workload, substitute hardware, start a
@@ -25,6 +26,83 @@ and final report. If the handoff was copied before the desktop commit existed,
 fetch the branch and repeat the checks after checking out the final pushed
 commit. Never run from a dirty checkout or a different branch.
 
+## Canonical deterministic VM startup
+
+Use `scripts/cloud/start_h100.sh` for every fresh or resumed VM. Do not call
+the lower-level Nsight launcher directly. The startup entrypoint resolves the
+repository root from its own path, verifies the branch/commit/worktree,
+sealed protocol hash, external startup manifest, Python lock, and Ubuntu
+system-package lock, then verifies Docker, the NVIDIA runtime, one allowlisted
+H100, CUDA, Nsight Systems, the pinned image digest, the exact local model
+snapshot, and the executable production trace provider. It installs only
+missing or lock-mismatched packages, uses cached packages first, and uses
+`--require-hashes` for Python installation. It never sources the manifest, so
+credentials or arbitrary shell text are not evaluated or logged.
+
+Create the non-secret manifest outside the checkout once per VM. Replace the
+commit placeholder with the final pushed commit and preserve every other pin:
+
+```bash
+install -m 600 cloud/gcp/h100_startup_manifest.env.example /mnt/eic-work/h100-startup.env
+```
+
+Set `REQUIRED_COMMIT` in `/mnt/eic-work/h100-startup.env` to the checked-out
+commit, and set the host-local cache, model snapshot, work, and trace paths.
+The system lock hash in the template is:
+
+```text
+a2507fbf3cb360091c9657ff1a000a975521d8aa360cf6e3f18a3318fb15f1e5
+```
+
+The safe preflight is:
+
+```bash
+scripts/cloud/start_h100.sh --manifest /mnt/eic-work/h100-startup.env --dry-run
+```
+
+After that passes, the one-command startup/reuse flow is:
+
+```bash
+scripts/cloud/start_h100.sh --manifest /mnt/eic-work/h100-startup.env
+```
+
+This command performs `/health`, `/v1/models`, a normal completion, Qwen
+`qwen3_coder` tool parsing, `/metrics`, GPU-process ownership, Nsight session,
+and fatal-log checks. A correctly running matching `h100-final-vllm` server is
+reused. A stopped, mismatched, duplicate, unhealthy, or otherwise stale
+server fails closed. Startup does not run calibration, holdout, fitting,
+scoring, or any cloud allocation; those remain explicit separate commands.
+
+The startup trace mount must be outside the repository's validation artifact
+roots. Never set it to `artifacts/h100_final_validation/` or an existing
+calibration/holdout path.
+
+### Stale-server recovery
+
+The startup script never stops or removes a stale container. Inspect it first:
+
+```bash
+docker inspect h100-final-vllm
+docker logs --tail 240 h100-final-vllm
+nvidia-smi
+ss -ltn '( sport = :8000 )'
+```
+
+If the container is confirmed stale and no authorized run is using it, clean
+up only that container, without touching any repository or artifact root, then
+rerun the dry-run and startup commands:
+
+```bash
+docker stop h100-final-vllm
+docker rm h100-final-vllm
+scripts/cloud/start_h100.sh --manifest /mnt/eic-work/h100-startup.env --dry-run
+scripts/cloud/start_h100.sh --manifest /mnt/eic-work/h100-startup.env
+```
+
+For a duplicate server or occupied port, identify the owning process/container
+and resolve it explicitly; do not bypass the startup checks or change the
+sealed pins.
+
 Record these placeholders before and after execution; do not guess them:
 
 ```text
@@ -41,9 +119,9 @@ the operator must provide current provider authorization, verify the billing
 window and termination plan, and confirm a dedicated host. Do not put tokens,
 credentials, model weights, caches, or raw multi-gigabyte traces in Git.
 
-The required entrypoint is fail-closed: it needs both `--execute` and
-`--allow-h100`, validates the protocol hash and host GPU, and refuses to reuse
-or overwrite an output root. A dry run is always safe:
+The calibration/holdout driver remains fail-closed: it needs both `--execute`
+and `--allow-h100`, validates the protocol hash and host GPU, and refuses to
+reuse or overwrite an output root. A dry run is always safe:
 
 ```bash
 cd /path/to/agentic-workload-simulator
