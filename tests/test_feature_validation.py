@@ -170,6 +170,8 @@ class FeatureValidationTests(unittest.TestCase):
             "feature_validation.py score",
             "tail -f",
             "--resume",
+            "scripts/cloud/h100_case_runner.py",
+            "--validate-only",
             "Final report format",
         ):
             self.assertIn(required, handoff)

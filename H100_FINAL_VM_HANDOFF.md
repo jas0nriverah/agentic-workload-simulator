@@ -91,6 +91,33 @@ hardware/clock identity, source paths, provenance, and SHA-256 values. A
 non-zero runner status creates an explicit unavailable row and stops the phase;
 it must not be silently retried or counted as success.
 
+The reviewed executable runner is committed at:
+
+```text
+scripts/cloud/h100_case_runner.py
+```
+
+Validate its CLI contract without contacting a server, starting a workload, or
+writing artifacts:
+
+```bash
+scripts/cloud/h100_case_runner.py --validate-only \
+  --config configs/h100_final_validation.json \
+  --case-id cal_i128_o32 --split calibration \
+  --input-tokens 128 --output-tokens 32 --repeat-id r01 \
+  --output-dir /tmp/h100-runner-contract
+```
+
+For an authorized execution, set `H100_VLLM_BASE_URL` to the already-running
+server, `H100_MODEL_SNAPSHOT` to the local snapshot whose final directory name
+is the sealed model revision, and `H100_TRACE_PROVIDER` to the reviewed
+executable that writes `trace_summary.json` under its `--output-dir`. The trace
+summary must use schema `h100-trace-summary.v1`, provenance `measured`,
+`CLOCK_MONOTONIC_RAW`, the `overlap_aware_request_window` CUDA union rule,
+finite non-negative CPU/CUDA/kernel fields, and checksummed raw-artifact
+references. The runner refuses missing or invalid telemetry and writes an
+unavailable row with a non-zero exit instead of fabricating measurements.
+
 ## Execution order
 
 Run calibration first. The command below is illustrative and remains blocked
@@ -98,7 +125,7 @@ unless authorization and the reviewed runner are present:
 
 ```bash
 scripts/cloud/run_h100_final_validation.sh --phase calibration --execute \
-  --allow-h100 --runner /absolute/path/to/reviewed_h100_case_runner
+  --allow-h100 --runner scripts/cloud/h100_case_runner.py
 ```
 
 After all calibration artifacts are immutable, fit the predeclared
@@ -129,7 +156,7 @@ Then reveal and measure holdouts with an explicit resume:
 scripts/cloud/run_h100_final_validation.sh --phase holdout --execute \
   --allow-h100 --resume \
   --predictions-manifest artifacts/h100_final_validation/derived/prediction_manifest.json \
-  --runner /absolute/path/to/reviewed_h100_case_runner
+  --runner scripts/cloud/h100_case_runner.py
 ```
 
 The entrypoint must verify the prediction manifest exists, is immutable, and
@@ -185,12 +212,12 @@ prediction manifest:
 
 ```bash
 scripts/cloud/run_h100_final_validation.sh --phase calibration --execute \
-  --allow-h100 --resume --runner /absolute/path/to/reviewed_h100_case_runner
+  --allow-h100 --resume --runner scripts/cloud/h100_case_runner.py
 # or, after calibration fit is already frozen:
 scripts/cloud/run_h100_final_validation.sh --phase holdout --execute \
   --allow-h100 --resume \
   --predictions-manifest artifacts/h100_final_validation/derived/prediction_manifest.json \
-  --runner /absolute/path/to/reviewed_h100_case_runner
+  --runner scripts/cloud/h100_case_runner.py
 ```
 
 Never delete a partial row, clear a lock, change the split, or rerun an
