@@ -25,6 +25,7 @@ Options:
   --manifest FILE     Untracked vLLM instance manifest
   --runner FILE       Reviewed case runner
   --offline           Skip host, Docker, model, provider, and server checks
+  --dry-run           Alias for --offline; safe in detached CI checkouts
   --check-server      Also check the already-running vLLM health endpoints
   -h, --help          Show this help
 
@@ -51,6 +52,7 @@ while (($#)); do
     --manifest) (($# >= 2)) || { echo '--manifest requires a path' >&2; exit 2; }; MANIFEST="$2"; shift 2;;
     --runner) (($# >= 2)) || { echo '--runner requires a path' >&2; exit 2; }; RUNNER="$2"; shift 2;;
     --offline) OFFLINE=1; shift;;
+    --dry-run) OFFLINE=1; shift;;
     --check-server) CHECK_SERVER=1; shift;;
     -h|--help) usage; exit 0;;
     *) echo "unknown argument: $1" >&2; exit 2;;
@@ -68,7 +70,13 @@ fi
 
 if command -v git >/dev/null 2>&1; then
   branch="$(git branch --show-current 2>/dev/null || true)"
-  [[ "$branch" == "$REQUIRED_BRANCH" ]] && pass "branch $branch" || fail "required branch $REQUIRED_BRANCH (found ${branch:-detached})"
+  if [[ "$branch" == "$REQUIRED_BRANCH" ]]; then
+    pass "branch $branch"
+  elif [[ "$OFFLINE" -eq 1 && -z "$branch" ]]; then
+    warn "detached checkout accepted in offline mode (required branch: $REQUIRED_BRANCH)"
+  else
+    fail "required branch $REQUIRED_BRANCH (found ${branch:-detached})"
+  fi
   if [[ -n "$(git status --porcelain 2>/dev/null)" ]]; then
     [[ "$OFFLINE" -eq 1 ]] && warn 'working tree is dirty (offline mode; execution remains blocked)' || fail 'working tree is not clean'
   else

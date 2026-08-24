@@ -17,8 +17,31 @@ SESSION="${H100_NSYS_SESSION:-h100-final-validation}"
 PORT="${VLLM_PORT:-8000}"
 MAX_MODEL_LEN="${VLLM_MAX_MODEL_LEN:-32768}"
 GPU_MEM_UTIL="${VLLM_GPU_MEMORY_UTILIZATION:-0.90}"
+DRY_RUN=0
 
 die() { printf 'ERROR: %s\n' "$*" >&2; exit 1; }
+usage() {
+  cat <<'USAGE'
+Usage: scripts/cloud/start_h100_vllm_nsight.sh [--dry-run]
+
+--dry-run validates the command contract without requiring Docker, NVIDIA,
+Nsight, the model cache, a server, or artifact access.
+USAGE
+}
+
+while (($#)); do
+  case "$1" in
+    --dry-run) DRY_RUN=1; shift ;;
+    -h|--help) usage; exit 0 ;;
+    *) die "unknown argument: $1" ;;
+  esac
+done
+
+if (( DRY_RUN )); then
+  printf 'DRY-RUN: no Docker, GPU, server, profiler, or artifact access; would start pinned vLLM image=%s session=%s\n' "$VLLM_IMAGE" "$SESSION"
+  exit 0
+fi
+
 port_in_use() {
   if command -v ss >/dev/null 2>&1; then
     ss -H -ltn "sport = :$PORT" 2>/dev/null | grep -q .
@@ -40,7 +63,7 @@ command -v curl >/dev/null 2>&1 || die 'curl is required'
 MODEL_SNAPSHOT="$(cd -- "$MODEL_SNAPSHOT" && pwd -P)"
 MODEL_CACHE="$(cd -- "$MODEL_CACHE" && pwd -P)"
 case "$MODEL_SNAPSHOT/" in
-  "$MODEL_CACHE"/*) MODEL_RELATIVE="${MODEL_SNAPSHOT#$MODEL_CACHE/}";;
+  "$MODEL_CACHE"/*) MODEL_RELATIVE="${MODEL_SNAPSHOT#"$MODEL_CACHE"/}";;
   *) die 'model snapshot must be inside H100_MODEL_CACHE';;
 esac
 

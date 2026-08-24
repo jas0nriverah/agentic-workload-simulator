@@ -13,8 +13,11 @@ SYSTEM_LOCK="$ROOT/cloud/gcp/h100_system_packages_ubuntu22.04-amd64.lock"
 LAUNCHER="$ROOT/scripts/cloud/start_h100_vllm_nsight.sh"
 TRACE_PROVIDER="$ROOT/scripts/cloud/h100_nsight_trace_provider.py"
 MANIFEST="${H100_STARTUP_MANIFEST:-$ROOT/../h100-startup.env}"
+MANIFEST_EXPLICIT=0
+[[ -n "${H100_STARTUP_MANIFEST:-}" ]] && MANIFEST_EXPLICIT=1
 STATE_ROOT=""
 DRY_RUN=0
+DRY_RUN_DEFAULT_MANIFEST=0
 
 die() { printf 'ERROR: %s\n' "$*" >&2; exit 1; }
 usage() {
@@ -42,20 +45,28 @@ while (($#)); do
     --manifest)
       (($# >= 2)) || die '--manifest requires a file'
       MANIFEST="$2"
+      MANIFEST_EXPLICIT=1
       shift 2
       ;;
-    --manifest=*) MANIFEST="${1#*=}"; shift ;;
+    --manifest=*) MANIFEST="${1#*=}"; MANIFEST_EXPLICIT=1; shift ;;
     --dry-run) DRY_RUN=1; shift ;;
     -h|--help) usage; exit 0 ;;
     *) die "unknown argument: $1" ;;
   esac
 done
 
+if (( DRY_RUN && MANIFEST_EXPLICIT == 0 )); then
+  MANIFEST="$ROOT/cloud/gcp/h100_startup_manifest.env.example"
+  DRY_RUN_DEFAULT_MANIFEST=1
+fi
+
 [[ -f "$MANIFEST" ]] || die "startup manifest is missing: $MANIFEST"
 MANIFEST="$(cd -- "$(dirname -- "$MANIFEST")" && pwd -P)/$(basename -- "$MANIFEST")"
-case "$MANIFEST" in
-  "$ROOT"/*) die 'startup manifest must be outside the checkout so git remains clean' ;;
-esac
+if (( ! DRY_RUN )); then
+  case "$MANIFEST" in
+    "$ROOT"/*) die 'startup manifest must be outside the checkout so git remains clean' ;;
+  esac
+fi
 
 # Read only an explicit allowlist.  In particular, do not source the file:
 # API keys, tokens, and arbitrary shell text are never evaluated or logged.
@@ -106,10 +117,19 @@ CUDA_VERSION="$(required_manifest_value CUDA_VERSION)"
 NSYS_VERSION_PREFIX="$(required_manifest_value NSYS_VERSION_PREFIX)"
 STATE_ROOT="${H100_STARTUP_STATE_ROOT:-$WORK_ROOT/state/h100-startup}"
 
+if (( DRY_RUN )) && [[ "$REQUIRED_COMMIT" == '<40-hex-pushed-commit>' ]]; then
+  REQUIRED_COMMIT="$(git -C "$ROOT" rev-parse HEAD 2>/dev/null || true)"
+fi
+
 reject_checkout_path() {
   local label="$1" path="$2" resolved
   [[ "$path" == /* ]] || die "$label must be an absolute path"
-  resolved="$(readlink -m -- "$path")"
+  if resolved="$(readlink -m -- "$path" 2>/dev/null)"; then
+    :
+  else
+    command -v python3 >/dev/null 2>&1 || die 'python3 is required to resolve startup paths'
+    resolved="$(python3 -c 'import os, sys; print(os.path.abspath(os.path.normpath(sys.argv[1])))' "$path")"
+  fi
   case "$resolved/" in
     "$ROOT/"*|"$ROOT") die "$label must be outside the checkout and its artifacts" ;;
   esac
@@ -151,24 +171,27 @@ ACTUAL_SYSTEM_LOCK_SHA256="$(sha256_file "$SYSTEM_LOCK")"
 CONFIG_ACTUAL_SHA256="$(sha256_file "$CONFIG")"
 [[ "$CONFIG_ACTUAL_SHA256" == "$PROTOCOL_SHA256" ]] || die 'sealed config hash mismatch'
 
-case "$MODEL_SNAPSHOT/" in
-  "$MODEL_CACHE"/*) ;;
-  *) die 'model snapshot must be inside MODEL_CACHE' ;;
-esac
-[[ -d "$MODEL_CACHE" ]] || die "model cache is missing: $MODEL_CACHE"
-[[ -d "$MODEL_SNAPSHOT" ]] || die "exact model snapshot is missing: $MODEL_SNAPSHOT"
-[[ "$(basename -- "$MODEL_SNAPSHOT")" == "$MANIFEST_REVISION" ]] || die 'model snapshot directory is not the pinned revision'
-[[ -s "$MODEL_SNAPSHOT/config.json" && -s "$MODEL_SNAPSHOT/tokenizer.json" ]] || die 'model snapshot metadata is incomplete'
-MODEL_WEIGHTS_FOUND=0
-for MODEL_WEIGHT in "$MODEL_SNAPSHOT"/*.safetensors "$MODEL_SNAPSHOT"/*.safetensors.index.json; do
-  if [[ -f "$MODEL_WEIGHT" ]]; then MODEL_WEIGHTS_FOUND=1; break; fi
-done
-((MODEL_WEIGHTS_FOUND == 1)) || die 'model snapshot has no safetensors weights/index'
+if (( ! DRY_RUN || ! DRY_RUN_DEFAULT_MANIFEST )); then
+  case "$MODEL_SNAPSHOT/" in
+    "$MODEL_CACHE"/*) ;;
+    *) die 'model snapshot must be inside MODEL_CACHE' ;;
+  esac
+  [[ -d "$MODEL_CACHE" ]] || die "model cache is missing: $MODEL_CACHE"
+  [[ -d "$MODEL_SNAPSHOT" ]] || die "exact model snapshot is missing: $MODEL_SNAPSHOT"
+  [[ "$(basename -- "$MODEL_SNAPSHOT")" == "$MANIFEST_REVISION" ]] || die 'model snapshot directory is not the pinned revision'
+  [[ -s "$MODEL_SNAPSHOT/config.json" && -s "$MODEL_SNAPSHOT/tokenizer.json" ]] || die 'model snapshot metadata is incomplete'
+  MODEL_WEIGHTS_FOUND=0
+  for MODEL_WEIGHT in "$MODEL_SNAPSHOT"/*.safetensors "$MODEL_SNAPSHOT"/*.safetensors.index.json; do
+    if [[ -f "$MODEL_WEIGHT" ]]; then MODEL_WEIGHTS_FOUND=1; break; fi
+  done
+  ((MODEL_WEIGHTS_FOUND == 1)) || die 'model snapshot has no safetensors weights/index'
+fi
 
 if (( DRY_RUN )); then
   command -v git >/dev/null 2>&1 || die 'git is required for dry-run verification'
   command -v python3 >/dev/null 2>&1 || die 'python3 is required for dry-run verification'
-  [[ "$(git -C "$ROOT" branch --show-current)" == "$EXPECTED_BRANCH" ]] || die "checkout is not on $EXPECTED_BRANCH"
+  current_branch="$(git -C "$ROOT" branch --show-current)"
+  [[ -z "$current_branch" || "$current_branch" == "$EXPECTED_BRANCH" ]] || die "checkout is not on $EXPECTED_BRANCH"
   [[ "$(git -C "$ROOT" rev-parse HEAD)" == "$REQUIRED_COMMIT" ]] || die 'checkout commit does not match REQUIRED_COMMIT'
   [[ -z "$(git -C "$ROOT" status --porcelain)" ]] || die 'checkout is dirty; refusing startup'
   python3 - "$CONFIG" <<'PY'
@@ -187,7 +210,7 @@ if software.get("vllm_image") != "vllm/vllm-openai:v0.10.0@sha256:05a31dc4185b04
 if software.get("vllm_tool_parser") != "qwen3_coder" or software.get("context_tokens") != 32768: raise SystemExit("vLLM parser/context mismatch")
 if request.get("concurrency") != 1 or request.get("warmup_requests") != 2 or request.get("measured_repetitions_per_case") != 3: raise SystemExit("request protocol mismatch")
 PY
-  printf 'DRY-RUN: checkout branch=%s commit=%s clean; sealed config=%s; manifest=%s\n' "$EXPECTED_BRANCH" "$REQUIRED_COMMIT" "$CONFIG_ACTUAL_SHA256" "$MANIFEST"
+  printf 'DRY-RUN: checkout branch=%s commit=%s clean; sealed config=%s; manifest=%s\n' "${current_branch:-detached}" "$REQUIRED_COMMIT" "$CONFIG_ACTUAL_SHA256" "$MANIFEST"
   printf 'DRY-RUN: pinned system lock=%s; Python lock=%s; no installs, Docker, GPU, server, or artifact access\n' "$SYSTEM_LOCK_SHA256" "$PYTHON_LOCK_SHA256"
   printf 'DRY-RUN: would verify Docker/NVIDIA/H100/CUDA/Nsight/image/model/provider, then reuse or start container=%s\n' "$CONTAINER"
   exit 0
@@ -354,6 +377,7 @@ grep -Eq '(^|[^A-Za-z])nvidia([^A-Za-z]|$)' <<< "$DOCKER_RUNTIMES" || die 'Docke
 GPU_ROWS="$(nvidia-smi --query-gpu=name,memory.total,compute_cap,driver_version --format=csv,noheader,nounits 2>/dev/null || true)"
 [[ "$(printf '%s\n' "$GPU_ROWS" | sed '/^[[:space:]]*$/d' | wc -l | tr -d ' ')" == 1 ]] || die 'exactly one visible GPU is required'
 IFS=',' read -r GPU_NAME GPU_MEMORY GPU_COMPUTE GPU_DRIVER <<< "$GPU_ROWS"
+: "$GPU_DRIVER"
 GPU_NAME="$(sed 's/^ *//;s/ *$//' <<< "$GPU_NAME")"
 GPU_MEMORY="$(sed 's/^ *//;s/ *$//' <<< "$GPU_MEMORY")"
 GPU_COMPUTE="$(sed 's/^ *//;s/ *$//' <<< "$GPU_COMPUTE")"
@@ -381,7 +405,7 @@ port_in_use() {
 container_exists() { docker container inspect "$CONTAINER" >/dev/null 2>&1; }
 container_running() { [[ "$(docker inspect --format '{{.State.Running}}' "$CONTAINER" 2>/dev/null || true)" == true ]]; }
 container_matches() {
-  local command_json network ipc shm devices mounts required
+  local command_json devices mounts required
   [[ "$(docker inspect --format '{{.Config.Image}}' "$CONTAINER" 2>/dev/null || true)" == "$VLLM_IMAGE" ]] || return 1
   [[ "$(docker inspect --format '{{.HostConfig.NetworkMode}}' "$CONTAINER" 2>/dev/null || true)" == host ]] || return 1
   [[ "$(docker inspect --format '{{.HostConfig.IpcMode}}' "$CONTAINER" 2>/dev/null || true)" == host ]] || return 1
@@ -423,7 +447,7 @@ duplicate_container_check() {
 }
 
 health_check() {
-  local base="http://127.0.0.1:$PORT" models model normal tool metrics logs
+  local base="http://127.0.0.1:$PORT" models normal tool metrics logs
   curl -fsS --connect-timeout 5 --max-time 10 "$base/health" >/dev/null || die 'health check failed: /health'
   models="$(curl -fsS --connect-timeout 5 --max-time 10 "$base/v1/models")" || die 'health check failed: /v1/models'
   "$PYTHON_BIN" - "$models" "$MODEL" <<'PY' || die 'served model ID does not match the sealed model'

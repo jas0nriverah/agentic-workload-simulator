@@ -32,6 +32,7 @@ from __future__ import annotations
 import argparse
 import fcntl
 import hashlib
+import importlib
 import json
 import math
 import os
@@ -282,13 +283,12 @@ class PromptBuilder:
         self.snapshot = _resolve_snapshot()
         try:
             try:
-                from transformers import AutoTokenizer
+                transformers = importlib.import_module("transformers")
             except ModuleNotFoundError:
-                from tokenizers import Tokenizer
-
-                self.tokenizer = Tokenizer.from_file(str(self.snapshot / "tokenizer.json"))
+                tokenizers = importlib.import_module("tokenizers")
+                self.tokenizer = tokenizers.Tokenizer.from_file(str(self.snapshot / "tokenizer.json"))
             else:
-                self.tokenizer = AutoTokenizer.from_pretrained(
+                self.tokenizer = transformers.AutoTokenizer.from_pretrained(
                     str(self.snapshot),
                     local_files_only=True,
                     revision=MODEL_REVISION,

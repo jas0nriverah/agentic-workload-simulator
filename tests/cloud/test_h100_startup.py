@@ -82,7 +82,7 @@ class H100StartupTests(unittest.TestCase):
                     "H100_NSYS_SESSION=h100-final-validation",
                     "CUDA_VERSION=13.0",
                     "NSYS_VERSION_PREFIX=2025.1.3",
-                    "HF_TOKEN=must-not-be-read-or-printed",
+                    "HF_TOKEN=local-only-placeholder",
                 ]
             )
             + "\n",
@@ -110,7 +110,7 @@ class H100StartupTests(unittest.TestCase):
             self.assertIn("branch=parallel-h100-shards", result.stdout)
             self.assertFalse((work_root / "state").exists())
             self.assertFalse((work_root / "cache/pip").exists())
-            self.assertNotIn("must-not-be-read-or-printed", result.stdout + result.stderr)
+            self.assertNotIn("local-only-placeholder", result.stdout + result.stderr)
 
     def test_missing_model_fails_closed_before_any_start(self):
         with tempfile.TemporaryDirectory() as temp:
