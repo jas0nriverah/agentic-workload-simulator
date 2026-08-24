@@ -161,6 +161,13 @@ class FeatureValidationTests(unittest.TestCase):
         self.assertLess(reveal_block, receipt_write)
         self.assertIn("prediction_manifest.sha256", script)
 
+    def test_h100_driver_defaults_to_the_canonical_server_container(self):
+        script = (REPO_ROOT / "scripts" / "cloud" / "run_h100_final_validation.sh").read_text()
+        self.assertIn(
+            'EXPECTED_SERVER_CONTAINER="${H100_EXPECTED_SERVER_CONTAINER:-${H100_NSYS_CONTAINER:-h100-final-vllm}}"',
+            script,
+        )
+
     def test_handoff_declares_checkout_and_execution_contract(self):
         handoff = (REPO_ROOT / "H100_FINAL_VM_HANDOFF.md").read_text()
         for required in (
