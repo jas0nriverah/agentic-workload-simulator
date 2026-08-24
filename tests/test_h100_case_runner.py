@@ -1,15 +1,27 @@
+import argparse
 import hashlib
 import json
 import os
 import subprocess
+import sys
 import tempfile
 import threading
 import time
+import types
 import unittest
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
+from unittest.mock import patch
 
-from scripts.cloud.h100_case_runner import RunnerError, validate_row_artifacts
+from scripts.cloud.h100_case_runner import (
+    MODEL_REVISION,
+    VLLM_IMAGE,
+    PromptBuilder,
+    RunnerError,
+    _reviewed_profiled_server_allows_gpu_processes,
+    _trace_provider_command,
+    validate_row_artifacts,
+)
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
@@ -177,6 +189,118 @@ def _run(output_dir, repeat_id, env, extra=None):
 
 
 class H100CaseRunnerTests(unittest.TestCase):
+    def test_production_trace_provider_is_explicitly_armed_but_fixture_stays_test_only(self):
+        case = {"case_id": "cal_i128_o32"}
+        with tempfile.TemporaryDirectory() as directory:
+            args = argparse.Namespace(
+                config=CONFIG,
+                split="calibration",
+                input_tokens=128,
+                output_tokens=32,
+                repeat_id="r01",
+            )
+            with patch.dict(
+                os.environ,
+                {"H100_TRACE_PROVIDER": str(TRACE_PROVIDER), "H100_RUNNER_TEST_MODE": ""},
+            ):
+                production_command = _trace_provider_command(
+                    {}, case, args, Path(directory), "measured", "arm", 0, 0
+                )
+            self.assertEqual(production_command[production_command.index("--action") + 1], "arm")
+            with patch.dict(
+                os.environ,
+                {"H100_TRACE_PROVIDER": str(TRACE_PROVIDER), "H100_RUNNER_TEST_MODE": "1"},
+            ):
+                test_command = _trace_provider_command(
+                    {}, case, args, Path(directory), "measured", "collect", 1, 2
+                )
+            self.assertNotIn("--action", test_command)
+
+    def test_pinned_tokenizer_fallback_uses_tokenizer_json_without_transformers(self):
+        fake_tokenizers = types.ModuleType("tokenizers")
+
+        class FakeEncoding:
+            ids = [11, 12]
+
+        class FakeTokenizer:
+            @classmethod
+            def from_file(cls, _path):
+                return cls()
+
+            def encode(self, _text, add_special_tokens=False):
+                self.add_special_tokens = add_special_tokens
+                return FakeEncoding()
+
+        fake_tokenizers.Tokenizer = FakeTokenizer
+        with tempfile.TemporaryDirectory() as directory:
+            snapshot = Path(directory) / MODEL_REVISION
+            snapshot.mkdir()
+            for filename in ("config.json", "tokenizer_config.json", "tokenizer.json"):
+                (snapshot / filename).write_text("{}", encoding="utf-8")
+            with patch.dict(
+                os.environ,
+                {"H100_MODEL_SNAPSHOT": str(snapshot), "H100_RUNNER_TEST_MODE": ""},
+            ), patch.dict(sys.modules, {"transformers": None, "tokenizers": fake_tokenizers}):
+                builder = PromptBuilder(4)
+            self.assertEqual(builder.token_ids(4), [11, 12, 11, 12])
+
+    def test_profiled_server_gpu_allowance_is_container_scoped_and_fail_closed(self):
+        processes = "123, /usr/bin/python3, 100 MiB\n"
+        command_json = json.dumps(
+            [
+                "launch",
+                "--session-new=h100-final-validation",
+                "--trace=cuda,osrt",
+                "--cuda-event-trace=false",
+                "--",
+                "python3",
+                "-m",
+                "vllm.entrypoints.openai.api_server",
+                "--revision",
+                MODEL_REVISION,
+            ]
+        )
+
+        def fake_run(command, **_kwargs):
+            if command[:3] == ["docker", "inspect", "--format"]:
+                if command[3] == "{{.State.Running}}":
+                    stdout = "true\n"
+                elif command[3] == "{{.Config.Image}}":
+                    stdout = VLLM_IMAGE + "\n"
+                else:
+                    stdout = command_json
+            elif command[:2] == ["docker", "top"]:
+                stdout = "PID\n123\n"
+            else:
+                stdout = "ID TIME STATE LAUNCH NAME\n1020 00:01 Launched h100-final-validation\n"
+            return types.SimpleNamespace(stdout=stdout, stderr="", returncode=0)
+
+        with patch.dict(
+            os.environ,
+            {
+                "H100_EXPECTED_SERVER_CONTAINER": "h100-final-vllm",
+                "H100_NSYS_CONTAINER": "h100-final-vllm",
+                "H100_NSYS_SESSION": "h100-final-validation",
+            },
+        ), patch("scripts.cloud.h100_case_runner.subprocess.run", side_effect=fake_run):
+            self.assertTrue(_reviewed_profiled_server_allows_gpu_processes(processes))
+
+        def outside_container_run(command, **_kwargs):
+            result = fake_run(command, **_kwargs)
+            if command[:2] == ["docker", "top"]:
+                result.stdout = "PID\n999\n"
+            return result
+
+        with patch.dict(
+            os.environ,
+            {
+                "H100_EXPECTED_SERVER_CONTAINER": "h100-final-vllm",
+                "H100_NSYS_CONTAINER": "h100-final-vllm",
+                "H100_NSYS_SESSION": "h100-final-validation",
+            },
+        ), patch("scripts.cloud.h100_case_runner.subprocess.run", side_effect=outside_container_run):
+            self.assertFalse(_reviewed_profiled_server_allows_gpu_processes(processes))
+
     def test_validate_only_exact_cli_does_not_contact_server_or_write_artifacts(self):
         with tempfile.TemporaryDirectory() as directory:
             output_dir = Path(directory) / "case" / "r01"

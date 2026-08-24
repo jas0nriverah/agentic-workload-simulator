@@ -336,6 +336,78 @@ def _validate_hardware_record(data: Mapping[str, Any], protocol: Mapping[str, An
     return dict(data)
 
 
+def _reviewed_profiled_server_allows_gpu_processes(processes: str) -> bool:
+    """Accept GPU activity only from the explicitly reviewed profiled server."""
+
+    container = os.environ.get("H100_EXPECTED_SERVER_CONTAINER") or os.environ.get(
+        "H100_NSYS_CONTAINER"
+    )
+    session = os.environ.get("H100_NSYS_SESSION", "h100-final-validation")
+    if not container:
+        return False
+    try:
+        running = subprocess.run(
+            ["docker", "inspect", "--format", "{{.State.Running}}", container],
+            check=True,
+            capture_output=True,
+            text=True,
+            timeout=15,
+        ).stdout.strip()
+        image = subprocess.run(
+            ["docker", "inspect", "--format", "{{.Config.Image}}", container],
+            check=True,
+            capture_output=True,
+            text=True,
+            timeout=15,
+        ).stdout.strip()
+        command = subprocess.run(
+            ["docker", "inspect", "--format", "{{json .Config.Cmd}}", container],
+            check=True,
+            capture_output=True,
+            text=True,
+            timeout=15,
+        ).stdout
+        container_pids = subprocess.run(
+            ["docker", "top", container, "-eo", "pid"],
+            check=True,
+            capture_output=True,
+            text=True,
+            timeout=15,
+        ).stdout
+        session_list = subprocess.run(
+            [
+                "docker",
+                "exec",
+                container,
+                os.environ.get("H100_NSYS_BIN", "/host-cuda/bin/nsys"),
+                "sessions",
+                "list",
+            ],
+            check=True,
+            capture_output=True,
+            text=True,
+            timeout=15,
+        ).stdout
+    except (OSError, subprocess.SubprocessError):
+        return False
+    required = (
+        f"--session-new={session}",
+        "--trace=cuda,osrt",
+        "--cuda-event-trace=false",
+        "vllm.entrypoints.openai.api_server",
+        MODEL_REVISION,
+    )
+    if running != "true" or image != VLLM_IMAGE or any(item not in command for item in required):
+        return False
+    allowed_pids = {
+        line.strip().split()[0]
+        for line in container_pids.splitlines()[1:]
+        if line.strip() and line.strip().split()[0].isdigit()
+    }
+    gpu_pids = {line.split(",", 1)[0].strip() for line in processes.splitlines() if line.strip()}
+    return bool(gpu_pids) and gpu_pids.issubset(allowed_pids) and session in session_list
+
+
 def _hardware_metadata(protocol: Mapping[str, Any]) -> dict[str, Any]:
     if _test_mode():
         raw = os.environ.get("H100_TEST_HARDWARE_JSON")
@@ -398,7 +470,9 @@ def _hardware_metadata(protocol: Mapping[str, Any]) -> dict[str, Any]:
         text=True,
         timeout=15,
     ).stdout
-    if any(line.strip() for line in processes.splitlines()):
+    if any(line.strip() for line in processes.splitlines()) and not _reviewed_profiled_server_allows_gpu_processes(
+        processes
+    ):
         raise RunnerError("hardware_busy", "GPU compute processes are present")
     return {
         "gpu_name": name,

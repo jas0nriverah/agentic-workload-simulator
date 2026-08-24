@@ -82,6 +82,18 @@ class OptionalScriptContractTests(unittest.TestCase):
             self.assertEqual(result.returncode, 0, result.stderr)
             self.assertIn("DRY-RUN", result.stdout)
 
+    def test_h100_profiled_launcher_uses_supported_low_overhead_nsight_flags(self):
+        text = (ROOT / "scripts/cloud/start_h100_vllm_nsight.sh").read_text(encoding="utf-8")
+        self.assertIn("--trace=cuda,osrt", text)
+        self.assertIn("--cuda-event-trace=false", text)
+        self.assertNotIn("launch \\\n  --session-new=\"$SESSION\" \\\n  --trace=cuda,osrt \\\n  --sample=none", text)
+
+    def test_h100_driver_allows_only_empty_bind_mount_or_verified_resume(self):
+        text = (ROOT / "scripts/cloud/run_h100_final_validation.sh").read_text(encoding="utf-8")
+        self.assertIn('find "$OUTPUT_DIR" -mindepth 1 -print -quit', text)
+        self.assertIn("profiled server command is missing", text)
+        self.assertIn("GPU process $gpu_pid is outside the expected profiled server container", text)
+
 
 if __name__ == "__main__":
     unittest.main()
