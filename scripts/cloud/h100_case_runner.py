@@ -49,8 +49,9 @@ from pathlib import Path
 from typing import Any, Iterator, Mapping, Sequence
 
 
-ROW_SCHEMA = "h100-final-row.v1"
-TRACE_SCHEMA = "h100-trace-summary.v1"
+HARDWARE_TARGET = os.environ.get("HARDWARE_TARGET", "H100").upper()
+ROW_SCHEMA = os.environ.get("HARDWARE_ROW_SCHEMA", "h100-final-row.v1")
+TRACE_SCHEMA = os.environ.get("HARDWARE_TRACE_SCHEMA", "h100-trace-summary.v1")
 FIXED_PROMPT_TEMPLATE = "fixed_tokenizer_stable_prompt_v1"
 FIXED_PROMPT_TOKENIZER = "frozen_model_tokenizer_at_model_revision"
 FIXED_PROMPT_SEED = "H100 sealed final validation fixed prompt token "
@@ -161,14 +162,15 @@ def _load_protocol(path: Path) -> dict[str, Any]:
         protocol = json.loads(path.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError) as exc:
         raise RunnerError("config_invalid", f"cannot read protocol config: {path}") from exc
-    if protocol.get("schema_version") != "h100-final-validation.v1":
+    expected_schema = f"{HARDWARE_TARGET.lower()}-final-validation.v1"
+    if protocol.get("schema_version") != expected_schema:
         raise RunnerError("config_invalid", "unsupported final-validation schema")
     if protocol.get("launch_authorized") is not False:
         raise RunnerError("config_invalid", "launch_authorized must remain false")
     hardware = _require_mapping(protocol.get("hardware"), "hardware")
     names = {str(name) for name in hardware.get("gpu_name_allowlist", [])}
-    if hardware.get("gpu_family") != "H100" or not any("H100" in name for name in names):
-        raise RunnerError("config_invalid", "protocol is not H100-only")
+    if hardware.get("gpu_family") != HARDWARE_TARGET or not any(HARDWARE_TARGET in name for name in names):
+        raise RunnerError("config_invalid", f"protocol is not {HARDWARE_TARGET}-only")
     request = _require_mapping(protocol.get("request_protocol"), "request_protocol")
     if request.get("concurrency") != 1:
         raise RunnerError("protocol_invalid", "request concurrency must be exactly one")
@@ -446,9 +448,9 @@ def _hardware_metadata(protocol: Mapping[str, Any]) -> dict[str, Any]:
     hardware = _require_mapping(protocol.get("hardware"), "hardware")
     allowlist = {str(item) for item in hardware.get("gpu_name_allowlist", [])}
     if name not in allowlist or memory_mib < int(hardware.get("minimum_memory_mib", 80000)):
-        raise RunnerError("hardware_invalid", "visible GPU is not an allowlisted H100 80GB")
+        raise RunnerError("hardware_invalid", f"visible GPU is not an allowlisted {HARDWARE_TARGET} 80GB")
     if compute_cap != str(hardware.get("required_compute_capability")):
-        raise RunnerError("hardware_invalid", "GPU compute capability is not 9.0")
+        raise RunnerError("hardware_invalid", "GPU compute capability differs from the sealed protocol")
     try:
         query_result = subprocess.run(
             ["nvidia-smi", "-q", "-i", "0"],
@@ -474,7 +476,7 @@ def _hardware_metadata(protocol: Mapping[str, Any]) -> dict[str, Any]:
         processes
     ):
         raise RunnerError("hardware_busy", "GPU compute processes are present")
-    return {
+    result = {
         "gpu_name": name,
         "gpu_uuid": uuid,
         "pci_bus_id": pci,
@@ -489,6 +491,10 @@ def _hardware_metadata(protocol: Mapping[str, Any]) -> dict[str, Any]:
         "kernel": platform.release(),
         "boot_id": _boot_id(),
     }
+    if HARDWARE_TARGET == "A100":
+        result["architecture"] = "Ampere"
+        result["nsight_version"] = os.environ.get("H100_NSYS_VERSION", "declared-by-startup-manifest")
+    return result
 
 
 def _boot_id() -> str | None:

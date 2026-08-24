@@ -29,13 +29,19 @@ from typing import Any, Iterable, Mapping
 from urllib.parse import quote
 
 
-TRACE_SCHEMA = "h100-trace-summary.v1"
-PROVIDER_VERSION = "h100-nsight-trace-provider.v1"
+HARDWARE_TARGET = os.environ.get("HARDWARE_TARGET", "H100").upper()
+TRACE_SCHEMA = os.environ.get(
+    "HARDWARE_TRACE_SCHEMA", f"{HARDWARE_TARGET.lower()}-trace-summary.v1"
+)
+PROVIDER_VERSION = os.environ.get(
+    "HARDWARE_TRACE_PROVIDER_VERSION", f"{HARDWARE_TARGET.lower()}-nsight-trace-provider.v1"
+)
 NSYS_COMMAND_TIMEOUT_SECONDS = 110.0
-NSYS_CONTAINER_ENV = "H100_NSYS_CONTAINER"
-NSYS_SESSION_ENV = "H100_NSYS_SESSION"
-TRACE_MOUNT_ROOT_ENV = "H100_TRACE_MOUNT_ROOT"
-TRACE_CONTAINER_ROOT_ENV = "H100_TRACE_CONTAINER_ROOT"
+NSYS_CONTAINER_ENV = f"{HARDWARE_TARGET}_NSYS_CONTAINER"
+NSYS_SESSION_ENV = f"{HARDWARE_TARGET}_NSYS_SESSION"
+TRACE_MOUNT_ROOT_ENV = f"{HARDWARE_TARGET}_TRACE_MOUNT_ROOT"
+TRACE_CONTAINER_ROOT_ENV = f"{HARDWARE_TARGET}_TRACE_CONTAINER_ROOT"
+NSYS_BIN_ENV = f"{HARDWARE_TARGET}_NSYS_BIN"
 
 
 class ProviderError(RuntimeError):
@@ -87,7 +93,7 @@ def _host_and_container_paths(output_dir: Path) -> tuple[Path, PurePosixPath]:
 
 def _docker_exec(arguments: Iterable[str]) -> subprocess.CompletedProcess[str]:
     container = os.environ.get(NSYS_CONTAINER_ENV, "h100-final-vllm")
-    nsys_bin = os.environ.get("H100_NSYS_BIN", "/host-cuda/bin/nsys")
+    nsys_bin = os.environ.get(NSYS_BIN_ENV, "/host-cuda/bin/nsys")
     command = ["docker", "exec", container, nsys_bin, *arguments]
     try:
         return subprocess.run(
@@ -452,7 +458,7 @@ def _parse_report(
         for pid in sorted(target_pids)
         if pid in processes
     ]
-    return {
+    result = {
         "schema_version": TRACE_SCHEMA,
         "provenance": "measured",
         "provider_version": PROVIDER_VERSION,
@@ -472,6 +478,9 @@ def _parse_report(
             "kernel_event_count": len(kernel_intervals),
         },
     }
+    if HARDWARE_TARGET == "A100":
+        result["nsight_version"] = os.environ.get("A100_NSYS_VERSION", "declared-by-startup-manifest")
+    return result
 
 
 def _collect(args: argparse.Namespace, host_dir: Path, container_dir: PurePosixPath) -> None:

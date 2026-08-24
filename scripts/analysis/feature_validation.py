@@ -38,6 +38,10 @@ class ValidationError(ValueError):
     """A protocol or artifact contract violation."""
 
 
+def _family(protocol: Mapping[str, Any]) -> str:
+    return str(protocol["hardware"]["gpu_family"]).lower()
+
+
 def _json(path: Path) -> Any:
     try:
         return json.loads(path.read_text(encoding="utf-8"))
@@ -90,14 +94,16 @@ def os_getpid() -> int:
 
 def load_protocol(config_path: Path) -> tuple[dict[str, Any], str, str]:
     protocol = _json(config_path)
-    if protocol.get("schema_version") != "h100-final-validation.v1":
+    hardware = protocol.get("hardware", {})
+    family = str(hardware.get("gpu_family", "")).lower()
+    expected_schema = f"{family}-final-validation.v1"
+    if not family or protocol.get("schema_version") != expected_schema:
         raise ValidationError("unsupported final-validation protocol schema")
     if protocol.get("launch_authorized") is not False:
         raise ValidationError("protocol launch_authorized must remain false in Git")
-    hardware = protocol.get("hardware", {})
     names = " ".join(map(str, hardware.get("gpu_name_allowlist", [])))
-    if hardware.get("gpu_family") != "H100" or "H100" not in names:
-        raise ValidationError("protocol is not H100-only")
+    if str(hardware.get("gpu_family", "")).upper() not in names.upper():
+        raise ValidationError("protocol hardware family is not represented in the GPU allowlist")
     calibration = protocol.get("calibration_configs")
     holdouts = protocol.get("sealed_holdouts")
     if not isinstance(calibration, list) or not 20 <= len(calibration) <= 30:
@@ -179,7 +185,7 @@ def seal(config_path: Path, artifact_root: Path) -> dict[str, Any]:
         f"{protocol_hash}  protocol.config.json\n".encode("utf-8"),
     )
     split = {
-        "schema_version": "h100-final-split.v1",
+        "schema_version": f"{_family(protocol)}-final-split.v1",
         "protocol_id": protocol["protocol_id"],
         "protocol_sha256": protocol_hash,
         "split_sha256": split_hash,
@@ -196,7 +202,7 @@ def seal(config_path: Path, artifact_root: Path) -> dict[str, Any]:
     else:
         _atomic_create(split_path, _dump(split))
     feature_manifest = {
-        "schema_version": "h100-feature-manifest.v1",
+        "schema_version": f"{_family(protocol)}-feature-manifest.v1",
         "protocol_sha256": protocol_hash,
         "split_manifest_sha256": split_hash,
         "features_are_pre_execution_only": True,
@@ -212,9 +218,9 @@ def _row_path(artifact_root: Path, split: str, case_id: str, repeat_id: str) -> 
     return artifact_root / folder / case_id / repeat_id / "row.json"
 
 
-def _successful_wall_seconds(path: Path) -> float:
+def _successful_wall_seconds(path: Path, row_schema: str = ROW_SCHEMA) -> float:
     row = _json(path)
-    if row.get("schema_version") not in {None, ROW_SCHEMA}:
+    if row.get("schema_version") not in {None, row_schema}:
         raise ValidationError(f"unsupported row schema in {path}")
     if row.get("status") != "completed":
         raise ValidationError(f"row is unavailable, not a fit label: {path}")
@@ -231,13 +237,18 @@ def _successful_wall_seconds(path: Path) -> float:
     return seconds
 
 
-def _case_times(artifact_root: Path, split: str, case: Mapping[str, Any]) -> list[float]:
+def _case_times(
+    artifact_root: Path,
+    split: str,
+    case: Mapping[str, Any],
+    row_schema: str = ROW_SCHEMA,
+) -> list[float]:
     values: list[float] = []
     for repeat_id in ("r01", "r02", "r03"):
         path = _row_path(artifact_root, split, str(case["case_id"]), repeat_id)
         if not path.is_file():
             raise ValidationError(f"missing {split} row: {path}")
-        values.append(_successful_wall_seconds(path))
+        values.append(_successful_wall_seconds(path, row_schema))
     return values
 
 
@@ -253,8 +264,9 @@ def fit(config_path: Path, artifact_root: Path) -> dict[str, Any]:
 
     records: list[FeatureCalibrationRecord] = []
     fit_rows: list[dict[str, Any]] = []
+    row_schema = f"{protocol['hardware']['gpu_family'].lower()}-final-row.v1"
     for case in protocol["calibration_configs"]:
-        times = _case_times(artifact_root, "calibration", case)
+        times = _case_times(artifact_root, "calibration", case, row_schema)
         median_seconds = statistics.median(times)
         features = FeatureInput.from_mapping(feature_for_case(protocol, case))
         records.append(
@@ -294,7 +306,7 @@ def fit(config_path: Path, artifact_root: Path) -> dict[str, Any]:
     }
     _atomic_create(derived / "feature_model.json", _dump(model_obj))
     prediction_obj = {
-        "schema_version": "h100-feature-predictions.v1",
+        "schema_version": f"{_family(protocol)}-feature-predictions.v1",
         "protocol_sha256": protocol_hash,
         "split_manifest_sha256": split_hash,
         "fit_input_sha256": fit_input_hash,
@@ -391,8 +403,9 @@ def score(config_path: Path, artifact_root: Path) -> dict[str, Any]:
     if set(by_id) != expected_ids:
         raise ValidationError("prediction manifest does not cover exactly all holdouts")
     cases: list[dict[str, Any]] = []
+    row_schema = f"{protocol['hardware']['gpu_family'].lower()}-final-row.v1"
     for case in protocol["sealed_holdouts"]:
-        measured = _case_times(artifact_root, "sealed_holdout", case)
+        measured = _case_times(artifact_root, "sealed_holdout", case, row_schema)
         predicted = float(by_id[case["case_id"]]["predicted_seconds"])
         repeat_metrics = _metrics([predicted] * len(measured), measured)
         cases.append(
@@ -417,7 +430,7 @@ def score(config_path: Path, artifact_root: Path) -> dict[str, Any]:
     interpolation = [case for case in cases if case["holdout_kind"] == "interpolation"]
     extrapolation = [case for case in cases if case["holdout_kind"] == "extrapolation"]
     metrics = {
-        "schema_version": "h100-feature-holdout-metrics.v1",
+        "schema_version": f"{_family(protocol)}-feature-holdout-metrics.v1",
         "provenance": "derived",
         "protocol_sha256": protocol_hash,
         "split_manifest_sha256": split_hash,
