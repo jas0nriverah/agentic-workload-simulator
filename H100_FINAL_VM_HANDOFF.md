@@ -72,6 +72,47 @@ SWE-agent and SWE-bench revisions, and agent defaults. Use an offline/local
 model cache only after its revision and file inventory are verified. Start one
 vLLM server on the reviewed port and pass health, model, and metrics checks.
 
+## One-command setup gate
+
+Run the repository doctor before starting any service. It is read-only and
+never allocates a VM, starts Docker, starts vLLM, invokes the trace provider, or
+mutates the validation output root:
+
+```bash
+scripts/cloud/h100_setup_doctor.sh \
+  --manifest cloud/lambda/instance_manifest.env
+```
+
+It checks the required branch and clean checkout, sealed protocol invariants,
+manifest pins, exactly one isolated H100, Docker and the pinned image, the
+revision-qualified model snapshot, the executable production trace provider,
+and production mode. It must return `READY_FOR_PREFLIGHT`. On a desktop or
+other non-GPU host, use `--offline`; that mode is only a repository/config
+check and is never an execution authorization:
+
+```bash
+scripts/cloud/h100_setup_doctor.sh --offline
+```
+
+After the doctor passes, use the existing pinned launcher; do not invent a
+second `start.sh`:
+
+```bash
+scripts/cloud/lambda_start_vllm.sh \
+  --manifest cloud/lambda/instance_manifest.env
+scripts/cloud/lambda_healthcheck.sh \
+  --manifest cloud/lambda/instance_manifest.env \
+  --work-root /home/ubuntu/agentic-work
+scripts/cloud/h100_setup_doctor.sh \
+  --manifest cloud/lambda/instance_manifest.env --check-server
+```
+
+The launcher and health check are separate from the reviewed case runner on
+purpose: the launcher owns the pinned server, while the runner owns one
+serialized request and its measured trace. A successful doctor or health check
+does not authorize paid execution; retain the explicit provider/billing/
+termination confirmation and the `--execute --allow-h100` gate.
+
 ## Runner interface
 
 The entrypoint does not invent a workload runner. Supply a reviewed executable
