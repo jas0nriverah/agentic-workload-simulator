@@ -281,11 +281,19 @@ class PromptBuilder:
             return
         self.snapshot = _resolve_snapshot()
         try:
-            from transformers import AutoTokenizer
+            try:
+                from transformers import AutoTokenizer
+            except ModuleNotFoundError:
+                from tokenizers import Tokenizer
 
-            self.tokenizer = AutoTokenizer.from_pretrained(
-                str(self.snapshot), local_files_only=True, revision=MODEL_REVISION, trust_remote_code=False
-            )
+                self.tokenizer = Tokenizer.from_file(str(self.snapshot / "tokenizer.json"))
+            else:
+                self.tokenizer = AutoTokenizer.from_pretrained(
+                    str(self.snapshot),
+                    local_files_only=True,
+                    revision=MODEL_REVISION,
+                    trust_remote_code=False,
+                )
         except Exception as exc:  # transformers reports several dependency-specific exceptions
             raise RunnerError("tokenizer_invalid", "could not load the pinned local tokenizer") from exc
         self.tokenizer_revision = MODEL_REVISION
@@ -296,6 +304,8 @@ class PromptBuilder:
             text = FIXED_PROMPT_SEED + str(repetition) + " "
             try:
                 encoded = self.tokenizer.encode(text, add_special_tokens=False)
+                if hasattr(encoded, "ids"):
+                    encoded = encoded.ids
             except Exception as exc:
                 raise RunnerError("tokenizer_invalid", "pinned tokenizer failed to encode fixed prompt") from exc
             if not encoded:
