@@ -125,15 +125,21 @@ if [[ -f "$STARTUP_MANIFEST" ]]; then
   manifest_trace_root="$(startup_manifest_value TRACE_ROOT)"
   manifest_container="$(startup_manifest_value H100_CONTAINER)"
   manifest_session="$(startup_manifest_value H100_NSYS_SESSION)"
+  manifest_python_env_root="$(startup_manifest_value PYTHON_ENV_ROOT)"
   if [[ -z "${H100_MODEL_SNAPSHOT:-}" ]]; then export H100_MODEL_SNAPSHOT="$manifest_model_snapshot"; fi
   if [[ -z "${H100_TRACE_MOUNT_ROOT:-}" ]]; then export H100_TRACE_MOUNT_ROOT="$manifest_trace_root"; fi
   if [[ -z "${H100_NSYS_CONTAINER:-}" ]]; then export H100_NSYS_CONTAINER="$manifest_container"; fi
   if [[ -z "${H100_NSYS_SESSION:-}" ]]; then export H100_NSYS_SESSION="$manifest_session"; fi
+  if [[ -z "${H100_PYTHON_ENV_ROOT:-}" ]]; then export H100_PYTHON_ENV_ROOT="$manifest_python_env_root"; fi
 fi
 export H100_EXPECTED_SERVER_CONTAINER="${H100_EXPECTED_SERVER_CONTAINER:-${H100_NSYS_CONTAINER:-h100-final-vllm}}"
 export H100_TRACE_PROVIDER="${H100_TRACE_PROVIDER:-$ROOT/scripts/cloud/h100_nsight_trace_provider.py}"
 export H100_NSYS_BIN="${H100_NSYS_BIN:-/host-cuda/bin/nsys}"
 export H100_TRACE_CONTAINER_ROOT="${H100_TRACE_CONTAINER_ROOT:-/trace}"
+if [[ -n "${H100_PYTHON_ENV_ROOT:-}" ]]; then
+  [[ -x "$H100_PYTHON_ENV_ROOT/bin/python" ]] || die "pinned Python environment is missing: $H100_PYTHON_ENV_ROOT"
+  export PATH="$H100_PYTHON_ENV_ROOT/bin:$PATH"
+fi
 EXPECTED_SERVER_CONTAINER="$H100_EXPECTED_SERVER_CONTAINER"
 EXPECTED_SERVER_SESSION="${H100_NSYS_SESSION:-h100-final-validation}"
 [[ -n "${H100_MODEL_SNAPSHOT:-}" ]] || die 'H100_MODEL_SNAPSHOT is required for the reviewed runner'

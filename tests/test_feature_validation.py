@@ -175,6 +175,8 @@ class FeatureValidationTests(unittest.TestCase):
         self.assertIn('export H100_MODEL_SNAPSHOT=', script)
         self.assertIn('export H100_TRACE_MOUNT_ROOT=', script)
         self.assertIn('export H100_TRACE_PROVIDER=', script)
+        self.assertIn("startup_manifest_value PYTHON_ENV_ROOT", script)
+        self.assertIn('export PATH="$H100_PYTHON_ENV_ROOT/bin:$PATH"', script)
         self.assertNotIn('source "$STARTUP_MANIFEST"', script)
         self.assertNotIn('. "$STARTUP_MANIFEST"', script)
 
