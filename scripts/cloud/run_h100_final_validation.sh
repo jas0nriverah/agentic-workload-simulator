@@ -146,9 +146,14 @@ else
 fi
 
 if [[ -e "$OUTPUT_DIR" ]]; then
-  (( RESUME )) || die "output root exists; pass --resume after inspection: $OUTPUT_DIR"
-  [[ -f "$OUTPUT_DIR/protocol.sha256" ]] || die "resume root has no protocol.sha256"
-  [[ "$(awk 'NF {print $1; exit}' "$OUTPUT_DIR/protocol.sha256")" == "$CONFIG_SUM" ]] || die "protocol hash changed; refusing resume"
+  if (( RESUME )); then
+    [[ -f "$OUTPUT_DIR/protocol.sha256" ]] || die "resume root has no protocol.sha256"
+    [[ "$(awk 'NF {print $1; exit}' "$OUTPUT_DIR/protocol.sha256")" == "$CONFIG_SUM" ]] || die "protocol hash changed; refusing resume"
+  elif [[ -d "$OUTPUT_DIR" && -z "$(find "$OUTPUT_DIR" -mindepth 1 -print -quit)" ]]; then
+    : # A bind-mounted, empty trace root is safe to initialize.
+  else
+    die "output root exists; pass --resume after inspection: $OUTPUT_DIR"
+  fi
 else mkdir -p -- "$OUTPUT_DIR"; fi
 if [[ "$PHASE" == holdout ]]; then
   [[ -f "$OUTPUT_DIR/run_state.json" ]] || die 'holdout requires a completed calibration run_state.json'
