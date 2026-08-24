@@ -102,6 +102,7 @@ docker run -d \
   launch \
   --session-new="$SESSION" \
   --trace=cuda,osrt \
+  --cuda-event-trace=false \
   -- \
   python3 -m vllm.entrypoints.openai.api_server \
   --model "$MODEL_CONTAINER" \
