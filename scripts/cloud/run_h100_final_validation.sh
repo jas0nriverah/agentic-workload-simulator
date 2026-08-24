@@ -14,6 +14,7 @@ ALLOW_H100=0
 RESUME=0
 EXPECTED_SERVER_CONTAINER="${H100_EXPECTED_SERVER_CONTAINER:-${H100_NSYS_CONTAINER:-h100-final-vllm}}"
 EXPECTED_SERVER_SESSION="${H100_NSYS_SESSION:-h100-final-validation}"
+STARTUP_MANIFEST="${H100_STARTUP_MANIFEST:-/mnt/eic-work/h100-startup.env}"
 PINNED_VLLM_IMAGE='vllm/vllm-openai:v0.10.0@sha256:05a31dc4185b042e91f4d2183689ac8a87bd845713d5c3f987563c5899878271'
 usage() {
   cat <<'USAGE'
@@ -24,6 +25,19 @@ Usage: run_h100_final_validation.sh [options]
 USAGE
 }
 die() { printf 'ERROR: %s\n' "$*" >&2; exit 1; }
+startup_manifest_value() {
+  local wanted="$1" line key value found=0
+  while IFS= read -r line || [[ -n "$line" ]]; do
+    line="${line%%#*}"
+    [[ "$line" == *=* ]] || continue
+    key="${line%%=*}"
+    value="${line#*=}"
+    [[ "$key" == "$wanted" ]] || continue
+    found=$((found + 1))
+    ((found == 1)) || die "duplicate startup manifest key: $wanted"
+    printf '%s' "$value"
+  done < "$STARTUP_MANIFEST"
+}
 sha256_file() {
   if command -v sha256sum >/dev/null 2>&1; then sha256sum -- "$1" | awk '{print $1}'
   elif command -v shasum >/dev/null 2>&1; then shasum -a 256 -- "$1" | awk '{print $1}'
@@ -102,6 +116,29 @@ fi
 (( EXECUTE )) || die 'refusing execution without --execute (use --dry-run to inspect)'
 (( ALLOW_H100 )) || die 'refusing execution without --allow-h100'
 [[ -n "$RUNNER" && -x "$RUNNER" ]] || die "reviewed executable runner is required: $RUNNER"
+
+# Startup and the phase driver are separate processes.  Import only the
+# runtime paths/identities needed by the reviewed runner and trace provider;
+# never source the external manifest or evaluate arbitrary shell text.
+if [[ -f "$STARTUP_MANIFEST" ]]; then
+  manifest_model_snapshot="$(startup_manifest_value MODEL_SNAPSHOT)"
+  manifest_trace_root="$(startup_manifest_value TRACE_ROOT)"
+  manifest_container="$(startup_manifest_value H100_CONTAINER)"
+  manifest_session="$(startup_manifest_value H100_NSYS_SESSION)"
+  if [[ -z "${H100_MODEL_SNAPSHOT:-}" ]]; then export H100_MODEL_SNAPSHOT="$manifest_model_snapshot"; fi
+  if [[ -z "${H100_TRACE_MOUNT_ROOT:-}" ]]; then export H100_TRACE_MOUNT_ROOT="$manifest_trace_root"; fi
+  if [[ -z "${H100_NSYS_CONTAINER:-}" ]]; then export H100_NSYS_CONTAINER="$manifest_container"; fi
+  if [[ -z "${H100_NSYS_SESSION:-}" ]]; then export H100_NSYS_SESSION="$manifest_session"; fi
+fi
+export H100_EXPECTED_SERVER_CONTAINER="${H100_EXPECTED_SERVER_CONTAINER:-${H100_NSYS_CONTAINER:-h100-final-vllm}}"
+export H100_TRACE_PROVIDER="${H100_TRACE_PROVIDER:-$ROOT/scripts/cloud/h100_nsight_trace_provider.py}"
+export H100_NSYS_BIN="${H100_NSYS_BIN:-/host-cuda/bin/nsys}"
+export H100_TRACE_CONTAINER_ROOT="${H100_TRACE_CONTAINER_ROOT:-/trace}"
+EXPECTED_SERVER_CONTAINER="$H100_EXPECTED_SERVER_CONTAINER"
+EXPECTED_SERVER_SESSION="${H100_NSYS_SESSION:-h100-final-validation}"
+[[ -n "${H100_MODEL_SNAPSHOT:-}" ]] || die 'H100_MODEL_SNAPSHOT is required for the reviewed runner'
+[[ -x "$H100_TRACE_PROVIDER" ]] || die "reviewed production trace provider is missing or not executable: $H100_TRACE_PROVIDER"
+[[ -n "${H100_TRACE_MOUNT_ROOT:-}" && -d "$H100_TRACE_MOUNT_ROOT" ]] || die 'H100_TRACE_MOUNT_ROOT must be an existing host trace mount'
 GIT_COMMIT="$(git -C "$ROOT" rev-parse HEAD 2>/dev/null || true)"
 [[ "$GIT_COMMIT" =~ ^[0-9a-fA-F]{40}$ ]] || die 'a committed pre-run Git revision is required'
 if [[ "$PHASE" == holdout ]]; then [[ -n "$PREDICTIONS_MANIFEST" && -f "$PREDICTIONS_MANIFEST" ]] || die 'holdout requires --predictions-manifest'; fi

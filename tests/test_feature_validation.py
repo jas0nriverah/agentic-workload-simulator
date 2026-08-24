@@ -168,6 +168,16 @@ class FeatureValidationTests(unittest.TestCase):
             script,
         )
 
+    def test_h100_driver_propagates_reviewed_startup_runtime_without_sourcing_manifest(self):
+        script = (REPO_ROOT / "scripts" / "cloud" / "run_h100_final_validation.sh").read_text()
+        self.assertIn('STARTUP_MANIFEST="${H100_STARTUP_MANIFEST:-/mnt/eic-work/h100-startup.env}"', script)
+        self.assertIn("startup_manifest_value MODEL_SNAPSHOT", script)
+        self.assertIn('export H100_MODEL_SNAPSHOT=', script)
+        self.assertIn('export H100_TRACE_MOUNT_ROOT=', script)
+        self.assertIn('export H100_TRACE_PROVIDER=', script)
+        self.assertNotIn('source "$STARTUP_MANIFEST"', script)
+        self.assertNotIn('. "$STARTUP_MANIFEST"', script)
+
     def test_handoff_declares_checkout_and_execution_contract(self):
         handoff = (REPO_ROOT / "H100_FINAL_VM_HANDOFF.md").read_text()
         for required in (
