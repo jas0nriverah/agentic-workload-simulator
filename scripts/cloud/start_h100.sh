@@ -333,7 +333,7 @@ if software.get("vllm_tool_parser") != "qwen3_coder" or software.get("context_to
 if software.get("tensor_parallel_size") != 1 or software.get("precision") != "bfloat16": raise SystemExit("vLLM runtime pin mismatch")
 if request.get("concurrency") != 1 or request.get("warmup_requests") != 2 or request.get("measured_repetitions_per_case") != 3: raise SystemExit("request protocol mismatch")
 if hardware.get("gpu_family") != "H100" or not hardware.get("one_gpu_only"): raise SystemExit("hardware protocol mismatch")
-print("\t".join((software["model"], software["model_revision"], software["vllm_image"], software["vllm_tool_parser"], str(software["context_tokens"]), str(software["tensor_parallel_size"])))
+print("\t".join((software["model"], software["model_revision"], software["vllm_image"], software["vllm_tool_parser"], str(software["context_tokens"]), str(software["tensor_parallel_size"]))))
 PY
 )"
 IFS=$'\t' read -r MODEL REVISION VLLM_IMAGE PARSER MAX_MODEL_LEN TENSOR_PARALLEL_SIZE <<< "$CONFIG_VALUES"

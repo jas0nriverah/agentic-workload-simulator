@@ -149,6 +149,13 @@ class H100StartupTests(unittest.TestCase):
         self.assertIn('== *" ok installed $version"', text)
         self.assertIn('!= *" ok installed $version"', text)
 
+    def test_runtime_config_extraction_heredoc_is_valid_python(self):
+        text = STARTUP.read_text(encoding="utf-8")
+        marker = 'CONFIG_VALUES="$("$PYTHON_BIN" - "$CONFIG" <<\'PY\'\n'
+        start = text.index(marker) + len(marker)
+        end = text.index("\nPY\n)\"", start)
+        compile(text[start:end], "start_h100_config_values.py", "exec")
+
     def test_missing_packages_use_pinned_offline_first_hash_checked_install(self):
         text = STARTUP.read_text(encoding="utf-8")
         self.assertIn("--no-download", text)
