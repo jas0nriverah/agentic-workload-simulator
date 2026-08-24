@@ -1,0 +1,245 @@
+# H100 final validation — fresh VM handoff
+
+This handoff is for a new Codex session on a dedicated H100 host. The protocol
+is sealed but has not been launched. Read this file, then read
+`configs/h100_final_validation.json` and
+`docs/H100_FINAL_VALIDATION_PROTOCOL.md`; the JSON is the source of truth. The
+scope is H100 only. Do not broaden the workload, substitute hardware, start a
+generic benchmark, or debug NCU as a prerequisite.
+
+## Required checkout and release identity
+
+The required branch is `parallel-h100-shards`. The desktop release commit is
+not known until the final commit is created, so the VM must record the exact
+checked-out SHA rather than guessing it. Before execution, verify the branch
+and record the SHA used for the run:
+
+```bash
+test "$(git branch --show-current)" = parallel-h100-shards
+git status --short
+git rev-parse HEAD
+```
+
+Use that `git rev-parse HEAD` value as `pre_run_git_commit` in the run manifest
+and final report. If the handoff was copied before the desktop commit existed,
+fetch the branch and repeat the checks after checking out the final pushed
+commit. Never run from a dirty checkout or a different branch.
+
+Record these placeholders before and after execution; do not guess them:
+
+```text
+pre_run_git_commit: <TO_BE_RECORDED_BEFORE_EXECUTION>
+protocol_sha256: <COMPUTED_BY_ENTRYPOINT>
+final_artifact_inventory_sha256: <TO_BE_RECORDED_AFTER_EXPORT>
+final_git_commit: <TO_BE_RECORDED_AFTER_EXPORT>
+```
+
+## Safety gate
+
+No paid action is authorized by this repository. Before any non-dry command,
+the operator must provide current provider authorization, verify the billing
+window and termination plan, and confirm a dedicated host. Do not put tokens,
+credentials, model weights, caches, or raw multi-gigabyte traces in Git.
+
+The required entrypoint is fail-closed: it needs both `--execute` and
+`--allow-h100`, validates the protocol hash and host GPU, and refuses to reuse
+or overwrite an output root. A dry run is always safe:
+
+```bash
+cd /path/to/agentic-workload-simulator
+git status --short
+python3 -m json.tool configs/h100_final_validation.json >/dev/null
+scripts/cloud/run_h100_final_validation.sh --dry-run
+```
+
+The dry run must show 24 calibration cases, 12 sealed holdouts, three measured
+repeats, two warmups, and no GPU launch. If it reports a mismatch, stop and
+resolve it before proceeding.
+
+## Host preflight
+
+Record the output of `uname -a`, `/etc/os-release`, `nvidia-smi -L`,
+`nvidia-smi -q`, `docker version`, `python3 --version`, the current Git commit,
+and UTC time in the run manifest. Require exactly one allowlisted H100 80 GB
+GPU, at least 80,000 MiB, compute capability 9.0, no compute processes, and no
+other benchmark or profiler traffic. Check free disk before downloading or
+starting the pinned image. Preserve GPU UUID, PCI bus, driver/CUDA, power and
+clock state, host/boot/kernel identity, and monotonic clock metadata.
+
+The frozen stack in the JSON must match byte-for-byte: Qwen Coder revision,
+BF16, context 32,768, vLLM 0.10.0 image digest, parser `qwen3_coder`, TP=1,
+SWE-agent and SWE-bench revisions, and agent defaults. Use an offline/local
+model cache only after its revision and file inventory are verified. Start one
+vLLM server on the reviewed port and pass health, model, and metrics checks.
+
+## Runner interface
+
+The entrypoint does not invent a workload runner. Supply a reviewed executable
+with `--runner`. For each case/repeat it invokes:
+
+```text
+RUNNER --config CONFIG --case-id ID --split calibration|sealed_holdout \
+  --input-tokens N --output-tokens N --repeat-id r01|r02|r03 --output-dir DIR
+```
+
+The runner must use the frozen server and prompt/tokenizer, perform no
+concurrency, and write an immutable row manifest plus raw-response/trace
+references under `DIR`. The row must include request start/end on
+`CLOCK_MONOTONIC_RAW`, actual usage counts, status, CPU-operation union,
+overlap-aware CUDA activity union, kernel-duration sum as diagnostic only,
+hardware/clock identity, source paths, provenance, and SHA-256 values. A
+non-zero runner status creates an explicit unavailable row and stops the phase;
+it must not be silently retried or counted as success.
+
+## Execution order
+
+Run calibration first. The command below is illustrative and remains blocked
+unless authorization and the reviewed runner are present:
+
+```bash
+scripts/cloud/run_h100_final_validation.sh --phase calibration --execute \
+  --allow-h100 --runner /absolute/path/to/reviewed_h100_case_runner
+```
+
+After all calibration artifacts are immutable, fit the predeclared
+`h100_feature_latency_v1` model offline using calibration medians only. Persist
+`artifacts/h100_final_validation/derived/prediction_manifest.json` with the
+protocol/split hash, fit-input hash, model formula/regularization, predictions
+for all 12 holdout cases, and prediction hash. Do this before reading holdout
+raw labels. Inspect the prediction manifest; no target label may appear in it.
+
+The exact offline transition is:
+
+```bash
+python3 scripts/analysis/feature_validation.py fit \
+  --config configs/h100_final_validation.json \
+  --artifact-root artifacts/h100_final_validation
+test -s artifacts/h100_final_validation/derived/prediction_manifest.json
+test -s artifacts/h100_final_validation/derived/prediction_manifest.sha256
+```
+
+The fit command reads only calibration row manifests, uses the fixed formula
+and regularization in the sealed config, and freezes all 12 holdout predictions.
+Do not open, copy, or summarize holdout `row.json` files until the prediction
+manifest and checksum exist.
+
+Then reveal and measure holdouts with an explicit resume:
+
+```bash
+scripts/cloud/run_h100_final_validation.sh --phase holdout --execute \
+  --allow-h100 --resume \
+  --predictions-manifest artifacts/h100_final_validation/derived/prediction_manifest.json \
+  --runner /absolute/path/to/reviewed_h100_case_runner
+```
+
+The entrypoint must verify the prediction manifest exists, is immutable, and
+references the exact split hash before invoking a holdout case. After the run,
+write a reveal receipt, join labels, and calculate primary case-median wall MAPE
+plus MAE, RMSE, repeat-level, interpolation, extrapolation, p95, coverage, and
+all denominators. Keep calibration fit errors separate from sealed holdout
+errors.
+
+After holdout collection and receipt creation, score with the exact command:
+
+```bash
+python3 scripts/analysis/feature_validation.py score \
+  --config configs/h100_final_validation.json \
+  --artifact-root artifacts/h100_final_validation
+```
+
+After scoring, create the final inventory without adding raw traces to Git:
+
+```bash
+python3 - <<'PY'
+import hashlib
+from pathlib import Path
+root = Path("artifacts/h100_final_validation")
+lines = []
+for path in sorted(p for p in root.rglob("*") if p.is_file() and p.name != "inventory.sha256"):
+    digest = hashlib.sha256(path.read_bytes()).hexdigest()
+    lines.append(f"{digest}  {path.relative_to(root)}")
+(root / "inventory.sha256").write_text("\n".join(lines) + "\n", encoding="utf-8")
+PY
+sha256sum artifacts/h100_final_validation/inventory.sha256
+```
+
+The enforced order is therefore calibration collection → calibration-only fit
+and model selection → blind holdout prediction freeze/hash → holdout measurement
+→ reveal receipt → scoring. The runner refuses to enter holdout unless
+calibration is complete and the prediction manifest is present and checksummed;
+it writes the reveal receipt only after all holdout rows are terminal.
+
+## Monitoring and preemption
+
+In a second shell, monitor without changing the run:
+
+```bash
+tail -f artifacts/h100_final_validation/run_state.json
+nvidia-smi --query-gpu=timestamp,name,uuid,utilization.gpu,memory.used,power.draw --format=csv -l 5
+```
+
+On preemption, interruption, or a runner failure, stop and preserve the output
+root. Inspect `run_state.json` and the affected case directory, correct the
+external cause, then resume with the same commit, config, output root, and
+prediction manifest:
+
+```bash
+scripts/cloud/run_h100_final_validation.sh --phase calibration --execute \
+  --allow-h100 --resume --runner /absolute/path/to/reviewed_h100_case_runner
+# or, after calibration fit is already frozen:
+scripts/cloud/run_h100_final_validation.sh --phase holdout --execute \
+  --allow-h100 --resume \
+  --predictions-manifest artifacts/h100_final_validation/derived/prediction_manifest.json \
+  --runner /absolute/path/to/reviewed_h100_case_runner
+```
+
+Never delete a partial row, clear a lock, change the split, or rerun an
+unavailable row without review. Stop immediately on any stop condition in the
+protocol, including GPU/pin mismatch, concurrent traffic, clock-join failure,
+output collision, checksum mismatch, changed protocol/split hash, or a missing
+prediction receipt.
+
+## Failure and resume rules
+
+Stop on any GPU identity/pin mismatch, concurrent process, clock-join failure,
+port collision, changed protocol or split hash, output collision, missing raw
+checksum, missing prediction receipt, or contamination. Do not clear a lock or
+delete a partial case to make a run resume. Inspect `run_state.json`, preserve
+the failed artifact, and resume only with the same output root and hashes after
+the cause is reviewed. NCU permission errors are supplementary unavailable
+evidence; they do not invalidate complete Kineto rows and do not justify a
+rerun.
+
+Before handoff, verify:
+
+```bash
+bash -n scripts/cloud/run_h100_final_validation.sh
+python3 -m json.tool configs/h100_final_validation.json >/dev/null
+git diff --check
+```
+
+Return the final protocol hash, host/GPU manifest, run-state status, raw-artifact
+inventory, prediction-before-reveal receipt, holdout metrics, unavailable-row
+reasons, and the final Git commit/hash. If no authorized host or reviewed
+runner is available, report `not launched` and leave this scaffold unchanged.
+
+## Final report format
+
+Return a compact report containing exactly these fields:
+
+```text
+status: completed | incomplete | not launched
+required_branch: parallel-h100-shards
+pre_run_git_commit: <40-hex SHA>
+final_git_commit: <40-hex SHA or not exported>
+protocol_sha256: <64-hex>
+split_manifest_sha256: <64-hex>
+prediction_manifest_sha256: <64-hex>
+prediction_before_reveal: true | false
+hardware_runtime: <GPU UUID/name, memory, driver/CUDA, host/kernel, image digest>
+calibration: <24 cases x 3 repeats, warmups, completed/unavailable counts>
+holdout: <12 cases x 3 repeats, interpolation/extrapolation counts>
+metrics: <MAPE, MAE, RMSE, p95 APE, coverage, denominators>
+unavailable_rows: <case/repeat and reason, or none>
+artifact_inventory_sha256: <64-hex>
+```

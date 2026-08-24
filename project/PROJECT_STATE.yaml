@@ -1,10 +1,10 @@
 schema_version: 1
-updated_at_utc: 2026-08-24T17:18:43Z
-overall_status: gcp_h100_acquisition_complete
+updated_at_utc: 2026-08-24T19:07:54Z
+overall_status: h100_final_feature_validation_protocol_sealed_pending_execution
 phase: CR0_CR1_CR2_CR3_CR4_CR5_CR6_CR7_CR8_CR9_CR10_CR11_CR12_CR13_G3A_G4_LOCAL
-current_task: canonical_results_freeze_and_offline_analysis
-last_verified_commit: d7a05ee14cc6a0686381b8e1d6afe0fea0417521
-last_verified_commit_role: completed_gcp_h100_kineto_acquisition_checkpoint
+current_task: sealed_feature_only_calibration_holdout_protocol
+last_verified_commit: 5c65c2c633734c12aa95ecf0317837f4ab3c9d5b
+last_verified_commit_role: pre_final_h100_validation_checkout
 assignment_lock_hash: 02f485cdd8cca4aae242d2f1a5306184a95d7ee0fae42527d7153f48a3424761
 working_tree_dirty: false
 
@@ -13,9 +13,9 @@ hardware:
     status: available
     gpu: RTX_2080_Super_or_none_on_local_mac
   final:
-    status: gcp_h100_acquisition_closed
+    status: gcp_h100_acquisition_closed_final_feature_validation_pending
     target_platform: GCP_a3-highgpu-1g_1x_H100_80GB
-    target_validation: completed_empirical
+    target_validation: historical_acquisition_complete_final_feature_validation_pending
     measured_platform: GCP_1x_H100_80GB
     measured_provider: google_cloud
 
@@ -38,11 +38,11 @@ configuration:
   swebench_revision: 726c5461e2ef52d83cf1ea2107870a8bb3328d57
 
 cloud_readiness:
-  status: PASS_gcp_h100_runtime_verified_acquisition_closed
+  status: PASS_gcp_h100_runtime_verified_final_feature_validation_pending
   technical_safe_to_rent_h100: true
-  paid_session_authorized: false  # acquisition is closed; no new paid session is queued
+  paid_session_authorized: false  # desktop scaffold; authorization is supplied at the fresh VM
   safe_to_launch: false
-  h100_validation_required: false
+  h100_validation_required: true
   lambda_target_validation_required: false
   gcp_h100_validation_in_progress: false
   sample_repository_unchanged: true
@@ -63,9 +63,12 @@ gates:
   G8_step2_sweeps: measured_four_axes_four_endpoints_each_single_lite_instance
   G9_step3_deep_profile: real_swe_agent_kineto_request_device_attribution_measured_hardware_counters_blocked
   G10_step4_simulator: limited_controlled_phase_reconstruction_two_row_holdout_10_72_percent_mape_individual_event_validation_absent
-  G11_final_audit: passed_no_more_h100_acquisition_justified
+  G11_final_audit: superseded_by_sealed_feature_validation_protocol
 
 next_actions:
+  - execute configs/h100_final_validation.json only on a dedicated allowlisted H100 after protocol/hash preflight
+  - run scripts/analysis/feature_validation.py seal before calibration, fit after calibration, and score only after prediction-before-reveal receipt
+  - preserve the feature-only calibration/holdout artifacts and report coverage, repeat variance, interpolation, and extrapolation error separately
   - regenerate project/h100_results with scripts/analysis/build_h100_results.py before report analysis
   - use H100_RESULTS.md as the audited claim boundary and project/h100_results as the canonical tabular package
   - retain all GCP H100 generated-patch artifacts and evaluator logs, including incomplete and unresolved outcomes
@@ -79,7 +82,7 @@ next_actions:
   - retain project/GCP_H100_SIMULATOR_HOLDOUT_STATUS_20260823.json as the pre-Kineto blocker record; the limited controlled result that supersedes it is project/GCP_H100_KINETO_SIMULATOR_20260824.json
   - retain project/GCP_H100_SERVICE_CALIBRATION_REQUEST_METRICS_20260823.json; use server-side deltas for calibration analysis but do not treat them as GPU seconds
   - retain project/GCP_H100_ALIGNED_REQUEST_GPU_20260823.json and project/GCP_H100_GPU_UTIL_CUDA_EVENT_CALIBRATION_20260823.json; use shared CLOCK_MONOTONIC_RAW overlap and CUDA-event sampler-limit evidence for the CPU/GPU case study but do not infer per-request device seconds
-  - produce offline figures and final report from immutable manifests without launching more H100 work
+  - produce offline figures and final report from immutable manifests after the final H100 validation artifacts are exported
   - if cross_gpu_validation is later authorized run A100_80GB first and H200 second under the frozen controlled plan
 active_experiments: []
 active_agent_tasks: []

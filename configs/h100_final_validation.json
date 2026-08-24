@@ -1,0 +1,179 @@
+{
+  "schema_version": "h100-final-validation.v1",
+  "protocol_id": "H100-FINAL-2026-08-24",
+  "status": "sealed_scaffold_not_launched",
+  "launch_authorized": false,
+  "purpose": "Frozen, H100-only feature validation with a calibration grid and sealed interpolation/extrapolation holdouts. This file is a protocol and does not authorize paid compute.",
+  "provenance_placeholders": {
+    "pre_run_git_commit": "<TO_BE_RECORDED_BEFORE_EXECUTION>",
+    "protocol_sha256": "<COMPUTED_BY_ENTRYPOINT>",
+    "final_artifact_inventory_sha256": "<TO_BE_RECORDED_AFTER_EXPORT>",
+    "final_git_commit": "<TO_BE_RECORDED_AFTER_EXPORT>"
+  },
+  "hardware": {
+    "gpu_family": "H100",
+    "gpu_name_allowlist": ["NVIDIA H100 80GB HBM3", "NVIDIA H100 PCIe 80GB"],
+    "one_gpu_only": true,
+    "minimum_memory_mib": 80000,
+    "required_compute_capability": "9.0",
+    "required_isolation": "dedicated_host_no_concurrent_gpu_processes",
+    "record": ["gpu_name", "gpu_uuid", "pci_bus_id", "memory_total_mib", "driver", "cuda", "power_limit", "application_clocks", "host", "boot_id", "kernel"]
+  },
+  "frozen_software": {
+    "model": "Qwen/Qwen3-Coder-30B-A3B-Instruct",
+    "model_revision": "b2cff646eb4bb1d68355c01b18ae02e7cf42d120",
+    "precision": "bfloat16",
+    "context_tokens": 32768,
+    "vllm_version": "0.10.0",
+    "vllm_image": "vllm/vllm-openai:v0.10.0@sha256:05a31dc4185b042e91f4d2183689ac8a87bd845713d5c3f987563c5899878271",
+    "vllm_tool_parser": "qwen3_coder",
+    "tensor_parallel_size": 1,
+    "swe_agent_version": "1.1.0",
+    "swe_agent_revision": "0f3acafacabc0def8cc76b4e48acb4b6cf302cb9",
+    "swe_bench_version": "4.1.0",
+    "swe_bench_revision": "726c5461e2ef52d83cf1ea2107870a8bb3328d57",
+    "agent_defaults": {
+      "temperature": 0.0,
+      "seed": 0,
+      "per_instance_call_limit": 30,
+      "max_output_tokens": 2048,
+      "max_observation_length": 100000,
+      "num_workers": 1
+    }
+  },
+  "request_protocol": {
+    "mode": "serialized_single_request",
+    "concurrency": 1,
+    "warmup_requests": 2,
+    "measured_repetitions_per_case": 3,
+    "repetition_ids": ["r01", "r02", "r03"],
+    "sampling": {"temperature": 0.0, "top_p": 1.0, "seed": 0},
+    "prompt_template": "fixed_tokenizer_stable_prompt_v1",
+    "prompt_tokenizer": "frozen_model_tokenizer_at_model_revision",
+    "request_spacing_seconds": 1.0,
+    "health_checks": ["/health", "/v1/models", "/metrics"],
+    "clock": "CLOCK_MONOTONIC_RAW_joined_to_utc",
+    "invariants": [
+      "same prompt bytes and tokenizer for every case and repeat",
+      "same server process for warmup and measured rows",
+      "no overlapping request, benchmark, profiler, or unrelated GPU traffic",
+      "warmups are excluded from every denominator",
+      "actual usage counts are recorded but target counts define the feature vector"
+    ]
+  },
+  "calibration_configs": [
+    {"case_id": "cal_i128_o32", "split": "calibration", "input_tokens": 128, "output_tokens": 32},
+    {"case_id": "cal_i128_o64", "split": "calibration", "input_tokens": 128, "output_tokens": 64},
+    {"case_id": "cal_i128_o128", "split": "calibration", "input_tokens": 128, "output_tokens": 128},
+    {"case_id": "cal_i128_o256", "split": "calibration", "input_tokens": 128, "output_tokens": 256},
+    {"case_id": "cal_i512_o32", "split": "calibration", "input_tokens": 512, "output_tokens": 32},
+    {"case_id": "cal_i512_o64", "split": "calibration", "input_tokens": 512, "output_tokens": 64},
+    {"case_id": "cal_i512_o128", "split": "calibration", "input_tokens": 512, "output_tokens": 128},
+    {"case_id": "cal_i512_o256", "split": "calibration", "input_tokens": 512, "output_tokens": 256},
+    {"case_id": "cal_i1024_o32", "split": "calibration", "input_tokens": 1024, "output_tokens": 32},
+    {"case_id": "cal_i1024_o64", "split": "calibration", "input_tokens": 1024, "output_tokens": 64},
+    {"case_id": "cal_i1024_o128", "split": "calibration", "input_tokens": 1024, "output_tokens": 128},
+    {"case_id": "cal_i1024_o256", "split": "calibration", "input_tokens": 1024, "output_tokens": 256},
+    {"case_id": "cal_i2048_o32", "split": "calibration", "input_tokens": 2048, "output_tokens": 32},
+    {"case_id": "cal_i2048_o64", "split": "calibration", "input_tokens": 2048, "output_tokens": 64},
+    {"case_id": "cal_i2048_o128", "split": "calibration", "input_tokens": 2048, "output_tokens": 128},
+    {"case_id": "cal_i2048_o256", "split": "calibration", "input_tokens": 2048, "output_tokens": 256},
+    {"case_id": "cal_i4096_o32", "split": "calibration", "input_tokens": 4096, "output_tokens": 32},
+    {"case_id": "cal_i4096_o64", "split": "calibration", "input_tokens": 4096, "output_tokens": 64},
+    {"case_id": "cal_i4096_o128", "split": "calibration", "input_tokens": 4096, "output_tokens": 128},
+    {"case_id": "cal_i4096_o256", "split": "calibration", "input_tokens": 4096, "output_tokens": 256},
+    {"case_id": "cal_i8192_o32", "split": "calibration", "input_tokens": 8192, "output_tokens": 32},
+    {"case_id": "cal_i8192_o64", "split": "calibration", "input_tokens": 8192, "output_tokens": 64},
+    {"case_id": "cal_i8192_o128", "split": "calibration", "input_tokens": 8192, "output_tokens": 128},
+    {"case_id": "cal_i8192_o256", "split": "calibration", "input_tokens": 8192, "output_tokens": 256}
+  ],
+  "sealed_holdouts": [
+    {"case_id": "hold_interp_i256_o48", "split": "sealed_holdout", "holdout_kind": "interpolation", "input_tokens": 256, "output_tokens": 48},
+    {"case_id": "hold_interp_i768_o96", "split": "sealed_holdout", "holdout_kind": "interpolation", "input_tokens": 768, "output_tokens": 96},
+    {"case_id": "hold_interp_i1536_o96", "split": "sealed_holdout", "holdout_kind": "interpolation", "input_tokens": 1536, "output_tokens": 96},
+    {"case_id": "hold_interp_i3072_o160", "split": "sealed_holdout", "holdout_kind": "interpolation", "input_tokens": 3072, "output_tokens": 160},
+    {"case_id": "hold_interp_i6144_o192", "split": "sealed_holdout", "holdout_kind": "interpolation", "input_tokens": 6144, "output_tokens": 192},
+    {"case_id": "hold_interp_i2560_o160", "split": "sealed_holdout", "holdout_kind": "interpolation", "input_tokens": 2560, "output_tokens": 160},
+    {"case_id": "hold_interp_i5120_o96", "split": "sealed_holdout", "holdout_kind": "interpolation", "input_tokens": 5120, "output_tokens": 96},
+    {"case_id": "hold_interp_i1152_o192", "split": "sealed_holdout", "holdout_kind": "interpolation", "input_tokens": 1152, "output_tokens": 192},
+    {"case_id": "hold_extra_i12288_o64", "split": "sealed_holdout", "holdout_kind": "extrapolation", "input_tokens": 12288, "output_tokens": 64},
+    {"case_id": "hold_extra_i8192_o512", "split": "sealed_holdout", "holdout_kind": "extrapolation", "input_tokens": 8192, "output_tokens": 512},
+    {"case_id": "hold_extra_i16384_o256", "split": "sealed_holdout", "holdout_kind": "extrapolation", "input_tokens": 16384, "output_tokens": 256},
+    {"case_id": "hold_extra_i16384_o512", "split": "sealed_holdout", "holdout_kind": "extrapolation", "input_tokens": 16384, "output_tokens": 512}
+  ],
+  "features": [
+    {"name": "prompt_tokens", "type": "integer", "unit": "tokens", "formula": "declared input token target", "source": "frozen request manifest", "available_before_request": true, "allowed_for_fit": true},
+    {"name": "max_output_tokens", "type": "integer", "unit": "tokens", "formula": "declared maximum output token budget (not actual completion length)", "source": "frozen request manifest", "available_before_request": true, "allowed_for_fit": true},
+    {"name": "context_tokens", "type": "integer", "unit": "tokens", "formula": "declared pre-request context size; zero when not separately specified", "source": "frozen request manifest", "available_before_request": true, "allowed_for_fit": true},
+    {"name": "tool_calls", "type": "integer", "unit": "calls", "formula": "declared tool-call count before execution", "source": "frozen request manifest", "available_before_request": true, "allowed_for_fit": true},
+    {"name": "hardware_score", "type": "number", "unit": "relative", "formula": "predeclared hardware normalization; 1.0 for the calibration H100", "source": "frozen protocol", "available_before_request": true, "allowed_for_fit": true},
+    {"name": "prompt_output_interaction", "type": "number", "unit": "token-million-per-hardware", "formula": "prompt_tokens / 1000 * max_output_tokens / 1000 / hardware_score", "source": "derived from pre-request feature manifest", "available_before_request": true, "allowed_for_fit": true},
+    {"name": "concurrency", "type": "integer", "unit": "requests", "formula": "request_protocol.concurrency", "source": "frozen protocol", "available_before_request": true, "allowed_for_fit": true, "constant": 1},
+    {"name": "warm_state", "type": "categorical", "unit": "label", "formula": "measured rows follow warmup_requests", "source": "frozen protocol", "available_before_request": true, "allowed_for_fit": true, "constant": "warm"},
+    {"name": "holdout_kind", "type": "categorical", "unit": "label", "formula": "calibration or interpolation/extrapolation split annotation", "source": "sealed split manifest", "available_before_request": true, "allowed_for_fit": false, "evaluation_only": true}
+  ],
+  "labels": [
+    {"name": "wall_ms", "unit": "milliseconds", "definition": "request end minus request start on CLOCK_MONOTONIC_RAW", "provenance": "measured", "primary": true},
+    {"name": "cpu_activity_union_ms", "unit": "milliseconds", "definition": "union of traced CPU operation intervals after the declared overlap rule", "provenance": "measured", "primary": false},
+    {"name": "cuda_activity_union_ms", "unit": "milliseconds", "definition": "overlap-aware union of CUDA activity intervals within the request window", "provenance": "measured", "primary": false},
+    {"name": "kernel_duration_sum_ms", "unit": "milliseconds", "definition": "sum of kernel durations retained as diagnostic only; not elapsed device time", "provenance": "measured", "primary": false},
+    {"name": "actual_prompt_tokens", "unit": "tokens", "definition": "usage.prompt_tokens from the response", "provenance": "measured", "primary": false},
+    {"name": "actual_completion_tokens", "unit": "tokens", "definition": "usage.completion_tokens from the response", "provenance": "measured", "primary": false}
+  ],
+  "fit_specification": {
+    "model_id": "h100_feature_latency_v1",
+    "response": "wall_ms",
+    "fit_rows": "calibration only, aggregate each case by median of successful repetitions",
+    "feature_names": ["prompt_tokens", "max_output_tokens", "context_tokens", "tool_calls", "hardware_score", "prompt_output_interaction"],
+    "constant_features": ["concurrency", "warm_state"],
+    "model_family": "regularized_nonnegative_additive_with_interaction",
+    "selection": "fixed formula and regularization chosen before the split hash is sealed; no holdout-driven tuning",
+    "prediction_artifact_required_before_holdout_join": true
+  },
+  "scoring": {
+    "primary_metric": "case_median_wall_mape_percent",
+    "secondary_metrics": ["case_median_wall_mae_ms", "case_median_wall_rmse_ms", "repeat_level_wall_mape_percent", "interpolation_wall_mape_percent", "extrapolation_wall_mape_percent", "p95_absolute_percentage_error", "coverage_percent"],
+    "aggregation": "median successful repeats per case; report every repeat and case denominator",
+    "mape_zero_policy": "exclude zero measured labels and report exclusion; zero labels are invalid for this protocol",
+    "acceptance_thresholds": {"coverage_percent": 100.0, "primary_wall_mape_percent_max": 25.0, "interpolation_wall_mape_percent_max": 25.0, "extrapolation_wall_mape_percent_max": 35.0},
+    "failure_policy": "failed, contaminated, missing-clock, or non-200 rows remain explicit unavailable rows and do not silently leave the denominator"
+  },
+  "leakage_boundaries": {
+    "seal_before_run": true,
+    "split_manifest_hash_required": true,
+    "calibration_ids": "only calibration_configs.case_id",
+    "holdout_ids": "only sealed_holdouts.case_id",
+    "holdout_raw_access": "forbidden to fitting process; reveal only after predictions and prediction hash are persisted",
+    "forbidden_fit_inputs": ["holdout wall_ms", "holdout CPU/CUDA labels", "holdout response body", "holdout actual token counts", "any post-fit target label", "case-specific manual parameter changes", "repeat outcome or success status as a feature"],
+    "required_assertions": ["all case IDs are unique", "calibration and holdout IDs are disjoint", "predictions reference the sealed split hash", "prediction artifact mtime precedes holdout-label join", "fit input hash excludes holdout paths", "raw artifacts are immutable and checksummed"],
+    "reveal_receipt": "write a timestamped holdout_reveal_receipt.json only after prediction_manifest.json is immutable"
+  },
+  "artifact_layout": {
+    "root": "artifacts/h100_final_validation/",
+    "config_copy": "artifacts/h100_final_validation/protocol.config.json",
+    "config_hash": "artifacts/h100_final_validation/protocol.sha256",
+    "split_manifest": "artifacts/h100_final_validation/split_manifest.json",
+    "calibration": "artifacts/h100_final_validation/calibration/<case_id>/<repeat_id>/",
+    "holdout": "artifacts/h100_final_validation/holdout/<case_id>/<repeat_id>/",
+    "prediction_manifest": "artifacts/h100_final_validation/derived/prediction_manifest.json",
+    "holdout_metrics": "artifacts/h100_final_validation/derived/holdout_metrics.json",
+    "inventory": "artifacts/h100_final_validation/inventory.sha256",
+    "run_state": "artifacts/h100_final_validation/run_state.json",
+    "provenance": ["measured", "derived", "predicted", "unavailable"]
+  },
+  "stop_conditions": [
+    "GPU identity is not an allowlisted H100 or more than one GPU/process is visible",
+    "frozen model, image, parser, context, precision, tokenizer, or request defaults do not match",
+    "clock identity cannot be recorded or request boundaries cannot be joined",
+    "port, GPU, or server has concurrent traffic",
+    "an existing output would be overwritten or a config hash changes after sealing",
+    "a holdout is accessed before prediction artifact sealing",
+    "raw artifact checksum cannot be reproduced",
+    "NCU or privileged counters are unavailable (supplementary evidence only; never rerun solely for counters)"
+  ],
+  "completion_definition": {
+    "calibration": "24 cases x 3 measured repetitions plus 2 excluded warmups, each with immutable raw response, request timing, hardware/clock metadata, and checksum",
+    "holdout": "12 sealed cases x 3 measured repetitions, split into 8 interpolation and 4 extrapolation cases, revealed only after prediction receipt",
+    "report": "feature definitions, calibration fit, per-repeat/per-case scores, split hash, prediction-before-reveal receipt, unavailable rows, and final inventory"
+  }
+}
