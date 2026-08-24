@@ -394,7 +394,6 @@ def score(config_path: Path, artifact_root: Path) -> dict[str, Any]:
     for case in protocol["sealed_holdouts"]:
         measured = _case_times(artifact_root, "sealed_holdout", case)
         predicted = float(by_id[case["case_id"]]["predicted_seconds"])
-        case_metrics = _metrics([predicted] * len(measured), measured)
         repeat_metrics = _metrics([predicted] * len(measured), measured)
         cases.append(
             {

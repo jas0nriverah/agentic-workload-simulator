@@ -1,7 +1,8 @@
 # H100 final validation — fresh VM handoff
 
 This handoff is for a new Codex session on a dedicated H100 host. The protocol
-is sealed but has not been launched. Read this file, then read
+definition is sealed; this startup flow does not authorize or repeat
+calibration or holdout. Read this file, then read
 `configs/h100_final_validation.json` and
 `docs/H100_FINAL_VALIDATION_PROTOCOL.md`; the JSON is the source of truth. The
 scope is H100 only. Do not broaden the workload, substitute hardware, start a
@@ -25,6 +26,83 @@ and final report. If the handoff was copied before the desktop commit existed,
 fetch the branch and repeat the checks after checking out the final pushed
 commit. Never run from a dirty checkout or a different branch.
 
+## Canonical deterministic VM startup
+
+Use `scripts/cloud/start_h100.sh` for every fresh or resumed VM. Do not call
+the lower-level Nsight launcher directly. The startup entrypoint resolves the
+repository root from its own path, verifies the branch/commit/worktree,
+sealed protocol hash, external startup manifest, Python lock, and Ubuntu
+system-package lock, then verifies Docker, the NVIDIA runtime, one allowlisted
+H100, CUDA, Nsight Systems, the pinned image digest, the exact local model
+snapshot, and the executable production trace provider. It installs only
+missing or lock-mismatched packages, uses cached packages first, and uses
+`--require-hashes` for Python installation. It never sources the manifest, so
+credentials or arbitrary shell text are not evaluated or logged.
+
+Create the non-secret manifest outside the checkout once per VM. Replace the
+commit placeholder with the final pushed commit and preserve every other pin:
+
+```bash
+install -m 600 cloud/gcp/h100_startup_manifest.env.example /mnt/eic-work/h100-startup.env
+```
+
+Set `REQUIRED_COMMIT` in `/mnt/eic-work/h100-startup.env` to the checked-out
+commit, and set the host-local cache, model snapshot, work, and trace paths.
+The system lock hash in the template is:
+
+```text
+a2507fbf3cb360091c9657ff1a000a975521d8aa360cf6e3f18a3318fb15f1e5
+```
+
+The safe preflight is:
+
+```bash
+scripts/cloud/start_h100.sh --manifest /mnt/eic-work/h100-startup.env --dry-run
+```
+
+After that passes, the one-command startup/reuse flow is:
+
+```bash
+scripts/cloud/start_h100.sh --manifest /mnt/eic-work/h100-startup.env
+```
+
+This command performs `/health`, `/v1/models`, a normal completion, Qwen
+`qwen3_coder` tool parsing, `/metrics`, GPU-process ownership, Nsight session,
+and fatal-log checks. A correctly running matching `h100-final-vllm` server is
+reused. A stopped, mismatched, duplicate, unhealthy, or otherwise stale
+server fails closed. Startup does not run calibration, holdout, fitting,
+scoring, or any cloud allocation; those remain explicit separate commands.
+
+The startup trace mount must be outside the repository's validation artifact
+roots. Never set it to `artifacts/h100_final_validation/` or an existing
+calibration/holdout path.
+
+### Stale-server recovery
+
+The startup script never stops or removes a stale container. Inspect it first:
+
+```bash
+docker inspect h100-final-vllm
+docker logs --tail 240 h100-final-vllm
+nvidia-smi
+ss -ltn '( sport = :8000 )'
+```
+
+If the container is confirmed stale and no authorized run is using it, clean
+up only that container, without touching any repository or artifact root, then
+rerun the dry-run and startup commands:
+
+```bash
+docker stop h100-final-vllm
+docker rm h100-final-vllm
+scripts/cloud/start_h100.sh --manifest /mnt/eic-work/h100-startup.env --dry-run
+scripts/cloud/start_h100.sh --manifest /mnt/eic-work/h100-startup.env
+```
+
+For a duplicate server or occupied port, identify the owning process/container
+and resolve it explicitly; do not bypass the startup checks or change the
+sealed pins.
+
 Record these placeholders before and after execution; do not guess them:
 
 ```text
@@ -41,9 +119,9 @@ the operator must provide current provider authorization, verify the billing
 window and termination plan, and confirm a dedicated host. Do not put tokens,
 credentials, model weights, caches, or raw multi-gigabyte traces in Git.
 
-The required entrypoint is fail-closed: it needs both `--execute` and
-`--allow-h100`, validates the protocol hash and host GPU, and refuses to reuse
-or overwrite an output root. A dry run is always safe:
+The calibration/holdout driver remains fail-closed: it needs both `--execute`
+and `--allow-h100`, validates the protocol hash and host GPU, and refuses to
+reuse or overwrite an output root. A dry run is always safe:
 
 ```bash
 cd /path/to/agentic-workload-simulator
@@ -72,6 +150,47 @@ SWE-agent and SWE-bench revisions, and agent defaults. Use an offline/local
 model cache only after its revision and file inventory are verified. Start one
 vLLM server on the reviewed port and pass health, model, and metrics checks.
 
+## Optional read-only setup doctor
+
+The repository doctor may be used as an additional read-only gate before
+starting any service. It is read-only and
+never allocates a VM, starts Docker, starts vLLM, invokes the trace provider, or
+mutates the validation output root:
+
+```bash
+scripts/cloud/h100_setup_doctor.sh --offline
+```
+
+It checks the required branch and clean checkout, sealed protocol invariants,
+manifest pins, exactly one isolated H100, Docker and the pinned image, the
+revision-qualified model snapshot, the executable production trace provider,
+and production mode. It must return `READY_FOR_PREFLIGHT`. On a desktop or
+other non-GPU host, use `--offline`; that mode is only a repository/config
+check and is never an execution authorization:
+
+```bash
+scripts/cloud/h100_setup_doctor.sh --offline
+```
+
+On a VM, the doctor can be pointed at the external startup manifest after the
+startup environment variables are exported. It does not replace the
+canonical startup command above:
+
+```bash
+scripts/cloud/h100_setup_doctor.sh \
+  --manifest /mnt/eic-work/h100-startup.env
+scripts/cloud/start_h100.sh \
+  --manifest /mnt/eic-work/h100-startup.env
+scripts/cloud/h100_setup_doctor.sh \
+  --manifest /mnt/eic-work/h100-startup.env --check-server
+```
+
+The doctor does not start a service, while `start_h100.sh` owns the pinned
+server and the reviewed lower-level Nsight launcher. The case runner owns one
+serialized request and its measured trace. A successful doctor or startup does
+not authorize paid execution; retain the explicit provider/billing/
+termination confirmation and the `--execute --allow-h100` gate.
+
 ## Runner interface
 
 The entrypoint does not invent a workload runner. Supply a reviewed executable
@@ -91,6 +210,33 @@ hardware/clock identity, source paths, provenance, and SHA-256 values. A
 non-zero runner status creates an explicit unavailable row and stops the phase;
 it must not be silently retried or counted as success.
 
+The reviewed executable runner is committed at:
+
+```text
+scripts/cloud/h100_case_runner.py
+```
+
+Validate its CLI contract without contacting a server, starting a workload, or
+writing artifacts:
+
+```bash
+scripts/cloud/h100_case_runner.py --validate-only \
+  --config configs/h100_final_validation.json \
+  --case-id cal_i128_o32 --split calibration \
+  --input-tokens 128 --output-tokens 32 --repeat-id r01 \
+  --output-dir /tmp/h100-runner-contract
+```
+
+For an authorized execution, set `H100_VLLM_BASE_URL` to the already-running
+server, `H100_MODEL_SNAPSHOT` to the local snapshot whose final directory name
+is the sealed model revision, and `H100_TRACE_PROVIDER` to the reviewed
+executable that writes `trace_summary.json` under its `--output-dir`. The trace
+summary must use schema `h100-trace-summary.v1`, provenance `measured`,
+`CLOCK_MONOTONIC_RAW`, the `overlap_aware_request_window` CUDA union rule,
+finite non-negative CPU/CUDA/kernel fields, and checksummed raw-artifact
+references. The runner refuses missing or invalid telemetry and writes an
+unavailable row with a non-zero exit instead of fabricating measurements.
+
 ## Execution order
 
 Run calibration first. The command below is illustrative and remains blocked
@@ -98,7 +244,7 @@ unless authorization and the reviewed runner are present:
 
 ```bash
 scripts/cloud/run_h100_final_validation.sh --phase calibration --execute \
-  --allow-h100 --runner /absolute/path/to/reviewed_h100_case_runner
+  --allow-h100 --runner scripts/cloud/h100_case_runner.py
 ```
 
 After all calibration artifacts are immutable, fit the predeclared
@@ -129,7 +275,7 @@ Then reveal and measure holdouts with an explicit resume:
 scripts/cloud/run_h100_final_validation.sh --phase holdout --execute \
   --allow-h100 --resume \
   --predictions-manifest artifacts/h100_final_validation/derived/prediction_manifest.json \
-  --runner /absolute/path/to/reviewed_h100_case_runner
+  --runner scripts/cloud/h100_case_runner.py
 ```
 
 The entrypoint must verify the prediction manifest exists, is immutable, and
@@ -185,12 +331,12 @@ prediction manifest:
 
 ```bash
 scripts/cloud/run_h100_final_validation.sh --phase calibration --execute \
-  --allow-h100 --resume --runner /absolute/path/to/reviewed_h100_case_runner
+  --allow-h100 --resume --runner scripts/cloud/h100_case_runner.py
 # or, after calibration fit is already frozen:
 scripts/cloud/run_h100_final_validation.sh --phase holdout --execute \
   --allow-h100 --resume \
   --predictions-manifest artifacts/h100_final_validation/derived/prediction_manifest.json \
-  --runner /absolute/path/to/reviewed_h100_case_runner
+  --runner scripts/cloud/h100_case_runner.py
 ```
 
 Never delete a partial row, clear a lock, change the split, or rerun an
