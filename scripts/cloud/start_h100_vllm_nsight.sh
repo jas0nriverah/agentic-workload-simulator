@@ -102,7 +102,6 @@ docker run -d \
   launch \
   --session-new="$SESSION" \
   --trace=cuda,osrt \
-  --sample=none \
   -- \
   python3 -m vllm.entrypoints.openai.api_server \
   --model "$MODEL_CONTAINER" \
@@ -140,4 +139,3 @@ docker exec "$CONTAINER" /host-cuda/bin/nsys sessions list | grep -F "$SESSION" 
 trap - ERR
 printf 'Profiled vLLM ready: container=%s session=%s model=%s revision=%s trace_root=%s\n' \
   "$CONTAINER" "$SESSION" "$MODEL" "$REVISION" "$TRACE_ROOT"
-
