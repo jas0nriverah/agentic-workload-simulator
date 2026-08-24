@@ -1,249 +1,242 @@
-# Codex handoff — next H100 experiment
+# Codex handoff — current GCP H100 research state
 
-Updated: 2026-08-22  
+Updated: 2026-08-23 (America/New_York)
 Repository: `jas0nriverah/agentic-workload-simulator`  
-Branch: `parallel-h100-shards`  
-Frozen validated harness commit: `3fcb5f28d3a363483b097a2787c051ca9c5b4a1b`
+Working branch: `parallel-h100-shards`
+Handoff base commit: `141b879` (`Persist H100 process request overlap evidence`)
+Original frozen experiment-harness commit: `3fcb5f28d3a363483b097a2787c051ca9c5b4a1b`
 
-## Purpose
+## Read this first
 
-This is the operational handoff for the next Codex session. It summarizes what
-has already been measured, what remains incomplete, and the highest-value
-sequence for the next H100 experiment. The assignment PDF is the source of
-truth; also read:
+The EIC assignment PDF remains authoritative. Do not redesign the experiment,
+change the pinned model/runtime, fabricate unavailable measurements, or repeat
+work just because an older plan lists it. Use the repository, immutable raw VM
+artifacts, official evaluator outputs, and compact measured manifests as the
+source of truth.
 
-- `project/ASSIGNMENT_LOCK.md`
-- `docs/assignment_traceability.md`
-- `docs/REPORT_TEMPLATE.md`
-- `project/PROJECT_STATE.yaml`
-- `project/EXPERIMENT_LEDGER.jsonl`
+Read these files before acting:
 
-Do not treat this document as permission to change the assignment design or to
-invent missing measurements.
+1. `project/ASSIGNMENT_LOCK.md`
+2. `docs/assignment_traceability.md`
+3. `project/PROJECT_STATE.yaml`
+4. `project/GCP_H100_PROGRESS.md`
+5. `project/GCP_H100_GAP_AUDIT_20260823.md`
+6. `project/EXPERIMENT_LEDGER.jsonl`
+7. `project/GCP_H100_PROCESS_ATTRIBUTION_20260823F2.json`
 
-## What is already complete
+Do not use the older `project/HANDOFF.md` or Lightning instructions as current
+GCP execution state. They are historical context only.
 
-### Repository and reproducibility work
+## Git state
 
-- The assignment configuration is frozen around Qwen3-Coder-30B-A3B
-  Instruct BF16, vLLM 0.10.0, SWE-agent 1.1.0, SWE-bench 4.1.0, and the
-  recorded dataset/model revisions.
-- The repository includes pinned runtime and evaluator contracts, launch gates,
-  artifact normalization, provenance manifests, SHA-256 recording, and
-  official evaluator integration.
-- The latest validated harness commit passed the final local test and shell
-  checks. Re-run the checks before changing or launching from a new checkout.
-- Raw trajectories, logs, evaluator reports, patches, and manifests are
-  evidence. Preserve them byte-for-byte; never rewrite an unsuccessful run.
+- The branch was synchronized and clean at `141b879` before this handoff edit.
+- Later commits after `3fcb5f2` contain narrow runtime/collection fixes,
+  instrumentation, and measured evidence. Do not reset back to the frozen
+  harness commit.
+- Raw trajectories, large logs, caches, model weights, credentials, and VM-local
+  authorization files do not belong in Git.
+- Before running or committing, use `git status --short --branch` and preserve
+  unrelated/untracked work.
 
-### Modal H100 measurements
+## Live GCP target
 
-The Modal work is real measured H100 work, not just infrastructure setup:
+- Project: `project-3d59272d-3213-4e06-97b`
+- Zone: `us-central1-a`
+- VM: `instance-20260822-182111`
+- Host user: `jasonrivera691`
+- Repository: `/home/jasonrivera691/agentic-workload-simulator`
+- Work/artifacts: `/home/jasonrivera691/eic-work`
+- GPU: one NVIDIA H100 80 GB HBM3
+- Model: `Qwen/Qwen3-Coder-30B-A3B-Instruct`
+- Model revision: `b2cff646eb4bb1d68355c01b18ae02e7cf42d120`
+- vLLM: 0.10.0, BF16, 32K context, `qwen3_coder`, TP=1
+- vLLM image digest:
+  `sha256:05a31dc4185b042e91f4d2183689ac8a87bd845713d5c3f987563c5899878271`
 
-- Full-prompt Lite control: official evaluator resolved `1/1`; raw model output
-  had scratch/debug contamination.
-- Verified control: the original full-prompt attempt was unresolved.
-- A final highly targeted Verified LLM control produced a clean one-file patch
-  and resolved `1/1`; keep it labeled as a targeted control, not as a general
-  population rate.
-- Additional Lite instances were measured for `astropy__astropy-14182`,
-  `astropy__astropy-14995`, `astropy__astropy-6938`, and
-  `astropy__astropy-7746`. Raw model outcomes and provenance-preserving clean
-  derived submissions are recorded separately.
-- The one-instance Lite sweep covers all four frozen parameter endpoint sets:
-  call limit, maximum completion tokens, observation length, and temperature.
-  Dependency-free SVG figures were generated under `project/figures/`.
-- Deep profiles include Lite and Verified samples plus a parallel Lite sample.
-  They contain syscall-level file events and aggregate vLLM Prometheus
-  snapshots/deltas.
-- The Verified deep-profile sample resolved cleanly. The Lite deep-profile
-  sample did not produce a clean resolved submission.
+The VM has been stopped/restarted during the session. Never assume the model
+server or a worker is alive from this document: verify live state read-only.
+Use an already-open SSH terminal; do not open extra VM tabs or terminals.
 
-Important evidence limitation: the deep profiles provide aggregate vLLM
-request/token counters, not lossless per-SWE-agent-request GPU attribution.
-Therefore no valid population CPU:GPU ratio, causal telemetry-overhead claim,
-or simulator holdout result exists yet.
+## Measured evidence already complete
 
-### GCP preparation
+### Official SWE-bench evaluation runs
 
-The repository now contains a bounded GCP H100 path:
+- The tracked GCP summaries describe 34 completed Lite evaluations and 29
+  completed Verified evaluations. These are run counts, not yet proven unique
+  instance counts; deduplicate the live manifests before making a 30/30 claim.
+- Two Verified outcomes are explicitly incomplete due reproducible environment
+  failures and remain excluded from completed-evaluation counts.
+- Official evaluator results include resolved, unresolved, empty-patch, and
+  incomplete outcomes. Preserve all outcomes; do not clean or relabel them.
+- Additional non-Astropy Lite evidence exists for `pallets__flask-5063` and
+  `psf__requests-2317`.
+- The compact tracked summaries explicitly prove Astropy, Flask, and Requests.
+  Audit the raw batch manifests before claiming six-repository coverage.
 
-- `cloud/gcp/RUNBOOK.md`
-- `cloud/gcp/create_h100_spot.sh`
-- `cloud/gcp/preemption_shutdown.sh`
-- `cloud/gcp/instance_manifest.env.example`
-- `scripts/observability/request_proxy.py`
+### Four assignment sweeps
 
-The creation script is safe by default and requires `--apply`. The shutdown
-hook attempts to preserve artifacts and stop workloads after Spot preemption.
-The request proxy records request IDs, timing boundaries, status, body hashes,
-sizes, and returned token counts without recording prompts, responses, or API
-keys.
+`project/MODAL_LITE_SWEEP_MEASURED.json` already contains measured one-instance
+endpoint evidence for all frozen grids:
 
-### Completed GCP H100 pilot
+- call limit: 10, 20, 30, 50
+- maximum output: 512, 1024, 2048, 4096
+- observation length: 10K, 25K, 50K, 100K characters
+- temperature: 0.0, 0.2, 0.5, 0.8
 
-The quota-enabled GCP VM has produced measured end-to-end evidence. The
-tracked summary is `project/GCP_H100_MEASUREMENTS.json`; raw artifacts remain
-under `/home/jasonrivera691/eic-work` on the VM. The uninstrumented Lite
-control (`astropy__astropy-12907`) resolved 1/1 with agent and official
-evaluator return code 0. Its paired thin-telemetry run also resolved 1/1.
-Lite and Verified gold smokes both resolved 1/1, and a two-worker/two-row Lite
-batch completed with agent and evaluator return code 0 on both workers. A
-one-request vLLM calibration measured TTFT, TPOT, and ITL; it deliberately
-makes no GPU-time claim. This is valuable pilot evidence, but it is not yet
-the assignment's six-repository baseline or event-level CPU:model-serving
-correlation, so population and simulator claims remain pending.
+Do not launch more generic sweep points unless a named assignment claim is
+unsupported after the full audit.
 
-The last verified GCP console state, before the user reported fixing it, was:
+### Request, process, CPU, and GPU timing
 
-- H100 regional quota in `us-east4`: `0`
-- User-created VM attempt: `instance-20260822-171939`
-- Creation error: `GPUS-PER-GPU-FAMILY-per-project-region` exceeded, with
-  `gpu_family=NVIDIA_H100`
+The repaired process-attribution run is the strongest current case-study
+evidence:
 
-The user now says the quota issue is fixed. Do not rely on the old browser
-state: verify the current quota and VM status read-only before spending GPU
-time. Do not submit or modify quota requests unless the user explicitly asks.
+- 31/31 serialized request intervals overlap process-NVML samples.
+- All 31 contain the vLLM worker process.
+- 3,456 valid process rows and 385 vLLM-worker samples were retained.
+- Worker sampled SM utilization reached about 92% and sampled memory utilization
+  about 47%; device utilization reached 100%.
+- Request boundaries and process samples share hostname, boot ID, and
+  `CLOCK_MONOTONIC_RAW`.
+- The 31 intervals contain 59,739.423 ms of request duration and 525,380 total
+  tokens.
 
-## What still needs additional work
+Primary evidence:
 
-These are the meaningful assignment gaps:
+- `project/GCP_H100_PROCESS_ATTRIBUTION_20260823F2.json`
+- `project/GCP_H100_REQUEST_PROFILE_20260823G.json`
+- `project/GCP_H100_CPU_TOOL_STRACE_PROFILE_20260823.json`
 
-1. **Step 1 baseline:** obtain a broader, comparable Lite/Verified sample across
-   at least six repositories, with clean artifact provenance and official
-   evaluator results.
-2. **Step 1 category analysis:** capture paired event boundaries sufficient to
-   compute repository-category CPU:model-serving latency ratios and the three
-   required figures.
-3. **Step 2 population evidence:** the one-instance sweeps are useful but are
-   not a population study. Record their exact limitations; only extend them if
-   the baseline experiment leaves budget and time.
-4. **Step 3 case study:** select a high-ratio trajectory only after request-level
-   timing and model-serving correlation are valid. Keep evaluator time separate
-   from trajectory time.
-5. **Step 4 simulator:** fit the hardware-parameterized simulator from measured
-   events, then run a real holdout and report per-event and end-to-end error.
-   The <=25% requirement cannot be claimed from aggregate metrics.
-6. **Final report:** reconcile manifests, hashes, dataset/evaluator revisions,
-   figures, anomalies, and limitations in `docs/REPORT_TEMPLATE.md`. Complete
-   secret/path scans and visual QA.
-7. **Evaluator provenance:** capture immutable evaluator image digests rather
-   than relying on a mutable `latest` tag.
-8. **Documentation consistency:** some older handoffs and state files describe
-   earlier Lightning or pre-GCP phases. Update them only with verified new
-   evidence; do not erase historical results.
+This supports request-level model-serving/process overlap and a defensible
+CPU/tool-versus-model-serving case study. It is sampled utilization evidence,
+not exact CUDA kernel time or exact GPU device seconds.
 
-## Focus for the next experiment
+### vLLM calibration
 
-The next session should prioritize evidence quality and request-level
-observability, not more infrastructure.
+`project/GCP_H100_VLLM_CALIBRATION_20260823E.json` contains warm-H100 serving
+anchors at input lengths 128, 512, and 2048, 16 prompts per point, output 64,
+concurrency 1. It records TTFT/TPOT/ITL and serving latency. It does not provide
+exact GPU seconds.
 
-### Gate 0 — verify the launch target
+### Profiling capability
 
-Before any paid work:
+The bounded Nsight Compute test is complete:
 
-1. Confirm the current GCP project, region/zone, H100 regional quota, global GPU
-   quota, billing cap, and Spot/on-demand provisioning choice.
-2. Confirm the VM is actually `a3-highgpu-1g` with one H100 and that it is
-   `RUNNING`, not merely present as a failed or provisioning row.
-3. Verify persistent work/cache/result disks and enough free space.
-4. Record the exact image, machine type, provisioning model, VM name, zone, and
-   start timestamp in the run manifest.
-5. Never put credentials, access tokens, or private authorization files in Git
-   or chat.
+- `ncu` 2025.1.1.0 is present in the container.
+- Profiling fails with `ERR_NVGPUCTRPERM`.
+- Host Nsight cannot cross the vLLM container namespace for CUDA tracing.
+- The exact kernel-counter result is environment/permission blocked.
 
-### Gate 1 — one instrumented smoke trajectory
+Do not repeat NCU attempts, reboot, reload the NVIDIA driver, change modprobe
+configuration, or restart a working vLLM merely to obtain counters. The PDF
+does not require NCU specifically. Report this limitation honestly.
 
-Run exactly one representative trajectory before the production queue. Use the
-request proxy for the model endpoint and verify all of the following:
+## Truthful remaining gaps
 
-- vLLM health and model identity
-- request ID, method/path, status, byte counts, hashes, and timestamps
-- prompt/completion/total token fields when returned
-- SWE-agent tool-call timing and exit status
-- trajectory start/end and request-boundary monotonic timestamps
-- end-to-end reconciliation between request, tool, agent, and evaluator times
-- raw `.traj`, prediction/patch, logs, manifest, and evaluator-input persistence
-- official evaluator input paths and immutable evaluator identity/digest
+1. **Verified count:** tracked evidence reaches 29 completed Verified runs, so
+   one new unique Verified control is likely required for the frozen 30-run
+   target. Confirm by deduplicating live manifests first.
+2. **Repository/category diversity:** compact Git evidence explicitly proves
+   only Astropy, Flask, and Requests. Audit the raw completed batch manifests;
+   if fewer than six repositories are present, select the next Verified task
+   from an unrepresented repository/category.
+3. **Simulator target:** a defensible measured `gpu_seconds_at_reference` and a
+   sealed real holdout error are not available. NVML utilization overlap must
+   not be relabeled as exact GPU seconds. The existing simulator must not be
+   fitted to a fabricated target.
+4. **Exact kernel/device attribution:** blocked by the environment. This is a
+   reporting limitation, not a reason to repeat failed profiling or change the
+   driver during the experiment.
+5. **Offline-only work:** aggregation, plots, report prose, simulator coding,
+   visual QA, and packaging do not justify H100 runtime.
 
-If any critical field is missing, malformed, duplicated, or impossible to
-reconcile, stop the production queue. Fix or document the telemetry issue
-before consuming more H100 time.
+## Highest-value next H100 action
 
-### Gate 2 — frozen production baseline
+After confirming no experiment is active and deduplicating completed instance
+IDs, run exactly one new, unique SWE-bench Verified control. Prefer an
+unrepresented non-Astropy repository/category so the same run improves both
+the Verified count and diversity evidence.
 
-If the smoke gate passes, run the frozen diverse baseline serially on the H100:
+For this expensive run, establish and record:
 
-- Target 30 Lite plus 30 Verified trajectories.
-- Cover at least six repositories, not just Astropy.
-- Checkpoint and export artifacts after every trajectory.
-- Use per-task timeouts, limited retries, disk checks, vLLM health checks, and a
-  progress manifest with resume support.
-- A broken task must be skipped and recorded rather than stalling the queue.
-- Run detached from the SSH/Cursor session so disconnects and Spot preemption do
-  not destroy progress.
-- Set an absolute shutdown deadline and preserve/export artifacts before
-  termination, even if the runner fails.
+- requirement: close the frozen Verified count and a named diversity gap;
+- insufficiency: only 29 completed Verified runs are currently tracked;
+- exact instance: chosen only after live-manifest deduplication;
+- expected warm runtime: approximately 3–10 minutes;
+- isolation: serialized one-worker control, no simultaneous trajectory;
+- reuse: keep the warm pinned vLLM server;
+- artifacts: batch/instance manifest, resolved configuration and hashes,
+  trajectory, patch/prediction, agent log, official evaluator report/log,
+  request-proxy events, vLLM metric samples, process-NVML samples, clock/host/
+  boot identity, and SHA-256 inventory;
+- success: new instance ID, agent return code 0, evaluator return code 0,
+  official result retained, one-to-one serialized request boundaries, and all
+  request intervals overlapping vLLM-worker process samples.
 
-Do not repeat completed Astropy sweeps or spend H100 time on plotting and
-evaluator work that can be done locally.
+Use the existing batch planner and
+`scripts/cloud/lambda_run_parallel_shard.py`; do not hand-edit evaluator input
+or reuse an old successful attempt as a new sample. Run a dry-run first and
+verify the exact instance, dataset SHA, command hashes, output root, and that
+the task has not already completed.
 
-### Gate 3 — calibration and selected deep profiles
+## After that run
 
-After the baseline, while vLLM is still warm:
+Immediately reassess rather than launching another generic trajectory:
 
-1. Run the planned calibration matrix that maps request-level observations to
-   model-serving timing/counters.
-2. Check that calibration records are internally consistent and versioned.
-3. Run only selected deep profiles if the remaining budget supports them.
-4. Use the resulting paired samples for category ratios and simulator
-   calibration/holdout.
+1. Recompute unique Lite/Verified completed counts from immutable manifests.
+2. Recompute repository/category coverage from the selected rows.
+3. If 30 unique completed evaluations per split and required diversity are
+   satisfied, stop launching population runs.
+4. Only if the simulator requirement still needs new H100 evidence, collect a
+   small predeclared warm-vLLM calibration/holdout matrix with exact token
+   counts and same-clock timing. Seal the holdout rows before fitting. Never
+   call utilization-integrated wall time exact device seconds.
+5. Preserve raw artifacts and commit only compact manifests/summaries/hashes.
 
-Do not change the frozen experimental design after the smoke gate without
-recording the reason, affected manifests, and interpretation impact.
+## Safe first commands in the existing SSH terminal
 
-## Required final experiment report
-
-### Current GCP collection-contract status
-
-The narrow gold-smoke collection fix is implemented and pushed in commits
-`1ec7e57` and `2bf8310`. New gold-smoke reports create exactly one explicit
-`counters.unavailable.json` marker when no trajectory telemetry exists; they do
-not fabricate Parquet. The corresponding local collection/runtime/evaluator
-tests pass (37 targeted tests; 111 full tests). Existing remote gold-smoke
-directories still need the marker repair and a fresh immutable export archive.
-Do that on the live VM before shutdown. The VM must remain running while this
-export, diverse production sampling, calibration, and any selected profiling
-remain useful.
-
-When the session ends, report:
-
-- successful and failed trajectory counts
-- Lite/Verified split and repositories covered
-- official resolved rate, with clean-vs-raw provenance clearly separated
-- trajectory and evaluator latency distributions
-- model-call counts and prompt/completion/total token statistics
-- request-level CPU:model-serving timing results and reconciliation status
-- calibration matrix and simulator holdout results, including errors
-- deep-profile results and known attribution limits
-- total H100 runtime and cost
-- Spot/preemption, timeout, infrastructure, or artifact anomalies
-- recommendation for the next experiment or for final submission
-
-Every number must link to an immutable manifest or derived artifact. If a
-measurement is unavailable, say `PENDING` or `NOT MEASURED`; do not estimate it
-from aggregate counters.
-
-## Useful validation commands
+These checks are read-only and do not restart anything:
 
 ```bash
+cd /home/jasonrivera691/agentic-workload-simulator
 git status --short --branch
 git rev-parse HEAD
+date -u
+hostname
+nvidia-smi --query-gpu=name,memory.used,memory.total,utilization.gpu --format=csv,noheader
+tmux ls 2>/dev/null || true
+pgrep -af 'vllm|sweagent|lambda_run_parallel_shard|run-batch' || true
+```
+
+Then inventory and deduplicate completed rows from
+`/home/jasonrivera691/eic-work/batches`. Do not select a new instance from the
+compact count alone.
+
+## Non-negotiable continuation rules
+
+- Do not shut down the VM, stop vLLM, terminate an active experiment, or close
+  the existing SSH/browser session merely because one batch finished.
+- Do not open more VM tabs/terminals when a working SSH session already exists.
+- Do not ask for routine decisions; diagnose ordinary failures and continue.
+- Do not spend H100 time on prose, figures, README changes, broad cleanup, or
+  packaging.
+- Do not launch more temperature/call/token/observation sweeps without a named
+  unsupported assignment requirement.
+- Do not repeat conclusively blocked NCU/Nsight approaches.
+- Before any intentional stop, perform a complete gap audit covering counts,
+  diversity, request/process timing, profiling, calibration, holdout evidence,
+  data quality, and raw-artifact persistence.
+- Every empirical claim must point to an immutable artifact or compact manifest.
+  Use `PENDING`, `NOT MEASURED`, or `BLOCKED` when that is the truth.
+
+## Lightweight repository validation
+
+Run before committing handoff or compact evidence changes:
+
+```bash
 git diff --check
-bash -n cloud/gcp/create_h100_spot.sh cloud/gcp/preemption_shutdown.sh
 PYTHONPATH=src:. python3 -m unittest discover -s tests
 ```
 
-The next Codex session should begin with read-only GCP verification and the
-single smoke trajectory. It should not launch the 60-trajectory queue until
-the smoke telemetry and artifact gates pass.
+Do not delay a running GPU experiment to run broad local tests; checkpoint its
+immutable evidence first.
