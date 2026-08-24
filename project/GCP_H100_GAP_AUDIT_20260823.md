@@ -120,3 +120,33 @@ Remaining GPU-dependent gaps: exact per-request GPU attribution; kernel-level NC
 A repaired pinned Astropy Lite trajectory was run with the direct process-NVML sampler corrected to export its output path. The run completed with agent_rc=0 and produced 3,456 process-NVML rows spanning 2026-08-23 23:48:31Z–23:49:48Z. All 31 proxy request boundaries from request-profile-20260823b overlap the sampler window on the same host, boot ID, and CLOCK_MONOTONIC_RAW clock; all 31 include samples for the vLLM worker PID 2320. The overlap window contains 59,739.423 ms of model-request duration and 525,380 total tokens. Worker-PID sampled utilization reached 92% SM and 47% memory (mean worker SM 65.184% across 385 worker samples); device utilization reached 100%.
 
 This is stronger request-level process-overlap evidence for the CPU/model/GPU case study, but it remains sampled NVML utilization rather than exact kernel/device time. NCU remains blocked by ERR_NVGPUCTRPERM, so simulator fitting and sealed holdout error claims remain deferred.
+
+## 2026-08-24 Kineto acquisition closure
+
+A materially different permission-safe route succeeded using vLLM's built-in
+PyTorch Kineto profiler. A controlled serialized six-request matrix produced
+direct CUDA kernel/memcpy/memset activity intervals on the pinned H100 runtime.
+Four rows were calibration inputs and two were predeclared holdouts. The
+unchanged hardware-latency simulator achieved 0.162826 s MAE and 10.715632%
+MAPE on those two holdouts, below the 25% assignment target for this narrow
+controlled matrix. Compact evidence and raw hashes are recorded in
+`GCP_H100_KINETO_SIMULATOR_20260824.json`.
+
+This closes controlled request/device timing and a limited serving-matrix
+holdout. It does not retroactively assign device time to historical SWE-agent
+requests, establish broad simulator generalization, measure SM-seconds, or
+remove the `ERR_NVGPUCTRPERM` blocker for hardware-counter metrics. The raw
+batch inventory already spans 32 Lite trajectories across 11 repositories and
+29 Verified trajectories across 12 repositories (with two honest
+pre-generation failures), so no additional generic H100 trajectory or sweep
+is required. GPU-dependent acquisition is complete.
+
+The final real-trajectory profile is recorded separately in
+`GCP_H100_KINETO_TRAJECTORY_20260824.json`. A frozen Astropy Lite run completed
+with 31 serialized proxy requests and official evaluator return code 0
+(unresolved). Streaming validation covered 76,371,138 trace events and
+11,498,871 device activities. After sorting each request's intervals to repair
+129 cross-stream out-of-order emissions, the exact device-activity union was
+56.063686 seconds across 235.854532 seconds of summed model-request wall time.
+This closes the direct single-instance Step 3 case-study measurement; it does
+not create a category-population ratio or hardware-counter evidence.

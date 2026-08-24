@@ -1,0 +1,59 @@
+{
+  "schema_version": "gcp-h100-kineto-simulator.v1",
+  "provenance": "measured_and_derived",
+  "recorded_at_utc": "2026-08-24T01:24:54Z",
+  "host": "instance-20260822-182111",
+  "boot_id": "741f21cd-b530-4306-b4ee-a01e70fb33c0",
+  "hardware": "NVIDIA H100 80GB HBM3",
+  "repository_commit_at_measurement": "141b879d5113ec70ba331f30212ef5e48a30ac73",
+  "model": "Qwen/Qwen3-Coder-30B-A3B-Instruct",
+  "model_revision": "b2cff646eb4bb1d68355c01b18ae02e7cf42d120",
+  "vllm_image": "vllm/vllm-openai:v0.10.0@sha256:05a31dc4185b042e91f4d2183689ac8a87bd845713d5c3f987563c5899878271",
+  "profiler": {
+    "kind": "vLLM built-in PyTorch Kineto profiler",
+    "activities": ["CPU", "CUDA"],
+    "environment": "VLLM_TORCH_PROFILER_DIR=/profiles",
+    "capability_http_statuses": {"start_profile": 200, "request": 200, "stop_profile": 200},
+    "capability_kernel_events": 2352,
+    "capability_trace_sha256": "b2b99764ed27a19e41c0e6e287e15826acf3e6fab1add35430217f02b16716ae",
+    "raw_matrix_trace_path": "/home/jasonrivera691/eic-work/artifacts/observability/kineto-vllm-20260824/instance-20260822-182111_118.1787534385861543708.pt.trace.json.gz",
+    "raw_matrix_trace_bytes": 42534719,
+    "raw_matrix_trace_sha256": "5ab0085b47209468eaa6c27447b244dd1b3b3795bbafe3ec8cf45bc4f75c192b",
+    "clock_join": "Kineto baseTimeNanoseconds plus activity ts joined to serialized request UTC intervals"
+  },
+  "matrix": {
+    "source_path": "/home/jasonrivera691/eic-work/artifacts/observability/kineto-vllm-20260824/matrix-01/requests.json",
+    "source_sha256": "c06e8a1108596bc5d7b9a891fd1444fcf7482197d4913b41a3e083976e4c1bcd",
+    "device_attribution_path": "/home/jasonrivera691/eic-work/artifacts/observability/kineto-vllm-20260824/matrix-01/device_attribution.json",
+    "device_attribution_sha256": "72e07b8a9a7f47b94cd09c9c0470b192e8726db61ad4689214dbd7a7a7df9f48",
+    "calibration_records": 4,
+    "holdout_records": 2,
+    "all_http_200": true,
+    "records": [
+      {"case_id":"cal_128_32","split":"calibration","prompt_tokens":372,"completion_tokens":32,"wall_ms":778.617877,"cpu_exclusive_interval_ms":83.798895,"kernel_duration_sum_ms":179.482819,"device_activity_union_ms":179.732785},
+      {"case_id":"cal_512_32","split":"calibration","prompt_tokens":1484,"completion_tokens":32,"wall_ms":861.559366,"cpu_exclusive_interval_ms":188.186626,"kernel_duration_sum_ms":192.819711,"device_activity_union_ms":192.866805},
+      {"case_id":"cal_2048_64","split":"calibration","prompt_tokens":5932,"completion_tokens":64,"wall_ms":1724.494722,"cpu_exclusive_interval_ms":223.730485,"kernel_duration_sum_ms":453.169357,"device_activity_union_ms":453.098147},
+      {"case_id":"cal_4096_64","split":"calibration","prompt_tokens":11866,"completion_tokens":64,"wall_ms":1777.929295,"cpu_exclusive_interval_ms":159.382010,"kernel_duration_sum_ms":543.410611,"device_activity_union_ms":543.618943},
+      {"case_id":"hold_1024_48","split":"holdout","prompt_tokens":2970,"completion_tokens":48,"wall_ms":1198.231899,"cpu_exclusive_interval_ms":125.999617,"kernel_duration_sum_ms":253.602585,"device_activity_union_ms":253.679127},
+      {"case_id":"hold_3072_64","split":"holdout","prompt_tokens":8904,"completion_tokens":64,"wall_ms":1573.904317,"cpu_exclusive_interval_ms":154.429344,"kernel_duration_sum_ms":349.534282,"device_activity_union_ms":349.624064}
+    ]
+  },
+  "simulator_holdout": {
+    "implementation": "src/agentic_sim/simulator.py",
+    "target_score": 1.0,
+    "fixed_seconds": 0.7813761435,
+    "mean_absolute_error_seconds": 0.1628258885,
+    "mean_absolute_percentage_error": 10.7156323107,
+    "assignment_target_percent": 25.0,
+    "target_met_for_controlled_matrix": true,
+    "result_path": "/home/jasonrivera691/eic-work/artifacts/observability/kineto-vllm-20260824/matrix-01/simulator_holdout_result.json",
+    "result_sha256": "e57b03041c72ff7bcaa0935a02ad4f3b84c0f4ab35f6e4c04540a1e7eea14006"
+  },
+  "scientific_boundary": [
+    "CUDA values are measured Kineto activity intervals within serialized request windows, not NVML utilization conversions or hardware-counter estimates.",
+    "CPU seconds are the union of Kineto cpu_op intervals after removing overlap with measured device activity; the remaining wall interval is fitted as the fixed phase.",
+    "The holdout result validates only this controlled synthetic vLLM serving matrix and is not a population or end-to-end SWE-agent simulator-accuracy claim.",
+    "The trace does not retroactively attribute device time to historical SWE-agent requests and does not measure SM-seconds or privileged performance counters.",
+    "NCU hardware-counter profiling remains blocked by ERR_NVGPUCTRPERM."
+  ]
+}

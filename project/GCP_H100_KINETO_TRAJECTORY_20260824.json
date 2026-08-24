@@ -1,0 +1,62 @@
+{
+  "schema_version": "gcp-h100-kineto-trajectory.v1",
+  "provenance": "measured_and_derived",
+  "recorded_at_utc": "2026-08-24T02:24:12Z",
+  "host": "instance-20260822-182111",
+  "boot_id": "741f21cd-b530-4306-b4ee-a01e70fb33c0",
+  "hardware": "NVIDIA H100 80GB HBM3",
+  "model": "Qwen/Qwen3-Coder-30B-A3B-Instruct",
+  "model_revision": "b2cff646eb4bb1d68355c01b18ae02e7cf42d120",
+  "vllm_image": "vllm/vllm-openai:v0.10.0@sha256:05a31dc4185b042e91f4d2183689ac8a87bd845713d5c3f987563c5899878271",
+  "sweagent_revision": "0f3acafacabc0def8cc76b4e48acb4b6cf302cb9",
+  "instance_id": "astropy__astropy-12907",
+  "suite": "lite",
+  "agent_returncode": 0,
+  "official_evaluator": {
+    "returncode": 0,
+    "completed": 1,
+    "resolved": 0,
+    "unresolved": 1,
+    "empty_patch": 0,
+    "errors": 0,
+    "report_path": "/home/jasonrivera691/eic-work/artifacts/observability/kineto-vllm-20260824/trajectory-01/evaluator/kineto-01.kineto-01.json",
+    "report_sha256": "8e2797f86a574333dba5893a7ad1f49f68c87080438c1a6b8b91571f0a4723ad"
+  },
+  "raw_artifacts": {
+    "trace_path": "/home/jasonrivera691/eic-work/artifacts/observability/kineto-vllm-20260824/instance-20260822-182111_118.1787535517936374959.pt.trace.json.gz",
+    "trace_bytes": 1259837568,
+    "trace_sha256": "22e3c1d67ccca5171af372ddd43fd87e2b1c3dce676f19ca3a07b1b8143cf467",
+    "request_events_path": "/home/jasonrivera691/eic-work/artifacts/observability/kineto-vllm-20260824/trajectory-01/request_events.jsonl",
+    "request_events_sha256": "2086ed0968cd1e493ef5a900ced99253d556ff186325e79fab023c9eb45d7060",
+    "trajectory_path": "/home/jasonrivera691/eic-work/experiments/gcp-h100-pilot/kineto-01/astropy__astropy-12907/astropy__astropy-12907.traj",
+    "trajectory_bytes": 2302310,
+    "trajectory_sha256": "b7ff35b1b364b7e61aa6f87b7d40efee4c7f429dd32e5165444c5b241d3466c4",
+    "patch_sha256": "fb284b7286696d23df74b89920f2c29fe3bffd0b798ef75dcee4bab7d5c36cb8",
+    "predictions_sha256": "c53201731e927471182e62dd297a50e2fcdc5d3c7fb7713eab16fa29e4b91e9d"
+  },
+  "request_device_attribution": {
+    "derived_path": "/home/jasonrivera691/eic-work/artifacts/observability/kineto-vllm-20260824/trajectory-01/device_attribution.json",
+    "derived_sha256": "4f78fb5fff0ce07dde2fa92b8b5629a2426568c5a84b65b0df97caf1bd57d400",
+    "request_count": 31,
+    "all_request_status_200": true,
+    "prompt_tokens": 462104,
+    "completion_tokens": 9688,
+    "request_wall_ms_sum": 235854.532464,
+    "trace_event_count": 76371138,
+    "device_activity_event_count": 11498871,
+    "kernel_count": 11401802,
+    "kernel_duration_sum_ms": 56043.251507,
+    "device_activity_union_ms": 56063.685931,
+    "device_union_method": "per-request binary interval capture followed by timestamp sort and exact union",
+    "out_of_order_events_repaired_before_union": 129,
+    "clock_join": "Kineto baseTimeNanoseconds plus activity ts joined to serialized proxy request UTC intervals"
+  },
+  "scientific_boundary": [
+    "This is direct Kineto CUDA activity timing for a real frozen SWE-agent trajectory, not an NVML utilization conversion.",
+    "The request proxy serialized model calls; CUDA intervals were sorted per request before exact interval union because Kineto emitted 129 activities out of timestamp order across streams.",
+    "Kernel-duration sum can exceed or differ from interval union when streams overlap; device_activity_union_ms is the overlap-aware device-active measure.",
+    "The official generated patch was unresolved and remains part of the measured outcome.",
+    "This one Astropy trajectory supports a detailed case study but does not establish repository-category population ratios or broad simulator generalization.",
+    "NCU performance counters remain blocked by ERR_NVGPUCTRPERM; no SM-seconds or privileged counter metrics are claimed."
+  ]
+}
