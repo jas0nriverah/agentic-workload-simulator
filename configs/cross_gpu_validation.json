@@ -1,0 +1,246 @@
+{
+  "schema_version": "1.0",
+  "plan_status": "planned_not_launched",
+  "no_launch": true,
+  "purpose": "Frozen, two-target validation plan for the existing hardware-parameterized simulator. This file describes the A100 80GB run first and the H200 run second; it does not authorize or launch either run.",
+  "execution_order": [
+    "a100_80gb",
+    "h200_141gb"
+  ],
+  "frozen_software": {
+    "model": "Qwen/Qwen3-Coder-30B-A3B-Instruct",
+    "model_revision": "b2cff646eb4bb1d68355c01b18ae02e7cf42d120",
+    "precision": "bfloat16",
+    "context_tokens": 32768,
+    "vllm_version": "0.10.0",
+    "vllm_image": "vllm/vllm-openai:v0.10.0@sha256:05a31dc4185b042e91f4d2183689ac8a87bd845713d5c3f987563c5899878271",
+    "vllm_tool_parser": "qwen3_coder",
+    "tensor_parallel_size": 1,
+    "swe_agent_version": "1.1.0",
+    "swe_agent_revision": "0f3acafacabc0def8cc76b4e48acb4b6cf302cb9",
+    "swe_bench_version": "4.1.0",
+    "swe_bench_revision": "726c5461e2ef52d83cf1ea2107870a8bb3328d57",
+    "dataset_revisions": {
+      "lite": "b0dde1093fe417d83b7184254edf8199c1f0dff5",
+      "verified": "b0dde1093fe417d83b7184254edf8199c1f0dff5"
+    },
+    "agent_defaults": {
+      "per_instance_call_limit": 30,
+      "max_output_tokens": 2048,
+      "max_observation_length": 100000,
+      "temperature": 0.0,
+      "seed": 0,
+      "num_workers": 1
+    }
+  },
+  "targets": [
+    {
+      "target_id": "a100_80gb",
+      "order": 1,
+      "gpu": "NVIDIA A100 80GB",
+      "memory_gib": 80,
+      "role": "first_cross_gpu_validation_target",
+      "launch": false,
+      "required_isolation": "dedicated_one_gpu_host",
+      "notes": "Use the 80GB variant only. Do not substitute the 40GB variant or infer A100 results from H100 data. Record exact SKU, topology, driver, CUDA, host CPU, and clock state in the manifest."
+    },
+    {
+      "target_id": "h200_141gb",
+      "order": 2,
+      "gpu": "NVIDIA H200 SXM",
+      "memory_gib": 141,
+      "role": "second_cross_gpu_validation_target",
+      "launch": false,
+      "required_isolation": "dedicated_one_gpu_host",
+      "notes": "Run only after the A100 package is sealed. Record exact SKU, topology, driver, CUDA, host CPU, and clock state; do not mix H200 observations into A100 calibration."
+    }
+  ],
+  "frozen_workloads": {
+    "kineto_matrix": {
+      "runner": "existing scripts/observability/run_kineto_matrix.py",
+      "request_mode": "serialized_single_request",
+      "concurrency": 1,
+      "repetitions_per_case": 1,
+      "warmup_requests": 1,
+      "calibration_cases": [
+        {
+          "case_id": "calibration_128",
+          "input_tokens_target": 128,
+          "output_tokens_target": 64,
+          "split": "calibration"
+        },
+        {
+          "case_id": "calibration_512",
+          "input_tokens_target": 512,
+          "output_tokens_target": 64,
+          "split": "calibration"
+        },
+        {
+          "case_id": "calibration_2048",
+          "input_tokens_target": 2048,
+          "output_tokens_target": 64,
+          "split": "calibration"
+        },
+        {
+          "case_id": "calibration_4096",
+          "input_tokens_target": 4096,
+          "output_tokens_target": 64,
+          "split": "calibration"
+        }
+      ],
+      "holdout_cases": [
+        {
+          "case_id": "holdout_1024",
+          "input_tokens_target": 1024,
+          "output_tokens_target": 64,
+          "split": "sealed_holdout"
+        },
+        {
+          "case_id": "holdout_3072",
+          "input_tokens_target": 3072,
+          "output_tokens_target": 64,
+          "split": "sealed_holdout"
+        }
+      ],
+      "request_payload_invariants": [
+        "same prompt template and tokenizer across targets",
+        "same sampling parameters and seed across targets",
+        "same requested input/output token targets",
+        "same server health and readiness checks before measurement",
+        "no concurrent traffic or background benchmark on the measured GPU"
+      ]
+    },
+    "real_swe_agent_astropy": {
+      "instance_id": "astropy__astropy-12907",
+      "scale": "SWE-bench_Lite",
+      "agent_mode": "pinned_control_defaults",
+      "existing_h100_anchor": "project/GCP_H100_KINETO_TRAJECTORY_20260824.json",
+      "required_target_runs": [
+        "a100_80gb",
+        "h200_141gb"
+      ],
+      "repetitions_per_target": 1,
+      "purpose": "One identical real SWE-agent trajectory per target to anchor end-to-end serving and CPU/tool timing. It is not part of the six-row simulator fit and must not be used as a calibration row."
+    }
+  },
+  "split_and_fit_rules": {
+    "calibration_case_ids": [
+      "calibration_128",
+      "calibration_512",
+      "calibration_2048",
+      "calibration_4096"
+    ],
+    "sealed_holdout_case_ids": [
+      "holdout_1024",
+      "holdout_3072"
+    ],
+    "seal_before_run": true,
+    "fit_inputs": "calibration rows only",
+    "holdout_access": "holdout raw timings remain unread by the fitting step; load them only after predictions are materialized and checksummed",
+    "required_leakage_checks": [
+      "assert no holdout case_id appears in the calibration table",
+      "assert no holdout target GPU timing is present in fit inputs",
+      "assert predictions are persisted before holdout observations are joined",
+      "record split manifest hash and fit-input hash in every derived result"
+    ],
+    "cross_gpu_rule": "Fit the target-hardware conversion from calibration observations only. Never use target-hardware holdout timings, target-hardware Astropy timing, or any post-fit target label to choose parameters."
+  },
+  "controls": {
+    "host": [
+      "one visible GPU and one measurement process per host",
+      "record GPU UUID, PCI bus ID, SKU, memory, clocks, driver, CUDA, kernel, CPU model, RAM, and power mode",
+      "record git commit, manifest hash, container/model/dataset hashes, UTC and monotonic clock identity"
+    ],
+    "server": [
+      "start the pinned vLLM server once and wait for normal completion, parser, and metrics health",
+      "use identical resolved launch values on both targets",
+      "do not change model, precision, parser, context, tensor parallelism, or agent defaults between targets"
+    ],
+    "measurement": [
+      "capture request boundaries, CPU operation intervals, CUDA activity intervals, NVML/process samples, and vLLM aggregate samples with source-specific clock metadata",
+      "take one warmup request outside the measured rows",
+      "use overlap-aware CUDA activity interval union for elapsed device-active time",
+      "retain kernel-duration sums separately; never treat overlapping kernel sums as elapsed GPU time"
+    ],
+    "real_trajectory": [
+      "run Astropy only after the six-row matrix on the target is sealed",
+      "one worker, no other model traffic, no profiler that changes the workload",
+      "preserve the trajectory, request/event logs, process samples, evaluator output, and checksums"
+    ]
+  },
+  "measurement_contract": {
+    "required_per_request_fields": [
+      "target_id",
+      "case_id_or_instance_id",
+      "request_id",
+      "input_tokens",
+      "output_tokens",
+      "request_start_monotonic_ns",
+      "request_end_monotonic_ns",
+      "cpu_operation_union_ns",
+      "cuda_activity_union_ns",
+      "vllm_observation_reference",
+      "clock_id",
+      "host_id",
+      "gpu_uuid"
+    ],
+    "source_boundaries": {
+      "cpu_operation_union": "union of traced CPU operations in the capture; not a claim about all host/tool time",
+      "cuda_activity_union": "union of CUDA activity intervals from Kineto; not NVML utilization or kernel-duration sum",
+      "process_attribution": "sampled process/NVML overlap evidence; not exact causal GPU seconds",
+      "kernel_timing": "optional diagnostic only; overlapping kernel durations are not elapsed time"
+    },
+    "ncu_dependency": {
+      "required": false,
+      "use": "optional supplementary kernel-counter evidence",
+      "blocked_behavior": "ERR_NVGPUCTRPERM or unavailable counters do not invalidate the Kineto matrix; record the blocker and continue without rerunning the workload solely for NCU"
+    }
+  },
+  "artifact_schema": {
+    "per_target_manifest": "artifacts/cross_gpu/<target_id>/manifest.json",
+    "calibration_raw": "artifacts/cross_gpu/<target_id>/kineto/calibration/<case_id>/",
+    "holdout_raw": "artifacts/cross_gpu/<target_id>/kineto/holdout/<case_id>/",
+    "trajectory_raw": "artifacts/cross_gpu/<target_id>/sweagent/astropy__astropy-12907/",
+    "normalized_rows": "artifacts/cross_gpu/<target_id>/normalized/request_rows.jsonl",
+    "target_conversion": "artifacts/cross_gpu/<target_id>/derived/calibration_conversion.json",
+    "holdout_predictions": "artifacts/cross_gpu/<target_id>/derived/holdout_predictions.json",
+    "holdout_metrics": "artifacts/cross_gpu/<target_id>/derived/holdout_metrics.json",
+    "inventory": "artifacts/cross_gpu/<target_id>/inventory.json",
+    "provenance": "artifacts/cross_gpu/<target_id>/provenance.json",
+    "required_rules": [
+      "raw artifacts are immutable and checksummed",
+      "each normalized row links to exactly one raw source and split",
+      "empty or failed rows are represented with an explicit status and failure reason",
+      "no model weights, credentials, caches, or oversized logs enter the repository",
+      "the package records whether a result is measured, reconstructed, predicted, or unavailable"
+    ]
+  },
+  "analysis_boundaries": {
+    "same_h100_phase_reconstruction": "The existing H100 result (four calibration rows plus two holdouts) is a controlled same-H100 phase reconstruction with measured CPU and CUDA phase components and a calibrated residual. Its 10.715632% E2E holdout MAPE is not a cross-hardware or broad SWE-agent prediction result.",
+    "cross_hardware_prediction": "A100/H200 target predictions must be generated from calibration-only conversion parameters and frozen H100 reference inputs before target holdout labels are revealed. Report target-hardware holdout MAPE only after the sealed evaluation join.",
+    "individual_event_error": "Do not claim individual-event prediction error unless event-level predictions and matching measured labels exist for every evaluated event. The current H100 evidence does not satisfy that claim.",
+    "trajectory_generalization": "The Astropy trajectory is a single controlled case per target; it cannot support population-wide repository/category CPU:GPU ratios or general SWE-agent latency claims by itself."
+  },
+  "success_criteria": [
+    "A100 80GB completes all four calibration and two sealed holdout Kineto rows with valid manifests and checksums.",
+    "H200 completes the same six rows only after the A100 package and split manifest are sealed.",
+    "Each target produces one isolated real SWE-agent Astropy trajectory with an official evaluator result or an explicit failure artifact.",
+    "All six matrix rows have request, CPU-operation, CUDA-activity, token, host, GPU, clock, and provenance fields, or an explicit unavailable marker.",
+    "The target conversion is fit from the four calibration rows only; two holdout predictions are materialized before holdout labels are joined.",
+    "Holdout metrics, including E2E error and any event-level metric actually supported by the data, are computed without leakage and report denominators.",
+    "A failed or permission-blocked NCU attempt is recorded as supplementary unavailable evidence and never treated as a reason to repeat a completed workload.",
+    "No result is labeled cross-hardware validation unless both target hardware identity and the complete source/provenance chain are present."
+  ],
+  "stop_conditions": [
+    "Do not launch from this plan; launch authorization is external to this configuration.",
+    "Do not substitute A100 40GB, A100 MIG, H100, H200 PCIe, or a multi-GPU host for a named target.",
+    "Do not proceed to H200 if the A100 split, software pins, or artifact package is not sealed.",
+    "Do not fit on holdout data, rerun generic sweeps, or use NCU as a prerequisite.",
+    "Stop a target run on contamination, concurrent GPU traffic, mismatched pins, missing clock identity, or unverifiable raw artifacts."
+  ],
+  "expected_outputs": {
+    "a100_80gb": "sealed six-row package plus one Astropy trajectory package; no H200 launch is implied",
+    "h200_141gb": "sealed six-row package plus one Astropy trajectory package; no additional workload diversity is implied",
+    "final_comparison": "offline comparison of H100 anchor, A100 80GB, and H200 target measurements with separate same-H100 reconstruction and cross-hardware prediction sections"
+  }
+}

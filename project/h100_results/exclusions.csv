@@ -1,0 +1,11 @@
+artifact,scope,reason,treatment,source_file
+lite-sweep-temp08-initial,modal_sweep,vLLM readiness failed after connection reset/connection refused; no prediction was produced,excluded; successful retry is the attributable endpoint,project/MODAL_LITE_SWEEP_MEASURED.json
+lite-sweep-temp05-initial,modal_sweep,No vLLM log output or trajectory after approximately 15 minutes; stopped before readiness timeout,excluded; successful retry is the attributable endpoint,project/MODAL_LITE_SWEEP_MEASURED.json
+psf__requests-1724,verified primary cohort,reproducible environment-install failure,retained as incomplete; excluded from completed denominator,population_runs.csv
+django__django-10097,verified primary cohort,reproducible environment-install failure,retained as incomplete; excluded from completed denominator,population_runs.csv
+pylint-dev__pylint-4604,verified primary cohort,empty generated patch,retained as submitted empty patch; excluded from completed denominator,population_runs.csv
+astropy__astropy-14182 additional Lite,canonical unique inventory,duplicates an already completed baseline instance ID,retained as an additional attempt; does not increase unique count,evaluation_attempts.csv
+historical NVML integrations,exact device time,sampled aggregate utilization is not direct device activity,retained as sampled-utilization evidence; excluded from exact GPU seconds,observability_summary.csv
+NCU capability probe,hardware performance counters,ERR_NVGPUCTRPERM and no NCU report,recorded as blocked; no counter values claimed,project/GCP_H100_CONTAINER_NCU_CAPABILITY_20260823.json
+compact GCP population summaries,average end-to-end latency and cost,summaries contain outcomes/IDs but no per-instance latency or price ledger,"no population latency, energy, dollar-cost, or efficiency claim",population_runs.csv
+Modal sweep dataset revision,strict pinned-dataset reproduction,evaluator observed a different revision and contract was not enforced,sweep retained as measured one-instance sensitivity evidence only,project/MODAL_LITE_SWEEP_MEASURED.json

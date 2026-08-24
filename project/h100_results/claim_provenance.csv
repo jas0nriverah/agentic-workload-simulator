@@ -1,0 +1,11 @@
+claim,verified_value,evidence_type,source_file
+Lite primary cohort,32 selected/completed; 8 resolved; 25.0%,direct,population_runs.csv
+Verified primary cohort,"32 selected, 30 submitted, 29 completed, 10 resolved; 34.4827586% completed-case and 31.25% selected-cohort rate",direct,population_runs.csv
+Canonical unique completed inventory,32 Lite and 29 Verified; additional Lite duplicates a baseline ID,derived_set_union,evaluation_attempts.csv
+Simulator controlled holdout,"4 calibration, 2 predeclared holdout, 10.7156323% MAPE",independently_recomputed,kineto_matrix.csv
+Real SWE-agent Kineto,"31 requests, 462104 prompt + 9688 completion tokens, 56063.685931 ms device union",direct_kineto_activity,project/GCP_H100_KINETO_TRAJECTORY_20260824.json
+Process attribution whole window,"3456 rows, 385 vLLM worker samples, 92% peak sampled SM utilization",process_nvml_sampling,project/GCP_H100_PROCESS_ATTRIBUTION_20260823F2.json
+Process attribution request overlap,31/31 requests overlap process samples and the vLLM worker; 2666/298 overlapping samples,derived_from_per_request_rows,observability_summary.csv
+Four sweep axes,"4 measured endpoint values on each axis, including one shared baseline",direct_modal_single_instance,sweep_results.csv
+NCU hardware counters,unavailable: ERR_NVGPUCTRPERM; no report created,measured_capability_failure,project/GCP_H100_CONTAINER_NCU_CAPABILITY_20260823.json
+H100 acquisition decision,closed; remaining limitations are analysis/generalization or cross-GPU questions,audit_decision,H100_RESULTS.md

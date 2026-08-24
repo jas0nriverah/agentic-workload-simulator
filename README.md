@@ -3,7 +3,7 @@
 Implementation of the Agentic Workload Simulator coding test. The assignment
 PDF remains the source of truth. This repository contains the cloud-ready
 bootstrap and state machinery plus measured controls from Lightning/Modal and
-a live Google Cloud A3 H100 session. Provider-specific measurements remain
+a completed Google Cloud A3 H100 acquisition. Provider-specific measurements remain
 explicitly separate and are never presented as interchangeable results.
 
 ## Current status
@@ -22,12 +22,14 @@ explicitly separate and are never presented as interchangeable results.
   measurements, and a Google Cloud H100 measurement window are recorded
   separately. Raw model patches may contain
   scratch files; clean derived submissions are explicitly labeled as derived.
-- Deep profiling now includes H100 samples with syscall-level file events and
-  aggregate vLLM token/request snapshots. The Verified sample resolved cleanly;
-  the Lite sample remains unresolved/non-clean. A GCP proxy profile records 31
-  real request boundaries without storing payloads. Per-request GPU attribution
-  and simulator holdout validation remain pending; sweep SVG figures are
-  generated under `project/figures/`.
+- Deep profiling includes syscall-level file events, process/NVML sampling, and
+  one direct 31-request Astropy Kineto trajectory. A controlled four-row
+  calibration/two-row holdout matrix produced 10.715632% limited-scope E2E
+  phase-reconstruction MAPE. NCU counters remain permission-blocked, and the
+  result is not an individual-event or unseen-workload prediction claim.
+- The audited H100 result is frozen in `H100_RESULTS.md`; plot-ready tables,
+  provenance, exclusions, and a deterministic inventory are under
+  `project/h100_results/`.
 
 ## First local checks
 
@@ -54,18 +56,17 @@ without storing prompts or responses.
 
 The simulator implementation is `src/agentic_sim/simulator.py` and the
 offline driver is `scripts/analysis/evaluate_simulator.py`. It requires an
-explicit measured/calibrated CPU/GPU phase decomposition and reports holdout
-error as derived evidence; it will reject aggregate vLLM counters or GPU
-utilization as fake per-request GPU time. No simulator holdout claim is made
-until such decomposed records are collected.
+explicit measured/calibrated CPU/GPU phase decomposition and rejects aggregate
+vLLM counters or GPU utilization as fake per-request GPU time. The measured
+controlled-matrix holdout is documented with its narrow validity boundary in
+`H100_RESULTS.md`.
 
 See `docs/assignment_traceability.md` for the frozen deliverable-to-evidence
 map and `project/PUBLIC_REFERENCE_LOCK.json` for the comparison-only public
 reference lock. No public result is claimed by either file.
 
-Use [`docs/REPORT_TEMPLATE.md`](docs/REPORT_TEMPLATE.md) as the evidence-gated
-write-up structure once the pending H100 measurements exist; it is deliberately
-not populated with speculative numbers.
+Use [`docs/REPORT_TEMPLATE.md`](docs/REPORT_TEMPLATE.md) for the final offline
+write-up and source every empirical number from the canonical package.
 
 For independent post-control throughput, see
 [`cloud/lightning/PARALLEL_RUNBOOK.md`](cloud/lightning/PARALLEL_RUNBOOK.md).

@@ -1,6 +1,10 @@
 # GCP H100 measured progress
 
-This file records only measured Google Cloud H100 evidence from the live session. Modal evidence remains in its existing files and is not mixed into these counts.
+This file is the chronological Google Cloud H100 acquisition log. Acquisition
+is closed. Because interim entries preserve what was known at each checkpoint,
+later conclusions supersede earlier “pending” statements. Use
+`project/h100_results/canonical_results.json` and `H100_RESULTS.md` for final
+counts and claim boundaries. Modal evidence remains separately labeled.
 
 ## Runtime
 
@@ -22,7 +26,6 @@ This file records only measured Google Cloud H100 evidence from the live session
 | `lite-diverse-batch03-6` | Lite | 6 | 0 | 3 | 3 | 0 | `artifacts/batches/lite-diverse-batch03-6/worker-00/attempt-001/evaluator.log` |
 | `lite-diverse-batch04-6` | Lite | 6 | 0 | 1 | 5 | 0 | `artifacts/batches/lite-diverse-batch04-6/worker-00/attempt-001/evaluator.log` |
 | `lite-diverse-batch05-6` | Lite | 6 | 0 | 1 | 5 | 0 | `artifacts/batches/lite-diverse-batch05-6/worker-00/attempt-001/evaluator.log` |
-| `lite-diverse-next-6` | Lite | 6 | 0 | 0 | 6 | 0 | `artifacts/batches/lite-diverse-next-6/worker-00/attempt-001/evaluator.log` |
 | `lite-production-2` | Lite | 1 | 0 | 1 | 0 | 0 | `artifacts/batches/lite-production-2/worker-00/attempt-001/evaluator.log` |
 | `verified-diverse-batch03-6` | Verified | 5 | 1 | 1 | 4 | 0 | `artifacts/batches/verified-diverse-batch03-6/worker-00/attempt-001/evaluator.log` |
 | `verified-diverse-batch04-6` | Verified | 5 | 0 | 3 | 2 | 1 | `artifacts/batches/verified-diverse-batch04-6/worker-00/attempt-001/evaluator.log` |
@@ -31,11 +34,14 @@ This file records only measured Google Cloud H100 evidence from the live session
 
 The first Verified batch has one reproducible incomplete Django environment build; the batch03 retry also has one incomplete environment outcome. Both are retained as incomplete outcomes, not silently removed. The separate `verified-django-retry` reproduced the same `edit_anthropic` environment-install failure and is not counted as a completed evaluation.
 
-The listed GCP artifacts contain 34 completed Lite evaluations (including the additional
-`astropy__astropy-14182` run) and 29 completed Verified evaluations (including the
-additional `astropy__astropy-14365` run), with two incomplete Verified outcomes in the
-listed batches. These totals are descriptive of the recorded batches only; they are not
-an assignment-wide resolved-rate claim.
+The canonical primary cohorts contain 32 selected/completed Lite instances and
+32 selected Verified instances, of which 30 were submitted and 29 officially
+completed. The additional Lite `astropy__astropy-14182` attempt duplicates an
+already completed primary instance, so it is retained as an attempt but does
+not increase the 32-instance unique inventory. The final Verified extension
+`astropy__astropy-14365` increases the primary selected cohort to 32 and the
+officially completed inventory to 29. Exact set unions and source hashes are in
+`project/h100_results/evaluation_attempts.csv` and `population_runs.csv`.
 
 ### Additional pinned production runs (2026-08-23)
 
@@ -249,4 +255,14 @@ These are real generated-patch evaluations on the pinned GCP H100 runtime. Resol
 - Compact evidence: `project/GCP_H100_REQUEST_PROFILE_20260823G.json` and `.md`. Aggregate proxy duration was 58.788029 s over 432,289 prompt and 8,388 completion tokens. vLLM cumulative deltas were 57.900302 s E2E, 57.835214 s inference, 0.002357 s queue, 0.903220 s TTFT, and 57.004277 s TPOT. NVML utilization-overlap estimate was 44.192767 active seconds.
 - The NVML value is explicitly a utilization-integral proxy, not exact per-request device time or kernel attribution. It must not be used as `gpu_seconds_at_reference` for simulator fitting.
 - This closes the serialized request-boundary/timing evidence gap and strengthens the CPU/model/GPU case study. Exact per-request GPU attribution and NCU hardware-counter profiling remain blocked by the container/permission boundary.
-\n\n## Process-level NVML attribution probe\n\nA dedicated long direct completion (not a SWE-bench trajectory and not a sweep) produced a 4.764 s request with 52 prompt and 758 completion tokens. Process-level NVML returned 24 samples overlapping the request for the vLLM worker PID 2320; worker SM utilization peaked at 86%, worker memory utilization at 39%, and device utilization at 87%. Host/request/probe records share CLOCK_MONOTONIC_RAW and the same boot identity. This closes the availability/overlap capability gap but not kernel-time attribution; Nsight Compute remains blocked by ERR_NVGPUCTRPERM. Raw NVML JSONL remains outside Git.\n
+## Process-level NVML attribution probe
+
+A dedicated long direct completion (not a SWE-bench trajectory and not a
+sweep) produced a 4.764 s request with 52 prompt and 758 completion tokens.
+Process-level NVML returned 24 samples overlapping the request for the vLLM
+worker PID 2320; worker SM utilization peaked at 86%, worker memory utilization
+at 39%, and device utilization at 87%. Host/request/probe records share
+`CLOCK_MONOTONIC_RAW` and the same boot identity. This closes the
+availability/overlap capability gap but not kernel-time attribution; Nsight
+Compute remains blocked by `ERR_NVGPUCTRPERM`. Raw NVML JSONL remains outside
+Git.
