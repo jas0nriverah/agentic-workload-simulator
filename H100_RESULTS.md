@@ -40,6 +40,37 @@ serialized request-window CUDA activity for the case study; NVML gives sampled
 process overlap and utilization.  Neither is silently promoted to a broad
 per-request causal GPU attribution claim.
 
+## Sealed feature-only H100 validation (2026-08-24)
+
+The separately sealed feature-validation protocol completed on the same pinned
+H100 runtime using a fresh recovery artifact root. Calibration-only fitting
+used 24 cases × 3 repeats (72 completed rows, two warmups per case), then froze
+all 12 holdout predictions before any holdout label was opened. The holdout
+completed with 12 cases × 3 repeats: 8 interpolation cases and 4 extrapolation
+cases, 36/36 completed and 0 unavailable.
+
+| Evidence | Value |
+|---|---|
+| Protocol SHA-256 | `3fb870a4a619afe9cdc697c6f8edcee51c4814ff01ebd552a904f0c9a9271eac` |
+| Split manifest SHA-256 | `c7c6bae7f78d6c7406456176badb57ef935b9afe285f77306624a3d1759e1d26` |
+| Prediction manifest SHA-256 | `6bd701fb7b10c5c1c204668e102ff7efc5b1c9c3de35f9bb8288a6760c7afb70` |
+| Primary case-median wall MAPE | **1.2476338%** |
+| Primary MAE / RMSE | **0.0207811 s / 0.0421246 s** |
+| Primary p95 absolute percentage error | **3.2340234%** |
+| Coverage | **100.0% (12/12 cases; 36/36 repeats)** |
+| Final artifact inventory SHA-256 | `f9f68ba5ecf5eddbc461efbb7ca416914b65c8d9627d2a35340ac922810b612a` |
+
+All 108 calibration/holdout rows use the real production Nsight Systems
+provider and validate against their raw `.nsys-rep`, SQLite, request,
+response, arm, collect, and `trace_summary.json` checksums. The compact,
+tracked result manifest is
+`project/h100_results/h100_final_feature_validation.json`; the full artifact
+root is machine-local at `artifacts/h100_final_validation_retry3_recovery2`
+and its external trace-backed location. The original failed-attempt evidence
+in `artifacts/h100_final_validation_retry3` and
+`artifacts/h100_final_validation_retry3_recovery1` was preserved unchanged and
+is excluded from the completed holdout denominator.
+
 **No additional H100 run is justified solely to obtain a thirtieth completed
 Verified case.**  The assignment does not require a 30-case denominator, and
 the current evidence is sufficient to close H100 acquisition.  Remaining work

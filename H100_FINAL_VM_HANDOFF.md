@@ -73,6 +73,27 @@ reused. A stopped, mismatched, duplicate, unhealthy, or otherwise stale
 server fails closed. Startup does not run calibration, holdout, fitting,
 scoring, or any cloud allocation; those remain explicit separate commands.
 
+The validation driver accepts the same external manifest without sourcing it.
+It propagates only the reviewed model, trace, container, Nsight, and pinned
+Python-environment paths, then prepends `PYTHON_ENV_ROOT/bin` so every resumed
+run invokes the lock-validated Python environment. The canonical fresh/resumed
+server flow is therefore exactly:
+
+```bash
+scripts/cloud/start_h100.sh --manifest /mnt/eic-work/h100-startup.env --dry-run
+scripts/cloud/start_h100.sh --manifest /mnt/eic-work/h100-startup.env
+```
+
+If a request row becomes unavailable, preserve that root and its checksums.
+Do not delete or overwrite the row, clear its lock, or resume it as though it
+were successful. Create a new trace-backed artifact root containing only the
+byte-identical calibration tree, sealed protocol/split files, feature model,
+and frozen prediction manifest; initialize its completed-calibration state,
+then run the same startup commands above and resume holdout with the exact
+prediction checksum. Never copy failed holdout rows or labels into the fresh
+root. This keeps the reviewed server restart and artifact recovery paths
+deterministic while retaining all failure evidence.
+
 The startup trace mount must be outside the repository's validation artifact
 roots. Never set it to `artifacts/h100_final_validation/` or an existing
 calibration/holdout path.
