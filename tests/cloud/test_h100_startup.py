@@ -178,6 +178,8 @@ class H100StartupTests(unittest.TestCase):
         self.assertIn("duplicate or conflicting running container", text)
         self.assertIn("GPU already has compute processes", text)
         self.assertIn("port $PORT is occupied by a non-reviewed process", text)
+        self.assertIn('"DeviceIDs":["0"]', text)
+        self.assertIn('"Capabilities":[["gpu"]]', text)
 
     def test_health_failure_is_explicit_and_fail_closed(self):
         text = STARTUP.read_text(encoding="utf-8")

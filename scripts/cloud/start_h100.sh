@@ -391,7 +391,8 @@ container_matches() {
     grep -Fq -- "$required" <<< "$command_json" || return 1
   done
   devices="$(docker inspect --format '{{json .HostConfig.DeviceRequests}}' "$CONTAINER" 2>/dev/null || true)"
-  grep -Fq 'nvidia' <<< "$devices" || return 1
+  grep -Fq '"DeviceIDs":["0"]' <<< "$devices" || return 1
+  grep -Fq '"Capabilities":[["gpu"]]' <<< "$devices" || return 1
   mounts="$(docker inspect --format '{{json .Mounts}}' "$CONTAINER" 2>/dev/null || true)"
   grep -Fq '"Destination":"/root/.cache/huggingface"' <<< "$mounts" || return 1
   grep -Fq '"Destination":"/host-cuda"' <<< "$mounts" || return 1
