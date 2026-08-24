@@ -1,0 +1,40 @@
+{
+  "capture": {
+    "max_device_gpu_util_pct": 87,
+    "max_process_mem_util_pct": 39,
+    "max_process_sm_util_pct": 86,
+    "pids": [
+      2320
+    ],
+    "process_api_return_codes": [
+      0,
+      6
+    ],
+    "process_sample_rows": 351,
+    "process_samples_overlapping_request": 24,
+    "rows": 3233,
+    "rows_overlapping_request": 214
+  },
+  "host": {
+    "boot_id": "741f21cd-b530-4306-b4ee-a01e70fb33c0",
+    "boot_id_source": "/proc/sys/kernel/random/boot_id",
+    "clock_id": "CLOCK_MONOTONIC_RAW",
+    "clock_resolution_ns": 1,
+    "clock_source": "time.clock_gettime_ns",
+    "hostname": "instance-20260822-182111",
+    "platform": "Linux"
+  },
+  "interpretation": "Process-level NVML was available and identified the vLLM worker PID. Host capture timestamps use CLOCK_MONOTONIC_RAW and overlap the long direct request. This is utilization evidence, not kernel-time attribution; NCU remains blocked by ERR_NVGPUCTRPERM.",
+  "request": {
+    "completion_tokens": 758,
+    "duration_ms": 4764.326912,
+    "end_mono_ns": 11057304185918,
+    "path": "/v1/chat/completions",
+    "prompt_tokens": 52,
+    "request_id": "request-bc77b38a3251485c99890d4b48e5e2c7",
+    "start_mono_ns": 11052539859006,
+    "status_code": 200
+  },
+  "schema_version": "eic.h100.process-attribution.v1",
+  "source_artifact": "process_nvml_long.jsonl"
+}\n

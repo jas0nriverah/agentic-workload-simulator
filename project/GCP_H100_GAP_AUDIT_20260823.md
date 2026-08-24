@@ -87,3 +87,36 @@ named gap-closing GPU operation if it can obtain evidence not already present;
 do not launch more hyperparameter conditions merely to consume GPU time. Keep
 the VM and vLLM service available while useful authorized work remains, and do
 not infer completion from this audit alone.
+
+## Follow-up measurement: request-profile C (2026-08-23)
+
+A pinned Astropy Lite trajectory completed with agent_rc=0 and evaluator_rc=0. Direct NVML sampling at 20 ms and proxy boundaries shared host, boot identity, and CLOCK_MONOTONIC_RAW. The compact manifest retains 31 aligned request boundaries from the sampler window and reports 33.051809 aggregate utilization-overlap GPU-active seconds. This is a bounded aggregate estimate only; it is not kernel attribution or profiler-derived device time, so simulator fitting/holdout error remains prohibited. The official generated patch was unresolved.
+
+## Follow-up measurement: request-profile D (2026-08-23)
+
+A second pinned Astropy Lite trajectory was captured with approximately 5 ms direct NVML sampling. Thirty-one proxy boundaries aligned on the same host, boot, and CLOCK_MONOTONIC_RAW; the compact manifest reports 27.545960 aggregate utilization-overlap GPU-active seconds. This higher-resolution aggregate estimate strengthens the CPU/model/GPU timing case study but does not provide kernel attribution or profiler-derived gpu_seconds_at_reference. The official generated patch was unresolved.
+
+## Follow-up measurement: request-profile E (2026-08-23)
+
+A third pinned Astropy Lite trajectory was run while direct NVML and vLLM metric samplers recorded on CLOCK_MONOTONIC_RAW. Thirty-one proxy boundaries aligned within the sampler window. The compact E manifest records aggregate utilization overlap (25.060305 GPU-active seconds), request/token metadata, cumulative vLLM server-metric deltas, trajectory hash, and evaluator-report hash. The official generated patch was unresolved. This strengthens the CPU/model/GPU timing case study but does not establish exact per-request GPU attribution or simulator gpu_seconds_at_reference. NCU remains blocked by ERR_NVGPUCTRPERM.
+
+## 2026-08-23E reassessment
+
+Calibration gap: CLOSED for serving-latency anchors. The live pinned vLLM/H100 run measured three input-length points (128, 512, 2048; 16 prompts each; output 64; concurrency 1) and persisted compact JSON/Markdown evidence.
+
+Remaining GPU-dependent gaps: exact per-request GPU attribution; kernel-level NCU profiling (container permission blocker); simulator fit and sealed holdout error requiring defensible gpu_seconds_at_reference; any additional repository/category run only if a final plot still lacks required coverage.
+
+## 2026-08-23 G reassessment
+- Request-level CPU/model timing: **CLOSED for serialized aggregate evidence**. The G profile has 31 one-to-one proxy boundaries aligned to vLLM metric intervals and 5 ms NVML samples on one host/boot/`CLOCK_MONOTONIC_RAW` clock, with request/token metadata and hashes.
+- CPU/GPU profiling: **PARTIAL**. The existing strace CPU/tool profile and NVML-overlap profiles are retained. Exact kernel/device attribution is **BLOCKED**: NCU reports `ERR_NVGPUCTRPERM`, and the vLLM server runs in a container namespace that the host Nsight wrapper cannot cross. Do not fabricate kernel timings.
+- vLLM calibration: **CLOSED for serving-latency anchors** by the E calibration (128/512/2048 input tokens; 16 prompts each; output 64; concurrency 1).
+- Simulator fit/holdout error: **BLOCKED** until a defensible measured `gpu_seconds_at_reference` exists. NVML utilization overlap remains a proxy and is not suitable for fitting that target.
+- Workload diversity: existing pinned Lite/Verified manifests and diverse production artifacts are sufficient for current coverage; no additional generic sweep is justified without a named missing plot/requirement.
+- Next highest-value H100 work is therefore limited to a permission-safe profiling/calibration attempt only if it can add exact attribution; otherwise preserve the G evidence and defer simulator fitting/plots/report synthesis offline. Keep the VM/services live under the unattended execution policy.
+\n\n## Updated process-attribution evidence\n\nA permission-safe process-level NVML probe is now measured. During request request-bc77b38a3251485c99890d4b48e5e2c7, 24 process samples overlapped the 4.764 s direct generation and identified vLLM worker PID 2320 (worker SM peak 86%, memory peak 39%; device utilization peak 87%). This is sampled utilization evidence and must not be presented as kernel-time attribution. The exact kernel/device timing gap remains blocked by ERR_NVGPUCTRPERM; simulator fit/holdout remains blocked without defensible GPU seconds.\n
+
+## 2026-08-23 F2 process/request overlap (measured)
+
+A repaired pinned Astropy Lite trajectory was run with the direct process-NVML sampler corrected to export its output path. The run completed with agent_rc=0 and produced 3,456 process-NVML rows spanning 2026-08-23 23:48:31Z–23:49:48Z. All 31 proxy request boundaries from request-profile-20260823b overlap the sampler window on the same host, boot ID, and CLOCK_MONOTONIC_RAW clock; all 31 include samples for the vLLM worker PID 2320. The overlap window contains 59,739.423 ms of model-request duration and 525,380 total tokens. Worker-PID sampled utilization reached 92% SM and 47% memory (mean worker SM 65.184% across 385 worker samples); device utilization reached 100%.
+
+This is stronger request-level process-overlap evidence for the CPU/model/GPU case study, but it remains sampled NVML utilization rather than exact kernel/device time. NCU remains blocked by ERR_NVGPUCTRPERM, so simulator fitting and sealed holdout error claims remain deferred.

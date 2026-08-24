@@ -1,0 +1,574 @@
+{
+  "claims": {
+    "container_kernel_trace": "not_available_from_host_wrapper",
+    "per_request_gpu_time_seconds": "unavailable",
+    "per_request_gpu_utilization": "bounded_utc_overlap_only",
+    "request_boundary_timing": "measured",
+    "simulator_fit": "not_run_without_gpu_seconds"
+  },
+  "clock": {
+    "cross_clock_alignment": "derived from utc_recorded minus duration_ms; bounded sample overlap only",
+    "event_boot_id": "741f21cd-b530-4306-b4ee-a01e70fb33c0",
+    "event_clock_id": "CLOCK_MONOTONIC_RAW",
+    "gpu_sampler_clock": "UTC wall-clock dmon"
+  },
+  "gpu": "NVIDIA H100 80GB HBM3",
+  "gpu_sampler_summary": {
+    "max_power_w": 666.0,
+    "max_sm_util_pct": 100.0,
+    "sample_count": 1413,
+    "utc_end": "2026-08-23T20:55:11Z",
+    "utc_start": "2026-08-23T20:31:28Z"
+  },
+  "host": "instance-20260822-182111",
+  "per_request_bounded_gpu_overlap": [
+    {
+      "completion_tokens": 64,
+      "duration_ms": 1166.384832,
+      "overlap": {
+        "end_utc": "2026-08-23T20:38:44.855000Z",
+        "max_power_w": 196.0,
+        "max_sm_util_pct": 65.0,
+        "mean_sm_util_pct": 65.0,
+        "sample_count": 1,
+        "start_utc": "2026-08-23T20:38:43.688615Z"
+      },
+      "prompt_tokens": 905,
+      "request_id": "request-0b7b40296ae84ea2a4c142455946f572",
+      "status_code": 200
+    },
+    {
+      "completion_tokens": 111,
+      "duration_ms": 696.539457,
+      "overlap": {
+        "end_utc": "2026-08-23T20:38:47.579000Z",
+        "max_power_w": 216.0,
+        "max_sm_util_pct": 0.0,
+        "mean_sm_util_pct": 0.0,
+        "sample_count": 1,
+        "start_utc": "2026-08-23T20:38:46.882461Z"
+      },
+      "prompt_tokens": 905,
+      "request_id": "request-81f199299daa44e782bf46f19bc3e0ad",
+      "status_code": 200
+    },
+    {
+      "completion_tokens": 64,
+      "duration_ms": 608.504347,
+      "overlap": {
+        "end_utc": "2026-08-23T20:38:50.216000Z",
+        "max_power_w": 247.0,
+        "max_sm_util_pct": 89.0,
+        "mean_sm_util_pct": 89.0,
+        "sample_count": 1,
+        "start_utc": "2026-08-23T20:38:49.607496Z"
+      },
+      "prompt_tokens": 7177,
+      "request_id": "request-fa98c903ab824304aaedeb41c564b0da",
+      "status_code": 200
+    },
+    {
+      "completion_tokens": 102,
+      "duration_ms": 684.269207,
+      "overlap": {
+        "end_utc": "2026-08-23T20:38:52.928000Z",
+        "max_power_w": null,
+        "max_sm_util_pct": null,
+        "mean_sm_util_pct": null,
+        "sample_count": 0,
+        "start_utc": "2026-08-23T20:38:52.243731Z"
+      },
+      "prompt_tokens": 7177,
+      "request_id": "request-8642345d01534ec7bd934ff44667061e",
+      "status_code": 200
+    },
+    {
+      "completion_tokens": 64,
+      "duration_ms": 1515.729427,
+      "overlap": {
+        "end_utc": "2026-08-23T20:38:56.473000Z",
+        "max_power_w": 666.0,
+        "max_sm_util_pct": 100.0,
+        "mean_sm_util_pct": 50.0,
+        "sample_count": 2,
+        "start_utc": "2026-08-23T20:38:54.957271Z"
+      },
+      "prompt_tokens": 28681,
+      "request_id": "request-5d2dfbbd8068447387edd070dc71c2fe",
+      "status_code": 200
+    },
+    {
+      "completion_tokens": 72,
+      "duration_ms": 600.196456,
+      "overlap": {
+        "end_utc": "2026-08-23T20:38:59.102000Z",
+        "max_power_w": 219.0,
+        "max_sm_util_pct": 86.0,
+        "mean_sm_util_pct": 86.0,
+        "sample_count": 1,
+        "start_utc": "2026-08-23T20:38:58.501804Z"
+      },
+      "prompt_tokens": 28681,
+      "request_id": "request-3904c4278395491fbd1f92c4293742eb",
+      "status_code": 200
+    },
+    {
+      "completion_tokens": 76,
+      "duration_ms": 542.93936,
+      "overlap": {
+        "end_utc": "2026-08-23T20:42:44.236000Z",
+        "max_power_w": 236.0,
+        "max_sm_util_pct": 86.0,
+        "mean_sm_util_pct": 86.0,
+        "sample_count": 1,
+        "start_utc": "2026-08-23T20:42:43.693061Z"
+      },
+      "prompt_tokens": 1621,
+      "request_id": "request-e76e8d47a1c449ae9be56d36bf846123",
+      "status_code": 200
+    },
+    {
+      "completion_tokens": 51,
+      "duration_ms": 381.736484,
+      "overlap": {
+        "end_utc": "2026-08-23T20:42:44.961000Z",
+        "max_power_w": null,
+        "max_sm_util_pct": null,
+        "mean_sm_util_pct": null,
+        "sample_count": 0,
+        "start_utc": "2026-08-23T20:42:44.579264Z"
+      },
+      "prompt_tokens": 2774,
+      "request_id": "request-4ac714f95d7b40a7986f0c198e561267",
+      "status_code": 200
+    },
+    {
+      "completion_tokens": 365,
+      "duration_ms": 2334.924898,
+      "overlap": {
+        "end_utc": "2026-08-23T20:42:47.604000Z",
+        "max_power_w": 284.0,
+        "max_sm_util_pct": 85.0,
+        "mean_sm_util_pct": 42.5,
+        "sample_count": 2,
+        "start_utc": "2026-08-23T20:42:45.269075Z"
+      },
+      "prompt_tokens": 3580,
+      "request_id": "request-0c133a76b31440e1909d6f5d04bde16a",
+      "status_code": 200
+    },
+    {
+      "completion_tokens": 55,
+      "duration_ms": 510.548609,
+      "overlap": {
+        "end_utc": "2026-08-23T20:42:48.438000Z",
+        "max_power_w": 272.0,
+        "max_sm_util_pct": 38.0,
+        "mean_sm_util_pct": 38.0,
+        "sample_count": 1,
+        "start_utc": "2026-08-23T20:42:47.927451Z"
+      },
+      "prompt_tokens": 7954,
+      "request_id": "request-65b92528f09a41849d8cf35ef4b87ef8",
+      "status_code": 200
+    },
+    {
+      "completion_tokens": 60,
+      "duration_ms": 420.848686,
+      "overlap": {
+        "end_utc": "2026-08-23T20:42:49.130000Z",
+        "max_power_w": 250.0,
+        "max_sm_util_pct": 85.0,
+        "mean_sm_util_pct": 85.0,
+        "sample_count": 1,
+        "start_utc": "2026-08-23T20:42:48.709151Z"
+      },
+      "prompt_tokens": 8036,
+      "request_id": "request-be4368fb58134f6b856b5c3e6902070b",
+      "status_code": 200
+    },
+    {
+      "completion_tokens": 65,
+      "duration_ms": 501.018824,
+      "overlap": {
+        "end_utc": "2026-08-23T20:42:49.942000Z",
+        "max_power_w": null,
+        "max_sm_util_pct": null,
+        "mean_sm_util_pct": null,
+        "sample_count": 0,
+        "start_utc": "2026-08-23T20:42:49.440981Z"
+      },
+      "prompt_tokens": 9059,
+      "request_id": "request-d92fc53e05724fb3adc39da731aa3714",
+      "status_code": 200
+    },
+    {
+      "completion_tokens": 58,
+      "duration_ms": 413.799725,
+      "overlap": {
+        "end_utc": "2026-08-23T20:42:50.623000Z",
+        "max_power_w": null,
+        "max_sm_util_pct": null,
+        "mean_sm_util_pct": null,
+        "sample_count": 0,
+        "start_utc": "2026-08-23T20:42:50.209200Z"
+      },
+      "prompt_tokens": 9156,
+      "request_id": "request-9884c9e9946f4986900b63f8632f65d6",
+      "status_code": 200
+    },
+    {
+      "completion_tokens": 62,
+      "duration_ms": 460.750794,
+      "overlap": {
+        "end_utc": "2026-08-23T20:42:51.392000Z",
+        "max_power_w": 272.0,
+        "max_sm_util_pct": 24.0,
+        "mean_sm_util_pct": 24.0,
+        "sample_count": 1,
+        "start_utc": "2026-08-23T20:42:50.931249Z"
+      },
+      "prompt_tokens": 9485,
+      "request_id": "request-9589dd7355a240c99742cd952f75f444",
+      "status_code": 200
+    },
+    {
+      "completion_tokens": 60,
+      "duration_ms": 527.165257,
+      "overlap": {
+        "end_utc": "2026-08-23T20:42:52.236000Z",
+        "max_power_w": 227.0,
+        "max_sm_util_pct": 86.0,
+        "mean_sm_util_pct": 86.0,
+        "sample_count": 1,
+        "start_utc": "2026-08-23T20:42:51.708835Z"
+      },
+      "prompt_tokens": 11729,
+      "request_id": "request-c1d2d84c88284ee2a0c06d42ee18aef9",
+      "status_code": 200
+    },
+    {
+      "completion_tokens": 39,
+      "duration_ms": 301.38105,
+      "overlap": {
+        "end_utc": "2026-08-23T20:42:52.810000Z",
+        "max_power_w": null,
+        "max_sm_util_pct": null,
+        "mean_sm_util_pct": null,
+        "sample_count": 0,
+        "start_utc": "2026-08-23T20:42:52.508619Z"
+      },
+      "prompt_tokens": 11813,
+      "request_id": "request-79890a6419574f479f972ef70f01c00c",
+      "status_code": 200
+    },
+    {
+      "completion_tokens": 63,
+      "duration_ms": 461.51019,
+      "overlap": {
+        "end_utc": "2026-08-23T20:42:53.545000Z",
+        "max_power_w": null,
+        "max_sm_util_pct": null,
+        "mean_sm_util_pct": null,
+        "sample_count": 0,
+        "start_utc": "2026-08-23T20:42:53.083490Z"
+      },
+      "prompt_tokens": 11876,
+      "request_id": "request-fc7315eaf0f543c5a47f606336b47512",
+      "status_code": 200
+    },
+    {
+      "completion_tokens": 52,
+      "duration_ms": 386.008535,
+      "overlap": {
+        "end_utc": "2026-08-23T20:42:54.206000Z",
+        "max_power_w": 242.0,
+        "max_sm_util_pct": 86.0,
+        "mean_sm_util_pct": 86.0,
+        "sample_count": 1,
+        "start_utc": "2026-08-23T20:42:53.819991Z"
+      },
+      "prompt_tokens": 11963,
+      "request_id": "request-de23b4a77df6414cb23a400976b2eeb2",
+      "status_code": 200
+    },
+    {
+      "completion_tokens": 39,
+      "duration_ms": 347.391529,
+      "overlap": {
+        "end_utc": "2026-08-23T20:42:54.832000Z",
+        "max_power_w": null,
+        "max_sm_util_pct": null,
+        "mean_sm_util_pct": null,
+        "sample_count": 0,
+        "start_utc": "2026-08-23T20:42:54.484608Z"
+      },
+      "prompt_tokens": 12656,
+      "request_id": "request-edcd4a1f23ea4bedb35868f495958aee",
+      "status_code": 200
+    },
+    {
+      "completion_tokens": 948,
+      "duration_ms": 6284.293712,
+      "overlap": {
+        "end_utc": "2026-08-23T20:43:01.395000Z",
+        "max_power_w": 307.0,
+        "max_sm_util_pct": 86.0,
+        "mean_sm_util_pct": 74.33333333333333,
+        "sample_count": 6,
+        "start_utc": "2026-08-23T20:42:55.110706Z"
+      },
+      "prompt_tokens": 12764,
+      "request_id": "request-a9734f0ba8b94feea597fecf9af86e87",
+      "status_code": 200
+    },
+    {
+      "completion_tokens": 30,
+      "duration_ms": 247.0545,
+      "overlap": {
+        "end_utc": "2026-08-23T20:43:01.972000Z",
+        "max_power_w": null,
+        "max_sm_util_pct": null,
+        "mean_sm_util_pct": null,
+        "sample_count": 0,
+        "start_utc": "2026-08-23T20:43:01.724946Z"
+      },
+      "prompt_tokens": 13743,
+      "request_id": "request-182e523e0a394f16af8b0e545ab904f7",
+      "status_code": 200
+    },
+    {
+      "completion_tokens": 915,
+      "duration_ms": 6143.309672,
+      "overlap": {
+        "end_utc": "2026-08-23T20:43:09.272000Z",
+        "max_power_w": 312.0,
+        "max_sm_util_pct": 86.0,
+        "mean_sm_util_pct": 86.0,
+        "sample_count": 6,
+        "start_utc": "2026-08-23T20:43:03.128690Z"
+      },
+      "prompt_tokens": 14054,
+      "request_id": "request-de6195ab47c5421ba6f320bc5fa9bdaa",
+      "status_code": 200
+    },
+    {
+      "completion_tokens": 30,
+      "duration_ms": 250.522158,
+      "overlap": {
+        "end_utc": "2026-08-23T20:43:09.858000Z",
+        "max_power_w": null,
+        "max_sm_util_pct": null,
+        "mean_sm_util_pct": null,
+        "sample_count": 0,
+        "start_utc": "2026-08-23T20:43:09.607478Z"
+      },
+      "prompt_tokens": 14999,
+      "request_id": "request-7db7edfe8ada470eab102e477493df61",
+      "status_code": 200
+    },
+    {
+      "completion_tokens": 1336,
+      "duration_ms": 9138.561482,
+      "overlap": {
+        "end_utc": "2026-08-23T20:43:19.719000Z",
+        "max_power_w": 314.0,
+        "max_sm_util_pct": 86.0,
+        "mean_sm_util_pct": 85.88888888888889,
+        "sample_count": 9,
+        "start_utc": "2026-08-23T20:43:10.580439Z"
+      },
+      "prompt_tokens": 16141,
+      "request_id": "request-45bb9b5abb37412b83aad50df9a39ee3",
+      "status_code": 200
+    },
+    {
+      "completion_tokens": 31,
+      "duration_ms": 263.811137,
+      "overlap": {
+        "end_utc": "2026-08-23T20:43:20.330000Z",
+        "max_power_w": null,
+        "max_sm_util_pct": null,
+        "mean_sm_util_pct": null,
+        "sample_count": 0,
+        "start_utc": "2026-08-23T20:43:20.066189Z"
+      },
+      "prompt_tokens": 17508,
+      "request_id": "request-b82352937b5f4768a6a6a4b6a4acf975",
+      "status_code": 200
+    },
+    {
+      "completion_tokens": 735,
+      "duration_ms": 5140.450439,
+      "overlap": {
+        "end_utc": "2026-08-23T20:43:26.197000Z",
+        "max_power_w": 351.0,
+        "max_sm_util_pct": 87.0,
+        "mean_sm_util_pct": 86.2,
+        "sample_count": 5,
+        "start_utc": "2026-08-23T20:43:21.056550Z"
+      },
+      "prompt_tokens": 18906,
+      "request_id": "request-48645b9892324ed1a35c1f0e33ffbc58",
+      "status_code": 200
+    },
+    {
+      "completion_tokens": 571,
+      "duration_ms": 3994.149885,
+      "overlap": {
+        "end_utc": "2026-08-23T20:43:30.525000Z",
+        "max_power_w": 321.0,
+        "max_sm_util_pct": 87.0,
+        "mean_sm_util_pct": 86.25,
+        "sample_count": 4,
+        "start_utc": "2026-08-23T20:43:26.530850Z"
+      },
+      "prompt_tokens": 20058,
+      "request_id": "request-ee56fbeb95af4f9cb5d64b2dea7fd5bf",
+      "status_code": 200
+    },
+    {
+      "completion_tokens": 1054,
+      "duration_ms": 7355.147781,
+      "overlap": {
+        "end_utc": "2026-08-23T20:43:38.215000Z",
+        "max_power_w": 325.0,
+        "max_sm_util_pct": 87.0,
+        "mean_sm_util_pct": 83.25,
+        "sample_count": 8,
+        "start_utc": "2026-08-23T20:43:30.859852Z"
+      },
+      "prompt_tokens": 20950,
+      "request_id": "request-0b43777308894555b78521274e6a7444",
+      "status_code": 200
+    },
+    {
+      "completion_tokens": 30,
+      "duration_ms": 272.128013,
+      "overlap": {
+        "end_utc": "2026-08-23T20:43:38.836000Z",
+        "max_power_w": null,
+        "max_sm_util_pct": null,
+        "mean_sm_util_pct": null,
+        "sample_count": 0,
+        "start_utc": "2026-08-23T20:43:38.563872Z"
+      },
+      "prompt_tokens": 22035,
+      "request_id": "request-607e18529b5a4b8f9bf242b0264ae144",
+      "status_code": 200
+    },
+    {
+      "completion_tokens": 2048,
+      "duration_ms": 14374.839963,
+      "overlap": {
+        "end_utc": "2026-08-23T20:43:53.942000Z",
+        "max_power_w": 330.0,
+        "max_sm_util_pct": 86.0,
+        "mean_sm_util_pct": 85.92857142857143,
+        "sample_count": 14,
+        "start_utc": "2026-08-23T20:43:39.567160Z"
+      },
+      "prompt_tokens": 22551,
+      "request_id": "request-1e3d0ad9f5714102aff090d8b33ad376",
+      "status_code": 200
+    },
+    {
+      "completion_tokens": 992,
+      "duration_ms": 7060.679139,
+      "overlap": {
+        "end_utc": "2026-08-23T20:44:01.477000Z",
+        "max_power_w": 330.0,
+        "max_sm_util_pct": 87.0,
+        "mean_sm_util_pct": 86.14285714285714,
+        "sample_count": 7,
+        "start_utc": "2026-08-23T20:43:54.416321Z"
+      },
+      "prompt_tokens": 24639,
+      "request_id": "request-9af2e2837903446dab812e0984c7f3ba",
+      "status_code": 200
+    },
+    {
+      "completion_tokens": 31,
+      "duration_ms": 370.038124,
+      "overlap": {
+        "end_utc": "2026-08-23T20:44:02.211000Z",
+        "max_power_w": 229.0,
+        "max_sm_util_pct": 0.0,
+        "mean_sm_util_pct": 0.0,
+        "sample_count": 1,
+        "start_utc": "2026-08-23T20:44:01.840962Z"
+      },
+      "prompt_tokens": 26760,
+      "request_id": "request-4e5597626f9049bdab9bf97906e77bf3",
+      "status_code": 200
+    },
+    {
+      "completion_tokens": 1649,
+      "duration_ms": 11955.958353,
+      "overlap": {
+        "end_utc": "2026-08-23T20:44:14.899000Z",
+        "max_power_w": 338.0,
+        "max_sm_util_pct": 86.0,
+        "mean_sm_util_pct": 86.0,
+        "sample_count": 12,
+        "start_utc": "2026-08-23T20:44:02.943042Z"
+      },
+      "prompt_tokens": 27693,
+      "request_id": "request-45d9defaa7574e73b108b988dbf44616",
+      "status_code": 200
+    },
+    {
+      "completion_tokens": 853,
+      "duration_ms": 6310.738245,
+      "overlap": {
+        "end_utc": "2026-08-23T20:44:21.582000Z",
+        "max_power_w": 341.0,
+        "max_sm_util_pct": 87.0,
+        "mean_sm_util_pct": 86.16666666666667,
+        "sample_count": 6,
+        "start_utc": "2026-08-23T20:44:15.271262Z"
+      },
+      "prompt_tokens": 30014,
+      "request_id": "request-f7628b896f3640728e451e274f5b62e3",
+      "status_code": 200
+    },
+    {
+      "completion_tokens": null,
+      "duration_ms": 60.9118,
+      "overlap": {
+        "end_utc": "2026-08-23T20:44:22.009000Z",
+        "max_power_w": 131.0,
+        "max_sm_util_pct": 0.0,
+        "mean_sm_util_pct": 0.0,
+        "sample_count": 1,
+        "start_utc": "2026-08-23T20:44:21.948088Z"
+      },
+      "prompt_tokens": null,
+      "request_id": "request-a72e370f8da04b53884699e7beaae631",
+      "status_code": 400
+    }
+  ],
+  "platform": "Linux x86-64",
+  "provenance": "measured on pinned GCP H100 runtime; no aggregate metric converted into per-request device time",
+  "request_summary": {
+    "completion_tokens_total": 12775,
+    "duration_seconds": {
+      "max": 14.374839963000001,
+      "median": 0.54293936,
+      "min": 0.0609118,
+      "total": 92.08424207
+    },
+    "event_count": 35,
+    "http_200_count": 34,
+    "http_error_count": 1,
+    "prompt_tokens_total": 488043
+  },
+  "schema_version": "observability.gcp-h100-request-profile.v2",
+  "source_artifacts": {
+    "gpu_dmon": "/home/jasonrivera691/eic-work/artifacts/observability/request-profile-20260823b/gpu.dmon",
+    "gpu_dmon_sha256": "e5ae0bcc3989149e2a2eaa0cfc4c550b9d6d733dcab91afe67bea154c1da5c99",
+    "request_events_jsonl": "/home/jasonrivera691/eic-work/artifacts/observability/request-profile-20260823b/request_events.jsonl",
+    "request_events_sha256": "091fda94a8fd81c77f3935ce00270efe22b58b87e1a29e2204f5dd3c1d006c94"
+  },
+  "status": "measured"
+}

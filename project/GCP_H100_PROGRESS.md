@@ -211,3 +211,42 @@ per-request GPU time is inferred.
 An isolated in-container Torch matmul probe recorded CUDA-event execution time while a host sampler captured 50 ms `nvidia-smi` utilization samples on the same `CLOCK_MONOTONIC_RAW` clock. Three sizes completed successfully (1024×20, 2048×10, 4096×5; CUDA-event durations 1.009 ms, 0.474 ms, and 0.916 ms). The aggregate sampler observed zero or near-zero overlap because each kernel completed between samples. This is boundary evidence about sampler resolution, not a valid per-request vLLM GPU-seconds calibration; raw provenance is preserved in `GCP_H100_GPU_UTIL_CUDA_EVENT_CALIBRATION_20260823.json`.
 
 These are real generated-patch evaluations on the pinned GCP H100 runtime. Resolved-rate claims are limited to the listed batches and are not extrapolated to the assignment target. Profiling, simulator fitting, and report synthesis must use the raw artifacts and preserve incomplete/unresolved outcomes. The remaining high-value work is, in order: request-level CPU/model/GPU timing evidence, profiling for the CPU/GPU case study, vLLM calibration for the simulator, held-out simulator validation/error, repository/category diversity for final plots, and only then any sweep condition shown to be required by the assignment.
+
+## 2026-08-23 C — aligned request/NVML profile
+
+- Completed one pinned Lite trajectory: astropy__astropy-12907 (gcp-request-profile3, nvml-01); agent and official evaluator exited 0, with the generated patch officially unresolved.
+- Captured 16,819 direct NVML samples at 20 ms cadence using CLOCK_MONOTONIC_RAW on the same host/boot as the proxy. The proxy file contained 67 boundaries; 31 fell inside this sampler window and were retained as the aligned subset.
+- Compact evidence: project/GCP_H100_REQUEST_PROFILE_20260823C.json and .md. The aligned subset covers 31 requests, 46,025.916 ms request duration, 427,737 tokens, and an aggregate 33.051809 GPU-active-second estimate from utilization integration.
+- This is aggregate NVML utilization overlap, not exact per-request kernel/device time. It improves timing evidence but does not close the profiler-derived gpu_seconds_at_reference requirement or justify simulator fitting.
+
+## 2026-08-23 D — 5 ms aligned request/NVML profile
+
+- Completed a second pinned Lite trajectory with the same Astropy instance and unchanged model/agent settings; agent_rc=0 and evaluator_rc=0, official generated patch unresolved.
+- Captured 49,299 direct NVML samples at approximately 5 ms target cadence. The proxy file contained 99 boundaries across prior and current runs; 31 fell inside this sampler window.
+- Compact evidence: project/GCP_H100_REQUEST_PROFILE_20260823D.json and .md. The aligned subset covers 31 requests, 39,933.499 ms request duration, 425,826 tokens, and an aggregate 27.545960 GPU-active-second estimate from utilization integration.
+- This improves temporal resolution for the aggregate CPU/model/GPU case study but remains an NVML utilization estimate, not exact per-request kernel/device time; simulator fit/holdout remains blocked by the existing contract.
+
+## Request profile E (2026-08-23)
+
+- Completed pinned Astropy Lite run gcp-request-profile5 / nvml-10 with unchanged Qwen/vLLM/SWE-agent settings; agent_rc=0 and evaluator_rc=0.
+- Official evaluator completed with resolved=0 (unresolved outcome retained).
+- Captured 81,113 direct NVML samples at approximately 5 ms target cadence and 3,940 vLLM metric snapshots at 100 ms cadence.
+- Aligned 31 proxy request boundaries on the same host, boot identity, and CLOCK_MONOTONIC_RAW. Aggregate NVML utilization-overlap estimate: 25.060305 GPU-active seconds across 423,806 proxy tokens; this is an aggregate utilization estimate only.
+- Aggregate vLLM deltas: 418,748 prompt tokens, 5,058 generation tokens, 31 successful requests, 34.471246 s E2E histogram sum, 34.406256 s inference sum, 0.858443 s TTFT sum.
+- Compact artifacts: project/GCP_H100_REQUEST_PROFILE_20260823E.json and .md.
+- Limitation remains: no exact per-request GPU/kernel attribution; do not use this aggregate estimate as simulator gpu_seconds_at_reference.
+
+## 2026-08-23E calibration checkpoint
+
+- Completed pinned vLLM serving calibration on the live H100 at input lengths 128, 512, and 2048 tokens; 16 prompts per condition, output length 64, concurrency 1.
+- Compact evidence: project/GCP_H100_VLLM_CALIBRATION_20260823E.json and .md.
+- Measured median TTFT: 24.84 / 33.80 / 62.84 ms; median TPOT: 6.33 / 5.94 / 6.03 ms; output throughput: 151.68 / 157.84 / 145.19 tok/s (128 / 512 / 2048 input).
+- This is service calibration only. No GPU-time claim, fit, or holdout error was fabricated; aggregate NVML remains insufficient for gpu_seconds_at_reference.
+
+## 2026-08-23 G — request-level profile with 5 ms NVML + vLLM metrics
+- Completed one pinned uninstrumented Lite SWE-agent trajectory for `astropy__astropy-12907` through the local request proxy; agent and official evaluator both exited 0. The generated patch was officially unresolved and is retained as an outcome.
+- Captured 31 serialized request boundaries, 2,186 vLLM metric snapshots, and 45,108 direct NVML samples. All aligned records share the same host, boot identity, and `CLOCK_MONOTONIC_RAW` clock.
+- Compact evidence: `project/GCP_H100_REQUEST_PROFILE_20260823G.json` and `.md`. Aggregate proxy duration was 58.788029 s over 432,289 prompt and 8,388 completion tokens. vLLM cumulative deltas were 57.900302 s E2E, 57.835214 s inference, 0.002357 s queue, 0.903220 s TTFT, and 57.004277 s TPOT. NVML utilization-overlap estimate was 44.192767 active seconds.
+- The NVML value is explicitly a utilization-integral proxy, not exact per-request device time or kernel attribution. It must not be used as `gpu_seconds_at_reference` for simulator fitting.
+- This closes the serialized request-boundary/timing evidence gap and strengthens the CPU/model/GPU case study. Exact per-request GPU attribution and NCU hardware-counter profiling remain blocked by the container/permission boundary.
+\n\n## Process-level NVML attribution probe\n\nA dedicated long direct completion (not a SWE-bench trajectory and not a sweep) produced a 4.764 s request with 52 prompt and 758 completion tokens. Process-level NVML returned 24 samples overlapping the request for the vLLM worker PID 2320; worker SM utilization peaked at 86%, worker memory utilization at 39%, and device utilization at 87%. Host/request/probe records share CLOCK_MONOTONIC_RAW and the same boot identity. This closes the availability/overlap capability gap but not kernel-time attribution; Nsight Compute remains blocked by ERR_NVGPUCTRPERM. Raw NVML JSONL remains outside Git.\n
