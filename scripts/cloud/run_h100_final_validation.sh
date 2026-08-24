@@ -12,6 +12,9 @@ DRY_RUN=0
 EXECUTE=0
 ALLOW_H100=0
 RESUME=0
+EXPECTED_SERVER_CONTAINER="${H100_EXPECTED_SERVER_CONTAINER:-${H100_NSYS_CONTAINER:-}}"
+EXPECTED_SERVER_SESSION="${H100_NSYS_SESSION:-h100-final-validation}"
+PINNED_VLLM_IMAGE='vllm/vllm-openai:v0.10.0@sha256:05a31dc4185b042e91f4d2183689ac8a87bd845713d5c3f987563c5899878271'
 usage() {
   cat <<'USAGE'
 Usage: run_h100_final_validation.sh [options]
@@ -104,6 +107,9 @@ GIT_COMMIT="$(git -C "$ROOT" rev-parse HEAD 2>/dev/null || true)"
 if [[ "$PHASE" == holdout ]]; then [[ -n "$PREDICTIONS_MANIFEST" && -f "$PREDICTIONS_MANIFEST" ]] || die 'holdout requires --predictions-manifest'; fi
 
 command -v nvidia-smi >/dev/null 2>&1 || die 'nvidia-smi is required'
+if [[ -n "$EXPECTED_SERVER_CONTAINER" ]]; then
+  command -v docker >/dev/null 2>&1 || die 'docker is required when an existing profiled server is supplied'
+fi
 gpu_rows="$(nvidia-smi --query-gpu=name,memory.total,compute_cap --format=csv,noheader,nounits 2>/dev/null || true)"
 [[ -n "$gpu_rows" ]] || die 'could not query GPU identity'
 gpu_count="$(printf '%s\n' "$gpu_rows" | sed '/^[[:space:]]*$/d' | wc -l | tr -d ' ')"
@@ -116,7 +122,28 @@ gpu_compute="$(printf '%s' "$gpu_compute" | sed 's/^ *//;s/ *$//')"
 [[ "$gpu_memory" =~ ^[0-9]+$ && "$gpu_memory" -ge 80000 ]] || die "H100 memory is below 80000 MiB: $gpu_memory"
 [[ "$gpu_compute" == 9.0 || "$gpu_compute" == 9.0* ]] || die "compute capability must be 9.0: $gpu_compute"
 gpu_processes="$(nvidia-smi --query-compute-apps=pid --format=csv,noheader 2>/dev/null | sed '/^[[:space:]]*$/d' || true)"
-[[ -z "$gpu_processes" ]] || die "GPU already has compute processes: $gpu_processes"
+if [[ -n "$gpu_processes" ]]; then
+  [[ -n "$EXPECTED_SERVER_CONTAINER" ]] || die "GPU already has compute processes: $gpu_processes"
+  [[ "$(docker inspect --format '{{.State.Running}}' "$EXPECTED_SERVER_CONTAINER" 2>/dev/null || true)" == true ]] \
+    || die "expected profiled server container is not running: $EXPECTED_SERVER_CONTAINER"
+  server_image="$(docker inspect --format '{{.Config.Image}}' "$EXPECTED_SERVER_CONTAINER" 2>/dev/null || true)"
+  [[ "$server_image" == "$PINNED_VLLM_IMAGE" ]] || die "profiled server image is not the pinned vLLM image: $server_image"
+  server_command="$(docker inspect --format '{{json .Config.Cmd}}' "$EXPECTED_SERVER_CONTAINER" 2>/dev/null || true)"
+  for required_arg in "--session-new=$EXPECTED_SERVER_SESSION" '--trace=cuda,osrt' '--cuda-event-trace=false' '--' 'vllm.entrypoints.openai.api_server' 'b2cff646eb4bb1d68355c01b18ae02e7cf42d120'; do
+    grep -Fq -- "$required_arg" <<< "$server_command" || die "profiled server command is missing: $required_arg"
+  done
+  server_pids="$(docker top "$EXPECTED_SERVER_CONTAINER" -eo pid 2>/dev/null | awk 'NR > 1 {print $1}')"
+  while IFS= read -r gpu_pid; do
+    [[ -n "$gpu_pid" ]] || continue
+    grep -Eq "(^|[[:space:]])${gpu_pid}([[:space:]]|$)" <<< "$server_pids" \
+      || die "GPU process $gpu_pid is outside the expected profiled server container"
+  done <<< "$gpu_processes"
+  docker exec "$EXPECTED_SERVER_CONTAINER" /host-cuda/bin/nsys sessions list 2>/dev/null \
+    | grep -Fq "$EXPECTED_SERVER_SESSION" \
+    || die "expected Nsight session is not registered: $EXPECTED_SERVER_SESSION"
+else
+  [[ -z "$EXPECTED_SERVER_CONTAINER" ]] || die "expected profiled server has no visible GPU process: $EXPECTED_SERVER_CONTAINER"
+fi
 
 if [[ -e "$OUTPUT_DIR" ]]; then
   (( RESUME )) || die "output root exists; pass --resume after inspection: $OUTPUT_DIR"
