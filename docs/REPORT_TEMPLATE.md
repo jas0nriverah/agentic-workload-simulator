@@ -32,10 +32,12 @@ a paired thin-telemetry trajectory that also resolved, Lite and Verified gold
 smokes that resolved, and a two-worker/two-row Lite batch whose workers and
 official evaluators both completed successfully. The service calibration
 record reports measured request/TTFT/TPOT/ITL values but deliberately makes no
-GPU-time claim. The GCP sample is evidence of a working end-to-end pipeline,
-not a six-repository population baseline. Request-level CPU:model-serving
-correlation, simulator holdout error, and the assignment's population claims
-remain `PENDING` until the required event-level data exists.
+GPU-time claim. Later GCP batches expanded coverage to 32 Lite trajectories
+across 11 repositories and 29 Verified trajectories across 12 repositories.
+The final Kineto artifacts add direct CUDA activity timing for one real
+SWE-agent trajectory and a controlled simulator matrix. Population-wide
+CPU:GPU category ratios remain unavailable and must not be inferred from the
+single direct profile.
 
 ## 2. Step 1 — baseline and repository categories
 
@@ -111,13 +113,15 @@ reference validation, not an LLM success, in
 
 ### 2.2 Category ratio plot (Deliverable 2)
 
-`PENDING`: no paired event-level CPU/GPU latency measurements are available
-from the controls, so no category ratio or plot is claimed.
+One Astropy Lite trajectory now has paired request/device measurements in
+`project/GCP_H100_KINETO_TRAJECTORY_20260824.json`. It is sufficient for a
+detailed point/case study, not a repository-category population ratio.
 
 ### 2.3 Three required figures and observations (Deliverables 3–4)
 
-`PENDING`: the three assignment figures require the unavailable paired
-CPU/GPU event table.
+Accuracy and end-to-end latency figures can be derived offline from the sampled
+baseline. Any CPU/GPU category panel must show the one direct Kineto point
+separately from labeled NVML proxies and unavailable population fields.
 
 ## 3. Step 2 — four hyperparameter sweeps
 
@@ -155,9 +159,17 @@ the intended revision.
 Phase-level evidence is available in
 `project/MODAL_LITE_PROFILE_MEASURED.json`: vLLM readiness 225094.37 ms,
 repository preparation 13335.03 ms, and SWE-agent execution 118187.29 ms on
-an H100. Syscall-level file events, per-request GPU token timing, and request
-correlation remain unavailable, so no high-ratio category case study or
-causal vLLM attribution is claimed.
+an H100. For this earlier Modal sample, syscall-level file events, per-request
+GPU token timing, and request correlation were unavailable, so it does not
+support a high-ratio category case study or causal vLLM attribution by itself.
+
+A final frozen Astropy Lite trajectory closes the single-instance direct
+device-timing gap (`project/GCP_H100_KINETO_TRAJECTORY_20260824.json`). Its 31
+serialized model requests contain 11,401,802 kernel records and 56.063686 s of
+overlap-aware Kineto device activity across 235.854532 s of summed request
+wall time. The official evaluator recorded the generated patch as unresolved.
+This is direct CUDA activity timing, not an NVML conversion; it remains one
+repository and does not establish category-population ratios.
 
 The corrected deep profile
 (`project/MODAL_LITE_DEEP_PROFILE_MEASURED.json`) adds 248,249 measured
@@ -183,8 +195,14 @@ The derived comparison figure is
 
 ## 5. Step 4 — hardware-parameterized simulator
 
-`PENDING`: there are no measured event-level calibration/holdout samples yet,
-so the 25% simulator threshold cannot be evaluated honestly.
+The controlled serialized vLLM matrix in
+`project/GCP_H100_KINETO_SIMULATOR_20260824.json` supplies four measured
+calibration rows and two predeclared holdouts with direct Kineto CUDA-activity
+intervals. The unchanged additive simulator reports 0.162826 s mean absolute
+error and 10.715632% mean absolute percentage error at the H100 reference
+score, below the 25% threshold for this narrow matrix. This is an in-matrix
+serving validation, not evidence of broad SWE-agent trajectory generalization;
+historical trajectory device time remains unavailable.
 
 ## 6. Limitations and provenance
 

@@ -1,6 +1,28 @@
 # Codex handoff — current GCP H100 research state
 
-Updated: 2026-08-23 (America/New_York)
+## Acquisition closure update (2026-08-24)
+
+GPU-dependent acquisition is complete. The raw GCP inventory contains 32 Lite
+trajectories across 11 repositories and 29 Verified trajectories across 12
+repositories; two Verified pre-generation failures remain preserved. A final
+permission-safe vLLM Kineto measurement produced direct CUDA activity timing
+for four calibration and two held-out serialized requests. The unchanged
+simulator achieved 10.715632% MAPE on the two-row controlled holdout. See
+`project/GCP_H100_KINETO_SIMULATOR_20260824.json` for hashes, provenance, and
+claim limits. Do not generalize this result to historical SWE-agent
+trajectories or hardware-counter metrics. NCU remains blocked by
+`ERR_NVGPUCTRPERM`. No further generic H100 run is justified; remaining work is
+offline report/figure synthesis. Keep the VM/session running under the
+temporary unattended-execution guard until the user ends it.
+
+One final frozen Astropy Lite trajectory was also captured under Kineto: 31
+serialized model requests, 11,401,802 kernel records, and 56.063686 seconds of
+overlap-aware device activity union. The official patch was unresolved. See
+`project/GCP_H100_KINETO_TRAJECTORY_20260824.json`; this closes the real
+single-instance case-study measurement, not repository-category population
+ratios.
+
+Updated: 2026-08-24 (UTC)  
 Repository: `jas0nriverah/agentic-workload-simulator`  
 Working branch: `parallel-h100-shards`
 Handoff base commit: `141b879` (`Persist H100 process request overlap evidence`)

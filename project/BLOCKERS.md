@@ -25,20 +25,25 @@ H100 setup:
   resolved officially, but its patch included debug/scratch files. Review the
   generated patch and trajectory before treating the one-instance resolution as
   a clean result or changing experimental settings.
-- `REQUEST_LEVEL_GPU_ATTRIBUTION_UNAVAILABLE`: a lossless request-boundary
+- `HISTORICAL_SWE_AGENT_KERNEL_ATTRIBUTION_UNAVAILABLE`: a lossless request-boundary
   profile is now measured in `project/GCP_H100_REQUEST_PROFILE_20260823.json`
   (31 real trajectory requests plus a six-cell synthetic matrix). The
-  remaining limitation is narrower: vLLM metrics are server-aggregate and no
-  per-request GPU time or utilization is assigned. The profile deliberately
-  does not turn aggregate counters into device-time claims.
+  profile still cannot be assigned exact historical device time. A separate
+  controlled serialized vLLM matrix now has direct Kineto CUDA-activity timing
+  in `project/GCP_H100_KINETO_SIMULATOR_20260824.json`; it is not transferred
+  retroactively to SWE-agent trajectories.
   A direct high-resolution follow-up is recorded in
   `project/GCP_H100_CPU_GPU_CASE_STUDY_HIRES_20260823.json`; it improves
   temporal resolution but retains the same non-attribution boundary.
-- `CONTAINER_CUDA_KERNEL_PROFILE_UNAVAILABLE`: host Nsight Systems produces a
-  valid probe artifact, but wrapping `docker exec` does not expose container
-  CUDA kernels to the host trace. Do not call the micro-probe a kernel profile.
-- `SIMULATOR_HOLDOUT_NOT_MEASURED`: the assignment simulator still needs
-  measured event calibration and a held-out error report.
+- `GPU_HARDWARE_COUNTERS_UNAVAILABLE`: host Nsight Systems wrapping
+  `docker exec` did not expose container CUDA kernels and NCU remains blocked
+  by `ERR_NVGPUCTRPERM`. Direct CUDA activity timestamps are now measured by
+  container-native Kineto for one real trajectory, but no SM-seconds or
+  privileged hardware-counter metrics are available.
+- Controlled simulator calibration/holdout is now measured from four Kineto
+  calibration rows and two predeclared holdouts. The measured holdout MAPE is
+  10.7156%, limited to the serialized synthetic serving matrix; broad
+  SWE-agent simulator generalization remains unmeasured.
 
 The GCP VM and vLLM service remain intentionally live under the unattended
 execution override. Do not shut them down while any blocker or assignment
