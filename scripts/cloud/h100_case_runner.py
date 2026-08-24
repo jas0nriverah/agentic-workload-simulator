@@ -4,9 +4,10 @@
 The runner deliberately does not start a server.  It connects to an already
 reviewed vLLM server, uses the locally pinned tokenizer, performs the two
 declared warmups once per case, and then performs exactly one measured request
-for the supplied repeat.  CPU/CUDA/kernel measurements are supplied by an
-already-armed trace provider through ``H100_TRACE_PROVIDER``; this runner never
-turns missing telemetry into a successful row.
+for the supplied repeat.  Production CPU/CUDA/kernel measurements are supplied
+by an explicit arm/collect/abort trace provider through
+``H100_TRACE_PROVIDER``; this runner never turns missing telemetry into a
+successful row.
 
 Production environment:
 
@@ -554,15 +555,16 @@ def _response_artifact(request_dir: Path, body: bytes, suffix: str = "response.j
     return path, _sha_bytes(body)
 
 
-def _invoke_trace_provider(
+def _trace_provider_command(
     protocol: Mapping[str, Any],
     case: Mapping[str, Any],
     args: argparse.Namespace,
     request_dir: Path,
     phase: str,
+    action: str,
     start_ns: int,
     end_ns: int,
-) -> dict[str, Any]:
+) -> list[str]:
     provider = os.environ.get(TRACE_PROVIDER_ENV)
     if not provider or not os.access(provider, os.X_OK):
         raise RunnerError("trace_provider_missing", "H100_TRACE_PROVIDER is not an executable reviewed provider")
@@ -589,8 +591,30 @@ def _invoke_trace_provider(
         "--output-dir",
         str(request_dir.resolve()),
     ]
+    # The fixture provider intentionally retains its original, collect-only
+    # interface and is reachable only from H100_RUNNER_TEST_MODE.  Production
+    # providers must implement the explicit arm/collect/abort protocol.
+    if not _test_mode():
+        command.insert(command.index("--start-mono-ns"), "--action")
+        command.insert(command.index("--action") + 1, action)
+    return command
+
+
+def _run_trace_provider_action(
+    protocol: Mapping[str, Any],
+    case: Mapping[str, Any],
+    args: argparse.Namespace,
+    request_dir: Path,
+    phase: str,
+    action: str,
+    start_ns: int,
+    end_ns: int,
+) -> subprocess.CompletedProcess[str]:
+    command = _trace_provider_command(
+        protocol, case, args, request_dir, phase, action, start_ns, end_ns
+    )
     try:
-        completed = subprocess.run(
+        return subprocess.run(
             command,
             check=False,
             capture_output=True,
@@ -599,6 +623,65 @@ def _invoke_trace_provider(
         )
     except (OSError, subprocess.SubprocessError) as exc:
         raise RunnerError("trace_provider_failed", "trace provider could not be invoked") from exc
+
+
+def _arm_trace_provider(
+    protocol: Mapping[str, Any],
+    case: Mapping[str, Any],
+    args: argparse.Namespace,
+    request_dir: Path,
+    phase: str,
+) -> None:
+    """Arm the provider immediately before a serialized request.
+
+    Production providers use this hook to begin an external CUPTI/Nsight
+    capture before the request starts.  The existing provider interface only
+    collected after a request, which cannot recover historical GPU activity.
+    """
+
+    request_dir.mkdir(parents=True, exist_ok=True)
+    if _test_mode():
+        return
+    completed = _run_trace_provider_action(
+        protocol, case, args, request_dir, phase, "arm", 0, 0
+    )
+    if completed.returncode != 0:
+        raise RunnerError("trace_provider_failed", "trace provider could not arm capture")
+
+
+def _abort_trace_provider(
+    protocol: Mapping[str, Any],
+    case: Mapping[str, Any],
+    args: argparse.Namespace,
+    request_dir: Path,
+    phase: str,
+) -> None:
+    """Stop a provider capture after a request-side failure.
+
+    Cleanup is best effort: the original request failure remains the terminal
+    row reason, while the provider is given a chance to release its session.
+    """
+
+    if _test_mode():
+        return
+    try:
+        _run_trace_provider_action(protocol, case, args, request_dir, phase, "abort", 0, 0)
+    except RunnerError:
+        return
+
+
+def _invoke_trace_provider(
+    protocol: Mapping[str, Any],
+    case: Mapping[str, Any],
+    args: argparse.Namespace,
+    request_dir: Path,
+    phase: str,
+    start_ns: int,
+    end_ns: int,
+) -> dict[str, Any]:
+    completed = _run_trace_provider_action(
+        protocol, case, args, request_dir, phase, "collect", start_ns, end_ns
+    )
     if completed.returncode != 0:
         raise RunnerError("trace_provider_failed", "trace provider returned nonzero")
     summary_path = request_dir / "trace_summary.json"
@@ -732,7 +815,12 @@ def _run_warmups(
         prompt_ids = builder.token_ids(int(case["input_tokens"]))
         payload = _request_payload(model, prompt_ids, int(case["output_tokens"]))
         try:
+            _arm_trace_provider(protocol, case, args, request_dir, f"warmup-{index + 1:02d}")
             result = _request_once(base_url, payload, request_dir)
+        except RunnerError:
+            _abort_trace_provider(protocol, case, args, request_dir, f"warmup-{index + 1:02d}")
+            raise RunnerError("warmup_failed", "declared warmup failed; no warmup retry performed")
+        try:
             trace = _invoke_trace_provider(
                 protocol,
                 case,
@@ -742,6 +830,10 @@ def _run_warmups(
                 result["start_mono_ns"],
                 result["end_mono_ns"],
             )
+        except RunnerError:
+            _abort_trace_provider(protocol, case, args, request_dir, f"warmup-{index + 1:02d}")
+            raise RunnerError("warmup_failed", "declared warmup failed; no warmup retry performed")
+        try:
             raw_artifacts = _row_artifacts(request_dir, result, trace)
             case_relative_artifacts = [
                 {
@@ -1015,17 +1107,26 @@ def _run_case(protocol: Mapping[str, Any], args: argparse.Namespace, case: Mappi
         _respect_spacing(case_root, spacing)
         prompt_ids = builder.token_ids(args.input_tokens)
         payload = _request_payload(model, prompt_ids, args.output_tokens)
-        request_result = _request_once(base_url, payload, request_dir)
+        try:
+            _arm_trace_provider(protocol, case, args, request_dir, "measured")
+            request_result = _request_once(base_url, payload, request_dir)
+        except RunnerError:
+            _abort_trace_provider(protocol, case, args, request_dir, "measured")
+            raise
+        try:
+            trace = _invoke_trace_provider(
+                protocol,
+                case,
+                args,
+                request_dir,
+                "measured",
+                int(request_result["start_mono_ns"]),
+                int(request_result["end_mono_ns"]),
+            )
+        except RunnerError:
+            _abort_trace_provider(protocol, case, args, request_dir, "measured")
+            raise
         _record_last_request(case_root, int(request_result["end_mono_ns"]))
-        trace = _invoke_trace_provider(
-            protocol,
-            case,
-            args,
-            request_dir,
-            "measured",
-            int(request_result["start_mono_ns"]),
-            int(request_result["end_mono_ns"]),
-        )
         row = _completed_row(
             protocol, case, args, output_dir, request_result, trace, hardware, builder, model, base_url
         )
