@@ -144,6 +144,11 @@ class H100StartupTests(unittest.TestCase):
         self.assertIn("Python packages already validated", text)
         self.assertIn("packages_ok=0", text)
 
+    def test_held_system_package_at_locked_version_is_accepted(self):
+        text = STARTUP.read_text(encoding="utf-8")
+        self.assertIn('== *" ok installed $version"', text)
+        self.assertIn('!= *" ok installed $version"', text)
+
     def test_missing_packages_use_pinned_offline_first_hash_checked_install(self):
         text = STARTUP.read_text(encoding="utf-8")
         self.assertIn("--no-download", text)

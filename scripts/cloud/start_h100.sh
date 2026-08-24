@@ -207,7 +207,7 @@ ensure_system_packages() {
   for spec in "${specs[@]}"; do
     package="${spec%%=*}"
     version="${spec#*=}"
-    if [[ "$(dpkg-query -W -f='${Status} ${Version}' "$package" 2>/dev/null || true)" != "install ok installed $version" ]]; then
+    if [[ "$(dpkg-query -W -f='${Status} ${Version}' "$package" 2>/dev/null || true)" != *" ok installed $version" ]]; then
       packages_ok=0
       break
     fi
@@ -231,7 +231,7 @@ ensure_system_packages() {
   for spec in "${specs[@]}"; do
     package="${spec%%=*}"
     version="${spec#*=}"
-    [[ "$(dpkg-query -W -f='${Status} ${Version}' "$package" 2>/dev/null || true)" == "install ok installed $version" ]] || die "system package did not match lock: $package"
+    [[ "$(dpkg-query -W -f='${Status} ${Version}' "$package" 2>/dev/null || true)" == *" ok installed $version" ]] || die "system package did not match lock: $package"
   done
   mkdir -p -- "$STATE_ROOT"
   printf '%s  %s\n' "$SYSTEM_LOCK_SHA256" "$SYSTEM_LOCK" > "$marker.tmp"
