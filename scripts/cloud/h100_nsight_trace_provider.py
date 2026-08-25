@@ -497,6 +497,18 @@ def _parse_report(
             "cpu_event_counts": cpu_counts,
             "gpu_event_counts": gpu_counts,
             "kernel_event_count": len(kernel_intervals),
+            "cpu_activity_intervals": [
+                {"start_mono_ns": start, "end_mono_ns": end, "duration_ms": (end - start) / 1_000_000.0}
+                for start, end in cpu_intervals
+            ],
+            "cuda_activity_intervals": [
+                {"start_mono_ns": start, "end_mono_ns": end, "duration_ms": (end - start) / 1_000_000.0}
+                for start, end in gpu_intervals
+            ],
+            "kernel_intervals": [
+                {"start_mono_ns": start, "end_mono_ns": end, "duration_ms": (end - start) / 1_000_000.0}
+                for start, end in kernel_intervals
+            ],
         },
     }
     if HARDWARE_TARGET == "A100":
