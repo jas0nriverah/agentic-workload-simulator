@@ -142,7 +142,10 @@ def prove_before_reveal(root):
 
 def reveal_holdout(root):
     prediction = root / "derived/prediction_manifest.json"
+    split_manifest = json.loads((root / "split_manifest.json").read_text(encoding="utf-8"))
     receipt = {"schema_version": "a100-holdout-reveal.v1",
+               "protocol_sha256": sha(CONFIG),
+               "split_manifest_sha256": split_manifest["split_sha256"],
                "prediction_manifest_sha256": sha(prediction),
                "labels_were_unavailable_to_fit": True,
                "revealed_at_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())}
