@@ -41,7 +41,7 @@ if ss -H -ltn "sport = :$PORT" 2>/dev/null | grep -q .; then die "port $PORT is 
 MODEL_CONTAINER="/root/.cache/huggingface/${MODEL_SNAPSHOT#"$MODEL_CACHE"/}"
 docker run -d --name "$CONTAINER" --gpus device=0 --network host --ipc=host --shm-size=16g --pull=never \
   -e HF_HOME=/root/.cache/huggingface -e HF_HUB_OFFLINE=1 -e TRANSFORMERS_OFFLINE=1 \
-  -v "$MODEL_CACHE:/root/.cache/huggingface" -v /usr/local/cuda:/host-cuda:ro -v "$TRACE_ROOT:/trace" \
+  -v "$MODEL_CACHE:/root/.cache/huggingface" -v /usr/local/cuda:/host-cuda:ro -v /opt/nvidia:/opt/nvidia:ro -v "$TRACE_ROOT:/trace" \
   --entrypoint "$NSYS_BIN" "$IMAGE" launch --session-new="$SESSION" --trace=cuda,osrt --cuda-event-trace=false -- \
   python3 -m vllm.entrypoints.openai.api_server --model "$MODEL_CONTAINER" --revision "$REVISION" --served-model-name "$MODEL" \
   --host 127.0.0.1 --port "$PORT" --dtype bfloat16 --max-model-len "$MAX_LEN" --gpu-memory-utilization "$GPU_UTIL" \
