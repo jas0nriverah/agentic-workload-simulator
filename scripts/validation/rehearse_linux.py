@@ -698,7 +698,14 @@ def check_prohibited_dependencies(root: Path) -> dict[str, Any]:
             continue
         if line.startswith(("git+", "http://", "https://")) or (" @ " in line):
             raise CheckFailure(f"prohibited VCS/URL dependency in lock: {line}")
+    # This setup-only helper is intentionally allowed to import the pinned
+    # Hugging Face libraries: it verifies/downloads the external model cache
+    # after the direct-runtime lock has been installed. It is not part of the
+    # lightweight rehearsal/runtime dependency surface being checked here.
+    setup_only = root / "scripts/cloud/h100_direct_setup.py"
     for path in [*root.joinpath("src").rglob("*.py"), *root.joinpath("scripts").rglob("*.py")]:
+        if path == setup_only:
+            continue
         text = path.read_text(encoding="utf-8")
         if PROHIBITED_IMPORTS.search(text):
             raise CheckFailure(f"prohibited runtime import in {path}")

@@ -24,9 +24,6 @@ from agentic_sim.runtime.backend import (
     resolve_backend,
     select_backend,
 )
-from agentic_sim.runtime.vllm_config import resolve_vllm_config
-
-
 class FakeProcess:
     def __init__(self, *, pid=43210, exits=False):
         self.pid = pid
