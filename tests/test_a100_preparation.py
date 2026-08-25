@@ -1,3 +1,4 @@
+import hashlib
 import json
 import os
 import subprocess
@@ -7,6 +8,7 @@ import unittest
 from pathlib import Path
 
 from scripts.analysis.feature_validation import fit, load_protocol, seal
+from scripts.cloud.a100_execution import reveal_holdout
 from scripts.cloud.a100_setup_doctor import DoctorError, read_manifest, validate_hardware_record, validate_manifest, validate_protocol
 from tests.test_h100_case_runner import FakeState, _start_server
 
@@ -129,6 +131,34 @@ class A100PreparationTests(unittest.TestCase):
         self.assertIn("pre-reveal proof", source)
         self.assertIn("RECOVERY_ROOT", source)
         self.assertIn('docker", "stop"', source)
+
+    def test_a100_execution_bounds_requests_and_scores_before_freeze(self):
+        source = (ROOT / "scripts/cloud/a100_execution.py").read_text()
+        self.assertIn("timeout=min(600.0, remaining)", source)
+        self.assertLess(source.rindex('run_analysis("score", root)'), source.rindex("adversarial_audit_and_freeze(root)"))
+
+    def test_a100_reveal_receipt_binds_protocol_and_split_hashes(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "derived").mkdir()
+            (root / "derived/prediction_manifest.json").write_text("{}\n")
+            (root / "split_manifest.json").write_text(json.dumps({"split_sha256": "fixture-split"}) + "\n")
+            reveal_holdout(root)
+            receipt = json.loads((root / "holdout_reveal_receipt.json").read_text())
+            self.assertEqual(receipt["protocol_sha256"], hashlib.sha256(CONFIG.read_bytes()).hexdigest())
+            self.assertEqual(receipt["split_manifest_sha256"], "fixture-split")
+
+    def test_a100_runner_accepts_only_the_named_profiled_server(self):
+        source = (ROOT / "scripts/cloud/a100_setup_doctor.py").read_text()
+        self.assertIn("--server-ready", source)
+        self.assertIn("profiled A100 Nsight session is not registered", source)
+        self.assertIn("profiled vLLM served model does not match", source)
+
+    def test_a100_execution_binds_the_concrete_docker_trace_backend(self):
+        source = (ROOT / "scripts/cloud/a100_execution.py").read_text()
+        self.assertIn('"BACKEND": "docker"', source)
+        self.assertIn('trace_output = trace_root / phase', source)
+        self.assertIn('trace_output.replace(output)', source)
 
 
 if __name__ == "__main__":

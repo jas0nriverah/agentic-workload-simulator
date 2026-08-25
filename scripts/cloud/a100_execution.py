@@ -58,6 +58,7 @@ def check_deadline(deadline):
 
 def run_rows(split, root, values, deadline, resume):
     phase = "calibration" if split == "calibration" else "holdout"
+    trace_root = Path(values["TRACE_ROOT"]).resolve()
     for case in cases(split):
         for repeat in ("r01", "r02", "r03"):
             check_deadline(deadline)
@@ -67,9 +68,13 @@ def run_rows(split, root, values, deadline, resume):
                 if not resume:
                     raise RuntimeError("immutable row exists; use --resume: {}".format(row))
                 continue
-            output.mkdir(parents=True, exist_ok=True)
+            trace_output = trace_root / phase / case["case_id"] / repeat
+            if trace_output.exists():
+                raise RuntimeError("immutable trace workspace exists; inspect before recovery: {}".format(trace_output))
+            trace_output.mkdir(parents=True, exist_ok=True)
             env = os.environ.copy()
             env.update({"A100_TRACE_PROVIDER": str(PROVIDER),
+                        "BACKEND": "docker",
                         "A100_MODEL_SNAPSHOT": values["MODEL_SNAPSHOT"],
                         "A100_VLLM_BASE_URL": "http://127.0.0.1:{}".format(values["VLLM_PORT"]),
                         "A100_VLLM_MODEL": values["VLLM_MODEL"],
@@ -80,10 +85,25 @@ def run_rows(split, root, values, deadline, resume):
             command = [str(RUNNER), "--config", str(CONFIG), "--case-id", case["case_id"],
                        "--split", split, "--input-tokens", str(case["input_tokens"]),
                        "--output-tokens", str(case["output_tokens"]), "--repeat-id", repeat,
-                       "--output-dir", str(output)]
-            subprocess.run(command, check=True, env=env, timeout=600)
-            if not row.is_file():
-                raise RuntimeError("runner did not create {}".format(row))
+                       "--output-dir", str(trace_output)]
+            try:
+                remaining = deadline - time.time()
+                if remaining <= 0:
+                    raise RuntimeError("hard A100 wall-clock deadline reached before request")
+                subprocess.run(command, check=True, env=env, timeout=min(600.0, remaining))
+                if time.time() >= deadline:
+                    raise RuntimeError("hard A100 wall-clock deadline reached after request")
+                if not (trace_output / "row.json").is_file():
+                    raise RuntimeError("runner did not create {}".format(trace_output / "row.json"))
+            except Exception:
+                if trace_output.exists() and not output.exists():
+                    output.parent.mkdir(parents=True, exist_ok=True)
+                    trace_output.replace(output)
+                raise
+            if output.exists():
+                raise RuntimeError("canonical output would be overwritten: {}".format(output))
+            output.parent.mkdir(parents=True, exist_ok=True)
+            trace_output.replace(output)
 
 
 def audit_calibration(root):
@@ -120,14 +140,21 @@ def prove_before_reveal(root):
         json.dumps(proof, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
 
-def reveal_and_audit(root):
+def reveal_holdout(root):
     prediction = root / "derived/prediction_manifest.json"
+    split_manifest = json.loads((root / "split_manifest.json").read_text(encoding="utf-8"))
     receipt = {"schema_version": "a100-holdout-reveal.v1",
+               "protocol_sha256": sha(CONFIG),
+               "split_manifest_sha256": split_manifest["split_sha256"],
                "prediction_manifest_sha256": sha(prediction),
                "labels_were_unavailable_to_fit": True,
                "revealed_at_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())}
     (root / "holdout_reveal_receipt.json").write_text(
         json.dumps(receipt, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+
+
+def adversarial_audit_and_freeze(root):
+    prediction = root / "derived/prediction_manifest.json"
     metrics = json.loads((root / "derived/holdout_metrics.json").read_text(encoding="utf-8"))
     predictions = json.loads(prediction.read_text(encoding="utf-8"))
     proof = json.loads((root / "pre_reveal_proof.json").read_text(encoding="utf-8"))
@@ -183,8 +210,9 @@ def main(argv=None):
             if not (root / "pre_reveal_proof.json").is_file():
                 raise RuntimeError("holdout blocked until pre-reveal proof exists")
             run_rows("sealed_holdout", root, values, deadline, args.resume)
-            reveal_and_audit(root)
+            reveal_holdout(root)
             run_analysis("score", root)
+            adversarial_audit_and_freeze(root)
         print("A100 validation workflow complete: {}".format(root))
         state["status"] = "completed"
         state["finished_epoch"] = int(time.time())

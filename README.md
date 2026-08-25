@@ -74,6 +74,26 @@ To check a GPU VM before a live run:
 The default setup never starts Docker, a model server, a GPU workload, or an
 experiment.
 
+### A100 diagnostic preflight (no execution)
+
+To collect every A100 safety check in one report without starting Docker,
+vLLM, Nsight, calibration, holdout, scoring, or measurement work:
+
+```bash
+python3 scripts/cloud/a100_diagnostic.py \
+  --manifest /mnt/eic-work/a100-startup.env \
+  --json-out /tmp/a100-diagnostic.json
+```
+
+The command prints a human-readable pass/fail table and writes the same
+results as machine-readable JSON. It runs hardware, Docker/NVIDIA runtime,
+pinned image, model/tokenizer, Nsight path, external artifact-root, Git and
+protocol, disk, and deadline checks independently, so one failure does not
+hide the others. A nonzero exit status means at least one remediation is
+required. The diagnostic never pulls an image, starts a container or server,
+opens holdout data, writes canonical experiment artifacts, or fabricates
+traces or timing data.
+
 ## Runtime choices
 
 The project can work in two supported ways:

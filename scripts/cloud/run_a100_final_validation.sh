@@ -27,7 +27,7 @@ while (($#)); do
 done
 (( EXECUTE && ALLOW )) || { echo 'ERROR: execution requires --execute and --allow-a100' >&2; exit 1; }
 [[ -n "$MANIFEST" ]] || { echo 'ERROR: --manifest is required' >&2; exit 1; }
-python3 "$ROOT/scripts/cloud/a100_setup_doctor.py" --manifest "$MANIFEST"
+python3 "$ROOT/scripts/cloud/a100_setup_doctor.py" --manifest "$MANIFEST" --server-ready
 if (( RESUME )); then
   exec python3 "$ROOT/scripts/cloud/a100_execution.py" --manifest "$MANIFEST" --phase "$PHASE" --resume
 else
