@@ -212,18 +212,35 @@ def check_live_host(expected_server: Optional[Mapping[str, str]] = None) -> dict
         profiled_server_pid, image = inspected[1], inspected[2]
         if image != expected_server["image"]:
             raise DoctorError("profiled A100 vLLM container image does not match the pinned manifest")
-        container_processes = subprocess.run(
-            ["docker", "top", expected_server["container"], "-eo", "pid"],
+        # ``docker top`` reports container-namespace PIDs unless the
+        # container uses ``--pid=host``.  The GPU query, however, reports
+        # host PIDs.  Comparing those two lists directly makes a healthy
+        # profiled server look like an unrelated GPU process.  Walk the host
+        # process tree rooted at Docker's host-side init PID instead.
+        try:
+            root_pid = int(profiled_server_pid)
+        except (TypeError, ValueError) as exc:
+            raise DoctorError("profiled A100 container has no valid host PID") from exc
+        process_table = subprocess.run(
+            ["ps", "-eo", "pid=,ppid="],
             check=True, capture_output=True, text=True, timeout=20,
         ).stdout.splitlines()
-        container_pids = {
-            line.strip().split()[0]
-            for line in container_processes[1:]
-            if line.strip() and line.strip().split()[0].isdigit()
-        }
-        if not container_pids:
-            raise DoctorError("profiled A100 vLLM container has no inspectable processes")
-        outside = [pid for pid in compute_processes if pid not in container_pids]
+        children: dict[int, list[int]] = {}
+        for line in process_table:
+            fields = line.split()
+            if len(fields) != 2 or not all(field.isdigit() for field in fields):
+                continue
+            pid, parent = map(int, fields)
+            children.setdefault(parent, []).append(pid)
+        host_processes = {root_pid}
+        pending = [root_pid]
+        while pending:
+            parent = pending.pop()
+            for child in children.get(parent, []):
+                if child not in host_processes:
+                    host_processes.add(child)
+                    pending.append(child)
+        outside = [pid for pid in compute_processes if int(pid) not in host_processes]
         if outside:
             raise DoctorError(
                 "GPU isolation failed: compute process is outside the profiled container: "

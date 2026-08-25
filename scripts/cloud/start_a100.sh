@@ -46,8 +46,10 @@ docker run -d --name "$CONTAINER" --gpus device=0 --network host --ipc=host --sh
   python3 -m vllm.entrypoints.openai.api_server --model "$MODEL_CONTAINER" --revision "$REVISION" --served-model-name "$MODEL" \
   --host 127.0.0.1 --port "$PORT" --dtype bfloat16 --max-model-len "$MAX_LEN" --gpu-memory-utilization "$GPU_UTIL" \
   --tensor-parallel-size 1 --enable-auto-tool-choice --tool-call-parser qwen3_coder >/dev/null
-cleanup() { docker stop "$CONTAINER" >/dev/null 2>&1 || true; }
-trap cleanup INT TERM
+startup_failed=1
+cleanup() { if (( startup_failed )); then docker stop "$CONTAINER" >/dev/null 2>&1 || true; fi; }
+trap cleanup EXIT
+trap 'exit 130' INT TERM
 for _ in $(seq 1 180); do
   docker inspect --format '{{.State.Running}}' "$CONTAINER" 2>/dev/null | grep -qx true || { docker logs --tail 160 "$CONTAINER" >&2 || true; die 'A100 vLLM container exited'; }
   if curl -fsS --connect-timeout 2 --max-time 5 "http://127.0.0.1:$PORT/health" >/dev/null 2>&1 && curl -fsS --connect-timeout 2 --max-time 5 "http://127.0.0.1:$PORT/v1/models" | python3 -c 'import json,sys; d=json.load(sys.stdin); raise SystemExit(0 if any(x.get("id")==sys.argv[1] for x in d.get("data",[])) else 1)' "$MODEL" && curl -fsS --connect-timeout 2 --max-time 5 "http://127.0.0.1:$PORT/metrics" >/dev/null 2>&1; then break; fi
@@ -55,4 +57,5 @@ for _ in $(seq 1 180); do
 done
 curl -fsS --connect-timeout 5 --max-time 10 "http://127.0.0.1:$PORT/health" >/dev/null || die 'A100 vLLM /health failed'
 docker exec "$CONTAINER" "$NSYS_BIN" sessions list | grep -F "$SESSION" >/dev/null || die 'A100 Nsight session is not registered'
+startup_failed=0
 printf 'A100 profiled vLLM ready: container=%s session=%s model=%s revision=%s\n' "$CONTAINER" "$SESSION" "$MODEL" "$REVISION"

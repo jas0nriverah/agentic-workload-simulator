@@ -6,10 +6,12 @@ import sys
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 from scripts.analysis.feature_validation import fit, load_protocol, seal
 from scripts.cloud.a100_execution import reveal_holdout
-from scripts.cloud.a100_setup_doctor import DoctorError, read_manifest, validate_hardware_record, validate_manifest, validate_protocol
+from scripts.cloud.a100_setup_doctor import DoctorError, check_live_host, read_manifest, validate_hardware_record, validate_manifest, validate_protocol
+from scripts.cloud.a100_execution import load_or_create_state
 from tests.test_h100_case_runner import FakeState, _start_server
 
 
@@ -159,6 +161,55 @@ class A100PreparationTests(unittest.TestCase):
         self.assertIn('"BACKEND": "docker"', source)
         self.assertIn('trace_output = trace_root / phase', source)
         self.assertIn('trace_output.replace(output)', source)
+
+    def test_resume_preserves_original_deadline_and_requires_existing_state(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            with self.assertRaisesRegex(RuntimeError, "requires an existing"):
+                load_or_create_state(root, "calibration", 14400, True)
+            state, deadline, path = load_or_create_state(root, "calibration", 14400, False)
+            original_started = state["started_epoch"]
+            original_deadline = deadline
+            resumed, resumed_deadline, resumed_path = load_or_create_state(root, "holdout", 14400, True)
+            self.assertEqual(resumed_deadline, original_deadline)
+            self.assertEqual(resumed["started_epoch"], original_started)
+            self.assertEqual(resumed_path, path)
+
+    def test_resume_refuses_expired_original_deadline(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            state, _, _ = load_or_create_state(root, "calibration", 14400, False)
+            state["deadline_epoch"] = 1
+            (root / "run_state.json").write_text(json.dumps(state) + "\n")
+            deadline = json.loads((root / "deadline.json").read_text())
+            deadline["deadline_epoch"] = 1
+            (root / "deadline.json").write_text(json.dumps(deadline) + "\n")
+            with self.assertRaisesRegex(RuntimeError, "deadline"):
+                load_or_create_state(root, "calibration", 14400, True)
+
+    def test_server_ready_uses_host_process_tree_not_container_namespace_pids(self):
+        query = "NVIDIA A100-SXM4-80GB, 81920, 8.0\n"
+        process_calls = iter([
+            subprocess.CompletedProcess([], 0, "501\n", ""),
+            subprocess.CompletedProcess([], 0, "  500  1\n  501  500\n  700  1\n", ""),
+        ])
+        inspect = subprocess.CompletedProcess([], 0, "true|500|vllm/vllm-openai:v0.10.0\n", "")
+        session = subprocess.CompletedProcess([], 0, "a100-session\n", "")
+        health = subprocess.CompletedProcess([], 0, "ok", "")
+        models = subprocess.CompletedProcess([], 0, json.dumps({"data": [{"id": "model"}]}), "")
+        metrics = subprocess.CompletedProcess([], 0, "metric 1", "")
+        with patch("scripts.cloud.a100_setup_doctor.shutil.which", return_value="/usr/bin/tool"), patch(
+            "scripts.cloud.a100_setup_doctor.subprocess.run",
+            side_effect=[
+                subprocess.CompletedProcess([], 0, "{\"nvidia\":{}}", ""),
+                subprocess.CompletedProcess([], 0, "nsys 2025.1.3", ""),
+                subprocess.CompletedProcess([], 0, query, ""),
+                process_calls.__next__(), inspect, process_calls.__next__(), session,
+                health, models, metrics,
+            ],
+        ):
+            result = check_live_host({"container": "a100", "image": "vllm/vllm-openai:v0.10.0", "session": "a100-session", "nsys_bin": "/usr/bin/nsys", "port": "8000", "model": "model"})
+        self.assertEqual(result["profiled_server_pid"], "500")
 
 
 if __name__ == "__main__":
