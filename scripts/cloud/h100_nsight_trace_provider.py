@@ -42,6 +42,7 @@ NSYS_SESSION_ENV = f"{HARDWARE_TARGET}_NSYS_SESSION"
 TRACE_MOUNT_ROOT_ENV = f"{HARDWARE_TARGET}_TRACE_MOUNT_ROOT"
 TRACE_CONTAINER_ROOT_ENV = f"{HARDWARE_TARGET}_TRACE_CONTAINER_ROOT"
 NSYS_BIN_ENV = f"{HARDWARE_TARGET}_NSYS_BIN"
+BACKEND_ENV = "BACKEND"
 
 
 class ProviderError(RuntimeError):
@@ -91,10 +92,24 @@ def _host_and_container_paths(output_dir: Path) -> tuple[Path, PurePosixPath]:
     return host_dir, container_dir
 
 
+def _selected_backend() -> str:
+    backend = os.environ.get(BACKEND_ENV, "").strip().lower()
+    if backend not in {"docker", "direct"}:
+        raise ProviderError(f"trace provider requires an explicit concrete BACKEND=docker|direct, got {backend!r}")
+    return backend
+
+
 def _docker_exec(arguments: Iterable[str]) -> subprocess.CompletedProcess[str]:
-    container = os.environ.get(NSYS_CONTAINER_ENV, "h100-final-vllm")
-    nsys_bin = os.environ.get(NSYS_BIN_ENV, "/host-cuda/bin/nsys")
-    command = ["docker", "exec", container, nsys_bin, *arguments]
+    """Run Nsight in the selected server namespace without backend fallback."""
+
+    backend = _selected_backend()
+    default_nsys = "/host-cuda/bin/nsys" if backend == "docker" else "/usr/local/cuda/bin/nsys"
+    nsys_bin = os.environ.get(NSYS_BIN_ENV, default_nsys)
+    if backend == "docker":
+        container = os.environ.get(NSYS_CONTAINER_ENV, "h100-final-vllm")
+        command = ["docker", "exec", container, nsys_bin, *arguments]
+    else:
+        command = [nsys_bin, *arguments]
     try:
         return subprocess.run(
             command,
@@ -106,6 +121,10 @@ def _docker_exec(arguments: Iterable[str]) -> subprocess.CompletedProcess[str]:
     except (OSError, subprocess.SubprocessError) as exc:
         rendered = " ".join(shlex.quote(part) for part in command)
         raise ProviderError(f"could not invoke Nsight command: {rendered}") from exc
+
+
+def _trace_output_path(host_dir: Path, container_dir: PurePosixPath) -> str:
+    return str(host_dir / "trace") if _selected_backend() == "direct" else str(container_dir / "trace")
 
 
 def _command_details(result: subprocess.CompletedProcess[str]) -> dict[str, Any]:
@@ -154,7 +173,7 @@ def _arm(args: argparse.Namespace, host_dir: Path, container_dir: PurePosixPath)
             "start",
             f"--session={os.environ.get(NSYS_SESSION_ENV, 'h100-final-validation')}",
             "--sample=none",
-            f"--output={container_dir / 'trace'}",
+            f"--output={_trace_output_path(host_dir, container_dir)}",
             "--force-overwrite=true",
             "--stats=true",
         )
@@ -173,8 +192,10 @@ def _arm(args: argparse.Namespace, host_dir: Path, container_dir: PurePosixPath)
             "repeat_id": args.repeat_id,
             "phase": args.phase,
             "session": os.environ.get(NSYS_SESSION_ENV, "h100-final-validation"),
-            "container": os.environ.get(NSYS_CONTAINER_ENV, "h100-final-vllm"),
-            "container_trace_dir": str(container_dir),
+            "backend": _selected_backend(),
+            "container": os.environ.get(NSYS_CONTAINER_ENV) if _selected_backend() == "docker" else None,
+            "container_trace_dir": str(container_dir) if _selected_backend() == "docker" else None,
+            "host_trace_dir": str(host_dir),
             "clock_id": "CLOCK_MONOTONIC_RAW",
             "clock": {"raw_ns": raw_ns, "realtime_ns": realtime_ns},
             "nsys_start": _command_details(result),
@@ -502,8 +523,10 @@ def _collect(args: argparse.Namespace, host_dir: Path, container_dir: PurePosixP
             "provenance": "measured",
             "provider_version": PROVIDER_VERSION,
             "action": "collect",
+            "backend": _selected_backend(),
             "session": session,
-            "container_trace_dir": str(container_dir),
+            "container_trace_dir": str(container_dir) if _selected_backend() == "docker" else None,
+            "host_trace_dir": str(host_dir),
             "clock": {
                 "raw_ns": time.clock_gettime_ns(time.CLOCK_MONOTONIC_RAW),
                 "realtime_ns": time.time_ns(),

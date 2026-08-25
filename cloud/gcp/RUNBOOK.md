@@ -54,6 +54,31 @@ plain Debian image requires a manual CUDA installation. Keep the pinned vLLM
 image, model revision, SWE-agent revision, SWE-bench revision, and evaluator
 digests unchanged.
 
+### Backend selection
+
+Set `BACKEND=auto` in the external startup manifest for the normal path. Auto
+selects Docker only after the daemon, NVIDIA Container Toolkit runtime, pinned
+image, and one-GPU access probe succeed; otherwise it selects the prepared
+direct runtime. Use `BACKEND=docker` to require Docker or `BACKEND=direct` to
+require the already-installed host/GPU-container vLLM environment. An
+explicit Docker failure never falls back. No path installs Docker-in-Docker
+or treats an unprivileged container as a Docker host.
+
+The exact offline startup check is:
+
+```bash
+bash scripts/cloud/start_h100.sh \
+  --manifest /mnt/eic-work/h100-startup.env \
+  --backend auto --dry-run
+```
+
+After the prepared environment has been independently checked, use the same
+command without `--dry-run`. Direct mode requires the pinned vLLM 0.10.0
+package, model/tokenizer snapshot, request limits, host tracing binary, and
+the external backend-specific artifact root. Docker and direct roots,
+manifests, and provenance must remain separate; their results are not
+interchangeable without validation.
+
 The local SWE-agent API key is a placeholder. Supply the real local-only key
 through the process environment; never place it in the manifest or artifacts.
 
@@ -69,8 +94,10 @@ through the process environment; never place it in the manifest or artifacts.
 5. Run the sealed holdout once with the same telemetry contract.
 6. Export compact manifests and hashes, then stop the VM.
 
-Stop immediately on failed vLLM health, missing Docker/NVIDIA runtime, missing
-request IDs, incomplete trace coverage, configuration drift, or preemption.
+Stop immediately on failed vLLM health, missing selected-backend prerequisites
+(Docker/NVIDIA GPU access for Docker, or the prepared direct environment),
+missing request IDs, incomplete trace coverage, configuration drift, or
+preemption.
 Do not repeat a trajectory merely because its patch did not resolve.
 
 ## 4. Request-aware profiled attempt

@@ -1,1 +1,1 @@
-"""Runtime configuration package."""
+"""Runtime configuration and explicit backend package."""

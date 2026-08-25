@@ -109,6 +109,7 @@ trap cleanup_failed_launch ERR
 
 docker run -d \
   --name "$CONTAINER" \
+  --runtime nvidia \
   --gpus device=0 \
   --network host \
   --ipc=host \

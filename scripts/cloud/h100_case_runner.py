@@ -341,6 +341,30 @@ def _validate_hardware_record(data: Mapping[str, Any], protocol: Mapping[str, An
 def _reviewed_profiled_server_allows_gpu_processes(processes: str) -> bool:
     """Accept GPU activity only from the explicitly reviewed profiled server."""
 
+    backend = os.environ.get("BACKEND", "").strip().lower()
+    if backend == "direct":
+        state_path = os.environ.get("H100_RUNTIME_STATE")
+        if not state_path:
+            return False
+        try:
+            state = json.loads(Path(state_path).read_text(encoding="utf-8"))
+        except (OSError, UnicodeDecodeError, json.JSONDecodeError):
+            return False
+        if state.get("backend") != "direct" or state.get("status") != "healthy":
+            return False
+        pid = state.get("pid")
+        if isinstance(pid, bool) or not isinstance(pid, int) or pid <= 0:
+            return False
+        gpu_pids = {line.split(",", 1)[0].strip() for line in processes.splitlines() if line.strip()}
+        allowed_pids = {str(pid)}
+        recorded_pids = state.get("runtime_pids", [])
+        if isinstance(recorded_pids, list):
+            allowed_pids.update(str(item) for item in recorded_pids if isinstance(item, int) and item > 0)
+        configured_pids = os.environ.get("H100_RUNTIME_PIDS", "")
+        allowed_pids.update(item.strip() for item in configured_pids.split(",") if item.strip().isdigit())
+        return bool(gpu_pids) and gpu_pids.issubset(allowed_pids)
+    if backend != "docker":
+        return False
     container = os.environ.get("H100_EXPECTED_SERVER_CONTAINER") or os.environ.get(
         "H100_NSYS_CONTAINER"
     )

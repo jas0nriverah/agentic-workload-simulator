@@ -278,6 +278,7 @@ class H100CaseRunnerTests(unittest.TestCase):
         with patch.dict(
             os.environ,
             {
+                "BACKEND": "docker",
                 "H100_EXPECTED_SERVER_CONTAINER": "h100-final-vllm",
                 "H100_NSYS_CONTAINER": "h100-final-vllm",
                 "H100_NSYS_SESSION": "h100-final-validation",
@@ -294,6 +295,7 @@ class H100CaseRunnerTests(unittest.TestCase):
         with patch.dict(
             os.environ,
             {
+                "BACKEND": "docker",
                 "H100_EXPECTED_SERVER_CONTAINER": "h100-final-vllm",
                 "H100_NSYS_CONTAINER": "h100-final-vllm",
                 "H100_NSYS_SESSION": "h100-final-validation",

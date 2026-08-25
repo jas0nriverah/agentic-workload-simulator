@@ -16,13 +16,14 @@ MANIFEST="${H100_STARTUP_MANIFEST:-$ROOT/../h100-startup.env}"
 MANIFEST_EXPLICIT=0
 [[ -n "${H100_STARTUP_MANIFEST:-}" ]] && MANIFEST_EXPLICIT=1
 STATE_ROOT=""
+BACKEND="${BACKEND:-auto}"
 DRY_RUN=0
 DRY_RUN_DEFAULT_MANIFEST=0
 
 die() { printf 'ERROR: %s\n' "$*" >&2; exit 1; }
 usage() {
   cat <<'USAGE'
-Usage: scripts/cloud/start_h100.sh --manifest FILE [--dry-run]
+Usage: scripts/cloud/start_h100.sh --manifest FILE [--backend auto|docker|direct] [--dry-run]
 
 The manifest is an external, non-secret pin/path file.  It is never sourced.
 This entrypoint starts or reuses the pinned profiled vLLM server only; it does
@@ -42,6 +43,12 @@ sha256_file() {
 
 while (($#)); do
   case "$1" in
+    --backend)
+      (($# >= 2)) || die '--backend requires auto, docker, or direct'
+      BACKEND="$2"
+      shift 2
+      ;;
+    --backend=*) BACKEND="${1#*=}"; shift ;;
     --manifest)
       (($# >= 2)) || die '--manifest requires a file'
       MANIFEST="$2"
@@ -54,6 +61,8 @@ while (($#)); do
     *) die "unknown argument: $1" ;;
   esac
 done
+
+[[ "$BACKEND" == auto || "$BACKEND" == docker || "$BACKEND" == direct ]] || die 'backend must be auto, docker, or direct'
 
 if (( DRY_RUN && MANIFEST_EXPLICIT == 0 )); then
   MANIFEST="$ROOT/cloud/gcp/h100_startup_manifest.env.example"
@@ -196,6 +205,7 @@ if (( DRY_RUN )); then
   [[ -z "$(git -C "$ROOT" status --porcelain)" ]] || die 'checkout is dirty; refusing startup'
   python3 - "$CONFIG" <<'PY'
 import json
+import os
 import sys
 from pathlib import Path
 
@@ -212,7 +222,135 @@ if request.get("concurrency") != 1 or request.get("warmup_requests") != 2 or req
 PY
   printf 'DRY-RUN: checkout branch=%s commit=%s clean; sealed config=%s; manifest=%s\n' "${current_branch:-detached}" "$REQUIRED_COMMIT" "$CONFIG_ACTUAL_SHA256" "$MANIFEST"
   printf 'DRY-RUN: pinned system lock=%s; Python lock=%s; no installs, Docker, GPU, server, or artifact access\n' "$SYSTEM_LOCK_SHA256" "$PYTHON_LOCK_SHA256"
-  printf 'DRY-RUN: would verify Docker/NVIDIA/H100/CUDA/Nsight/image/model/provider, then reuse or start container=%s\n' "$CONTAINER"
+  printf 'DRY-RUN: requested BACKEND=%s; auto probes Docker/NVIDIA/GPU and otherwise selects direct; explicit docker never falls back\n' "$BACKEND"
+  printf 'DRY-RUN: would verify the selected backend with the same pinned model/revision/parser/request limits and trace provider; Docker container=%s\n' "$CONTAINER"
+  exit 0
+fi
+
+verify_checkout_identity() {
+  command -v git >/dev/null 2>&1 || die 'git is required'
+  [[ "$(git -C "$ROOT" branch --show-current)" == "$EXPECTED_BRANCH" ]] || die "checkout is not on $EXPECTED_BRANCH"
+  [[ "$(git -C "$ROOT" rev-parse HEAD)" == "$REQUIRED_COMMIT" ]] || die 'checkout commit does not match REQUIRED_COMMIT'
+  [[ -z "$(git -C "$ROOT" status --porcelain)" ]] || die 'checkout is dirty; refusing startup'
+}
+
+select_runtime_backend() {
+  PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 - "$BACKEND" "$MANIFEST" <<'PY'
+import sys
+
+from agentic_sim.runtime.backend import resolve_backend, select_backend
+from agentic_sim.runtime.vllm_config import resolve_vllm_config
+
+try:
+    requested = select_backend(sys.argv[1], manifest_path=sys.argv[2])
+    config = resolve_vllm_config(sys.argv[2], environ={})
+    print(resolve_backend(requested, config))
+except Exception as exc:
+    print(f"ERROR: {exc}", file=sys.stderr)
+    raise SystemExit(1)
+PY
+}
+
+SELECTED_BACKEND="$(select_runtime_backend)" || die 'runtime backend selection failed; no backend fallback was attempted'
+printf 'Selected runtime backend: %s (requested %s)\n' "$SELECTED_BACKEND" "$BACKEND"
+export BACKEND="$SELECTED_BACKEND"
+RUNTIME_TRACE_ROOT="$TRACE_ROOT/$SELECTED_BACKEND"
+mkdir -p -- "$RUNTIME_TRACE_ROOT"
+
+if [[ "$SELECTED_BACKEND" == direct ]]; then
+  # Direct mode is for an already-prepared VM/GPU container.  It must not
+  # install Docker or invoke any Docker command; the shared backend module
+  # owns the pinned command, health lifecycle, state, provenance, and cleanup.
+  DIRECT_PYTHON="$PYTHON_ENV_ROOT/bin/python"
+  [[ -x "$DIRECT_PYTHON" ]] || die "direct backend requires a prepared Python environment: $DIRECT_PYTHON"
+  command -v nvidia-smi >/dev/null 2>&1 || die 'direct backend requires nvidia-smi for H100 identity validation'
+  DIRECT_GPU_ROWS="$(nvidia-smi --query-gpu=name,memory.total,compute_cap --format=csv,noheader,nounits 2>/dev/null || true)"
+  [[ "$(printf '%s\n' "$DIRECT_GPU_ROWS" | sed '/^[[:space:]]*$/d' | wc -l | tr -d ' ')" == 1 ]] || die 'direct backend requires exactly one visible GPU'
+  IFS=',' read -r DIRECT_GPU_NAME DIRECT_GPU_MEMORY DIRECT_GPU_COMPUTE <<< "$DIRECT_GPU_ROWS"
+  DIRECT_GPU_NAME="$(sed 's/^ *//;s/ *$//' <<< "$DIRECT_GPU_NAME")"
+  DIRECT_GPU_MEMORY="$(sed 's/^ *//;s/ *$//' <<< "$DIRECT_GPU_MEMORY")"
+  DIRECT_GPU_COMPUTE="$(sed 's/^ *//;s/ *$//' <<< "$DIRECT_GPU_COMPUTE")"
+  [[ "$DIRECT_GPU_NAME" == *H100* && "$DIRECT_GPU_NAME" != *A100* && "$DIRECT_GPU_NAME" != *H200* ]] || die "direct GPU is not H100: $DIRECT_GPU_NAME"
+  [[ "$DIRECT_GPU_MEMORY" =~ ^[0-9]+$ && "$DIRECT_GPU_MEMORY" -ge 80000 ]] || die 'direct H100 memory is below 80000 MiB'
+  [[ "$DIRECT_GPU_COMPUTE" == 9.0 || "$DIRECT_GPU_COMPUTE" == 9.0* ]] || die 'direct H100 compute capability is not 9.0'
+  DIRECT_EXISTING_GPU_PIDS="$(nvidia-smi --query-compute-apps=pid --format=csv,noheader 2>/dev/null | sed '/^[[:space:]]*$/d' || true)"
+  [[ -z "$DIRECT_EXISTING_GPU_PIDS" ]] || die "direct GPU already has compute processes: $DIRECT_EXISTING_GPU_PIDS"
+  DIRECT_NVIDIA_SUMMARY="$(nvidia-smi 2>/dev/null || true)"
+  grep -Fq "CUDA Version: $CUDA_VERSION" <<< "$DIRECT_NVIDIA_SUMMARY" || die 'direct CUDA version is not the pinned version'
+  H100_NSYS_BIN="${H100_NSYS_BIN:-/usr/local/cuda/bin/nsys}"
+  [[ -x "$H100_NSYS_BIN" ]] || die "direct backend requires the reviewed tracing binary: $H100_NSYS_BIN"
+  verify_checkout_identity
+  DIRECT_PYTHON_VERSION="$($DIRECT_PYTHON -c 'import sys; print(f"{sys.version_info.major}.{sys.version_info.minor}")')"
+  [[ "$DIRECT_PYTHON_VERSION" == '3.11' ]] || die "direct backend requires Python 3.11, found $DIRECT_PYTHON_VERSION"
+  "$DIRECT_PYTHON" - "$PYTHON_LOCK" <<'PY' || die 'direct backend Python environment does not match the pinned lock'
+import importlib.metadata as metadata
+import re
+import sys
+from pathlib import Path
+
+lock = Path(sys.argv[1]).read_text(encoding="utf-8")
+for match in re.finditer(r"^([A-Za-z0-9_.-]+)==([^ \t\\]+)", lock, re.MULTILINE):
+    name = re.sub(r"[-_.]+", "-", match.group(1).lower())
+    if metadata.version(name) != match.group(2):
+        raise SystemExit(f"locked package mismatch: {name}")
+PY
+  "$DIRECT_PYTHON" -m pip check >/dev/null 2>&1 || die 'direct backend Python environment failed pip check'
+  "$DIRECT_PYTHON" -c 'import importlib.metadata; expected="0.10.0"; actual=importlib.metadata.version("vllm"); raise SystemExit(0 if actual == expected else f"vLLM version mismatch: {actual}")' \
+    || die 'direct backend vLLM package is not the pinned 0.10.0 release'
+  export H100_MODEL_CACHE="$MODEL_CACHE"
+  export H100_MODEL_SNAPSHOT="$MODEL_SNAPSHOT"
+  export H100_TRACE_MOUNT_ROOT="$RUNTIME_TRACE_ROOT"
+  export H100_TRACE_PROVIDER="$TRACE_PROVIDER"
+  export H100_NSYS_BIN
+  export H100_VLLM_BASE_URL="http://127.0.0.1:$PORT"
+  export VLLM_MODEL="$MANIFEST_MODEL"
+  export VLLM_MODEL_REVISION="$MANIFEST_REVISION"
+  export VLLM_IMAGE="$MANIFEST_IMAGE"
+  export VLLM_PORT="$PORT"
+  export VLLM_MAX_MODEL_LEN="$MANIFEST_MAX_MODEL_LEN"
+  export VLLM_GPU_MEMORY_UTILIZATION="$GPU_MEM_UTIL"
+  PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" "$DIRECT_PYTHON" -m agentic_sim.runtime.backend \
+    --backend direct \
+    --manifest "$MANIFEST" \
+    --artifact-root "$WORK_ROOT/runtime" \
+    --protected-root "$ROOT/artifacts/h100_final_validation" \
+    --protected-root "$ROOT/project" \
+    --model-cache "$MODEL_CACHE" \
+    --model-path "$MODEL_SNAPSHOT" \
+    --python "$DIRECT_PYTHON" \
+    --trace-binary "$H100_NSYS_BIN" \
+    --trace-session "$SESSION" \
+    --protocol-sha256 "$PROTOCOL_SHA256" \
+    --health-timeout 180 \
+    || die 'direct vLLM runtime failed; state and cleanup metadata were preserved'
+  DIRECT_RUNTIME_STATE="$WORK_ROOT/runtime/direct/run_state.json"
+  DIRECT_GPU_PIDS="$(nvidia-smi --query-compute-apps=pid --format=csv,noheader 2>/dev/null | sed '/^[[:space:]]*$/d' || true)"
+  PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" "$DIRECT_PYTHON" - "$DIRECT_RUNTIME_STATE" "$DIRECT_GPU_PIDS" "$H100_NSYS_BIN" "$SESSION" <<'PY'
+import json
+import pathlib
+import sys
+
+state_path = pathlib.Path(sys.argv[1])
+state = json.loads(state_path.read_text(encoding="utf-8"))
+if state.get("backend") != "direct" or state.get("status") != "healthy":
+    raise SystemExit("direct runtime did not produce healthy state")
+pids = sorted(
+    {
+        line.split(",", 1)[0].strip()
+        for line in sys.argv[2].splitlines()
+        if line.strip() and line.split(",", 1)[0].strip().isdigit()
+    }
+)
+if not pids:
+    raise SystemExit("direct runtime has no visible GPU process")
+state["runtime_pids"] = [int(pid) for pid in pids]
+state["trace_binary"] = sys.argv[3]
+state["trace_session"] = sys.argv[4]
+temporary = state_path.with_name(state_path.name + ".tmp")
+temporary.write_text(json.dumps(state, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+temporary.replace(state_path)
+PY
+  printf 'Direct H100 server ready: model=%s revision=%s artifact_root=%s/direct\n' "$MANIFEST_MODEL" "$MANIFEST_REVISION" "$WORK_ROOT/runtime"
   exit 0
 fi
 
@@ -333,9 +471,7 @@ PYTHON_BIN="$PYTHON_ENV_ROOT/bin/python"
 ensure_python_packages
 export PATH="$PYTHON_ENV_ROOT/bin:$PATH"
 
-[[ "$(git -C "$ROOT" branch --show-current)" == "$EXPECTED_BRANCH" ]] || die "checkout is not on $EXPECTED_BRANCH"
-[[ "$(git -C "$ROOT" rev-parse HEAD)" == "$REQUIRED_COMMIT" ]] || die 'checkout commit does not match REQUIRED_COMMIT'
-[[ -z "$(git -C "$ROOT" status --porcelain)" ]] || die 'checkout is dirty; refusing startup'
+verify_checkout_identity
 
 CONFIG_VALUES="$("$PYTHON_BIN" - "$CONFIG" <<'PY'
 import json
@@ -409,6 +545,7 @@ container_matches() {
   [[ "$(docker inspect --format '{{.Config.Image}}' "$CONTAINER" 2>/dev/null || true)" == "$VLLM_IMAGE" ]] || return 1
   [[ "$(docker inspect --format '{{.HostConfig.NetworkMode}}' "$CONTAINER" 2>/dev/null || true)" == host ]] || return 1
   [[ "$(docker inspect --format '{{.HostConfig.IpcMode}}' "$CONTAINER" 2>/dev/null || true)" == host ]] || return 1
+  [[ "$(docker inspect --format '{{.HostConfig.Runtime}}' "$CONTAINER" 2>/dev/null || true)" == nvidia ]] || return 1
   [[ "$(docker inspect --format '{{.HostConfig.ShmSize}}' "$CONTAINER" 2>/dev/null || true)" == 17179869184 ]] || return 1
   command_json="$(docker inspect --format '{{json .Config.Cmd}}' "$CONTAINER" 2>/dev/null || true)"
   for required in "--session-new=$SESSION" '--trace=cuda,osrt' '--cuda-event-trace=false' 'vllm.entrypoints.openai.api_server' '--revision' "$REVISION" '--served-model-name' "$MODEL" '--port' "$PORT" '--max-model-len' "$MAX_MODEL_LEN" '--tensor-parallel-size' "$TENSOR_PARALLEL_SIZE" '--tool-call-parser' "$PARSER"; do
@@ -469,6 +606,88 @@ PY
   printf 'Health checks passed: /health /v1/models completion tool-parser /metrics logs\n'
 }
 
+record_docker_runtime_metadata() {
+  local runtime_root="$WORK_ROOT/runtime/docker"
+  mkdir -p -- "$runtime_root"
+PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" "$PYTHON_BIN" - "$runtime_root" "$MANIFEST" "$CONTAINER" "$SESSION" "$TRACE_PROVIDER" "$H100_NSYS_BIN" "$MODEL_CACHE" "$MODEL_SNAPSHOT" "$RUNTIME_TRACE_ROOT" "$PROTOCOL_SHA256" <<'PY'
+import json
+import pathlib
+import sys
+
+from agentic_sim.runtime.backend import build_docker_command, build_run_metadata, deterministic_manifest
+from agentic_sim.runtime.vllm_config import resolve_vllm_config
+
+root = pathlib.Path(sys.argv[1])
+manifest = pathlib.Path(sys.argv[2])
+container, session, provider, trace_binary, model_cache, model_snapshot, trace_root, protocol_sha = sys.argv[3:]
+config = resolve_vllm_config(manifest, environ={})
+cache_path = pathlib.Path(model_cache).resolve()
+snapshot_path = pathlib.Path(model_snapshot).resolve()
+model_path = "/root/.cache/huggingface/" + snapshot_path.relative_to(cache_path).as_posix()
+command = build_docker_command(
+    config,
+    container_name=container,
+    model_cache=model_cache,
+    model_path=model_path,
+    detach=True,
+    remove=False,
+    trace_binary="/host-cuda/bin/nsys",
+    trace_session=session,
+    trace_root=trace_root,
+)
+metadata = build_run_metadata(
+    backend="docker",
+    config=config,
+    command=command,
+    artifact_root=root,
+    protocol_sha256=protocol_sha,
+    phase="calibration",
+    observed_environment={
+        "trace_provider": provider,
+        "trace_binary": trace_binary,
+        "trace_root": trace_root,
+        "trace_session": session,
+        "container_name": container,
+        "nsight_session": session,
+        "model_cache": model_cache,
+        "model_path": model_path,
+    },
+)
+metadata["runtime_launch"] = {
+    "launcher": "scripts/cloud/start_h100_vllm_nsight.sh",
+    "container_name": container,
+    "nsight_session": session,
+    "trace_provider": provider,
+    "trace_binary": trace_binary,
+}
+payload = deterministic_manifest(metadata)
+path = root / "run_metadata.json"
+if path.exists() and path.read_bytes() != payload:
+    raise SystemExit(f"runtime metadata changed; refusing overwrite: {path}")
+if not path.exists():
+    path.write_bytes(payload)
+state = {
+    "schema_version": "runtime-run-state.v1",
+    "backend": "docker",
+    "backend_contract": "runtime-backend.v1",
+    "artifact_root": str(root.resolve()),
+    "protocol_sha256": protocol_sha,
+    "split_manifest_sha256": None,
+    "prediction_manifest_sha256": None,
+    "command_sha256": metadata["command_sha256"],
+    "status": "healthy",
+    "identifier": container,
+    "metadata": "run_metadata.json",
+}
+state_path = root / "run_state.json"
+state_payload = deterministic_manifest(state)
+if state_path.exists() and state_path.read_bytes() != state_payload:
+    raise SystemExit(f"runtime state changed; refusing overwrite: {state_path}")
+if not state_path.exists():
+    state_path.write_bytes(state_payload)
+PY
+}
+
 if container_exists; then
   container_running || die "stale stopped container exists; inspect before recovery: $CONTAINER"
   container_matches || die "running container is stale or pin-mismatched: $CONTAINER"
@@ -477,6 +696,7 @@ if container_exists; then
   gpu_processes_are_expected || die 'GPU process is outside the expected server container'
   docker exec "$CONTAINER" /host-cuda/bin/nsys sessions list 2>/dev/null | grep -Fq "$SESSION" || die 'expected Nsight session is not registered'
   health_check
+  record_docker_runtime_metadata
   printf 'H100 server reused: container=%s session=%s\n' "$CONTAINER" "$SESSION"
   exit 0
 fi
@@ -486,7 +706,7 @@ duplicate_container_check
 port_in_use && die "port $PORT is occupied by a non-reviewed process"
 export H100_MODEL_CACHE="$MODEL_CACHE"
 export H100_MODEL_SNAPSHOT="$MODEL_SNAPSHOT"
-export H100_TRACE_MOUNT_ROOT="$TRACE_ROOT"
+export H100_TRACE_MOUNT_ROOT="$RUNTIME_TRACE_ROOT"
 export H100_TRACE_PROVIDER="$TRACE_PROVIDER"
 export H100_EXPECTED_SERVER_CONTAINER="$CONTAINER"
 export H100_NSYS_CONTAINER="$CONTAINER"
@@ -504,4 +724,5 @@ container_matches || die 'launcher returned but the server container does not ma
 gpu_processes="$(nvidia-smi --query-compute-apps=pid --format=csv,noheader 2>/dev/null | sed '/^[[:space:]]*$/d' || true)"
 gpu_processes_are_expected || die 'new server GPU process is outside the expected container'
 health_check
+record_docker_runtime_metadata
 printf 'H100 server ready: container=%s session=%s model=%s revision=%s\n' "$CONTAINER" "$SESSION" "$MODEL" "$REVISION"
