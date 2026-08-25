@@ -141,6 +141,10 @@ class A100PreparationTests(unittest.TestCase):
         self.assertIn("profiled A100 Nsight session is not registered", source)
         self.assertIn("profiled vLLM served model does not match", source)
 
+    def test_a100_execution_binds_the_concrete_docker_trace_backend(self):
+        source = (ROOT / "scripts/cloud/a100_execution.py").read_text()
+        self.assertIn('"BACKEND": "docker"', source)
+
 
 if __name__ == "__main__":
     unittest.main()

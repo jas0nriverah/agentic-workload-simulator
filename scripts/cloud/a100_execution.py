@@ -70,6 +70,7 @@ def run_rows(split, root, values, deadline, resume):
             output.mkdir(parents=True, exist_ok=True)
             env = os.environ.copy()
             env.update({"A100_TRACE_PROVIDER": str(PROVIDER),
+                        "BACKEND": "docker",
                         "A100_MODEL_SNAPSHOT": values["MODEL_SNAPSHOT"],
                         "A100_VLLM_BASE_URL": "http://127.0.0.1:{}".format(values["VLLM_PORT"]),
                         "A100_VLLM_MODEL": values["VLLM_MODEL"],
