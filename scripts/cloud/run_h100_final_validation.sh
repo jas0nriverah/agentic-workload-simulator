@@ -4,7 +4,8 @@ IFS=$'\n\t'
 # Fail-closed/resumable H100 driver. The reviewed runner owns profiling.
 ROOT="$(cd -- "$(dirname -- "$0")/../.." && pwd -P)"
 CONFIG="$ROOT/configs/h100_final_validation.json"
-OUTPUT_DIR="$ROOT/artifacts/h100_final_validation"
+OUTPUT_DIR="$ROOT/artifacts/runtime/auto"
+OUTPUT_DIR_EXPLICIT=0
 PHASE=calibration
 RUNNER=
 PREDICTIONS_MANIFEST=
@@ -14,16 +15,32 @@ ALLOW_H100=0
 RESUME=0
 EXPECTED_SERVER_CONTAINER="${H100_EXPECTED_SERVER_CONTAINER:-${H100_NSYS_CONTAINER:-h100-final-vllm}}"
 EXPECTED_SERVER_SESSION="${H100_NSYS_SESSION:-h100-final-validation}"
+STARTUP_MANIFEST="${H100_STARTUP_MANIFEST:-/mnt/eic-work/h100-startup.env}"
+BACKEND="${BACKEND:-auto}"
 PINNED_VLLM_IMAGE='vllm/vllm-openai:v0.10.0@sha256:05a31dc4185b042e91f4d2183689ac8a87bd845713d5c3f987563c5899878271'
 usage() {
   cat <<'USAGE'
 Usage: run_h100_final_validation.sh [options]
   --config FILE --output-dir DIR --phase calibration|holdout
-  --runner FILE --predictions-manifest FILE --dry-run --execute
+  --runner FILE --predictions-manifest FILE --backend auto|docker|direct
+  --dry-run --execute
   --allow-h100 --resume
 USAGE
 }
 die() { printf 'ERROR: %s\n' "$*" >&2; exit 1; }
+startup_manifest_value() {
+  local wanted="$1" line key value found=0
+  while IFS= read -r line || [[ -n "$line" ]]; do
+    line="${line%%#*}"
+    [[ "$line" == *=* ]] || continue
+    key="${line%%=*}"
+    value="${line#*=}"
+    [[ "$key" == "$wanted" ]] || continue
+    found=$((found + 1))
+    ((found == 1)) || die "duplicate startup manifest key: $wanted"
+    printf '%s' "$value"
+  done < "$STARTUP_MANIFEST"
+}
 sha256_file() {
   if command -v sha256sum >/dev/null 2>&1; then sha256sum -- "$1" | awk '{print $1}'
   elif command -v shasum >/dev/null 2>&1; then shasum -a 256 -- "$1" | awk '{print $1}'
@@ -32,10 +49,12 @@ sha256_file() {
 while (($#)); do
   case "$1" in
     --config) (($# >= 2)) || die '--config requires a file'; CONFIG="$2"; shift 2;;
-    --output-dir) (($# >= 2)) || die '--output-dir requires a directory'; OUTPUT_DIR="$2"; shift 2;;
+    --output-dir) (($# >= 2)) || die '--output-dir requires a directory'; OUTPUT_DIR="$2"; OUTPUT_DIR_EXPLICIT=1; shift 2;;
     --phase) (($# >= 2)) || die '--phase requires calibration or holdout'; PHASE="$2"; shift 2;;
     --runner) (($# >= 2)) || die '--runner requires an executable'; RUNNER="$2"; shift 2;;
     --predictions-manifest) (($# >= 2)) || die '--predictions-manifest requires a file'; PREDICTIONS_MANIFEST="$2"; shift 2;;
+    --backend) (($# >= 2)) || die '--backend requires auto, docker, or direct'; BACKEND="$2"; shift 2;;
+    --backend=*) BACKEND="${1#*=}"; shift;;
     --dry-run) DRY_RUN=1; shift;;
     --execute) EXECUTE=1; shift;;
     --allow-h100) ALLOW_H100=1; shift;;
@@ -44,6 +63,7 @@ while (($#)); do
     *) die "unknown argument: $1";;
   esac
 done
+[[ "$BACKEND" == auto || "$BACKEND" == docker || "$BACKEND" == direct ]] || die '--backend must be auto, docker, or direct'
 [[ "$PHASE" == calibration || "$PHASE" == holdout ]] || die '--phase must be calibration or holdout'
 [[ -f "$CONFIG" ]] || die "protocol config is missing: $CONFIG"
 command -v python3 >/dev/null 2>&1 || die 'python3 is required'
@@ -91,7 +111,7 @@ PY
 printf 'Protocol SHA-256: %s\nPhase: %s (%s calibration, %s sealed holdouts; 3 repeats + 2 warmups)\n' "$CONFIG_SUM" "$PHASE" "$CAL_COUNT" "$HOLD_COUNT"
 
 if (( DRY_RUN )); then
-  printf 'DRY-RUN: no GPU inspection, server start, runner invocation, or artifact mutation\n'
+  printf 'DRY-RUN: requested BACKEND=%s; no GPU inspection, server start, runner invocation, or artifact mutation\n' "$BACKEND"
   while IFS=$'\t' read -r case_id split input_tokens output_tokens; do
     [[ -n "$case_id" ]] || continue
     for repeat_id in r01 r02 r03; do printf 'DRY-RUN: %s %s %s/%s -> %s\n' "$split" "$case_id" "$input_tokens" "$output_tokens" "$repeat_id"; done
@@ -102,6 +122,85 @@ fi
 (( EXECUTE )) || die 'refusing execution without --execute (use --dry-run to inspect)'
 (( ALLOW_H100 )) || die 'refusing execution without --allow-h100'
 [[ -n "$RUNNER" && -x "$RUNNER" ]] || die "reviewed executable runner is required: $RUNNER"
+
+# Startup and the phase driver are separate processes.  Import only the
+# runtime paths/identities needed by the reviewed runner and trace provider;
+# never source the external manifest or evaluate arbitrary shell text.
+if [[ -f "$STARTUP_MANIFEST" ]]; then
+  manifest_model_snapshot="$(startup_manifest_value MODEL_SNAPSHOT)"
+  manifest_trace_root="$(startup_manifest_value TRACE_ROOT)"
+  manifest_container="$(startup_manifest_value H100_CONTAINER)"
+  manifest_session="$(startup_manifest_value H100_NSYS_SESSION)"
+  manifest_python_env_root="$(startup_manifest_value PYTHON_ENV_ROOT)"
+  manifest_work_root="$(startup_manifest_value WORK_ROOT)"
+  if [[ -z "${H100_MODEL_SNAPSHOT:-}" ]]; then export H100_MODEL_SNAPSHOT="$manifest_model_snapshot"; fi
+  if [[ -z "${H100_NSYS_CONTAINER:-}" ]]; then export H100_NSYS_CONTAINER="$manifest_container"; fi
+  if [[ -z "${H100_NSYS_SESSION:-}" ]]; then export H100_NSYS_SESSION="$manifest_session"; fi
+  if [[ -z "${H100_PYTHON_ENV_ROOT:-}" ]]; then export H100_PYTHON_ENV_ROOT="$manifest_python_env_root"; fi
+fi
+
+SELECTED_BACKEND="$(PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 - "$BACKEND" "$STARTUP_MANIFEST" "$CONFIG" <<'PY'
+import sys
+from agentic_sim.runtime.backend import resolve_backend, select_backend
+from agentic_sim.runtime.vllm_config import resolve_vllm_config
+
+requested, manifest, config_path = sys.argv[1:]
+try:
+    selected = select_backend(requested, manifest_path=manifest if manifest else None)
+    config = resolve_vllm_config(config_path, environ={})
+    print(resolve_backend(selected, config))
+except Exception as exc:
+    print(f"ERROR: {exc}", file=sys.stderr)
+    raise SystemExit(1)
+PY
+)" || die 'runtime backend selection failed; no backend fallback was attempted'
+export BACKEND="$SELECTED_BACKEND"
+if [[ -z "${H100_TRACE_MOUNT_ROOT:-}" ]]; then
+  if [[ -n "${manifest_trace_root:-}" ]]; then
+    export H100_TRACE_MOUNT_ROOT="$manifest_trace_root/$SELECTED_BACKEND"
+  else
+    die 'H100_TRACE_MOUNT_ROOT or startup manifest TRACE_ROOT is required'
+  fi
+fi
+if [[ "$SELECTED_BACKEND" == docker ]]; then
+  export H100_EXPECTED_SERVER_CONTAINER="${H100_EXPECTED_SERVER_CONTAINER:-${H100_NSYS_CONTAINER:-h100-final-vllm}}"
+else
+  export H100_EXPECTED_SERVER_CONTAINER=""
+  if [[ -n "${H100_RUNTIME_STATE:-}" ]]; then
+    export H100_RUNTIME_STATE
+  elif [[ -n "${manifest_work_root:-}" ]]; then
+    export H100_RUNTIME_STATE="$manifest_work_root/runtime/direct/run_state.json"
+  fi
+fi
+export H100_TRACE_PROVIDER="${H100_TRACE_PROVIDER:-$ROOT/scripts/cloud/h100_nsight_trace_provider.py}"
+if [[ "$SELECTED_BACKEND" == docker ]]; then
+  export H100_NSYS_BIN="${H100_NSYS_BIN:-/host-cuda/bin/nsys}"
+else
+  export H100_NSYS_BIN="${H100_NSYS_BIN:-/usr/local/cuda/bin/nsys}"
+fi
+export H100_TRACE_CONTAINER_ROOT="${H100_TRACE_CONTAINER_ROOT:-/trace}"
+if [[ -n "${H100_PYTHON_ENV_ROOT:-}" ]]; then
+  [[ -x "$H100_PYTHON_ENV_ROOT/bin/python" ]] || die "pinned Python environment is missing: $H100_PYTHON_ENV_ROOT"
+  export PATH="$H100_PYTHON_ENV_ROOT/bin:$PATH"
+fi
+EXPECTED_SERVER_CONTAINER="$H100_EXPECTED_SERVER_CONTAINER"
+EXPECTED_SERVER_SESSION="${H100_NSYS_SESSION:-h100-final-validation}"
+if (( ! OUTPUT_DIR_EXPLICIT )); then
+  OUTPUT_DIR="$H100_TRACE_MOUNT_ROOT/validation"
+fi
+if command -v readlink >/dev/null 2>&1; then
+  OUTPUT_DIR="$(readlink -m -- "$OUTPUT_DIR")"
+else
+  OUTPUT_DIR="$(python3 -c 'import os,sys; print(os.path.abspath(os.path.normpath(sys.argv[1])))' "$OUTPUT_DIR")"
+fi
+[[ "$OUTPUT_DIR" != "$ROOT/artifacts/h100_final_validation" && "$OUTPUT_DIR" != "$ROOT/artifacts/h100_final_validation/"* ]] \
+  || die 'runtime output root overlaps canonical H100 artifacts'
+[[ "$OUTPUT_DIR" != "$ROOT/project" && "$OUTPUT_DIR" != "$ROOT/project/"* ]] \
+  || die 'runtime output root overlaps canonical project artifacts'
+[[ "$OUTPUT_DIR" == "$H100_TRACE_MOUNT_ROOT"/* ]] || die 'runtime output root must be below the selected backend trace root'
+[[ -n "${H100_MODEL_SNAPSHOT:-}" ]] || die 'H100_MODEL_SNAPSHOT is required for the reviewed runner'
+[[ -x "$H100_TRACE_PROVIDER" ]] || die "reviewed production trace provider is missing or not executable: $H100_TRACE_PROVIDER"
+[[ -n "${H100_TRACE_MOUNT_ROOT:-}" && -d "$H100_TRACE_MOUNT_ROOT" ]] || die 'H100_TRACE_MOUNT_ROOT must be an existing host trace mount'
 GIT_COMMIT="$(git -C "$ROOT" rev-parse HEAD 2>/dev/null || true)"
 [[ "$GIT_COMMIT" =~ ^[0-9a-fA-F]{40}$ ]] || die 'a committed pre-run Git revision is required'
 if [[ "$PHASE" == holdout ]]; then [[ -n "$PREDICTIONS_MANIFEST" && -f "$PREDICTIONS_MANIFEST" ]] || die 'holdout requires --predictions-manifest'; fi
@@ -122,7 +221,29 @@ gpu_compute="$(printf '%s' "$gpu_compute" | sed 's/^ *//;s/ *$//')"
 [[ "$gpu_memory" =~ ^[0-9]+$ && "$gpu_memory" -ge 80000 ]] || die "H100 memory is below 80000 MiB: $gpu_memory"
 [[ "$gpu_compute" == 9.0 || "$gpu_compute" == 9.0* ]] || die "compute capability must be 9.0: $gpu_compute"
 gpu_processes="$(nvidia-smi --query-compute-apps=pid --format=csv,noheader 2>/dev/null | sed '/^[[:space:]]*$/d' || true)"
-if [[ -n "$gpu_processes" ]]; then
+if [[ "$SELECTED_BACKEND" == direct ]]; then
+  [[ -n "${H100_RUNTIME_STATE:-}" && -f "$H100_RUNTIME_STATE" ]] || die 'direct runtime state is required for GPU-process attribution'
+  python3 - "$H100_RUNTIME_STATE" "$gpu_processes" "${H100_RUNTIME_PIDS:-}" <<'PY'
+import json
+import pathlib
+import sys
+
+state = json.loads(pathlib.Path(sys.argv[1]).read_text(encoding="utf-8"))
+if state.get("backend") != "direct" or state.get("status") != "healthy":
+    raise SystemExit("direct runtime state is not healthy")
+pid = state.get("pid")
+if isinstance(pid, bool) or not isinstance(pid, int) or pid <= 0:
+    raise SystemExit("direct runtime state has no valid process PID")
+allowed = {str(pid)}
+recorded = state.get("runtime_pids", [])
+if isinstance(recorded, list):
+    allowed.update(str(item) for item in recorded if isinstance(item, int) and item > 0)
+allowed.update(item for item in sys.argv[3].split(",") if item.isdigit())
+gpu_pids = {line.split(",", 1)[0].strip() for line in sys.argv[2].splitlines() if line.strip()}
+if not gpu_pids or not gpu_pids.issubset(allowed):
+    raise SystemExit("GPU process is outside the reviewed direct runtime")
+PY
+elif [[ -n "$gpu_processes" ]]; then
   [[ -n "$EXPECTED_SERVER_CONTAINER" ]] || die "GPU already has compute processes: $gpu_processes"
   [[ "$(docker inspect --format '{{.State.Running}}' "$EXPECTED_SERVER_CONTAINER" 2>/dev/null || true)" == true ]] \
     || die "expected profiled server container is not running: $EXPECTED_SERVER_CONTAINER"
@@ -149,6 +270,14 @@ if [[ -e "$OUTPUT_DIR" ]]; then
   if (( RESUME )); then
     [[ -f "$OUTPUT_DIR/protocol.sha256" ]] || die "resume root has no protocol.sha256"
     [[ "$(awk 'NF {print $1; exit}' "$OUTPUT_DIR/protocol.sha256")" == "$CONFIG_SUM" ]] || die "protocol hash changed; refusing resume"
+    if [[ -f "$OUTPUT_DIR/run_state.json" ]]; then
+      python3 - "$OUTPUT_DIR/run_state.json" "$SELECTED_BACKEND" <<'PY'
+import json, pathlib, sys
+state = json.loads(pathlib.Path(sys.argv[1]).read_text(encoding="utf-8"))
+if state.get("backend") != sys.argv[2]:
+    raise SystemExit("runtime backend changed; refusing resume")
+PY
+    fi
   elif [[ -d "$OUTPUT_DIR" && -z "$(find "$OUTPUT_DIR" -mindepth 1 -print -quit)" ]]; then
     : # A bind-mounted, empty trace root is safe to initialize.
   else
@@ -157,9 +286,11 @@ if [[ -e "$OUTPUT_DIR" ]]; then
 else mkdir -p -- "$OUTPUT_DIR"; fi
 if [[ "$PHASE" == holdout ]]; then
   [[ -f "$OUTPUT_DIR/run_state.json" ]] || die 'holdout requires a completed calibration run_state.json'
-  python3 - "$OUTPUT_DIR/run_state.json" "$OUTPUT_DIR/calibration" "$CONFIG" <<'PY'
+  python3 - "$OUTPUT_DIR/run_state.json" "$OUTPUT_DIR/calibration" "$CONFIG" "$SELECTED_BACKEND" <<'PY'
 import json, pathlib, sys
 state = json.loads(pathlib.Path(sys.argv[1]).read_text(encoding="utf-8"))
+if state.get("backend") != sys.argv[4]:
+    raise SystemExit("calibration runtime backend differs from selected backend")
 if state.get("status") != "completed" or state.get("completed_phase") != "calibration":
     raise SystemExit("calibration phase is not complete; holdout remains sealed")
 root = pathlib.Path(sys.argv[2]); config = json.loads(pathlib.Path(sys.argv[3]).read_text(encoding="utf-8"))
@@ -234,10 +365,10 @@ fi
 
 STATE="$OUTPUT_DIR/run_state.json"
 if [[ ! -e "$STATE" ]]; then
-  python3 - "$STATE" "$CONFIG_SUM" "$SPLIT_HASH" "$PHASE" "$gpu_name" "$GIT_COMMIT" <<'PY'
+  python3 - "$STATE" "$CONFIG_SUM" "$SPLIT_HASH" "$PHASE" "$gpu_name" "$GIT_COMMIT" "$SELECTED_BACKEND" <<'PY'
 import json, pathlib, sys, time
-out, protocol_sha, split_sha, phase, gpu_name, git_commit = sys.argv[1:]
-obj = {"schema_version": "h100-final-run-state.v1", "status": "running", "phase": phase, "protocol_sha256": protocol_sha, "split_manifest_sha256": split_sha, "pre_run_git_commit": git_commit, "gpu_name": gpu_name, "started_at_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()), "completed": [], "unavailable": []}
+out, protocol_sha, split_sha, phase, gpu_name, git_commit, backend = sys.argv[1:]
+obj = {"schema_version": "h100-final-run-state.v1", "status": "running", "phase": phase, "backend": backend, "protocol_sha256": protocol_sha, "split_manifest_sha256": split_sha, "pre_run_git_commit": git_commit, "gpu_name": gpu_name, "started_at_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()), "completed": [], "unavailable": []}
 path = pathlib.Path(out); tmp = path.with_name(path.name + ".tmp"); tmp.write_text(json.dumps(obj, indent=2, sort_keys=True) + "\n", encoding="utf-8"); tmp.replace(path)
 PY
 fi

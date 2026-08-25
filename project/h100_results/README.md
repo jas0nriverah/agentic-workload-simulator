@@ -21,6 +21,12 @@ what was measured, what was derived, and what remains an offline-analysis or
 cross-GPU limitation. It does not imply that every assignment report section
 is complete.
 
+The sealed feature-only validation result is recorded separately in
+`h100_final_feature_validation.json`. It reports the 24-case calibration fit,
+the frozen 12-case holdout prediction, real Nsight trace provenance, the
+holdout metrics, and the SHA-256 inventory for the external raw-artifact root.
+It does not copy raw traces or model weights into Git.
+
 ## Rebuild and verify
 
 From the repository root, regenerate the package with:

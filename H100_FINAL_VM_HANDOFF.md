@@ -32,12 +32,16 @@ Use `scripts/cloud/start_h100.sh` for every fresh or resumed VM. Do not call
 the lower-level Nsight launcher directly. The startup entrypoint resolves the
 repository root from its own path, verifies the branch/commit/worktree,
 sealed protocol hash, external startup manifest, Python lock, and Ubuntu
-system-package lock, then verifies Docker, the NVIDIA runtime, one allowlisted
-H100, CUDA, Nsight Systems, the pinned image digest, the exact local model
-snapshot, and the executable production trace provider. It installs only
-missing or lock-mismatched packages, uses cached packages first, and uses
-`--require-hashes` for Python installation. It never sources the manifest, so
-credentials or arbitrary shell text are not evaluated or logged.
+system-package lock. `BACKEND=auto` (the default) verifies Docker, the NVIDIA
+runtime, the pinned image, and one-GPU container access before selecting Docker;
+if any of those checks fail it selects the already-prepared direct runtime.
+`--backend docker` is explicit and fails closed; it never switches to direct.
+`--backend direct` skips Docker installation and probing entirely. The selected
+path then verifies one allowlisted H100, CUDA, Nsight Systems, the exact local
+model snapshot, the pinned vLLM/model/parser contract, and the executable
+production trace provider. Docker is never installed inside an unprivileged
+container. It never sources the manifest, so credentials or arbitrary shell
+text are not evaluated or logged.
 
 Create the non-secret manifest outside the checkout once per VM. Replace the
 commit placeholder with the final pushed commit and preserve every other pin:
@@ -57,13 +61,15 @@ a2507fbf3cb360091c9657ff1a000a975521d8aa360cf6e3f18a3318fb15f1e5
 The safe preflight is:
 
 ```bash
-scripts/cloud/start_h100.sh --manifest /mnt/eic-work/h100-startup.env --dry-run
+scripts/cloud/start_h100.sh --manifest /mnt/eic-work/h100-startup.env \
+  --backend auto --dry-run
 ```
 
 After that passes, the one-command startup/reuse flow is:
 
 ```bash
-scripts/cloud/start_h100.sh --manifest /mnt/eic-work/h100-startup.env
+scripts/cloud/start_h100.sh --manifest /mnt/eic-work/h100-startup.env \
+  --backend auto
 ```
 
 This command performs `/health`, `/v1/models`, a normal completion, Qwen
@@ -73,9 +79,51 @@ reused. A stopped, mismatched, duplicate, unhealthy, or otherwise stale
 server fails closed. Startup does not run calibration, holdout, fitting,
 scoring, or any cloud allocation; those remain explicit separate commands.
 
+For a prepared non-Docker VM/GPU container, use the identical startup contract
+with direct mode:
+
+```bash
+scripts/cloud/start_h100.sh --manifest /mnt/eic-work/h100-startup.env \
+  --backend direct --dry-run
+scripts/cloud/start_h100.sh --manifest /mnt/eic-work/h100-startup.env \
+  --backend direct
+```
+
+The direct environment must already contain Python 3.11, vLLM 0.10.0, the
+same model/tokenizer revision, host CUDA/Nsight tracing, and one isolated H100;
+the startup path does not install Docker, Docker-in-Docker, or vLLM. Both
+paths write backend-specific runtime metadata/state below the external work
+root and retain the same request, trace, leakage, timeout, and cleanup
+contract. Docker and direct results are not interchangeable without separate
+validation.
+
+The validation driver accepts the same external manifest without sourcing it.
+It propagates only the reviewed model, trace, container, Nsight, and pinned
+Python-environment paths, then prepends `PYTHON_ENV_ROOT/bin` so every resumed
+run invokes the lock-validated Python environment. The canonical fresh/resumed
+server flow is therefore exactly:
+
+```bash
+scripts/cloud/start_h100.sh --manifest /mnt/eic-work/h100-startup.env \
+  --backend auto --dry-run
+scripts/cloud/start_h100.sh --manifest /mnt/eic-work/h100-startup.env \
+  --backend auto
+```
+
+If a request row becomes unavailable, preserve that root and its checksums.
+Do not delete or overwrite the row, clear its lock, or resume it as though it
+were successful. Create a new trace-backed artifact root containing only the
+byte-identical calibration tree, sealed protocol/split files, feature model,
+and frozen prediction manifest; initialize its completed-calibration state,
+then run the same startup commands above and resume holdout with the exact
+prediction checksum. Never copy failed holdout rows or labels into the fresh
+root. This keeps the reviewed server restart and artifact recovery paths
+deterministic while retaining all failure evidence.
+
 The startup trace mount must be outside the repository's validation artifact
-roots. Never set it to `artifacts/h100_final_validation/` or an existing
-calibration/holdout path.
+roots. The selected startup path uses `<TRACE_ROOT>/<backend>` for traces and
+validation output, and never sets it to `artifacts/h100_final_validation/` or
+an existing calibration/holdout path.
 
 ### Stale-server recovery
 
@@ -239,17 +287,31 @@ unavailable row with a non-zero exit instead of fabricating measurements.
 
 ## Execution order
 
+After startup reports the selected backend, use a concrete backend for the
+validation driver and keep its roots outside the checkout. For example:
+
+```bash
+BACKEND=direct  # use docker only after its startup checks pass
+RUNTIME_ARTIFACT_ROOT="/mnt/eic-work/h100-startup-traces/${BACKEND}/validation"
+export BACKEND RUNTIME_ARTIFACT_ROOT
+```
+
+The Docker and direct trees are separate; replace `direct` with `docker` only
+when Docker was explicitly validated. The canonical H100 artifact and report
+trees remain read-only.
+
 Run calibration first. The command below is illustrative and remains blocked
 unless authorization and the reviewed runner are present:
 
 ```bash
 scripts/cloud/run_h100_final_validation.sh --phase calibration --execute \
-  --allow-h100 --runner scripts/cloud/h100_case_runner.py
+  --allow-h100 --backend "$BACKEND" --output-dir "$RUNTIME_ARTIFACT_ROOT" \
+  --runner scripts/cloud/h100_case_runner.py
 ```
 
 After all calibration artifacts are immutable, fit the predeclared
 `h100_feature_latency_v1` model offline using calibration medians only. Persist
-`artifacts/h100_final_validation/derived/prediction_manifest.json` with the
+`$RUNTIME_ARTIFACT_ROOT/derived/prediction_manifest.json` with the
 protocol/split hash, fit-input hash, model formula/regularization, predictions
 for all 12 holdout cases, and prediction hash. Do this before reading holdout
 raw labels. Inspect the prediction manifest; no target label may appear in it.
@@ -259,9 +321,9 @@ The exact offline transition is:
 ```bash
 python3 scripts/analysis/feature_validation.py fit \
   --config configs/h100_final_validation.json \
-  --artifact-root artifacts/h100_final_validation
-test -s artifacts/h100_final_validation/derived/prediction_manifest.json
-test -s artifacts/h100_final_validation/derived/prediction_manifest.sha256
+  --artifact-root "$RUNTIME_ARTIFACT_ROOT"
+test -s "$RUNTIME_ARTIFACT_ROOT/derived/prediction_manifest.json"
+test -s "$RUNTIME_ARTIFACT_ROOT/derived/prediction_manifest.sha256"
 ```
 
 The fit command reads only calibration row manifests, uses the fixed formula
@@ -273,8 +335,8 @@ Then reveal and measure holdouts with an explicit resume:
 
 ```bash
 scripts/cloud/run_h100_final_validation.sh --phase holdout --execute \
-  --allow-h100 --resume \
-  --predictions-manifest artifacts/h100_final_validation/derived/prediction_manifest.json \
+  --allow-h100 --backend "$BACKEND" --output-dir "$RUNTIME_ARTIFACT_ROOT" --resume \
+  --predictions-manifest "$RUNTIME_ARTIFACT_ROOT/derived/prediction_manifest.json" \
   --runner scripts/cloud/h100_case_runner.py
 ```
 
@@ -290,7 +352,7 @@ After holdout collection and receipt creation, score with the exact command:
 ```bash
 python3 scripts/analysis/feature_validation.py score \
   --config configs/h100_final_validation.json \
-  --artifact-root artifacts/h100_final_validation
+  --artifact-root "$RUNTIME_ARTIFACT_ROOT"
 ```
 
 After scoring, create the final inventory without adding raw traces to Git:
@@ -298,15 +360,16 @@ After scoring, create the final inventory without adding raw traces to Git:
 ```bash
 python3 - <<'PY'
 import hashlib
+import os
 from pathlib import Path
-root = Path("artifacts/h100_final_validation")
+root = Path(os.environ["RUNTIME_ARTIFACT_ROOT"])
 lines = []
 for path in sorted(p for p in root.rglob("*") if p.is_file() and p.name != "inventory.sha256"):
     digest = hashlib.sha256(path.read_bytes()).hexdigest()
     lines.append(f"{digest}  {path.relative_to(root)}")
 (root / "inventory.sha256").write_text("\n".join(lines) + "\n", encoding="utf-8")
 PY
-sha256sum artifacts/h100_final_validation/inventory.sha256
+sha256sum "$RUNTIME_ARTIFACT_ROOT/inventory.sha256"
 ```
 
 The enforced order is therefore calibration collection → calibration-only fit
@@ -320,7 +383,7 @@ it writes the reveal receipt only after all holdout rows are terminal.
 In a second shell, monitor without changing the run:
 
 ```bash
-tail -f artifacts/h100_final_validation/run_state.json
+tail -f "$RUNTIME_ARTIFACT_ROOT/run_state.json"
 nvidia-smi --query-gpu=timestamp,name,uuid,utilization.gpu,memory.used,power.draw --format=csv -l 5
 ```
 
@@ -331,11 +394,12 @@ prediction manifest:
 
 ```bash
 scripts/cloud/run_h100_final_validation.sh --phase calibration --execute \
-  --allow-h100 --resume --runner scripts/cloud/h100_case_runner.py
+  --allow-h100 --backend "$BACKEND" --output-dir "$RUNTIME_ARTIFACT_ROOT" \
+  --resume --runner scripts/cloud/h100_case_runner.py
 # or, after calibration fit is already frozen:
 scripts/cloud/run_h100_final_validation.sh --phase holdout --execute \
-  --allow-h100 --resume \
-  --predictions-manifest artifacts/h100_final_validation/derived/prediction_manifest.json \
+  --allow-h100 --backend "$BACKEND" --output-dir "$RUNTIME_ARTIFACT_ROOT" --resume \
+  --predictions-manifest "$RUNTIME_ARTIFACT_ROOT/derived/prediction_manifest.json" \
   --runner scripts/cloud/h100_case_runner.py
 ```
 

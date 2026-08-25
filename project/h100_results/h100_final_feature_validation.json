@@ -1,0 +1,84 @@
+{
+  "artifact_inventory_sha256": "f9f68ba5ecf5eddbc461efbb7ca416914b65c8d9627d2a35340ac922810b612a",
+  "artifact_root": "artifacts/h100_final_validation_retry3_recovery2",
+  "calibration": {
+    "cases": 24,
+    "completed_rows": 72,
+    "feature_model_sha256": "f0c94366a1366c14b52dbb808c2b1612aa216be2ae7c22c0f5ab54fa799cf71f",
+    "fit_input_sha256": "aab0ff18f9ec627df3f313df66135245cff07689f25756671e2fc0b067ff3e95",
+    "inventory_digest_sha256": "0dd41946a8d834b8abcfe5b0652d65b3e7c3a1f60c2adde8dfe44005f8c3b4ae",
+    "repeats": 3,
+    "unavailable_rows": 0,
+    "warmups_per_case": 2
+  },
+  "external_artifact_root": "/home/jasonrivera691/eic-work/h100-startup-traces/h100_final_validation_retry3_recovery2",
+  "holdout": {
+    "cases": 12,
+    "completed_rows": 36,
+    "extrapolation_cases": 4,
+    "interpolation_cases": 8,
+    "metrics": {
+      "coverage_percent": 100.0,
+      "denominator_cases": 12,
+      "denominator_repeats": 36,
+      "extrapolation_mape_percent": 2.4791674634821153,
+      "interpolation_mape_percent": 0.6318670156173467,
+      "mae_seconds": 0.020781121396074017,
+      "mape_percent": 1.2476338315722695,
+      "p95_ape_percent": 3.2340234385021938,
+      "rmse_seconds": 0.04212455224925816,
+      "thresholds": {
+        "coverage_percent": 100.0,
+        "extrapolation_wall_mape_percent_max": 35.0,
+        "interpolation_wall_mape_percent_max": 25.0,
+        "primary_wall_mape_percent_max": 25.0
+      }
+    },
+    "metrics_sha256": "b4b29bf6c52b19a28c43fb6da17a1acb1c426e15a35d76fa397bb58f350ebe39",
+    "repeats": 3,
+    "unavailable_rows": 0
+  },
+  "holdout_reveal_receipt_sha256": "0e8f7cfe9c2602f718cce59d92a1f7d0adc46e52a233b35f4a85992bf6e917af",
+  "integrity_status": "PASS",
+  "pre_run_git_commit": "af85aec0d44a81dbc55fd64e10385ead8a467cf3",
+  "prediction_before_reveal": true,
+  "prediction_freeze_proof_sha256": "20fcc61ff1d97d445ef2889991b01bc76695be8ce91c982b194e698544465335",
+  "prediction_manifest_sha256": "6bd701fb7b10c5c1c204668e102ff7efc5b1c9c3de35f9bb8288a6760c7afb70",
+  "preserved_failed_attempts": {
+    "excluded_from_completed_holdout_counts": true,
+    "original": "artifacts/h100_final_validation_retry3/holdout/hold_interp_i256_o48/r01",
+    "recovery1": "artifacts/h100_final_validation_retry3_recovery1/holdout/hold_interp_i256_o48/r01"
+  },
+  "protocol_sha256": "3fb870a4a619afe9cdc697c6f8edcee51c4814ff01ebd552a904f0c9a9271eac",
+  "runtime": {
+    "cuda": "13.0",
+    "driver": "580.173.02",
+    "gpu_name": "NVIDIA H100 80GB HBM3",
+    "gpu_uuid": "GPU-8175c6fb-b0a3-334b-e129-d7c87d6cf2f5",
+    "host": "instance-20260822-182111",
+    "image": "vllm/vllm-openai:v0.10.0@sha256:05a31dc4185b042e91f4d2183689ac8a87bd845713d5c3f987563c5899878271",
+    "image_id": "sha256:05a31dc4185b042e91f4d2183689ac8a87bd845713d5c3f987563c5899878271",
+    "image_platform": "linux/amd64",
+    "kernel": "6.8.0-1066-gcp",
+    "memory_total": "81559 MiB",
+    "nsys_session": "h100-final-validation",
+    "nsys_version": "NVIDIA Nsight Systems version 2025.1.3.140-251335620677v0",
+    "pci_bus_id": "00000000:04:00.0"
+  },
+  "schema_version": "h100-final-feature-validation-results.v1",
+  "split_manifest_sha256": "c7c6bae7f78d6c7406456176badb57ef935b9afe285f77306624a3d1759e1d26",
+  "status": "completed",
+  "trace_provider": {
+    "clock": "CLOCK_MONOTONIC_RAW",
+    "cuda_union_rule": "overlap_aware_request_window",
+    "provider": "scripts/cloud/h100_nsight_trace_provider.py",
+    "provider_sha256": "39ba73e77db165d22aa6320109195e987516bc5e18fb9a3f2a69960ea624fb7b",
+    "provider_version": "h100-nsight-trace-provider.v1",
+    "raw_checksum_validation": "PASS",
+    "row_count": 108,
+    "rows_with_nonzero_target_cpu_and_cuda_activity": 108,
+    "source": "Nsight Systems SQLite CUPTI/OSRT activity",
+    "trace_schema": "h100-trace-summary.v1"
+  },
+  "validated_at_utc": "2026-08-24T23:01:21Z"
+}
