@@ -1312,6 +1312,24 @@ def aggregate(args: argparse.Namespace) -> int:
     write_csv(root / "tool_events.csv", all_tool_events, ["schema_version", "trajectory_id", "event_id", "ordering", "operation_class", "action_name", "read_write_traversal_shell_edit_test_other", "start_mono_ns", "end_mono_ns", "wall_ms", "cpu_time_ms", "bytes", "call_count", "path_metadata", "success", "duration_source", "raw_trajectory_path", "raw_trajectory_sha256"])
     hyper_rows = _jsonl(root / "hyperparameter_rows.jsonl")
     write_csv(root / "hyperparameter_results.csv", hyper_rows, ["suite", "repository", "instance_id", "axis", "value", "repeat_id", "status", "task_wall_ms", "official_status", "prompt_tokens", "completion_tokens", "source_manifest_sha256", "artifact_sha256", "failure_reason"])
+    manifest_path = root / "profiling_manifest.json"
+    provenance = {
+        "schema_version": "a100-full-provenance-report.v1",
+        "hardware_scope": "A100 80GB only; no H100 work",
+        "manifest": {"path": str(manifest_path), "sha256": sha256_file(manifest_path) if manifest_path.is_file() else None},
+        "runtime_manifest": {"path": str(root / "a100-full-runtime.env"), "sha256": sha256_file(root / "a100-full-runtime.env") if (root / "a100-full-runtime.env").is_file() else None},
+        "dataset_artifacts": [{"path": str(path), "sha256": sha256_file(path)} for path in sorted((root / "datasets").glob("*.json"))] if (root / "datasets").is_dir() else [],
+        "assignment_metric": PHASE_RATIO_FORMULA,
+        "secondary_diagnostic_metric": RATIO_FORMULA,
+        "trace_provider": "production_a100_nsight_trace_provider",
+        "software": {"model": PINNED_MODEL, "model_revision": PINNED_MODEL_REVISION, "tokenizer_revision": PINNED_TOKENIZER_REVISION, "swe_agent_revision": PINNED_SWE_AGENT, "swe_bench_revision": PINNED_SWE_BENCH, "vllm_image": PINNED_VLLM_IMAGE},
+        "concurrency": 1,
+        "baseline_task_rows": len(task_rows),
+        "valid_direct_request_rows": len(valid),
+        "hyperparameter_cells": len(hyper_rows),
+        "plot_generated": False,
+    }
+    replace_json(root / "provenance_report.json", provenance)
     simulator = build_simulator_validation(root, task_rows)
     replace_json(root / "simulator_validation.json", simulator)
     audit = {
