@@ -1209,10 +1209,51 @@ def _jsonl(path: Path) -> list[dict[str, Any]]:
     return rows
 
 
+def reconcile_evaluator_labels(root: Path, evaluator_root: Path) -> list[dict[str, Any]]:
+    """Bind evaluator outcomes to the exact trajectory repeat without mutation."""
+
+    reconciled: list[dict[str, Any]] = []
+    for task in _jsonl(root / "task_rows.jsonl"):
+        instance_id = str(task.get("instance_id"))
+        repeat_id = str(task.get("repeat_id"))
+        expected_run_id = f"a100-full-{instance_id}-{repeat_id}"
+        local_report = root / "tasks" / str(task.get("suite")) / instance_id.replace("/", "_") / repeat_id / "evaluator_report"
+        status, resolved, report_path = official_result(local_report, instance_id, [evaluator_root], expected_run_id)
+        report_hash = sha256_file(Path(report_path)) if report_path and Path(report_path).is_file() else None
+        reconciled.append({
+            "schema_version": "a100-full-evaluator-reconciliation.v1",
+            "trajectory_id": task.get("trajectory_id"),
+            "suite": task.get("suite"),
+            "repository": task.get("repository"),
+            "instance_id": instance_id,
+            "repeat_id": repeat_id,
+            "expected_run_id": expected_run_id,
+            "official_status": status,
+            "official_resolved": resolved,
+            "evaluator_report": report_path,
+            "evaluator_report_sha256": report_hash,
+            "source_task_row_status": task.get("status"),
+        })
+    replace_json(root / "evaluator_label_reconciliation.json", reconciled)
+    return reconciled
+
+
 def aggregate(args: argparse.Namespace) -> int:
     root = args.output_root.resolve()
     request_rows = _jsonl(root / "request_rows.jsonl")
     task_rows = _jsonl(root / "task_rows.jsonl")
+    reconciled = reconcile_evaluator_labels(root, args.evaluator_root.resolve()) if args.evaluator_root else []
+    if reconciled:
+        write_csv(root / "evaluator_label_reconciliation.csv", reconciled, ["trajectory_id", "suite", "repository", "instance_id", "repeat_id", "expected_run_id", "official_status", "official_resolved", "evaluator_report", "evaluator_report_sha256", "source_task_row_status"])
+    labels = {str(row.get("trajectory_id")): row for row in reconciled}
+    effective_task_rows = []
+    for task in task_rows:
+        effective = dict(task)
+        label = labels.get(str(task.get("trajectory_id")))
+        if label:
+            effective.update({"official_status": label.get("official_status"), "official_resolved": label.get("official_resolved"), "evaluator_report": label.get("evaluator_report")})
+        effective_task_rows.append(effective)
+    task_rows = effective_task_rows
     valid = [row for row in request_rows if row.get("status") == "completed" and row.get("provenance") == "measured"]
     phase_valid_tasks = [row for row in task_rows if row.get("available") is True and row.get("phase_ratio_status") == "valid"]
     task_fields = [
@@ -1486,6 +1527,7 @@ def parser() -> argparse.ArgumentParser:
     r.add_argument("--deadline-epoch", type=int)
     a = sub.add_parser("aggregate")
     a.add_argument("--output-root", type=Path, required=True)
+    a.add_argument("--evaluator-root", type=Path)
     d = sub.add_parser("audit")
     d.add_argument("--output-root", type=Path, required=True)
     return result
