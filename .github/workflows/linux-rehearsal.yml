@@ -17,6 +17,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          # The default pull_request checkout is a synthetic merge ref and
+          # reports the target branch (main). The cloud dry-run contracts
+          # intentionally reject that identity; validate the submitted PR
+          # head instead, while push runs continue to use github.sha.
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
       - name: Python 3.11
         uses: actions/setup-python@v5

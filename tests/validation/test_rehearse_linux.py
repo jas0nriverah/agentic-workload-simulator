@@ -143,6 +143,10 @@ class RehearsalTests(unittest.TestCase):
 
     def test_linux_workflow_fixture_uses_current_dataset_contract(self):
         workflow = (ROOT / ".github/workflows/linux-rehearsal.yml").read_text(encoding="utf-8")
+        self.assertIn(
+            "ref: ${{ github.event.pull_request.head.sha || github.sha }}",
+            workflow,
+        )
         for digest in (
             rehearse.EXPECTED["lite_source_hash"],
             rehearse.EXPECTED["lite_first_hash"],
