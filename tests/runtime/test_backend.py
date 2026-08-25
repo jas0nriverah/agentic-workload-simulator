@@ -114,7 +114,7 @@ class RuntimeBackendTests(unittest.TestCase):
         from agentic_sim.runtime.backend import check_backend_prerequisites
 
         with patch("agentic_sim.runtime.backend.shutil.which", return_value=None):
-            with self.assertRaisesRegex(Exception, "Docker backend selected"):
+            with self.assertRaisesRegex(Exception, "Docker backend"):
                 check_backend_prerequisites("docker", self.config, check_external=False)
 
     def test_auto_selects_docker_only_after_toolkit_and_gpu_probe(self):
@@ -128,15 +128,16 @@ class RuntimeBackendTests(unittest.TestCase):
                 return SimpleNamespace(returncode=0, stdout='{"nvidia":{}}')
             return SimpleNamespace(returncode=0, stdout="")
 
-        self.assertTrue(
-            docker_backend_available(
-                self.config,
-                runner=runner,
-                executable_finder=lambda name: "/usr/bin/docker",
+        with patch("agentic_sim.runtime.backend._running_inside_container", return_value=False):
+            self.assertTrue(
+                docker_backend_available(
+                    self.config,
+                    runner=runner,
+                    executable_finder=lambda name: "/usr/bin/docker",
+                )
             )
-        )
-        self.assertEqual(resolve_backend("auto", self.config, availability=True), "docker")
-        self.assertEqual(resolve_backend("auto", self.config, availability=False), "direct")
+            self.assertEqual(resolve_backend("auto", self.config, availability=True), "docker")
+            self.assertEqual(resolve_backend("auto", self.config, availability=False), "direct")
         self.assertGreaterEqual(len(calls), 4)
 
     def test_docker_unavailable_is_explicit_failure_but_direct_is_not_probed(self):

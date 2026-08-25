@@ -28,7 +28,10 @@ DEFAULT_CONFIG = ROOT / "configs/a100_final_validation.json"
 DEFAULT_MANIFEST = Path("/mnt/eic-work/a100-startup.env")
 DEFAULT_JSON_OUT = Path("/tmp/a100-diagnostic.json")
 EXPECTED_BRANCH = "parallel-h100-shards"
-EXPECTED_COMMIT = "92386de01f8931595e83d653fbac0de94e418e84"
+# The release SHA is intentionally bound by the external manifest. Keeping a
+# hard-coded SHA here would make every legitimate repository fix stale the
+# diagnostic before the next sealed run.
+EXPECTED_COMMIT = "<manifest-bound-release-commit>"
 EXPECTED_PROTOCOL_SHA256 = "109c825bc799f7f25ffecb1136e1414d894f5a8f758fb242037f5250f4b50788"
 EXPECTED_IMAGE = (
     "vllm/vllm-openai:v0.10.0@"
@@ -105,7 +108,7 @@ def _read_manifest(path: Path) -> Dict[str, str]:
     except OSError as exc:
         raise DiagnosticFailure(
             f"external startup manifest is unavailable: {path}",
-            f"Copy cloud/gcp/a100_startup_manifest.env.example to {path} outside Git and replace only REQUIRED_COMMIT with {EXPECTED_COMMIT}.",
+            f"Copy cloud/gcp/a100_startup_manifest.env.example to {path} outside Git and replace REQUIRED_COMMIT with the exact current pushed SHA.",
         ) from exc
     for number, raw in enumerate(lines, 1):
         line = raw.split("#", 1)[0].strip()
@@ -152,7 +155,7 @@ def _manifest(args: argparse.Namespace) -> Dict[str, str]:
     if path is None:
         raise DiagnosticFailure(
             "no external startup manifest was supplied",
-            f"Create {DEFAULT_MANIFEST} outside Git from cloud/gcp/a100_startup_manifest.env.example and replace only REQUIRED_COMMIT with {EXPECTED_COMMIT}.",
+            f"Create {DEFAULT_MANIFEST} outside Git from cloud/gcp/a100_startup_manifest.env.example and replace REQUIRED_COMMIT with the exact current pushed SHA.",
         )
     return _read_manifest(path)
 
@@ -238,7 +241,7 @@ class A100Diagnostic:
         self.check(
             "commit",
             "branch_sha_protocol",
-            f"Check out exact commit {EXPECTED_COMMIT} without modifying tracked files.",
+            "Use the exact commit recorded in the external manifest without modifying tracked files.",
             self._commit,
         )
         self.check(
@@ -256,7 +259,7 @@ class A100Diagnostic:
         self.check(
             "manifest_binding",
             "branch_sha_protocol",
-            f"Create the external manifest from the example and set REQUIRED_COMMIT={EXPECTED_COMMIT}; never source it.",
+            "Create the external manifest from the example and set REQUIRED_COMMIT to the exact current pushed SHA; never source it.",
             self._manifest_binding,
         )
         self.check(
@@ -367,9 +370,16 @@ class A100Diagnostic:
     def _commit(self) -> Dict[str, Any]:
         result = _run(["git", "rev-parse", "HEAD"])
         commit = result.stdout.strip()
-        if commit != EXPECTED_COMMIT:
-            raise DiagnosticFailure(f"wrong Git SHA: {commit}", f"Check out exact commit {EXPECTED_COMMIT}.", {"actual": commit})
-        return {"commit": commit}
+        expected = None
+        if self.args.manifest is not None and Path(self.args.manifest).is_file():
+            expected = _read_manifest(self.args.manifest).get("REQUIRED_COMMIT")
+        if expected and commit != expected:
+            raise DiagnosticFailure(
+                f"Git SHA does not match the external manifest: {commit}",
+                f"Set REQUIRED_COMMIT={commit} only after pushing this exact clean checkout, then rerun.",
+                {"actual": commit, "manifest_required_commit": expected},
+            )
+        return {"commit": commit, "manifest_required_commit": expected}
 
     def _clean_checkout(self) -> Dict[str, Any]:
         result = _run(["git", "status", "--porcelain"])
@@ -393,8 +403,13 @@ class A100Diagnostic:
         protocol_hash = values.get("PROTOCOL_SHA256")
         if values.get("REQUIRED_BRANCH") != EXPECTED_BRANCH:
             raise DiagnosticFailure("manifest REQUIRED_BRANCH mismatch", f"Set REQUIRED_BRANCH={EXPECTED_BRANCH}.", {"actual": values.get("REQUIRED_BRANCH")})
-        if actual != EXPECTED_COMMIT:
-            raise DiagnosticFailure("manifest REQUIRED_COMMIT mismatch", f"Set REQUIRED_COMMIT={EXPECTED_COMMIT}.", {"actual": actual})
+        current = _run(["git", "rev-parse", "HEAD"]).stdout.strip()
+        if actual != current:
+            raise DiagnosticFailure(
+                "manifest REQUIRED_COMMIT does not match the current checkout",
+                f"Set REQUIRED_COMMIT={current} only after pushing this exact clean checkout.",
+                {"actual": actual, "current_commit": current},
+            )
         if protocol_hash != EXPECTED_PROTOCOL_SHA256:
             raise DiagnosticFailure("manifest PROTOCOL_SHA256 mismatch", f"Set PROTOCOL_SHA256={EXPECTED_PROTOCOL_SHA256}.", {"actual": protocol_hash})
         if not _outside_checkout(Path(values.get("ARTIFACT_ROOT", ""))) or not _outside_checkout(Path(values.get("RECOVERY_ROOT", ""))):

@@ -71,6 +71,13 @@ To check a GPU VM before a live run:
 ./start.sh --check-only --require-docker --require-gpu
 ```
 
+In managed Studios that provide one pre-created Conda environment and forbid
+creating another virtualenv, point the setup at that environment:
+
+```bash
+AGENTIC_VENV="$CONDA_PREFIX" ./start.sh
+```
+
 The default setup never starts Docker, a model server, a GPU workload, or an
 experiment.
 
