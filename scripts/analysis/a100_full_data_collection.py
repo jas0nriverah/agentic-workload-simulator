@@ -1343,9 +1343,19 @@ def build_simulator_validation(root: Path, task_rows: list[dict[str, Any]]) -> d
     if len(completed) < 4:
         return {"schema_version": "a100-full-simulator-validation.v1", "status": "unavailable", "reason": "fewer than four completed task rows", "features_are_pre_execution_only": True}
     completed = sorted(completed, key=lambda row: (str(row.get("suite")), str(row.get("repository")), str(row.get("instance_id")), str(row.get("repeat_id"))))
-    midpoint = max(2, len(completed) // 2)
-    calibration = completed[:midpoint]
-    validation = completed[midpoint:]
+    # Keep every repeat of an instance on the same side of the split.  A row
+    # midpoint would leak instance/repository behavior through repeated runs.
+    groups: dict[str, list[dict[str, Any]]] = {}
+    for row in completed:
+        groups.setdefault(f"{row.get('suite')}:{row.get('instance_id')}", []).append(row)
+    group_keys = sorted(groups)
+    if len(group_keys) < 2:
+        return {"schema_version": "a100-full-simulator-validation.v1", "status": "unavailable", "reason": "fewer than two disjoint instance groups", "features_are_pre_execution_only": True}
+    midpoint = max(1, len(group_keys) // 2)
+    calibration_groups = group_keys[:midpoint]
+    validation_groups = group_keys[midpoint:]
+    calibration = [row for key in calibration_groups for row in groups[key]]
+    validation = [row for key in validation_groups for row in groups[key]]
     try:
         from agentic_sim.feature_simulator import FeatureCalibrationRecord, FeatureInput, FeatureLatencySimulator
 
@@ -1391,7 +1401,7 @@ def build_simulator_validation(root: Path, task_rows: list[dict[str, Any]]) -> d
             predicted_events = {name: float(model.predict(inputs.to_mapping())["predicted_seconds"]) for name, model in event_models.items()}
             measured_events = {name: statistics.median(float(item.get(name, 0.0)) for item in items) / 1000.0 for name in ("wall_ms", "cpu_activity_union_ms", "cuda_activity_union_ms", "kernel_duration_sum_ms")}
             validation_rows.append({"suite": row["suite"], "repository": row["repository"], "instance_id": row["instance_id"], "repeat_id": row["repeat_id"], "split": "validation", "features": inputs.to_mapping(), "measured_event_values": measured_events, "predicted_event_values": predicted_events, "measured_e2e_seconds": measured_wall, "predicted_e2e_seconds": predicted_wall, "absolute_error_seconds": abs(predicted_wall - measured_wall), "percentage_error": abs(predicted_wall - measured_wall) / measured_wall * 100 if measured_wall > 0 else None, "provenance": "derived_prediction_from_calibration_only"})
-        return {"schema_version": "a100-full-simulator-validation.v1", "status": "completed", "features_are_pre_execution_only": True, "feature_manifest": {"features": ["prompt_tokens", "max_output_tokens", "context_tokens", "tool_calls", "hardware_score"], "forbidden_target_fields": ["wall_ms", "cpu_activity_union_ms", "cuda_activity_union_ms", "kernel_duration_sum_ms", "completion_tokens"]}, "calibration_row_count": len(calibration), "validation_row_count": len(validation_rows), "rows": validation_rows}
+        return {"schema_version": "a100-full-simulator-validation.v1", "status": "completed", "features_are_pre_execution_only": True, "feature_manifest": {"features": ["prompt_tokens", "max_output_tokens", "context_tokens", "tool_calls", "hardware_score"], "forbidden_target_fields": ["wall_ms", "cpu_activity_union_ms", "cuda_activity_union_ms", "kernel_duration_sum_ms", "completion_tokens"]}, "calibration_groups": calibration_groups, "validation_groups": validation_groups, "calibration_row_count": len(calibration), "validation_row_count": len(validation_rows), "rows": validation_rows}
     except Exception as exc:  # fail closed in the artifact, not with a fabricated metric
         return {"schema_version": "a100-full-simulator-validation.v1", "status": "unavailable", "reason": f"simulator_validation_failed:{type(exc).__name__}:{exc}", "features_are_pre_execution_only": True}
 
