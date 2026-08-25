@@ -33,6 +33,11 @@ from typing import Any, Iterable, Mapping
 from urllib.parse import urlsplit
 
 ROOT = Path(__file__).resolve().parents[2]
+# This module is also invoked as ``python scripts/analysis/...py`` by the
+# resumable runner.  Keep repository-local production providers importable in
+# that mode without changing the caller's environment.
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
 POPULATION = ROOT / "project" / "h100_results" / "population_runs.csv"
 FIRST_EXPERIMENT = ROOT / "cloud" / "lambda" / "first_experiment.yaml"
 TRACE_PROVIDER = ROOT / "scripts" / "cloud" / "a100_nsight_trace_provider.py"
@@ -639,12 +644,19 @@ def collect_hardware_metadata() -> dict[str, Any]:
     return metadata
 
 
-def official_result(report_root: Path, instance_id: str) -> tuple[str, bool | None, str | None]:
+def official_result(report_root: Path, instance_id: str, extra_roots: Iterable[Path] = ()) -> tuple[str, bool | None, str | None]:
     """Read only the pinned evaluator's report; do not consult population labels."""
 
     found: list[tuple[Path, dict[str, Any]]] = []
-    if report_root.is_dir():
-        for path in sorted(report_root.rglob("*.json")):
+    roots = [report_root, *extra_roots]
+    seen: set[Path] = set()
+    for root in roots:
+        if not root.is_dir():
+            continue
+        for path in sorted(root.rglob("*.json")):
+            if path in seen:
+                continue
+            seen.add(path)
             try:
                 value = read_json(path)
             except CollectionError:
@@ -669,6 +681,27 @@ def evaluator_status_available(status: str) -> bool:
     return status in {"resolved", "unresolved", "empty_patch", "incomplete", "error"}
 
 
+def existing_trace_recovery_candidate(task_dir: Path) -> bool:
+    """Return true only for a complete, unsealed trajectory needing postprocess.
+
+    A collector crash after trace collection must not cause SWE-agent to be
+    rerun.  The required files are all outputs of that prior attempt; if any
+    are absent, normal execution (or the existing fail-closed path) remains
+    responsible for the directory.
+    """
+
+    required = (
+        task_dir / "request_events.jsonl",
+        task_dir / "sweagent_instances.json",
+        task_dir / "sweagent_output" / "preds.json",
+        task_dir / "trace" / "trace_arm.json",
+        task_dir / "trace" / "trace_collect.json",
+        task_dir / "trace" / "trace.nsys-rep",
+        task_dir / "trace" / "trace.sqlite",
+    )
+    return all(path.is_file() and path.stat().st_size > 0 for path in required) and trajectory_path(task_dir) is not None
+
+
 @dataclass
 class TaskRun:
     task: Mapping[str, Any]
@@ -690,12 +723,14 @@ class TaskRun:
             return read_json(terminal)
         source = load_task(source_dataset, str(self.task["instance_id"]))
         runtime_path = task_dir / "sweagent_instances.json"
-        atomic_json(runtime_path, [runtime_row(source)])
+        if not runtime_path.is_file():
+            atomic_json(runtime_path, [runtime_row(source)])
         request_config = task_dir / "sweagent_request.yaml"
-        request_config.write_text(
-            "agent:\n  model:\n    completion_kwargs:\n      max_tokens: %s\n      seed: 0\n" % self.settings["max_output_tokens"],
-            encoding="utf-8",
-        )
+        if not request_config.is_file():
+            request_config.write_text(
+                "agent:\n  model:\n    completion_kwargs:\n      max_tokens: %s\n      seed: 0\n" % self.settings["max_output_tokens"],
+                encoding="utf-8",
+            )
         agent_output = task_dir / "sweagent_output"
         events = task_dir / "request_events.jsonl"
         logs = task_dir / "logs"
@@ -713,36 +748,57 @@ class TaskRun:
             settings=command_settings,
         )
         command_sha = sha256_bytes("\0".join(command).encode())
-        atomic_json(task_dir / "resolved_command.json", {"argv": command, "sha256": command_sha, "settings": dict(self.settings)})
+        resolved_command = task_dir / "resolved_command.json"
+        if resolved_command.is_file():
+            try:
+                existing_command = read_json(resolved_command)
+            except CollectionError:
+                existing_command = None
+            if isinstance(existing_command, Mapping) and isinstance(existing_command.get("sha256"), str):
+                command_sha = str(existing_command["sha256"])
+        else:
+            atomic_json(resolved_command, {"argv": command, "sha256": command_sha, "settings": dict(self.settings)})
         local_env = dict(env)
         local_env.update({"VLLM_API_KEY": "local-only-placeholder", "EIC_REQUEST_PROXY": "1"})
         proxy: subprocess.Popen[str] | None = None
         arm: dict[str, Any] | None = None
         trace_dir = task_dir / "trace"
+        recovering = existing_trace_recovery_candidate(task_dir)
+        recovery_reason = "recovered_after_postprocessing_crash_without_trajectory_boundaries" if recovering else None
         start_ns = monotonic_ns()
+        end_ns = start_ns
         trace_error: str | None = None
         agent_rc = 1
         timed_out = False
-        try:
-            if self.trace:
-                arm_result = subprocess.run(provider_command(action="arm", output_dir=trace_dir, repeat_id=self.repeat_id, start_ns=start_ns, end_ns=start_ns + 1), cwd=str(ROOT), env=local_env, capture_output=True, text=True, check=False)
-                (logs / "trace_arm.log").write_text(arm_result.stdout + arm_result.stderr, encoding="utf-8")
-                if arm_result.returncode != 0:
-                    trace_error = "trace_arm_failed"
-                else:
-                    arm = read_json(trace_dir / "trace_arm.json")
-            proxy = subprocess.Popen(proxy_command(events, proxy_port), cwd=str(ROOT), env=local_env, stdout=(logs / "proxy.log").open("w"), stderr=subprocess.STDOUT, start_new_session=True, text=True)
-            time.sleep(0.5)
-            agent_rc, timed_out = run_limited(command, cwd=ROOT, env=local_env, log=logs / "agent.log", timeout_seconds=int(args.task_timeout_seconds))
-        finally:
-            end_ns = monotonic_ns()
-            stop_process(proxy)
-            if self.trace and arm is not None:
-                collect = subprocess.run(provider_command(action="collect", output_dir=trace_dir, repeat_id=self.repeat_id, start_ns=start_ns, end_ns=end_ns), cwd=str(ROOT), env=local_env, capture_output=True, text=True, check=False)
-                (logs / "trace_collect.log").write_text(collect.stdout + collect.stderr, encoding="utf-8")
-                if collect.returncode != 0:
-                    trace_error = trace_error or "trace_collect_failed"
-        status = "completed" if agent_rc == 0 else ("timeout" if timed_out else "runner_failed")
+        if recovering:
+            recovered_events = read_proxy_events(events)
+            if not recovered_events:
+                raise CollectionError("recovery_candidate_has_no_model_request_events")
+            start_ns = min(int(item["start_mono_ns"]) for item in recovered_events)
+            end_ns = max(int(item["end_mono_ns"]) for item in recovered_events)
+            arm = read_json(trace_dir / "trace_arm.json")
+            agent_rc = 0
+        else:
+            try:
+                if self.trace:
+                    arm_result = subprocess.run(provider_command(action="arm", output_dir=trace_dir, repeat_id=self.repeat_id, start_ns=start_ns, end_ns=start_ns + 1), cwd=str(ROOT), env=local_env, capture_output=True, text=True, check=False)
+                    (logs / "trace_arm.log").write_text(arm_result.stdout + arm_result.stderr, encoding="utf-8")
+                    if arm_result.returncode != 0:
+                        trace_error = "trace_arm_failed"
+                    else:
+                        arm = read_json(trace_dir / "trace_arm.json")
+                proxy = subprocess.Popen(proxy_command(events, proxy_port), cwd=str(ROOT), env=local_env, stdout=(logs / "proxy.log").open("w"), stderr=subprocess.STDOUT, start_new_session=True, text=True)
+                time.sleep(0.5)
+                agent_rc, timed_out = run_limited(command, cwd=ROOT, env=local_env, log=logs / "agent.log", timeout_seconds=int(args.task_timeout_seconds))
+            finally:
+                end_ns = monotonic_ns()
+                stop_process(proxy)
+                if self.trace and arm is not None:
+                    collect = subprocess.run(provider_command(action="collect", output_dir=trace_dir, repeat_id=self.repeat_id, start_ns=start_ns, end_ns=end_ns), cwd=str(ROOT), env=local_env, capture_output=True, text=True, check=False)
+                    (logs / "trace_collect.log").write_text(collect.stdout + collect.stderr, encoding="utf-8")
+                    if collect.returncode != 0:
+                        trace_error = trace_error or "trace_collect_failed"
+        status = "unavailable" if recovering else ("completed" if agent_rc == 0 else ("timeout" if timed_out else "runner_failed"))
         official_status = "unavailable"
         official_resolved: bool | None = None
         evaluator_path: str | None = None
@@ -750,7 +806,12 @@ class TaskRun:
         evaluator_error: str | None = None
         predictions = agent_output / "preds.json"
         report_root = task_dir / "evaluator_report"
-        if agent_rc == 0 and predictions.is_file():
+        if recovering:
+            official_status, official_resolved, evaluator_path = official_result(report_root, str(self.task["instance_id"]), [Path(args.evaluator_root)])
+            evaluator_rc = 0 if evaluator_path else None
+            if evaluator_path is None:
+                evaluator_error = "evaluator_report_missing_after_recovery"
+        elif agent_rc == 0 and predictions.is_file():
             evaluator = [
                 args.evaluator_python,
                 "-m",
@@ -783,7 +844,7 @@ class TaskRun:
                 str(report_root),
             ]
             evaluator_rc, _ = run_limited(evaluator, cwd=args.evaluator_root, env=local_env, log=logs / "evaluator.log", timeout_seconds=int(args.evaluator_timeout_seconds))
-            official_status, official_resolved, evaluator_path = official_result(report_root, str(self.task["instance_id"]))
+            official_status, official_resolved, evaluator_path = official_result(report_root, str(self.task["instance_id"]), [Path(args.evaluator_root)])
             if evaluator_rc != 0:
                 evaluator_error = "evaluator_failed"
         events_values = read_proxy_events(events)
@@ -795,6 +856,7 @@ class TaskRun:
         valid_count = 0
         unavailable_count = 0
         refs: list[dict[str, str]] = []
+        hardware = collect_hardware_metadata()
         if self.trace and arm is not None and (trace_dir / "trace.sqlite").is_file():
             trace_files = [trace_dir / name for name in ("trace_arm.json", "trace_collect.json", "trace.nsys-rep", "trace.sqlite")]
             refs = artifact_refs(self.root, trace_files)
@@ -847,6 +909,7 @@ class TaskRun:
                     "request_end_mono_ns": event.get("end_mono_ns"),
                     "raw_trace_paths": refs,
                     "evaluator_report": evaluator_path,
+                    "hardware": hardware,
                 }
                 try:
                     if event.get("status_code") != 200:
@@ -915,10 +978,9 @@ class TaskRun:
         event_refs = artifact_refs(self.root, [model_event_path, tool_event_path]) if model_event_path.is_file() and tool_event_path.is_file() else []
         refs_with_events = refs + event_refs
         available = status == "completed" and evaluator_status_available(official_status) and phase_ratio_status == "valid"
-        hardware = collect_hardware_metadata()
         task_row = {
             "schema_version": TASK_SCHEMA,
-            "provenance": "measured" if agent_rc == 0 else "unavailable",
+            "provenance": "recovered_measured_components" if recovering else ("measured" if agent_rc == 0 else "unavailable"),
             "status": status,
             "available": available,
             "suite": self.task["suite"],
@@ -929,10 +991,10 @@ class TaskRun:
             "task_manifest_sha256": sha256_file(runtime_path),
             "configuration_id": "baseline",
             "hyperparameters": dict(self.settings),
-            "start_mono_ns": start_ns,
-            "end_mono_ns": end_ns,
-            "e2e_wall_ms": (end_ns - start_ns) / 1e6,
-            "task_wall_ms": (end_ns - start_ns) / 1e6,
+            "start_mono_ns": None if recovering else start_ns,
+            "end_mono_ns": None if recovering else end_ns,
+            "e2e_wall_ms": None if recovering else (end_ns - start_ns) / 1e6,
+            "task_wall_ms": None if recovering else (end_ns - start_ns) / 1e6,
             "total_tool_call_wall_ms": tool_total_ms,
             "total_model_request_wall_ms": model_total_ms,
             "phase_ratio": phase_ratio,
@@ -951,6 +1013,8 @@ class TaskRun:
             "evaluator_error": evaluator_error,
             "evaluator_report": evaluator_path,
             "trace_error": trace_error,
+            "unavailable_reason": recovery_reason,
+            "trajectory_boundary_status": "unavailable_recovered_request_window_only" if recovering else "measured",
             "command_sha256": command_sha,
             "warmup_excluded": True,
             "raw_paths": refs_with_events if self.trace and arm is not None and (trace_dir / "trace.sqlite").is_file() else event_refs,
