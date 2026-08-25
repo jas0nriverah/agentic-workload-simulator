@@ -7,6 +7,7 @@ import json
 import os
 import subprocess
 import sys
+import tempfile
 import time
 from pathlib import Path
 
@@ -56,7 +57,41 @@ def check_deadline(deadline):
         raise RuntimeError("hard A100 wall-clock deadline reached")
 
 
-def run_rows(split, root, values, deadline, resume):
+def write_json_atomic(path, value):
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with tempfile.NamedTemporaryFile("w", encoding="utf-8", dir=path.parent,
+                                    prefix=path.name + ".", delete=False) as handle:
+        json.dump(value, handle, indent=2, sort_keys=True)
+        handle.write("\n")
+        temporary = Path(handle.name)
+    os.replace(temporary, path)
+
+
+def record_row(state, state_path, split, case_id, repeat_id, status):
+    if status not in {"completed", "unavailable"}:
+        raise RuntimeError("row status is not terminal: {}".format(status))
+    bucket = state[status]
+    entry = {"split": split, "case_id": case_id, "repeat_id": repeat_id}
+    if entry not in bucket:
+        bucket.append(entry)
+        bucket.sort(key=lambda item: (item["split"], item["case_id"], item["repeat_id"]))
+        write_json_atomic(state_path, state)
+
+
+def row_status(row):
+    try:
+        data = json.loads(row.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        raise RuntimeError("cannot read immutable row: {}".format(row)) from exc
+    if data.get("schema_version") != "a100-final-row.v1":
+        raise RuntimeError("immutable row schema mismatch: {}".format(row))
+    status = data.get("status")
+    if status not in {"completed", "unavailable"}:
+        raise RuntimeError("immutable row is not terminal: {}".format(row))
+    return status
+
+
+def run_rows(split, root, values, deadline, resume, state, state_path):
     phase = "calibration" if split == "calibration" else "holdout"
     trace_root = Path(values["TRACE_ROOT"]).resolve()
     for case in cases(split):
@@ -67,6 +102,7 @@ def run_rows(split, root, values, deadline, resume):
             if row.exists():
                 if not resume:
                     raise RuntimeError("immutable row exists; use --resume: {}".format(row))
+                record_row(state, state_path, split, case["case_id"], repeat, row_status(row))
                 continue
             trace_output = trace_root / phase / case["case_id"] / repeat
             if trace_output.exists():
@@ -104,6 +140,7 @@ def run_rows(split, root, values, deadline, resume):
                 raise RuntimeError("canonical output would be overwritten: {}".format(output))
             output.parent.mkdir(parents=True, exist_ok=True)
             trace_output.replace(output)
+            record_row(state, state_path, split, case["case_id"], repeat, row_status(output / "row.json"))
 
 
 def audit_calibration(root):
@@ -173,6 +210,54 @@ def adversarial_audit_and_freeze(root):
                    indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
 
+def load_or_create_state(root, phase, max_wall, resume):
+    state_path = root / "run_state.json"
+    deadline_path = root / "deadline.json"
+    if state_path.exists():
+        if not resume:
+            raise RuntimeError("run_state exists; use --resume for an immutable recovery")
+        try:
+            state = json.loads(state_path.read_text(encoding="utf-8"))
+            deadline_record = json.loads(deadline_path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError) as exc:
+            raise RuntimeError("resume state/deadline is unreadable") from exc
+        if state.get("schema_version") != "a100-run-state.v1" or deadline_record.get("schema_version") != "a100-deadline.v1":
+            raise RuntimeError("resume state/deadline schema mismatch")
+        if state.get("status") == "completed":
+            raise RuntimeError("run is already completed; refusing to resume")
+        try:
+            started = int(state["started_epoch"])
+            deadline = int(state["deadline_epoch"])
+            deadline_started = int(deadline_record["started_epoch"])
+            deadline_value = int(deadline_record["deadline_epoch"])
+            recorded_max = int(deadline_record["max_seconds"])
+        except (KeyError, TypeError, ValueError) as exc:
+            raise RuntimeError("resume state/deadline is incomplete") from exc
+        if (deadline_started, deadline_value, recorded_max) != (started, deadline, max_wall):
+            raise RuntimeError("resume deadline does not match the original run")
+        if not isinstance(state.get("completed"), list) or not isinstance(state.get("unavailable"), list):
+            raise RuntimeError("resume row checkpoints are malformed")
+        if time.time() >= deadline:
+            raise RuntimeError("hard A100 wall-clock deadline reached before resume")
+        state["status"] = "running"
+        state["phase"] = phase
+        state["resumed_epoch"] = int(time.time())
+        write_json_atomic(state_path, state)
+        return state, deadline, state_path
+    if resume:
+        raise RuntimeError("--resume requires an existing run_state.json")
+    started = int(time.time())
+    deadline = started + max_wall
+    state = {"schema_version": "a100-run-state.v1", "status": "running",
+             "phase": phase, "protocol": str(CONFIG), "started_epoch": started,
+             "deadline_epoch": deadline, "completed": [], "unavailable": []}
+    write_json_atomic(deadline_path, {"schema_version": "a100-deadline.v1", "started_epoch": started,
+                                      "deadline_epoch": deadline, "max_seconds": max_wall,
+                                      "set_before_first_calibration_request": True})
+    write_json_atomic(state_path, state)
+    return state, deadline, state_path
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser()
     parser.add_argument("--manifest", type=Path, required=True)
@@ -185,38 +270,25 @@ def main(argv=None):
     if max_wall != 14400:
         raise RuntimeError("A100 hard wall must be exactly 14400 seconds")
     root.mkdir(parents=True, exist_ok=True)
-    started = int(time.time())
-    deadline = started + max_wall
-    state_path = root / "run_state.json"
-    if state_path.exists() and not args.resume:
-        raise RuntimeError("run_state exists; use --resume for an immutable recovery")
-    state = {"schema_version": "a100-run-state.v1", "status": "running",
-             "phase": args.phase, "protocol": str(CONFIG), "started_epoch": started,
-             "deadline_epoch": deadline, "completed": [], "unavailable": []}
-    state_path.write_text(json.dumps(state, indent=2, sort_keys=True) + "\n", encoding="utf-8")
-    (root / "deadline.json").write_text(
-        json.dumps({"schema_version": "a100-deadline.v1", "started_epoch": started,
-                    "deadline_epoch": deadline, "max_seconds": max_wall,
-                    "set_before_first_calibration_request": True},
-                   indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    state, deadline, state_path = load_or_create_state(root, args.phase, max_wall, args.resume)
     try:
         run_analysis("seal", root)
         if args.phase in ("all", "calibration"):
-            run_rows("calibration", root, values, deadline, args.resume)
+            run_rows("calibration", root, values, deadline, args.resume, state, state_path)
             audit_calibration(root)
             run_analysis("fit", root)
             prove_before_reveal(root)
         if args.phase in ("all", "holdout"):
             if not (root / "pre_reveal_proof.json").is_file():
                 raise RuntimeError("holdout blocked until pre-reveal proof exists")
-            run_rows("sealed_holdout", root, values, deadline, args.resume)
+            run_rows("sealed_holdout", root, values, deadline, args.resume, state, state_path)
             reveal_holdout(root)
             run_analysis("score", root)
             adversarial_audit_and_freeze(root)
         print("A100 validation workflow complete: {}".format(root))
         state["status"] = "completed"
         state["finished_epoch"] = int(time.time())
-        state_path.write_text(json.dumps(state, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+        write_json_atomic(state_path, state)
         return 0
     except Exception as exc:
         recovery = Path(values["RECOVERY_ROOT"]).resolve()
@@ -228,7 +300,7 @@ def main(argv=None):
                        indent=2, sort_keys=True) + "\n", encoding="utf-8")
         state["status"] = "failed"
         state["failure"] = str(exc)
-        state_path.write_text(json.dumps(state, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+        write_json_atomic(state_path, state)
         raise
     finally:
         subprocess.run(["docker", "stop", values["A100_CONTAINER"]], check=False,
