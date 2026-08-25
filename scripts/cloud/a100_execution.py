@@ -81,7 +81,12 @@ def run_rows(split, root, values, deadline, resume):
                        "--split", split, "--input-tokens", str(case["input_tokens"]),
                        "--output-tokens", str(case["output_tokens"]), "--repeat-id", repeat,
                        "--output-dir", str(output)]
-            subprocess.run(command, check=True, env=env, timeout=600)
+            remaining = deadline - time.time()
+            if remaining <= 0:
+                raise RuntimeError("hard A100 wall-clock deadline reached before request")
+            subprocess.run(command, check=True, env=env, timeout=min(600.0, remaining))
+            if time.time() >= deadline:
+                raise RuntimeError("hard A100 wall-clock deadline reached after request")
             if not row.is_file():
                 raise RuntimeError("runner did not create {}".format(row))
 
@@ -120,7 +125,7 @@ def prove_before_reveal(root):
         json.dumps(proof, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
 
-def reveal_and_audit(root):
+def reveal_holdout(root):
     prediction = root / "derived/prediction_manifest.json"
     receipt = {"schema_version": "a100-holdout-reveal.v1",
                "prediction_manifest_sha256": sha(prediction),
@@ -128,6 +133,10 @@ def reveal_and_audit(root):
                "revealed_at_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())}
     (root / "holdout_reveal_receipt.json").write_text(
         json.dumps(receipt, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+
+
+def adversarial_audit_and_freeze(root):
+    prediction = root / "derived/prediction_manifest.json"
     metrics = json.loads((root / "derived/holdout_metrics.json").read_text(encoding="utf-8"))
     predictions = json.loads(prediction.read_text(encoding="utf-8"))
     proof = json.loads((root / "pre_reveal_proof.json").read_text(encoding="utf-8"))
@@ -183,8 +192,9 @@ def main(argv=None):
             if not (root / "pre_reveal_proof.json").is_file():
                 raise RuntimeError("holdout blocked until pre-reveal proof exists")
             run_rows("sealed_holdout", root, values, deadline, args.resume)
-            reveal_and_audit(root)
+            reveal_holdout(root)
             run_analysis("score", root)
+            adversarial_audit_and_freeze(root)
         print("A100 validation workflow complete: {}".format(root))
         state["status"] = "completed"
         state["finished_epoch"] = int(time.time())

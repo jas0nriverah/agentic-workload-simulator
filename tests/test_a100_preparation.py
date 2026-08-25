@@ -130,6 +130,17 @@ class A100PreparationTests(unittest.TestCase):
         self.assertIn("RECOVERY_ROOT", source)
         self.assertIn('docker", "stop"', source)
 
+    def test_a100_execution_bounds_requests_and_scores_before_freeze(self):
+        source = (ROOT / "scripts/cloud/a100_execution.py").read_text()
+        self.assertIn("timeout=min(600.0, remaining)", source)
+        self.assertLess(source.rindex('run_analysis("score", root)'), source.rindex("adversarial_audit_and_freeze(root)"))
+
+    def test_a100_runner_accepts_only_the_named_profiled_server(self):
+        source = (ROOT / "scripts/cloud/a100_setup_doctor.py").read_text()
+        self.assertIn("--server-ready", source)
+        self.assertIn("profiled A100 Nsight session is not registered", source)
+        self.assertIn("profiled vLLM served model does not match", source)
+
 
 if __name__ == "__main__":
     unittest.main()

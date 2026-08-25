@@ -16,7 +16,7 @@ import shutil
 import subprocess
 import sys
 from pathlib import Path
-from typing import Any, Mapping
+from typing import Any, Mapping, Optional
 
 ROOT = Path(__file__).resolve().parents[2]
 CONFIG_DEFAULT = ROOT / "configs/a100_final_validation.json"
@@ -173,7 +173,7 @@ def validate_manifest(values: Mapping[str, str], protocol: Mapping[str, Any], co
         raise DoctorError("manifest safety or A100 hardware pins changed")
 
 
-def check_live_host() -> dict[str, Any]:
+def check_live_host(expected_server: Optional[Mapping[str, str]] = None) -> dict[str, Any]:
     for command in ("nvidia-smi", "docker", "curl"):
         if shutil.which(command) is None:
             raise DoctorError(f"required command is unavailable: {command}")
@@ -191,7 +191,47 @@ def check_live_host() -> dict[str, Any]:
         raise DoctorError(f"expected exactly one GPU, found {len(rows)}")
     name, memory, compute = [part.strip() for part in rows[0].split(",")]
     processes = subprocess.run(["nvidia-smi", "--query-compute-apps=pid", "--format=csv,noheader,nounits"], check=True, capture_output=True, text=True, timeout=15).stdout
-    result = {"gpu_name": name, "memory_total_mib": int(float(memory)), "compute_capability": compute, "architecture": "Ampere", "compute_processes": [line for line in processes.splitlines() if line.strip()], "nsight": (nsys_version.stdout + nsys_version.stderr).strip()}
+    compute_processes = [line.strip() for line in processes.splitlines() if line.strip()]
+    profiled_server_pid = None
+    if expected_server is None:
+        if compute_processes:
+            raise DoctorError("GPU isolation failed: compute process is present")
+    else:
+        required = ("container", "image", "session", "nsys_bin", "port", "model")
+        missing = [key for key in required if not expected_server.get(key)]
+        if missing:
+            raise DoctorError("profiled-server contract is missing: " + ", ".join(missing))
+        if not compute_processes:
+            raise DoctorError("profiled server is not using the GPU")
+        inspected = subprocess.run(
+            ["docker", "inspect", "--format", "{{.State.Running}}|{{.State.Pid}}|{{.Config.Image}}", expected_server["container"]],
+            check=True, capture_output=True, text=True, timeout=20,
+        ).stdout.strip().split("|", 2)
+        if len(inspected) != 3 or inspected[0].lower() != "true":
+            raise DoctorError("profiled A100 vLLM container is not running")
+        profiled_server_pid, image = inspected[1], inspected[2]
+        if image != expected_server["image"]:
+            raise DoctorError("profiled A100 vLLM container image does not match the pinned manifest")
+        if compute_processes != [profiled_server_pid]:
+            raise DoctorError("GPU isolation failed: an unexpected GPU process is present")
+        session_output = subprocess.run(
+            ["docker", "exec", expected_server["container"], expected_server["nsys_bin"], "sessions", "list"],
+            check=True, capture_output=True, text=True, timeout=20,
+        ).stdout
+        if expected_server["session"] not in session_output:
+            raise DoctorError("profiled A100 Nsight session is not registered")
+        base = "http://127.0.0.1:{}".format(expected_server["port"])
+        subprocess.run(["curl", "-fsS", base + "/health"], check=True, capture_output=True, text=True, timeout=10)
+        models = subprocess.run(["curl", "-fsS", base + "/v1/models"], check=True, capture_output=True, text=True, timeout=10)
+        try:
+            model_data = json.loads(models.stdout)
+        except json.JSONDecodeError as exc:
+            raise DoctorError("profiled vLLM /v1/models did not return JSON") from exc
+        if not any(item.get("id") == expected_server["model"] for item in model_data.get("data", [])):
+            raise DoctorError("profiled vLLM served model does not match the pinned manifest")
+        subprocess.run(["curl", "-fsS", base + "/metrics"], check=True, capture_output=True, text=True, timeout=10)
+        compute_processes = []
+    result = {"gpu_name": name, "memory_total_mib": int(float(memory)), "compute_capability": compute, "architecture": "Ampere", "compute_processes": compute_processes, "profiled_server_pid": profiled_server_pid, "nsight": (nsys_version.stdout + nsys_version.stderr).strip()}
     return result
 
 
@@ -201,16 +241,25 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--manifest", type=Path)
     parser.add_argument("--hardware-fixture", type=Path, help="JSON fixture for offline hardware-contract tests")
     parser.add_argument("--offline", action="store_true")
+    parser.add_argument("--server-ready", action="store_true", help="validate the exact profiled server as the sole GPU process")
     args = parser.parse_args(argv)
     try:
         protocol = read_json(args.config)
         validate_protocol(protocol)
+        manifest_values = None
         if args.manifest:
-            validate_manifest(read_manifest(args.manifest), protocol, args.config)
+            manifest_values = read_manifest(args.manifest)
+            validate_manifest(manifest_values, protocol, args.config)
+        if args.server_ready and (args.offline or manifest_values is None):
+            raise DoctorError("--server-ready requires a live external manifest")
         if args.hardware_fixture:
             validate_hardware_record(read_json(args.hardware_fixture), protocol)
         elif not args.offline:
-            validate_hardware_record(check_live_host(), protocol)
+            expected_server = None
+            if args.server_ready:
+                expected_server = {key: manifest_values[key] for key in ("A100_CONTAINER", "VLLM_IMAGE", "A100_NSYS_SESSION", "A100_NSYS_BIN", "VLLM_PORT", "VLLM_MODEL")}
+                expected_server = {"container": expected_server["A100_CONTAINER"], "image": expected_server["VLLM_IMAGE"], "session": expected_server["A100_NSYS_SESSION"], "nsys_bin": expected_server["A100_NSYS_BIN"], "port": expected_server["VLLM_PORT"], "model": expected_server["VLLM_MODEL"]}
+            validate_hardware_record(check_live_host(expected_server), protocol)
         if not args.offline and args.manifest is None:
             raise DoctorError("live A100 preflight requires the external startup manifest")
         print("READY_FOR_A100_PREFLIGHT: protocol, split, leakage, pins, artifact separation, and safety checks passed")
