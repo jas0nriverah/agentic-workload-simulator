@@ -58,6 +58,7 @@ def check_deadline(deadline):
 
 def run_rows(split, root, values, deadline, resume):
     phase = "calibration" if split == "calibration" else "holdout"
+    trace_root = Path(values["TRACE_ROOT"]).resolve()
     for case in cases(split):
         for repeat in ("r01", "r02", "r03"):
             check_deadline(deadline)
@@ -67,7 +68,10 @@ def run_rows(split, root, values, deadline, resume):
                 if not resume:
                     raise RuntimeError("immutable row exists; use --resume: {}".format(row))
                 continue
-            output.mkdir(parents=True, exist_ok=True)
+            trace_output = trace_root / phase / case["case_id"] / repeat
+            if trace_output.exists():
+                raise RuntimeError("immutable trace workspace exists; inspect before recovery: {}".format(trace_output))
+            trace_output.mkdir(parents=True, exist_ok=True)
             env = os.environ.copy()
             env.update({"A100_TRACE_PROVIDER": str(PROVIDER),
                         "BACKEND": "docker",
@@ -81,15 +85,25 @@ def run_rows(split, root, values, deadline, resume):
             command = [str(RUNNER), "--config", str(CONFIG), "--case-id", case["case_id"],
                        "--split", split, "--input-tokens", str(case["input_tokens"]),
                        "--output-tokens", str(case["output_tokens"]), "--repeat-id", repeat,
-                       "--output-dir", str(output)]
-            remaining = deadline - time.time()
-            if remaining <= 0:
-                raise RuntimeError("hard A100 wall-clock deadline reached before request")
-            subprocess.run(command, check=True, env=env, timeout=min(600.0, remaining))
-            if time.time() >= deadline:
-                raise RuntimeError("hard A100 wall-clock deadline reached after request")
-            if not row.is_file():
-                raise RuntimeError("runner did not create {}".format(row))
+                       "--output-dir", str(trace_output)]
+            try:
+                remaining = deadline - time.time()
+                if remaining <= 0:
+                    raise RuntimeError("hard A100 wall-clock deadline reached before request")
+                subprocess.run(command, check=True, env=env, timeout=min(600.0, remaining))
+                if time.time() >= deadline:
+                    raise RuntimeError("hard A100 wall-clock deadline reached after request")
+                if not (trace_output / "row.json").is_file():
+                    raise RuntimeError("runner did not create {}".format(trace_output / "row.json"))
+            except Exception:
+                if trace_output.exists() and not output.exists():
+                    output.parent.mkdir(parents=True, exist_ok=True)
+                    trace_output.replace(output)
+                raise
+            if output.exists():
+                raise RuntimeError("canonical output would be overwritten: {}".format(output))
+            output.parent.mkdir(parents=True, exist_ok=True)
+            trace_output.replace(output)
 
 
 def audit_calibration(root):

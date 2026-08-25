@@ -144,6 +144,8 @@ class A100PreparationTests(unittest.TestCase):
     def test_a100_execution_binds_the_concrete_docker_trace_backend(self):
         source = (ROOT / "scripts/cloud/a100_execution.py").read_text()
         self.assertIn('"BACKEND": "docker"', source)
+        self.assertIn('trace_output = trace_root / phase', source)
+        self.assertIn('trace_output.replace(output)', source)
 
 
 if __name__ == "__main__":
