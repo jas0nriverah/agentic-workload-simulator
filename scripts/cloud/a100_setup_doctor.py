@@ -212,8 +212,23 @@ def check_live_host(expected_server: Optional[Mapping[str, str]] = None) -> dict
         profiled_server_pid, image = inspected[1], inspected[2]
         if image != expected_server["image"]:
             raise DoctorError("profiled A100 vLLM container image does not match the pinned manifest")
-        if compute_processes != [profiled_server_pid]:
-            raise DoctorError("GPU isolation failed: an unexpected GPU process is present")
+        container_processes = subprocess.run(
+            ["docker", "top", expected_server["container"], "-eo", "pid"],
+            check=True, capture_output=True, text=True, timeout=20,
+        ).stdout.splitlines()
+        container_pids = {
+            line.strip().split()[0]
+            for line in container_processes[1:]
+            if line.strip() and line.strip().split()[0].isdigit()
+        }
+        if not container_pids:
+            raise DoctorError("profiled A100 vLLM container has no inspectable processes")
+        outside = [pid for pid in compute_processes if pid not in container_pids]
+        if outside:
+            raise DoctorError(
+                "GPU isolation failed: compute process is outside the profiled container: "
+                + ", ".join(outside)
+            )
         session_output = subprocess.run(
             ["docker", "exec", expected_server["container"], expected_server["nsys_bin"], "sessions", "list"],
             check=True, capture_output=True, text=True, timeout=20,
