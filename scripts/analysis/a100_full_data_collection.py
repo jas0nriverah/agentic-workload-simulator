@@ -1217,11 +1217,124 @@ def _jsonl(path: Path) -> list[dict[str, Any]]:
     return rows
 
 
+def canonical_task_row(task: Mapping[str, Any]) -> dict[str, Any]:
+    """Return a deterministic compact view of a task terminal row.
+
+    A pre-fix collector checkpoint can contain an unavailable terminal row
+    written by the outer exception handler before trajectory metadata was
+    available.  Deriving the trajectory identity from the already recorded
+    suite/instance/repeat fields is a metadata reconciliation, not a repair of
+    any measured value.  The reconciliation is explicit in the derived row.
+    """
+
+    row = dict(task)
+    if not row.get("trajectory_id"):
+        required = (row.get("suite"), row.get("instance_id"), row.get("repeat_id"))
+        if any(value in (None, "") for value in required):
+            raise CollectionError("unavailable task row lacks suite, instance_id, or repeat_id")
+        row["trajectory_id"] = f"{required[0]}:{required[1]}:{required[2]}"
+        row["metadata_reconciliation"] = "trajectory_id_derived_from_suite_instance_repeat"
+    if row.get("status") == "unavailable":
+        row.setdefault("available", False)
+        for field in ("request_count", "model_event_count", "tool_event_count", "valid_direct_request_count", "unavailable_direct_request_count"):
+            if row.get(field) is None:
+                row[field] = 0
+    return row
+
+
+def materialize_unavailable_request_rows(root: Path, task_rows: list[Mapping[str, Any]]) -> int:
+    """Materialize explicit unavailable rows for preserved failed traces.
+
+    Older checkpoints recorded model events and a task-level trace failure but
+    did not append request rows when direct tracing was unavailable.  Those
+    events must remain visible in the canonical request table, with measured
+    proxy request wall time retained and all direct CPU/CUDA fields absent.
+    The operation is idempotent and never synthesizes a timing value.
+    """
+
+    request_path = root / "request_rows.jsonl"
+    existing = _jsonl(request_path)
+    existing_keys = {(str(row.get("trajectory_id")), str(row.get("request_id"))) for row in existing}
+    task_by_key: dict[tuple[str, str, str], dict[str, Any]] = {}
+    for raw_task in task_rows:
+        task = canonical_task_row(raw_task)
+        task_by_key[(str(task.get("suite")), str(task.get("instance_id")), str(task.get("repeat_id")))] = task
+
+    added = 0
+    source_paths: list[dict[str, Any]] = []
+    for model_path in sorted(root.glob("tasks/*/*/*/model_events.jsonl")):
+        task_dir = model_path.parent
+        parts = task_dir.relative_to(root).parts
+        if len(parts) != 4 or parts[0] != "tasks":
+            continue
+        suite, instance_id, repeat_id = parts[1:]
+        task_path = task_dir / "task.json"
+        task = canonical_task_row(read_json(task_path)) if task_path.is_file() else task_by_key.get((suite, instance_id, repeat_id), {})
+        events = _jsonl(model_path)
+        if not events:
+            continue
+        trajectory_id = str(task.get("trajectory_id") or f"{suite}:{instance_id}:{repeat_id}")
+        unavailable_source = task.get("status") != "completed" or task.get("available") is False or task.get("trace_error")
+        for index, event in enumerate(events, start=1):
+            request_id = str(event.get("request_id", f"unknown-{index}"))
+            key = (trajectory_id, request_id)
+            if key in existing_keys:
+                continue
+            if event.get("provenance") != "unavailable" and not unavailable_source:
+                raise CollectionError(f"missing canonical request row for measured model event: {trajectory_id}:{request_id}")
+            reason = str(event.get("failure_reason") or task.get("trace_error") or task.get("unavailable_reason") or "direct_trace_unavailable")
+            row = {
+                "schema_version": REQUEST_SCHEMA,
+                "provenance": "unavailable",
+                "status": "unavailable",
+                "suite": suite,
+                "repository": task.get("repository"),
+                "instance_id": instance_id,
+                "request_id": request_id,
+                "repeat_id": repeat_id,
+                "request_index": event.get("ordering", index),
+                "trajectory_id": trajectory_id,
+                "task_status": task.get("status"),
+                "official_status": task.get("official_status"),
+                "official_resolved": task.get("official_resolved"),
+                "model": task.get("model", PINNED_MODEL),
+                "model_revision": task.get("model_revision", PINNED_MODEL_REVISION),
+                "tokenizer_revision": task.get("tokenizer_revision", PINNED_TOKENIZER_REVISION),
+                "runtime": {"swe_agent_revision": PINNED_SWE_AGENT, "swe_bench_revision": PINNED_SWE_BENCH, "vllm_image": PINNED_VLLM_IMAGE, "concurrency": 1},
+                "wall_ms": event.get("request_wall_ms"),
+                "prompt_tokens": event.get("input_tokens"),
+                "completion_tokens": event.get("output_tokens"),
+                "cpu_activity_union_ms": None,
+                "cuda_activity_union_ms": None,
+                "kernel_duration_sum_ms": None,
+                "cpu_to_gpu_ratio": None,
+                "clock_id": event.get("clock_id"),
+                "request_start_mono_ns": event.get("request_start_mono_ns"),
+                "request_end_mono_ns": event.get("request_end_mono_ns"),
+                "raw_trace_paths": task.get("raw_paths", []) if isinstance(task.get("raw_paths", []), list) else [],
+                "evaluator_report": task.get("evaluator_report"),
+                "hardware": task.get("hardware"),
+                "unavailable_reason": reason,
+            }
+            append_jsonl(request_path, row)
+            existing_keys.add(key)
+            added += 1
+        source_paths.append({"path": str(model_path.relative_to(root)), "sha256": sha256_file(model_path), "event_count": len(events)})
+    replace_json(root / "unavailable_request_reconciliation.json", {
+        "schema_version": "a100-full-unavailable-request-reconciliation.v1",
+        "added_rows": added,
+        "source_model_event_files": source_paths,
+        "provenance": "explicit_unavailable_rows_only; no_timing_substitution",
+    })
+    return added
+
+
 def reconcile_evaluator_labels(root: Path, evaluator_root: Path) -> list[dict[str, Any]]:
     """Bind evaluator outcomes to the exact trajectory repeat without mutation."""
 
     reconciled: list[dict[str, Any]] = []
-    for task in _jsonl(root / "task_rows.jsonl"):
+    for raw_task in _jsonl(root / "task_rows.jsonl"):
+        task = canonical_task_row(raw_task)
         instance_id = str(task.get("instance_id"))
         repeat_id = str(task.get("repeat_id"))
         expected_run_id = f"a100-full-{instance_id}-{repeat_id}"
@@ -1248,8 +1361,10 @@ def reconcile_evaluator_labels(root: Path, evaluator_root: Path) -> list[dict[st
 
 def aggregate(args: argparse.Namespace) -> int:
     root = args.output_root.resolve()
+    raw_task_rows = _jsonl(root / "task_rows.jsonl")
+    materialize_unavailable_request_rows(root, raw_task_rows)
     request_rows = _jsonl(root / "request_rows.jsonl")
-    task_rows = _jsonl(root / "task_rows.jsonl")
+    task_rows = [canonical_task_row(task) for task in raw_task_rows]
     reconciled = reconcile_evaluator_labels(root, args.evaluator_root.resolve()) if args.evaluator_root else []
     if reconciled:
         write_csv(root / "evaluator_label_reconciliation.csv", reconciled, ["trajectory_id", "suite", "repository", "instance_id", "repeat_id", "expected_run_id", "official_status", "official_resolved", "evaluator_report", "evaluator_report_sha256", "source_task_row_status"])
@@ -1427,7 +1542,7 @@ def build_simulator_validation(root: Path, task_rows: list[dict[str, Any]]) -> d
 def audit(args: argparse.Namespace) -> int:
     root = args.output_root.resolve()
     rows = _jsonl(root / "request_rows.jsonl")
-    task_rows = _jsonl(root / "task_rows.jsonl")
+    task_rows = [canonical_task_row(task) for task in _jsonl(root / "task_rows.jsonl")]
     model_events = _jsonl(root / "model_events.jsonl")
     tool_events = _jsonl(root / "tool_events.jsonl")
     errors = []

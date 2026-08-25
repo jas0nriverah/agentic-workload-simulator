@@ -131,6 +131,62 @@ class A100FullDataCollectionTests(unittest.TestCase):
             self.assertEqual(result, 2)
             self.assertEqual(collection.read_json(root / "offline_integrity_audit.json")["status"], "failed")
 
+    def test_unavailable_model_events_are_materialized_without_direct_timing(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            task_dir = root / "tasks" / "lite" / "demo__repo-1" / "r01"
+            task_dir.mkdir(parents=True)
+            task = {
+                "suite": "lite",
+                "repository": "demo/repo",
+                "instance_id": "demo__repo-1",
+                "repeat_id": "r01",
+                "trajectory_id": "lite:demo__repo-1:r01",
+                "status": "completed",
+                "available": False,
+                "trace_error": "trace_arm_failed",
+                "official_status": "unavailable",
+                "raw_paths": [],
+            }
+            event = {
+                "provenance": "unavailable",
+                "trajectory_id": "lite:demo__repo-1:r01",
+                "request_id": "m1",
+                "ordering": 1,
+                "input_tokens": 10,
+                "output_tokens": 2,
+                "request_wall_ms": 12.5,
+                "request_start_mono_ns": 100,
+                "request_end_mono_ns": 12600,
+                "clock_id": "CLOCK_MONOTONIC_RAW",
+                "failure_reason": "trace_arm_failed",
+            }
+            (task_dir / "task.json").write_text(json.dumps(task), encoding="utf-8")
+            (task_dir / "model_events.jsonl").write_text(json.dumps(event) + "\n", encoding="utf-8")
+            (root / "task_rows.jsonl").write_text(json.dumps(task) + "\n", encoding="utf-8")
+            self.assertEqual(collection.materialize_unavailable_request_rows(root, [task]), 1)
+            self.assertEqual(collection.materialize_unavailable_request_rows(root, [task]), 0)
+            rows = collection._jsonl(root / "request_rows.jsonl")
+            self.assertEqual(len(rows), 1)
+            self.assertEqual(rows[0]["status"], "unavailable")
+            self.assertEqual(rows[0]["wall_ms"], 12.5)
+            self.assertIsNone(rows[0]["cpu_activity_union_ms"])
+            self.assertIsNone(rows[0]["cuda_activity_union_ms"])
+            self.assertEqual(rows[0]["unavailable_reason"], "trace_arm_failed")
+
+    def test_unavailable_failure_row_gets_explicit_derived_identity_and_zero_counts(self):
+        row = collection.canonical_task_row({
+            "suite": "verified",
+            "instance_id": "demo__repo-2",
+            "repeat_id": "r03",
+            "status": "unavailable",
+            "unavailable_reason": "trace_summary_missing",
+        })
+        self.assertEqual(row["trajectory_id"], "verified:demo__repo-2:r03")
+        self.assertEqual(row["model_event_count"], 0)
+        self.assertEqual(row["tool_event_count"], 0)
+        self.assertEqual(row["metadata_reconciliation"], "trajectory_id_derived_from_suite_instance_repeat")
+
 
 if __name__ == "__main__":
     unittest.main()
