@@ -987,7 +987,20 @@ def run_collection(args: argparse.Namespace) -> int:
         if value:
             run_env[key] = value
     settings = {"max_calls": 30, "max_output_tokens": 2048, "max_observation_length": 100000, "temperature": 0.0}
-    tasks = manifest["tasks"][: int(args.max_tasks)] if args.max_tasks else manifest["tasks"]
+    # Preserve the immutable manifest while scheduling a deterministic,
+    # suite-balanced prefix.  This makes a deadline-bounded run comparable to
+    # a later resume: the prefix is selected before any A100 outcome exists.
+    by_suite = {
+        suite: [task for task in manifest["tasks"] if task.get("suite") == suite]
+        for suite in ("lite", "verified")
+    }
+    tasks = []
+    for index in range(max(len(by_suite["lite"]), len(by_suite["verified"]))):
+        for suite in ("lite", "verified"):
+            if index < len(by_suite[suite]):
+                tasks.append(by_suite[suite][index])
+    if args.max_tasks:
+        tasks = tasks[: int(args.max_tasks)]
     for task in tasks:
         if time.time() >= deadline:
             break
