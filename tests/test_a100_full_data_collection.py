@@ -50,6 +50,25 @@ class A100FullDataCollectionTests(unittest.TestCase):
         self.assertEqual(collection.PHASE_RATIO_FORMULA, "sum(tool_call_wall_ms) / sum(model_request_wall_ms)")
         self.assertNotEqual(collection.PHASE_RATIO_FORMULA, collection.RATIO_FORMULA)
 
+    def test_official_result_binds_to_repeat_specific_evaluator_report(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "sweagent_output.a100-full-demo__repo-r01.json").write_text(
+                json.dumps({"resolved_ids": ["demo__repo"]}), encoding="utf-8"
+            )
+            (root / "sweagent_output.a100-full-demo__repo-r02.json").write_text(
+                json.dumps({"unresolved_ids": ["demo__repo"]}), encoding="utf-8"
+            )
+            status, resolved, path = collection.official_result(
+                root / "missing-local-report",
+                "demo__repo",
+                [root],
+                "a100-full-demo__repo-r02",
+            )
+            self.assertEqual(status, "unresolved")
+            self.assertFalse(resolved)
+            self.assertTrue(path.endswith("-r02.json"))
+
     def test_tool_model_boundary_mismatch_fails_closed(self):
         with tempfile.TemporaryDirectory() as directory:
             task_dir = Path(directory)

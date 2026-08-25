@@ -132,10 +132,14 @@ def append_jsonl(path: Path, value: Mapping[str, Any]) -> None:
 
 def write_csv(path: Path, rows: list[Mapping[str, Any]], fields: list[str]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    with path.open("w", newline="", encoding="utf-8") as stream:
+    temporary = path.with_name(f".{path.name}.{os.getpid()}.tmp")
+    with temporary.open("w", newline="", encoding="utf-8") as stream:
         writer = csv.DictWriter(stream, fieldnames=fields, extrasaction="ignore", lineterminator="\n")
         writer.writeheader()
         writer.writerows(rows)
+        stream.flush()
+        os.fsync(stream.fileno())
+    temporary.replace(path)
 
 
 def manifest_value(path: Path, key: str, default: str = "") -> str:
@@ -722,7 +726,7 @@ def collect_hardware_metadata() -> dict[str, Any]:
     return metadata
 
 
-def official_result(report_root: Path, instance_id: str, extra_roots: Iterable[Path] = ()) -> tuple[str, bool | None, str | None]:
+def official_result(report_root: Path, instance_id: str, extra_roots: Iterable[Path] = (), expected_run_id: str | None = None) -> tuple[str, bool | None, str | None]:
     """Read only the pinned evaluator's report; do not consult population labels."""
 
     found: list[tuple[Path, dict[str, Any]]] = []
@@ -740,6 +744,8 @@ def official_result(report_root: Path, instance_id: str, extra_roots: Iterable[P
             except CollectionError:
                 continue
             if isinstance(value, dict):
+                if expected_run_id and root != report_root and expected_run_id not in path.name and value.get("run_id") != expected_run_id:
+                    continue
                 found.append((path, value))
     for path, value in found:
         if instance_id in value.get("resolved_ids", []):
@@ -885,7 +891,7 @@ class TaskRun:
         predictions = agent_output / "preds.json"
         report_root = task_dir / "evaluator_report"
         if recovering:
-            official_status, official_resolved, evaluator_path = official_result(report_root, str(self.task["instance_id"]), [Path(args.evaluator_root)])
+            official_status, official_resolved, evaluator_path = official_result(report_root, str(self.task["instance_id"]), [Path(args.evaluator_root)], f"a100-full-{self.task['instance_id']}-{self.repeat_id}")
             evaluator_rc = 0 if evaluator_path else None
             if evaluator_path is None:
                 evaluator_error = "evaluator_report_missing_after_recovery"
@@ -922,7 +928,7 @@ class TaskRun:
                 str(report_root),
             ]
             evaluator_rc, _ = run_limited(evaluator, cwd=args.evaluator_root, env=local_env, log=logs / "evaluator.log", timeout_seconds=int(args.evaluator_timeout_seconds))
-            official_status, official_resolved, evaluator_path = official_result(report_root, str(self.task["instance_id"]), [Path(args.evaluator_root)])
+            official_status, official_resolved, evaluator_path = official_result(report_root, str(self.task["instance_id"]), [Path(args.evaluator_root)], f"a100-full-{self.task['instance_id']}-{self.repeat_id}")
             if evaluator_rc != 0:
                 evaluator_error = "evaluator_failed"
         events_values = read_proxy_events(events)
@@ -1209,6 +1215,15 @@ def aggregate(args: argparse.Namespace) -> int:
     task_rows = _jsonl(root / "task_rows.jsonl")
     valid = [row for row in request_rows if row.get("status") == "completed" and row.get("provenance") == "measured"]
     phase_valid_tasks = [row for row in task_rows if row.get("available") is True and row.get("phase_ratio_status") == "valid"]
+    task_fields = [
+        "schema_version", "provenance", "status", "available", "suite", "repository", "instance_id", "repeat_id", "trajectory_id",
+        "task_manifest_sha256", "configuration_id", "hyperparameters", "start_mono_ns", "end_mono_ns", "e2e_wall_ms", "task_wall_ms",
+        "total_tool_call_wall_ms", "total_model_request_wall_ms", "phase_ratio", "phase_ratio_formula", "phase_ratio_status",
+        "prompt_tokens", "completion_tokens", "request_count", "tool_event_count", "model_event_count", "valid_direct_request_count",
+        "unavailable_direct_request_count", "official_status", "official_resolved", "evaluator_returncode", "evaluator_error", "evaluator_report",
+        "trace_error", "unavailable_reason", "trajectory_boundary_status", "command_sha256", "raw_paths", "hardware", "recorded_at_utc",
+    ]
+    write_csv(root / "task_rows.csv", task_rows, task_fields)
     request_fields = ["schema_version", "status", "suite", "repository", "instance_id", "request_id", "repeat_id", "request_index", "task_status", "official_status", "official_resolved", "model", "model_revision", "wall_ms", "prompt_tokens", "completion_tokens", "cpu_activity_union_ms", "cuda_activity_union_ms", "kernel_duration_sum_ms", "cpu_to_gpu_ratio", "clock_id", "request_start_mono_ns", "request_end_mono_ns", "raw_trace_paths", "unavailable_reason"]
     write_csv(root / "request_rows.csv", request_rows, request_fields)
     repos: list[dict[str, Any]] = []
@@ -1336,7 +1351,13 @@ def audit(args: argparse.Namespace) -> int:
     model_events = _jsonl(root / "model_events.jsonl")
     tool_events = _jsonl(root / "tool_events.jsonl")
     errors = []
+    request_keys: set[tuple[str, str]] = set()
+    hash_cache: dict[Path, str] = {}
     for row in rows:
+        request_key = (str(row.get("trajectory_id")), str(row.get("request_id")))
+        if request_key in request_keys:
+            errors.append(f"duplicate_request_row:{request_key[0]}:{request_key[1]}")
+        request_keys.add(request_key)
         if row.get("status") == "completed":
             for field in ("cpu_activity_union_ms", "cuda_activity_union_ms", "cpu_to_gpu_ratio"):
                 value = row.get(field)
@@ -1344,8 +1365,30 @@ def audit(args: argparse.Namespace) -> int:
                     errors.append(f"invalid_{field}:{row.get('request_id')}")
             if abs(float(row["cpu_to_gpu_ratio"]) - float(row["cpu_activity_union_ms"]) / float(row["cuda_activity_union_ms"])) > 1e-9:
                 errors.append(f"ratio_mismatch:{row.get('request_id')}")
-        if row.get("status") == "completed" and not row.get("raw_trace_paths"):
-            errors.append(f"missing_trace_refs:{row.get('request_id')}")
+            start = row.get("request_start_mono_ns")
+            end = row.get("request_end_mono_ns")
+            wall = row.get("wall_ms")
+            if not isinstance(start, int) or not isinstance(end, int) or end <= start:
+                errors.append(f"invalid_request_window:{row.get('request_id')}")
+            if not isinstance(wall, (int, float)) or not math.isfinite(float(wall)) or float(wall) <= 0:
+                errors.append(f"invalid_request_wall:{row.get('request_id')}")
+            refs = row.get("raw_trace_paths")
+            if not isinstance(refs, list) or not refs:
+                errors.append(f"missing_trace_refs:{row.get('request_id')}")
+            else:
+                for ref in refs:
+                    if not isinstance(ref, Mapping) or not isinstance(ref.get("path"), str) or not isinstance(ref.get("sha256"), str) or len(str(ref.get("sha256"))) != 64:
+                        errors.append(f"invalid_trace_ref:{row.get('request_id')}")
+                        continue
+                    ref_path = Path(str(ref["path"]))
+                    candidate = ref_path if ref_path.is_absolute() else root / ref_path
+                    if not candidate.is_file():
+                        errors.append(f"missing_trace_artifact:{candidate}")
+                        continue
+                    if candidate not in hash_cache:
+                        hash_cache[candidate] = sha256_file(candidate)
+                    if hash_cache[candidate] != ref["sha256"]:
+                        errors.append(f"trace_hash_mismatch:{candidate}")
     model_by_trajectory: dict[str, list[dict[str, Any]]] = {}
     tool_by_trajectory: dict[str, list[dict[str, Any]]] = {}
     for event in model_events:
@@ -1376,6 +1419,14 @@ def audit(args: argparse.Namespace) -> int:
                 errors.append(f"invalid_tool_window:{trajectory}:{event.get('event_id')}")
             if not isinstance(duration, (int, float)) or not math.isfinite(float(duration)) or float(duration) < 0:
                 errors.append(f"invalid_tool_duration:{trajectory}:{event.get('event_id')}")
+    model_keys = {(str(event.get("trajectory_id")), str(event.get("request_id"))) for event in model_events}
+    for key in request_keys:
+        if key not in model_keys and any(row.get("trajectory_id") == key[0] and row.get("status") == "completed" for row in rows):
+            errors.append(f"request_model_identity_mismatch:{key[0]}:{key[1]}")
+    for event in model_events:
+        key = (str(event.get("trajectory_id")), str(event.get("request_id")))
+        if key not in request_keys:
+            errors.append(f"orphan_model_event:{key[0]}:{key[1]}")
     for task in task_rows:
         trajectory = str(task.get("trajectory_id"))
         models = model_by_trajectory.get(trajectory, [])
