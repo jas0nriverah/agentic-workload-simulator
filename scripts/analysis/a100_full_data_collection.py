@@ -435,12 +435,12 @@ def command_base(*, sweagent: str, swe_root: Path, request_config: Path, instanc
 def warmup_request(*, base_url: str, model: str, log: Path) -> tuple[str, str | None]:
     """Warm the pinned endpoint without treating the warmup as a measurement."""
 
-    body = json.dumps({"model": model, "prompt": "A100 profiling warmup", "max_tokens": 1, "temperature": 0.0, "seed": 0}).encode()
+    body = json.dumps({"model": model, "messages": [{"role": "user", "content": "A100 profiling warmup"}], "max_tokens": 1, "temperature": 0.0, "seed": 0}).encode()
     parsed = urlsplit(base_url)
     connection = http.client.HTTPConnection(parsed.hostname, parsed.port or 80, timeout=180)
     try:
         started = time.time_ns()
-        connection.request("POST", "/v1/completions", body=body, headers={"Content-Type": "application/json"})
+        connection.request("POST", "/v1/chat/completions", body=body, headers={"Content-Type": "application/json"})
         response = connection.getresponse()
         payload = response.read()
         ended = time.time_ns()
@@ -982,7 +982,7 @@ def run_collection(args: argparse.Namespace) -> int:
     run_env.update({"BACKEND": "docker", "A100_TRACE_PROVIDER": str(TRACE_PROVIDER), "A100_TRACE_MOUNT_ROOT": str(root), "A100_TRACE_CONTAINER_ROOT": "/trace", "EIC_SOURCE_ROOT": str(ROOT)})
     # The production provider reads these exact server/session values from the
     # separate profiling manifest; no sealed-root value is imported here.
-    for key in ("A100_NSYS_CONTAINER", "A100_NSYS_SESSION", "A100_NSYS_BIN", "A100_NSYS_VERSION"):
+    for key in ("A100_CONTAINER", "A100_NSYS_CONTAINER", "A100_NSYS_SESSION", "A100_NSYS_BIN", "A100_NSYS_VERSION"):
         value = manifest_value(args.runtime_manifest, key)
         if value:
             run_env[key] = value

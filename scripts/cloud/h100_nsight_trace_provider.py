@@ -106,7 +106,15 @@ def _docker_exec(arguments: Iterable[str]) -> subprocess.CompletedProcess[str]:
     default_nsys = "/host-cuda/bin/nsys" if backend == "docker" else "/usr/local/cuda/bin/nsys"
     nsys_bin = os.environ.get(NSYS_BIN_ENV, default_nsys)
     if backend == "docker":
-        container = os.environ.get(NSYS_CONTAINER_ENV, "h100-final-vllm")
+        # The A100 launcher names the service with A100_CONTAINER while the
+        # provider adapter historically consumed A100_NSYS_CONTAINER.  Accept
+        # the launcher name as a checked, explicit fallback so a profiling
+        # manifest cannot accidentally address the frozen H100 service.
+        container = os.environ.get(NSYS_CONTAINER_ENV) or os.environ.get(
+            f"{HARDWARE_TARGET}_CONTAINER"
+        )
+        if not container:
+            raise ProviderError(f"{NSYS_CONTAINER_ENV} or {HARDWARE_TARGET}_CONTAINER must identify the profiled service")
         command = ["docker", "exec", container, nsys_bin, *arguments]
     else:
         command = [nsys_bin, *arguments]
