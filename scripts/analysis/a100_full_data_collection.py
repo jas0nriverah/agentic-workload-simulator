@@ -1179,7 +1179,7 @@ def run_collection(args: argparse.Namespace) -> int:
             run = TaskRun(task, repeat_id, root, settings, trace=True)
             try:
                 result = run.execute(source_dataset=source, args=args, env=run_env)
-                if result.get("status") != "completed":
+                if result.get("status") != "completed" or result.get("available") is not True:
                     task_failed = True
             except (CollectionError, OSError, subprocess.SubprocessError) as exc:
                 task_failed = True
@@ -1192,6 +1192,9 @@ def run_collection(args: argparse.Namespace) -> int:
         state = read_json(state_path)
         bucket = "unavailable" if task_failed else "completed"
         state.setdefault(bucket, [])
+        other_bucket = "completed" if bucket == "unavailable" else "unavailable"
+        if task_key in state.setdefault(other_bucket, []):
+            state[other_bucket].remove(task_key)
         if task_key not in state[bucket]:
             state[bucket].append(task_key)
         replace_json(state_path, state)
