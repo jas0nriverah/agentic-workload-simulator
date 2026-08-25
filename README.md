@@ -1,186 +1,112 @@
 # Agentic Workload Simulator
 
-Implementation of the Agentic Workload Simulator coding test. The assignment
-PDF remains the source of truth. This repository contains the cloud-ready
-bootstrap and state machinery plus measured controls from Lightning/Modal and
-a completed Google Cloud A3 H100 acquisition. Provider-specific measurements remain
-explicitly separate and are never presented as interchangeable results.
+A reproducible tool for estimating workload latency and checking those
+estimates against measured GPU runs.
 
-## Current status
+The project is designed to answer one focused question: **can a workload’s
+latency be estimated from information known before it runs?** It keeps the
+estimate separate from the measurement so the result can be checked honestly.
 
-- Modal control and sweep evidence: the full-prompt Lite control resolved
-  officially, and a source-only derived patch also resolved. The original
-  Verified control was unresolved, but a final targeted LLM control produced a
-  clean one-file patch that resolved officially; all outcomes are preserved in
-  separate measured manifests. Four one-instance sweep endpoint sets are now
-  measured.
-- Shared clock, resolved vLLM configuration, artifact v2, and four-knob
-  command contracts passed local validation and independent review
-- Linux x86-64 rehearsal and first-trajectory inventory are free/local checks;
-  unavailable host tools are reported explicitly and strict CI fails closed
-- One paid Lightning H100 measurement window, subsequent Modal H100
-  measurements, and a Google Cloud H100 measurement window are recorded
-  separately. Raw model patches may contain
-  scratch files; clean derived submissions are explicitly labeled as derived.
-- Deep profiling includes syscall-level file events, process/NVML sampling, and
-  one direct 31-request Astropy Kineto trajectory. A controlled four-row
-  calibration/two-row holdout matrix produced 10.715632% limited-scope E2E
-  phase-reconstruction MAPE. NCU counters remain permission-blocked, and the
-  result is not an individual-event or unseen-workload prediction claim.
-- The audited H100 result is frozen in `H100_RESULTS.md`; plot-ready tables,
-  provenance, exclusions, and a deterministic inventory are under
-  `project/h100_results/`.
+## What it does
 
-## First local checks
+- Builds estimates from declared workload and hardware information.
+- Uses calibration runs to fit the estimator.
+- Tests predictions on a sealed holdout set that the estimator cannot see.
+- Records results, checksums, and run details so results can be reviewed.
+- Detects the available operating system, GPU, Docker support, and required
+  tools before starting work.
+- Supports NVIDIA H100 and A100 validation, with Docker and supported direct
+  host-runtime paths.
 
-```bash
-python3 scripts/doctor.py
-PYTHONPATH=src python3 -m unittest discover -s tests -v
-```
+## Main features
 
-## Runtime backends
+- **Feature-only predictions:** measured timing is never used as an input to
+  the predictor.
+- **Sealed testing:** predictions are frozen before holdout measurements are
+  revealed.
+- **Leakage protection:** the workflow stops if target information enters the
+  prediction path or if the experiment order is unsafe.
+- **Docker support:** uses an NVIDIA-enabled Docker runtime when it is
+  available and passes its checks.
+- **Non-Docker support:** can use a supported direct host runtime when Docker
+  is unavailable; it stops safely if that environment is not valid.
+- **Automatic preflight:** checks the machine, GPU, model, runtime, and output
+  locations before a live run.
+- **Reusable setup:** `start.sh` installs common tools, creates the Python
+  environment, runs local checks, and is safe to run again.
 
-The simulator has one pinned vLLM protocol and two launch backends. The root
-launcher accepts `BACKEND=auto|docker|direct` (or `--backend`); the default is
-`auto`.
+## Quick start
 
-In `auto`, Docker is selected only when the Docker daemon, NVIDIA Container
-Toolkit runtime, pinned image, and a one-GPU H100 access probe all succeed.
-Otherwise the launcher selects `direct`. An explicit `--backend docker`
-failure is terminal and never falls back to direct. Direct mode never probes
-or installs Docker and must run in an already-prepared VM or GPU container; it
-does not provide Docker support inside an unprivileged container.
-
-Both backends use the same model revision, tokenizer snapshot, vLLM version,
-parser, server arguments, serialized request protocol, feature schema,
-calibration/holdout split, prediction freeze, leakage guards, metrics, timeout,
-and cleanup rules. Runtime artifacts are separated as
-`<artifact-root>/docker/` and `<artifact-root>/direct/`. Do not point either
-root at `artifacts/h100_final_validation/`, `project/`, or any canonical H100
-artifact directory.
-
-Docker setup requires Linux x86-64, an NVIDIA driver, one isolated compatible
-GPU, Docker with the NVIDIA Container Toolkit, the locally available pinned
-image, the pinned model cache, the pinned host Nsight Systems binary, Python
-developer tools, and `curl`/`git`.
-The Docker daemon and GPU capability probe are performed only for a selected
-Docker/auto runtime; `--dry-run` never performs them.
-
-Example Docker commands (use a manifest and cache outside the checkout):
+### From a new Ubuntu/Debian VM
 
 ```bash
-./start.sh --backend docker \
-  --manifest /mnt/agentic-work/runtime.env \
-  --model-cache /mnt/agentic-work/cache/huggingface \
-  --artifact-root /mnt/agentic-work/runtime-artifacts
-./start.sh --backend docker \
-  --manifest /mnt/agentic-work/runtime.env \
-  --artifact-root /mnt/agentic-work/runtime-artifacts \
-  --stop
+sudo apt-get update
+sudo apt-get install -y git gh curl ca-certificates
+gh auth login
+gh repo clone jas0nriverah/agentic-workload-simulator
+cd agentic-workload-simulator
+./start.sh
 ```
 
-Direct setup requires an already-prepared Linux x86-64 VM or GPU container
-with one isolated compatible GPU, the pinned driver/CUDA and Nsight tracing
-tools, Python 3.11, vLLM `0.10.0`, the tokenizer/model snapshot at revision
-`b2cff646eb4bb1d68355c01b18ae02e7cf42d120`, and the common developer tools.
-Docker, Docker-in-Docker, and runtime installation are not prerequisites.
-The launcher starts vLLM under the host Nsight Systems session in direct mode;
-an unprivileged container is never treated as a Docker host.
-The direct manifest must identify the same `VLLM_*` pins as the sealed
-protocol, and its Python executable must already contain the pinned vLLM
-package.
+For a private repository, complete `gh auth login` before cloning. On macOS,
+install Git, GitHub CLI, curl, and Python with Homebrew, then clone the repo
+and run `./start.sh`.
 
-Example direct commands:
+### From an existing checkout
 
 ```bash
-./start.sh --backend direct \
-  --manifest /mnt/agentic-work/direct-runtime.env \
-  --python /mnt/agentic-work/venv/bin/python \
-  --model-cache /mnt/agentic-work/cache/huggingface \
-  --artifact-root /mnt/agentic-work/runtime-artifacts
-./start.sh --backend direct \
-  --manifest /mnt/agentic-work/direct-runtime.env \
-  --python /mnt/agentic-work/venv/bin/python \
-  --artifact-root /mnt/agentic-work/runtime-artifacts \
-  --stop
+./start.sh
+source .venv/bin/activate
 ```
 
-The canonical H100 startup wrapper supports the same selection without
-changing the sealed experiment protocol:
+To inspect the setup plan without changing anything:
 
 ```bash
-bash scripts/cloud/start_h100.sh --manifest /mnt/eic-work/h100-startup.env \
-  --backend auto --dry-run
-bash scripts/cloud/start_h100.sh --manifest /mnt/eic-work/h100-startup.env \
-  --backend auto
-bash scripts/cloud/start_h100.sh --manifest /mnt/eic-work/h100-startup.env \
-  --backend direct
+./start.sh --dry-run
 ```
 
-For an authorized validation run, request artifacts live below the external
-trace mount as `<TRACE_ROOT>/<selected-backend>/validation`; lifecycle state
-and provenance live below `<WORK_ROOT>/runtime/<selected-backend>`.
-The repository's `artifacts/h100_final_validation/` and `project/` trees are
-protected and are never used as runtime output roots.
-
-`start.sh --dry-run` checks common developer dependencies and prints the
-resolved command without starting vLLM, contacting Docker, touching a GPU, or
-writing artifacts. Missing `pytest`/`ruff` are installed only by a non-dry
-run; Docker remains optional for direct mode. The common offline checks are:
+To check a GPU VM before a live run:
 
 ```bash
-bash ./start.sh --dry-run
-python3 -m compileall -q src scripts tests
-find scripts cloud -type f -name '*.sh' -exec bash -n {} +
-find scripts cloud -type f -name '*.sh' -exec shellcheck {} +
-git diff --check
+./start.sh --check-only --require-docker --require-gpu
 ```
 
-Environment limitations are part of the protocol: the canonical validation
-is H100-only (80 GB class, compute capability 9.0), BF16, tensor parallelism
-1, context length 32,768, and the pinned image/model/parser. Direct mode is
-not a way to relax those limits. It must also be able to expose the same
-request-scoped tracing provider and record host, kernel, GPU, driver/CUDA,
-Python, vLLM, model/tokenizer, backend, command, and artifact-root
-provenance. Holdout launches require an immutable prediction manifest before
-any target label is readable.
+The default setup never starts Docker, a model server, a GPU workload, or an
+experiment.
 
-Docker and direct results are not interchangeable without validation. They
-must be compared only after backend-specific validation of environment,
-provenance, request behavior, tracing, and metrics. Canonical H100 artifacts,
-hashes, predictions, labels, and reports remain read-only.
+## Runtime choices
 
-The Lambda runbook is at `cloud/lambda/RUNBOOK.md`. It is intentionally
-idempotent and does not contain credentials. The first paid control fixture is
-preserved and normalized locally by
-`scripts/validation/normalize_sweagent_trajectory.py` and checked with
-`scripts/validation/validate_normalized_trajectory.py`. Reset-safe interval
-accounting and a payload-free first-control summary are implemented locally;
-empirical thin telemetry and the four sweeps remain deferred until a fresh
-paid-session authorization.
+The project can work in two supported ways:
 
-The GCP H100 setup and bounded pilot are documented in
-[`cloud/gcp/RUNBOOK.md`](cloud/gcp/RUNBOOK.md). Measured GCP evidence is
-indexed in `project/GCP_H100_PROGRESS.md` and
-`project/GCP_H100_REQUEST_PROFILE_20260823.json`. Request-aware profiled attempts use
-`scripts/observability/request_proxy.py`, which records timing and hashes
-without storing prompts or responses.
+1. **Docker path:** runs the pinned workload in an NVIDIA-enabled container.
+2. **Direct path:** runs through the host environment when the required
+   direct backend and telemetry are available.
 
-The simulator implementation is `src/agentic_sim/simulator.py` and the
-offline driver is `scripts/analysis/evaluate_simulator.py`. It requires an
-explicit measured/calibrated CPU/GPU phase decomposition and rejects aggregate
-vLLM counters or GPU utilization as fake per-request GPU time. The measured
-controlled-matrix holdout is documented with its narrow validity boundary in
-`H100_RESULTS.md`.
+The startup checks choose or validate the supported path from the environment.
+They fail closed when Docker, the GPU, the model, or the required measurement
+tools are missing. A restricted GPU Pod is not treated as a full VM.
 
-See `docs/assignment_traceability.md` for the frozen deliverable-to-evidence
-map and `project/PUBLIC_REFERENCE_LOCK.json` for the comparison-only public
-reference lock. No public result is claimed by either file.
+## Current validation scope
 
-Use [`docs/REPORT_TEMPLATE.md`](docs/REPORT_TEMPLATE.md) for the final offline
-write-up and source every empirical number from the canonical package.
+The live validation work targets NVIDIA CUDA GPUs, specifically the H100 and
+A100. The offline simulator can run without an NVIDIA GPU because it only uses
+declared features and saved calibration data.
 
-For independent post-control throughput, see
-[`cloud/lightning/PARALLEL_RUNBOOK.md`](cloud/lightning/PARALLEL_RUNBOOK.md).
-It keeps one vLLM/SWE-agent worker per isolated GPU and writes deterministic,
-resume-safe shards without changing the single-control contract.
+AMD/ROCm, Apple Metal, and other non-NVIDIA live backends are future
+engineering work and future implementation. They would need their own runtime,
+hardware checks, measurement tools, leakage tests, and calibration runs.
+
+## Documentation
+
+- [`H100_RESULTS.md`](H100_RESULTS.md) — frozen H100 result
+- [`docs/CROSS_GPU_VALIDATION_PLAN.md`](docs/CROSS_GPU_VALIDATION_PLAN.md) —
+  A100 validation plan
+- [`docs/REPORT_TEMPLATE.md`](docs/REPORT_TEMPLATE.md) — report format
+- [`cloud/gcp/RUNBOOK.md`](cloud/gcp/RUNBOOK.md) — GCP setup and runbook
+- [`cloud/lambda/RUNBOOK.md`](cloud/lambda/RUNBOOK.md) — Lambda runbook
+- [`cloud/lightning/PARALLEL_RUNBOOK.md`](cloud/lightning/PARALLEL_RUNBOOK.md) —
+  independent parallel runs
+
+The detailed implementation is in `src/agentic_sim/`, and cloud launchers are
+under `scripts/cloud/`. Historical provider measurements remain separate and
+are never presented as interchangeable results.
