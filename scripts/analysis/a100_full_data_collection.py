@@ -44,6 +44,7 @@ TRACE_PROVIDER = ROOT / "scripts" / "cloud" / "a100_nsight_trace_provider.py"
 REQUEST_PROXY = ROOT / "scripts" / "observability" / "request_proxy.py"
 PINNED_MODEL = "Qwen/Qwen3-Coder-30B-A3B-Instruct"
 PINNED_MODEL_REVISION = "b2cff646eb4bb1d68355c01b18ae02e7cf42d120"
+PINNED_TOKENIZER_REVISION = PINNED_MODEL_REVISION
 PINNED_SWE_AGENT = "0f3acafacabc0def8cc76b4e48acb4b6cf302cb9"
 PINNED_SWE_BENCH = "726c5461e2ef52d83cf1ea2107870a8bb3328d57"
 PINNED_LITE_REVISION = "69611d31007e1c6731db8bd5b5c3f2d33f5bab6e"
@@ -985,6 +986,7 @@ class TaskRun:
                     "official_resolved": official_resolved,
                     "model": PINNED_MODEL,
                     "model_revision": PINNED_MODEL_REVISION,
+                    "tokenizer_revision": PINNED_TOKENIZER_REVISION,
                     "runtime": {"swe_agent_revision": PINNED_SWE_AGENT, "swe_bench_revision": PINNED_SWE_BENCH, "vllm_image": PINNED_VLLM_IMAGE, "concurrency": 1},
                     "wall_ms": event.get("duration_ms"),
                     "prompt_tokens": event.get("prompt_tokens"),
@@ -1075,6 +1077,9 @@ class TaskRun:
             "instance_id": self.task["instance_id"],
             "repeat_id": self.repeat_id,
             "trajectory_id": trajectory_id,
+            "model": PINNED_MODEL,
+            "model_revision": PINNED_MODEL_REVISION,
+            "tokenizer_revision": PINNED_TOKENIZER_REVISION,
             "task_manifest_sha256": sha256_file(runtime_path),
             "configuration_id": "baseline",
             "hyperparameters": dict(self.settings),
@@ -1249,6 +1254,9 @@ def aggregate(args: argparse.Namespace) -> int:
     effective_task_rows = []
     for task in task_rows:
         effective = dict(task)
+        effective.setdefault("model", PINNED_MODEL)
+        effective.setdefault("model_revision", PINNED_MODEL_REVISION)
+        effective.setdefault("tokenizer_revision", PINNED_TOKENIZER_REVISION)
         label = labels.get(str(task.get("trajectory_id")))
         if label:
             effective.update({"official_status": label.get("official_status"), "official_resolved": label.get("official_resolved"), "evaluator_report": label.get("evaluator_report")})
@@ -1257,7 +1265,7 @@ def aggregate(args: argparse.Namespace) -> int:
     valid = [row for row in request_rows if row.get("status") == "completed" and row.get("provenance") == "measured"]
     phase_valid_tasks = [row for row in task_rows if row.get("available") is True and row.get("phase_ratio_status") == "valid"]
     task_fields = [
-        "schema_version", "provenance", "status", "available", "suite", "repository", "instance_id", "repeat_id", "trajectory_id",
+        "schema_version", "provenance", "status", "available", "suite", "repository", "instance_id", "repeat_id", "trajectory_id", "model", "model_revision", "tokenizer_revision",
         "task_manifest_sha256", "configuration_id", "hyperparameters", "start_mono_ns", "end_mono_ns", "e2e_wall_ms", "task_wall_ms",
         "total_tool_call_wall_ms", "total_model_request_wall_ms", "phase_ratio", "phase_ratio_formula", "phase_ratio_status",
         "prompt_tokens", "completion_tokens", "request_count", "tool_event_count", "model_event_count", "valid_direct_request_count",
@@ -1265,7 +1273,7 @@ def aggregate(args: argparse.Namespace) -> int:
         "trace_error", "unavailable_reason", "trajectory_boundary_status", "command_sha256", "raw_paths", "hardware", "recorded_at_utc",
     ]
     write_csv(root / "task_rows.csv", task_rows, task_fields)
-    request_fields = ["schema_version", "status", "suite", "repository", "instance_id", "request_id", "repeat_id", "request_index", "task_status", "official_status", "official_resolved", "model", "model_revision", "wall_ms", "prompt_tokens", "completion_tokens", "cpu_activity_union_ms", "cuda_activity_union_ms", "kernel_duration_sum_ms", "cpu_to_gpu_ratio", "clock_id", "request_start_mono_ns", "request_end_mono_ns", "raw_trace_paths", "unavailable_reason"]
+    request_fields = ["schema_version", "status", "suite", "repository", "instance_id", "request_id", "repeat_id", "request_index", "task_status", "official_status", "official_resolved", "model", "model_revision", "tokenizer_revision", "wall_ms", "prompt_tokens", "completion_tokens", "cpu_activity_union_ms", "cuda_activity_union_ms", "kernel_duration_sum_ms", "cpu_to_gpu_ratio", "clock_id", "request_start_mono_ns", "request_end_mono_ns", "raw_trace_paths", "unavailable_reason"]
     write_csv(root / "request_rows.csv", request_rows, request_fields)
     repos: list[dict[str, Any]] = []
     all_keys = sorted({(row.get("suite"), row.get("repository")) for row in task_rows})
