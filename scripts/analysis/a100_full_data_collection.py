@@ -487,6 +487,9 @@ def stop_process(process: subprocess.Popen[str] | None) -> None:
 def direct_trace_for_event(trace_dir: Path, event: Mapping[str, Any], arm: Mapping[str, Any]) -> dict[str, Any]:
     """Reuse the production SQLite parser for one proxy request window."""
 
+    os.environ["HARDWARE_TARGET"] = "A100"
+    os.environ["HARDWARE_TRACE_SCHEMA"] = "a100-trace-summary.v1"
+    os.environ["HARDWARE_TRACE_PROVIDER_VERSION"] = "a100-nsight-trace-provider.v1"
     from scripts.cloud.h100_nsight_trace_provider import ProviderError, _parse_report, _trace_paths
 
     clock = event.get("clock")
@@ -521,6 +524,81 @@ def direct_trace_for_event(trace_dir: Path, event: Mapping[str, Any], arm: Mappi
         "end_mono_ns": int(event["end_mono_ns"]),
     }
     return result
+
+
+def direct_traces_for_events(trace_dir: Path, events: list[Mapping[str, Any]], arm: Mapping[str, Any]) -> list[dict[str, Any]]:
+    """Parse all valid request windows in one production-provider SQLite scan."""
+
+    os.environ["HARDWARE_TARGET"] = "A100"
+    os.environ["HARDWARE_TRACE_SCHEMA"] = "a100-trace-summary.v1"
+    os.environ["HARDWARE_TRACE_PROVIDER_VERSION"] = "a100-nsight-trace-provider.v1"
+    from scripts.cloud.h100_nsight_trace_provider import ProviderError, _trace_paths, parse_report_windows
+
+    expected = clock_metadata()
+    results: list[dict[str, Any]] = [{"error": "unavailable_before_batch_parse"} for _ in events]
+    valid_indices: list[int] = []
+    valid_events: list[Mapping[str, Any]] = []
+    for index, event in enumerate(events):
+        clock = event.get("clock")
+        if not isinstance(clock, Mapping):
+            results[index] = {"error": "request has no clock identity"}
+            continue
+        for key in ("clock_id", "hostname", "boot_id"):
+            if clock.get(key) != expected.get(key):
+                results[index] = {"error": f"request clock identity mismatch: {key}"}
+                break
+        else:
+            if clock.get("clock_id") != "CLOCK_MONOTONIC_RAW":
+                results[index] = {"error": "request clock is not CLOCK_MONOTONIC_RAW"}
+            elif event.get("status_code") != 200:
+                results[index] = {"error": f"request_http_{event.get('status_code')}"}
+            elif not isinstance(event.get("prompt_tokens"), int) or not isinstance(event.get("completion_tokens"), int):
+                results[index] = {"error": "missing_token_usage"}
+            else:
+                valid_indices.append(index)
+                valid_events.append(event)
+    if not valid_events:
+        return results
+    try:
+        parsed = parse_report_windows(valid_events, _trace_paths(trace_dir), arm)
+    except ProviderError as exc:
+        for index in valid_indices:
+            results[index] = {"error": str(exc)}
+        return results
+    if len(parsed) != len(valid_indices):
+        for index in valid_indices:
+            results[index] = {"error": "batch_trace_result_count_mismatch"}
+        return results
+    for index, event, direct in zip(valid_indices, valid_events, parsed):
+        if "error" in direct:
+            results[index] = direct
+            continue
+        if float(direct.get("cpu_activity_union_ms", 0.0)) <= 0:
+            results[index] = {"error": "direct CPU union is zero"}
+            continue
+        if float(direct.get("cuda_activity_union_ms", 0.0)) <= 0:
+            results[index] = {"error": "direct CUDA union is zero"}
+            continue
+        ratio = float(direct["cpu_activity_union_ms"]) / float(direct["cuda_activity_union_ms"])
+        if not math.isfinite(ratio) or ratio <= 0:
+            results[index] = {"error": "CPU:GPU ratio is not finite and positive"}
+            continue
+        direct["cpu_to_gpu_ratio"] = ratio
+        direct["ratio_formula"] = RATIO_FORMULA
+        direct["request_id"] = event.get("request_id")
+        direct["request_window"] = {"start_mono_ns": int(event["start_mono_ns"]), "end_mono_ns": int(event["end_mono_ns"])}
+        results[index] = direct
+    return results
+
+
+def compact_direct_timing(direct: Mapping[str, Any]) -> dict[str, Any]:
+    """Keep request rows compact; full interval evidence remains in raw traces."""
+
+    compact = {key: direct.get(key) for key in ("schema_version", "provenance", "provider_version", "clock_id", "cuda_union_rule", "cpu_activity_union_ms", "cuda_activity_union_ms", "kernel_duration_sum_ms", "raw_artifacts", "ratio_formula", "request_id", "request_window")}
+    measurement = direct.get("measurement")
+    if isinstance(measurement, Mapping):
+        compact["measurement_summary"] = {key: measurement.get(key) for key in ("source", "session_epoch_utc_ns", "raw_minus_realtime_ns", "request_start_mono_ns", "request_end_mono_ns", "target_processes", "cpu_event_counts", "gpu_event_counts", "kernel_event_count")}
+    return compact
 
 
 def classify_tool(action: str) -> str:
@@ -858,8 +936,9 @@ class TaskRun:
         refs: list[dict[str, str]] = []
         hardware = collect_hardware_metadata()
         if self.trace and arm is not None and (trace_dir / "trace.sqlite").is_file():
-            trace_files = [trace_dir / name for name in ("trace_arm.json", "trace_collect.json", "trace.nsys-rep", "trace.sqlite")]
+            trace_files = [trace_dir / name for name in ("trace_arm.json", "trace_collect.json", "trace.nsys-rep", "trace.sqlite", "trace_summary.json")]
             refs = artifact_refs(self.root, trace_files)
+            batch_direct_results = direct_traces_for_events(trace_dir, events_values, arm)
             for index, event in enumerate(events_values, start=1):
                 request_id = str(event.get("request_id", f"unknown-{index}"))
                 event_clock = event.get("clock") if isinstance(event.get("clock"), Mapping) else {}
@@ -916,14 +995,16 @@ class TaskRun:
                         raise CollectionError(f"request_http_{event.get('status_code')}")
                     if not isinstance(event.get("prompt_tokens"), int) or not isinstance(event.get("completion_tokens"), int):
                         raise CollectionError("missing_token_usage")
-                    direct = direct_trace_for_event(trace_dir, event, arm)
+                    direct = batch_direct_results[index - 1]
+                    if "error" in direct:
+                        raise CollectionError(str(direct["error"]))
                     row.update({
                         "status": "completed",
                         "cpu_activity_union_ms": direct["cpu_activity_union_ms"],
                         "cuda_activity_union_ms": direct["cuda_activity_union_ms"],
                         "kernel_duration_sum_ms": direct["kernel_duration_sum_ms"],
                         "cpu_to_gpu_ratio": direct["cpu_to_gpu_ratio"],
-                        "direct_timing": direct,
+                        "direct_timing": compact_direct_timing(direct),
                     })
                     model_event.update({
                         "cpu_activity_union_ms": direct["cpu_activity_union_ms"],
