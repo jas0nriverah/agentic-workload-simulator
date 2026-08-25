@@ -9,6 +9,7 @@ ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/../.." && pwd -P)"
 EXPECTED_BRANCH='parallel-h100-shards'
 CONFIG="$ROOT/configs/h100_final_validation.json"
 PYTHON_LOCK="$ROOT/cloud/lambda/requirements-linux-x86_64.txt"
+DIRECT_REQUIREMENTS="$ROOT/cloud/gcp/h100_direct_requirements.txt"
 SYSTEM_LOCK="$ROOT/cloud/gcp/h100_system_packages_ubuntu22.04-amd64.lock"
 LAUNCHER="$ROOT/scripts/cloud/start_h100_vllm_nsight.sh"
 TRACE_PROVIDER="$ROOT/scripts/cloud/h100_nsight_trace_provider.py"
@@ -18,16 +19,20 @@ MANIFEST_EXPLICIT=0
 STATE_ROOT=""
 BACKEND="${BACKEND:-auto}"
 DRY_RUN=0
+SETUP=0
 DRY_RUN_DEFAULT_MANIFEST=0
 
 die() { printf 'ERROR: %s\n' "$*" >&2; exit 1; }
 usage() {
   cat <<'USAGE'
-Usage: scripts/cloud/start_h100.sh --manifest FILE [--backend auto|docker|direct] [--dry-run]
+Usage: scripts/cloud/start_h100.sh --manifest FILE [--backend auto|docker|direct] [--setup] [--dry-run]
 
 The manifest is an external, non-secret pin/path file.  It is never sourced.
 This entrypoint starts or reuses the pinned profiled vLLM server only; it does
 not start calibration, holdout, fitting, scoring, or cloud allocation.
+
+--setup is direct-only. It installs the pinned Python/vLLM closure and verifies
+the pinned model/tokenizer snapshot, then exits without starting a server.
 USAGE
 }
 
@@ -56,6 +61,7 @@ while (($#)); do
       shift 2
       ;;
     --manifest=*) MANIFEST="${1#*=}"; MANIFEST_EXPLICIT=1; shift ;;
+    --setup) SETUP=1; shift ;;
     --dry-run) DRY_RUN=1; shift ;;
     -h|--help) usage; exit 0 ;;
     *) die "unknown argument: $1" ;;
@@ -63,6 +69,9 @@ while (($#)); do
 done
 
 [[ "$BACKEND" == auto || "$BACKEND" == docker || "$BACKEND" == direct ]] || die 'backend must be auto, docker, or direct'
+if (( SETUP )) && [[ "$BACKEND" != direct ]]; then
+  die '--setup requires --backend direct; no backend fallback is attempted'
+fi
 
 if (( DRY_RUN && MANIFEST_EXPLICIT == 0 )); then
   MANIFEST="$ROOT/cloud/gcp/h100_startup_manifest.env.example"
@@ -124,6 +133,7 @@ CONTAINER="$(required_manifest_value H100_CONTAINER)"
 SESSION="$(required_manifest_value H100_NSYS_SESSION)"
 CUDA_VERSION="$(required_manifest_value CUDA_VERSION)"
 NSYS_VERSION_PREFIX="$(required_manifest_value NSYS_VERSION_PREFIX)"
+MANIFEST_DIRECT_REQUIREMENTS_SHA256="$(manifest_value DIRECT_REQUIREMENTS_SHA256)"
 STATE_ROOT="${H100_STARTUP_STATE_ROOT:-$WORK_ROOT/state/h100-startup}"
 
 if (( DRY_RUN )) && [[ "$REQUIRED_COMMIT" == '<40-hex-pushed-commit>' ]]; then
@@ -167,6 +177,7 @@ reject_checkout_path STATE_ROOT "$STATE_ROOT"
 
 [[ -f "$CONFIG" ]] || die "sealed config is missing: $CONFIG"
 [[ -f "$PYTHON_LOCK" ]] || die "Python lock is missing: $PYTHON_LOCK"
+[[ -f "$DIRECT_REQUIREMENTS" ]] || die "direct runtime lock is missing: $DIRECT_REQUIREMENTS"
 [[ -f "$SYSTEM_LOCK" ]] || die "system lock is missing: $SYSTEM_LOCK"
 [[ -x "$LAUNCHER" ]] || die "reviewed vLLM launcher is missing or not executable: $LAUNCHER"
 [[ -x "$TRACE_PROVIDER" ]] || die "real production trace provider is missing or not executable: $TRACE_PROVIDER"
@@ -174,13 +185,17 @@ reject_checkout_path STATE_ROOT "$STATE_ROOT"
 [[ "$TRACE_PROVIDER" == "$ROOT/scripts/cloud/h100_nsight_trace_provider.py" ]] || die 'trace provider must be the canonical production provider'
 
 ACTUAL_PYTHON_LOCK_SHA256="$(sha256_file "$PYTHON_LOCK")"
-ACTUAL_SYSTEM_LOCK_SHA256="$(sha256_file "$SYSTEM_LOCK")"
 [[ "$ACTUAL_PYTHON_LOCK_SHA256" == "$PYTHON_LOCK_SHA256" ]] || die 'Python lock hash mismatch'
+DIRECT_REQUIREMENTS_SHA256="$(sha256_file "$DIRECT_REQUIREMENTS")"
+if [[ -n "$MANIFEST_DIRECT_REQUIREMENTS_SHA256" && "$MANIFEST_DIRECT_REQUIREMENTS_SHA256" != "$DIRECT_REQUIREMENTS_SHA256" ]]; then
+  die 'direct runtime lock hash mismatch'
+fi
+ACTUAL_SYSTEM_LOCK_SHA256="$(sha256_file "$SYSTEM_LOCK")"
 [[ "$ACTUAL_SYSTEM_LOCK_SHA256" == "$SYSTEM_LOCK_SHA256" ]] || die 'system package lock hash mismatch'
 CONFIG_ACTUAL_SHA256="$(sha256_file "$CONFIG")"
 [[ "$CONFIG_ACTUAL_SHA256" == "$PROTOCOL_SHA256" ]] || die 'sealed config hash mismatch'
 
-if (( ! DRY_RUN || ! DRY_RUN_DEFAULT_MANIFEST )); then
+if (( ! DRY_RUN_DEFAULT_MANIFEST && ! SETUP )); then
   case "$MODEL_SNAPSHOT/" in
     "$MODEL_CACHE"/*) ;;
     *) die 'model snapshot must be inside MODEL_CACHE' ;;
@@ -231,8 +246,151 @@ verify_checkout_identity() {
   command -v git >/dev/null 2>&1 || die 'git is required'
   [[ "$(git -C "$ROOT" branch --show-current)" == "$EXPECTED_BRANCH" ]] || die "checkout is not on $EXPECTED_BRANCH"
   [[ "$(git -C "$ROOT" rev-parse HEAD)" == "$REQUIRED_COMMIT" ]] || die 'checkout commit does not match REQUIRED_COMMIT'
-  [[ -z "$(git -C "$ROOT" status --porcelain)" ]] || die 'checkout is dirty; refusing startup'
+  if (( $# == 0 )); then
+    [[ -z "$(git -C "$ROOT" status --porcelain)" ]] || die 'checkout is dirty; refusing startup'
+  fi
 }
+
+locked_system_package_version() {
+  local package="$1"
+  awk -F= -v wanted="$package" '$1 == wanted { print $2; exit }' "$SYSTEM_LOCK"
+}
+
+direct_apt() {
+  if (( EUID == 0 )); then
+    env DEBIAN_FRONTEND=noninteractive apt-get "$@"
+  else
+    command -v sudo >/dev/null 2>&1 || die 'sudo is required to install the pinned direct Python bootstrap'
+    sudo -n true >/dev/null 2>&1 || die 'non-interactive sudo is required to install the pinned direct Python bootstrap'
+    sudo -n env DEBIAN_FRONTEND=noninteractive apt-get "$@"
+  fi
+}
+
+ensure_direct_python() {
+  local bootstrap_bin python_version venv_version
+  bootstrap_bin="$(command -v "$PYTHON_BOOTSTRAP_BIN" 2>/dev/null || true)"
+  python_version="$(locked_system_package_version python3.11)"
+  venv_version="$(locked_system_package_version python3.11-venv)"
+  [[ -n "$python_version" && -n "$venv_version" ]] || die 'direct Python pins are missing from the reviewed system lock'
+  local package
+  for package in python3.11 python3.11-venv; do
+    local version
+    version="$(locked_system_package_version "$package")"
+    if [[ "$(dpkg-query -W -f='${Status} ${Version}' "$package" 2>/dev/null || true)" != *" ok installed $version" ]]; then
+      printf 'Installing pinned direct Python package: %s=%s\n' "$package" "$version"
+      direct_apt update
+      direct_apt --allow-downgrades install -y --no-install-recommends \
+        "python3.11=$python_version" "python3.11-venv=$venv_version"
+      break
+    fi
+  done
+  bootstrap_bin="$(command -v "$PYTHON_BOOTSTRAP_BIN" 2>/dev/null || true)"
+  [[ -x "$bootstrap_bin" ]] || die "direct Python bootstrap binary is unavailable: $PYTHON_BOOTSTRAP_BIN"
+  [[ "$("$bootstrap_bin" -c 'import sys; print(f"{sys.version_info.major}.{sys.version_info.minor}")')" == '3.11' ]] \
+    || die 'direct Python bootstrap must be Python 3.11'
+  DIRECT_BOOTSTRAP_BIN="$bootstrap_bin"
+}
+
+check_direct_python_lock() {
+  local python_bin="$1" lock_file="$2"
+  "$python_bin" - "$lock_file" <<'PY'
+import importlib.metadata as metadata
+import re
+import sys
+from pathlib import Path
+
+lock = Path(sys.argv[1]).read_text(encoding="utf-8")
+for match in re.finditer(r"^([A-Za-z0-9_.-]+)==([^ \t\\]+)", lock, re.MULTILINE):
+    name = re.sub(r"[-_.]+", "-", match.group(1).lower())
+    try:
+        actual = metadata.version(name)
+    except metadata.PackageNotFoundError as exc:
+        raise SystemExit(f"missing locked package: {name}") from exc
+    if actual != match.group(2):
+        raise SystemExit(f"locked package mismatch: {name} expected {match.group(2)} got {actual}")
+PY
+}
+
+setup_direct_runtime() {
+  [[ "$BACKEND" == direct ]] || die 'direct setup requires BACKEND=direct'
+  # Setup writes only external runtime roots; launch still requires a clean checkout.
+  verify_checkout_identity allow-dirty
+  command -v python3 >/dev/null 2>&1 || die 'python3 is required to verify the checkout'
+  command -v sha256sum >/dev/null 2>&1 || die 'sha256sum is required for direct setup'
+  local direct_pip_cache="$WORK_ROOT/cache/pip"
+  local pip_cache_from_environment
+  pip_cache_from_environment="$(printenv PIP_CACHE_DIR 2>/dev/null || true)"
+  [[ -n "$pip_cache_from_environment" ]] && direct_pip_cache="$pip_cache_from_environment"
+  mkdir -p -- "$WORK_ROOT" "$MODEL_CACHE" "$TRACE_ROOT" "$STATE_ROOT" "$direct_pip_cache"
+
+  local bootstrap_bin direct_python
+  ensure_direct_python
+  bootstrap_bin="$DIRECT_BOOTSTRAP_BIN"
+  direct_python="$PYTHON_ENV_ROOT/bin/python"
+  if [[ -e "$PYTHON_ENV_ROOT" && ! -x "$direct_python" ]]; then
+    die "direct Python environment exists but is not a usable venv: $PYTHON_ENV_ROOT"
+  fi
+  if [[ -x "$direct_python" ]]; then
+    [[ "$("$direct_python" -c 'import sys; print(f"{sys.version_info.major}.{sys.version_info.minor}")')" == '3.11' ]] \
+      || die "direct Python environment is not Python 3.11: $direct_python"
+  else
+    mkdir -p -- "$(dirname -- "$PYTHON_ENV_ROOT")"
+    "$bootstrap_bin" -m venv "$PYTHON_ENV_ROOT"
+  fi
+  [[ -x "$direct_python" ]] || die "direct Python environment was not created: $direct_python"
+
+  PIP_CACHE_DIR="$direct_pip_cache" "$direct_python" -m pip install \
+    --disable-pip-version-check --no-input --only-binary=:all: --upgrade \
+    'pip==24.3.1' 'setuptools==75.6.0' 'wheel==0.45.1'
+  PIP_CACHE_DIR="$direct_pip_cache" "$direct_python" -m pip install \
+    --disable-pip-version-check --no-input --only-binary=:all: --require-hashes --upgrade \
+    -r "$DIRECT_REQUIREMENTS"
+  check_direct_python_lock "$direct_python" "$DIRECT_REQUIREMENTS" || die 'direct Python environment does not match the pinned vLLM closure'
+  "$direct_python" -m pip check >/dev/null 2>&1 || die 'direct Python environment failed pip check'
+  "$direct_python" -c 'import importlib.metadata; expected="0.10.0"; actual=importlib.metadata.version("vllm"); raise SystemExit(0 if actual == expected else f"vLLM version mismatch: {actual}")' \
+    || die 'direct setup did not install pinned vLLM 0.10.0'
+
+  PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" "$direct_python" "$ROOT/scripts/cloud/h100_direct_setup.py" \
+    --model "$MANIFEST_MODEL" \
+    --revision "$MANIFEST_REVISION" \
+    --model-cache "$MODEL_CACHE" \
+    --model-snapshot "$MODEL_SNAPSHOT" \
+    --state-output "$STATE_ROOT/direct_model.json" \
+    || die 'direct setup could not verify or download the pinned model/tokenizer snapshot'
+
+  "$direct_python" - "$STATE_ROOT/direct_setup.json" "$direct_python" "$DIRECT_REQUIREMENTS_SHA256" "$MANIFEST_MODEL" "$MANIFEST_REVISION" "$MODEL_CACHE" "$MODEL_SNAPSHOT" <<'PY'
+import json
+import os
+import pathlib
+import sys
+import time
+
+output, python_bin, lock_sha, model, revision, cache, snapshot = map(pathlib.Path, sys.argv[1:])
+state = {
+    "schema_version": "h100-direct-setup.v1",
+    "provenance": "setup",
+    "backend": "direct",
+    "python": {"executable": str(python_bin), "version": "3.11"},
+    "vllm": {"version": "0.10.0"},
+    "direct_requirements_sha256": str(lock_sha),
+    "model": {"id": str(model), "revision": str(revision), "cache": str(cache), "snapshot": str(snapshot)},
+    "host": {"hostname": os.uname().nodename},
+    "completed_at_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+}
+output.parent.mkdir(parents=True, exist_ok=True)
+temporary = output.with_name(f".{output.name}.{os.getpid()}.tmp")
+temporary.write_text(json.dumps(state, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+temporary.replace(output)
+PY
+  printf 'Direct setup complete: Python=%s vLLM=0.10.0 model=%s revision=%s\n' \
+    "$direct_python" "$MANIFEST_MODEL" "$MANIFEST_REVISION"
+  printf 'Direct setup metadata: %s; no server, calibration, holdout, or measurement started\n' "$STATE_ROOT/direct_setup.json"
+}
+
+if (( SETUP )); then
+  setup_direct_runtime
+  exit 0
+fi
 
 select_runtime_backend() {
   PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 - "$BACKEND" "$MANIFEST" <<'PY'
@@ -282,18 +440,8 @@ if [[ "$SELECTED_BACKEND" == direct ]]; then
   verify_checkout_identity
   DIRECT_PYTHON_VERSION="$($DIRECT_PYTHON -c 'import sys; print(f"{sys.version_info.major}.{sys.version_info.minor}")')"
   [[ "$DIRECT_PYTHON_VERSION" == '3.11' ]] || die "direct backend requires Python 3.11, found $DIRECT_PYTHON_VERSION"
-  "$DIRECT_PYTHON" - "$PYTHON_LOCK" <<'PY' || die 'direct backend Python environment does not match the pinned lock'
-import importlib.metadata as metadata
-import re
-import sys
-from pathlib import Path
-
-lock = Path(sys.argv[1]).read_text(encoding="utf-8")
-for match in re.finditer(r"^([A-Za-z0-9_.-]+)==([^ \t\\]+)", lock, re.MULTILINE):
-    name = re.sub(r"[-_.]+", "-", match.group(1).lower())
-    if metadata.version(name) != match.group(2):
-        raise SystemExit(f"locked package mismatch: {name}")
-PY
+  check_direct_python_lock "$DIRECT_PYTHON" "$DIRECT_REQUIREMENTS" \
+    || die 'direct backend Python environment does not match the pinned vLLM closure'
   "$DIRECT_PYTHON" -m pip check >/dev/null 2>&1 || die 'direct backend Python environment failed pip check'
   "$DIRECT_PYTHON" -c 'import importlib.metadata; expected="0.10.0"; actual=importlib.metadata.version("vllm"); raise SystemExit(0 if actual == expected else f"vLLM version mismatch: {actual}")' \
     || die 'direct backend vLLM package is not the pinned 0.10.0 release'

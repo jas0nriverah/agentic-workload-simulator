@@ -79,16 +79,63 @@ Example Docker commands (use a manifest and cache outside the checkout):
   --stop
 ```
 
-Direct setup requires an already-prepared Linux x86-64 VM or GPU container
-with one isolated compatible GPU, the pinned driver/CUDA and Nsight tracing
-tools, Python 3.11, vLLM `0.10.0`, the tokenizer/model snapshot at revision
-`b2cff646eb4bb1d68355c01b18ae02e7cf42d120`, and the common developer tools.
-Docker, Docker-in-Docker, and runtime installation are not prerequisites.
-The launcher starts vLLM under the host Nsight Systems session in direct mode;
-an unprivileged container is never treated as a Docker host.
-The direct manifest must identify the same `VLLM_*` pins as the sealed
-protocol, and its Python executable must already contain the pinned vLLM
-package.
+Direct setup supports a Linux x86-64 VM or GPU container with one isolated
+compatible GPU. It installs only the exact Python 3.11/venv versions in the
+reviewed system lock and the hash-locked direct closure in
+`cloud/gcp/h100_direct_requirements.txt`, including vLLM `0.10.0`. It then
+checks the model cache's remote file metadata, local sizes/LFS hashes, and
+tokenizer using only revision
+`b2cff646eb4bb1d68355c01b18ae02e7cf42d120`. A matching cache is reused; a
+missing or invalid cache downloads only that immutable revision. Setup writes
+only to the external `WORK_ROOT`, `PYTHON_ENV_ROOT`, and `MODEL_CACHE` paths
+from the manifest and never starts vLLM, calibration, holdout, or measurement.
+
+Use a reviewed external manifest whose `REQUIRED_COMMIT`, protocol hash,
+direct-lock hash, `VLLM_*` pins, and external paths are correct. The exact
+direct bootstrap command is:
+
+```bash
+PIP_CACHE_DIR=/mnt/eic-work/cache/pip \
+  ./start.sh --setup-direct --manifest /mnt/eic-work/h100-startup.env
+```
+
+Docker, Docker-in-Docker, and Docker runtime installation are not prerequisites
+for this path. The setup command never probes Docker. After setup, the direct
+launcher uses the host Nsight Systems binary and the pinned local snapshot; an
+unprivileged container is never treated as a Docker host. The direct manifest
+must identify the same `VLLM_*` pins as the sealed protocol, and the prepared
+Python environment must contain the pinned closure.
+
+Run the direct preflight and startup dry-run before authorizing a server:
+
+```bash
+PYTHONPATH=src /mnt/eic-work/venv/bin/python -m agentic_sim.runtime.backend \
+  --backend direct \
+  --manifest /mnt/eic-work/h100-startup.env \
+  --model-cache /mnt/eic-work/cache/huggingface \
+  --model-path /mnt/eic-work/cache/huggingface/hub/models--Qwen--Qwen3-Coder-30B-A3B-Instruct/snapshots/b2cff646eb4bb1d68355c01b18ae02e7cf42d120 \
+  --python /mnt/eic-work/venv/bin/python \
+  --trace-binary /usr/local/cuda/bin/nsys \
+  --trace-session h100-final-validation \
+  --trace-root /mnt/eic-work/h100-startup-traces/direct \
+  --artifact-root /mnt/eic-work/runtime-preflight \
+  --no-install-dev \
+  --dry-run
+
+./start.sh --backend direct \
+  --manifest /mnt/eic-work/h100-startup.env \
+  --python /mnt/eic-work/venv/bin/python \
+  --model-cache /mnt/eic-work/cache/huggingface \
+  --trace-binary /usr/local/cuda/bin/nsys \
+  --trace-session h100-final-validation \
+  --trace-root /mnt/eic-work/h100-startup-traces/direct \
+  --artifact-root /mnt/eic-work/runtime-artifacts \
+  --no-install-dev \
+  --dry-run
+```
+
+The direct startup then uses the same model, request, tracing, health, and
+cleanup contract as Docker; remove `--dry-run` only after the preflight passes.
 
 Example direct commands:
 

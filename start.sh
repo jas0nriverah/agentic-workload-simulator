@@ -21,6 +21,7 @@ RESUME=0
 STOP=0
 PREDICTION_FROZEN=0
 INSTALL_DEV=1
+SETUP_DIRECT=0
 TRACE_BINARY="${H100_NSYS_BIN:-}"
 TRACE_SESSION="${H100_NSYS_SESSION:-h100-final-validation}"
 TRACE_ROOT="${H100_TRACE_MOUNT_ROOT:-}"
@@ -35,6 +36,7 @@ Backend selection:
   --backend NAME              Select auto, docker, or direct (default: auto).
 
 Runtime options:
+  --setup-direct              Install the pinned direct H100 runtime only; never start vLLM.
   --manifest FILE             Reviewed vLLM/runtime manifest.
   --artifact-root DIR         Common root; artifacts go in DIR/docker or DIR/direct.
   --phase calibration|holdout Runtime phase; holdout requires --prediction-frozen.
@@ -59,6 +61,7 @@ USAGE
 while (($#)); do
   case "$1" in
     --backend) (($# >= 2)) || die '--backend requires auto, docker, or direct'; BACKEND="$2"; shift 2 ;;
+    --setup-direct) SETUP_DIRECT=1; BACKEND=direct; shift ;;
     --backend=*) BACKEND="${1#*=}"; shift ;;
     --manifest) (($# >= 2)) || die '--manifest requires a file'; MANIFEST="$2"; shift 2 ;;
     --artifact-root) (($# >= 2)) || die '--artifact-root requires a directory'; ARTIFACT_ROOT="$2"; shift 2 ;;
@@ -87,6 +90,20 @@ done
 [[ "$PHASE" == calibration || "$PHASE" == holdout || "$PHASE" == sealed_holdout ]] || die 'phase must be calibration or holdout'
 if [[ "$PHASE" != calibration && "$PREDICTION_FROZEN" -ne 1 ]]; then
   die 'holdout runtime requires --prediction-frozen (auto may select direct)'
+fi
+
+if (( SETUP_DIRECT )); then
+  [[ "$BACKEND" == direct ]] || die '--setup-direct requires --backend direct'
+  if [[ -z "$MANIFEST" ]]; then
+    MANIFEST="$ROOT/../h100-startup.env"
+    manifest_from_environment="$(printenv H100_STARTUP_MANIFEST 2>/dev/null || true)"
+    [[ -n "$manifest_from_environment" ]] && MANIFEST="$manifest_from_environment"
+  fi
+  [[ -f "$MANIFEST" ]] || die "--setup-direct requires an external manifest: $MANIFEST"
+  if (( DRY_RUN )); then
+    exec bash "$ROOT/scripts/cloud/start_h100.sh" --backend direct --manifest "$MANIFEST" --setup --dry-run
+  fi
+  exec bash "$ROOT/scripts/cloud/start_h100.sh" --backend direct --manifest "$MANIFEST" --setup
 fi
 
 command -v python3 >/dev/null 2>&1 || die 'python3 is required'
