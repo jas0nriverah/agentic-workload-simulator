@@ -59,7 +59,6 @@ from scripts.assignment.select_step3_case import (  # noqa: E402
 )
 from scripts.assignment.adaptive_event_protocol import (  # noqa: E402
     ADAPTIVE_ARM_SCHEMA,
-    ADAPTIVE_LABEL_SCHEMA,
     ADAPTIVE_MANIFEST_SCHEMA,
     ADAPTIVE_PROTOCOL_SCHEMA,
     SCORE_SCHEMA as ADAPTIVE_SCORE_SCHEMA,
@@ -70,7 +69,9 @@ from scripts.assignment.adaptive_event_protocol import (  # noqa: E402
     _record_digest as adaptive_record_digest,
     verify_trajectory_prediction,
 )
-from agentic_sim.assignment.schema import TRAJECTORY_FIELDS  # noqa: E402
+from agentic_sim.assignment.schema import TRAJECTORY_FIELDS as CANONICAL_TRAJECTORY_FIELDS  # noqa: E402
+
+TRAJECTORY_FIELDS = CANONICAL_TRAJECTORY_FIELDS
 
 
 SCHEMA_VERSION = "assignment.completion-audit.v1"

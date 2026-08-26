@@ -28,8 +28,8 @@ for candidate in (ROOT, ROOT / "src"):
     if str(candidate) not in sys.path:
         sys.path.insert(0, str(candidate))
 
-from agentic_sim.observability.nvtx import range as nvtx_range
-from agentic_sim.telemetry.clock import clock_fields, monotonic_ns, utc_now
+from agentic_sim.observability.nvtx import range as nvtx_range  # noqa: E402
+from agentic_sim.telemetry.clock import clock_fields, monotonic_ns, utc_now  # noqa: E402
 
 
 _HOP_BY_HOP = {

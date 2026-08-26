@@ -1,7 +1,6 @@
 import hashlib
 import importlib.util
 import json
-import os
 import stat
 import subprocess
 import tempfile
