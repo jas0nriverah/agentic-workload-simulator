@@ -14,12 +14,19 @@ import hashlib
 import http.client
 import json
 import os
+import sys
 import threading
 import uuid
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from typing import Any
 from urllib.parse import urlsplit
+
+
+ROOT = Path(__file__).resolve().parents[2]
+for candidate in (ROOT, ROOT / "src"):
+    if str(candidate) not in sys.path:
+        sys.path.insert(0, str(candidate))
 
 from agentic_sim.observability.nvtx import range as nvtx_range
 from agentic_sim.telemetry.clock import clock_fields, monotonic_ns, utc_now
@@ -77,6 +84,23 @@ def _token_counts(body: bytes) -> dict[str, int | None]:
     }
 
 
+def _request_features(body: bytes) -> dict[str, int | float | None]:
+    """Extract non-content request controls that are known before execution."""
+    try:
+        payload = json.loads(body.decode("utf-8"))
+    except (UnicodeDecodeError, json.JSONDecodeError):
+        return {"max_output_tokens": None, "temperature": None}
+    if not isinstance(payload, dict):
+        return {"max_output_tokens": None, "temperature": None}
+    maximum = payload.get("max_completion_tokens", payload.get("max_tokens"))
+    if isinstance(maximum, bool) or not isinstance(maximum, int) or maximum < 0:
+        maximum = None
+    temperature = payload.get("temperature")
+    if isinstance(temperature, bool) or not isinstance(temperature, (int, float)):
+        temperature = None
+    return {"max_output_tokens": maximum, "temperature": temperature}
+
+
 class ProxyHandler(BaseHTTPRequestHandler):
     server: "ProxyServer"
 
@@ -85,13 +109,23 @@ class ProxyHandler(BaseHTTPRequestHandler):
 
     def _forward(self) -> None:
         request_id = f"request-{uuid.uuid4().hex}"
-        started = monotonic_ns()
+        proxy_started = monotonic_ns()
         body = self.rfile.read(self._content_length())
         status: int | None = None
         response = b""
         error: str | None = None
+        prediction: dict[str, Any] | None = None
+        label: dict[str, Any] | None = None
+        upstream_started: int | None = None
+        upstream_ended: int | None = None
         with nvtx_range(request_id, category="eic.request"):
             try:
+                if self.server.adaptive_runtime is not None:
+                    # This append is fsync'd before the upstream request is
+                    # dispatched.  The request body is used only in memory to
+                    # derive reviewed pre-execution features and is never
+                    # persisted by the adaptive runtime.
+                    prediction = self.server.adaptive_runtime.predict_model_request(request_id, body)
                 connection = http.client.HTTPConnection(
                     self.server.upstream_host,
                     self.server.upstream_port,
@@ -104,22 +138,59 @@ class ProxyHandler(BaseHTTPRequestHandler):
                 }
                 headers["Content-Length"] = str(len(body))
                 headers["X-EIC-Request-ID"] = request_id
+                upstream_started = monotonic_ns()
                 connection.request(self.command, self.path, body=body, headers=headers)
                 upstream = connection.getresponse()
                 status = upstream.status
                 response = upstream.read()
+                upstream_ended = monotonic_ns()
+                response_headers = upstream.getheaders()
+                connection.close()
+                if self.server.adaptive_runtime is not None:
+                    counts = _token_counts(response)
+                    if 200 <= status < 300:
+                        label = self.server.adaptive_runtime.reveal_model_request(
+                            request_id,
+                            observed_ms=(upstream_ended - upstream_started) / 1_000_000,
+                            output_tokens=counts["completion_tokens"],
+                            response_sha256=_sha256(response),
+                        )
+                    else:
+                        label = self.server.adaptive_runtime.reveal_model_request(
+                            request_id,
+                            observed_ms=None,
+                            unavailable_reason=f"upstream_http_{status}",
+                        )
                 self.send_response(status)
-                for key, value in upstream.getheaders():
+                for key, value in response_headers:
                     if key.lower() not in _HOP_BY_HOP:
                         self.send_header(key, value)
                 self.end_headers()
                 self.wfile.write(response)
-                connection.close()
             except (OSError, http.client.HTTPException) as exc:
                 error = type(exc).__name__
+                if prediction is not None and label is None and self.server.adaptive_runtime is not None:
+                    try:
+                        label = self.server.adaptive_runtime.reveal_model_request(
+                            request_id,
+                            observed_ms=None,
+                            unavailable_reason=f"upstream_{error}",
+                        )
+                    except Exception as label_exc:  # fail closed; preserve both causes in telemetry
+                        error = f"{error}+{type(label_exc).__name__}"
                 self.send_error(502, "upstream vLLM unavailable")
-        ended = monotonic_ns()
+            except Exception as exc:
+                # Adaptive prediction/reveal failures are safety failures.  A
+                # failed prediction occurs before dispatch; a failed reveal is
+                # withheld from the caller rather than silently returning an
+                # unscored response.
+                error = type(exc).__name__
+                self.send_error(500, "adaptive request protocol failed closed")
+        proxy_ended = monotonic_ns()
+        started = upstream_started if upstream_started is not None else proxy_started
+        ended = upstream_ended if upstream_ended is not None else proxy_ended
         counts = _token_counts(response)
+        request_features = _request_features(body)
         self.server.writer.append(
             {
                 "schema_version": "observability.request-proxy.v1",
@@ -134,6 +205,7 @@ class ProxyHandler(BaseHTTPRequestHandler):
                 "request_sha256": _sha256(body),
                 "response_sha256": _sha256(response),
                 **counts,
+                **request_features,
                 "start_mono_ns": started,
                 "end_mono_ns": ended,
                 "duration_ms": (ended - started) / 1_000_000,
@@ -141,6 +213,9 @@ class ProxyHandler(BaseHTTPRequestHandler):
                 "utc_recorded": utc_now(),
                 "provenance": "measured",
                 "request_mutation": False,
+                "adaptive_prediction_record_sha256": prediction.get("record_sha256") if prediction else None,
+                "adaptive_label_record_sha256": label.get("record_sha256") if label else None,
+                "prediction_durable_before_upstream": prediction is not None if self.server.adaptive_runtime is not None else None,
             }
         )
 
@@ -171,6 +246,7 @@ class ProxyServer(ThreadingHTTPServer):
         writer: JsonlWriter,
         timeout_seconds: float,
         max_body_bytes: int,
+        adaptive_runtime: Any | None = None,
     ):
         super().__init__(address, ProxyHandler)
         self.upstream_host = upstream_host
@@ -178,6 +254,7 @@ class ProxyServer(ThreadingHTTPServer):
         self.writer = writer
         self.timeout_seconds = timeout_seconds
         self.max_body_bytes = max_body_bytes
+        self.adaptive_runtime = adaptive_runtime
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -189,9 +266,19 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--events", type=Path, required=True)
     parser.add_argument("--timeout-seconds", type=float, default=1800.0)
     parser.add_argument("--max-body-bytes", type=int, default=16 * 1024 * 1024)
+    parser.add_argument(
+        "--adaptive-runtime-config",
+        type=Path,
+        help="hashed holdout runtime config; enables prediction-before-dispatch and reveal-after-response",
+    )
     args = parser.parse_args(argv)
     if args.listen_port == args.upstream_port and args.listen_host == args.upstream_host:
         parser.error("proxy and upstream addresses must differ")
+    adaptive_runtime = None
+    if args.adaptive_runtime_config is not None:
+        from scripts.assignment.adaptive_runtime import AdaptiveRuntime
+
+        adaptive_runtime = AdaptiveRuntime.load(args.adaptive_runtime_config)
     server = ProxyServer(
         (args.listen_host, args.listen_port),
         upstream_host=args.upstream_host,
@@ -199,6 +286,7 @@ def main(argv: list[str] | None = None) -> int:
         writer=JsonlWriter(args.events),
         timeout_seconds=args.timeout_seconds,
         max_body_bytes=args.max_body_bytes,
+        adaptive_runtime=adaptive_runtime,
     )
     print(
         f"request proxy listening on {args.listen_host}:{args.listen_port}; "

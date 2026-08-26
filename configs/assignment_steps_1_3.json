@@ -1,0 +1,84 @@
+{
+  "schema_version": "assignment-steps-1-3-plan.v1",
+  "plan_id": "assignment-steps-1-3",
+  "planning_only": true,
+  "pins": {
+    "model": "Qwen/Qwen3-Coder-30B-A3B-Instruct",
+    "model_revision": "b2cff646eb4bb1d68355c01b18ae02e7cf42d120",
+    "tokenizer_revision": "b2cff646eb4bb1d68355c01b18ae02e7cf42d120",
+    "swe_agent_revision": "0f3acafacabc0def8cc76b4e48acb4b6cf302cb9",
+    "swe_bench_revision": "726c5461e2ef52d83cf1ea2107870a8bb3328d57",
+    "vllm_version": "0.10.0"
+  },
+  "execution_limits": {
+    "concurrency": 1,
+    "per_case_deadline_seconds": 5400,
+    "global_deadline_seconds": 1209600
+  },
+  "step_1": {
+    "suite_order": [
+      "lite",
+      "verified"
+    ],
+    "suites": {
+      "lite": {
+        "dataset": "SWE-bench/SWE-bench_Lite",
+        "revision": "69611d31007e1c6731db8bd5b5c3f2d33f5bab6e"
+      },
+      "verified": {
+        "dataset": "SWE-bench/SWE-bench_Verified",
+        "revision": "91aa3ed51b709be6457e12d00300a6a596d4c6a3"
+      }
+    },
+    "baseline": {
+      "call_limit": 30,
+      "max_output_tokens": 2048,
+      "observation_length": 100000,
+      "temperature": 0.0
+    }
+  },
+  "step_2": {
+    "shared_baseline": "reuse_step_1_baseline",
+    "task_selection": {
+      "algorithm": "sha256_rank_v1",
+      "seed": "assignment-step-2-balanced-v1",
+      "tasks_per_suite": 12
+    },
+    "knobs": [
+      {
+        "name": "call_limit",
+        "values": [10, 20, 30, 50]
+      },
+      {
+        "name": "max_output_tokens",
+        "values": [512, 1024, 2048, 4096]
+      },
+      {
+        "name": "observation_length",
+        "values": [10000, 25000, 50000, 100000]
+      },
+      {
+        "name": "temperature",
+        "values": [0.0, 0.2, 0.5, 0.8]
+      }
+    ]
+  },
+  "step_3": {
+    "emit_execution_rows": false,
+    "selection_after": "completed_and_audited_step_1",
+    "metric": "sum(tool_call_wall_ms) / sum(model_request_wall_ms)",
+    "direction": "descending",
+    "selection_count": 1,
+    "eligibility": [
+      "step_1_status_completed",
+      "official_evaluation_recorded",
+      "phase_telemetry_complete",
+      "model_request_wall_ms_positive",
+      "tool_call_wall_ms_nonnegative"
+    ],
+    "tie_breakers": [
+      "suite_ascending",
+      "instance_id_ascending"
+    ]
+  }
+}

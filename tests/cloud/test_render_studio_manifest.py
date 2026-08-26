@@ -74,7 +74,13 @@ class RenderStudioManifestTests(unittest.TestCase):
             self.assertIn("PYTHON_ENV_MODE=managed", rendered)
             self.assertIn(f"PYTHON_ENV_ROOT={env_root}", rendered)
             self.assertRegex(rendered, r"PYTHON_VERSION_EXACT=\d+\.\d+\.\d+")
-            expected_lock = ROOT / "cloud/lambda/requirements-linux-x86_64-py312.txt"
+            version_suffix = f"py{sys.version_info.major}{sys.version_info.minor}"
+            version_lock = ROOT / f"cloud/lambda/requirements-linux-x86_64-{version_suffix}.txt"
+            expected_lock = (
+                version_lock
+                if version_lock.is_file()
+                else ROOT / "cloud/lambda/requirements-linux-x86_64.txt"
+            )
             self.assertIn(f"PYTHON_LOCK_PATH={expected_lock}", rendered)
             self.assertIn(f"EVALUATOR_PYTHON={env_root}/bin/python", rendered)
             self.assertIn(f"SWE_AGENT_COMMAND={env_root}/bin/sweagent --help", rendered)

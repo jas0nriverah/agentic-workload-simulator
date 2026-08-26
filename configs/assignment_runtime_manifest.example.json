@@ -1,0 +1,94 @@
+{
+  "schema_version": "assignment-runtime-manifest.v1",
+  "required_branch": "parallel-h100-shards",
+  "required_commit": "0000000000000000000000000000000000000000",
+  "repository_root": "/absolute/path/to/repository",
+  "integrity": {
+    "case_runner_path": "/absolute/path/to/repository/scripts/assignment/sweagent_case_runner.py",
+    "case_runner_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "evaluator_adapter_path": "/absolute/path/to/repository/scripts/assignment/evaluate_swebench_case.py",
+    "evaluator_adapter_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "request_config_path": "/absolute/path/to/repository/cloud/lambda/sweagent_request.yaml",
+    "request_config_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "request_proxy_path": "/absolute/path/to/repository/scripts/observability/request_proxy.py",
+    "request_proxy_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "adaptive_runner_path": "/absolute/path/to/repository/scripts/assignment/sweagent_adaptive_runner.py",
+    "adaptive_runner_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "adaptive_runtime_path": "/absolute/path/to/repository/scripts/assignment/adaptive_runtime.py",
+    "adaptive_runtime_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "adaptive_protocol_path": "/absolute/path/to/repository/scripts/assignment/adaptive_event_protocol.py",
+    "adaptive_protocol_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "event_simulator_path": "/absolute/path/to/repository/src/agentic_sim/assignment/event_simulator.py",
+    "event_simulator_sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "pins": {
+    "model_revision": "b2cff646eb4bb1d68355c01b18ae02e7cf42d120",
+    "tokenizer_revision": "b2cff646eb4bb1d68355c01b18ae02e7cf42d120",
+    "swe_agent_revision": "0f3acafacabc0def8cc76b4e48acb4b6cf302cb9",
+    "swe_bench_revision": "726c5461e2ef52d83cf1ea2107870a8bb3328d57",
+    "vllm_version": "0.10.0"
+  },
+  "datasets": {
+    "lite": {
+      "name": "SWE-bench/SWE-bench_Lite",
+      "revision": "69611d31007e1c6731db8bd5b5c3f2d33f5bab6e",
+      "instances_path": "/absolute/path/to/work-root/datasets/SWE-bench_Lite.jsonl",
+      "sha256": "f46f2e3f003f2552932393da4b223e1e0456a2c71eba8b73ae58f29646c1278b"
+    },
+    "verified": {
+      "name": "SWE-bench/SWE-bench_Verified",
+      "revision": "91aa3ed51b709be6457e12d00300a6a596d4c6a3",
+      "instances_path": "/absolute/path/to/work-root/datasets/SWE-bench_Verified.jsonl",
+      "sha256": "43ed5a3d1d98da36472c1ade65ddd2085d7b4ff694fcaf6a023a07c5c1f32f21"
+    }
+  },
+  "model": {
+    "name": "Qwen/Qwen3-Coder-30B-A3B-Instruct",
+    "revision": "b2cff646eb4bb1d68355c01b18ae02e7cf42d120",
+    "api_base": "http://127.0.0.1:8000/v1",
+    "api_key": "EMPTY"
+  },
+  "runner": {
+    "executable": "sweagent",
+    "project": "/absolute/path/to/work-root/repos/SWE-agent",
+    "config_path": "/absolute/path/to/work-root/repos/SWE-agent/config/default.yaml",
+    "request_config_path": "/absolute/path/to/repository/cloud/lambda/sweagent_request.yaml",
+    "working_directory": "/absolute/path/to/work-root/repos/SWE-agent",
+    "extra_args": []
+  },
+  "evaluator": {
+    "command": [
+      "/absolute/path/to/work-root/venv/bin/python",
+      "/absolute/path/to/repository/scripts/assignment/evaluate_swebench_case.py",
+      "--dataset", "{dataset_path}",
+      "--predictions", "{predictions_path}",
+      "--instance-id", "{instance_id}",
+      "--report-dir", "{report_dir}",
+      "--run-id", "{run_id}",
+      "--result",
+      "{evaluator_result}"
+    ],
+    "project": "/absolute/path/to/work-root/repos/SWE-bench",
+    "result_path": "{output_dir}/evaluator_result.json",
+    "resolved_field": "official_resolved",
+    "submitted_field": "submitted"
+  },
+  "hardware": {
+    "gpu_names": [
+      "NVIDIA H100 80GB HBM3",
+      "NVIDIA H100 PCIe 80GB"
+    ],
+    "minimum_memory_mib": 80000,
+    "compute_capability": "9.0",
+    "one_gpu_only": true,
+    "probe_command": [
+      "nvidia-smi",
+      "--query-gpu=name,memory.total,compute_cap",
+      "--format=csv,noheader,nounits"
+    ]
+  },
+  "deadlines": {
+    "per_case_seconds": 5400,
+    "global_seconds": 1209600
+  }
+}

@@ -138,7 +138,7 @@ verify_base_tools() {
     "$VENV/bin/python" -c 'import sys; raise SystemExit(0 if sys.executable else 1)' \
       >/dev/null 2>&1 || die "the configured Python environment is unusable: $VENV"
   else
-    python3 -m venv --help >/dev/null 2>&1 || die 'python3 venv support is unavailable'
+    python3 -m venv --help >/dev/null 2>&1 || die 'python3 venv support is unavailable; install python3-venv'
   fi
   printf 'Git: %s\n' "$(git --version)"
   printf 'Python: %s\n' "$(python3 --version 2>&1)"
@@ -171,7 +171,9 @@ verify_runtime() {
 
 prepare_python() {
   if [[ ! -x "$VENV/bin/python" ]]; then
-    run python3 -m venv "$VENV"
+    if ! run python3 -m venv "$VENV"; then
+      die "could not create Python venv at $VENV; on Ubuntu/Debian install python3-venv and python3-pip, then rerun ./start.sh"
+    fi
   fi
   [[ -x "$VENV/bin/python" ]] || die "failed to create Python environment: $VENV"
   run "$VENV/bin/python" -m pip install --upgrade pip setuptools wheel
