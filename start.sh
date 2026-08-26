@@ -8,6 +8,7 @@ IFS=$'\n\t'
 
 ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
 VENV="${AGENTIC_VENV:-$ROOT/.venv}"
+PYTHON_BIN="${AGENTIC_PYTHON_BIN:-}"
 DRY_RUN=0
 CHECK_ONLY=0
 CLOUD_DEPS=0
@@ -80,6 +81,14 @@ elif [[ "$(uname -s)" == Darwin ]]; then
   OS_VERSION="$(sw_vers -productVersion 2>/dev/null || true)"
 fi
 
+if [[ -z "$PYTHON_BIN" ]]; then
+  if command -v python3.11 >/dev/null 2>&1; then
+    PYTHON_BIN="$(command -v python3.11)"
+  else
+    PYTHON_BIN="$(command -v python3 2>/dev/null || true)"
+  fi
+fi
+
 IN_CONTAINER=0
 [[ -f /.dockerenv || -n "${container:-}" ]] && IN_CONTAINER=1
 
@@ -119,8 +128,22 @@ install_system_packages() {
         fi
       done
       ;;
+    rhel|rocky|almalinux|fedora)
+      # Managed HPC systems commonly provide modules and deny sudo. Reuse
+      # those user-facing tools instead of treating the OS package manager as
+      # part of the repository contract.
+      if [[ -n "$PYTHON_BIN" && -x "$PYTHON_BIN" ]]; then
+        printf 'Using provider-managed %s runtime; no system package mutation\n' "$OS_ID"
+        return 0
+      fi
+      if command -v sudo >/dev/null 2>&1 && sudo -n true >/dev/null 2>&1; then
+        run sudo dnf install -y git curl ca-certificates jq unzip gcc gcc-c++ make
+        return 0
+      fi
+      die "provider-managed $OS_ID runtime is missing Python; set AGENTIC_PYTHON_BIN or load a Python module"
+      ;;
     *)
-      die "unsupported operating system: ${OS_ID:-unknown}; use Ubuntu/Debian or macOS"
+      die "unsupported operating system: ${OS_ID:-unknown}; use Ubuntu/Debian, RHEL-compatible Linux, or macOS"
       ;;
   esac
 }
@@ -131,19 +154,27 @@ require_command() {
 
 verify_base_tools() {
   local command_name
-  for command_name in git gh curl jq unzip python3 shellcheck; do
+  for command_name in git curl; do
     require_command "$command_name"
   done
+  [[ -n "$PYTHON_BIN" && -x "$PYTHON_BIN" ]] || die 'Python 3 is required; load a provider module or set AGENTIC_PYTHON_BIN'
   if [[ -x "$VENV/bin/python" ]]; then
     "$VENV/bin/python" -c 'import sys; raise SystemExit(0 if sys.executable else 1)' \
       >/dev/null 2>&1 || die "the configured Python environment is unusable: $VENV"
   else
-    python3 -m venv --help >/dev/null 2>&1 || die 'python3 venv support is unavailable; install python3-venv'
+    "$PYTHON_BIN" -m venv --help >/dev/null 2>&1 || {
+      command -v uv >/dev/null 2>&1 || die 'Python venv support is unavailable; load uv or install venv support'
+    }
   fi
+  for command_name in gh jq unzip shellcheck; do
+    if command -v "$command_name" >/dev/null 2>&1; then
+      printf '%s: available\n' "$command_name"
+    else
+      printf '%s: optional/unavailable\n' "$command_name"
+    fi
+  done
   printf 'Git: %s\n' "$(git --version)"
-  printf 'Python: %s\n' "$(python3 --version 2>&1)"
-  printf 'GitHub CLI: %s\n' "$(gh --version | sed -n '1p')"
-  printf 'ShellCheck: available\n'
+  printf 'Python: %s\n' "$("$PYTHON_BIN" --version 2>&1)"
 }
 
 verify_runtime() {
@@ -155,8 +186,10 @@ verify_runtime() {
     printf 'Docker/NVIDIA runtime: usable\n'
   elif command -v docker >/dev/null 2>&1; then
     printf 'Docker: present (not required for default bootstrap)\n'
+  elif command -v podman >/dev/null 2>&1; then
+    printf 'Podman: present (official evaluator compatibility is checked at execution)\n'
   else
-    printf 'Docker: not present (acceptable for developer/direct-Pod setup)\n'
+    printf 'Container runtime: not present (acceptable for local/offline setup)\n'
   fi
 
   if (( REQUIRE_GPU )); then
@@ -171,16 +204,28 @@ verify_runtime() {
 
 prepare_python() {
   if [[ ! -x "$VENV/bin/python" ]]; then
-    if ! run python3 -m venv "$VENV"; then
-      die "could not create Python venv at $VENV; on Ubuntu/Debian install python3-venv and python3-pip, then rerun ./start.sh"
+    if command -v uv >/dev/null 2>&1; then
+      if ! run uv venv --python "$PYTHON_BIN" "$VENV"; then
+        die "could not create Python environment at $VENV with uv"
+      fi
+    elif ! run "$PYTHON_BIN" -m venv "$VENV"; then
+      die "could not create Python venv at $VENV; load uv or install venv support"
     fi
   fi
   [[ -x "$VENV/bin/python" ]] || die "failed to create Python environment: $VENV"
-  run "$VENV/bin/python" -m pip install --upgrade pip setuptools wheel
-  run "$VENV/bin/python" -m pip install -e "${ROOT}[dev]"
+  if command -v uv >/dev/null 2>&1; then
+    run uv pip install --python "$VENV/bin/python" -e "${ROOT}[dev]"
+  else
+    run "$VENV/bin/python" -m pip install --upgrade pip setuptools wheel
+    run "$VENV/bin/python" -m pip install -e "${ROOT}[dev]"
+  fi
   if (( CLOUD_DEPS )); then
-    [[ "$OS_ID" == ubuntu || "$OS_ID" == debian ]] || die '--cloud-deps requires Linux'
-    run "$VENV/bin/python" -m pip install --require-hashes -r "$ROOT/cloud/lambda/requirements-linux-x86_64.txt"
+    [[ "$OS_ID" != macos ]] || die '--cloud-deps requires Linux'
+    if command -v uv >/dev/null 2>&1; then
+      run uv pip install --python "$VENV/bin/python" --require-hashes -r "$ROOT/cloud/lambda/requirements-linux-x86_64.txt"
+    else
+      run "$VENV/bin/python" -m pip install --require-hashes -r "$ROOT/cloud/lambda/requirements-linux-x86_64.txt"
+    fi
   fi
 }
 
@@ -188,7 +233,11 @@ run_local_checks() {
   [[ -x "$VENV/bin/python" ]] || die "Python environment is missing: $VENV"
   run "$VENV/bin/python" -m compileall -q "$ROOT/src" "$ROOT/scripts"
   run env PYTHONPATH="$ROOT/src" "$VENV/bin/python" -m unittest discover -s "$ROOT/tests" -q
-  run shellcheck "$ROOT/start.sh"
+  if command -v shellcheck >/dev/null 2>&1; then
+    run shellcheck "$ROOT/start.sh"
+  else
+    printf 'ShellCheck: skipped (optional developer tool unavailable)\n'
+  fi
 }
 
 PLATFORM_SUFFIX=""
@@ -209,6 +258,8 @@ if (( DRY_RUN )); then
     printf '  brew:'
     printf ' %s' "${MACOS_PACKAGES[@]}"
     printf '\n'
+  elif [[ "$OS_ID" == rhel || "$OS_ID" == rocky || "$OS_ID" == almalinux || "$OS_ID" == fedora ]]; then
+    printf '  provider-managed modules/packages (no system mutation)\n'
   else
     printf '  unsupported platform\n'
   fi
@@ -221,8 +272,12 @@ fi
 if (( CHECK_ONLY )); then
   verify_base_tools
   verify_runtime
-  [[ -x "$VENV/bin/python" ]] || die "Python environment is missing: $VENV"
-  printf 'CHECK: prerequisites passed\n'
+  if [[ -x "$VENV/bin/python" ]]; then
+    printf 'Project Python environment: %s\n' "$VENV"
+  else
+    printf 'Project Python environment: not initialized (run setup to create %s)\n' "$VENV"
+  fi
+  printf 'CHECK: host prerequisites passed\n'
   exit 0
 fi
 
