@@ -318,7 +318,7 @@ def evaluate(args: argparse.Namespace) -> dict[str, Any]:
         "--dataset_name", str(evaluator_dataset), "--split", "test",
         "--predictions_path", str(evaluator_predictions), "--instance_ids", args.instance_id,
         "--max_workers", "1", "--timeout", str(args.timeout_seconds),
-        "--cache_level", "instance", "--clean", "False", "--run_id", args.run_id,
+        "--cache_level", args.cache_level, "--clean", args.clean, "--run_id", args.run_id,
         "--namespace", "swebench", "--instance_image_tag", "latest",
         "--env_image_tag", "latest", "--report_dir", str(report_dir),
     ]
@@ -366,6 +366,8 @@ def evaluate(args: argparse.Namespace) -> dict[str, Any]:
         "command_sha256": command_hash,
         "counts": counts,
         "evaluator_python": str(args.evaluator_python),
+        "evaluator_cache_level": args.cache_level,
+        "evaluator_clean": args.clean,
         "timeout_seconds": args.timeout_seconds,
     }
     _atomic_json(result_path, result)
@@ -382,6 +384,18 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--result", required=True, type=Path)
     parser.add_argument("--timeout-seconds", type=int, default=1800)
     parser.add_argument("--evaluator-python", type=Path, default=Path(sys.executable))
+    parser.add_argument(
+        "--cache-level",
+        choices=("none", "base", "env", "instance"),
+        default="env",
+        help="SWE-bench image retention level; env is the bounded default for 500 GB workspaces",
+    )
+    parser.add_argument(
+        "--clean",
+        choices=("true", "false"),
+        default="true",
+        help="remove images above --cache-level after evaluation",
+    )
     return parser
 
 
