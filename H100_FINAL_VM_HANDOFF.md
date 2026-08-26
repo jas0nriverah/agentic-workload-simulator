@@ -89,11 +89,17 @@ scripts/cloud/start_h100.sh --manifest /mnt/eic-work/h100-startup.env \
   --backend direct
 ```
 
-The direct environment must already contain Python 3.11, vLLM 0.10.0, the
-same model/tokenizer revision, host CUDA/Nsight tracing, and one isolated H100;
-the startup path does not install Docker, Docker-in-Docker, or vLLM. Both
-paths write backend-specific runtime metadata/state below the external work
-root and retain the same request, trace, leakage, timeout, and cleanup
+The direct bootstrap uses the small, flexible
+`cloud/gcp/h100_direct_runtime_requirements.txt` input file and lets pip/uv
+resolve transitive dependencies. It requires Python 3.11, vLLM 0.10.0,
+Torch 2.7.1, Transformers 4.57.6 or later within the declared pre-5 range,
+and compatible Tokenizers and huggingface-hub versions within the declared
+ranges; startup verifies CUDA, the tokenizer compatibility attribute, and the
+revision-qualified model files before launching. Host-local paths, GPU count,
+tensor parallelism, and storage roots come only from the external manifest.
+The startup path does not install Docker, Docker-in-Docker, or run a workload.
+Both paths write backend-specific runtime metadata/state below the external
+work root and retain the same request, trace, leakage, timeout, and cleanup
 contract. Docker and direct results are not interchangeable without separate
 validation.
 
