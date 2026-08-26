@@ -134,7 +134,12 @@ verify_base_tools() {
   for command_name in git gh curl jq unzip python3 shellcheck; do
     require_command "$command_name"
   done
-  python3 -m venv --help >/dev/null 2>&1 || die 'python3 venv support is unavailable'
+  if [[ -x "$VENV/bin/python" ]]; then
+    "$VENV/bin/python" -c 'import sys; raise SystemExit(0 if sys.executable else 1)' \
+      >/dev/null 2>&1 || die "the configured Python environment is unusable: $VENV"
+  else
+    python3 -m venv --help >/dev/null 2>&1 || die 'python3 venv support is unavailable; install python3-venv'
+  fi
   printf 'Git: %s\n' "$(git --version)"
   printf 'Python: %s\n' "$(python3 --version 2>&1)"
   printf 'GitHub CLI: %s\n' "$(gh --version | sed -n '1p')"
@@ -166,7 +171,9 @@ verify_runtime() {
 
 prepare_python() {
   if [[ ! -x "$VENV/bin/python" ]]; then
-    run python3 -m venv "$VENV"
+    if ! run python3 -m venv "$VENV"; then
+      die "could not create Python venv at $VENV; on Ubuntu/Debian install python3-venv and python3-pip, then rerun ./start.sh"
+    fi
   fi
   [[ -x "$VENV/bin/python" ]] || die "failed to create Python environment: $VENV"
   run "$VENV/bin/python" -m pip install --upgrade pip setuptools wheel
@@ -184,8 +191,12 @@ run_local_checks() {
   run shellcheck "$ROOT/start.sh"
 }
 
+PLATFORM_SUFFIX=""
+if (( IN_CONTAINER )); then
+  PLATFORM_SUFFIX=' (container)'
+fi
 printf 'Repository: %s\n' "$ROOT"
-printf 'Platform: %s %s%s\n' "${OS_ID:-unknown}" "${OS_VERSION:-unknown}" "$([[ $IN_CONTAINER == 1 ]] && printf ' (container)' || true)"
+printf 'Platform: %s %s%s\n' "${OS_ID:-unknown}" "${OS_VERSION:-unknown}" "$PLATFORM_SUFFIX"
 
 if (( DRY_RUN )); then
   printf 'DRY-RUN: no files, packages, virtualenv, or artifacts will be changed\n'

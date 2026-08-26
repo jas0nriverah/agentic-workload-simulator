@@ -106,7 +106,15 @@ def _docker_exec(arguments: Iterable[str]) -> subprocess.CompletedProcess[str]:
     default_nsys = "/host-cuda/bin/nsys" if backend == "docker" else "/usr/local/cuda/bin/nsys"
     nsys_bin = os.environ.get(NSYS_BIN_ENV, default_nsys)
     if backend == "docker":
-        container = os.environ.get(NSYS_CONTAINER_ENV, "h100-final-vllm")
+        # The A100 launcher names the service with A100_CONTAINER while the
+        # provider adapter historically consumed A100_NSYS_CONTAINER.  Accept
+        # the launcher name as a checked, explicit fallback so a profiling
+        # manifest cannot accidentally address the frozen H100 service.
+        container = os.environ.get(NSYS_CONTAINER_ENV) or os.environ.get(
+            f"{HARDWARE_TARGET}_CONTAINER"
+        )
+        if not container:
+            raise ProviderError(f"{NSYS_CONTAINER_ENV} or {HARDWARE_TARGET}_CONTAINER must identify the profiled service")
         command = ["docker", "exec", container, nsys_bin, *arguments]
     else:
         command = [nsys_bin, *arguments]
@@ -395,6 +403,136 @@ def _session_epoch(connection: sqlite3.Connection, tables: set[str]) -> int:
     return epoch
 
 
+def _clip_intervals(intervals: Iterable[tuple[int, int]], start_ns: int, end_ns: int) -> list[tuple[int, int]]:
+    clipped: list[tuple[int, int]] = []
+    for start, end in intervals:
+        clipped_start = max(start, start_ns)
+        clipped_end = min(end, end_ns)
+        if clipped_end > clipped_start:
+            clipped.append((clipped_start, clipped_end))
+    return clipped
+
+
+def _report_from_intervals(
+    *,
+    request_start_ns: int,
+    request_end_ns: int,
+    arm: Mapping[str, Any],
+    session_epoch: int,
+    target_processes: list[dict[str, Any]],
+    cpu_intervals: list[tuple[int, int]],
+    gpu_intervals: list[tuple[int, int]],
+    kernel_intervals: list[tuple[int, int]],
+    cpu_counts: Mapping[str, int],
+    gpu_counts: Mapping[str, int],
+    raw_artifacts: list[dict[str, str]],
+) -> dict[str, Any]:
+    if not kernel_intervals:
+        raise ProviderError("no target-process CUDA kernel intersects request window")
+    if not cpu_intervals:
+        raise ProviderError("no target-process CPU activity intersects request window")
+    cpu_union = _merge(cpu_intervals)
+    cuda_union = _merge(gpu_intervals)
+    kernel_duration_ns = sum(end - start for start, end in kernel_intervals)
+    cpu_union_ns = sum(end - start for start, end in cpu_union)
+    cuda_union_ns = sum(end - start for start, end in cuda_union)
+    values = {
+        "cpu_activity_union_ms": cpu_union_ns / 1_000_000.0,
+        "cuda_activity_union_ms": cuda_union_ns / 1_000_000.0,
+        "kernel_duration_sum_ms": kernel_duration_ns / 1_000_000.0,
+    }
+    if not all(math.isfinite(value) and value >= 0 for value in values.values()):
+        raise ProviderError("Nsight-derived timing values are not finite and non-negative")
+    raw_minus_realtime = _required_int(arm["clock"]["raw_ns"], "arm raw clock") - _required_int(arm["clock"]["realtime_ns"], "arm realtime clock")
+    return {
+        "schema_version": TRACE_SCHEMA,
+        "provenance": "measured",
+        "provider_version": PROVIDER_VERSION,
+        "clock_id": "CLOCK_MONOTONIC_RAW",
+        "cuda_union_rule": "overlap_aware_request_window",
+        **values,
+        "raw_artifacts": raw_artifacts,
+        "measurement": {
+            "source": "Nsight Systems SQLite CUPTI/OSRT activity",
+            "session_epoch_utc_ns": session_epoch,
+            "raw_minus_realtime_ns": raw_minus_realtime,
+            "request_start_mono_ns": request_start_ns,
+            "request_end_mono_ns": request_end_ns,
+            "target_processes": target_processes,
+            "cpu_event_counts": dict(cpu_counts),
+            "gpu_event_counts": dict(gpu_counts),
+            "kernel_event_count": len(kernel_intervals),
+            "cpu_activity_intervals": [{"start_mono_ns": start, "end_mono_ns": end, "duration_ms": (end - start) / 1_000_000.0} for start, end in cpu_intervals],
+            "cuda_activity_intervals": [{"start_mono_ns": start, "end_mono_ns": end, "duration_ms": (end - start) / 1_000_000.0} for start, end in gpu_intervals],
+            "kernel_intervals": [{"start_mono_ns": start, "end_mono_ns": end, "duration_ms": (end - start) / 1_000_000.0} for start, end in kernel_intervals],
+        },
+    }
+
+
+def parse_report_windows(
+    requests: Iterable[Mapping[str, Any]],
+    paths: Mapping[str, Path],
+    arm: Mapping[str, Any],
+) -> list[dict[str, Any]]:
+    """Parse many request windows with one SQLite activity scan.
+
+    The single-window parser remains the production provider entry point for
+    sealed validation.  A100 data collection uses this batch API so repeated
+    request windows do not reread the same multi-hundred-megabyte export.
+    Each unavailable window is returned with an explicit ``error`` field so a
+    caller can preserve a row without weakening fail-closed validation.
+    """
+
+    windows = [(int(item["start_mono_ns"]), int(item["end_mono_ns"])) for item in requests]
+    if not windows or any(end <= start for start, end in windows):
+        raise ProviderError("request windows are not positive")
+    clock = arm.get("clock")
+    if not isinstance(clock, Mapping):
+        raise ProviderError("trace_arm.json lacks clock calibration")
+    raw_at_arm = _required_int(clock.get("raw_ns"), "arm raw clock")
+    realtime_at_arm = _required_int(clock.get("realtime_ns"), "arm realtime clock")
+    raw_minus_realtime = raw_at_arm - realtime_at_arm
+    sqlite_path = paths["sqlite"]
+    if not sqlite_path.is_file() or sqlite_path.stat().st_size == 0:
+        raise ProviderError("Nsight stop did not produce a non-empty SQLite export")
+    if not paths["report"].is_file() or paths["report"].stat().st_size == 0:
+        raise ProviderError("Nsight stop did not produce a non-empty .nsys-rep artifact")
+    raw_artifacts = []
+    for kind, key in (("trace_arm", "arm"), ("trace_collect", "collect"), ("nsight_report", "report"), ("nsight_sqlite", "sqlite")):
+        path = paths[key]
+        if not path.is_file() or path.stat().st_size == 0:
+            raise ProviderError(f"raw artifact is missing or empty: {path.name}")
+        raw_artifacts.append({"kind": kind, "path": path.name, "sha256": _sha256(path)})
+    broad_start = min(start for start, _ in windows)
+    broad_end = max(end for _, end in windows)
+    uri = f"file:{quote(str(sqlite_path), safe='/')}?mode=ro"
+    try:
+        connection = sqlite3.connect(uri, uri=True)
+    except sqlite3.Error as exc:
+        raise ProviderError("could not open Nsight SQLite export read-only") from exc
+    try:
+        tables = _table_names(connection)
+        session_epoch = _session_epoch(connection, tables)
+        processes, target_pids = _processes(connection, tables)
+        cpu_all, cpu_counts = _intervals_for_cpu(connection, tables, target_pids, session_epoch, raw_minus_realtime, broad_start, broad_end)
+        gpu_all, kernel_all, gpu_counts = _intervals_for_gpu(connection, tables, target_pids, session_epoch, raw_minus_realtime, broad_start, broad_end)
+    except (sqlite3.Error, ValueError, TypeError) as exc:
+        raise ProviderError("could not parse Nsight SQLite export") from exc
+    finally:
+        connection.close()
+    target_processes = [{"globalPid": pid, "name": processes[pid]} for pid in sorted(target_pids) if pid in processes]
+    results: list[dict[str, Any]] = []
+    for start, end in windows:
+        cpu = _clip_intervals(cpu_all, start, end)
+        gpu = _clip_intervals(gpu_all, start, end)
+        kernel = _clip_intervals(kernel_all, start, end)
+        try:
+            results.append(_report_from_intervals(request_start_ns=start, request_end_ns=end, arm=arm, session_epoch=session_epoch, target_processes=target_processes, cpu_intervals=cpu, gpu_intervals=gpu, kernel_intervals=kernel, cpu_counts=cpu_counts, gpu_counts=gpu_counts, raw_artifacts=raw_artifacts))
+        except ProviderError as exc:
+            results.append({"error": str(exc)})
+    return results
+
+
 def _parse_report(
     args: argparse.Namespace,
     paths: Mapping[str, Path],
@@ -497,6 +635,18 @@ def _parse_report(
             "cpu_event_counts": cpu_counts,
             "gpu_event_counts": gpu_counts,
             "kernel_event_count": len(kernel_intervals),
+            "cpu_activity_intervals": [
+                {"start_mono_ns": start, "end_mono_ns": end, "duration_ms": (end - start) / 1_000_000.0}
+                for start, end in cpu_intervals
+            ],
+            "cuda_activity_intervals": [
+                {"start_mono_ns": start, "end_mono_ns": end, "duration_ms": (end - start) / 1_000_000.0}
+                for start, end in gpu_intervals
+            ],
+            "kernel_intervals": [
+                {"start_mono_ns": start, "end_mono_ns": end, "duration_ms": (end - start) / 1_000_000.0}
+                for start, end in kernel_intervals
+            ],
         },
     }
     if HARDWARE_TARGET == "A100":

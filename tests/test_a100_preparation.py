@@ -162,6 +162,11 @@ class A100PreparationTests(unittest.TestCase):
         self.assertIn('trace_output = trace_root / phase', source)
         self.assertIn('trace_output.replace(output)', source)
 
+    def test_a100_launcher_mounts_nsight_dependency_root(self):
+        source = (ROOT / "scripts/cloud/start_a100.sh").read_text()
+        self.assertIn("-v /usr/local/cuda:/host-cuda:ro", source)
+        self.assertIn("-v /opt/nvidia:/opt/nvidia:ro", source)
+
     def test_resume_preserves_original_deadline_and_requires_existing_state(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

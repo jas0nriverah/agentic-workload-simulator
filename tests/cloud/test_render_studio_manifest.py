@@ -74,7 +74,14 @@ class RenderStudioManifestTests(unittest.TestCase):
             self.assertIn("PYTHON_ENV_MODE=managed", rendered)
             self.assertIn(f"PYTHON_ENV_ROOT={env_root}", rendered)
             self.assertRegex(rendered, r"PYTHON_VERSION_EXACT=\d+\.\d+\.\d+")
-            self.assertIn("PYTHON_LOCK_PATH=/teamspace/studios/this_studio/agentic-workload-simulator/cloud/lambda/requirements-linux-x86_64.txt", rendered)
+            version_suffix = f"py{sys.version_info.major}{sys.version_info.minor}"
+            version_lock = ROOT / f"cloud/lambda/requirements-linux-x86_64-{version_suffix}.txt"
+            expected_lock = (
+                version_lock
+                if version_lock.is_file()
+                else ROOT / "cloud/lambda/requirements-linux-x86_64.txt"
+            )
+            self.assertIn(f"PYTHON_LOCK_PATH={expected_lock}", rendered)
             self.assertIn(f"EVALUATOR_PYTHON={env_root}/bin/python", rendered)
             self.assertIn(f"SWE_AGENT_COMMAND={env_root}/bin/sweagent --help", rendered)
             self.assertNotIn("/agentic-work/venv", rendered)

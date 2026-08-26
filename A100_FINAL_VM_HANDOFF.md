@@ -28,7 +28,9 @@ runtime; CUDA 13-compatible driver; Nsight Systems 2025.1.3-compatible host
 tooling; and no other GPU process. Use the pinned vLLM 0.10.0 image digest,
 Qwen3-Coder model revision and tokenizer revision from the protocol. The
 startup doctor captures GPU UUID, PCI identity, driver/CUDA, Nsight, kernel,
-clock, image, model/tokenizer, and trace provenance.
+clock, image, model/tokenizer, and trace provenance. The Docker launcher maps
+both `/usr/local/cuda` (the approved host Nsight entrypoint) and `/opt/nvidia`
+(its read-only installation root) into the profiled container.
 
 ## One-time external manifest
 

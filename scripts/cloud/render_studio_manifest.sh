@@ -54,7 +54,7 @@ if (( ! DRY )) && [[ -e "$OUTPUT" && ! "$FORCE" -eq 1 ]]; then
 fi
 (( DRY )) || mkdir -p -- "$(dirname -- "$OUTPUT")"
 
-python3 - "$SOURCE" "$OUTPUT" "$STUDIO_ROOT" "$PYTHON_ENV_MODE" "$PYTHON_ENV_ROOT" "$DRY" <<'PY'
+python3 - "$SOURCE" "$OUTPUT" "$STUDIO_ROOT" "$PYTHON_ENV_MODE" "$PYTHON_ENV_ROOT" "$DRY" "$ROOT" <<'PY'
 from pathlib import Path
 import hashlib
 import os
@@ -68,6 +68,7 @@ python_env_mode = sys.argv[4]
 provided_env_root = bool(sys.argv[5])
 python_env_root = Path(sys.argv[5]) if provided_env_root else None
 dry = sys.argv[6] == "1"
+repo_root = Path(sys.argv[7]).resolve()
 text = source.read_text(encoding="utf-8")
 if "/home/ubuntu" not in text:
     raise SystemExit("source manifest has no reviewed /home/ubuntu paths to render")
@@ -149,10 +150,18 @@ if python_version is not None:
 # reviewed 3.11 lock and let bootstrap fail closed with an explicit
 # resolution-mismatch message; never relabel a 3.11 lock as 3.12.
 if python_env_mode == "managed":
-    candidate = studio_root / "agentic-workload-simulator" / "cloud" / "lambda" / f"requirements-linux-x86_64-py{python_version.replace('.', '')}.txt"
-    if candidate.is_file():
-        rendered = upsert(rendered, "PYTHON_LOCK_PATH", str(candidate))
-        rendered = upsert(rendered, "PYTHON_LOCK_SHA256", hashlib.sha256(candidate.read_bytes()).hexdigest())
+    lock_root = repo_root / "cloud" / "lambda"
+    base_lock = lock_root / "requirements-linux-x86_64.txt"
+    candidate = lock_root / f"requirements-linux-x86_64-py{python_version.replace('.', '')}.txt"
+    selected_lock = candidate if candidate.is_file() else base_lock
+    if not selected_lock.is_file():
+        raise SystemExit(f"managed Python lock is unavailable: {selected_lock}")
+    rendered = upsert(rendered, "PYTHON_LOCK_PATH", str(selected_lock))
+    rendered = upsert(
+        rendered,
+        "PYTHON_LOCK_SHA256",
+        hashlib.sha256(selected_lock.read_bytes()).hexdigest(),
+    )
 if "VLLM_API_KEY=local-only-placeholder" not in rendered:
     raise SystemExit("rendered manifest lost the non-secret API-key placeholder")
 if not dry:
