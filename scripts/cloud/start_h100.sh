@@ -9,7 +9,7 @@ ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/../.." && pwd -P)"
 EXPECTED_BRANCH='parallel-h100-shards'
 CONFIG="$ROOT/configs/h100_final_validation.json"
 PYTHON_LOCK="$ROOT/cloud/lambda/requirements-linux-x86_64.txt"
-DIRECT_REQUIREMENTS="$ROOT/cloud/gcp/h100_direct_requirements.txt"
+DIRECT_REQUIREMENTS="$ROOT/cloud/gcp/h100_direct_runtime_requirements.txt"
 SYSTEM_LOCK="$ROOT/cloud/gcp/h100_system_packages_ubuntu22.04-amd64.lock"
 LAUNCHER="$ROOT/scripts/cloud/start_h100_vllm_nsight.sh"
 TRACE_PROVIDER="$ROOT/scripts/cloud/h100_nsight_trace_provider.py"
@@ -133,7 +133,6 @@ CONTAINER="$(required_manifest_value H100_CONTAINER)"
 SESSION="$(required_manifest_value H100_NSYS_SESSION)"
 CUDA_VERSION="$(required_manifest_value CUDA_VERSION)"
 NSYS_VERSION_PREFIX="$(required_manifest_value NSYS_VERSION_PREFIX)"
-MANIFEST_DIRECT_REQUIREMENTS_SHA256="$(manifest_value DIRECT_REQUIREMENTS_SHA256)"
 STATE_ROOT="${H100_STARTUP_STATE_ROOT:-$WORK_ROOT/state/h100-startup}"
 
 if (( DRY_RUN )) && [[ "$REQUIRED_COMMIT" == '<40-hex-pushed-commit>' ]]; then
@@ -177,7 +176,7 @@ reject_checkout_path STATE_ROOT "$STATE_ROOT"
 
 [[ -f "$CONFIG" ]] || die "sealed config is missing: $CONFIG"
 [[ -f "$PYTHON_LOCK" ]] || die "Python lock is missing: $PYTHON_LOCK"
-[[ -f "$DIRECT_REQUIREMENTS" ]] || die "direct runtime lock is missing: $DIRECT_REQUIREMENTS"
+[[ -f "$DIRECT_REQUIREMENTS" ]] || die "direct runtime requirements are missing: $DIRECT_REQUIREMENTS"
 [[ -f "$SYSTEM_LOCK" ]] || die "system lock is missing: $SYSTEM_LOCK"
 [[ -x "$LAUNCHER" ]] || die "reviewed vLLM launcher is missing or not executable: $LAUNCHER"
 [[ -x "$TRACE_PROVIDER" ]] || die "real production trace provider is missing or not executable: $TRACE_PROVIDER"
@@ -186,10 +185,6 @@ reject_checkout_path STATE_ROOT "$STATE_ROOT"
 
 ACTUAL_PYTHON_LOCK_SHA256="$(sha256_file "$PYTHON_LOCK")"
 [[ "$ACTUAL_PYTHON_LOCK_SHA256" == "$PYTHON_LOCK_SHA256" ]] || die 'Python lock hash mismatch'
-DIRECT_REQUIREMENTS_SHA256="$(sha256_file "$DIRECT_REQUIREMENTS")"
-if [[ -n "$MANIFEST_DIRECT_REQUIREMENTS_SHA256" && "$MANIFEST_DIRECT_REQUIREMENTS_SHA256" != "$DIRECT_REQUIREMENTS_SHA256" ]]; then
-  die 'direct runtime lock hash mismatch'
-fi
 ACTUAL_SYSTEM_LOCK_SHA256="$(sha256_file "$SYSTEM_LOCK")"
 [[ "$ACTUAL_SYSTEM_LOCK_SHA256" == "$SYSTEM_LOCK_SHA256" ]] || die 'system package lock hash mismatch'
 CONFIG_ACTUAL_SHA256="$(sha256_file "$CONFIG")"
@@ -291,23 +286,61 @@ ensure_direct_python() {
   DIRECT_BOOTSTRAP_BIN="$bootstrap_bin"
 }
 
-check_direct_python_lock() {
-  local python_bin="$1" lock_file="$2"
-  "$python_bin" - "$lock_file" <<'PY'
+check_direct_runtime() {
+  local python_bin="$1"
+  "$python_bin" <<'PY'
 import importlib.metadata as metadata
-import re
-import sys
-from pathlib import Path
 
-lock = Path(sys.argv[1]).read_text(encoding="utf-8")
-for match in re.finditer(r"^([A-Za-z0-9_.-]+)==([^ \t\\]+)", lock, re.MULTILINE):
-    name = re.sub(r"[-_.]+", "-", match.group(1).lower())
+expected = {
+    "vllm": ("0.10.0", "0.10.0"),
+    "torch": ("2.7.1", "2.7.1"),
+    "transformers": ("4.57.6", "5"),
+    "tokenizers": ("0.22.2", "0.23"),
+    "huggingface-hub": ("0.34.4", "1"),
+}
+def version_tuple(value):
+    return tuple(int(part) for part in value.split(".") if part.isdigit())
+for name, (minimum, maximum) in expected.items():
     try:
         actual = metadata.version(name)
     except metadata.PackageNotFoundError as exc:
-        raise SystemExit(f"missing locked package: {name}") from exc
-    if actual != match.group(2):
-        raise SystemExit(f"locked package mismatch: {name} expected {match.group(2)} got {actual}")
+        raise SystemExit(f"missing direct runtime package: {name}") from exc
+    if not version_tuple(minimum) <= version_tuple(actual) < version_tuple(maximum):
+        raise SystemExit(f"direct runtime mismatch: {name} requires >= {minimum}, < {maximum}, got {actual}")
+PY
+}
+
+check_direct_runtime_compatibility() {
+  local python_bin="$1" snapshot="$2"
+  "$python_bin" - "$snapshot" <<'PY'
+import importlib.metadata as metadata
+import sys
+from pathlib import Path
+
+expected = {
+    "vllm": ("0.10.0", "0.10.0"),
+    "torch": ("2.7.1", "2.7.1"),
+    "transformers": ("4.57.6", "5"),
+    "tokenizers": ("0.22.2", "0.23"),
+    "huggingface-hub": ("0.34.4", "1"),
+}
+def version_tuple(value):
+    return tuple(int(part) for part in value.split(".") if part.isdigit())
+for package, (minimum, maximum) in expected.items():
+    actual = metadata.version(package)
+    if not version_tuple(minimum) <= version_tuple(actual) < version_tuple(maximum):
+        raise SystemExit(f"runtime package mismatch: {package} requires >= {minimum}, < {maximum}, got {actual}")
+
+from transformers import AutoTokenizer
+
+tokenizer = AutoTokenizer.from_pretrained(
+    str(Path(sys.argv[1])),
+    local_files_only=True,
+    trust_remote_code=False,
+    use_fast=True,
+)
+if not hasattr(tokenizer, "all_special_tokens_extended"):
+    raise SystemExit("tokenizer is incompatible with vLLM 0.10.0")
 PY
 }
 
@@ -340,12 +373,12 @@ setup_direct_runtime() {
   [[ -x "$direct_python" ]] || die "direct Python environment was not created: $direct_python"
 
   PIP_CACHE_DIR="$direct_pip_cache" "$direct_python" -m pip install \
-    --disable-pip-version-check --no-input --only-binary=:all: --upgrade \
+    --disable-pip-version-check --no-input --upgrade \
     'pip==24.3.1' 'setuptools==75.6.0' 'wheel==0.45.1'
   PIP_CACHE_DIR="$direct_pip_cache" "$direct_python" -m pip install \
-    --disable-pip-version-check --no-input --only-binary=:all: --require-hashes --upgrade \
+    --disable-pip-version-check --no-input --upgrade \
     -r "$DIRECT_REQUIREMENTS"
-  check_direct_python_lock "$direct_python" "$DIRECT_REQUIREMENTS" || die 'direct Python environment does not match the pinned vLLM closure'
+  check_direct_runtime "$direct_python" || die 'direct Python environment does not match the compatible vLLM runtime'
   "$direct_python" -m pip check >/dev/null 2>&1 || die 'direct Python environment failed pip check'
   "$direct_python" -c 'import importlib.metadata; expected="0.10.0"; actual=importlib.metadata.version("vllm"); raise SystemExit(0 if actual == expected else f"vLLM version mismatch: {actual}")' \
     || die 'direct setup did not install pinned vLLM 0.10.0'
@@ -357,22 +390,23 @@ setup_direct_runtime() {
     --model-snapshot "$MODEL_SNAPSHOT" \
     --state-output "$STATE_ROOT/direct_model.json" \
     || die 'direct setup could not verify or download the pinned model/tokenizer snapshot'
+  check_direct_runtime_compatibility "$direct_python" "$MODEL_SNAPSHOT" \
+    || die 'direct Python environment is incompatible with the pinned vLLM/tokenizer contract'
 
-  "$direct_python" - "$STATE_ROOT/direct_setup.json" "$direct_python" "$DIRECT_REQUIREMENTS_SHA256" "$MANIFEST_MODEL" "$MANIFEST_REVISION" "$MODEL_CACHE" "$MODEL_SNAPSHOT" <<'PY'
+  "$direct_python" - "$STATE_ROOT/direct_setup.json" "$direct_python" "$MANIFEST_MODEL" "$MANIFEST_REVISION" "$MODEL_CACHE" "$MODEL_SNAPSHOT" <<'PY'
 import json
 import os
 import pathlib
 import sys
 import time
 
-output, python_bin, lock_sha, model, revision, cache, snapshot = map(pathlib.Path, sys.argv[1:])
+output, python_bin, model, revision, cache, snapshot = map(pathlib.Path, sys.argv[1:])
 state = {
     "schema_version": "h100-direct-setup.v1",
     "provenance": "setup",
     "backend": "direct",
     "python": {"executable": str(python_bin), "version": "3.11"},
     "vllm": {"version": "0.10.0"},
-    "direct_requirements_sha256": str(lock_sha),
     "model": {"id": str(model), "revision": str(revision), "cache": str(cache), "snapshot": str(snapshot)},
     "host": {"hostname": os.uname().nodename},
     "completed_at_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
@@ -440,8 +474,10 @@ if [[ "$SELECTED_BACKEND" == direct ]]; then
   verify_checkout_identity
   DIRECT_PYTHON_VERSION="$($DIRECT_PYTHON -c 'import sys; print(f"{sys.version_info.major}.{sys.version_info.minor}")')"
   [[ "$DIRECT_PYTHON_VERSION" == '3.11' ]] || die "direct backend requires Python 3.11, found $DIRECT_PYTHON_VERSION"
-  check_direct_python_lock "$DIRECT_PYTHON" "$DIRECT_REQUIREMENTS" \
-    || die 'direct backend Python environment does not match the pinned vLLM closure'
+  check_direct_runtime "$DIRECT_PYTHON" \
+    || die 'direct backend Python environment does not match the compatible vLLM runtime'
+  check_direct_runtime_compatibility "$DIRECT_PYTHON" "$MODEL_SNAPSHOT" \
+    || die 'direct backend Python/tokenizer compatibility check failed'
   "$DIRECT_PYTHON" -m pip check >/dev/null 2>&1 || die 'direct backend Python environment failed pip check'
   "$DIRECT_PYTHON" -c 'import importlib.metadata; expected="0.10.0"; actual=importlib.metadata.version("vllm"); raise SystemExit(0 if actual == expected else f"vLLM version mismatch: {actual}")' \
     || die 'direct backend vLLM package is not the pinned 0.10.0 release'

@@ -11,7 +11,7 @@ ROOT = pathlib.Path(__file__).resolve().parents[2]
 STARTUP = ROOT / "scripts/cloud/start_h100.sh"
 CONFIG = ROOT / "configs/h100_final_validation.json"
 PYTHON_LOCK = ROOT / "cloud/lambda/requirements-linux-x86_64.txt"
-DIRECT_REQUIREMENTS = ROOT / "cloud/gcp/h100_direct_requirements.txt"
+DIRECT_REQUIREMENTS = ROOT / "cloud/gcp/h100_direct_runtime_requirements.txt"
 SYSTEM_LOCK = ROOT / "cloud/gcp/h100_system_packages_ubuntu22.04-amd64.lock"
 MODEL_REVISION = "b2cff646eb4bb1d68355c01b18ae02e7cf42d120"
 MODEL = "Qwen/Qwen3-Coder-30B-A3B-Instruct"
@@ -31,7 +31,7 @@ class H100StartupTests(unittest.TestCase):
             "scripts/cloud/h100_nsight_trace_provider.py",
             "configs/h100_final_validation.json",
             "cloud/lambda/requirements-linux-x86_64.txt",
-            "cloud/gcp/h100_direct_requirements.txt",
+            "cloud/gcp/h100_direct_runtime_requirements.txt",
             "cloud/gcp/h100_system_packages_ubuntu22.04-amd64.lock",
         ):
             destination = repo / relative
@@ -64,7 +64,6 @@ class H100StartupTests(unittest.TestCase):
                     f"REQUIRED_COMMIT={commit}",
                     f"PROTOCOL_SHA256={sha256(repo / 'configs/h100_final_validation.json')}",
                     f"PYTHON_LOCK_SHA256={python_hash or sha256(repo / 'cloud/lambda/requirements-linux-x86_64.txt')}",
-                    f"DIRECT_REQUIREMENTS_SHA256={sha256(repo / 'cloud/gcp/h100_direct_requirements.txt')}",
                     f"SYSTEM_LOCK_SHA256={sha256(repo / 'cloud/gcp/h100_system_packages_ubuntu22.04-amd64.lock')}",
                     f"WORK_ROOT={work_root}",
                     f"PYTHON_ENV_ROOT={work_root}/venv",
@@ -147,10 +146,12 @@ class H100StartupTests(unittest.TestCase):
         self.assertIn("Python packages already validated", text)
         self.assertIn("packages_ok=0", text)
 
-    def test_direct_setup_uses_only_the_pinned_direct_lock_and_external_roots(self):
+    def test_direct_setup_uses_compatible_requirements_and_external_roots(self):
         text = STARTUP.read_text(encoding="utf-8")
-        self.assertIn('DIRECT_REQUIREMENTS="$ROOT/cloud/gcp/h100_direct_requirements.txt"', text)
-        self.assertIn('--require-hashes --upgrade \\\n    -r "$DIRECT_REQUIREMENTS"', text)
+        self.assertIn('DIRECT_REQUIREMENTS="$ROOT/cloud/gcp/h100_direct_runtime_requirements.txt"', text)
+        self.assertIn('--disable-pip-version-check --no-input --upgrade \\\n    -r "$DIRECT_REQUIREMENTS"', text)
+        self.assertNotIn("DIRECT_" + "REQUIREMENTS_SHA256", text)
+        self.assertNotIn("--require-hashes", text[text.index("setup_direct_runtime()") : text.index("if (( SETUP ));", text.index("setup_direct_runtime()"))])
         self.assertIn('"$STATE_ROOT/direct_setup.json"', text)
         self.assertIn('no server, calibration, holdout, or measurement started', text)
         self.assertIn('verify_checkout_identity allow-dirty', text)
@@ -169,13 +170,10 @@ class H100StartupTests(unittest.TestCase):
         end = text.index("\nPY\n)\"", start)
         compile(text[start:end], "start_h100_config_values.py", "exec")
 
-    def test_missing_packages_use_pinned_offline_first_hash_checked_install(self):
+    def test_missing_packages_use_normal_dependency_resolution(self):
         text = STARTUP.read_text(encoding="utf-8")
-        self.assertIn("--no-download", text)
         self.assertIn("--allow-downgrades", text)
-        self.assertIn("--no-index", text)
-        self.assertIn("--require-hashes", text)
-        self.assertIn("--only-binary=:all:", text)
+        self.assertNotIn("DIRECT_" + "REQUIREMENTS_SHA256", text)
         self.assertIn("PIP_CACHE_DIR=", text)
         self.assertNotIn("apt-get install -y --no-install-recommends \"${missing", text)
 

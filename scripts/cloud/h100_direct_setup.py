@@ -24,6 +24,36 @@ class DirectSetupError(RuntimeError):
     """The pinned direct-runtime model snapshot is not safe to use."""
 
 
+RUNTIME_REQUIREMENTS = {
+    "vllm": ("0.10.0", "0.10.0"),
+    "torch": ("2.7.1", "2.7.1"),
+    "transformers": ("4.57.6", "5"),
+    "tokenizers": ("0.22.2", "0.23"),
+    "huggingface-hub": ("0.34.4", "1"),
+}
+
+
+def _version_tuple(value: str) -> tuple[int, ...]:
+    return tuple(int(part) for part in value.split(".") if part.isdigit())
+
+
+def _verify_runtime() -> dict[str, str]:
+    from importlib import metadata
+
+    actual = {}
+    for package, (minimum, maximum) in RUNTIME_REQUIREMENTS.items():
+        try:
+            actual[package] = metadata.version(package)
+        except metadata.PackageNotFoundError as exc:
+            raise DirectSetupError(f"required runtime package is missing: {package}") from exc
+        if not (_version_tuple(minimum) <= _version_tuple(actual[package]) < _version_tuple(maximum)):
+            raise DirectSetupError(
+                f"runtime package mismatch: {package} requires >= {minimum}, < {maximum}, "
+                f"got {actual[package]}"
+            )
+    return actual
+
+
 def _sha256(path: Path) -> str:
     digest = hashlib.sha256()
     with path.open("rb") as handle:
@@ -153,7 +183,14 @@ def _verify_tokenizer(snapshot: Path, revision: str) -> dict[str, Any]:
             trust_remote_code=False,
             use_fast=True,
         )
+        if not hasattr(tokenizer, "all_special_tokens_extended"):
+            raise DirectSetupError(
+                "Transformers tokenizer is incompatible with vLLM 0.10.0: "
+                "all_special_tokens_extended is unavailable"
+            )
     except Exception as exc:  # pragma: no cover - tokenizer backend errors vary
+        if isinstance(exc, DirectSetupError):
+            raise
         raise DirectSetupError("pinned tokenizer could not be loaded from the local snapshot") from exc
     return {
         "loaded": True,
@@ -173,6 +210,7 @@ def ensure_snapshot(
 ) -> dict[str, Any]:
     """Reuse a verified snapshot or download only the exact pinned revision."""
 
+    runtime = _verify_runtime()
     model_cache = model_cache.expanduser().resolve()
     expected = expected_snapshot.expanduser().resolve()
     computed = _snapshot_path(model_cache, model, revision)
@@ -216,6 +254,7 @@ def ensure_snapshot(
         "reused_existing_snapshot": reused,
         "verification": verification,
         "tokenizer": tokenizer,
+        "runtime": runtime,
         "verified_at_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
     }
     if state_output is not None:

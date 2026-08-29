@@ -82,7 +82,9 @@ class H100DirectSetupTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temp:
             cache, snapshot, siblings = self._snapshot(Path(temp))
             state_path = Path(temp) / "state" / "direct_model.json"
-            with patch.object(helper, "_remote_siblings", return_value=siblings), patch.object(
+            with patch.object(helper, "_verify_runtime", return_value={}), patch.object(
+                helper, "_remote_siblings", return_value=siblings
+            ), patch.object(
                 helper,
                 "_verify_tokenizer",
                 return_value={"loaded": True, "class": "FixtureTokenizer", "revision": REVISION},
