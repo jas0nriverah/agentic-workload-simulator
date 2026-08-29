@@ -364,6 +364,37 @@ class SWEAgentCaseRunnerTests(unittest.TestCase):
     def test_reviewed_runner_is_directly_executable_by_matrix(self):
         self.assertTrue(os.access(SCRIPT, os.X_OK))
 
+    def test_materializes_case_local_request_config_for_token_sweep(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            source = root / "request.json"
+            source.write_text(
+                json.dumps(
+                    {
+                        "agent": {
+                            "model": {
+                                "completion_kwargs": {"max_tokens": 2048, "seed": 0}
+                            }
+                        }
+                    }
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+            output = root / "attempt"
+            path, digest = ADAPTER._materialize_request_config(
+                source=source, max_output_tokens=512, output_dir=output
+            )
+            self.assertEqual(
+                json.loads(path.read_text(encoding="utf-8"))["agent"]["model"]["completion_kwargs"]["max_tokens"],
+                512,
+            )
+            self.assertEqual(
+                json.loads(source.read_text(encoding="utf-8"))["agent"]["model"]["completion_kwargs"]["max_tokens"],
+                2048,
+            )
+            self.assertEqual(digest, hashlib.sha256(path.read_bytes()).hexdigest())
+
     def test_default_is_validate_only_and_launches_no_runner(self):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)

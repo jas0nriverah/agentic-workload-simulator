@@ -435,6 +435,36 @@ def _materialize_runner_instances(*, source: Path, instance_id: str, output_dir:
     return path, sha256_file(path)
 
 
+def _materialize_request_config(
+    *, source: Path, max_output_tokens: int, output_dir: Path
+) -> tuple[Path, str]:
+    """Derive an immutable per-case request fragment from the reviewed template.
+
+    The assignment sweeps ``max_output_tokens``.  SWE-agent reads that value
+    from the final ``--config`` fragment, while the runner guard receives it
+    on the command line.  Keeping the checked-in template fixed at its
+    baseline value makes sweep cells fail before launch, so each case gets a
+    case-local fragment with the exact planned value.  The template itself is
+    still verified by the runtime manifest and the derived fragment is
+    included in the attempt artifacts.
+    """
+    try:
+        config = json.loads(source.read_text(encoding="utf-8"))
+    except (OSError, UnicodeDecodeError, json.JSONDecodeError) as exc:
+        raise CaseRunnerError(f"cannot materialize request config: {source}: {exc}") from exc
+    _fail(isinstance(config, dict), "request config template must be a JSON object")
+    agent = config.get("agent")
+    _fail(isinstance(agent, dict), "request config template lacks agent mapping")
+    model = agent.get("model")
+    _fail(isinstance(model, dict), "request config template lacks agent.model mapping")
+    completion = model.get("completion_kwargs")
+    _fail(isinstance(completion, dict), "request config template lacks completion_kwargs mapping")
+    completion["max_tokens"] = max_output_tokens
+    path = output_dir / "request_config.json"
+    _atomic_json(path, config)
+    return path, sha256_file(path)
+
+
 def _probe_hardware(manifest: Mapping[str, Any]) -> dict[str, Any]:
     command = [str(item) for item in manifest["hardware"]["probe_command"]]
     try:
@@ -1008,6 +1038,11 @@ def execute(args: argparse.Namespace) -> int:
 
         settings = case["settings"]
         runner_manifest = manifest["runner"]
+        request_config_path, request_config_sha256 = _materialize_request_config(
+            source=_resolve(repo, str(runner_manifest["request_config_path"])),
+            max_output_tokens=settings["max_output_tokens"],
+            output_dir=runner_output,
+        )
         proxy_process: subprocess.Popen[str] | None = None
         proxy_metadata: dict[str, Any] = {}
         proxy_exit_before_stop: int | None = None
@@ -1032,7 +1067,7 @@ def execute(args: argparse.Namespace) -> int:
                 executable=reviewed_executable,
                 project=_resolve(repo, str(runner_manifest["project"])),
                 config_path=_resolve(repo, str(runner_manifest["config_path"])),
-                request_config_path=_resolve(repo, str(runner_manifest["request_config_path"])),
+                request_config_path=request_config_path,
                 instances_path=runner_instances_path,
                 model=_vllm_client_model(manifest["model"]["name"]),
                 model_revision=manifest["model"]["revision"],
@@ -1067,6 +1102,9 @@ def execute(args: argparse.Namespace) -> int:
                 "source_dataset_sha256": static["dataset_sha256"],
                 "runner_instances_path": str(runner_instances_path.relative_to(output_dir)),
                 "runner_instances_sha256": runner_instances_sha256,
+                "request_config_path": str(request_config_path.relative_to(output_dir)),
+                "request_config_sha256": request_config_sha256,
+                "request_config_template_sha256": integrity["request_config_sha256"],
                 "command_sha256": command_hash(runner_command),
                 "settings": settings,
                 "sweep_parameter": case["variation"]["knob"] if case["variation"] else None,
