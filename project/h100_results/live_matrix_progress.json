@@ -193,14 +193,49 @@
       "suite": null
     }
   ],
-  "failures": [],
-  "generated_at": "2026-08-29T22:48:45.022040+00:00",
+  "failures": [
+    {
+      "attempt": 1,
+      "case_index": 3,
+      "case_sha256": "88f759355d640048ab35b742cf9c9fcb8b397997bd9824c4ffd06d953d5a8e44",
+      "instance_id": "astropy__astropy-14995",
+      "manifest_sha256": "7658f8f483d03734af2b97f1c0e69ee11cc3986a4c9ea6d87a3199d190368c44",
+      "reason": "invalid_result:cannot read JSON /storage/ice1/9/6/jriverah3/eic-work/full-assignment/assignment/matrix-runs-h100-full-20260829-corrected-v4/cases/00003/case_result.json: [Errno 2] No such file or directory: '/storage/ice1/9/6/jriverah3/eic-work/full-assignment/assignment/matrix-runs-h100-full-20260829-corrected-v4/cases/00003/case_result.json'",
+      "request_summary": {
+        "completion_tokens": {
+          "sum": 8085
+        },
+        "duration_ms": {
+          "max": 11032.07,
+          "mean": 2391.139,
+          "p50": 678.303,
+          "p95": 10201.925,
+          "sum": 57387.326
+        },
+        "error_count": 0,
+        "event_count": 24,
+        "prompt_tokens": {
+          "sum": 399451
+        },
+        "status_codes": {
+          "200": 23,
+          "400": 1
+        }
+      },
+      "resume_key": "assignment-case-v1:bd9a5f86f225b75a329ec80978e730b5f7a0c8c8db143b425d5d1a84cec7ccc7",
+      "returncode": 1,
+      "runner_state": "running",
+      "status": "failed",
+      "suite": "lite"
+    }
+  ],
+  "generated_at": "2026-08-29T22:50:00.285796+00:00",
   "matrix": {
-    "active_resume_key": "assignment-case-v1:bd9a5f86f225b75a329ec80978e730b5f7a0c8c8db143b425d5d1a84cec7ccc7",
+    "active_resume_key": "assignment-case-v1:b80f9149e8a56b0632acd741f8f86e48ca77d551e82a79f472cf069e2129279b",
     "case_results_published": 3,
     "completed_resume_keys": 3,
-    "failed_case_count": 0,
-    "failure_records_published": 0,
+    "failed_case_count": 1,
+    "failure_records_published": 1,
     "matrix_status": "running",
     "result_status_counts": {
       "completed": 3
