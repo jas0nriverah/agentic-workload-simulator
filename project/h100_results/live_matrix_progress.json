@@ -253,12 +253,116 @@
       "suite": null
     }
   ],
-  "generated_at": "2026-08-29T22:18:45.923962+00:00",
+  "failures": [
+    {
+      "attempt": 1,
+      "case_index": 1,
+      "case_sha256": "79a9e7c6a63f22bb49b766eb5dd6f0a79a51fee19dd65aa767ef19f568e1fea3",
+      "instance_id": "astropy__astropy-14182",
+      "manifest_sha256": "5bfd81d8c3c6b327267621b706637df514f11dc7f841586e5eeb2f8da20ca1c8",
+      "reason": "invalid_result:cannot read JSON /storage/ice1/9/6/jriverah3/eic-work/full-assignment/assignment/matrix-runs-h100-full-20260829i/cases/00001/case_result.json: [Errno 2] No such file or directory: '/storage/ice1/9/6/jriverah3/eic-work/full-assignment/assignment/matrix-runs-h100-full-20260829i/cases/00001/case_result.json'",
+      "request_summary": {
+        "completion_tokens": {
+          "sum": 3727
+        },
+        "duration_ms": {
+          "max": 3812.222,
+          "mean": 958.967,
+          "p50": 564.077,
+          "p95": 3319.137,
+          "sum": 26851.083
+        },
+        "error_count": 0,
+        "event_count": 28,
+        "prompt_tokens": {
+          "sum": 371317
+        },
+        "status_codes": {
+          "200": 27,
+          "400": 1
+        }
+      },
+      "resume_key": "assignment-case-v1:18310e941156a26dc0c031ece89fd988d1d2128e7a3c68c1d03868a32cb78252",
+      "returncode": 1,
+      "runner_state": "running",
+      "status": "failed",
+      "suite": "lite"
+    },
+    {
+      "attempt": 1,
+      "case_index": 3,
+      "case_sha256": "88f759355d640048ab35b742cf9c9fcb8b397997bd9824c4ffd06d953d5a8e44",
+      "instance_id": "astropy__astropy-14995",
+      "manifest_sha256": "5bfd81d8c3c6b327267621b706637df514f11dc7f841586e5eeb2f8da20ca1c8",
+      "reason": "invalid_result:cannot read JSON /storage/ice1/9/6/jriverah3/eic-work/full-assignment/assignment/matrix-runs-h100-full-20260829i/cases/00003/case_result.json: [Errno 2] No such file or directory: '/storage/ice1/9/6/jriverah3/eic-work/full-assignment/assignment/matrix-runs-h100-full-20260829i/cases/00003/case_result.json'",
+      "request_summary": {
+        "completion_tokens": {
+          "sum": 8085
+        },
+        "duration_ms": {
+          "max": 11149.965,
+          "mean": 2467.382,
+          "p50": 696.571,
+          "p95": 10173.633,
+          "sum": 59217.166
+        },
+        "error_count": 0,
+        "event_count": 24,
+        "prompt_tokens": {
+          "sum": 399451
+        },
+        "status_codes": {
+          "200": 23,
+          "400": 1
+        }
+      },
+      "resume_key": "assignment-case-v1:bd9a5f86f225b75a329ec80978e730b5f7a0c8c8db143b425d5d1a84cec7ccc7",
+      "returncode": 1,
+      "runner_state": "running",
+      "status": "failed",
+      "suite": "lite"
+    },
+    {
+      "attempt": 1,
+      "case_index": 5,
+      "case_sha256": "6323ae9370c8fdcf550ede345269f0a909d9afac62a4c3436ed5c19c229f9c67",
+      "instance_id": "astropy__astropy-6938",
+      "manifest_sha256": "5bfd81d8c3c6b327267621b706637df514f11dc7f841586e5eeb2f8da20ca1c8",
+      "reason": "invalid_result:cannot read JSON /storage/ice1/9/6/jriverah3/eic-work/full-assignment/assignment/matrix-runs-h100-full-20260829i/cases/00005/case_result.json: [Errno 2] No such file or directory: '/storage/ice1/9/6/jriverah3/eic-work/full-assignment/assignment/matrix-runs-h100-full-20260829i/cases/00005/case_result.json'",
+      "request_summary": {
+        "completion_tokens": {
+          "sum": 903
+        },
+        "duration_ms": {
+          "max": 1030.89,
+          "mean": 582.609,
+          "p50": 566.024,
+          "p95": 1030.89,
+          "sum": 6408.694
+        },
+        "error_count": 0,
+        "event_count": 11,
+        "prompt_tokens": {
+          "sum": 74603
+        },
+        "status_codes": {
+          "200": 11
+        }
+      },
+      "resume_key": "assignment-case-v1:8b064238a30e4ed9b5236fe44f1fd2f1c4c80e2758d4fbfdc6f13bb164714674",
+      "returncode": 1,
+      "runner_state": "running",
+      "status": "failed",
+      "suite": "lite"
+    }
+  ],
+  "generated_at": "2026-08-29T22:19:23.745441+00:00",
   "matrix": {
     "active_resume_key": "assignment-case-v1:34551bff63d31af1a74181a4f7036bc4b16bda2551d4df10ec515fd4af1e5e81",
     "case_results_published": 4,
     "completed_resume_keys": 4,
     "failed_case_count": 3,
+    "failure_records_published": 3,
     "matrix_status": "running",
     "result_status_counts": {
       "completed": 4
