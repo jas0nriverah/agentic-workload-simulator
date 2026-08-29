@@ -251,6 +251,69 @@
       },
       "status": "completed",
       "suite": null
+    },
+    {
+      "artifact_count": 43,
+      "case_index": 7,
+      "case_sha256": "35b5d0290e7279336037b6e55128eee2375fc862797af5cba16ea5d905deab44",
+      "evaluator": {
+        "official_resolved": false,
+        "runner_status": "completed",
+        "status": "completed",
+        "submitted": true
+      },
+      "hardware": {
+        "gpus": [
+          {
+            "compute_capability": "9.0",
+            "name": "NVIDIA H100 80GB HBM3"
+          }
+        ]
+      },
+      "instance_id": null,
+      "manifest_sha256": "5bfd81d8c3c6b327267621b706637df514f11dc7f841586e5eeb2f8da20ca1c8",
+      "normalization_sources": {
+        "model_events": "runner_attempts/attempt-001/request_proxy.jsonl",
+        "official_evaluator_result": "evaluator_result.json",
+        "run_spec": "normalization_spec.json",
+        "runner_summary": "runner_attempts/attempt-001/reviewed_runner_artifacts/data/raw/assignment-41f1be825c396985/lite/astropy__astropy-6938/attempt-001/summary.json",
+        "trajectory": "runner_attempts/attempt-001/astropy__astropy-6938/astropy__astropy-6938.traj"
+      },
+      "proxy": {
+        "event_count": 29,
+        "events_sha256": "6f3b941cfb79e67d895d9ed59b57d4ade67ca92ed3f7fe70b8dd8bf7f357ad65"
+      },
+      "reason": null,
+      "request_summary": {
+        "completion_tokens": {
+          "sum": 5287
+        },
+        "duration_ms": {
+          "max": 6026.595,
+          "mean": 1256.618,
+          "p50": 527.132,
+          "p95": 4332.649,
+          "sum": 36441.923
+        },
+        "error_count": 0,
+        "event_count": 29,
+        "prompt_tokens": {
+          "sum": 384064
+        },
+        "status_codes": {
+          "200": 29
+        }
+      },
+      "result_sha256": "2169c28f16eb097139309acc95f21bf7d13438bd32b63dd1dbe329aa10d510d4",
+      "resume_key": "assignment-case-v1:34551bff63d31af1a74181a4f7036bc4b16bda2551d4df10ec515fd4af1e5e81",
+      "run_id": "assignment-41f1be825c396985",
+      "runner": {
+        "command_hash": "580f3e5a3c3197821c39b73109259aabd1dd4eeb386ea4ab64ae1065d276e0f8",
+        "returncode": 0,
+        "status": "completed"
+      },
+      "status": "completed",
+      "suite": null
     }
   ],
   "failures": [
@@ -354,18 +417,111 @@
       "runner_state": "running",
       "status": "failed",
       "suite": "lite"
+    },
+    {
+      "attempt": 1,
+      "case_index": 8,
+      "case_sha256": "062ac77b467fe69f5e13eed758ee16b35d1845af7abc66c4cf7b249f708415f7",
+      "instance_id": "astropy__astropy-6938",
+      "manifest_sha256": "5bfd81d8c3c6b327267621b706637df514f11dc7f841586e5eeb2f8da20ca1c8",
+      "reason": "invalid_result:cannot read JSON /storage/ice1/9/6/jriverah3/eic-work/full-assignment/assignment/matrix-runs-h100-full-20260829i/cases/00008/case_result.json: [Errno 2] No such file or directory: '/storage/ice1/9/6/jriverah3/eic-work/full-assignment/assignment/matrix-runs-h100-full-20260829i/cases/00008/case_result.json'",
+      "request_summary": {
+        "completion_tokens": {
+          "sum": null
+        },
+        "duration_ms": {
+          "max": null,
+          "mean": null,
+          "p50": null,
+          "p95": null,
+          "sum": null
+        },
+        "error_count": 0,
+        "event_count": 0,
+        "prompt_tokens": {
+          "sum": null
+        },
+        "status_codes": {}
+      },
+      "resume_key": "assignment-case-v1:4c96582ea460b994f28fd0840ac327935090654656b3b9e0924233a1cde3edc9",
+      "returncode": 1,
+      "runner_state": "running",
+      "status": "failed",
+      "suite": "lite"
+    },
+    {
+      "attempt": 1,
+      "case_index": 9,
+      "case_sha256": "2357e7d501be724908703224c95fd5fa515bb3d548185d384ed5ff2b72371553",
+      "instance_id": "astropy__astropy-6938",
+      "manifest_sha256": "5bfd81d8c3c6b327267621b706637df514f11dc7f841586e5eeb2f8da20ca1c8",
+      "reason": "invalid_result:cannot read JSON /storage/ice1/9/6/jriverah3/eic-work/full-assignment/assignment/matrix-runs-h100-full-20260829i/cases/00009/case_result.json: [Errno 2] No such file or directory: '/storage/ice1/9/6/jriverah3/eic-work/full-assignment/assignment/matrix-runs-h100-full-20260829i/cases/00009/case_result.json'",
+      "request_summary": {
+        "completion_tokens": {
+          "sum": null
+        },
+        "duration_ms": {
+          "max": null,
+          "mean": null,
+          "p50": null,
+          "p95": null,
+          "sum": null
+        },
+        "error_count": 0,
+        "event_count": 0,
+        "prompt_tokens": {
+          "sum": null
+        },
+        "status_codes": {}
+      },
+      "resume_key": "assignment-case-v1:1737cba7805b150488b9b0d2bd4447d5008eaea7e25678219526f41330064da2",
+      "returncode": 1,
+      "runner_state": "running",
+      "status": "failed",
+      "suite": "lite"
+    },
+    {
+      "attempt": 1,
+      "case_index": 10,
+      "case_sha256": "45637806d227e58a2a12e272a44debb3568d149dba41723e00496b407877c886",
+      "instance_id": "astropy__astropy-6938",
+      "manifest_sha256": "5bfd81d8c3c6b327267621b706637df514f11dc7f841586e5eeb2f8da20ca1c8",
+      "reason": "invalid_result:cannot read JSON /storage/ice1/9/6/jriverah3/eic-work/full-assignment/assignment/matrix-runs-h100-full-20260829i/cases/00010/case_result.json: [Errno 2] No such file or directory: '/storage/ice1/9/6/jriverah3/eic-work/full-assignment/assignment/matrix-runs-h100-full-20260829i/cases/00010/case_result.json'",
+      "request_summary": {
+        "completion_tokens": {
+          "sum": null
+        },
+        "duration_ms": {
+          "max": null,
+          "mean": null,
+          "p50": null,
+          "p95": null,
+          "sum": null
+        },
+        "error_count": 0,
+        "event_count": 0,
+        "prompt_tokens": {
+          "sum": null
+        },
+        "status_codes": {}
+      },
+      "resume_key": "assignment-case-v1:8ee166bfc94dc7702f9fa3ca825115981a10165d4459f0240706f890962bbd54",
+      "returncode": 1,
+      "runner_state": "running",
+      "status": "failed",
+      "suite": "lite"
     }
   ],
-  "generated_at": "2026-08-29T22:19:23.745441+00:00",
+  "generated_at": "2026-08-29T22:20:39.143676+00:00",
   "matrix": {
-    "active_resume_key": "assignment-case-v1:34551bff63d31af1a74181a4f7036bc4b16bda2551d4df10ec515fd4af1e5e81",
-    "case_results_published": 4,
-    "completed_resume_keys": 4,
-    "failed_case_count": 3,
-    "failure_records_published": 3,
+    "active_resume_key": "assignment-case-v1:2efe4da1539214e304d99f425d701d47f19a496a4aaf5afcb4baf6cb07d2af52",
+    "case_results_published": 5,
+    "completed_resume_keys": 5,
+    "failed_case_count": 6,
+    "failure_records_published": 6,
     "matrix_status": "running",
     "result_status_counts": {
-      "completed": 4
+      "completed": 5
     },
     "total_cases": 1088
   },
