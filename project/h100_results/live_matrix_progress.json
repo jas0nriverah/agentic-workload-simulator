@@ -1096,15 +1096,49 @@
       "runner_state": "running",
       "status": "failed",
       "suite": "lite"
+    },
+    {
+      "attempt": 1,
+      "case_index": 19,
+      "case_sha256": "a377c4cd9af33e41e431f7456484595864bea0d690bff383956a312fb071c310",
+      "instance_id": "django__django-10924",
+      "manifest_sha256": "7658f8f483d03734af2b97f1c0e69ee11cc3986a4c9ea6d87a3199d190368c44",
+      "reason": "invalid_result:cannot read JSON /storage/ice1/9/6/jriverah3/eic-work/full-assignment/assignment/matrix-runs-h100-full-20260829-corrected-v4/cases/00019/case_result.json: [Errno 2] No such file or directory: '/storage/ice1/9/6/jriverah3/eic-work/full-assignment/assignment/matrix-runs-h100-full-20260829-corrected-v4/cases/00019/case_result.json'",
+      "request_summary": {
+        "completion_tokens": {
+          "sum": 11441
+        },
+        "duration_ms": {
+          "max": 14293.541,
+          "mean": 2907.113,
+          "p50": 526.332,
+          "p95": 14209.545,
+          "sum": 81399.163
+        },
+        "error_count": 0,
+        "event_count": 28,
+        "prompt_tokens": {
+          "sum": 424661
+        },
+        "status_codes": {
+          "200": 27,
+          "400": 1
+        }
+      },
+      "resume_key": "assignment-case-v1:5eaf5e44890b026902d439f2efde3618d4e01485de435b5b245fa400e68a42f1",
+      "returncode": 1,
+      "runner_state": "running",
+      "status": "failed",
+      "suite": "lite"
     }
   ],
-  "generated_at": "2026-08-29T23:18:01.346940+00:00",
+  "generated_at": "2026-08-29T23:20:45.736243+00:00",
   "matrix": {
-    "active_resume_key": "assignment-case-v1:5eaf5e44890b026902d439f2efde3618d4e01485de435b5b245fa400e68a42f1",
+    "active_resume_key": "assignment-case-v1:4826bccaf2d7ff7089c5ab655b5e0a6a2e0ec0c3d6e82d4c769cb778fc2039a4",
     "case_results_published": 15,
     "completed_resume_keys": 15,
-    "failed_case_count": 4,
-    "failure_records_published": 4,
+    "failed_case_count": 5,
+    "failure_records_published": 5,
     "matrix_status": "running",
     "result_status_counts": {
       "completed": 15
