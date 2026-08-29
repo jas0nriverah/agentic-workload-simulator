@@ -396,6 +396,11 @@ def _evaluator_image(instance_id: str) -> str:
     return f"swebench/sweb.eval.x86_64.{instance_id.replace('__', '_1776_')}:latest".lower()
 
 
+def _vllm_client_model(model: str) -> str:
+    """Select LiteLLM's vLLM transport without changing the served model ID."""
+    return model if model.startswith("hosted_vllm/") else f"hosted_vllm/{model}"
+
+
 def _materialize_runner_instances(*, source: Path, instance_id: str, output_dir: Path) -> tuple[Path, str]:
     """Create the one-row SWE-agent input while preserving the raw dataset binding.
 
@@ -1029,7 +1034,7 @@ def execute(args: argparse.Namespace) -> int:
                 config_path=_resolve(repo, str(runner_manifest["config_path"])),
                 request_config_path=_resolve(repo, str(runner_manifest["request_config_path"])),
                 instances_path=runner_instances_path,
-                model=manifest["model"]["name"],
+                model=_vllm_client_model(manifest["model"]["name"]),
                 model_revision=manifest["model"]["revision"],
                 api_base=proxy_api_base,
                 api_key=manifest["model"]["api_key"],

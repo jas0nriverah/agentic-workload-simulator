@@ -41,7 +41,7 @@ CHECKED_IN_CONFIG = REPO_ROOT / "configs" / "assignment_steps_1_3.json"
 REVIEWED_RUNNER = Path(__file__).resolve().with_name("sweagent_case_runner.py")
 # This is deliberately a checked-in value.  A changed adapter must be reviewed
 # before it can be used for paid execution.
-REVIEWED_RUNNER_SHA256 = "288e0bae274e4d4f2571a942fed43c872d012136d5ee2832352492fc19a288ba"
+REVIEWED_RUNNER_SHA256 = "7ca3e35c92ddaaa5b58ad28d63da579312e8ebcc5ad899233d5374f14080e134"
 
 
 class ExecutionError(RuntimeError):
