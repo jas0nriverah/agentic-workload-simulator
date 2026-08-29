@@ -291,15 +291,48 @@
       "runner_state": "running",
       "status": "failed",
       "suite": "lite"
+    },
+    {
+      "attempt": 1,
+      "case_index": 5,
+      "case_sha256": "6323ae9370c8fdcf550ede345269f0a909d9afac62a4c3436ed5c19c229f9c67",
+      "instance_id": "astropy__astropy-6938",
+      "manifest_sha256": "7658f8f483d03734af2b97f1c0e69ee11cc3986a4c9ea6d87a3199d190368c44",
+      "reason": "invalid_result:cannot read JSON /storage/ice1/9/6/jriverah3/eic-work/full-assignment/assignment/matrix-runs-h100-full-20260829-corrected-v4/cases/00005/case_result.json: [Errno 2] No such file or directory: '/storage/ice1/9/6/jriverah3/eic-work/full-assignment/assignment/matrix-runs-h100-full-20260829-corrected-v4/cases/00005/case_result.json'",
+      "request_summary": {
+        "completion_tokens": {
+          "sum": 903
+        },
+        "duration_ms": {
+          "max": 1033.821,
+          "mean": 578.36,
+          "p50": 558.437,
+          "p95": 1033.821,
+          "sum": 6361.964
+        },
+        "error_count": 0,
+        "event_count": 11,
+        "prompt_tokens": {
+          "sum": 74603
+        },
+        "status_codes": {
+          "200": 11
+        }
+      },
+      "resume_key": "assignment-case-v1:8b064238a30e4ed9b5236fe44f1fd2f1c4c80e2758d4fbfdc6f13bb164714674",
+      "returncode": 1,
+      "runner_state": "running",
+      "status": "failed",
+      "suite": "lite"
     }
   ],
-  "generated_at": "2026-08-29T22:52:30.660964+00:00",
+  "generated_at": "2026-08-29T22:53:15.694762+00:00",
   "matrix": {
-    "active_resume_key": "assignment-case-v1:8b064238a30e4ed9b5236fe44f1fd2f1c4c80e2758d4fbfdc6f13bb164714674",
+    "active_resume_key": "assignment-case-v1:6c61bb8347725605226a8c35f78e5e6aeb14e7d369d11791c7e981c63c6f5c8b",
     "case_results_published": 4,
     "completed_resume_keys": 4,
-    "failed_case_count": 1,
-    "failure_records_published": 1,
+    "failed_case_count": 2,
+    "failure_records_published": 2,
     "matrix_status": "running",
     "result_status_counts": {
       "completed": 4
