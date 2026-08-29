@@ -62,7 +62,7 @@ def _canonical(value: Any) -> bytes:
     return json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
 
 
-def _read_records(path: Path, label: str) -> list[dict[str, Any]]:
+def _read_records(path: Path, label: str, *, mapping_values: bool = False) -> list[dict[str, Any]]:
     if not path.is_file():
         raise EvaluatorError(f"{label} does not exist: {path}")
     if path.suffix.lower() not in {".json", ".jsonl"}:
@@ -76,7 +76,16 @@ def _read_records(path: Path, label: str) -> list[dict[str, Any]]:
             ]
         else:
             value = json.loads(path.read_text(encoding="utf-8"))
-            values = value if isinstance(value, list) else [value]
+            if isinstance(value, list):
+                values = value
+            elif mapping_values and isinstance(value, dict) and "instance_id" not in value:
+                # SWE-agent's native ``preds.json`` format is a mapping from
+                # instance ID to prediction row.  The official harness input
+                # is the equivalent one-row list, so normalize that wrapper
+                # without changing any prediction fields.
+                values = list(value.values())
+            else:
+                values = [value]
     except (OSError, UnicodeError, json.JSONDecodeError) as exc:
         raise EvaluatorError(f"cannot parse {label} {path}: {exc}") from exc
     if not values or any(not isinstance(item, dict) for item in values):
@@ -298,7 +307,7 @@ def evaluate(args: argparse.Namespace) -> dict[str, Any]:
         raise EvaluatorError("--instance-id and --run-id must be non-empty")
 
     dataset_row = _matching_row(_read_records(dataset, "dataset"), args.instance_id, "dataset")
-    prediction_rows = _read_records(predictions, "predictions")
+    prediction_rows = _read_records(predictions, "predictions", mapping_values=True)
     if len(prediction_rows) != 1:
         raise EvaluatorError(f"predictions must contain exactly one row; found {len(prediction_rows)}")
     prediction = prediction_rows[0]
