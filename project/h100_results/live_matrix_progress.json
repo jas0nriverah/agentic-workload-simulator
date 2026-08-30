@@ -19898,15 +19898,49 @@
       "runner_state": "running",
       "status": "failed",
       "suite": "lite"
+    },
+    {
+      "attempt": 1,
+      "case_index": 327,
+      "case_sha256": "3d017f3a7c07795bff963688ad5b22027b44d84836583644df57132b524f77f2",
+      "instance_id": "sphinx-doc__sphinx-10325",
+      "manifest_sha256": "7658f8f483d03734af2b97f1c0e69ee11cc3986a4c9ea6d87a3199d190368c44",
+      "reason": "invalid_result:cannot read JSON /storage/ice1/9/6/jriverah3/eic-work/full-assignment/assignment/matrix-runs-h100-full-20260829-corrected-v4/cases/00327/case_result.json: [Errno 2] No such file or directory: '/storage/ice1/9/6/jriverah3/eic-work/full-assignment/assignment/matrix-runs-h100-full-20260829-corrected-v4/cases/00327/case_result.json'",
+      "request_summary": {
+        "completion_tokens": {
+          "sum": 3000
+        },
+        "duration_ms": {
+          "max": 6103.939,
+          "mean": 956.932,
+          "p50": 626.111,
+          "p95": 2578.133,
+          "sum": 23923.294
+        },
+        "error_count": 0,
+        "event_count": 25,
+        "prompt_tokens": {
+          "sum": 445375
+        },
+        "status_codes": {
+          "200": 24,
+          "400": 1
+        }
+      },
+      "resume_key": "assignment-case-v1:bfc6a79e32941b43d55b55fe4b5f141a88a6a9898d6d209d5a10e6ed00e9a1f5",
+      "returncode": 1,
+      "runner_state": "running",
+      "status": "failed",
+      "suite": "lite"
     }
   ],
-  "generated_at": "2026-08-30T10:42:08.635996+00:00",
+  "generated_at": "2026-08-30T10:43:41.022859+00:00",
   "matrix": {
-    "active_resume_key": "assignment-case-v1:bfc6a79e32941b43d55b55fe4b5f141a88a6a9898d6d209d5a10e6ed00e9a1f5",
+    "active_resume_key": "assignment-case-v1:7ebb25d7fde0c08f5ba33c0e407cfb9b854992bdb3efa496fd8323e82f9d7874",
     "case_results_published": 293,
     "completed_resume_keys": 293,
-    "failed_case_count": 34,
-    "failure_records_published": 34,
+    "failed_case_count": 35,
+    "failure_records_published": 35,
     "matrix_status": "running",
     "result_status_counts": {
       "completed": 293
