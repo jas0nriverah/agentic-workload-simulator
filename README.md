@@ -233,6 +233,8 @@ hardware checks, measurement tools, leakage tests, and calibration runs.
 - [`cloud/gcp/RUNBOOK.md`](cloud/gcp/RUNBOOK.md) — GCP setup and runbook
 - [`docs/H100_REPOSITORY_PROFILING_RUNBOOK.md`](docs/H100_REPOSITORY_PROFILING_RUNBOOK.md) —
   H100 repository-level CPU/GPU data collection
+- [`docs/CPU_PACE_VLLM_TUNNEL_RUNBOOK.md`](docs/CPU_PACE_VLLM_TUNNEL_RUNBOOK.md) —
+  reusable CPU-to-PACE VPN and SSH tunnel setup for H100 vLLM runs
 - [`docs/ASSIGNMENT_COMPLETION_RUNBOOK.md`](docs/ASSIGNMENT_COMPLETION_RUNBOOK.md) —
   recovery-first Steps 1–3 and Deliverable 9 workflow
 - [`docs/assignment_traceability.md`](docs/assignment_traceability.md) —
