@@ -16692,15 +16692,49 @@
       "runner_state": "running",
       "status": "failed",
       "suite": "lite"
+    },
+    {
+      "attempt": 1,
+      "case_index": 275,
+      "case_sha256": "465c8802bdc8821071c3d7d0b17a20d3825065ca9e2a241064d75583bac0c455",
+      "instance_id": "scikit-learn__scikit-learn-13241",
+      "manifest_sha256": "7658f8f483d03734af2b97f1c0e69ee11cc3986a4c9ea6d87a3199d190368c44",
+      "reason": "invalid_result:cannot read JSON /storage/ice1/9/6/jriverah3/eic-work/full-assignment/assignment/matrix-runs-h100-full-20260829-corrected-v4/cases/00275/case_result.json: [Errno 2] No such file or directory: '/storage/ice1/9/6/jriverah3/eic-work/full-assignment/assignment/matrix-runs-h100-full-20260829-corrected-v4/cases/00275/case_result.json'",
+      "request_summary": {
+        "completion_tokens": {
+          "sum": 8346
+        },
+        "duration_ms": {
+          "max": 11067.169,
+          "mean": 2224.033,
+          "p50": 539.975,
+          "p95": 8290.551,
+          "sum": 60048.894
+        },
+        "error_count": 0,
+        "event_count": 27,
+        "prompt_tokens": {
+          "sum": 415091
+        },
+        "status_codes": {
+          "200": 26,
+          "400": 1
+        }
+      },
+      "resume_key": "assignment-case-v1:86484410dbfedd5cab716cfd64c0f91e85a5841d96f2415a47d6f204f202d07b",
+      "returncode": 1,
+      "runner_state": "running",
+      "status": "failed",
+      "suite": "lite"
     }
   ],
-  "generated_at": "2026-08-30T09:05:18.944417+00:00",
+  "generated_at": "2026-08-30T09:07:52.366910+00:00",
   "matrix": {
-    "active_resume_key": "assignment-case-v1:86484410dbfedd5cab716cfd64c0f91e85a5841d96f2415a47d6f204f202d07b",
+    "active_resume_key": "assignment-case-v1:fd32c73bbb957e5dbae3b9de9840b479a0536eb38565fde74d462b971a976ebe",
     "case_results_published": 245,
     "completed_resume_keys": 245,
-    "failed_case_count": 30,
-    "failure_records_published": 30,
+    "failed_case_count": 31,
+    "failure_records_published": 31,
     "matrix_status": "running",
     "result_status_counts": {
       "completed": 245
