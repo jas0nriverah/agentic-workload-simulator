@@ -143,6 +143,95 @@ curl -fsS http://127.0.0.1:8000/metrics >/dev/null && echo metrics-ok
 Require `health_http=200`, the expected model ID and revision, and
 `metrics-ok` before creating a relay.
 
+### Worker-local mutable caches
+
+For parallel collection, share only the verified model snapshot. Every other
+cache is mutable and must be private to one worker. In particular, do not let
+two vLLM processes write the same `~/.cache/vllm`, PyTorch/Triton compile
+cache, Hugging Face metadata directory, temporary directory, or rootless
+Podman store. A shared model directory is safe only after the revision and
+file inventory have been verified; run the servers offline so they cannot
+download or update it during collection.
+
+Set these variables before starting vLLM, the matrix runner, or the evaluator.
+Use a different `worker_id` on every GPU worker, including the existing H100.
+The worker cache and Podman store may be on node-local scratch; the output
+root and logs must remain on durable shared storage.
+
+```bash
+worker_id=worker-00                 # worker-00 through worker-05
+pace_user=jriverah3
+pace_root=/storage/ice1/9/6/jriverah3/eic-work
+worker_root="$pace_root/runtime/pace-workers/$worker_id"
+local_root="/var/tmp/$pace_user/pace-workers/$worker_id"
+cache_root="$local_root/cache"
+podman_root="$local_root/podman"
+
+umask 077
+mkdir -p "$worker_root" "$worker_root/logs" \
+  "$worker_root/outputs" "$local_root" "$cache_root" \
+  "$cache_root"/{xdg,vllm,huggingface,torch,torch-extensions,torchinductor,triton,pip} \
+  "$local_root"/{run,tmp} "$podman_root"/{graphroot,runroot,tmp}
+
+export XDG_CACHE_HOME="$cache_root/xdg"
+export VLLM_CACHE_ROOT="$cache_root/vllm"
+export HF_HOME="$cache_root/huggingface"
+export HF_HUB_CACHE="$HF_HOME/hub"
+export TRANSFORMERS_CACHE="$cache_root/huggingface-transformers"
+export HF_HUB_OFFLINE=1
+export TRANSFORMERS_OFFLINE=1
+export TORCH_HOME="$cache_root/torch"
+export TORCH_EXTENSIONS_DIR="$cache_root/torch-extensions"
+export TORCHINDUCTOR_CACHE_DIR="$cache_root/torchinductor"
+export TRITON_CACHE_DIR="$cache_root/triton"
+export PIP_CACHE_DIR="$cache_root/pip"
+export TMPDIR="$local_root/tmp"
+
+# One Podman API service and one storage root per worker. Never point two
+# workers at the same socket or graphroot.
+# Sockets and Podman transient state stay on node-local scratch; a shared
+# filesystem is for durable artifacts, not Unix sockets.
+export XDG_RUNTIME_DIR="$local_root/run"
+export DOCKER_HOST="unix://$local_root/run/podman.sock"
+export CONTAINER_HOST="$DOCKER_HOST"
+```
+
+Start the worker's Podman service in a persistent session using its private
+storage paths:
+
+```bash
+env -u DOCKER_HOST -u CONTAINER_HOST \
+  XDG_RUNTIME_DIR="$local_root/run" \
+  podman system service \
+  --root "$podman_root/graphroot" \
+  --runroot "$podman_root/runroot" \
+  --tmpdir "$podman_root/tmp" \
+  --time=0 "$DOCKER_HOST" \
+  2>&1 | tee -a "$worker_root/logs/podman-service.log"
+```
+
+The service process must not inherit `DOCKER_HOST` or `CONTAINER_HOST`, or
+Podman can interpret its own service launch as a remote client. If those
+variables are already exported in the shell, prefix the command with
+`env -u DOCKER_HOST -u CONTAINER_HOST` (leaving the client exports in the
+parent shell).
+
+Confirm that the client sees the expected private socket and storage before
+starting a case:
+
+```bash
+test -S "$local_root/run/podman.sock"
+DOCKER_HOST="$DOCKER_HOST" podman --remote info \
+  --format 'graphroot={{.Store.GraphRoot}} runroot={{.Store.RunRoot}}'
+```
+
+The vLLM command above then uses the same exported environment and the shared
+model path. If a worker must download an asset, serialize that bootstrap with
+a lock on the shared lock directory, verify its digest, and return to
+`HF_HUB_OFFLINE=1` before any workload starts. Do not solve cache contention by
+having multiple workers write the same cache with a common lock while serving;
+private mutable caches are the required steady-state configuration.
+
 ### 2. Create the PACE-side reverse relay
 
 From the PACE compute node, keep this command running in a persistent job or
