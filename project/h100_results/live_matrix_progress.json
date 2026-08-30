@@ -6847,6 +6847,70 @@
       },
       "status": "completed",
       "suite": null
+    },
+    {
+      "artifact_count": 44,
+      "case_index": 123,
+      "case_sha256": "0fe8ac989b66ef8aef69c6fc29f15f6b4261d5013cf77f54fe28b5f5961ffb1d",
+      "evaluator": {
+        "official_resolved": false,
+        "runner_status": "completed",
+        "status": "completed",
+        "submitted": true
+      },
+      "hardware": {
+        "gpus": [
+          {
+            "compute_capability": "9.0",
+            "memory_mib": 81559,
+            "name": "NVIDIA H100 80GB HBM3"
+          }
+        ]
+      },
+      "instance_id": null,
+      "manifest_sha256": "7658f8f483d03734af2b97f1c0e69ee11cc3986a4c9ea6d87a3199d190368c44",
+      "normalization_sources": {
+        "model_events": "runner_attempts/attempt-001/request_proxy.jsonl",
+        "official_evaluator_result": "evaluator_result.json",
+        "run_spec": "normalization_spec.json",
+        "runner_summary": "runner_attempts/attempt-001/reviewed_runner_artifacts/data/raw/assignment-7792c3b8578726ac/lite/django__django-15213/attempt-001/summary.json",
+        "trajectory": "runner_attempts/attempt-001/django__django-15213/django__django-15213.traj"
+      },
+      "proxy": {
+        "event_count": 31,
+        "events_sha256": "936af7318be304c3e953fcf178245b9f0f12261b5698b8b7deb7e9e4dfaa2d30"
+      },
+      "reason": null,
+      "request_summary": {
+        "completion_tokens": {
+          "sum": 7059
+        },
+        "duration_ms": {
+          "max": 13962.618,
+          "mean": 1609.419,
+          "p50": 456.052,
+          "p95": 5708.656,
+          "sum": 49892.001
+        },
+        "error_count": 0,
+        "event_count": 31,
+        "prompt_tokens": {
+          "sum": 393480
+        },
+        "status_codes": {
+          "200": 31
+        }
+      },
+      "result_sha256": "0e107c77e07c0321cf5c02af7b5a5ce59164570111a3a0a8557a889b5252f239",
+      "resume_key": "assignment-case-v1:c2555a5b7e6fed0cc5ddf4a12172a492f0319fbb41fb4a5e70069763017acd72",
+      "run_id": "assignment-7792c3b8578726ac",
+      "runner": {
+        "command_hash": "4c525ce22b27f4a28c61823e371944516beeb3eb41a3fc0249a509c0569f7555",
+        "returncode": 0,
+        "status": "completed"
+      },
+      "status": "completed",
+      "suite": null
     }
   ],
   "failures": [
@@ -7392,16 +7456,16 @@
       "suite": "lite"
     }
   ],
-  "generated_at": "2026-08-30T02:58:45.949958+00:00",
+  "generated_at": "2026-08-30T03:01:16.597400+00:00",
   "matrix": {
-    "active_resume_key": "assignment-case-v1:c2555a5b7e6fed0cc5ddf4a12172a492f0319fbb41fb4a5e70069763017acd72",
-    "case_results_published": 107,
-    "completed_resume_keys": 107,
+    "active_resume_key": "assignment-case-v1:d6dbb28add057cce397c91bc997b70f4e6849a374dc58248efaa6b21c3802a2a",
+    "case_results_published": 108,
+    "completed_resume_keys": 108,
     "failed_case_count": 16,
     "failure_records_published": 16,
     "matrix_status": "running",
     "result_status_counts": {
-      "completed": 107
+      "completed": 108
     },
     "total_cases": 1088
   },
