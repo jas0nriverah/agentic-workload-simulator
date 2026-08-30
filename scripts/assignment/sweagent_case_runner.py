@@ -123,7 +123,7 @@ def _verify_manifest_sidecar(path: Path) -> str:
     return _verify_sidecar(path, "runtime manifest")
 
 
-def _atomic_json(path: Path, value: Mapping[str, Any]) -> None:
+def _atomic_json(path: Path, value: Any) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     descriptor, temporary = tempfile.mkstemp(prefix=f".{path.name}.", dir=path.parent)
     try:
@@ -389,6 +389,50 @@ def validate_static_environment(manifest: Mapping[str, Any], case: Mapping[str, 
         "swe_agent_revision": runner_revision,
         "swe_bench_revision": evaluator_revision,
     }
+
+
+def _evaluator_image(instance_id: str) -> str:
+    """Return the Docker-compatible SWE-bench image name for an instance."""
+    return f"swebench/sweb.eval.x86_64.{instance_id.replace('__', '_1776_')}:latest".lower()
+
+
+def _vllm_client_model(model: str) -> str:
+    """Select LiteLLM's vLLM transport without changing the served model ID."""
+    return model if model.startswith("hosted_vllm/") else f"hosted_vllm/{model}"
+
+
+def _materialize_runner_instances(*, source: Path, instance_id: str, output_dir: Path) -> tuple[Path, str]:
+    """Create the one-row SWE-agent input while preserving the raw dataset binding.
+
+    The pinned SWE-agent ``InstancesFromFile`` loader consumes its already-
+    normalized ``SimpleBatchInstance`` schema and requires ``image_name``.
+    Pinned SWE-bench JSONL rows intentionally omit that derived runtime field.
+    Keep the source dataset unchanged for provenance/evaluation, and write an
+    auditable one-row runtime view for SWE-agent instead of weakening either
+    contract or relying on an implicit loader conversion.
+    """
+    try:
+        rows = [
+            json.loads(line)
+            for line in source.read_text(encoding="utf-8").splitlines()
+            if line.strip()
+        ]
+    except (OSError, UnicodeError, json.JSONDecodeError) as exc:
+        raise CaseRunnerError(f"cannot materialize SWE-agent dataset view: {source}: {exc}") from exc
+    _fail(all(isinstance(row, dict) for row in rows), "SWE-bench dataset rows must be JSON objects")
+    matches = [dict(row) for row in rows if row.get("instance_id") == instance_id]
+    _fail(len(matches) == 1, f"dataset must contain exactly one row for {instance_id}; found {len(matches)}")
+    row = matches[0]
+    expected_image = _evaluator_image(instance_id)
+    _fail(
+        row.get("image_name") in (None, expected_image),
+        f"dataset image_name conflicts for {instance_id}",
+    )
+    row["image_name"] = expected_image
+    row["repo_name"] = "testbed"
+    path = output_dir / "runner_inputs" / "sweagent_instances.json"
+    _atomic_json(path, [row])
+    return path, sha256_file(path)
 
 
 def _probe_hardware(manifest: Mapping[str, Any]) -> dict[str, Any]:
@@ -956,6 +1000,11 @@ def execute(args: argparse.Namespace) -> int:
         runner_output = output_dir / "runner_attempts" / f"attempt-{attempt:03d}"
         _fail(not runner_output.exists(), f"output collision: runner output already exists: {runner_output}")
         runner_output.mkdir(parents=True)
+        runner_instances_path, runner_instances_sha256 = _materialize_runner_instances(
+            source=Path(static["instances_path"]),
+            instance_id=case["instance_id"],
+            output_dir=runner_output,
+        )
 
         settings = case["settings"]
         runner_manifest = manifest["runner"]
@@ -984,8 +1033,8 @@ def execute(args: argparse.Namespace) -> int:
                 project=_resolve(repo, str(runner_manifest["project"])),
                 config_path=_resolve(repo, str(runner_manifest["config_path"])),
                 request_config_path=_resolve(repo, str(runner_manifest["request_config_path"])),
-                instances_path=static["instances_path"],
-                model=manifest["model"]["name"],
+                instances_path=runner_instances_path,
+                model=_vllm_client_model(manifest["model"]["name"]),
                 model_revision=manifest["model"]["revision"],
                 api_base=proxy_api_base,
                 api_key=manifest["model"]["api_key"],
@@ -1014,6 +1063,10 @@ def execute(args: argparse.Namespace) -> int:
                 "model_revision": manifest["pins"]["model_revision"],
                 "swe_agent_revision": manifest["pins"]["swe_agent_revision"],
                 "swe_bench_revision": manifest["pins"]["swe_bench_revision"],
+                "source_dataset_path": static["instances_path"],
+                "source_dataset_sha256": static["dataset_sha256"],
+                "runner_instances_path": str(runner_instances_path.relative_to(output_dir)),
+                "runner_instances_sha256": runner_instances_sha256,
                 "command_sha256": command_hash(runner_command),
                 "settings": settings,
                 "sweep_parameter": case["variation"]["knob"] if case["variation"] else None,
