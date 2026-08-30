@@ -3061,15 +3061,49 @@
       "runner_state": "running",
       "status": "failed",
       "suite": "lite"
+    },
+    {
+      "attempt": 1,
+      "case_index": 53,
+      "case_sha256": "c55db7adbbff25585baa4bc0e706c607c6df87ba60d3926d59069b7ef63a1bf0",
+      "instance_id": "django__django-12113",
+      "manifest_sha256": "7658f8f483d03734af2b97f1c0e69ee11cc3986a4c9ea6d87a3199d190368c44",
+      "reason": "invalid_result:cannot read JSON /storage/ice1/9/6/jriverah3/eic-work/full-assignment/assignment/matrix-runs-h100-full-20260829-corrected-v4/cases/00053/case_result.json: [Errno 2] No such file or directory: '/storage/ice1/9/6/jriverah3/eic-work/full-assignment/assignment/matrix-runs-h100-full-20260829-corrected-v4/cases/00053/case_result.json'",
+      "request_summary": {
+        "completion_tokens": {
+          "sum": 3321
+        },
+        "duration_ms": {
+          "max": 4079.608,
+          "mean": 936.679,
+          "p50": 438.688,
+          "p95": 3578.0,
+          "sum": 23416.987
+        },
+        "error_count": 0,
+        "event_count": 25,
+        "prompt_tokens": {
+          "sum": 301025
+        },
+        "status_codes": {
+          "200": 24,
+          "400": 1
+        }
+      },
+      "resume_key": "assignment-case-v1:67eea6c14dd2f70aae50a187410eabb16398036f60c7480d53befbc15abb6abc",
+      "returncode": 1,
+      "runner_state": "running",
+      "status": "failed",
+      "suite": "lite"
     }
   ],
-  "generated_at": "2026-08-30T00:30:15.739316+00:00",
+  "generated_at": "2026-08-30T00:31:31.175266+00:00",
   "matrix": {
-    "active_resume_key": "assignment-case-v1:67eea6c14dd2f70aae50a187410eabb16398036f60c7480d53befbc15abb6abc",
+    "active_resume_key": "assignment-case-v1:b111e952423c2a69d80553edc32a93d05522eeda97f65abc6d5f6c4519fa3905",
     "case_results_published": 42,
     "completed_resume_keys": 42,
-    "failed_case_count": 11,
-    "failure_records_published": 11,
+    "failed_case_count": 12,
+    "failure_records_published": 12,
     "matrix_status": "running",
     "result_status_counts": {
       "completed": 42
