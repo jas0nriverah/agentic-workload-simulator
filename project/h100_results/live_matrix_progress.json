@@ -20644,15 +20644,49 @@
       "runner_state": "running",
       "status": "failed",
       "suite": "lite"
+    },
+    {
+      "attempt": 1,
+      "case_index": 341,
+      "case_sha256": "7f9e5c5b44a9fb257bb2916f7532d804566c00f86befc968176ae253d216c94f",
+      "instance_id": "sphinx-doc__sphinx-8721",
+      "manifest_sha256": "7658f8f483d03734af2b97f1c0e69ee11cc3986a4c9ea6d87a3199d190368c44",
+      "reason": "invalid_result:cannot read JSON /storage/ice1/9/6/jriverah3/eic-work/full-assignment/assignment/matrix-runs-h100-full-20260829-corrected-v4/cases/00341/case_result.json: [Errno 2] No such file or directory: '/storage/ice1/9/6/jriverah3/eic-work/full-assignment/assignment/matrix-runs-h100-full-20260829-corrected-v4/cases/00341/case_result.json'",
+      "request_summary": {
+        "completion_tokens": {
+          "sum": 3794
+        },
+        "duration_ms": {
+          "max": 7705.253,
+          "mean": 1408.104,
+          "p50": 490.777,
+          "p95": 5734.259,
+          "sum": 28162.08
+        },
+        "error_count": 0,
+        "event_count": 20,
+        "prompt_tokens": {
+          "sum": 283011
+        },
+        "status_codes": {
+          "200": 19,
+          "400": 1
+        }
+      },
+      "resume_key": "assignment-case-v1:5cd5ab17a333c0c79b7b2946abb2e58c1a33b08ab9ede795d8f7b98abd776303",
+      "returncode": 1,
+      "runner_state": "running",
+      "status": "failed",
+      "suite": "lite"
     }
   ],
-  "generated_at": "2026-08-30T11:08:20.071543+00:00",
+  "generated_at": "2026-08-30T11:09:52.454390+00:00",
   "matrix": {
-    "active_resume_key": "assignment-case-v1:5cd5ab17a333c0c79b7b2946abb2e58c1a33b08ab9ede795d8f7b98abd776303",
+    "active_resume_key": "assignment-case-v1:86d0f5c624bbc9511f2eac52f3343b06dd6dccc2fda42897fc0d3aadc9f2cb46",
     "case_results_published": 302,
     "completed_resume_keys": 302,
-    "failed_case_count": 39,
-    "failure_records_published": 39,
+    "failed_case_count": 40,
+    "failure_records_published": 40,
     "matrix_status": "running",
     "result_status_counts": {
       "completed": 302
