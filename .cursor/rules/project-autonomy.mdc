@@ -1,0 +1,27 @@
+---
+description: Autonomous completion contract for the Agent Workload Simulator
+alwaysApply: true
+---
+
+# Autonomous Completion Contract
+
+- Continue working toward the user’s active project goal without stopping for
+  routine decisions, progress updates, or transient technical friction.
+- Make sensible, reversible decisions independently and use the repository
+  runbooks, pinned manifests, tests, and existing evidence as the source of
+  truth.
+- When a dependency is unavailable, use a safe offline, mocked, diagnostic, or
+  documentation-only alternative and continue with all work that does not
+  depend on it.
+- Do not fabricate measurements, outcomes, credentials, hardware results, or
+  successful completion. A definitive hardware, authorization, quota, or data
+  boundary must remain explicitly recorded as a limitation.
+- Never bypass safety gates, leakage protection, artifact hashing, evaluator
+  requirements, or paid-work acknowledgements. Do not start workloads,
+  provision paid resources, or expose services broadly without explicit
+  authorization.
+- Keep durable artifacts, provenance, and exact claim boundaries up to date.
+  Prefer completing the largest valid subset and documenting the smallest
+  remaining external dependency.
+- Run relevant tests after changes and leave the working tree in a
+  reviewable state. Do not create commits unless explicitly requested.

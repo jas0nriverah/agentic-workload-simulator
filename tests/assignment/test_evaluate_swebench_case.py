@@ -90,6 +90,19 @@ else:
         self.assertEqual(completed.returncode, 0, completed.stderr)
         self.assertFalse(json.loads(result.read_text(encoding="utf-8"))["official_resolved"])
 
+    def test_native_sweagent_mapping_predictions_are_accepted(self):
+        self.predictions.write_text(
+            json.dumps({self.instance: {
+                "instance_id": self.instance,
+                "model_name_or_path": "model/pinned",
+                "model_patch": "diff --git a/x b/x\n",
+            }}) + "\n",
+            encoding="utf-8",
+        )
+        completed, result, _ = self.run_adapter("resolved")
+        self.assertEqual(completed.returncode, 0, completed.stderr)
+        self.assertTrue(json.loads(result.read_text(encoding="utf-8"))["submitted"])
+
     def test_timeout_and_nonzero_fail_without_result(self):
         for mode in ("timeout", "nonzero"):
             completed, result, report = self.run_adapter(mode, timeout=1)

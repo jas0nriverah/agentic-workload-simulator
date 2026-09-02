@@ -43,6 +43,47 @@ class EvaluatorError(ValueError):
     """A required evaluator input, process result, or report is invalid."""
 
 
+PODMAN_COMPAT_WRAPPER = """from __future__ import annotations
+
+import os
+import runpy
+import tarfile
+from pathlib import Path
+from pathlib import PurePosixPath
+
+import swebench.harness.docker_utils as docker_utils
+
+
+def copy_to_container(container, src: Path, dst: PurePosixPath):
+    # Rootless Podman cannot chown archive members to the PACE host UID/GID
+    # embedded by tarfile.add().  The evaluator always copies these files as
+    # root into a root-owned container path, so normalize only archive
+    # ownership while preserving contents and modes.
+    tar_path = src.with_suffix(".tar")
+
+    def normalize(member):
+        member.uid = 0
+        member.gid = 0
+        member.uname = "root"
+        member.gname = "root"
+        return member
+
+    with tarfile.open(tar_path, "w") as tar:
+        tar.add(src, arcname=dst.name, filter=normalize)
+    try:
+        with tar_path.open("rb") as tar_file:
+            data = tar_file.read()
+        container.exec_run(f"mkdir -p {dst.parent}")
+        container.put_archive(os.path.dirname(dst), data)
+    finally:
+        tar_path.unlink(missing_ok=True)
+
+
+docker_utils.copy_to_container = copy_to_container
+runpy.run_module("swebench.harness.run_evaluation", run_name="__main__")
+"""
+
+
 def _sha256_bytes(value: bytes) -> str:
     return hashlib.sha256(value).hexdigest()
 
@@ -62,7 +103,7 @@ def _canonical(value: Any) -> bytes:
     return json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
 
 
-def _read_records(path: Path, label: str) -> list[dict[str, Any]]:
+def _read_records(path: Path, label: str, *, mapping_values: bool = False) -> list[dict[str, Any]]:
     if not path.is_file():
         raise EvaluatorError(f"{label} does not exist: {path}")
     if path.suffix.lower() not in {".json", ".jsonl"}:
@@ -76,7 +117,16 @@ def _read_records(path: Path, label: str) -> list[dict[str, Any]]:
             ]
         else:
             value = json.loads(path.read_text(encoding="utf-8"))
-            values = value if isinstance(value, list) else [value]
+            if isinstance(value, list):
+                values = value
+            elif mapping_values and isinstance(value, dict) and "instance_id" not in value:
+                # SWE-agent's native ``preds.json`` format is a mapping from
+                # instance ID to prediction row.  The official harness input
+                # is the equivalent one-row list, so normalize that wrapper
+                # without changing any prediction fields.
+                values = list(value.values())
+            else:
+                values = [value]
     except (OSError, UnicodeError, json.JSONDecodeError) as exc:
         raise EvaluatorError(f"cannot parse {label} {path}: {exc}") from exc
     if not values or any(not isinstance(item, dict) for item in values):
@@ -134,7 +184,13 @@ def _terminate_process_group(process: subprocess.Popen[bytes]) -> None:
             pass
 
 
-def _run(argv: list[str], report_dir: Path, timeout_seconds: int) -> tuple[int, bool]:
+def _run(
+    argv: list[str],
+    report_dir: Path,
+    timeout_seconds: int,
+    *,
+    env: Mapping[str, str] | None = None,
+) -> tuple[int, bool]:
     stdout_path = report_dir / "evaluator.stdout.log"
     stderr_path = report_dir / "evaluator.stderr.log"
     try:
@@ -144,6 +200,7 @@ def _run(argv: list[str], report_dir: Path, timeout_seconds: int) -> tuple[int, 
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             start_new_session=True,
+            env=dict(env) if env is not None else None,
         )
     except OSError as exc:
         raise EvaluatorError(f"could not start official evaluator: {exc}") from exc
@@ -298,7 +355,7 @@ def evaluate(args: argparse.Namespace) -> dict[str, Any]:
         raise EvaluatorError("--instance-id and --run-id must be non-empty")
 
     dataset_row = _matching_row(_read_records(dataset, "dataset"), args.instance_id, "dataset")
-    prediction_rows = _read_records(predictions, "predictions")
+    prediction_rows = _read_records(predictions, "predictions", mapping_values=True)
     if len(prediction_rows) != 1:
         raise EvaluatorError(f"predictions must contain exactly one row; found {len(prediction_rows)}")
     prediction = prediction_rows[0]
@@ -313,8 +370,19 @@ def evaluate(args: argparse.Namespace) -> dict[str, Any]:
     evaluator_predictions = report_dir / "evaluator_predictions.json"
     _write_json(evaluator_dataset, [dataset_row])
     _write_json(evaluator_predictions, [prediction])
+    use_rootless_podman_compat = os.environ.get("DOCKER_HOST", "").startswith("unix://")
+    compatibility_wrapper: Path | None = None
+    compatibility_wrapper_sha256: str | None = None
+    if use_rootless_podman_compat:
+        compatibility_wrapper = report_dir / ".swebench_podman_compat.py"
+        compatibility_wrapper.write_text(PODMAN_COMPAT_WRAPPER, encoding="utf-8")
+        compatibility_wrapper_sha256 = sha256_file(compatibility_wrapper)
+        evaluator_entrypoint = str(compatibility_wrapper)
+    else:
+        evaluator_entrypoint = "-m"
     argv = [
-        str(args.evaluator_python), "-m", "swebench.harness.run_evaluation",
+        str(args.evaluator_python), evaluator_entrypoint,
+        *( ["swebench.harness.run_evaluation"] if evaluator_entrypoint == "-m" else [] ),
         "--dataset_name", str(evaluator_dataset), "--split", "test",
         "--predictions_path", str(evaluator_predictions), "--instance_ids", args.instance_id,
         "--max_workers", "1", "--timeout", str(args.timeout_seconds),
@@ -328,7 +396,13 @@ def evaluate(args: argparse.Namespace) -> dict[str, Any]:
     if pre_run_candidates:
         names = ", ".join(str(path) for path in pre_run_candidates)
         raise EvaluatorError(f"official report target must be clean before evaluator launch: {names}")
-    return_code, timed_out = _run(argv, report_dir, args.timeout_seconds)
+    evaluator_env = os.environ.copy()
+    return_code, timed_out = _run(
+        argv,
+        report_dir,
+        args.timeout_seconds,
+        env=evaluator_env,
+    )
     if timed_out:
         raise EvaluatorError(f"official evaluator timed out after {args.timeout_seconds}s")
     if return_code != 0:
@@ -370,6 +444,9 @@ def evaluate(args: argparse.Namespace) -> dict[str, Any]:
         "evaluator_clean": args.clean,
         "timeout_seconds": args.timeout_seconds,
     }
+    if compatibility_wrapper is not None and compatibility_wrapper_sha256 is not None:
+        result["compatibility_wrapper_path"] = str(compatibility_wrapper)
+        result["compatibility_wrapper_sha256"] = compatibility_wrapper_sha256
     _atomic_json(result_path, result)
     return result
 

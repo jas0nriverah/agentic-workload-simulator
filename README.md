@@ -237,6 +237,8 @@ hardware checks, measurement tools, leakage tests, and calibration runs.
   reusable CPU-to-PACE VPN and SSH tunnel setup for H100 vLLM runs
 - [`docs/ASSIGNMENT_COMPLETION_RUNBOOK.md`](docs/ASSIGNMENT_COMPLETION_RUNBOOK.md) —
   recovery-first Steps 1–3 and Deliverable 9 workflow
+- [`docs/CPU_DOCKER_H100_COLLECTION_RUNBOOK.md`](docs/CPU_DOCKER_H100_COLLECTION_RUNBOOK.md) —
+  parallel H100 collection with CPU-side Docker runners
 - [`docs/assignment_traceability.md`](docs/assignment_traceability.md) —
   measured evidence, claim boundaries, and exact remaining work
 - [`cloud/lambda/RUNBOOK.md`](cloud/lambda/RUNBOOK.md) — Lambda runbook
