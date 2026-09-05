@@ -330,15 +330,12 @@ def normalize_tool_events(spec: dict[str, Any], trajectory: dict[str, Any]) -> l
         action = step.get("action")
         seconds = step.get("execution_time")
         if not isinstance(action, str) or not action.strip():
-            # SWE-agent appends an explicit zero-duration autosubmission record
-            # when the call limit is reached. It remains in the raw trajectory
-            # and is not a tool invocation, so it must not become a fabricated
-            # tool event or block normalization of the measured steps.
-            if (
-                action == ""
-                and step.get("response") == "Exit due to cost limit"
-                and seconds == 0
-            ):
+            # SWE-agent can emit zero-duration records without a tool action:
+            # ordinary model-only narration as well as the final autosubmission
+            # marker. They remain in the raw trajectory and are not tool
+            # invocations, so they must not become fabricated tool events or
+            # block normalization of the measured action-bearing steps.
+            if action == "" and seconds == 0:
                 continue
             raise AssignmentContractError(f"trajectory step {ordinal} has no action")
         if isinstance(seconds, bool) or not isinstance(seconds, (int, float)) or seconds < 0:
