@@ -27,6 +27,12 @@ the frozen 12-case holdout prediction, real Nsight trace provenance, the
 holdout metrics, and the SHA-256 inventory for the external raw-artifact root.
 It does not copy raw traces or model weights into Git.
 
+The later 1,088-case recovery snapshot is preserved under
+[`full_matrix_recovery_20260906/`](full_matrix_recovery_20260906/). It contains
+all 602 completed result records, all 16 worker ledgers, the 486 failed-entry
+ledger, key recovery manifests, and checksums; the multi-gigabyte raw logs and
+traces remain outside Git.
+
 ## Rebuild and verify
 
 From the repository root, regenerate the package with:

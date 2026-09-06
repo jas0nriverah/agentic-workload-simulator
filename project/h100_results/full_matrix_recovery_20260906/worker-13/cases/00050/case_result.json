@@ -1,0 +1,370 @@
+{
+  "adaptive_runtime": null,
+  "artifacts": [
+    {
+      "kind": "case_spec",
+      "path": "case_spec.json",
+      "sha256": "968bc4198660f0d02621fb851cac58d20cd55d0d51cf5080a727e6d4a22939f1",
+      "size": 752
+    },
+    {
+      "kind": "evaluator",
+      "path": "evaluator_result.json",
+      "sha256": "646853f5d67b1fae90fb79dee6cb945c811a5d8d97d1623337c38d6a57249b78",
+      "size": 1728
+    },
+    {
+      "kind": "normalization_spec",
+      "path": "normalization_spec.json",
+      "sha256": "f37089bf0805d59d437ec9f2535c76daeef7a68d969f9c1a393b5da647174daa",
+      "size": 1541
+    },
+    {
+      "kind": "runner",
+      "path": "official_evaluator/attempt-003.assignment-fe9705c44f4875c3.json",
+      "sha256": "c9d3adca5c008c88b22abd304748a4efba0e7e8845ba2d43d87d0a7a1e9f41a3",
+      "size": 538
+    },
+    {
+      "kind": "evaluator",
+      "path": "official_evaluator/evaluator.stderr.log",
+      "sha256": "ef1d5501949c8439c7e8e8d0184ca0bb8a5594ec5151da891a9b547631ed341e",
+      "size": 590
+    },
+    {
+      "kind": "evaluator",
+      "path": "official_evaluator/evaluator.stdout.log",
+      "sha256": "a87ed78532d401733b9387376fc826901d9e95d1e31d64328cde3b29f49799e5",
+      "size": 436
+    },
+    {
+      "kind": "evaluator",
+      "path": "official_evaluator/evaluator_dataset.json",
+      "sha256": "a3d1a4603abf9efaa78d4cc5a6d2b8a02be5f788d079c49214c3c0412ef4b994",
+      "size": 62906
+    },
+    {
+      "kind": "evaluator",
+      "path": "official_evaluator/evaluator_predictions.json",
+      "sha256": "0a6e8e81a4a13a2fba8747e8ae9b5becad98b9a86ebfcb0629560bd0eea64273",
+      "size": 7490
+    },
+    {
+      "kind": "evaluator",
+      "path": "official_evaluator/logs/run_evaluation/assignment-fe9705c44f4875c3/attempt-003/matplotlib__matplotlib-24149/eval.sh",
+      "sha256": "82df5023c4c2abd90c17d2103292f516c475b643069a9a1c52d5fb4c407327a9",
+      "size": 1313
+    },
+    {
+      "kind": "runner",
+      "path": "official_evaluator/logs/run_evaluation/assignment-fe9705c44f4875c3/attempt-003/matplotlib__matplotlib-24149/patch.diff",
+      "sha256": "cd1599e5a12e952b4db0ce300cd8a8a1a59bd0cb0733511c2b5a0280f261afd5",
+      "size": 6986
+    },
+    {
+      "kind": "runner",
+      "path": "official_evaluator/logs/run_evaluation/assignment-fe9705c44f4875c3/attempt-003/matplotlib__matplotlib-24149/report.json",
+      "sha256": "86922271cce9685541ba9b00a1c8fcdaf7ff4b226e87dfb5743565e3862d4aae",
+      "size": 68721
+    },
+    {
+      "kind": "runner",
+      "path": "official_evaluator/logs/run_evaluation/assignment-fe9705c44f4875c3/attempt-003/matplotlib__matplotlib-24149/run_instance.log",
+      "sha256": "4bdef65635cdeb055d417df4f20e7848904e5114207865907b96b1b7d654b256",
+      "size": 57299
+    },
+    {
+      "kind": "runner",
+      "path": "official_evaluator/logs/run_evaluation/assignment-fe9705c44f4875c3/attempt-003/matplotlib__matplotlib-24149/test_output.txt",
+      "sha256": "e204029e31e9ea9579b71d62fc7cf57cb063684570a2a9fe290c487797fc8817",
+      "size": 1511687
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-003/matplotlib__matplotlib-24149/matplotlib__matplotlib-24149.config.yaml",
+      "sha256": "8c088b08dafeae69f4ca88ec72b16e16ddb89a2314ed6d46f4e971a5ef2723b7",
+      "size": 14772
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-003/matplotlib__matplotlib-24149/matplotlib__matplotlib-24149.debug.log",
+      "sha256": "a2c3803a3136f2031a5b7b9e76c2ccb3beec22ea7d1248ef3b16c514d01dc0b4",
+      "size": 144102
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-003/matplotlib__matplotlib-24149/matplotlib__matplotlib-24149.info.log",
+      "sha256": "5738b50c92d333759f886d5b49515fa53caf338c6ab1d79d0877f8909f7e1ef0",
+      "size": 117405
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-003/matplotlib__matplotlib-24149/matplotlib__matplotlib-24149.patch",
+      "sha256": "cd1599e5a12e952b4db0ce300cd8a8a1a59bd0cb0733511c2b5a0280f261afd5",
+      "size": 6986
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-003/matplotlib__matplotlib-24149/matplotlib__matplotlib-24149.pred",
+      "sha256": "957f95efbfd4a98194e20284181000a5864bb2d8097ce3a0d82fe6aac90e93c4",
+      "size": 7473
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-003/matplotlib__matplotlib-24149/matplotlib__matplotlib-24149.trace.log",
+      "sha256": "93db93c218c62b980a6fb1917cd5519378c4fcae912afc77891fd81391236d7d",
+      "size": 196066
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-003/matplotlib__matplotlib-24149/matplotlib__matplotlib-24149.traj",
+      "sha256": "be40853ce735bd5f163a993da88a36be2eb1f0f7d04a8b219529b8a23e6020c6",
+      "size": 1523582
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-003/preds.json",
+      "sha256": "7464f8a2e23880c3563c64a960d684cdf06b083e2c255c6a5c67453477e34498",
+      "size": 7543
+    },
+    {
+      "kind": "request",
+      "path": "runner_attempts/attempt-003/request_config.json",
+      "sha256": "bdcfc7808af09b61405854f8754f72115898ab899f8b245a6ff73c8c0d9cfed2",
+      "size": 207
+    },
+    {
+      "kind": "request",
+      "path": "runner_attempts/attempt-003/request_proxy.jsonl",
+      "sha256": "8426efa8716ddeb29f670e182314f846dd60f32ce0d6330c8123e02a807d1418",
+      "size": 34148
+    },
+    {
+      "kind": "request",
+      "path": "runner_attempts/attempt-003/request_proxy.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    {
+      "kind": "request",
+      "path": "runner_attempts/attempt-003/request_proxy.stdout.log",
+      "sha256": "cff08c0c08d7ceb1a96eff0847d1df65c1a258657697526e8d5518504073967b",
+      "size": 69
+    },
+    {
+      "kind": "request",
+      "path": "runner_attempts/attempt-003/request_proxy_provenance.json",
+      "sha256": "6ec1488085b8aefc8d0788001d7c5e75a3a6c442b38c6c4ff2e4ab5a5ba6e9c0",
+      "size": 1368
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-003/reviewed_runner_artifacts/data/raw/assignment-fe9705c44f4875c3/verified/matplotlib__matplotlib-24149/attempt-003/agent.stderr.log",
+      "sha256": "67f4580a1b05399afb27f92f757fe51e66e921e1f7408e799376e38cb0e04ce0",
+      "size": 376
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-003/reviewed_runner_artifacts/data/raw/assignment-fe9705c44f4875c3/verified/matplotlib__matplotlib-24149/attempt-003/agent.stdout.log",
+      "sha256": "2535a82372b1cced73277b7232d4d156834d2837b6744c3a157e4dca43c318c1",
+      "size": 274413
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-003/reviewed_runner_artifacts/data/raw/assignment-fe9705c44f4875c3/verified/matplotlib__matplotlib-24149/attempt-003/config.json",
+      "sha256": "33cddd387ff50266b2c7a6247cdf895b433e791d87809b6d886796f1e91fbf17",
+      "size": 5555
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-003/reviewed_runner_artifacts/data/raw/assignment-fe9705c44f4875c3/verified/matplotlib__matplotlib-24149/attempt-003/counters.unavailable.json",
+      "sha256": "1435fc3776bf2ed93d0e1cfa3b110240bffdba15adc3ca007f0365dbad9f1bde",
+      "size": 187
+    },
+    {
+      "kind": "evaluator",
+      "path": "runner_attempts/attempt-003/reviewed_runner_artifacts/data/raw/assignment-fe9705c44f4875c3/verified/matplotlib__matplotlib-24149/attempt-003/eval.json",
+      "sha256": "81515b60f44089b0722a97dfa51919b911361771d678e6ca78abc5c331a6943a",
+      "size": 679
+    },
+    {
+      "kind": "evaluator",
+      "path": "runner_attempts/attempt-003/reviewed_runner_artifacts/data/raw/assignment-fe9705c44f4875c3/verified/matplotlib__matplotlib-24149/attempt-003/evaluator.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    {
+      "kind": "evaluator",
+      "path": "runner_attempts/attempt-003/reviewed_runner_artifacts/data/raw/assignment-fe9705c44f4875c3/verified/matplotlib__matplotlib-24149/attempt-003/evaluator.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-003/reviewed_runner_artifacts/data/raw/assignment-fe9705c44f4875c3/verified/matplotlib__matplotlib-24149/attempt-003/events.jsonl",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-003/reviewed_runner_artifacts/data/raw/assignment-fe9705c44f4875c3/verified/matplotlib__matplotlib-24149/attempt-003/model_calls.jsonl",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-003/reviewed_runner_artifacts/data/raw/assignment-fe9705c44f4875c3/verified/matplotlib__matplotlib-24149/attempt-003/prediction.json",
+      "sha256": "70e8683d2d7dff0a770e6878d5ed145db8770c0a93e664ca03c4ed5379679daf",
+      "size": 172
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-003/reviewed_runner_artifacts/data/raw/assignment-fe9705c44f4875c3/verified/matplotlib__matplotlib-24149/attempt-003/summary.json",
+      "sha256": "cfb4fbb5f1fd500d4c1d6a90ffad03b5721261285c3bd90bfc59736f7997a455",
+      "size": 6189
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-003/reviewed_runner_artifacts/data/raw/assignment-fe9705c44f4875c3/verified/matplotlib__matplotlib-24149/attempt-003/tool_calls.jsonl",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-003/run_batch.config.yaml",
+      "sha256": "6b3f548a1faa6f71336af0784b7ddd22e520fa2cd9dae189c6619ade7fa5fe28",
+      "size": 11456
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-003/run_batch.log",
+      "sha256": "b86b28688a6599e2bddfb37d86301cff97765f268f113f54bb860f0ffc243bc4",
+      "size": 3204
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-003/run_batch_exit_statuses.yaml",
+      "sha256": "5d01beb28366998848bcb140e87e9a77b2bd92f64fbba68d2ed553df0b794cfd",
+      "size": 102
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-003/runner_inputs/sweagent_instances.json",
+      "sha256": "c6e6e42502914c64fd180971bbf529629241a06e5ca4e8575fe7bb6286a4162d",
+      "size": 63024
+    },
+    {
+      "kind": "validation",
+      "path": "validation.json",
+      "sha256": "b0c128d92f8ff6c2b7509d7828a9ae435cc903a98e2aeff2535a31fc70725c42",
+      "size": 1912
+    }
+  ],
+  "case_sha256": "968bc4198660f0d02621fb851cac58d20cd55d0d51cf5080a727e6d4a22939f1",
+  "config_sha256": "6b78702b161908254c15ee826cdd77abc9b69fac721a0e855dcb8bd63adbdea2",
+  "evaluator": {
+    "official_resolved": true,
+    "result_path": "evaluator_result.json",
+    "runner_status": "completed",
+    "status": "completed",
+    "submitted": true
+  },
+  "git": {
+    "branch": "parallel-h100-shards",
+    "commit": "1c4c7e33f18e2bc3cc533e90c43f596952d8c559"
+  },
+  "hardware": {
+    "command": [
+      "ssh",
+      "-S",
+      "/tmp/jriverah3-pace-login.sock",
+      "-o",
+      "ControlMaster=no",
+      "-o",
+      "BatchMode=yes",
+      "jriverah3@128.61.254.151",
+      "srun --jobid 5704717 --overlap --ntasks=1 --exact --quiet bash -lc 'nvidia-smi -i GPU-f62c1d77-1a4a-36db-605e-74d694f45aa5 --query-gpu=name,memory.total,compute_cap --format=csv,noheader,nounits' | grep -E '^[^ -].*, [0-9]+, [0-9]+\\.[0-9]+'"
+    ],
+    "gpus": [
+      {
+        "compute_capability": "9.0",
+        "memory_mib": 81559,
+        "name": "NVIDIA H100 80GB HBM3"
+      }
+    ]
+  },
+  "integrity": {
+    "adaptive_protocol_sha256": "3a572d6e8740070b3e49ed67b10adab4d9b71174ecf411792921a740b1b5a497",
+    "adaptive_runner_sha256": "7989659cb8c1f512f18f37410e3c1e90bc16530f9fe2ed0e0cc0d534d3d66bdc",
+    "adaptive_runtime_sha256": "5b666bb0ad549c75b062787d744cf7242ff310e206730f4f25146e1101742bac",
+    "case_runner_sha256": "84895565f651516159c83a07625b40d5242bc16812b939b8f1d5cc9213e075f6",
+    "evaluator_adapter_sha256": "83d6b448f509282cc4d492558ce20e0cae9fc83cfd578b5f1947c226ddcfdb8a",
+    "event_simulator_sha256": "6b3eb2feeae09977287918dd6cd3332bccc7bf253407417df32e56ebe66a5a10",
+    "request_config_sha256": "7021ff1d70452f7f903b8b23b9b6f9af20c67615d68e737bbd66a2cb7db28abe",
+    "request_proxy_sha256": "7bc737a8d9d41b25bc894e63ea10075fd99c1197245cc4adb143f12463b65f74"
+  },
+  "manifest_sha256": "4742111209b5dfaa53501f10a32be802e2bf7b71f961dc4111f996a10fbf0d97",
+  "normalization_sources": {
+    "model_events": "runner_attempts/attempt-003/request_proxy.jsonl",
+    "official_evaluator_result": "evaluator_result.json",
+    "run_spec": "normalization_spec.json",
+    "runner_summary": "runner_attempts/attempt-003/reviewed_runner_artifacts/data/raw/assignment-fe9705c44f4875c3/verified/matplotlib__matplotlib-24149/attempt-003/summary.json",
+    "trajectory": "runner_attempts/attempt-003/matplotlib__matplotlib-24149/matplotlib__matplotlib-24149.traj"
+  },
+  "parent_execution_case_count": 1088,
+  "parent_original_case_count": 1088,
+  "parent_plan_sha256": "067974eebbe41f818c10ee85317e21bae41ad236f1a53e9a81989453ab59a30e",
+  "plan_id": "assignment-steps-1-3",
+  "plan_sha256": "9ab4df1e4e69012dc556b462f9a4a1a56e7f541b5dbdecce0ba97a574542055c",
+  "proxy": {
+    "adaptive_runtime_enabled": false,
+    "command": [
+      "/usr/bin/python3",
+      "/home/riverahernandezjason/agentic-workload-simulator/scripts/observability/request_proxy.py",
+      "--listen-host",
+      "127.0.0.1",
+      "--listen-port",
+      "23194",
+      "--upstream-host",
+      "127.0.0.1",
+      "--upstream-port",
+      "18013",
+      "--events",
+      "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/full-matrix-recovery-authenticated-resume-20260906T025908Z-16/worker-13/cases/00050/runner_attempts/attempt-003/request_proxy.jsonl",
+      "--timeout-seconds",
+      "5400.0"
+    ],
+    "command_sha256": "a6929be949d7a126d49265f6e19133181baa6310505d982478eded1407617ca7",
+    "event_count": 31,
+    "events_path": "request_proxy.jsonl",
+    "events_sha256": "8426efa8716ddeb29f670e182314f846dd60f32ce0d6330c8123e02a807d1418",
+    "exit_code_before_stop": null,
+    "listen_api_base": "http://127.0.0.1:23194/v1",
+    "readiness": "stdout_exact_match_without_model_request",
+    "schema_version": "assignment-request-proxy-run.v1",
+    "script_path": "/home/riverahernandezjason/agentic-workload-simulator/scripts/observability/request_proxy.py",
+    "script_sha256": "7bc737a8d9d41b25bc894e63ea10075fd99c1197245cc4adb143f12463b65f74",
+    "stderr_path": "request_proxy.stderr.log",
+    "stdout_path": "request_proxy.stdout.log",
+    "upstream_api_base": "http://127.0.0.1:18013/v1"
+  },
+  "resume_key": "assignment-case-v1:eb9e4772852504dd96df5f683b526bd118f29ff258356d3b9ad3a1dc07c8c6e8",
+  "run_id": "assignment-fe9705c44f4875c3",
+  "runner": {
+    "command_hash": "84c6208801fb487c72b326b5c1e860215cb77709049a76c05ddf78aa68147a03",
+    "output_dir": "runner_attempts/attempt-003",
+    "returncode": 0,
+    "status": "completed"
+  },
+  "runner_path": "/home/riverahernandezjason/agentic-workload-simulator/scripts/assignment/sweagent_case_runner.py",
+  "runner_sha256": "84895565f651516159c83a07625b40d5242bc16812b939b8f1d5cc9213e075f6",
+  "runtime_manifest_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/runtime/manifests-reviewed-1c4-source-exact-20260905-29-context65536-evaluator-venv/runtime-manifest-worker-13.json",
+  "runtime_manifest_sha256": "4742111209b5dfaa53501f10a32be802e2bf7b71f961dc4111f996a10fbf0d97",
+  "schema_version": "assignment-case-result.v1",
+  "shard_assignment": "round_robin_plan_order_v1",
+  "shard_count": 16,
+  "shard_index": 13,
+  "shards_manifest_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/shards-16-pace-source-exact-20260905-01/shards-16-manifest.json",
+  "shards_manifest_sha256": "9d547ad8af4a3560f5ffff86365912667c12ffaca1feae6ce1863a510074cf5d",
+  "status": "completed"
+}

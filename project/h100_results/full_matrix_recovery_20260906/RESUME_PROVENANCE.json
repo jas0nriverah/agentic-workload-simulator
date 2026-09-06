@@ -1,0 +1,36 @@
+{
+  "schema_version": "assignment-recovery-resume-provenance.v1",
+  "created_utc": "2026-09-06T02:59:08Z",
+  "source_root": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/full-matrix-recovery-authenticated-20260905T232310Z-16",
+  "resume_root": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/full-matrix-recovery-authenticated-resume-20260906T025908Z-16",
+  "source_root_preserved": true,
+  "copy_verification": {
+    "worker_00_run_state_sha256": "5a36b24fcc6f5c66a1e7cb83569ee71347a396b4346d5a2082bbe97261655beb"
+  },
+  "sealed_identity": {
+    "parent_plan_sha256": "067974eebbe41f818c10ee85317e21bae41ad236f1a53e9a81989453ab59a30e",
+    "parent_execution_case_count": 1088,
+    "shard_count": 16,
+    "concurrency_per_worker": 1,
+    "runner_path": "/home/riverahernandezjason/agentic-workload-simulator/scripts/assignment/sweagent_case_runner.py",
+    "runner_sha256": "84895565f651516159c83a07625b40d5242bc16812b939b8f1d5cc9213e075f6",
+    "run_matrix_sha256": "7b2298dd16cba83f918ffd593700590348612eef287d71489324d4de7e6deba3",
+    "config_sha256": "6b78702b161908254c15ee826cdd77abc9b69fac721a0e855dcb8bd63adbdea2",
+    "shards_manifest": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/shards-16-pace-source-exact-20260905-01/shards-16-manifest.json",
+    "shards_manifest_sha256": "9d547ad8af4a3560f5ffff86365912667c12ffaca1feae6ce1863a510074cf5d",
+    "runtime_manifest_set": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/runtime/manifests-reviewed-1c4-source-exact-20260905-29-context65536-evaluator-venv"
+  },
+  "execution_policy": {
+    "only_missing_rows": true,
+    "prior_roots_immutable": true,
+    "new_gpu_allocations": 0,
+    "services_changed": false,
+    "initial_canary_limit_per_worker": 1
+  },
+  "live_preflight": {
+    "hardware_probe": "16/16 exact pinned probes passed sequentially",
+    "docker_access": "passed via sg docker -c; daemon 29.1.3",
+    "responsive_service_workers": ["00", "01", "02", "03", "05", "09", "10", "11", "12", "13", "14", "15"],
+    "blocked_service_workers": ["04", "06", "07", "08"]
+  }
+}

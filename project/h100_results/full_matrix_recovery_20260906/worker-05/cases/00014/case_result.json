@@ -1,0 +1,370 @@
+{
+  "adaptive_runtime": null,
+  "artifacts": [
+    {
+      "kind": "case_spec",
+      "path": "case_spec.json",
+      "sha256": "31da01c5ec591a335888431931722e79c5186deaf15211262662780615103cd9",
+      "size": 717
+    },
+    {
+      "kind": "evaluator",
+      "path": "evaluator_result.json",
+      "sha256": "718817a3d06a7d046ab43d417b2e3540028873ae4ce48b7a8474fb9be5e5f13a",
+      "size": 1702
+    },
+    {
+      "kind": "normalization_spec",
+      "path": "normalization_spec.json",
+      "sha256": "67b434ab00c653308f61ebdd07bc527393d23aadb060b2247ef2fc5a73ab9536",
+      "size": 1494
+    },
+    {
+      "kind": "runner",
+      "path": "official_evaluator/attempt-001.assignment-74e202e568b449cb.json",
+      "sha256": "f5e151cd007677cff475cb50c611bcd183b72e1c0d4017a3c7d6675c0e3895e0",
+      "size": 511
+    },
+    {
+      "kind": "evaluator",
+      "path": "official_evaluator/evaluator.stderr.log",
+      "sha256": "d99d77495e55599a8903de8fc87d6532a72150a92f061bbdbd6423592c7d4dd0",
+      "size": 590
+    },
+    {
+      "kind": "evaluator",
+      "path": "official_evaluator/evaluator.stdout.log",
+      "sha256": "2d71048be8d3c6fa08209cadc1cbb867450f85a8183bc3690fb7402b43998332",
+      "size": 385
+    },
+    {
+      "kind": "evaluator",
+      "path": "official_evaluator/evaluator_dataset.json",
+      "sha256": "94986c7c8ce8db6eb05cb86494312340b5a7894b1e89af00399c9059825babd0",
+      "size": 137347
+    },
+    {
+      "kind": "evaluator",
+      "path": "official_evaluator/evaluator_predictions.json",
+      "sha256": "74e08f18c26860fb251eba0b2f8762b843e64bdd75ee47802a888c163c6d5123",
+      "size": 2190
+    },
+    {
+      "kind": "evaluator",
+      "path": "official_evaluator/logs/run_evaluation/assignment-74e202e568b449cb/attempt-001/pydata__xarray-4493/eval.sh",
+      "sha256": "f71fddab3e39e5720283e567c75435880dc52668dbbe5b01e61fda2621ae07a6",
+      "size": 3667
+    },
+    {
+      "kind": "runner",
+      "path": "official_evaluator/logs/run_evaluation/assignment-74e202e568b449cb/attempt-001/pydata__xarray-4493/patch.diff",
+      "sha256": "c83944fce532d4146197cca916cace070198fa08306df138dcf99b7d8417ec76",
+      "size": 1967
+    },
+    {
+      "kind": "runner",
+      "path": "official_evaluator/logs/run_evaluation/assignment-74e202e568b449cb/attempt-001/pydata__xarray-4493/report.json",
+      "sha256": "9afd63cbe68dfe788082fc719c1d0fe9aac9bf867656020803ff15a68c628aed",
+      "size": 158506
+    },
+    {
+      "kind": "runner",
+      "path": "official_evaluator/logs/run_evaluation/assignment-74e202e568b449cb/attempt-001/pydata__xarray-4493/run_instance.log",
+      "sha256": "a599e84cc44e3dab6600da553c25439bb3af540bb509ff45ddb5924bbe8fda3f",
+      "size": 126510
+    },
+    {
+      "kind": "runner",
+      "path": "official_evaluator/logs/run_evaluation/assignment-74e202e568b449cb/attempt-001/pydata__xarray-4493/test_output.txt",
+      "sha256": "812ce764a8485661e81bc4e2152cf886a7612d8ba92db0bda23f0416f7e1e020",
+      "size": 388163
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-001/preds.json",
+      "sha256": "9cbcf7584c3e7693634c1c20ffc7c2639e2882f3fb898afdcc6647d557245dc7",
+      "size": 2228
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-001/pydata__xarray-4493/pydata__xarray-4493.config.yaml",
+      "sha256": "695d9e0179883bb8b06b295b5ddf96a918aa8d536bb859e1af48bc26f6334017",
+      "size": 13925
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-001/pydata__xarray-4493/pydata__xarray-4493.debug.log",
+      "sha256": "28ae7255bf408a8352258f896570f8f500bee4056d8a970ca50958a13046871b",
+      "size": 113981
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-001/pydata__xarray-4493/pydata__xarray-4493.info.log",
+      "sha256": "bc0fec63d0d0e1930340b401183afe1e5b85756bbc09cf960ec6154013731ec4",
+      "size": 87341
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-001/pydata__xarray-4493/pydata__xarray-4493.patch",
+      "sha256": "c83944fce532d4146197cca916cace070198fa08306df138dcf99b7d8417ec76",
+      "size": 1967
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-001/pydata__xarray-4493/pydata__xarray-4493.pred",
+      "sha256": "dbb1aa3e6e9fbd6cf217a7cd45f4eba1bfdc6219c9fb70e2e73c318cf6971436",
+      "size": 2167
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-001/pydata__xarray-4493/pydata__xarray-4493.trace.log",
+      "sha256": "209e13ed4ad03cd44b5826842a237ca7ebace61b1724378a1846236fa7e881fd",
+      "size": 164997
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-001/pydata__xarray-4493/pydata__xarray-4493.traj",
+      "sha256": "bcb464e47c468e2944048a0ca9942b786cbd4dec6d13e18cc613f0e7141e26ae",
+      "size": 1332118
+    },
+    {
+      "kind": "request",
+      "path": "runner_attempts/attempt-001/request_config.json",
+      "sha256": "109ea0fdfaf127414c0d9bb8cb0a9b524fd7b36fcfa9e4d4b9a1d39aad6bf522",
+      "size": 207
+    },
+    {
+      "kind": "request",
+      "path": "runner_attempts/attempt-001/request_proxy.jsonl",
+      "sha256": "3328a034554467628808349cbb0ed25ba24a55ba7b08926f966c67299aca9db5",
+      "size": 34131
+    },
+    {
+      "kind": "request",
+      "path": "runner_attempts/attempt-001/request_proxy.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    {
+      "kind": "request",
+      "path": "runner_attempts/attempt-001/request_proxy.stdout.log",
+      "sha256": "e22526c8cf45e15a6d70565168ff3f30a8e0fa472c8d1b323af3cffd7a355728",
+      "size": 69
+    },
+    {
+      "kind": "request",
+      "path": "runner_attempts/attempt-001/request_proxy_provenance.json",
+      "sha256": "69d4562b9d744b07566e10e6a24644ef4e912b42ee16956bfacdbd8ca718fb96",
+      "size": 1361
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-001/reviewed_runner_artifacts/data/raw/assignment-74e202e568b449cb/lite/pydata__xarray-4493/attempt-001/agent.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-001/reviewed_runner_artifacts/data/raw/assignment-74e202e568b449cb/lite/pydata__xarray-4493/attempt-001/agent.stdout.log",
+      "sha256": "f115093a0b16c2476d99b8f7d41e28bb14a79f74380e138d0932d11387577dfb",
+      "size": 216315
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-001/reviewed_runner_artifacts/data/raw/assignment-74e202e568b449cb/lite/pydata__xarray-4493/attempt-001/config.json",
+      "sha256": "0507671cbed97809902f550648e6f79785b82f1860761468575b50ca74009396",
+      "size": 5478
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-001/reviewed_runner_artifacts/data/raw/assignment-74e202e568b449cb/lite/pydata__xarray-4493/attempt-001/counters.unavailable.json",
+      "sha256": "1435fc3776bf2ed93d0e1cfa3b110240bffdba15adc3ca007f0365dbad9f1bde",
+      "size": 187
+    },
+    {
+      "kind": "evaluator",
+      "path": "runner_attempts/attempt-001/reviewed_runner_artifacts/data/raw/assignment-74e202e568b449cb/lite/pydata__xarray-4493/attempt-001/eval.json",
+      "sha256": "422a1c3bf24da10d043d4f4ff7603baf49c222b671ef40f9c6e10c2f54d0d764",
+      "size": 679
+    },
+    {
+      "kind": "evaluator",
+      "path": "runner_attempts/attempt-001/reviewed_runner_artifacts/data/raw/assignment-74e202e568b449cb/lite/pydata__xarray-4493/attempt-001/evaluator.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    {
+      "kind": "evaluator",
+      "path": "runner_attempts/attempt-001/reviewed_runner_artifacts/data/raw/assignment-74e202e568b449cb/lite/pydata__xarray-4493/attempt-001/evaluator.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-001/reviewed_runner_artifacts/data/raw/assignment-74e202e568b449cb/lite/pydata__xarray-4493/attempt-001/events.jsonl",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-001/reviewed_runner_artifacts/data/raw/assignment-74e202e568b449cb/lite/pydata__xarray-4493/attempt-001/model_calls.jsonl",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-001/reviewed_runner_artifacts/data/raw/assignment-74e202e568b449cb/lite/pydata__xarray-4493/attempt-001/prediction.json",
+      "sha256": "70e8683d2d7dff0a770e6878d5ed145db8770c0a93e664ca03c4ed5379679daf",
+      "size": 172
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-001/reviewed_runner_artifacts/data/raw/assignment-74e202e568b449cb/lite/pydata__xarray-4493/attempt-001/summary.json",
+      "sha256": "06ee1923cb3ddc62149c36882c5510c292cad1279db82d01525aa9f8c340cd9d",
+      "size": 5975
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-001/reviewed_runner_artifacts/data/raw/assignment-74e202e568b449cb/lite/pydata__xarray-4493/attempt-001/tool_calls.jsonl",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-001/run_batch.config.yaml",
+      "sha256": "4aa680eb33167764ed6bc5d6211cf5163810a8cf94dc5ee67df7006672ce3c41",
+      "size": 11433
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-001/run_batch.log",
+      "sha256": "48294ae271d54e1a55da422ab4668c0ae7b1b534f25b099958b8187b4008c399",
+      "size": 3188
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-001/run_batch_exit_statuses.yaml",
+      "sha256": "4a736bb21d4c02afc174f4a159920e0ccbb201cd5e504f8e16f929098e08e73e",
+      "size": 93
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-001/runner_inputs/sweagent_instances.json",
+      "sha256": "c6b8e17d5c56c9fd5aa3ea7673beb36ba3652e28e1c6ade9764774e550df7294",
+      "size": 137453
+    },
+    {
+      "kind": "validation",
+      "path": "validation.json",
+      "sha256": "822e1d70fca0618eff600778aa520f16bbacc5d0242154f20221e65c0627c3d9",
+      "size": 1891
+    }
+  ],
+  "case_sha256": "31da01c5ec591a335888431931722e79c5186deaf15211262662780615103cd9",
+  "config_sha256": "6b78702b161908254c15ee826cdd77abc9b69fac721a0e855dcb8bd63adbdea2",
+  "evaluator": {
+    "official_resolved": false,
+    "result_path": "evaluator_result.json",
+    "runner_status": "completed",
+    "status": "completed",
+    "submitted": true
+  },
+  "git": {
+    "branch": "parallel-h100-shards",
+    "commit": "1c4c7e33f18e2bc3cc533e90c43f596952d8c559"
+  },
+  "hardware": {
+    "command": [
+      "ssh",
+      "-S",
+      "/tmp/jriverah3-pace-login.sock",
+      "-o",
+      "ControlMaster=no",
+      "-o",
+      "BatchMode=yes",
+      "jriverah3@128.61.254.151",
+      "srun --jobid 5704597 --overlap --ntasks=1 --exact --quiet bash -lc 'nvidia-smi -i GPU-f80e4e86-4d6d-b5b7-ef72-7903ba537147 --query-gpu=name,memory.total,compute_cap --format=csv,noheader,nounits' | grep -E '^[^ -].*, [0-9]+, [0-9]+\\.[0-9]+'"
+    ],
+    "gpus": [
+      {
+        "compute_capability": "9.0",
+        "memory_mib": 81559,
+        "name": "NVIDIA H100 80GB HBM3"
+      }
+    ]
+  },
+  "integrity": {
+    "adaptive_protocol_sha256": "3a572d6e8740070b3e49ed67b10adab4d9b71174ecf411792921a740b1b5a497",
+    "adaptive_runner_sha256": "7989659cb8c1f512f18f37410e3c1e90bc16530f9fe2ed0e0cc0d534d3d66bdc",
+    "adaptive_runtime_sha256": "5b666bb0ad549c75b062787d744cf7242ff310e206730f4f25146e1101742bac",
+    "case_runner_sha256": "84895565f651516159c83a07625b40d5242bc16812b939b8f1d5cc9213e075f6",
+    "evaluator_adapter_sha256": "83d6b448f509282cc4d492558ce20e0cae9fc83cfd578b5f1947c226ddcfdb8a",
+    "event_simulator_sha256": "6b3eb2feeae09977287918dd6cd3332bccc7bf253407417df32e56ebe66a5a10",
+    "request_config_sha256": "7021ff1d70452f7f903b8b23b9b6f9af20c67615d68e737bbd66a2cb7db28abe",
+    "request_proxy_sha256": "7bc737a8d9d41b25bc894e63ea10075fd99c1197245cc4adb143f12463b65f74"
+  },
+  "manifest_sha256": "c178458651523c14d7e572ae79a757beada9871b64077a3b5a104d436a673ff4",
+  "normalization_sources": {
+    "model_events": "runner_attempts/attempt-001/request_proxy.jsonl",
+    "official_evaluator_result": "evaluator_result.json",
+    "run_spec": "normalization_spec.json",
+    "runner_summary": "runner_attempts/attempt-001/reviewed_runner_artifacts/data/raw/assignment-74e202e568b449cb/lite/pydata__xarray-4493/attempt-001/summary.json",
+    "trajectory": "runner_attempts/attempt-001/pydata__xarray-4493/pydata__xarray-4493.traj"
+  },
+  "parent_execution_case_count": 1088,
+  "parent_original_case_count": 1088,
+  "parent_plan_sha256": "067974eebbe41f818c10ee85317e21bae41ad236f1a53e9a81989453ab59a30e",
+  "plan_id": "assignment-steps-1-3",
+  "plan_sha256": "be03a52713e170bd5159e425329bed65e1808a75d849a08c5000154a9d151533",
+  "proxy": {
+    "adaptive_runtime_enabled": false,
+    "command": [
+      "/usr/bin/python3",
+      "/home/riverahernandezjason/agentic-workload-simulator/scripts/observability/request_proxy.py",
+      "--listen-host",
+      "127.0.0.1",
+      "--listen-port",
+      "38835",
+      "--upstream-host",
+      "127.0.0.1",
+      "--upstream-port",
+      "18005",
+      "--events",
+      "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/full-matrix-recovery-authenticated-20260905T232310Z-16/worker-05/cases/00014/runner_attempts/attempt-001/request_proxy.jsonl",
+      "--timeout-seconds",
+      "5400.0"
+    ],
+    "command_sha256": "7a7b27322c31f33225f5e4efff1667e882d51f5bdebcd0257886aebece1b016f",
+    "event_count": 31,
+    "events_path": "request_proxy.jsonl",
+    "events_sha256": "3328a034554467628808349cbb0ed25ba24a55ba7b08926f966c67299aca9db5",
+    "exit_code_before_stop": null,
+    "listen_api_base": "http://127.0.0.1:38835/v1",
+    "readiness": "stdout_exact_match_without_model_request",
+    "schema_version": "assignment-request-proxy-run.v1",
+    "script_path": "/home/riverahernandezjason/agentic-workload-simulator/scripts/observability/request_proxy.py",
+    "script_sha256": "7bc737a8d9d41b25bc894e63ea10075fd99c1197245cc4adb143f12463b65f74",
+    "stderr_path": "request_proxy.stderr.log",
+    "stdout_path": "request_proxy.stdout.log",
+    "upstream_api_base": "http://127.0.0.1:18005/v1"
+  },
+  "resume_key": "assignment-case-v1:e13e06b1c1d028806d16e18d906ebc68efeb07d855312ff91b33fe526d2031c4",
+  "run_id": "assignment-74e202e568b449cb",
+  "runner": {
+    "command_hash": "0a5422a7f4510d00c815fcd1a364c93957b9d3f17ac36be8c1adca65feddab88",
+    "output_dir": "runner_attempts/attempt-001",
+    "returncode": 0,
+    "status": "completed"
+  },
+  "runner_path": "/home/riverahernandezjason/agentic-workload-simulator/scripts/assignment/sweagent_case_runner.py",
+  "runner_sha256": "84895565f651516159c83a07625b40d5242bc16812b939b8f1d5cc9213e075f6",
+  "runtime_manifest_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/runtime/manifests-reviewed-1c4-source-exact-20260905-29-context65536-evaluator-venv/runtime-manifest-worker-05.json",
+  "runtime_manifest_sha256": "c178458651523c14d7e572ae79a757beada9871b64077a3b5a104d436a673ff4",
+  "schema_version": "assignment-case-result.v1",
+  "shard_assignment": "round_robin_plan_order_v1",
+  "shard_count": 16,
+  "shard_index": 5,
+  "shards_manifest_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/shards-16-pace-source-exact-20260905-01/shards-16-manifest.json",
+  "shards_manifest_sha256": "9d547ad8af4a3560f5ffff86365912667c12ffaca1feae6ce1863a510074cf5d",
+  "status": "completed"
+}

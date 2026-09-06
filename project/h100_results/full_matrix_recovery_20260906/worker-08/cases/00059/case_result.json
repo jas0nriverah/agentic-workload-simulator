@@ -1,0 +1,370 @@
+{
+  "adaptive_runtime": null,
+  "artifacts": [
+    {
+      "kind": "case_spec",
+      "path": "case_spec.json",
+      "sha256": "444cb88a4047e71d4bceaa1dbb46e5b8bd1c21372e41a5d8cfb73df934820730",
+      "size": 703
+    },
+    {
+      "kind": "evaluator",
+      "path": "evaluator_result.json",
+      "sha256": "9c0a0eeb693d10811464ca29b9273d307663e62d6af24e7d537f6387111bedc7",
+      "size": 1725
+    },
+    {
+      "kind": "normalization_spec",
+      "path": "normalization_spec.json",
+      "sha256": "bcca9b19b1fda333a7d59fa99a8a220e762dfdd7ae6fe1355a7d22d9a1148ce3",
+      "size": 1507
+    },
+    {
+      "kind": "runner",
+      "path": "official_evaluator/attempt-001.assignment-3e51aed485c0c061.json",
+      "sha256": "3f0624cecd92d1bd6fc446aae7506adcd19706ad6a66a12d56df59008284d41e",
+      "size": 526
+    },
+    {
+      "kind": "evaluator",
+      "path": "official_evaluator/evaluator.stderr.log",
+      "sha256": "1cbf1fba8cd4c981e8cab813de942f794a15a6dd606eb75de98023d55a31a3b7",
+      "size": 588
+    },
+    {
+      "kind": "evaluator",
+      "path": "official_evaluator/evaluator.stdout.log",
+      "sha256": "8ac4ce46776bcc5dad57587310c38b766256b2c0e850fadf46cc586a74416651",
+      "size": 385
+    },
+    {
+      "kind": "evaluator",
+      "path": "official_evaluator/evaluator_dataset.json",
+      "sha256": "d6cab1bc557544d2a53aed6736fe793e062e162835574ea1d3553290b5950080",
+      "size": 28642
+    },
+    {
+      "kind": "evaluator",
+      "path": "official_evaluator/evaluator_predictions.json",
+      "sha256": "0e6b580cbb5e34be4c7ac12573be9b64ad635976dfbc49911cd9aefa000406b0",
+      "size": 16330
+    },
+    {
+      "kind": "evaluator",
+      "path": "official_evaluator/logs/run_evaluation/assignment-3e51aed485c0c061/attempt-001/sphinx-doc__sphinx-11510/eval.sh",
+      "sha256": "eb1fd7e715751f2279d1529d49046c67b88ee66182ea7566e2765503a31ef044",
+      "size": 3565
+    },
+    {
+      "kind": "runner",
+      "path": "official_evaluator/logs/run_evaluation/assignment-3e51aed485c0c061/attempt-001/sphinx-doc__sphinx-11510/patch.diff",
+      "sha256": "6bed63e8b954e08a5db37c2ec9e07e244acd9f49cb39511902cf263665695cf7",
+      "size": 15477
+    },
+    {
+      "kind": "runner",
+      "path": "official_evaluator/logs/run_evaluation/assignment-3e51aed485c0c061/attempt-001/sphinx-doc__sphinx-11510/report.json",
+      "sha256": "1f46fac03eac266ae7619e13b2a24ad781f312a0f25ef17589b16e07486c1c7a",
+      "size": 1380
+    },
+    {
+      "kind": "runner",
+      "path": "official_evaluator/logs/run_evaluation/assignment-3e51aed485c0c061/attempt-001/sphinx-doc__sphinx-11510/run_instance.log",
+      "sha256": "6565896fcc6bd2b6f9471f36192c00cc53cb2f0c9ec9fd76cc67f0704695a939",
+      "size": 3469
+    },
+    {
+      "kind": "runner",
+      "path": "official_evaluator/logs/run_evaluation/assignment-3e51aed485c0c061/attempt-001/sphinx-doc__sphinx-11510/test_output.txt",
+      "sha256": "cf178cbe081d1215a28deff9edfa7bc0964b77b595061525e8ac501c32ef3a9b",
+      "size": 29769
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-001/preds.json",
+      "sha256": "dcaa9662c0aece3e2363c9e0b1bd313a5010e3e1583a1be0e88f06c3c2906b5d",
+      "size": 16418
+    },
+    {
+      "kind": "request",
+      "path": "runner_attempts/attempt-001/request_config.json",
+      "sha256": "109ea0fdfaf127414c0d9bb8cb0a9b524fd7b36fcfa9e4d4b9a1d39aad6bf522",
+      "size": 207
+    },
+    {
+      "kind": "request",
+      "path": "runner_attempts/attempt-001/request_proxy.jsonl",
+      "sha256": "8bf3442962b20412a28f30e265e218005035faa738b9694f8d6cda250f75b1cf",
+      "size": 34186
+    },
+    {
+      "kind": "request",
+      "path": "runner_attempts/attempt-001/request_proxy.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    {
+      "kind": "request",
+      "path": "runner_attempts/attempt-001/request_proxy.stdout.log",
+      "sha256": "4eb7be8040b20ea70dfe48da0bd4a71cebd9d3571024f1a222d4a192b47867f8",
+      "size": 69
+    },
+    {
+      "kind": "request",
+      "path": "runner_attempts/attempt-001/request_proxy_provenance.json",
+      "sha256": "6734538da345bda730deb5b57a0a9872640759301ebe0e58f65da415e9fde3d8",
+      "size": 1368
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-001/reviewed_runner_artifacts/data/raw/assignment-3e51aed485c0c061/verified/sphinx-doc__sphinx-11510/attempt-001/agent.stderr.log",
+      "sha256": "5f9a29293fecd85a571dad635c763ec3c1bfb952ddba44438de1cd2d3ad3d94a",
+      "size": 376
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-001/reviewed_runner_artifacts/data/raw/assignment-3e51aed485c0c061/verified/sphinx-doc__sphinx-11510/attempt-001/agent.stdout.log",
+      "sha256": "a289bf0d7f7b5839efc70dc6c96dbafba99e95356e15382d03df4cdbe7677a52",
+      "size": 466587
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-001/reviewed_runner_artifacts/data/raw/assignment-3e51aed485c0c061/verified/sphinx-doc__sphinx-11510/attempt-001/config.json",
+      "sha256": "d67d375f33b83bd22cfedafac81d90cb9a8b42aa0aeaf788e8f1b7d976c594ce",
+      "size": 5543
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-001/reviewed_runner_artifacts/data/raw/assignment-3e51aed485c0c061/verified/sphinx-doc__sphinx-11510/attempt-001/counters.unavailable.json",
+      "sha256": "1435fc3776bf2ed93d0e1cfa3b110240bffdba15adc3ca007f0365dbad9f1bde",
+      "size": 187
+    },
+    {
+      "kind": "evaluator",
+      "path": "runner_attempts/attempt-001/reviewed_runner_artifacts/data/raw/assignment-3e51aed485c0c061/verified/sphinx-doc__sphinx-11510/attempt-001/eval.json",
+      "sha256": "00b5ee0b00d00099f3e76bd6ef1c45676990dbc89ff4c13aacf27e3f6784a4f2",
+      "size": 679
+    },
+    {
+      "kind": "evaluator",
+      "path": "runner_attempts/attempt-001/reviewed_runner_artifacts/data/raw/assignment-3e51aed485c0c061/verified/sphinx-doc__sphinx-11510/attempt-001/evaluator.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    {
+      "kind": "evaluator",
+      "path": "runner_attempts/attempt-001/reviewed_runner_artifacts/data/raw/assignment-3e51aed485c0c061/verified/sphinx-doc__sphinx-11510/attempt-001/evaluator.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-001/reviewed_runner_artifacts/data/raw/assignment-3e51aed485c0c061/verified/sphinx-doc__sphinx-11510/attempt-001/events.jsonl",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-001/reviewed_runner_artifacts/data/raw/assignment-3e51aed485c0c061/verified/sphinx-doc__sphinx-11510/attempt-001/model_calls.jsonl",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-001/reviewed_runner_artifacts/data/raw/assignment-3e51aed485c0c061/verified/sphinx-doc__sphinx-11510/attempt-001/prediction.json",
+      "sha256": "70e8683d2d7dff0a770e6878d5ed145db8770c0a93e664ca03c4ed5379679daf",
+      "size": 172
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-001/reviewed_runner_artifacts/data/raw/assignment-3e51aed485c0c061/verified/sphinx-doc__sphinx-11510/attempt-001/summary.json",
+      "sha256": "3c1e8e80df26eb8714e2aa9af4895eeed282e93518dd86b040bc6dcb7c901680",
+      "size": 6146
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-001/reviewed_runner_artifacts/data/raw/assignment-3e51aed485c0c061/verified/sphinx-doc__sphinx-11510/attempt-001/tool_calls.jsonl",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-001/run_batch.config.yaml",
+      "sha256": "c597adcf302c51b8e559c7d37a623e320c81b37c462aca024ef0a21a5fc4234a",
+      "size": 11452
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-001/run_batch.log",
+      "sha256": "012df3a582f3d6a2b0e461faf5e426f6554d16efc4b1103047ba62d39db86c2b",
+      "size": 3200
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-001/run_batch_exit_statuses.yaml",
+      "sha256": "9ab80324f46a482a3fe48b68bdc234259f6c8ce339bcb0d04f4d3a4208749f5f",
+      "size": 98
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-001/runner_inputs/sweagent_instances.json",
+      "sha256": "a967a5ff63735946fa114e2d8a86024e98ba9b1919392b1bccc102e35225c754",
+      "size": 28769
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-001/sphinx-doc__sphinx-11510/sphinx-doc__sphinx-11510.config.yaml",
+      "sha256": "e6dedf024a4f74f3e81755374b40ebd25ddd4e0b224cbebe42b37778068b991e",
+      "size": 18857
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-001/sphinx-doc__sphinx-11510/sphinx-doc__sphinx-11510.debug.log",
+      "sha256": "24ad8d4afaca1bac2da9faaefa6d30a3a8f8b0187587dd46cda7858815c0340b",
+      "size": 224906
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-001/sphinx-doc__sphinx-11510/sphinx-doc__sphinx-11510.info.log",
+      "sha256": "f9c4a1d29dd3dc09a7bf7f0b1449b844f49c369d8cd4315acf58e2c5a842483d",
+      "size": 198308
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-001/sphinx-doc__sphinx-11510/sphinx-doc__sphinx-11510.patch",
+      "sha256": "6bed63e8b954e08a5db37c2ec9e07e244acd9f49cb39511902cf263665695cf7",
+      "size": 15477
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-001/sphinx-doc__sphinx-11510/sphinx-doc__sphinx-11510.pred",
+      "sha256": "0893d224d492aeaf37d480c1e8d69c4c194f327f0a2d1bdcfa3a308fea2ac04a",
+      "size": 16352
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-001/sphinx-doc__sphinx-11510/sphinx-doc__sphinx-11510.trace.log",
+      "sha256": "607578884a20618134a50b08d0cf99e051d60abd76809694dccf211eccec0340",
+      "size": 331986
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-001/sphinx-doc__sphinx-11510/sphinx-doc__sphinx-11510.traj",
+      "sha256": "13a035700e9295dfa203a7527f2d66a546ff76717eff7484214e4119539dacb8",
+      "size": 2674048
+    },
+    {
+      "kind": "validation",
+      "path": "validation.json",
+      "sha256": "778ba997693155cdbb43745c63a80da03dfc4dffbd73971cfdce291a0669c940",
+      "size": 1908
+    }
+  ],
+  "case_sha256": "444cb88a4047e71d4bceaa1dbb46e5b8bd1c21372e41a5d8cfb73df934820730",
+  "config_sha256": "6b78702b161908254c15ee826cdd77abc9b69fac721a0e855dcb8bd63adbdea2",
+  "evaluator": {
+    "official_resolved": false,
+    "result_path": "evaluator_result.json",
+    "runner_status": "completed",
+    "status": "completed",
+    "submitted": true
+  },
+  "git": {
+    "branch": "parallel-h100-shards",
+    "commit": "1c4c7e33f18e2bc3cc533e90c43f596952d8c559"
+  },
+  "hardware": {
+    "command": [
+      "ssh",
+      "-S",
+      "/tmp/jriverah3-pace-login.sock",
+      "-o",
+      "ControlMaster=no",
+      "-o",
+      "BatchMode=yes",
+      "jriverah3@128.61.254.151",
+      "srun --jobid 5704420 --overlap --ntasks=1 --exact --quiet bash -lc 'nvidia-smi -i GPU-e633211c-d9b0-8dad-c241-eb1ce5176cb9 --query-gpu=name,memory.total,compute_cap --format=csv,noheader,nounits' | grep -E '^[^ -].*, [0-9]+, [0-9]+\\.[0-9]+'"
+    ],
+    "gpus": [
+      {
+        "compute_capability": "9.0",
+        "memory_mib": 81559,
+        "name": "NVIDIA H100 80GB HBM3"
+      }
+    ]
+  },
+  "integrity": {
+    "adaptive_protocol_sha256": "3a572d6e8740070b3e49ed67b10adab4d9b71174ecf411792921a740b1b5a497",
+    "adaptive_runner_sha256": "7989659cb8c1f512f18f37410e3c1e90bc16530f9fe2ed0e0cc0d534d3d66bdc",
+    "adaptive_runtime_sha256": "5b666bb0ad549c75b062787d744cf7242ff310e206730f4f25146e1101742bac",
+    "case_runner_sha256": "84895565f651516159c83a07625b40d5242bc16812b939b8f1d5cc9213e075f6",
+    "evaluator_adapter_sha256": "83d6b448f509282cc4d492558ce20e0cae9fc83cfd578b5f1947c226ddcfdb8a",
+    "event_simulator_sha256": "6b3eb2feeae09977287918dd6cd3332bccc7bf253407417df32e56ebe66a5a10",
+    "request_config_sha256": "7021ff1d70452f7f903b8b23b9b6f9af20c67615d68e737bbd66a2cb7db28abe",
+    "request_proxy_sha256": "7bc737a8d9d41b25bc894e63ea10075fd99c1197245cc4adb143f12463b65f74"
+  },
+  "manifest_sha256": "8e92106a43d7391d70a9f452499fd57ab37b730ff59125899b1faf339e591c01",
+  "normalization_sources": {
+    "model_events": "runner_attempts/attempt-001/request_proxy.jsonl",
+    "official_evaluator_result": "evaluator_result.json",
+    "run_spec": "normalization_spec.json",
+    "runner_summary": "runner_attempts/attempt-001/reviewed_runner_artifacts/data/raw/assignment-3e51aed485c0c061/verified/sphinx-doc__sphinx-11510/attempt-001/summary.json",
+    "trajectory": "runner_attempts/attempt-001/sphinx-doc__sphinx-11510/sphinx-doc__sphinx-11510.traj"
+  },
+  "parent_execution_case_count": 1088,
+  "parent_original_case_count": 1088,
+  "parent_plan_sha256": "067974eebbe41f818c10ee85317e21bae41ad236f1a53e9a81989453ab59a30e",
+  "plan_id": "assignment-steps-1-3",
+  "plan_sha256": "30f33782d04954225cc8b9df6ec1f2a44574b637b11853ae00f5b3110348f1ad",
+  "proxy": {
+    "adaptive_runtime_enabled": false,
+    "command": [
+      "/usr/bin/python3",
+      "/home/riverahernandezjason/agentic-workload-simulator/scripts/observability/request_proxy.py",
+      "--listen-host",
+      "127.0.0.1",
+      "--listen-port",
+      "22607",
+      "--upstream-host",
+      "127.0.0.1",
+      "--upstream-port",
+      "18008",
+      "--events",
+      "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/full-matrix-recovery-authenticated-resume-20260906T025908Z-16/worker-08/cases/00059/runner_attempts/attempt-001/request_proxy.jsonl",
+      "--timeout-seconds",
+      "5400.0"
+    ],
+    "command_sha256": "4bfef7e57bb3af1a85b086bb7e8fc6e4fb61f018e911c30c6a25e7cfa811f4ba",
+    "event_count": 31,
+    "events_path": "request_proxy.jsonl",
+    "events_sha256": "8bf3442962b20412a28f30e265e218005035faa738b9694f8d6cda250f75b1cf",
+    "exit_code_before_stop": null,
+    "listen_api_base": "http://127.0.0.1:22607/v1",
+    "readiness": "stdout_exact_match_without_model_request",
+    "schema_version": "assignment-request-proxy-run.v1",
+    "script_path": "/home/riverahernandezjason/agentic-workload-simulator/scripts/observability/request_proxy.py",
+    "script_sha256": "7bc737a8d9d41b25bc894e63ea10075fd99c1197245cc4adb143f12463b65f74",
+    "stderr_path": "request_proxy.stderr.log",
+    "stdout_path": "request_proxy.stdout.log",
+    "upstream_api_base": "http://127.0.0.1:18008/v1"
+  },
+  "resume_key": "assignment-case-v1:c929c08b48e197b202c867901c5b788f9f1f8a724463a028e04c0117ca977489",
+  "run_id": "assignment-3e51aed485c0c061",
+  "runner": {
+    "command_hash": "bca44cf1b1e771c2e0c57c40d2e3761d0272faa7996ae614143bf4f2a96f5fb1",
+    "output_dir": "runner_attempts/attempt-001",
+    "returncode": 0,
+    "status": "completed"
+  },
+  "runner_path": "/home/riverahernandezjason/agentic-workload-simulator/scripts/assignment/sweagent_case_runner.py",
+  "runner_sha256": "84895565f651516159c83a07625b40d5242bc16812b939b8f1d5cc9213e075f6",
+  "runtime_manifest_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/runtime/manifests-reviewed-1c4-source-exact-20260905-29-context65536-evaluator-venv/runtime-manifest-worker-08.json",
+  "runtime_manifest_sha256": "8e92106a43d7391d70a9f452499fd57ab37b730ff59125899b1faf339e591c01",
+  "schema_version": "assignment-case-result.v1",
+  "shard_assignment": "round_robin_plan_order_v1",
+  "shard_count": 16,
+  "shard_index": 8,
+  "shards_manifest_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/shards-16-pace-source-exact-20260905-01/shards-16-manifest.json",
+  "shards_manifest_sha256": "9d547ad8af4a3560f5ffff86365912667c12ffaca1feae6ce1863a510074cf5d",
+  "status": "completed"
+}

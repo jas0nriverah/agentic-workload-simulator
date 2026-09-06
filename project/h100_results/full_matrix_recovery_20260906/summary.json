@@ -1,0 +1,56 @@
+{
+  "schema_version": "full-matrix-recovery-results.v1",
+  "archive_date": "2026-09-06",
+  "source_root": "h100-assignment-work-20260905/assignment/full-matrix-recovery-authenticated-resume-20260906T025908Z-16",
+  "plan": {
+    "parent_case_count": 1088,
+    "worker_count": 16,
+    "cases_per_worker": 68,
+    "concurrency_per_worker": 1
+  },
+  "outcome": {
+    "completed_case_results": 602,
+    "failed_ledger_entries": 486,
+    "pending_case_records": 0,
+    "case_result_files_archived": 602,
+    "terminal_worker_states": 16
+  },
+  "worker_states": [
+    {"worker": "worker-00", "status": "failed", "completed_case_results": 43, "failed_ledger_entries": 25},
+    {"worker": "worker-01", "status": "failed", "completed_case_results": 42, "failed_ledger_entries": 26},
+    {"worker": "worker-02", "status": "failed", "completed_case_results": 46, "failed_ledger_entries": 22},
+    {"worker": "worker-03", "status": "failed", "completed_case_results": 52, "failed_ledger_entries": 16},
+    {"worker": "worker-04", "status": "failed", "completed_case_results": 22, "failed_ledger_entries": 46},
+    {"worker": "worker-05", "status": "failed", "completed_case_results": 44, "failed_ledger_entries": 24},
+    {"worker": "worker-06", "status": "failed", "completed_case_results": 27, "failed_ledger_entries": 41},
+    {"worker": "worker-07", "status": "failed", "completed_case_results": 28, "failed_ledger_entries": 40},
+    {"worker": "worker-08", "status": "failed", "completed_case_results": 29, "failed_ledger_entries": 39},
+    {"worker": "worker-09", "status": "failed", "completed_case_results": 40, "failed_ledger_entries": 28},
+    {"worker": "worker-10", "status": "failed", "completed_case_results": 38, "failed_ledger_entries": 30},
+    {"worker": "worker-11", "status": "failed", "completed_case_results": 40, "failed_ledger_entries": 28},
+    {"worker": "worker-12", "status": "failed", "completed_case_results": 36, "failed_ledger_entries": 32},
+    {"worker": "worker-13", "status": "failed", "completed_case_results": 45, "failed_ledger_entries": 23},
+    {"worker": "worker-14", "status": "failed", "completed_case_results": 39, "failed_ledger_entries": 29},
+    {"worker": "worker-15", "status": "failed", "completed_case_results": 31, "failed_ledger_entries": 37}
+  ],
+  "execution_policy": {
+    "new_gpu_allocations": 0,
+    "pins_changed": false,
+    "plan_changed": false,
+    "services_changed": false,
+    "prior_roots_immutable": true,
+    "only_missing_rows_attempted": true
+  },
+  "evidence_sha256": {
+    "RECOVERY_WAVE_03_START.json": "174b8f2b9555220bd900a85815016fc207779cb4ccfd88bf49b233e704cb5be3",
+    "RESUME_PROVENANCE.json": "d62bd4bd671899075d5eb2f8a2a15ba1a4e4c435092580738680de5d6fcbe07b",
+    "RECOVERY_DIAGNOSTIC_SNAPSHOT.json": "eafd346db8e7c6493a17527d19576926c9895e567eec442fae671da6a14deb5f",
+    "LIVE_STATUS.json": "ec9ab762b77afbc5e194009070d71c7d7b1a3a64754366fd8bdae0877b8022e0"
+  },
+  "sealed_run_runner_sha256": "84895565f651516159c83a07625b40d5242bc16812b939b8f1d5cc9213e075f6",
+  "current_repository_runner_sha256": "0bdec6be9c6eb45b6be206893010c3a1cc08e6dd81bc94a95c617b7d3de2b7bf",
+  "raw_artifacts": {
+    "archived": false,
+    "reason": "The source tree contains multi-gigabyte logs and traces; exact result records, worker ledgers, key manifests, and checksums are archived here."
+  }
+}

@@ -1,0 +1,370 @@
+{
+  "adaptive_runtime": null,
+  "artifacts": [
+    {
+      "kind": "case_spec",
+      "path": "case_spec.json",
+      "sha256": "1894e4f66efcd5cd70ae598d8fe04f95d376fae5877d7ee59a9edb11150f6ca0",
+      "size": 691
+    },
+    {
+      "kind": "evaluator",
+      "path": "evaluator_result.json",
+      "sha256": "bfdd9865c423c5732e75a647f27b888791588c0680aecfdaa51136db4c9515c8",
+      "size": 1719
+    },
+    {
+      "kind": "normalization_spec",
+      "path": "normalization_spec.json",
+      "sha256": "85ce9d887c0ed7d1a61b708fa08e07dd97b480a938d6b18873c722acaa08ed77",
+      "size": 1489
+    },
+    {
+      "kind": "runner",
+      "path": "official_evaluator/attempt-001.assignment-59199db5c8bba9c8.json",
+      "sha256": "94af9c117da9e836abfce1d4aab0a1cbd64f3b9995e19eb066cbe1f828f21a36",
+      "size": 508
+    },
+    {
+      "kind": "evaluator",
+      "path": "official_evaluator/evaluator.stderr.log",
+      "sha256": "579f04a2ec23eb20921584a207c5c23862f1faac6d33782bacb41e1b5f368310",
+      "size": 590
+    },
+    {
+      "kind": "evaluator",
+      "path": "official_evaluator/evaluator.stdout.log",
+      "sha256": "2a8a5efd4fd473e559d1ad97ab1e4551b992cfe4f00d62ffaa4b3dd2868b9234",
+      "size": 385
+    },
+    {
+      "kind": "evaluator",
+      "path": "official_evaluator/evaluator_dataset.json",
+      "sha256": "92e6c160cb861105902843c6a583a936110940655410a241866fe2a5a41bebf2",
+      "size": 4535
+    },
+    {
+      "kind": "evaluator",
+      "path": "official_evaluator/evaluator_predictions.json",
+      "sha256": "15f63adb4537afcf7057c062e0c414b0c772b5ee1449f8dce532921d112acc5b",
+      "size": 8431
+    },
+    {
+      "kind": "evaluator",
+      "path": "official_evaluator/logs/run_evaluation/assignment-59199db5c8bba9c8/attempt-001/sympy__sympy-16450/eval.sh",
+      "sha256": "843feecb3580d5388604d184cfc0ce40ef6ad08a971f34b026ef5996566a3876",
+      "size": 1496
+    },
+    {
+      "kind": "runner",
+      "path": "official_evaluator/logs/run_evaluation/assignment-59199db5c8bba9c8/attempt-001/sympy__sympy-16450/patch.diff",
+      "sha256": "f8948be6a57961618e856d13eb1c730ad367e808844a5982dc2dbe379be1efa9",
+      "size": 7874
+    },
+    {
+      "kind": "runner",
+      "path": "official_evaluator/logs/run_evaluation/assignment-59199db5c8bba9c8/attempt-001/sympy__sympy-16450/report.json",
+      "sha256": "df68e82172cf79b16adb98297cc23ba94486132985823247e15f34cac209845d",
+      "size": 2315
+    },
+    {
+      "kind": "runner",
+      "path": "official_evaluator/logs/run_evaluation/assignment-59199db5c8bba9c8/attempt-001/sympy__sympy-16450/run_instance.log",
+      "sha256": "cc51cc1b33b980eeb3ee71765739bb83da77911df0aa31f37ead6ed8721dd37c",
+      "size": 5757
+    },
+    {
+      "kind": "runner",
+      "path": "official_evaluator/logs/run_evaluation/assignment-59199db5c8bba9c8/attempt-001/sympy__sympy-16450/test_output.txt",
+      "sha256": "883fac8ce746f9d2214dea625071a85b7158c539eee2599b9a26ffe0b30e81f5",
+      "size": 15980
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-001/preds.json",
+      "sha256": "d5204354a24f206c1f317563a349f1e55831199f1d1c698a33d3dbf647721903",
+      "size": 8468
+    },
+    {
+      "kind": "request",
+      "path": "runner_attempts/attempt-001/request_config.json",
+      "sha256": "109ea0fdfaf127414c0d9bb8cb0a9b524fd7b36fcfa9e4d4b9a1d39aad6bf522",
+      "size": 207
+    },
+    {
+      "kind": "request",
+      "path": "runner_attempts/attempt-001/request_proxy.jsonl",
+      "sha256": "005389d58f392fead87310ff3f218d3ec0b016717eacc30f65aeb227c35169dd",
+      "size": 34155
+    },
+    {
+      "kind": "request",
+      "path": "runner_attempts/attempt-001/request_proxy.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    {
+      "kind": "request",
+      "path": "runner_attempts/attempt-001/request_proxy.stdout.log",
+      "sha256": "4a00a2ed5653cde5bff22b23022b5945c8bc63753d62be3da93ebe36b159a77b",
+      "size": 69
+    },
+    {
+      "kind": "request",
+      "path": "runner_attempts/attempt-001/request_proxy_provenance.json",
+      "sha256": "ec4f77085e76734e405293d3d34c6bdfea00075f3967ac35cca26df02b4f6820",
+      "size": 1368
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-001/reviewed_runner_artifacts/data/raw/assignment-59199db5c8bba9c8/verified/sympy__sympy-16450/attempt-001/agent.stderr.log",
+      "sha256": "da04370c70af9de4d9824dc3df8f0ae8e5089e22e29b6410ac9fa7121ac1aca4",
+      "size": 376
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-001/reviewed_runner_artifacts/data/raw/assignment-59199db5c8bba9c8/verified/sympy__sympy-16450/attempt-001/agent.stdout.log",
+      "sha256": "1a7aec9470b344f43c21d35f19e7e24b354a29802b821e6b01cda9ed95b32d36",
+      "size": 273663
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-001/reviewed_runner_artifacts/data/raw/assignment-59199db5c8bba9c8/verified/sympy__sympy-16450/attempt-001/config.json",
+      "sha256": "ea278db12cf6f92b00869374aea5005cd057f7f5dc45061a02c772b51931208d",
+      "size": 5525
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-001/reviewed_runner_artifacts/data/raw/assignment-59199db5c8bba9c8/verified/sympy__sympy-16450/attempt-001/counters.unavailable.json",
+      "sha256": "1435fc3776bf2ed93d0e1cfa3b110240bffdba15adc3ca007f0365dbad9f1bde",
+      "size": 187
+    },
+    {
+      "kind": "evaluator",
+      "path": "runner_attempts/attempt-001/reviewed_runner_artifacts/data/raw/assignment-59199db5c8bba9c8/verified/sympy__sympy-16450/attempt-001/eval.json",
+      "sha256": "d96a7bd1295e971700faa8aa1e18cc0d485716bdc4220c05cb957162cdab6855",
+      "size": 679
+    },
+    {
+      "kind": "evaluator",
+      "path": "runner_attempts/attempt-001/reviewed_runner_artifacts/data/raw/assignment-59199db5c8bba9c8/verified/sympy__sympy-16450/attempt-001/evaluator.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    {
+      "kind": "evaluator",
+      "path": "runner_attempts/attempt-001/reviewed_runner_artifacts/data/raw/assignment-59199db5c8bba9c8/verified/sympy__sympy-16450/attempt-001/evaluator.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-001/reviewed_runner_artifacts/data/raw/assignment-59199db5c8bba9c8/verified/sympy__sympy-16450/attempt-001/events.jsonl",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-001/reviewed_runner_artifacts/data/raw/assignment-59199db5c8bba9c8/verified/sympy__sympy-16450/attempt-001/model_calls.jsonl",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-001/reviewed_runner_artifacts/data/raw/assignment-59199db5c8bba9c8/verified/sympy__sympy-16450/attempt-001/prediction.json",
+      "sha256": "70e8683d2d7dff0a770e6878d5ed145db8770c0a93e664ca03c4ed5379679daf",
+      "size": 172
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-001/reviewed_runner_artifacts/data/raw/assignment-59199db5c8bba9c8/verified/sympy__sympy-16450/attempt-001/summary.json",
+      "sha256": "fe0b881350033180d48135e272b1aca986324ea862af57e09993ff1f2f31bfd9",
+      "size": 6080
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-001/reviewed_runner_artifacts/data/raw/assignment-59199db5c8bba9c8/verified/sympy__sympy-16450/attempt-001/tool_calls.jsonl",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-001/run_batch.config.yaml",
+      "sha256": "82b9b6c143eca6a82c1b831f7c19a524bfa65836207fa8f001501e01143f01e7",
+      "size": 11446
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-001/run_batch.log",
+      "sha256": "c40e2da245c05d19f07db06355e0afa999e7e4318ecf79fde21ccf4411429514",
+      "size": 3194
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-001/run_batch_exit_statuses.yaml",
+      "sha256": "d6060c4c8225fcdc35b378d9aaabe05fe95918ef31067a7b1659b4f80e31e5d7",
+      "size": 92
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-001/runner_inputs/sweagent_instances.json",
+      "sha256": "8e55e66678f7363da1b3d346492a9373ec932d3682cb0dd5a3e14f6a276d4d0c",
+      "size": 4640
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-001/sympy__sympy-16450/sympy__sympy-16450.config.yaml",
+      "sha256": "959069f904ab6d41c0e3f822bf91b5eda3527773c7305182469dd32e14ce2625",
+      "size": 13001
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-001/sympy__sympy-16450/sympy__sympy-16450.debug.log",
+      "sha256": "34491f6e5954624c327cd15852dce14510f75737827f41c42e1480a6d73453cf",
+      "size": 139835
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-001/sympy__sympy-16450/sympy__sympy-16450.info.log",
+      "sha256": "9f0272c99e62e0c36f2f22a062c401d606c2584a066be93130b12374effd538a",
+      "size": 113169
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-001/sympy__sympy-16450/sympy__sympy-16450.patch",
+      "sha256": "f8948be6a57961618e856d13eb1c730ad367e808844a5982dc2dbe379be1efa9",
+      "size": 7874
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-001/sympy__sympy-16450/sympy__sympy-16450.pred",
+      "sha256": "07f8ba5b8188ad67aeb5ee2df80bed8d801f17c8da3286faf456c1555d905aa2",
+      "size": 8408
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-001/sympy__sympy-16450/sympy__sympy-16450.trace.log",
+      "sha256": "b9d6c98eb72f0c58f0ee48fb60d58e5ec2bee38110c747325f585f1b5d09f24d",
+      "size": 198650
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-001/sympy__sympy-16450/sympy__sympy-16450.traj",
+      "sha256": "7e115744e563a5be439ad7de20e5df97134ed6c9254e1478b07da45878cc92be",
+      "size": 1669340
+    },
+    {
+      "kind": "validation",
+      "path": "validation.json",
+      "sha256": "1a14a23313dce5289f43535f92336e75a3d36e8eaf3770814b3b74d8c5e3419c",
+      "size": 1902
+    }
+  ],
+  "case_sha256": "1894e4f66efcd5cd70ae598d8fe04f95d376fae5877d7ee59a9edb11150f6ca0",
+  "config_sha256": "6b78702b161908254c15ee826cdd77abc9b69fac721a0e855dcb8bd63adbdea2",
+  "evaluator": {
+    "official_resolved": false,
+    "result_path": "evaluator_result.json",
+    "runner_status": "completed",
+    "status": "completed",
+    "submitted": true
+  },
+  "git": {
+    "branch": "parallel-h100-shards",
+    "commit": "1c4c7e33f18e2bc3cc533e90c43f596952d8c559"
+  },
+  "hardware": {
+    "command": [
+      "ssh",
+      "-S",
+      "/tmp/jriverah3-pace-login.sock",
+      "-o",
+      "ControlMaster=no",
+      "-o",
+      "BatchMode=yes",
+      "jriverah3@128.61.254.151",
+      "srun --jobid 5704418 --overlap --ntasks=1 --exact --quiet bash -lc 'nvidia-smi -i GPU-f741acc1-09c9-4130-f4dd-42b96382479b --query-gpu=name,memory.total,compute_cap --format=csv,noheader,nounits' | grep -E '^[^ -].*, [0-9]+, [0-9]+\\.[0-9]+'"
+    ],
+    "gpus": [
+      {
+        "compute_capability": "9.0",
+        "memory_mib": 81559,
+        "name": "NVIDIA H100 80GB HBM3"
+      }
+    ]
+  },
+  "integrity": {
+    "adaptive_protocol_sha256": "3a572d6e8740070b3e49ed67b10adab4d9b71174ecf411792921a740b1b5a497",
+    "adaptive_runner_sha256": "7989659cb8c1f512f18f37410e3c1e90bc16530f9fe2ed0e0cc0d534d3d66bdc",
+    "adaptive_runtime_sha256": "5b666bb0ad549c75b062787d744cf7242ff310e206730f4f25146e1101742bac",
+    "case_runner_sha256": "84895565f651516159c83a07625b40d5242bc16812b939b8f1d5cc9213e075f6",
+    "evaluator_adapter_sha256": "83d6b448f509282cc4d492558ce20e0cae9fc83cfd578b5f1947c226ddcfdb8a",
+    "event_simulator_sha256": "6b3eb2feeae09977287918dd6cd3332bccc7bf253407417df32e56ebe66a5a10",
+    "request_config_sha256": "7021ff1d70452f7f903b8b23b9b6f9af20c67615d68e737bbd66a2cb7db28abe",
+    "request_proxy_sha256": "7bc737a8d9d41b25bc894e63ea10075fd99c1197245cc4adb143f12463b65f74"
+  },
+  "manifest_sha256": "7bce7e0d14ee14a656c30a121bb07c20937ef7c11635a044ab95cd333ad36e18",
+  "normalization_sources": {
+    "model_events": "runner_attempts/attempt-001/request_proxy.jsonl",
+    "official_evaluator_result": "evaluator_result.json",
+    "run_spec": "normalization_spec.json",
+    "runner_summary": "runner_attempts/attempt-001/reviewed_runner_artifacts/data/raw/assignment-59199db5c8bba9c8/verified/sympy__sympy-16450/attempt-001/summary.json",
+    "trajectory": "runner_attempts/attempt-001/sympy__sympy-16450/sympy__sympy-16450.traj"
+  },
+  "parent_execution_case_count": 1088,
+  "parent_original_case_count": 1088,
+  "parent_plan_sha256": "067974eebbe41f818c10ee85317e21bae41ad236f1a53e9a81989453ab59a30e",
+  "plan_id": "assignment-steps-1-3",
+  "plan_sha256": "80607af92919faa9cb2d36f9306cfc75063366128885dcaf601fbf6c106a6deb",
+  "proxy": {
+    "adaptive_runtime_enabled": false,
+    "command": [
+      "/usr/bin/python3",
+      "/home/riverahernandezjason/agentic-workload-simulator/scripts/observability/request_proxy.py",
+      "--listen-host",
+      "127.0.0.1",
+      "--listen-port",
+      "22611",
+      "--upstream-host",
+      "127.0.0.1",
+      "--upstream-port",
+      "18006",
+      "--events",
+      "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/full-matrix-recovery-authenticated-resume-20260906T025908Z-16/worker-06/cases/00064/runner_attempts/attempt-001/request_proxy.jsonl",
+      "--timeout-seconds",
+      "5400.0"
+    ],
+    "command_sha256": "62a22b8700740bc427068b9bdf27043b6c115426515c266ab7e732b7d3608f7c",
+    "event_count": 31,
+    "events_path": "request_proxy.jsonl",
+    "events_sha256": "005389d58f392fead87310ff3f218d3ec0b016717eacc30f65aeb227c35169dd",
+    "exit_code_before_stop": null,
+    "listen_api_base": "http://127.0.0.1:22611/v1",
+    "readiness": "stdout_exact_match_without_model_request",
+    "schema_version": "assignment-request-proxy-run.v1",
+    "script_path": "/home/riverahernandezjason/agentic-workload-simulator/scripts/observability/request_proxy.py",
+    "script_sha256": "7bc737a8d9d41b25bc894e63ea10075fd99c1197245cc4adb143f12463b65f74",
+    "stderr_path": "request_proxy.stderr.log",
+    "stdout_path": "request_proxy.stdout.log",
+    "upstream_api_base": "http://127.0.0.1:18006/v1"
+  },
+  "resume_key": "assignment-case-v1:5db23e43d36ba267b068c87f7a71bdbff6262e5ed56ea9b4a607cd69e4b40476",
+  "run_id": "assignment-59199db5c8bba9c8",
+  "runner": {
+    "command_hash": "be405c425cc919294dade67e2398c8091538d2ede8d8efdeb2443cf91f752313",
+    "output_dir": "runner_attempts/attempt-001",
+    "returncode": 0,
+    "status": "completed"
+  },
+  "runner_path": "/home/riverahernandezjason/agentic-workload-simulator/scripts/assignment/sweagent_case_runner.py",
+  "runner_sha256": "84895565f651516159c83a07625b40d5242bc16812b939b8f1d5cc9213e075f6",
+  "runtime_manifest_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/runtime/manifests-reviewed-1c4-source-exact-20260905-29-context65536-evaluator-venv/runtime-manifest-worker-06.json",
+  "runtime_manifest_sha256": "7bce7e0d14ee14a656c30a121bb07c20937ef7c11635a044ab95cd333ad36e18",
+  "schema_version": "assignment-case-result.v1",
+  "shard_assignment": "round_robin_plan_order_v1",
+  "shard_count": 16,
+  "shard_index": 6,
+  "shards_manifest_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/shards-16-pace-source-exact-20260905-01/shards-16-manifest.json",
+  "shards_manifest_sha256": "9d547ad8af4a3560f5ffff86365912667c12ffaca1feae6ce1863a510074cf5d",
+  "status": "completed"
+}

@@ -132,13 +132,23 @@ def _validate_execution_provenance(
 
     manifest_integrity = manifest.get("integrity")
     result_integrity = result.get("integrity")
-    expected_integrity = {
-        "case_runner_sha256": manifest_integrity.get("case_runner_sha256") if isinstance(manifest_integrity, dict) else None,
-        "evaluator_adapter_sha256": manifest_integrity.get("evaluator_adapter_sha256") if isinstance(manifest_integrity, dict) else None,
-        "request_config_sha256": manifest_integrity.get("request_config_sha256") if isinstance(manifest_integrity, dict) else None,
-    }
-    if result_integrity != expected_integrity or not all(
-        isinstance(value, str) and HEX64_RE.fullmatch(value) for value in expected_integrity.values()
+    # The manifest integrity object contains both paths and hashes, while the
+    # reviewed case result records the complete hash subset, including
+    # adaptive/runtime/proxy bindings for a non-adaptive assignment run.
+    # Require exact equality of those hash bindings so normalization cannot
+    # silently drop one or accept a different one.
+    expected_integrity = (
+        {
+            key: value
+            for key, value in manifest_integrity.items()
+            if key.endswith("_sha256")
+        }
+        if isinstance(manifest_integrity, dict)
+        else None
+    )
+    if expected_integrity is None or result_integrity != expected_integrity or not all(
+        isinstance(value, str) and HEX64_RE.fullmatch(value)
+        for value in expected_integrity.values()
     ):
         raise AssignmentContractError("case result execution integrity is not manifest-pinned")
 
@@ -320,6 +330,13 @@ def normalize_tool_events(spec: dict[str, Any], trajectory: dict[str, Any]) -> l
         action = step.get("action")
         seconds = step.get("execution_time")
         if not isinstance(action, str) or not action.strip():
+            # SWE-agent can emit zero-duration records without a tool action:
+            # ordinary model-only narration as well as the final autosubmission
+            # marker. They remain in the raw trajectory and are not tool
+            # invocations, so they must not become fabricated tool events or
+            # block normalization of the measured action-bearing steps.
+            if action == "" and seconds == 0:
+                continue
             raise AssignmentContractError(f"trajectory step {ordinal} has no action")
         if isinstance(seconds, bool) or not isinstance(seconds, (int, float)) or seconds < 0:
             raise AssignmentContractError(f"trajectory step {ordinal} has no measured execution_time")

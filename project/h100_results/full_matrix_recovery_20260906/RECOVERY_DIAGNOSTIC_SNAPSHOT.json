@@ -1,0 +1,240 @@
+{
+  "external_service_blockers": [
+    {
+      "endpoint": "http://127.0.0.1:18004/health",
+      "first_unaccepted_case_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/full-matrix-recovery-authenticated-resume-20260906T025908Z-16/worker-04/cases/00002",
+      "first_unaccepted_row_id": "assignment-case-v1:14273e8d1089a4a90dd8416d4bbd8d25cdc49a3d1dbc6985d44ec7e2b9ee1926",
+      "immutable_shard_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/shards-16-pace-source-exact-20260905-01/shard-004-of-016.jsonl",
+      "job_id": 5704386,
+      "observed_condition": "relay reset/refused; no runner launched for this worker",
+      "unaccepted_row_count": 62,
+      "worker": 4,
+      "worker_state_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/full-matrix-recovery-authenticated-resume-20260906T025908Z-16/worker-04/run_state.json"
+    },
+    {
+      "endpoint": "http://127.0.0.1:18006/health",
+      "first_unaccepted_case_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/full-matrix-recovery-authenticated-resume-20260906T025908Z-16/worker-06/cases/00000",
+      "first_unaccepted_row_id": "assignment-case-v1:6c61bb8347725605226a8c35f78e5e6aeb14e7d369d11791c7e981c63c6f5c8b",
+      "immutable_shard_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/shards-16-pace-source-exact-20260905-01/shard-006-of-016.jsonl",
+      "job_id": 5704418,
+      "observed_condition": "relay reset/refused; no runner launched for this worker",
+      "unaccepted_row_count": 65,
+      "worker": 6,
+      "worker_state_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/full-matrix-recovery-authenticated-resume-20260906T025908Z-16/worker-06/run_state.json"
+    },
+    {
+      "endpoint": "http://127.0.0.1:18007/health",
+      "first_unaccepted_case_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/full-matrix-recovery-authenticated-resume-20260906T025908Z-16/worker-07/cases/00000",
+      "first_unaccepted_row_id": "assignment-case-v1:34551bff63d31af1a74181a4f7036bc4b16bda2551d4df10ec515fd4af1e5e81",
+      "immutable_shard_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/shards-16-pace-source-exact-20260905-01/shard-007-of-016.jsonl",
+      "job_id": 5704573,
+      "observed_condition": "relay reset/refused; no runner launched for this worker",
+      "unaccepted_row_count": 68,
+      "worker": 7,
+      "worker_state_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/full-matrix-recovery-authenticated-resume-20260906T025908Z-16/worker-07/run_state.json"
+    },
+    {
+      "endpoint": "http://127.0.0.1:18008/health",
+      "first_unaccepted_case_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/full-matrix-recovery-authenticated-resume-20260906T025908Z-16/worker-08/cases/00000",
+      "first_unaccepted_row_id": "assignment-case-v1:4c96582ea460b994f28fd0840ac327935090654656b3b9e0924233a1cde3edc9",
+      "immutable_shard_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/shards-16-pace-source-exact-20260905-01/shard-008-of-016.jsonl",
+      "job_id": 5704420,
+      "observed_condition": "relay reset/refused; no runner launched for this worker",
+      "unaccepted_row_count": 68,
+      "worker": 8,
+      "worker_state_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/full-matrix-recovery-authenticated-resume-20260906T025908Z-16/worker-08/run_state.json"
+    }
+  ],
+  "observed_at_utc": "2026-09-06T03:31:38+00:00",
+  "observed_unaccepted_rows": [
+    {
+      "case_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/full-matrix-recovery-authenticated-resume-20260906T025908Z-16/worker-00/cases/00003",
+      "condition": "sealed retry reached HTTP 400; no case_result accepted at observation",
+      "evidence_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/full-matrix-recovery-authenticated-resume-20260906T025908Z-16/worker-00/cases/00003/runner_attempts/attempt-002/request_proxy.jsonl",
+      "row_id": "assignment-case-v1:d1bf0f35d2d1fc9659c392a6d9eba84d131f9ed315fa37d41261153097d4c368"
+    },
+    {
+      "case_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/full-matrix-recovery-authenticated-resume-20260906T025908Z-16/worker-02/cases/00003",
+      "condition": "sealed retry reached HTTP 400; no case_result accepted at observation",
+      "evidence_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/full-matrix-recovery-authenticated-resume-20260906T025908Z-16/worker-02/cases/00003/runner_attempts/attempt-001/request_proxy.jsonl",
+      "row_id": "assignment-case-v1:a05b9f9f17024d04797c094c4f124d99e21099750d663b8e4dfb1ca28d9e9331"
+    },
+    {
+      "case_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/full-matrix-recovery-authenticated-resume-20260906T025908Z-16/worker-05/cases/00000",
+      "condition": "unchanged retry reproduced non-empty model_patch rejection",
+      "evidence_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/full-matrix-recovery-authenticated-resume-20260906T025908Z-16/worker-05/cases/00000/runner_attempts/attempt-005/reviewed_runner_artifacts/data/raw/assignment-7c876b84f47c6875/lite/astropy__astropy-6938/attempt-005/evaluator.stderr.log",
+      "row_id": "assignment-case-v1:8b064238a30e4ed9b5236fe44f1fd2f1c4c80e2758d4fbfdc6f13bb164714674"
+    },
+    {
+      "case_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/full-matrix-recovery-authenticated-resume-20260906T025908Z-16/worker-10/cases/00000",
+      "condition": "Docker SDK ImageNotFound for stale image ID sha256:914093363dbe12def92c5d36e9bdc5270cce5ed0aa6f3daad8bc4ef0389c29bf",
+      "evidence_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/full-matrix-recovery-authenticated-resume-20260906T025908Z-16/worker-10/cases/00000/official_evaluator/evaluator.stderr.log",
+      "row_id": "assignment-case-v1:8ee166bfc94dc7702f9fa3ca825115981a10165d4459f0240706f890962bbd54"
+    },
+    {
+      "case_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/full-matrix-recovery-authenticated-resume-20260906T025908Z-16/worker-15/cases/00000",
+      "condition": "Docker SDK ImageNotFound for stale image ID sha256:914093363dbe12def92c5d36e9bdc5270cce5ed0aa6f3daad8bc4ef0389c29bf",
+      "evidence_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/full-matrix-recovery-authenticated-resume-20260906T025908Z-16/worker-15/cases/00000/official_evaluator/evaluator.stderr.log",
+      "row_id": "assignment-case-v1:724da2b59948e411bd787005d73cc43039d495d52d03bcc5944455804c35c95a"
+    }
+  ],
+  "registry_check": {
+    "astropy_tags": [
+      "latest",
+      "v1"
+    ],
+    "latest_config": "sha256:23df7aaa729e3a457bd0b6a83665178777019580c31c0b8a18069709167fb730",
+    "latest_manifest": "sha256:e71ac0096dd19e742e2e70d088e970ee10471347847409c89cd40dbf32f4715e",
+    "mutable_tag_not_accepted_as_exact_evidence": true,
+    "stale_local_id": "sha256:914093363dbe12def92c5d36e9bdc5270cce5ed0aa6f3daad8bc4ef0389c29bf",
+    "stale_local_id_inspect": "not_found",
+    "v1_config": "sha256:2736972550e973b4b35349b4e2f4dd65d17d2b97fc97053408831213538e4620",
+    "v1_manifest": "sha256:af039837d8da495a2a0993d77d2eef2b4976067f4ff34611fa54bc305245554c"
+  },
+  "schema_version": "assignment.recovery-diagnostic-snapshot.v1",
+  "scope": {
+    "manifest_case_count": 1088,
+    "manifest_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/plan/sealed_plan.jsonl",
+    "manifest_sha256": "2bead159a24e244ecbf981c63f3d43d24f8bf1fe9a389c398f17325d941069fc",
+    "resume_root": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/full-matrix-recovery-authenticated-resume-20260906T025908Z-16",
+    "shards_manifest_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/shards-16-pace-source-exact-20260905-01/shards-16-manifest.json",
+    "shards_manifest_sha256": "9d547ad8af4a3560f5ffff86365912667c12ffaca1feae6ce1863a510074cf5d"
+  },
+  "sealed_pins": {
+    "concurrency": 1,
+    "new_gpu_allocations": false,
+    "runner_sha256": "84895565f651516159c83a07625b40d5242bc16812b939b8f1d5cc9213e075f6",
+    "services_changed": false
+  },
+  "status": "collection_in_progress",
+  "workers": [
+    {
+      "accepted_count": 19,
+      "active_resume_key": "assignment-case-v1:15ebf286f4d547e6b3c6197827ecd887d81eabbc3f6a8e8b583a139c8f9b11c3",
+      "failed_count": 5,
+      "health": "HTTP 200",
+      "state_status": "running",
+      "worker": 0
+    },
+    {
+      "accepted_count": 18,
+      "active_resume_key": "assignment-case-v1:4dd465a8dbe756e4330e986c961c004413a2bf293ed8a0dae723d62f0278768a",
+      "failed_count": 3,
+      "health": "HTTP 200",
+      "state_status": "running",
+      "worker": 1
+    },
+    {
+      "accepted_count": 17,
+      "active_resume_key": "assignment-case-v1:f19a9a313ef68be531c9c6a65b563f5fbe1725e75b248816380c9e39e8ca7c74",
+      "failed_count": 6,
+      "health": "HTTP 200",
+      "state_status": "running",
+      "worker": 2
+    },
+    {
+      "accepted_count": 24,
+      "active_resume_key": "assignment-case-v1:46ff44fcde25002bbf6bb3b7136e661c9002b04b21fadc0f36776d3edb02102d",
+      "failed_count": 1,
+      "health": "HTTP 200",
+      "state_status": "running",
+      "worker": 3
+    },
+    {
+      "accepted_count": 6,
+      "active_resume_key": "assignment-case-v1:ea499ee155b4c4ae333d3f5ec30d04822af0f5790869fd7a4f3e948738dd5e3c",
+      "failed_count": 3,
+      "health": "ConnectionResetError: [Errno 104] Connection reset by peer",
+      "state_status": "running",
+      "worker": 4
+    },
+    {
+      "accepted_count": 18,
+      "active_resume_key": "assignment-case-v1:5cd5ab17a333c0c79b7b2946abb2e58c1a33b08ab9ede795d8f7b98abd776303",
+      "failed_count": 3,
+      "health": "HTTP 200",
+      "state_status": "running",
+      "worker": 5
+    },
+    {
+      "accepted_count": 3,
+      "active_resume_key": "assignment-case-v1:3e723fd74d3d1b0e85d263f3cf3beed24c7149bc32dd3a148c214e92375ac3fa",
+      "failed_count": 4,
+      "health": "RemoteDisconnected: Remote end closed connection without response",
+      "state_status": "running",
+      "worker": 6
+    },
+    {
+      "accepted_count": 0,
+      "active_resume_key": "assignment-case-v1:9878ff73064041c21bfa6d2cd06f5edce8ec6d671c438f642a597fef45fdef49",
+      "failed_count": 3,
+      "health": "RemoteDisconnected: Remote end closed connection without response",
+      "state_status": "running",
+      "worker": 7
+    },
+    {
+      "accepted_count": 0,
+      "active_resume_key": "assignment-case-v1:c393a31cc50e3e528716ae6f2e065b78030cfc9cb7aefdfa713ea9238e246a1c",
+      "failed_count": 3,
+      "health": "RemoteDisconnected: Remote end closed connection without response",
+      "state_status": "running",
+      "worker": 8
+    },
+    {
+      "accepted_count": 20,
+      "active_resume_key": "assignment-case-v1:45c793dcc7936ca69668559a83a70b21692058cba15c7df1c5f9d55fcd2856dd",
+      "failed_count": 6,
+      "health": "HTTP 200",
+      "state_status": "running",
+      "worker": 9
+    },
+    {
+      "accepted_count": 19,
+      "active_resume_key": "assignment-case-v1:87298cd2b3f7a6de7243e8ec9e70b1de5f23964f282e6222ab4e0e2551a89167",
+      "failed_count": 12,
+      "health": "HTTP 200",
+      "state_status": "running",
+      "worker": 10
+    },
+    {
+      "accepted_count": 21,
+      "active_resume_key": "assignment-case-v1:75b0280d0fcb5cf1966b365a35fff0ff97ee2c1fc04053dffa129ec46986745a",
+      "failed_count": 3,
+      "health": "HTTP 200",
+      "state_status": "running",
+      "worker": 11
+    },
+    {
+      "accepted_count": 20,
+      "active_resume_key": "assignment-case-v1:d6dbb28add057cce397c91bc997b70f4e6849a374dc58248efaa6b21c3802a2a",
+      "failed_count": 9,
+      "health": "HTTP 200",
+      "state_status": "running",
+      "worker": 12
+    },
+    {
+      "accepted_count": 20,
+      "active_resume_key": "assignment-case-v1:4f487037f65ef3dc25e17c0bb9f1c112441f2ec11c6bc7eb57680ec997478186",
+      "failed_count": 9,
+      "health": "HTTP 200",
+      "state_status": "running",
+      "worker": 13
+    },
+    {
+      "accepted_count": 18,
+      "active_resume_key": "assignment-case-v1:a7d226a48a98da2425f80cb37942238f1d60e79b062397ff43584e4819510e4a",
+      "failed_count": 12,
+      "health": "HTTP 200",
+      "state_status": "running",
+      "worker": 14
+    },
+    {
+      "accepted_count": 22,
+      "active_resume_key": "assignment-case-v1:9fa5df67c5048c03cb3a6e5f8cb5dfae71c86f78c47ba81c005fcda90b92b109",
+      "failed_count": 8,
+      "health": "HTTP 200",
+      "state_status": "running",
+      "worker": 15
+    }
+  ]
+}

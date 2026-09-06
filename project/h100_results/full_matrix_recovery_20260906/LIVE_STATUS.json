@@ -1,0 +1,410 @@
+{
+  "record_type": "assignment-live-status",
+  "schema_version": "assignment-live-status.v3",
+  "recovery_wave": 3,
+  "recovery_root": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/full-matrix-recovery-authenticated-20260905T232310Z-16",
+  "wave_start_manifest": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/full-matrix-recovery-authenticated-20260905T232310Z-16/RECOVERY_WAVE_03_START.json",
+  "source_full_matrix_root": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/full-matrix-1c4-source-exact-20260905-37-context65536-normalizer-fix-16",
+  "runtime_manifest_set": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/runtime/manifests-reviewed-1c4-source-exact-20260905-29-context65536-evaluator-venv",
+  "shards_manifest": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/shards-16-pace-source-exact-20260905-01/shards-16-manifest.json",
+  "runner_sha256": "84895565f651516159c83a07625b40d5242bc16812b939b8f1d5cc9213e075f6",
+  "plan_parent_case_count": 1088,
+  "seeded_completed_cases": 87,
+  "missing_cases_to_recover": 1001,
+  "status": "running",
+  "blocking_reason": null,
+  "updated_utc": "2026-09-06T00:15:32.836Z",
+  "rules": {
+    "concurrency": 1,
+    "no_new_gpu_allocations": true,
+    "same_verified_manifest": true,
+    "prior_roots_immutable": true,
+    "only_missing_rows": true,
+    "step3_deferred": true
+  },
+  "docker_health": {
+    "status": "passed",
+    "artifact": "DOCKER_AUTHENTICATED_PULL_HEALTH.json",
+    "image_reference": "swebench/sweb.eval.x86_64.astropy_1776_astropy-12907:latest",
+    "digest": "sha256:e082963099ed7d5a5f75a0be46e338be36faae33b2cba5289a9ddbd505997f1f",
+    "latest_recheck_artifact": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/full-matrix-recovery-authenticated-20260905T232310Z-16/DOCKER_AUTHENTICATED_PULL_RECHECK_20260905T235444Z.json",
+    "latest_recheck_sha256": "bc367ff8e93fd198cdd0924edda7886f44260d31a36a1b38082de52aab327a5d"
+  },
+  "workers": [
+    {
+      "worker": "worker-00",
+      "session": "7224",
+      "shard": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/shards-16-pace-source-exact-20260905-01/shard-000-of-016.jsonl",
+      "current_case": "assignment-case-v1:628eb43ce57c0cde844e8d3c2cf053f37ff3ec1007c31defa838dc66b7254468",
+      "checkpoint": {
+        "case_count": 68,
+        "seeded_completed": 6,
+        "recovery_completed": 12,
+        "recovery_failed": 3,
+        "remaining": 47
+      },
+      "output_root": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/full-matrix-recovery-authenticated-20260905T232310Z-16/worker-00",
+      "failure_reason": "confirmed failed cases are preserved in run_state.json and per-case runner.stderr.log",
+      "status": "running",
+      "artifact_counts": {
+        "case_directories": 22,
+        "runner_stderr_logs": 22,
+        "completed_records": 18,
+        "failed_records": 3
+      }
+    },
+    {
+      "worker": "worker-01",
+      "session": "47748",
+      "shard": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/shards-16-pace-source-exact-20260905-01/shard-001-of-016.jsonl",
+      "current_case": "assignment-case-v1:080b2f5fd68e2c8eba6916f5b9eb307f2a4810fefd8eb1f6f6d10dbf2de35691",
+      "checkpoint": {
+        "case_count": 68,
+        "seeded_completed": 5,
+        "recovery_completed": 9,
+        "recovery_failed": 4,
+        "remaining": 50
+      },
+      "output_root": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/full-matrix-recovery-authenticated-20260905T232310Z-16/worker-01",
+      "failure_reason": "confirmed failed cases are preserved in run_state.json and per-case runner.stderr.log",
+      "status": "running",
+      "artifact_counts": {
+        "case_directories": 19,
+        "runner_stderr_logs": 19,
+        "completed_records": 14,
+        "failed_records": 4
+      }
+    },
+    {
+      "worker": "worker-02",
+      "session": "79878",
+      "shard": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/shards-16-pace-source-exact-20260905-01/shard-002-of-016.jsonl",
+      "current_case": "assignment-case-v1:360b8234b481f44ff08560524407493fb39d58684aa8d6f17c583e3fd2606014",
+      "checkpoint": {
+        "case_count": 68,
+        "seeded_completed": 6,
+        "recovery_completed": 9,
+        "recovery_failed": 6,
+        "remaining": 47
+      },
+      "output_root": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/full-matrix-recovery-authenticated-20260905T232310Z-16/worker-02",
+      "failure_reason": "confirmed failed cases are preserved in run_state.json and per-case runner.stderr.log",
+      "status": "running",
+      "artifact_counts": {
+        "case_directories": 22,
+        "runner_stderr_logs": 22,
+        "completed_records": 15,
+        "failed_records": 6
+      }
+    },
+    {
+      "worker": "worker-03",
+      "session": "53141",
+      "shard": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/shards-16-pace-source-exact-20260905-01/shard-003-of-016.jsonl",
+      "current_case": "assignment-case-v1:68a62dbb984335b3bb6f4f920945d27c5289c14888b83b2cf93ce416e47720df",
+      "checkpoint": {
+        "case_count": 68,
+        "seeded_completed": 7,
+        "recovery_completed": 11,
+        "recovery_failed": 3,
+        "remaining": 47
+      },
+      "output_root": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/full-matrix-recovery-authenticated-20260905T232310Z-16/worker-03",
+      "failure_reason": "confirmed failed cases are preserved in run_state.json and per-case runner.stderr.log",
+      "status": "running",
+      "artifact_counts": {
+        "case_directories": 22,
+        "runner_stderr_logs": 22,
+        "completed_records": 18,
+        "failed_records": 3
+      }
+    },
+    {
+      "worker": "worker-04",
+      "session": "42792",
+      "shard": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/shards-16-pace-source-exact-20260905-01/shard-004-of-016.jsonl",
+      "current_case": "assignment-case-v1:ea499ee155b4c4ae333d3f5ec30d04822af0f5790869fd7a4f3e948738dd5e3c",
+      "checkpoint": {
+        "case_count": 68,
+        "seeded_completed": 6,
+        "recovery_completed": 0,
+        "recovery_failed": 3,
+        "remaining": 59
+      },
+      "output_root": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/full-matrix-recovery-authenticated-20260905T232310Z-16/worker-04",
+      "failure_reason": "confirmed failed cases are preserved in run_state.json and per-case runner.stderr.log",
+      "status": "running",
+      "artifact_counts": {
+        "case_directories": 10,
+        "runner_stderr_logs": 10,
+        "completed_records": 6,
+        "failed_records": 3
+      }
+    },
+    {
+      "worker": "worker-05",
+      "session": "96827",
+      "shard": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/shards-16-pace-source-exact-20260905-01/shard-005-of-016.jsonl",
+      "current_case": "assignment-case-v1:919e94f2198b7fb6367f5140cc8a1250da8fe409a16f07096cdc0eec2f91c413",
+      "checkpoint": {
+        "case_count": 68,
+        "seeded_completed": 5,
+        "recovery_completed": 9,
+        "recovery_failed": 3,
+        "remaining": 51
+      },
+      "output_root": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/full-matrix-recovery-authenticated-20260905T232310Z-16/worker-05",
+      "failure_reason": "confirmed failed cases are preserved in run_state.json and per-case runner.stderr.log",
+      "status": "running",
+      "artifact_counts": {
+        "case_directories": 18,
+        "runner_stderr_logs": 18,
+        "completed_records": 14,
+        "failed_records": 3
+      }
+    },
+    {
+      "worker": "worker-06",
+      "session": "86401",
+      "shard": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/shards-16-pace-source-exact-20260905-01/shard-006-of-016.jsonl",
+      "current_case": "assignment-case-v1:f6cd4c89889727fdcb8d7cda2ec7f4c6107a02c29481ea3092562944089b0583",
+      "checkpoint": {
+        "case_count": 68,
+        "seeded_completed": 4,
+        "recovery_completed": -1,
+        "recovery_failed": 3,
+        "remaining": 62
+      },
+      "output_root": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/full-matrix-recovery-authenticated-20260905T232310Z-16/worker-06",
+      "failure_reason": "confirmed failed cases are preserved in run_state.json and per-case runner.stderr.log",
+      "status": "running",
+      "artifact_counts": {
+        "case_directories": 8,
+        "runner_stderr_logs": 8,
+        "completed_records": 3,
+        "failed_records": 3
+      }
+    },
+    {
+      "worker": "worker-07",
+      "session": "68624",
+      "shard": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/shards-16-pace-source-exact-20260905-01/shard-007-of-016.jsonl",
+      "current_case": "assignment-case-v1:0794f259e6815e802495ec955b90ce530d50ed7fa662e071caeb0e3a96ba6398",
+      "checkpoint": {
+        "case_count": 68,
+        "seeded_completed": 6,
+        "recovery_completed": -6,
+        "recovery_failed": 2,
+        "remaining": 66
+      },
+      "output_root": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/full-matrix-recovery-authenticated-20260905T232310Z-16/worker-07",
+      "failure_reason": "confirmed failed cases are preserved in run_state.json and per-case runner.stderr.log",
+      "status": "running",
+      "artifact_counts": {
+        "case_directories": 9,
+        "runner_stderr_logs": 9,
+        "completed_records": 0,
+        "failed_records": 2
+      }
+    },
+    {
+      "worker": "worker-08",
+      "session": "34624",
+      "shard": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/shards-16-pace-source-exact-20260905-01/shard-008-of-016.jsonl",
+      "current_case": "assignment-case-v1:c393a31cc50e3e528716ae6f2e065b78030cfc9cb7aefdfa713ea9238e246a1c",
+      "checkpoint": {
+        "case_count": 68,
+        "seeded_completed": 6,
+        "recovery_completed": -6,
+        "recovery_failed": 3,
+        "remaining": 65
+      },
+      "output_root": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/full-matrix-recovery-authenticated-20260905T232310Z-16/worker-08",
+      "failure_reason": "confirmed failed cases are preserved in run_state.json and per-case runner.stderr.log",
+      "status": "running",
+      "artifact_counts": {
+        "case_directories": 10,
+        "runner_stderr_logs": 10,
+        "completed_records": 0,
+        "failed_records": 3
+      }
+    },
+    {
+      "worker": "worker-09",
+      "session": "68496",
+      "shard": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/shards-16-pace-source-exact-20260905-01/shard-009-of-016.jsonl",
+      "current_case": "assignment-case-v1:97d07247204a0ba8fe14aaa316a1186007bb7f14c7e4d7abd352059e634a6692",
+      "checkpoint": {
+        "case_count": 68,
+        "seeded_completed": 5,
+        "recovery_completed": 9,
+        "recovery_failed": 10,
+        "remaining": 44
+      },
+      "output_root": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/full-matrix-recovery-authenticated-20260905T232310Z-16/worker-09",
+      "failure_reason": "confirmed failed cases are preserved in run_state.json and per-case runner.stderr.log",
+      "status": "running",
+      "artifact_counts": {
+        "case_directories": 25,
+        "runner_stderr_logs": 25,
+        "completed_records": 14,
+        "failed_records": 10
+      }
+    },
+    {
+      "worker": "worker-10",
+      "session": "3934",
+      "shard": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/shards-16-pace-source-exact-20260905-01/shard-010-of-016.jsonl",
+      "current_case": "assignment-case-v1:6f3e6cbdff25652feb2b502582d2e3182696c8987ab50cadaf6d96ad69ceb76e",
+      "checkpoint": {
+        "case_count": 68,
+        "seeded_completed": 6,
+        "recovery_completed": 10,
+        "recovery_failed": 13,
+        "remaining": 39
+      },
+      "output_root": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/full-matrix-recovery-authenticated-20260905T232310Z-16/worker-10",
+      "failure_reason": "confirmed failed cases are preserved in run_state.json and per-case runner.stderr.log",
+      "status": "running",
+      "artifact_counts": {
+        "case_directories": 30,
+        "runner_stderr_logs": 30,
+        "completed_records": 16,
+        "failed_records": 13
+      }
+    },
+    {
+      "worker": "worker-11",
+      "session": "83997",
+      "shard": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/shards-16-pace-source-exact-20260905-01/shard-011-of-016.jsonl",
+      "current_case": "assignment-case-v1:e1656caa14ec355c8d0581a5384d8b33541a9cd90272fa60fd22c749c02ad163",
+      "checkpoint": {
+        "case_count": 68,
+        "seeded_completed": 5,
+        "recovery_completed": 11,
+        "recovery_failed": 3,
+        "remaining": 49
+      },
+      "output_root": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/full-matrix-recovery-authenticated-20260905T232310Z-16/worker-11",
+      "failure_reason": "confirmed failed cases are preserved in run_state.json and per-case runner.stderr.log",
+      "status": "running",
+      "artifact_counts": {
+        "case_directories": 20,
+        "runner_stderr_logs": 20,
+        "completed_records": 16,
+        "failed_records": 3
+      }
+    },
+    {
+      "worker": "worker-12",
+      "session": "97448",
+      "shard": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/shards-16-pace-source-exact-20260905-01/shard-012-of-016.jsonl",
+      "current_case": "assignment-case-v1:552372afc7dcb685869f4540242d397816002795c26e130b24175e3546dd35de",
+      "checkpoint": {
+        "case_count": 68,
+        "seeded_completed": 5,
+        "recovery_completed": 10,
+        "recovery_failed": 12,
+        "remaining": 41
+      },
+      "output_root": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/full-matrix-recovery-authenticated-20260905T232310Z-16/worker-12",
+      "failure_reason": "confirmed failed cases are preserved in run_state.json and per-case runner.stderr.log",
+      "status": "running",
+      "artifact_counts": {
+        "case_directories": 28,
+        "runner_stderr_logs": 28,
+        "completed_records": 15,
+        "failed_records": 12
+      }
+    },
+    {
+      "worker": "worker-13",
+      "session": "46359",
+      "shard": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/shards-16-pace-source-exact-20260905-01/shard-013-of-016.jsonl",
+      "current_case": "assignment-case-v1:30ea826b7e4e384d18c54c6a5bca18b15b9030ae78926033d8840a8c07218346",
+      "checkpoint": {
+        "case_count": 68,
+        "seeded_completed": 5,
+        "recovery_completed": 11,
+        "recovery_failed": 11,
+        "remaining": 41
+      },
+      "output_root": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/full-matrix-recovery-authenticated-20260905T232310Z-16/worker-13",
+      "failure_reason": "confirmed failed cases are preserved in run_state.json and per-case runner.stderr.log",
+      "status": "running",
+      "artifact_counts": {
+        "case_directories": 28,
+        "runner_stderr_logs": 28,
+        "completed_records": 16,
+        "failed_records": 11
+      }
+    },
+    {
+      "worker": "worker-14",
+      "session": "97694",
+      "shard": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/shards-16-pace-source-exact-20260905-01/shard-014-of-016.jsonl",
+      "current_case": "assignment-case-v1:a8ef5c1d6888807d84235d8f1bacbae74c6af6d55c165526955ddb048f727fca",
+      "checkpoint": {
+        "case_count": 68,
+        "seeded_completed": 5,
+        "recovery_completed": 10,
+        "recovery_failed": 13,
+        "remaining": 40
+      },
+      "output_root": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/full-matrix-recovery-authenticated-20260905T232310Z-16/worker-14",
+      "failure_reason": "confirmed failed cases are preserved in run_state.json and per-case runner.stderr.log",
+      "status": "running",
+      "artifact_counts": {
+        "case_directories": 29,
+        "runner_stderr_logs": 29,
+        "completed_records": 15,
+        "failed_records": 13
+      }
+    },
+    {
+      "worker": "worker-15",
+      "session": "31263",
+      "shard": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/shards-16-pace-source-exact-20260905-01/shard-015-of-016.jsonl",
+      "current_case": "assignment-case-v1:1f0b8f40093557e30913de93fc950d10ed482d52f815c44a3c6d5eafcc71baf3",
+      "checkpoint": {
+        "case_count": 68,
+        "seeded_completed": 5,
+        "recovery_completed": 12,
+        "recovery_failed": 11,
+        "remaining": 40
+      },
+      "output_root": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/full-matrix-recovery-authenticated-20260905T232310Z-16/worker-15",
+      "failure_reason": "confirmed failed cases are preserved in run_state.json and per-case runner.stderr.log",
+      "status": "running",
+      "artifact_counts": {
+        "case_directories": 29,
+        "runner_stderr_logs": 29,
+        "completed_records": 17,
+        "failed_records": 11
+      }
+    }
+  ],
+  "current_totals": {
+    "total_cases": 1088,
+    "completed_records": 197,
+    "failed_records": 103,
+    "remaining_records": 788,
+    "running_workers": 16,
+    "terminal_workers": 0
+  },
+  "failure_categories": {
+    "raw_runner_not_ready": {
+      "hardware_probe": 44,
+      "official_evaluator_command_failure": 24,
+      "request_proxy_events_missing": 1,
+      "request_proxy_unsuccessful_status": 34
+    },
+    "docker_registry_error_lines": 0
+  },
+  "artifact_counts": {
+    "case_directories": 329,
+    "runner_stderr_logs": 329,
+    "completed_records": 197,
+    "failed_records": 103
+  }
+}

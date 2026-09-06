@@ -1,0 +1,370 @@
+{
+  "adaptive_runtime": null,
+  "artifacts": [
+    {
+      "kind": "case_spec",
+      "path": "case_spec.json",
+      "sha256": "5d1f4335657b4cf9f1c7dcabb5bf40627127d951dab7abf7afb6c090518c892e",
+      "size": 738
+    },
+    {
+      "kind": "evaluator",
+      "path": "evaluator_result.json",
+      "sha256": "fe5cc02152877281753a650b3568aa243f5f59a0b12764a74b54ab940b442345",
+      "size": 1704
+    },
+    {
+      "kind": "normalization_spec",
+      "path": "normalization_spec.json",
+      "sha256": "0a111d3110444a4f2b4612f61b878d17126f5a88fa3be667bfb35fe053fc77a8",
+      "size": 1517
+    },
+    {
+      "kind": "runner",
+      "path": "official_evaluator/attempt-001.assignment-75d1f121bceed5f6.json",
+      "sha256": "3e04d4dad49a7262507519a1aceb1a90e96faa1e72cd7261ef501fa9ab4d0540",
+      "size": 517
+    },
+    {
+      "kind": "evaluator",
+      "path": "official_evaluator/evaluator.stderr.log",
+      "sha256": "bf7ad7fa1d052ef5b4a8e74378d413f6c167aa9fd986a5eb2478f4e1266488fd",
+      "size": 588
+    },
+    {
+      "kind": "evaluator",
+      "path": "official_evaluator/evaluator.stdout.log",
+      "sha256": "5e3864f1b53dff331330b9714002ba3fa58507b303ec23e67bda99a07ecd26dd",
+      "size": 437
+    },
+    {
+      "kind": "evaluator",
+      "path": "official_evaluator/evaluator_dataset.json",
+      "sha256": "7be96dccb435de65f85d725f84a7d822b1b80bddd77b952b654c19950806e56d",
+      "size": 4752
+    },
+    {
+      "kind": "evaluator",
+      "path": "official_evaluator/evaluator_predictions.json",
+      "sha256": "3e34a20afb28d3262791d1cac171cbaec57ba4cb59e81769f43045c95f1548e4",
+      "size": 6449
+    },
+    {
+      "kind": "evaluator",
+      "path": "official_evaluator/logs/run_evaluation/assignment-75d1f121bceed5f6/attempt-001/astropy__astropy-6938/eval.sh",
+      "sha256": "98414e2da65a8b9644addd489fe95858c4b3ea4a01ff2114ba078322a2bc45ec",
+      "size": 2616
+    },
+    {
+      "kind": "runner",
+      "path": "official_evaluator/logs/run_evaluation/assignment-75d1f121bceed5f6/attempt-001/astropy__astropy-6938/patch.diff",
+      "sha256": "bd6caa8c2cc770af4a75a690f5cf71d2971b93fbe21d6436f8e6dd2ea5477a6f",
+      "size": 6075
+    },
+    {
+      "kind": "runner",
+      "path": "official_evaluator/logs/run_evaluation/assignment-75d1f121bceed5f6/attempt-001/astropy__astropy-6938/report.json",
+      "sha256": "13c719d37e6dd9b9ef5add15c0a68d70787e7375626415f03af9958cf4691a73",
+      "size": 2028
+    },
+    {
+      "kind": "runner",
+      "path": "official_evaluator/logs/run_evaluation/assignment-75d1f121bceed5f6/attempt-001/astropy__astropy-6938/run_instance.log",
+      "sha256": "0a412e24cb03d5aa2cee191feb4ae506b077dee12d2ffc4fbfceae88ef342ef8",
+      "size": 5040
+    },
+    {
+      "kind": "runner",
+      "path": "official_evaluator/logs/run_evaluation/assignment-75d1f121bceed5f6/attempt-001/astropy__astropy-6938/test_output.txt",
+      "sha256": "90aba52283600fa678d5c09768914cadd33c0d9053fd54fcedcd2fa01d3a91af",
+      "size": 435070
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-001/astropy__astropy-6938/astropy__astropy-6938.config.yaml",
+      "sha256": "55143af739dcbb2bb645b6dd8abdd9f2121b89470db91689f4ec2a8afb773e2b",
+      "size": 11844
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-001/astropy__astropy-6938/astropy__astropy-6938.debug.log",
+      "sha256": "362e678ac82804e364f203b610e0bb6f44a3227d01487faa5c96b0c20557e671",
+      "size": 150723
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-001/astropy__astropy-6938/astropy__astropy-6938.info.log",
+      "sha256": "9dee2db2a862019d376e78b8cc90ad1ed7cd47787e3d516e9484f5b24bf13100",
+      "size": 124060
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-001/astropy__astropy-6938/astropy__astropy-6938.patch",
+      "sha256": "bd6caa8c2cc770af4a75a690f5cf71d2971b93fbe21d6436f8e6dd2ea5477a6f",
+      "size": 6075
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-001/astropy__astropy-6938/astropy__astropy-6938.pred",
+      "sha256": "b6022720cf72b66551aa5c63c0cd5a2e2ad1974f3f73189d6b0b4b203e2a6a97",
+      "size": 6426
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-001/astropy__astropy-6938/astropy__astropy-6938.trace.log",
+      "sha256": "572345426219bd0ef41d9471e8602e13bcc0e1540c21507c3b42dbf8e817c6e7",
+      "size": 273649
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-001/astropy__astropy-6938/astropy__astropy-6938.traj",
+      "sha256": "719428722bebffb0e74493f5c89f79085cf5bd5b562d6c8c3d37b91960ff2c92",
+      "size": 1922930
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-001/preds.json",
+      "sha256": "d786f8949fa566a7b73d32dbcf929c8415864cb6bd83da2e38c56d1804186969",
+      "size": 6489
+    },
+    {
+      "kind": "request",
+      "path": "runner_attempts/attempt-001/request_config.json",
+      "sha256": "109ea0fdfaf127414c0d9bb8cb0a9b524fd7b36fcfa9e4d4b9a1d39aad6bf522",
+      "size": 207
+    },
+    {
+      "kind": "request",
+      "path": "runner_attempts/attempt-001/request_proxy.jsonl",
+      "sha256": "01c48b436a00c16c481438d4458d73c079d5f5aec5aa6d9f61b2a2a72a995da1",
+      "size": 34166
+    },
+    {
+      "kind": "request",
+      "path": "runner_attempts/attempt-001/request_proxy.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    {
+      "kind": "request",
+      "path": "runner_attempts/attempt-001/request_proxy.stdout.log",
+      "sha256": "870af4b43a1cc777cace8dca3a150c7ddf36edf82e13786ae6401f2f97911507",
+      "size": 69
+    },
+    {
+      "kind": "request",
+      "path": "runner_attempts/attempt-001/request_proxy_provenance.json",
+      "sha256": "58e7e4bd8596d20939cb1e082d114a07f9c1eade02a5ae9bd1c81de6d867886a",
+      "size": 1361
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-001/reviewed_runner_artifacts/data/raw/assignment-75d1f121bceed5f6/lite/astropy__astropy-6938/attempt-001/agent.stderr.log",
+      "sha256": "cda941d10f1b28d20d2008ecc91f53fb79f203e0ad602be88eb210c7327443d0",
+      "size": 376
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-001/reviewed_runner_artifacts/data/raw/assignment-75d1f121bceed5f6/lite/astropy__astropy-6938/attempt-001/agent.stdout.log",
+      "sha256": "0b24db93b12f828880af3269bee1e891c7a5ca8deecb6422224ab8cd75f0c890",
+      "size": 286708
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-001/reviewed_runner_artifacts/data/raw/assignment-75d1f121bceed5f6/lite/astropy__astropy-6938/attempt-001/config.json",
+      "sha256": "937b4060aaf988141cd94fa42456f1770e4fe0445ded2a8c2c54cf19855bcb7f",
+      "size": 5482
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-001/reviewed_runner_artifacts/data/raw/assignment-75d1f121bceed5f6/lite/astropy__astropy-6938/attempt-001/counters.unavailable.json",
+      "sha256": "1435fc3776bf2ed93d0e1cfa3b110240bffdba15adc3ca007f0365dbad9f1bde",
+      "size": 187
+    },
+    {
+      "kind": "evaluator",
+      "path": "runner_attempts/attempt-001/reviewed_runner_artifacts/data/raw/assignment-75d1f121bceed5f6/lite/astropy__astropy-6938/attempt-001/eval.json",
+      "sha256": "c9e666b5fb5d070322a5f8f977889be9d0fc235ae3c02d63802e60e0656758b5",
+      "size": 679
+    },
+    {
+      "kind": "evaluator",
+      "path": "runner_attempts/attempt-001/reviewed_runner_artifacts/data/raw/assignment-75d1f121bceed5f6/lite/astropy__astropy-6938/attempt-001/evaluator.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    {
+      "kind": "evaluator",
+      "path": "runner_attempts/attempt-001/reviewed_runner_artifacts/data/raw/assignment-75d1f121bceed5f6/lite/astropy__astropy-6938/attempt-001/evaluator.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-001/reviewed_runner_artifacts/data/raw/assignment-75d1f121bceed5f6/lite/astropy__astropy-6938/attempt-001/events.jsonl",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-001/reviewed_runner_artifacts/data/raw/assignment-75d1f121bceed5f6/lite/astropy__astropy-6938/attempt-001/model_calls.jsonl",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-001/reviewed_runner_artifacts/data/raw/assignment-75d1f121bceed5f6/lite/astropy__astropy-6938/attempt-001/prediction.json",
+      "sha256": "70e8683d2d7dff0a770e6878d5ed145db8770c0a93e664ca03c4ed5379679daf",
+      "size": 172
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-001/reviewed_runner_artifacts/data/raw/assignment-75d1f121bceed5f6/lite/astropy__astropy-6938/attempt-001/summary.json",
+      "sha256": "8fb2d9e6ef1d1bb2e2b43791be6f15a479893c21076421f266ac10d05c6120a6",
+      "size": 5999
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-001/reviewed_runner_artifacts/data/raw/assignment-75d1f121bceed5f6/lite/astropy__astropy-6938/attempt-001/tool_calls.jsonl",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-001/run_batch.config.yaml",
+      "sha256": "9f0497103ba448f73f0e4d47822dd539e06d199343de68f3521bd06f08dd7423",
+      "size": 11434
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-001/run_batch.log",
+      "sha256": "6d6c081104b38dd17fd27378eafa4cbea1b15487b892dc7e0f7ca6695a825ec8",
+      "size": 3190
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-001/run_batch_exit_statuses.yaml",
+      "sha256": "2d3dafc4f4a36ffda42449379e3eb71e647f8d6e73a5ea964e6e0e9d82deaeac",
+      "size": 95
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-001/runner_inputs/sweagent_instances.json",
+      "sha256": "662da617ff824bdf5f2bc12fd4cb93bcd6062e5861821b9501ef0ad8a398d055",
+      "size": 4860
+    },
+    {
+      "kind": "validation",
+      "path": "validation.json",
+      "sha256": "5bdbcbb48d698ce5fe6661fc3b1ff6b23abf7e56b851c60be5b351cd2df2f03e",
+      "size": 1892
+    }
+  ],
+  "case_sha256": "5d1f4335657b4cf9f1c7dcabb5bf40627127d951dab7abf7afb6c090518c892e",
+  "config_sha256": "6b78702b161908254c15ee826cdd77abc9b69fac721a0e855dcb8bd63adbdea2",
+  "evaluator": {
+    "official_resolved": false,
+    "result_path": "evaluator_result.json",
+    "runner_status": "completed",
+    "status": "completed",
+    "submitted": true
+  },
+  "git": {
+    "branch": "parallel-h100-shards",
+    "commit": "1c4c7e33f18e2bc3cc533e90c43f596952d8c559"
+  },
+  "hardware": {
+    "command": [
+      "ssh",
+      "-S",
+      "/tmp/jriverah3-pace-login.sock",
+      "-o",
+      "ControlMaster=no",
+      "-o",
+      "BatchMode=yes",
+      "jriverah3@128.61.254.151",
+      "srun --jobid 5704627 --overlap --ntasks=1 --exact --quiet bash -lc 'nvidia-smi -i GPU-91037da6-4dd4-e4e7-8ed8-6eeb22f97424 --query-gpu=name,memory.total,compute_cap --format=csv,noheader,nounits' | grep -E '^[^ -].*, [0-9]+, [0-9]+\\.[0-9]+'"
+    ],
+    "gpus": [
+      {
+        "compute_capability": "9.0",
+        "memory_mib": 81559,
+        "name": "NVIDIA H100 80GB HBM3"
+      }
+    ]
+  },
+  "integrity": {
+    "adaptive_protocol_sha256": "3a572d6e8740070b3e49ed67b10adab4d9b71174ecf411792921a740b1b5a497",
+    "adaptive_runner_sha256": "7989659cb8c1f512f18f37410e3c1e90bc16530f9fe2ed0e0cc0d534d3d66bdc",
+    "adaptive_runtime_sha256": "5b666bb0ad549c75b062787d744cf7242ff310e206730f4f25146e1101742bac",
+    "case_runner_sha256": "84895565f651516159c83a07625b40d5242bc16812b939b8f1d5cc9213e075f6",
+    "evaluator_adapter_sha256": "83d6b448f509282cc4d492558ce20e0cae9fc83cfd578b5f1947c226ddcfdb8a",
+    "event_simulator_sha256": "6b3eb2feeae09977287918dd6cd3332bccc7bf253407417df32e56ebe66a5a10",
+    "request_config_sha256": "7021ff1d70452f7f903b8b23b9b6f9af20c67615d68e737bbd66a2cb7db28abe",
+    "request_proxy_sha256": "7bc737a8d9d41b25bc894e63ea10075fd99c1197245cc4adb143f12463b65f74"
+  },
+  "manifest_sha256": "e482ea79162441ee2726f15e7c7e5bc805558fc745efc2fb8d785376720a5b36",
+  "normalization_sources": {
+    "model_events": "runner_attempts/attempt-001/request_proxy.jsonl",
+    "official_evaluator_result": "evaluator_result.json",
+    "run_spec": "normalization_spec.json",
+    "runner_summary": "runner_attempts/attempt-001/reviewed_runner_artifacts/data/raw/assignment-75d1f121bceed5f6/lite/astropy__astropy-6938/attempt-001/summary.json",
+    "trajectory": "runner_attempts/attempt-001/astropy__astropy-6938/astropy__astropy-6938.traj"
+  },
+  "parent_execution_case_count": 1088,
+  "parent_original_case_count": 1088,
+  "parent_plan_sha256": "067974eebbe41f818c10ee85317e21bae41ad236f1a53e9a81989453ab59a30e",
+  "plan_id": "assignment-steps-1-3",
+  "plan_sha256": "5e1b8ad5051e6c8ce0bd6069daa1b12ca344bd867320b77fd9a2ac7c23efab69",
+  "proxy": {
+    "adaptive_runtime_enabled": false,
+    "command": [
+      "/usr/bin/python3",
+      "/home/riverahernandezjason/agentic-workload-simulator/scripts/observability/request_proxy.py",
+      "--listen-host",
+      "127.0.0.1",
+      "--listen-port",
+      "38683",
+      "--upstream-host",
+      "127.0.0.1",
+      "--upstream-port",
+      "18011",
+      "--events",
+      "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/full-matrix-recovery-authenticated-20260905T232310Z-16/worker-11/cases/00000/runner_attempts/attempt-001/request_proxy.jsonl",
+      "--timeout-seconds",
+      "5400.0"
+    ],
+    "command_sha256": "9c38321cadd9bd0ca01b89e89183f785255b5da1b174f7a70ce1f865f80d0692",
+    "event_count": 31,
+    "events_path": "request_proxy.jsonl",
+    "events_sha256": "01c48b436a00c16c481438d4458d73c079d5f5aec5aa6d9f61b2a2a72a995da1",
+    "exit_code_before_stop": null,
+    "listen_api_base": "http://127.0.0.1:38683/v1",
+    "readiness": "stdout_exact_match_without_model_request",
+    "schema_version": "assignment-request-proxy-run.v1",
+    "script_path": "/home/riverahernandezjason/agentic-workload-simulator/scripts/observability/request_proxy.py",
+    "script_sha256": "7bc737a8d9d41b25bc894e63ea10075fd99c1197245cc4adb143f12463b65f74",
+    "stderr_path": "request_proxy.stderr.log",
+    "stdout_path": "request_proxy.stdout.log",
+    "upstream_api_base": "http://127.0.0.1:18011/v1"
+  },
+  "resume_key": "assignment-case-v1:2efe4da1539214e304d99f425d701d47f19a496a4aaf5afcb4baf6cb07d2af52",
+  "run_id": "assignment-75d1f121bceed5f6",
+  "runner": {
+    "command_hash": "069c8d83e7f636943a321cc6d3861f723a8cff9577bbf0102e74d1068a462dac",
+    "output_dir": "runner_attempts/attempt-001",
+    "returncode": 0,
+    "status": "completed"
+  },
+  "runner_path": "/home/riverahernandezjason/agentic-workload-simulator/scripts/assignment/sweagent_case_runner.py",
+  "runner_sha256": "84895565f651516159c83a07625b40d5242bc16812b939b8f1d5cc9213e075f6",
+  "runtime_manifest_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/runtime/manifests-reviewed-1c4-source-exact-20260905-29-context65536-evaluator-venv/runtime-manifest-worker-11.json",
+  "runtime_manifest_sha256": "e482ea79162441ee2726f15e7c7e5bc805558fc745efc2fb8d785376720a5b36",
+  "schema_version": "assignment-case-result.v1",
+  "shard_assignment": "round_robin_plan_order_v1",
+  "shard_count": 16,
+  "shard_index": 11,
+  "shards_manifest_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/shards-16-pace-source-exact-20260905-01/shards-16-manifest.json",
+  "shards_manifest_sha256": "9d547ad8af4a3560f5ffff86365912667c12ffaca1feae6ce1863a510074cf5d",
+  "status": "completed"
+}

@@ -1,0 +1,370 @@
+{
+  "adaptive_runtime": null,
+  "artifacts": [
+    {
+      "kind": "case_spec",
+      "path": "case_spec.json",
+      "sha256": "8ddd5e4f75b57b3a6e4d81efa8e0cf9653b9522e597a973e89e39d25fce4b3f0",
+      "size": 702
+    },
+    {
+      "kind": "evaluator",
+      "path": "evaluator_result.json",
+      "sha256": "eb68c0610e0fb03033f2d3c7b4a09f3d1006c82acad2ca4b0bd5245d5dfb5868",
+      "size": 1724
+    },
+    {
+      "kind": "normalization_spec",
+      "path": "normalization_spec.json",
+      "sha256": "8a9c2fd15e8de7d6d165091d3bcab353208e37ef64baa8dbe440ca28771b46f2",
+      "size": 1506
+    },
+    {
+      "kind": "runner",
+      "path": "official_evaluator/attempt-002.assignment-d4bdda48346aca5c.json",
+      "sha256": "b32670abf4cd0951de1149bfbf122aafe5207f2722dbb477bec7114cce150ab6",
+      "size": 523
+    },
+    {
+      "kind": "evaluator",
+      "path": "official_evaluator/evaluator.stderr.log",
+      "sha256": "d92fe43b330353802e23672d66bb36fa30dc9ce731f88d30a9a76c2a98e757cb",
+      "size": 588
+    },
+    {
+      "kind": "evaluator",
+      "path": "official_evaluator/evaluator.stdout.log",
+      "sha256": "8dc73364ef1bfda14e40d05af9c0c6bcee64fe2241b0044cf03dab420c03191e",
+      "size": 385
+    },
+    {
+      "kind": "evaluator",
+      "path": "official_evaluator/evaluator_dataset.json",
+      "sha256": "ef197b22344495146f822f0f6c607eb38326ccd7a294bb1ec1bef424d1172a1d",
+      "size": 5223
+    },
+    {
+      "kind": "evaluator",
+      "path": "official_evaluator/evaluator_predictions.json",
+      "sha256": "c83bd5a3b2586fc0c263902cf68952595f4d9e3a8c379ea4e0c673e98f7b2e5b",
+      "size": 7521
+    },
+    {
+      "kind": "evaluator",
+      "path": "official_evaluator/logs/run_evaluation/assignment-d4bdda48346aca5c/attempt-002/pylint-dev__pylint-4661/eval.sh",
+      "sha256": "acd1d9199457ea13c48dc4a9f4ea478b4a0088f7d38af535322d5a5dfc084602",
+      "size": 1286
+    },
+    {
+      "kind": "runner",
+      "path": "official_evaluator/logs/run_evaluation/assignment-d4bdda48346aca5c/attempt-002/pylint-dev__pylint-4661/patch.diff",
+      "sha256": "4ae0a200f6c501567b7ab9fbe23afc6fd374aaf981617808e9c3879cb6792414",
+      "size": 7053
+    },
+    {
+      "kind": "runner",
+      "path": "official_evaluator/logs/run_evaluation/assignment-d4bdda48346aca5c/attempt-002/pylint-dev__pylint-4661/report.json",
+      "sha256": "5ea98c069661cecd17714bc740ed4cf96e71ef7b167559429bad4c539373a715",
+      "size": 719
+    },
+    {
+      "kind": "runner",
+      "path": "official_evaluator/logs/run_evaluation/assignment-d4bdda48346aca5c/attempt-002/pylint-dev__pylint-4661/run_instance.log",
+      "sha256": "ecba41b8f81071b50b8e7ab6b361045f35b4532bf10069275e57019881211b63",
+      "size": 6409
+    },
+    {
+      "kind": "runner",
+      "path": "official_evaluator/logs/run_evaluation/assignment-d4bdda48346aca5c/attempt-002/pylint-dev__pylint-4661/test_output.txt",
+      "sha256": "0ee087cef05331c9809a257ab1e4d882a5eaeba7666f960a906412bb3bf98ecf",
+      "size": 17315
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-002/preds.json",
+      "sha256": "662bdc27a32c0cbb4a6964c6dcd2c9d1572cee4a15978e14a035b8756a3db282",
+      "size": 7563
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-002/pylint-dev__pylint-4661/pylint-dev__pylint-4661.config.yaml",
+      "sha256": "5b7466dc9b0a76fc13f8d1f6db20694d533e5df23462ee1603718fc49737808e",
+      "size": 12314
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-002/pylint-dev__pylint-4661/pylint-dev__pylint-4661.debug.log",
+      "sha256": "d117a72fb161247d232e42b31162040c5854fd2d6079db446832424b4af7e915",
+      "size": 149314
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-002/pylint-dev__pylint-4661/pylint-dev__pylint-4661.info.log",
+      "sha256": "1299d3cc8b15d0b234f6e45f3f3914f8c1be140533113a9717eef8d4c67b3848",
+      "size": 122652
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-002/pylint-dev__pylint-4661/pylint-dev__pylint-4661.patch",
+      "sha256": "4ae0a200f6c501567b7ab9fbe23afc6fd374aaf981617808e9c3879cb6792414",
+      "size": 7053
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-002/pylint-dev__pylint-4661/pylint-dev__pylint-4661.pred",
+      "sha256": "e7052c322cdbcb4f707fcf61dd768450b37ed8189d281ef805b3a5f90b3b9422",
+      "size": 7498
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-002/pylint-dev__pylint-4661/pylint-dev__pylint-4661.trace.log",
+      "sha256": "9872e0190918f0a85d0755db56f0a87393705e0f625483fe1a764ccc9ea7762a",
+      "size": 208488
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-002/pylint-dev__pylint-4661/pylint-dev__pylint-4661.traj",
+      "sha256": "2b89416ddae01e9be870069da5a2a3b02789be388edf339163a3b05b279c3c45",
+      "size": 1843726
+    },
+    {
+      "kind": "request",
+      "path": "runner_attempts/attempt-002/request_config.json",
+      "sha256": "109ea0fdfaf127414c0d9bb8cb0a9b524fd7b36fcfa9e4d4b9a1d39aad6bf522",
+      "size": 207
+    },
+    {
+      "kind": "request",
+      "path": "runner_attempts/attempt-002/request_proxy.jsonl",
+      "sha256": "0f074cca72bebad2824849bae3ee3fe89851c389316c15a2b3dca123debf309b",
+      "size": 34168
+    },
+    {
+      "kind": "request",
+      "path": "runner_attempts/attempt-002/request_proxy.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    {
+      "kind": "request",
+      "path": "runner_attempts/attempt-002/request_proxy.stdout.log",
+      "sha256": "194058242a971c5566323a96d1f84a0e6619d248fdecd09a36d62c32de72c3d0",
+      "size": 69
+    },
+    {
+      "kind": "request",
+      "path": "runner_attempts/attempt-002/request_proxy_provenance.json",
+      "sha256": "a359100729a3002a3d4ed5fca0755e888e1a2c8dcc8334e93bd2a0808fe52215",
+      "size": 1368
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-002/reviewed_runner_artifacts/data/raw/assignment-d4bdda48346aca5c/verified/pylint-dev__pylint-4661/attempt-002/agent.stderr.log",
+      "sha256": "217ca95c617cc10f34eeec7e8c5651acf43feec97dfa927bbcfc618a3f5ac3ec",
+      "size": 376
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-002/reviewed_runner_artifacts/data/raw/assignment-d4bdda48346aca5c/verified/pylint-dev__pylint-4661/attempt-002/agent.stdout.log",
+      "sha256": "9d1f361ff5e89e49b8d584dbd8607821f9ecd78c6b2e06c115a7316f9c1c52dd",
+      "size": 276443
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-002/reviewed_runner_artifacts/data/raw/assignment-d4bdda48346aca5c/verified/pylint-dev__pylint-4661/attempt-002/config.json",
+      "sha256": "f5ff8c6a3d398a687276c2628ce5e18e51f8bb40b4f43642398030914bac4477",
+      "size": 5540
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-002/reviewed_runner_artifacts/data/raw/assignment-d4bdda48346aca5c/verified/pylint-dev__pylint-4661/attempt-002/counters.unavailable.json",
+      "sha256": "1435fc3776bf2ed93d0e1cfa3b110240bffdba15adc3ca007f0365dbad9f1bde",
+      "size": 187
+    },
+    {
+      "kind": "evaluator",
+      "path": "runner_attempts/attempt-002/reviewed_runner_artifacts/data/raw/assignment-d4bdda48346aca5c/verified/pylint-dev__pylint-4661/attempt-002/eval.json",
+      "sha256": "c64b01ec2a8a0a637dac59397c569c2f898fcc0989c33ed796e340bacdd7bdde",
+      "size": 679
+    },
+    {
+      "kind": "evaluator",
+      "path": "runner_attempts/attempt-002/reviewed_runner_artifacts/data/raw/assignment-d4bdda48346aca5c/verified/pylint-dev__pylint-4661/attempt-002/evaluator.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    {
+      "kind": "evaluator",
+      "path": "runner_attempts/attempt-002/reviewed_runner_artifacts/data/raw/assignment-d4bdda48346aca5c/verified/pylint-dev__pylint-4661/attempt-002/evaluator.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-002/reviewed_runner_artifacts/data/raw/assignment-d4bdda48346aca5c/verified/pylint-dev__pylint-4661/attempt-002/events.jsonl",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-002/reviewed_runner_artifacts/data/raw/assignment-d4bdda48346aca5c/verified/pylint-dev__pylint-4661/attempt-002/model_calls.jsonl",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-002/reviewed_runner_artifacts/data/raw/assignment-d4bdda48346aca5c/verified/pylint-dev__pylint-4661/attempt-002/prediction.json",
+      "sha256": "70e8683d2d7dff0a770e6878d5ed145db8770c0a93e664ca03c4ed5379679daf",
+      "size": 172
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-002/reviewed_runner_artifacts/data/raw/assignment-d4bdda48346aca5c/verified/pylint-dev__pylint-4661/attempt-002/summary.json",
+      "sha256": "244042c1e9656f52fa4d61fe33aa4caef2dfafcfff25fa2f03ed4031a315e760",
+      "size": 6135
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-002/reviewed_runner_artifacts/data/raw/assignment-d4bdda48346aca5c/verified/pylint-dev__pylint-4661/attempt-002/tool_calls.jsonl",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-002/run_batch.config.yaml",
+      "sha256": "7d7b06edb0d815adb5e5ca435382c72891134c9df4bfa3457d7c6423965286f2",
+      "size": 11451
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-002/run_batch.log",
+      "sha256": "3bcfb955565527bde4b675e3c8b745000d6160d38442f07521243f2a39bc20c5",
+      "size": 3199
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-002/run_batch_exit_statuses.yaml",
+      "sha256": "7e1b7863f7a8170e0e016ffaac5a576cf4eb6e04dc749b6ff95660b337502845",
+      "size": 97
+    },
+    {
+      "kind": "runner",
+      "path": "runner_attempts/attempt-002/runner_inputs/sweagent_instances.json",
+      "sha256": "02c65657bf5a88f78dddd4857fc25500ea656d6723097fade6fa320c68bfe607",
+      "size": 5337
+    },
+    {
+      "kind": "validation",
+      "path": "validation.json",
+      "sha256": "1b9a39f834e32f1f984203acfe1f5a217c6f04c548fee35df218ff4b88b9e7c8",
+      "size": 1907
+    }
+  ],
+  "case_sha256": "8ddd5e4f75b57b3a6e4d81efa8e0cf9653b9522e597a973e89e39d25fce4b3f0",
+  "config_sha256": "6b78702b161908254c15ee826cdd77abc9b69fac721a0e855dcb8bd63adbdea2",
+  "evaluator": {
+    "official_resolved": false,
+    "result_path": "evaluator_result.json",
+    "runner_status": "completed",
+    "status": "completed",
+    "submitted": true
+  },
+  "git": {
+    "branch": "parallel-h100-shards",
+    "commit": "1c4c7e33f18e2bc3cc533e90c43f596952d8c559"
+  },
+  "hardware": {
+    "command": [
+      "ssh",
+      "-S",
+      "/tmp/jriverah3-pace-login.sock",
+      "-o",
+      "ControlMaster=no",
+      "-o",
+      "BatchMode=yes",
+      "jriverah3@128.61.254.151",
+      "srun --jobid 5704619 --overlap --ntasks=1 --exact --quiet bash -lc 'nvidia-smi -i GPU-5756d0d0-29e6-3bf0-0c5c-73839fa292a6 --query-gpu=name,memory.total,compute_cap --format=csv,noheader,nounits' | grep -E '^[^ -].*, [0-9]+, [0-9]+\\.[0-9]+'"
+    ],
+    "gpus": [
+      {
+        "compute_capability": "9.0",
+        "memory_mib": 81559,
+        "name": "NVIDIA H100 80GB HBM3"
+      }
+    ]
+  },
+  "integrity": {
+    "adaptive_protocol_sha256": "3a572d6e8740070b3e49ed67b10adab4d9b71174ecf411792921a740b1b5a497",
+    "adaptive_runner_sha256": "7989659cb8c1f512f18f37410e3c1e90bc16530f9fe2ed0e0cc0d534d3d66bdc",
+    "adaptive_runtime_sha256": "5b666bb0ad549c75b062787d744cf7242ff310e206730f4f25146e1101742bac",
+    "case_runner_sha256": "84895565f651516159c83a07625b40d5242bc16812b939b8f1d5cc9213e075f6",
+    "evaluator_adapter_sha256": "83d6b448f509282cc4d492558ce20e0cae9fc83cfd578b5f1947c226ddcfdb8a",
+    "event_simulator_sha256": "6b3eb2feeae09977287918dd6cd3332bccc7bf253407417df32e56ebe66a5a10",
+    "request_config_sha256": "7021ff1d70452f7f903b8b23b9b6f9af20c67615d68e737bbd66a2cb7db28abe",
+    "request_proxy_sha256": "7bc737a8d9d41b25bc894e63ea10075fd99c1197245cc4adb143f12463b65f74"
+  },
+  "manifest_sha256": "51061d4da73739957dacde7b71c3e3783de481a90aea5ccbb77c1074bac53148",
+  "normalization_sources": {
+    "model_events": "runner_attempts/attempt-002/request_proxy.jsonl",
+    "official_evaluator_result": "evaluator_result.json",
+    "run_spec": "normalization_spec.json",
+    "runner_summary": "runner_attempts/attempt-002/reviewed_runner_artifacts/data/raw/assignment-d4bdda48346aca5c/verified/pylint-dev__pylint-4661/attempt-002/summary.json",
+    "trajectory": "runner_attempts/attempt-002/pylint-dev__pylint-4661/pylint-dev__pylint-4661.traj"
+  },
+  "parent_execution_case_count": 1088,
+  "parent_original_case_count": 1088,
+  "parent_plan_sha256": "067974eebbe41f818c10ee85317e21bae41ad236f1a53e9a81989453ab59a30e",
+  "plan_id": "assignment-steps-1-3",
+  "plan_sha256": "6973bfd2b66880bb9aee16511a43f0a840a13962ef012ab2d1b27d85a99d09d1",
+  "proxy": {
+    "adaptive_runtime_enabled": false,
+    "command": [
+      "/usr/bin/python3",
+      "/home/riverahernandezjason/agentic-workload-simulator/scripts/observability/request_proxy.py",
+      "--listen-host",
+      "127.0.0.1",
+      "--listen-port",
+      "29179",
+      "--upstream-host",
+      "127.0.0.1",
+      "--upstream-port",
+      "18010",
+      "--events",
+      "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/full-matrix-recovery-authenticated-resume-20260906T025908Z-16/worker-10/cases/00054/runner_attempts/attempt-002/request_proxy.jsonl",
+      "--timeout-seconds",
+      "5400.0"
+    ],
+    "command_sha256": "9a0f8547097c8f9cdb5c060991e75507385816f98664f8ddb23c79a7b72c6e9a",
+    "event_count": 31,
+    "events_path": "request_proxy.jsonl",
+    "events_sha256": "0f074cca72bebad2824849bae3ee3fe89851c389316c15a2b3dca123debf309b",
+    "exit_code_before_stop": null,
+    "listen_api_base": "http://127.0.0.1:29179/v1",
+    "readiness": "stdout_exact_match_without_model_request",
+    "schema_version": "assignment-request-proxy-run.v1",
+    "script_path": "/home/riverahernandezjason/agentic-workload-simulator/scripts/observability/request_proxy.py",
+    "script_sha256": "7bc737a8d9d41b25bc894e63ea10075fd99c1197245cc4adb143f12463b65f74",
+    "stderr_path": "request_proxy.stderr.log",
+    "stdout_path": "request_proxy.stdout.log",
+    "upstream_api_base": "http://127.0.0.1:18010/v1"
+  },
+  "resume_key": "assignment-case-v1:4ea024011360708a8804b0e02bc6a378270bd23885acc0985d9e7124d3958f22",
+  "run_id": "assignment-d4bdda48346aca5c",
+  "runner": {
+    "command_hash": "7446250d5ad9fecd3663156fdf32cb2bc3b067019ce7a93c97c22138e12324e6",
+    "output_dir": "runner_attempts/attempt-002",
+    "returncode": 0,
+    "status": "completed"
+  },
+  "runner_path": "/home/riverahernandezjason/agentic-workload-simulator/scripts/assignment/sweagent_case_runner.py",
+  "runner_sha256": "84895565f651516159c83a07625b40d5242bc16812b939b8f1d5cc9213e075f6",
+  "runtime_manifest_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/runtime/manifests-reviewed-1c4-source-exact-20260905-29-context65536-evaluator-venv/runtime-manifest-worker-10.json",
+  "runtime_manifest_sha256": "51061d4da73739957dacde7b71c3e3783de481a90aea5ccbb77c1074bac53148",
+  "schema_version": "assignment-case-result.v1",
+  "shard_assignment": "round_robin_plan_order_v1",
+  "shard_count": 16,
+  "shard_index": 10,
+  "shards_manifest_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/shards-16-pace-source-exact-20260905-01/shards-16-manifest.json",
+  "shards_manifest_sha256": "9d547ad8af4a3560f5ffff86365912667c12ffaca1feae6ce1863a510074cf5d",
+  "status": "completed"
+}
