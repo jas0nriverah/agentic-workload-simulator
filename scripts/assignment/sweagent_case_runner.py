@@ -465,7 +465,13 @@ def _materialize_request_config(
     return path, sha256_file(path)
 
 
-def _probe_hardware(manifest: Mapping[str, Any]) -> dict[str, Any]:
+def _probe_hardware(manifest: Mapping[str, Any], *, cpu_docker: bool = False) -> dict[str, Any]:
+    if cpu_docker:
+        return {
+            "command": [],
+            "gpus": [],
+            "execution_mode": "cpu-docker-runner+h100-inference",
+        }
     command = [str(item) for item in manifest["hardware"]["probe_command"]]
     try:
         result = subprocess.run(command, capture_output=True, text=True, check=False, timeout=20)
@@ -1018,7 +1024,7 @@ def execute(args: argparse.Namespace) -> int:
 
         if manifest["runner"]["project"]:
             _fail(shutil.which("uv") is not None, "uv is required for the reviewed project runner")
-        hardware = _probe_hardware(manifest)
+        hardware = _probe_hardware(manifest, cpu_docker=getattr(args, "cpu_docker", False))
         state_path = output_dir / "runner_state.json"
         attempt = 1
         if state_path.exists():
@@ -1084,7 +1090,11 @@ def execute(args: argparse.Namespace) -> int:
             )
             _fail("--num_workers" in runner_command and runner_command[runner_command.index("--num_workers") + 1] == "1", "runner command does not enforce concurrency=1")
             result_template = str(manifest["evaluator"]["result_path"])
-            gpu_identity = hardware["gpus"][0]
+            gpu_identity = (
+                hardware["gpus"][0]
+                if hardware["gpus"]
+                else {"execution_mode": "cpu-docker-runner+h100-inference"}
+            )
             normalization_spec_path = output_dir / "normalization_spec.json"
             normalization_spec = {
                 "run_id": run_id,
@@ -1278,6 +1288,11 @@ def parser() -> argparse.ArgumentParser:
     )
     result.add_argument("--execute", action="store_true", help="run the reviewed SWE-agent and official evaluator")
     result.add_argument("--validate-only", action="store_true", help="validate and launch nothing (the default)")
+    result.add_argument(
+        "--cpu-docker",
+        action="store_true",
+        help="run the case runner on a CPU VM using Docker while inference stays on the configured H100 endpoint",
+    )
     return result
 
 

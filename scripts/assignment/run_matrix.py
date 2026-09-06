@@ -41,7 +41,7 @@ CHECKED_IN_CONFIG = REPO_ROOT / "configs" / "assignment_steps_1_3.json"
 REVIEWED_RUNNER = Path(__file__).resolve().with_name("sweagent_case_runner.py")
 # This is deliberately a checked-in value.  A changed adapter must be reviewed
 # before it can be used for paid execution.
-REVIEWED_RUNNER_SHA256 = "84895565f651516159c83a07625b40d5242bc16812b939b8f1d5cc9213e075f6"
+REVIEWED_RUNNER_SHA256 = "0bdec6be9c6eb45b6be206893010c3a1cc08e6dd81bc94a95c617b7d3de2b7bf"
 
 
 class ExecutionError(RuntimeError):
@@ -289,6 +289,7 @@ def _runtime_identity(
     runner_sha256: str,
     runtime_manifest: Path,
     runtime_manifest_sha256: str,
+    cpu_docker: bool = False,
 ) -> dict[str, Any]:
     identity = {
         "plan_sha256": plan_sha256,
@@ -299,6 +300,8 @@ def _runtime_identity(
         "runtime_manifest_path": str(runtime_manifest),
         "runtime_manifest_sha256": runtime_manifest_sha256,
     }
+    if cpu_docker:
+        identity["execution_mode"] = "cpu-docker-runner+h100-inference"
     for field in sorted(SHARD_FIELDS):
         if field in header:
             identity[field] = header[field]
@@ -669,6 +672,7 @@ def execute(args: argparse.Namespace) -> int:
         runner_sha256,
         runtime_manifest,
         runtime_manifest_sha256,
+        getattr(args, "cpu_docker", False),
     )
     if shard_metadata is not None:
         identity["shards_manifest_path"] = shard_metadata["manifest_path"]
@@ -787,6 +791,8 @@ def execute(args: argparse.Namespace) -> int:
                 "--output-dir", str(case_root),
                 "--execute",
             ]
+            if getattr(args, "cpu_docker", False):
+                command.append("--cpu-docker")
             returncode, timed_out = _run_case(
                 command, timeout_seconds, case_root / "runner.stdout.log", case_root / "runner.stderr.log"
             )
@@ -871,6 +877,11 @@ def parser() -> argparse.ArgumentParser:
     result.add_argument("--resume", action="store_true")
     result.add_argument("--max-wall-seconds", type=int)
     result.add_argument("--max-cases", type=int, help="testing/maintenance pause after N attempted cases")
+    result.add_argument(
+        "--cpu-docker",
+        action="store_true",
+        help="run the reviewed case runner on a CPU VM using Docker while inference stays on the configured H100 endpoint",
+    )
     return result
 
 
