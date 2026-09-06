@@ -108,6 +108,78 @@ canonical outputs.
 - NCU: blocked by `ERR_NVGPUCTRPERM`; no hardware-counter values or NCU report
   are claimed.
 
+## Recovered live matrix checkpoint
+
+The corrected PACE run `matrix-runs-h100-full-20260829-corrected-v4` is
+preserved as a separate live checkpoint. The source snapshot reports the
+matrix as still running, with one active case; these measurements are not
+silently presented as a closed 1,088-case run.
+
+- Scope: one NVIDIA H100 80 GB HBM3, concurrency 1, Lite suite only.
+- Published measurements: 304 completed case-result records, case indices
+  0--343 with gaps for failures; 132 officially resolved and 172 unresolved.
+- Model traffic in completed records: 9,159 requests, all HTTP 200;
+  122,847,583 prompt tokens, 1,866,381 completion tokens, and
+  13,077,447.878 ms summed request duration.
+- Published failures: 40 `invalid_result` records, each retaining its case
+  identity and request summary; 948 requests total (919 HTTP 200 and 29 HTTP
+  400), 13,387,348 prompt tokens, and 201,129 completion tokens.
+- Case catalog: 345 case specifications, of which 304 have a result, 40 are
+  failed published cases, and case 344 (`sympy__sympy-11870`) is the active
+  case in the source snapshot.
+
+The live files are:
+
+| File | Contents |
+| --- | --- |
+| `live_matrix_case_specs.jsonl` | Identity and planned settings for all 345 case directories, including failed and active cases |
+| `live_matrix_cases.jsonl` | Compact measurement records for the 304 valid results |
+| `live_matrix_failures.jsonl` | Compact records for all 40 invalid results |
+| `live_matrix_progress.json` | Full compact progress snapshot, source bindings, case records, and failures |
+| `live_matrix_raw_inventory.json` | SHA-256 and byte-size entry for every regular file in the raw run |
+
+The compact result projection predates the case catalog and leaves its
+`suite`/`instance_id` fields null. Join on `case_index` and `case_sha256` with
+`live_matrix_case_specs.jsonl`; the catalog is the identity source of truth,
+not missing measurement data.
+
+The complete raw artifact tree remains on durable PACE storage at:
+
+```text
+/storage/ice1/9/6/jriverah3/eic-work/full-assignment/assignment/matrix-runs-h100-full-20260829-corrected-v4
+```
+
+At checkpoint time it contained 17,021 regular files totaling 1,508,215,700
+bytes. The inventory is the auditable pointer to every trajectory, proxy log,
+evaluator artifact, prediction, result, state file, and checksum sidecar; raw
+files are not copied into Git. The run is bound to plan SHA-256
+`2bead159a24e244ecbf981c63f3d43d24f8bf1fe9a389c398f17325d941069fc`, runtime
+manifest SHA-256
+`7658f8f483d03734af2b97f1c0e69ee11cc3986a4c9ea6d87a3199d190368c44`, and
+execution commit
+`c8d03ba990cfe2263d5eb3e4b64124c969875301`.
+
+The Git-side SHA-256 bindings for this checkpoint are:
+
+```text
+1cea4afd8f4b072848b964d207f57741058f558db8934956b547cf4ae4008903  live_matrix_case_specs.jsonl
+afa68fc69ee099d841f4323eb162b212dff43f43d974e6144ce6dd5846db535a  live_matrix_raw_inventory.json
+52ef4976bfc2df9498bd61fac70d443ff53f8d0dd8e40cc919074b89258709fe  live_matrix_cases.jsonl
+9be2b40e08e65c53933e7e6c2b9e7a91585259b869d2a1dba02486ef2223fc45  live_matrix_failures.jsonl
+3429bd66a66f10c4e5828867382e4dc4777cab6ad3998b371f03e36daccaa173  live_matrix_progress.json
+```
+
+To regenerate the two provenance files from the PACE mount:
+
+```bash
+python3 scripts/analysis/export_h100_case_specs.py \
+  --raw-root /storage/ice1/9/6/jriverah3/eic-work/full-assignment/assignment/matrix-runs-h100-full-20260829-corrected-v4 \
+  --output project/h100_results/live_matrix_case_specs.jsonl
+python3 scripts/analysis/inventory_h100_run.py \
+  --raw-root /storage/ice1/9/6/jriverah3/eic-work/full-assignment/assignment/matrix-runs-h100-full-20260829-corrected-v4 \
+  --output project/h100_results/live_matrix_raw_inventory.json
+```
+
 ## Lineage and interpretation
 
 The builder reads the pinned evaluator summaries listed in its

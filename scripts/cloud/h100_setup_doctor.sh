@@ -166,7 +166,7 @@ if command -v nvidia-smi >/dev/null 2>&1; then
     [[ "$gpu_memory" =~ ^[0-9]+$ && "$gpu_memory" -ge 80000 ]] && pass 'GPU memory is at least 80000 MiB' || fail "GPU memory below 80000 MiB: $gpu_memory"
     [[ "$gpu_compute" == 9.0 ]] && pass 'GPU compute capability 9.0' || fail "GPU compute capability is $gpu_compute"
   fi
-  process_count="$(nvidia-smi --query-compute-apps=pid --format=csv,noheader,nounits 2>/dev/null | sed '/^[[:space:]]*$/d' | wc -l | tr -d ' ')"
+  process_count="$(nvidia-smi --query-compute-apps=pid --format=csv,noheader,nounits 2>/dev/null | sed '/^[[:space:]]*$/d' | wc -l | tr -d ' ' || true)"
   if [[ "$CHECK_SERVER" -eq 0 && "$process_count" == 0 ]]; then
     pass 'no concurrent GPU compute process'
   elif [[ "$CHECK_SERVER" -eq 0 ]]; then
