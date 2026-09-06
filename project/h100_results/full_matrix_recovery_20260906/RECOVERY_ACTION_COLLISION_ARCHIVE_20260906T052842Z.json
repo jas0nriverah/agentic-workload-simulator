@@ -1,0 +1,54 @@
+{
+  "schema": "assignment.recovery-action-collision-archive.v1",
+  "created_utc": "2026-09-06T05:28:42Z",
+  "purpose": "Preserve exact stale evaluator artifacts before terminal-worker retry",
+  "precondition": {
+    "workers": [11, 13, 14],
+    "state_status": "failed",
+    "exact_matrix_or_case_runner_processes": 0
+  },
+  "archives": [
+    {
+      "worker": 11,
+      "case_index": 8,
+      "original": "worker-11/cases/00008/evaluator_result.json",
+      "archived": "worker-11/cases/00008/evaluator_result.previous-resume-20260906T052842Z.json",
+      "sha256": "4e9d1228300e1e2c9dc9487a7f43884fad4ff230bde23c8120fc3bdfcabcfb12"
+    },
+    {
+      "worker": 11,
+      "case_index": 21,
+      "original": "worker-11/cases/00021/official_evaluator/attempt-001.assignment-d8a5e35f798db531.json",
+      "archived": "worker-11/cases/00021/official_evaluator/attempt-001.assignment-d8a5e35f798db531.previous-resume-20260906T052842Z.json",
+      "sha256": "a94f308728498ad282340785bb0c232f92703efd64d92c27e6189752612eec82"
+    },
+    {
+      "worker": 13,
+      "case_index": 20,
+      "original": "worker-13/cases/00020/evaluator_result.json",
+      "archived": "worker-13/cases/00020/evaluator_result.previous-resume-20260906T052842Z.json",
+      "sha256": "9a260242f24655a4fdf3079c1a41b1882c3371cead65ab3a4a707553c62d5680"
+    },
+    {
+      "worker": 14,
+      "case_index": 19,
+      "original": "worker-14/cases/00019/evaluator_result.json",
+      "archived": "worker-14/cases/00019/evaluator_result.previous-resume-20260906T052842Z.json",
+      "sha256": "f7929096669cc40f4874536f638488976ba2ffb0867d8f3b09ef54aa3793565b"
+    },
+    {
+      "worker": 14,
+      "case_index": 25,
+      "original": "worker-14/cases/00025/evaluator_result.json",
+      "archived": "worker-14/cases/00025/evaluator_result.previous-resume-20260906T052842Z.json",
+      "sha256": "4d075e2c441c97b56db29aeb919444195b590046b02ea78f04cc768a3766d42f"
+    },
+    {
+      "worker": 14,
+      "case_index": 30,
+      "original": "worker-14/cases/00030/official_evaluator/attempt-001.assignment-caa470748ed3bba1.json",
+      "archived": "worker-14/cases/00030/official_evaluator/attempt-001.assignment-caa470748ed3bba1.previous-resume-20260906T052842Z.json",
+      "sha256": "adc5e360331c7f632c2b4cfd82507e5daedc5b9ee0a9ff0c691161be8ad4a253"
+    }
+  ]
+}

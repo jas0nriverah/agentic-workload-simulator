@@ -24,9 +24,27 @@ metadata and may contain machine-local paths or sensitive operational details.
   shard. This did not boot GPUs or modify the incomplete six-worker results.
 - PACE/VPN control-plane access was unavailable during the latest continuation
   attempt, so no new H100 workers were safely provisioned.
-- The current repository’s uncommitted work consists of an outcome-only
+- The repository additions associated with this archive include an outcome-only
   baseline figure, its generator and test, and a project autonomy rule. These
   are included in the commit associated with this archive.
+
+## 2026-09-06 full-matrix recovery snapshot
+
+The later authenticated 16-worker recovery produced a preserved compact
+snapshot at `project/h100_results/full_matrix_recovery_20260906/`:
+
+- 1,088 planned cases across 16 workers, 68 cases per worker;
+- 602 completed `case_result.json` records;
+- 486 failed ledger entries and 0 pending case records;
+- no new GPU allocations, changed pins, plan changes, or service changes;
+- all 16 worker ledgers reached terminal state.
+
+The exact worker ledgers, completed result records, key recovery manifests,
+and checksums are tracked in Git. The original recovery tree was about 5.1 GiB
+and its bulky raw logs, trajectories, evaluator output, and traces remain
+outside Git. The archived result package is the preserved source-of-truth
+snapshot for this run; the older `LIVE_STATUS.json` is included only as
+provenance and is explicitly marked stale by the later recomputation.
 
 ## Measured H100 archive
 

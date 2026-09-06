@@ -1,0 +1,29 @@
+{
+  "record_type": "docker-authenticated-pull-recheck",
+  "schema_version": "assignment-docker-health.v1",
+  "recorded_utc": "2026-09-05T23:54:44.726Z",
+  "command": "sg docker -c 'docker pull swebench/sweb.eval.x86_64.astropy_1776_astropy-12907:latest'",
+  "pull_exit_code": 0,
+  "image_reference": "swebench/sweb.eval.x86_64.astropy_1776_astropy-12907:latest",
+  "registry": "docker.io",
+  "pull_result": {
+    "digest": "sha256:e082963099ed7d5a5f75a0be46e338be36faae33b2cba5289a9ddbd505997f1f",
+    "status": "Downloaded newer image",
+    "output_name": "docker.io/swebench/sweb.eval.x86_64.astropy_1776_astropy-12907:latest"
+  },
+  "inspect_command": "sg docker -c 'docker image inspect --format ... swebench/sweb.eval.x86_64.astropy_1776_astropy-12907:latest'",
+  "inspect_result": {
+    "repo_digest": "sha256:e082963099ed7d5a5f75a0be46e338be36faae33b2cba5289a9ddbd505997f1f",
+    "image_id": "sha256:e082963099ed7d5a5f75a0be46e338be36faae33b2cba5289a9ddbd505997f1f",
+    "os": "linux",
+    "architecture": "amd64",
+    "size_bytes": 1133603660
+  },
+  "docker_context": "default",
+  "docker_socket": "/var/run/docker.sock",
+  "auth_config_path": "/home/riverahernandezjason/.docker/config.json",
+  "credential_values_recorded": false,
+  "ssh_password_used_as_registry_credential": false,
+  "prior_roots_preserved": true,
+  "active_workers_interrupted": false
+}
