@@ -1,3 +1,5 @@
+> **Historical record — not active instructions.** Current state and execution policy: [CURRENT_STATE.json](CURRENT_STATE.json). Earlier plans, counts, and authorizations below describe their original session.
+
 # Handoff
 
 Phase: post-G3A Lightning control / G4 measured thin-and-gold trajectories — structural PASS

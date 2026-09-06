@@ -1,3 +1,5 @@
+> **Historical record — not active instructions.** Current state and execution policy: [project/CURRENT_STATE.json](project/CURRENT_STATE.json). Earlier plans, counts, and authorizations below describe their original session.
+
 # H100 final validation — fresh VM handoff
 
 This handoff is for a new Codex session on a dedicated H100 host. The protocol

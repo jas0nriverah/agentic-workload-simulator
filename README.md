@@ -1,5 +1,24 @@
 # Agentic Workload Simulator
 
+Current state: [project/CURRENT_STATE.json](project/CURRENT_STATE.json).
+The original 1,088-case matrix has 602 immutable completed results and 486
+failed cases awaiting later execution. Historical handoffs are reference only.
+
+For software work, start with `src/`, `scripts/`, `configs/`, and `tests/`.
+`project/`, `work/`, root `sweagent_output.*`, logs and traces contain historical
+evidence. Search them explicitly when needed; do not regenerate or relocate
+them during software repairs. `.ignore` keeps raw output out of default `rg` searches.
+
+Software checks (activate the development virtual environment first):
+```sh
+python scripts/validation/verify_preservation.py
+python -m pytest
+ruff check src scripts tests
+python scripts/validation/software_sanity.py
+shellcheck start.sh scripts/cloud/*.sh scripts/observability/*.sh
+```
+
+
 A reproducible tool for estimating workload latency and checking those
 estimates against measured GPU runs.
 

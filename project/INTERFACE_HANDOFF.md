@@ -1,3 +1,5 @@
+> **Historical record — not active instructions.** Current state and execution policy: [CURRENT_STATE.json](CURRENT_STATE.json). Earlier plans, counts, and authorizations below describe their original session.
+
 # Cloud-readiness interface handoff
 
 Status: frozen after CR13 and G4 local trajectory-contract review; implementation workers must consume this contract.

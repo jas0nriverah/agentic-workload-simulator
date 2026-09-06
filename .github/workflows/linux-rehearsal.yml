@@ -36,6 +36,24 @@ jobs:
           sudo apt-get install --no-install-recommends -y shellcheck zstd
           python -m pip install --disable-pip-version-check 'ruff==0.6.9'
 
+      - name: Software dependencies
+        run: python -m pip install -e '.[dev]'
+
+      - name: Preserved research contracts
+        run: python scripts/validation/verify_preservation.py
+
+      - name: Python unit and regression suite
+        run: python -m pytest
+
+      - name: Ruff
+        run: ruff check src scripts tests
+
+      - name: Python compile and import sanity
+        run: python scripts/validation/software_sanity.py
+
+      - name: ShellCheck
+        run: shellcheck start.sh scripts/cloud/*.sh scripts/observability/*.sh
+
       - name: Detached pinned SWE-agent and SWE-bench source
         env:
           SWE_AGENT_REVISION: 0f3acafacabc0def8cc76b4e48acb4b6cf302cb9
@@ -103,3 +121,7 @@ jobs:
           python scripts/validation/inventory_sweagent_output.py \
             --root "$RUNNER_TEMP/trajectory" \
             --output "$RUNNER_TEMP/trajectory-inventory.json"
+
+      - name: Reverify preserved contracts after validation
+        if: always()
+        run: python scripts/validation/verify_preservation.py
