@@ -1,3 +1,5 @@
+> **Historical record — not active instructions.** Current state and execution policy: [project/CURRENT_STATE.json](project/CURRENT_STATE.json). Earlier plans, counts, and authorizations below describe their original session.
+
 # Lightning hands-on handoff
 
 This is the execution handoff for a second Codex operating inside the

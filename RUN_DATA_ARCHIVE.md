@@ -1,3 +1,5 @@
+> **Historical record — not active instructions.** Current state and execution policy: [project/CURRENT_STATE.json](project/CURRENT_STATE.json). Earlier plans, counts, and authorizations below describe their original session.
+
 # Agentic Workload Simulator — Run Data Archive
 
 **Archive date:** 2026-09-02

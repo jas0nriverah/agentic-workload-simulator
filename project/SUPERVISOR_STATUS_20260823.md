@@ -1,3 +1,5 @@
+> **Historical record — not active instructions.** Current state and execution policy: [CURRENT_STATE.json](CURRENT_STATE.json). Earlier plans, counts, and authorizations below describe their original session.
+
 # Supervisor status — 2026-08-23
 
 Last checked: 2026-08-23 20:19 UTC

@@ -12,6 +12,9 @@ import time
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(ROOT))
+from scripts.analysis.feature_validation import load_protocol  # noqa: E402
+
 CONFIG = ROOT / "configs/a100_final_validation.json"
 RUNNER = ROOT / "scripts/cloud/a100_case_runner.py"
 PROVIDER = ROOT / "scripts/cloud/a100_nsight_trace_provider.py"
@@ -152,7 +155,56 @@ def audit_calibration(root):
                 raise RuntimeError("calibration integrity failure: {}".format(path))
 
 
+def sealed_identity(root):
+    """Recompute identities from bytes and validate the split's actual case lists."""
+    protocol, protocol_hash, split_hash = load_protocol(CONFIG)
+    split_path = root / "split_manifest.json"
+    split = json.loads(split_path.read_text(encoding="utf-8"))
+    expected = {
+        "schema_version": "a100-final-split.v1",
+        "protocol_id": protocol["protocol_id"],
+        "protocol_sha256": protocol_hash,
+        "split_sha256": split_hash,
+        "sealed": True,
+        "calibration_case_ids": [row["case_id"] for row in protocol["calibration_configs"]],
+        "sealed_holdout_case_ids": [row["case_id"] for row in protocol["sealed_holdouts"]],
+    }
+    if any(split.get(key) != value for key, value in expected.items()):
+        raise RuntimeError("sealed split/case manifest mismatch")
+    if sha(root / "protocol.config.json") != protocol_hash:
+        raise RuntimeError("sealed protocol hash mismatch")
+    if (root / "protocol.sha256").read_text().split() != [protocol_hash, "protocol.config.json"]:
+        raise RuntimeError("sealed protocol sidecar mismatch")
+    return {"protocol_sha256": protocol_hash, "split_sha256": split_hash,
+            "split_manifest_sha256": sha(split_path)}
+
+
+def verify_before_reveal(root):
+    """Fail closed on missing, legacy, or stale pre-reveal authorization."""
+    proof = json.loads((root / "pre_reveal_proof.json").read_text(encoding="utf-8"))
+    identity = sealed_identity(root)
+    prediction = root / "derived/prediction_manifest.json"
+    identity["prediction_manifest_sha256"] = sha(prediction)
+    if (proof.get("schema_version") != "a100-pre-reveal-proof.v2"
+            or proof.get("holdout_rows_seen") is not False
+            or proof.get("holdout_labels_seen") is not False
+            or any(proof.get(key) != value for key, value in identity.items())):
+        raise RuntimeError("pre-reveal proof does not match current sealed artifacts")
+    data = json.loads(prediction.read_text(encoding="utf-8"))
+    if (data.get("protocol_sha256") != identity["protocol_sha256"]
+            or data.get("split_manifest_sha256") != identity["split_sha256"]):
+        raise RuntimeError("prediction protocol/split hash mismatch")
+    if (root / "derived/prediction_manifest.sha256").read_text().split() != [
+            identity["prediction_manifest_sha256"], "prediction_manifest.json"]:
+        raise RuntimeError("prediction sidecar mismatch")
+    return identity
+
+
 def prove_before_reveal(root):
+    if (root / "pre_reveal_proof.json").exists():
+        verify_before_reveal(root)
+        return
+    identity = sealed_identity(root)
     prediction = root / "derived/prediction_manifest.json"
     if not prediction.is_file() or any((root / "holdout").rglob("row.json")):
         raise RuntimeError("pre-reveal proof failed")
@@ -169,12 +221,13 @@ def prove_before_reveal(root):
                 walk(child)
 
     walk(data)
-    proof = {"schema_version": "a100-pre-reveal-proof.v1",
+    proof = {**identity, "schema_version": "a100-pre-reveal-proof.v2",
              "prediction_manifest_sha256": sha(prediction),
              "holdout_rows_seen": False, "holdout_labels_seen": False,
              "created_at_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())}
-    (root / "pre_reveal_proof.json").write_text(
-        json.dumps(proof, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    with (root / "pre_reveal_proof.json").open("x", encoding="utf-8") as handle:
+        handle.write(json.dumps(proof, indent=2, sort_keys=True) + "\n")
+    verify_before_reveal(root)
 
 
 def reveal_holdout(root):
@@ -211,6 +264,10 @@ def adversarial_audit_and_freeze(root):
 
 
 def load_or_create_state(root, phase, max_wall, resume):
+    if (root / "pre_reveal_proof.json").exists():
+        verify_before_reveal(root)
+    if (root / "split_manifest.json").exists():
+        sealed_identity(root)
     state_path = root / "run_state.json"
     deadline_path = root / "deadline.json"
     if state_path.exists():
@@ -223,6 +280,8 @@ def load_or_create_state(root, phase, max_wall, resume):
             raise RuntimeError("resume state/deadline is unreadable") from exc
         if state.get("schema_version") != "a100-run-state.v1" or deadline_record.get("schema_version") != "a100-deadline.v1":
             raise RuntimeError("resume state/deadline schema mismatch")
+        if state.get("protocol_sha256") != sha(CONFIG):
+            raise RuntimeError("resume protocol hash mismatch")
         if state.get("status") == "completed":
             raise RuntimeError("run is already completed; refusing to resume")
         try:
@@ -249,7 +308,8 @@ def load_or_create_state(root, phase, max_wall, resume):
     started = int(time.time())
     deadline = started + max_wall
     state = {"schema_version": "a100-run-state.v1", "status": "running",
-             "phase": phase, "protocol": str(CONFIG), "started_epoch": started,
+             "phase": phase, "protocol": str(CONFIG), "protocol_sha256": sha(CONFIG),
+             "started_epoch": started,
              "deadline_epoch": deadline, "completed": [], "unavailable": []}
     write_json_atomic(deadline_path, {"schema_version": "a100-deadline.v1", "started_epoch": started,
                                       "deadline_epoch": deadline, "max_seconds": max_wall,
@@ -273,7 +333,7 @@ def main(argv=None):
     state, deadline, state_path = load_or_create_state(root, args.phase, max_wall, args.resume)
     try:
         run_analysis("seal", root)
-        if args.phase in ("all", "calibration"):
+        if args.phase in ("all", "calibration") and not (root / "pre_reveal_proof.json").exists():
             run_rows("calibration", root, values, deadline, args.resume, state, state_path)
             audit_calibration(root)
             run_analysis("fit", root)
@@ -281,7 +341,9 @@ def main(argv=None):
         if args.phase in ("all", "holdout"):
             if not (root / "pre_reveal_proof.json").is_file():
                 raise RuntimeError("holdout blocked until pre-reveal proof exists")
+            verify_before_reveal(root)
             run_rows("sealed_holdout", root, values, deadline, args.resume, state, state_path)
+            verify_before_reveal(root)
             reveal_holdout(root)
             run_analysis("score", root)
             adversarial_audit_and_freeze(root)

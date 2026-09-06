@@ -1,3 +1,5 @@
-`PROJECT_STATE.yaml` is the machine-readable authority. `HANDOFF.md` is the
-compact continuation context. `EXPERIMENT_LEDGER.jsonl` is append-only. Only
-the root coordinator edits shared project state.
+`CURRENT_STATE.json` is the sole authoritative current-state source.
+`PROJECT_STATE.yaml`, handoffs, supervisor reports, and recovery narratives are historical.
+The immutable September 6 snapshot and preservation manifest substantiate the
+1,088 original IDs: 602 preserved completed results and 486 remaining failed cases.
+No experiment execution is authorized by the repair task.

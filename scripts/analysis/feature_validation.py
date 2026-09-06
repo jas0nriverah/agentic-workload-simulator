@@ -197,7 +197,8 @@ def seal(config_path: Path, artifact_root: Path) -> dict[str, Any]:
     split_path = artifact_root / "split_manifest.json"
     if split_path.exists():
         existing = _json(split_path)
-        if existing.get("protocol_sha256") != protocol_hash or existing.get("split_sha256") != split_hash:
+        if any(existing.get(key) != value for key, value in split.items()
+               if key != "sealed_at_utc"):
             raise ValidationError("existing split manifest does not match the sealed protocol")
     else:
         _atomic_create(split_path, _dump(split))
