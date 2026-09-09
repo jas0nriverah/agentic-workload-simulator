@@ -1,0 +1,59 @@
+{
+  "reconstruction_checks": {
+    "semantic_action_count": {
+      "observed": 40.0,
+      "expected": 40,
+      "pass": true
+    },
+    "runtime_command_count": {
+      "observed": 60.0,
+      "expected": 60,
+      "pass": true
+    },
+    "native_e2e_count": {
+      "observed": 40.0,
+      "expected": 40,
+      "pass": true
+    },
+    "semantic_action_ms": {
+      "observed": 18491.611631000007,
+      "expected": 18491.611631,
+      "pass": true
+    },
+    "runtime_command_ms": {
+      "observed": 14142.779766999998,
+      "expected": 14142.779767,
+      "pass": true
+    },
+    "native_prefill_ms": {
+      "observed": 3407.418036367744,
+      "expected": 3407.418036,
+      "pass": true
+    },
+    "native_decode_ms": {
+      "observed": 74575.32895635813,
+      "expected": 74575.328956,
+      "pass": true
+    },
+    "native_queue_ms": {
+      "observed": 1.9224761053919792,
+      "expected": 1.922476,
+      "pass": true
+    },
+    "native_e2e_ms": {
+      "observed": 78120.32628059387,
+      "expected": 78120.326281,
+      "pass": true
+    },
+    "outer_e2e_ms": {
+      "observed": 153117.581093,
+      "expected": 153117.581093,
+      "pass": true
+    }
+  },
+  "output_files_checked": 33,
+  "output_hash_mismatches": [],
+  "previous_packet_files_checked": 66,
+  "previous_packet_hash_mismatches": [],
+  "status": "pass"
+}

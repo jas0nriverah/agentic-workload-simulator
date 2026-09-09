@@ -1,0 +1,9 @@
+deliverable,status,data_domain,population,unit,use,constraint
+D1,derived current table/figure,published historical aggregate,Lite 300; Verified 500,percent; seconds,headline arithmetic only,no case-level recomputation
+D2,derived train-only proxy table,pre-built train_calibration trajectory view,819 runs; 545 train instances; grouped rows vary by repository,seconds; proxy ratio,repository/category descriptive summary,incomplete historical proxy; not CPU/GPU or production
+D3,derived train-only proxy table,pre-built train_calibration trajectory view,819 runs; 545 train instances,seconds; proxy ratio,repository/category descriptive summary,no native cache or device phase attribution
+D4,derived current table/figure,historical eligible sweep,18 matched pairs across 17 independent instance clusters per parameter/setting after frozen-scope gate,seconds,paired descriptive sweep,"72 baseline coordinates are dependent parameter-panel copies, not pooled independent observations"
+D5,derived train-only proxy table,pre-built train_calibration trajectory view,819 runs; 545 train instances,seconds; proxy ratio,repository/category descriptive summary,incomplete historical proxy only
+D6,derived train-only proxy table,pre-built train_calibration trajectory view,819 runs; 545 train instances,seconds; proxy ratio,repository/category descriptive summary,not native-serving measurement
+D7,derived train-only proxy table,pre-built train_calibration trajectory view,819 runs; 545 train instances,seconds; proxy ratio,repository/category descriptive summary,not CPU/GPU hardware comparison
+D8,derived current explanatory figure,retained confirmation fixture (descriptive only; excluded from fitting),1 fixture; 40 semantic actions; 60 runtime commands; 40 physical requests,seconds; milliseconds; tokens,explanation of retained confirmation fixture,"not a new D8 selection, fitting input, or full production result"

@@ -1,0 +1,22 @@
+{
+  "attempt_status_counts": {
+    "accepted": 55,
+    "blocked": 1,
+    "requeued": 23
+  },
+  "authoritative_source": "read-only configuration-v1/queue-v2/queue.sqlite3 aggregate",
+  "case_status_counts": {
+    "accepted": 55,
+    "blocked": 1,
+    "pending": 40
+  },
+  "final1088_started": false,
+  "interpretation": "55 queue-accepted cases plus one individually adjudicated case retained as blocked gives 56 scientifically validated results. Forty cases remain pending. This is an interim snapshot, not final results.",
+  "observed_at_utc": "2026-09-09T20:25:20Z",
+  "schema_version": "assignment.results-retained-comparison-status.v1",
+  "scientifically_accepted_count": 55,
+  "scientifically_validated_count": 56,
+  "separately_adjudicated_count": 1,
+  "source_queue_db_hash_scope": "Main SQLite file hash only; not a transactionally restorable backup of the live WAL database.",
+  "source_queue_db_sha256": "10925068730c5dee8e746b78e9960a7f5b1c3cb809cd7a781299c736b539035c"
+}
