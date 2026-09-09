@@ -1,0 +1,82 @@
+{
+  "schema_version": "astra.production-source-final-review.v1",
+  "status": "source_accepted_for_freeze",
+  "time_utc": "2026-09-09T23:44:36.182970+00:00",
+  "file_count": 1636,
+  "sealed_executable_source_file_count": 389,
+  "exact_inventory_match": true,
+  "exclusion_metadata_correction": "revision3 exclusions spelled .pytest_cache__ but actual generated pytest cache is .pytest_cache. Four added pytest cache files excluded explicitly; no sourcefiles changed or deleted. Original inventory preserved.",
+  "source_root": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/production-source-candidate-v9",
+  "review_evidence": [
+    {
+      "path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/production-source-candidate-v9-content-inventory-rev3.json",
+      "sha256": "bad3ad9376a22a319332c2b461672d867f91e95689911b467c27254fcb937c42"
+    },
+    {
+      "path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/candidate-buffer-level20-simultaneous-root-v2/ROOT_ACCEPTANCE.json",
+      "sha256": "e50abe28c8c96bab2ccbe6939a93ec1a82610dedbcfec70887140233b3f9cb1b"
+    },
+    {
+      "path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/candidate-v9-existing-runner-tests.xml",
+      "sha256": "8cf4d6815a20b2686a47d9be796df412b8326d5e785f154aa1e45395cf9aa6a7"
+    },
+    {
+      "path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/candidate-v9-integrated-retry-tests.xml",
+      "sha256": "95b7d16590a055eaab1f595cb23fa2c426a727b3a45f6d44d158057e89f5d0ad"
+    },
+    {
+      "path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/diagnostics/candidate-v9-retry-audit-runner-validation.json",
+      "sha256": "07fe39512a7b5d05be323a54bd2b7c0bc6de6b14237c783b6c3bdd20d70e4363"
+    },
+    {
+      "path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-preparation-v1/source-receipt-v9/source_manifest.json",
+      "sha256": "d8532c900903d63fe59bddc036fd841287edcb6318842802fa8f08c724121dc8"
+    }
+  ],
+  "delta": {
+    "added": [
+      {
+        "path": "project/RETRY_AUDIT_REPAIR_V1_PROVENANCE.json",
+        "sha256": "9a0172bbe32c3d818b870e18bf7a836a6b853656d459ad70d5f5541713ca8259"
+      },
+      {
+        "path": "scripts/validation/retry_audit_repair.py",
+        "sha256": "8bd64eeef1b9646e5e6de654198a3651e3b4deb7b30208fe89a2a10733f99cee"
+      },
+      {
+        "path": "scripts/validation/retry_bridge_normalize_v1.py",
+        "sha256": "78b3c6b4b47263544f12f819a6d0896bb152a2b4f8ca493fcb678f357fc799af"
+      },
+      {
+        "path": "tests/validation/test_retry_audit_repair.py",
+        "sha256": "0fd53deb054efb9f9fc4f6d6942df54de2635565f342c39308c8ea36d7e642f2"
+      }
+    ],
+    "deleted": [],
+    "modified": [
+      {
+        "candidate_sha256": "c4122b2e34dee75f9b25122163cbd4842ff2bcc07a561b8059551323f92efa9a",
+        "frozen_sha256": "5093f99d3231c6fde3fb7c4594894e5506cc2bf529d0312e9a373def34a0e5e1",
+        "path": "scripts/assignment/sweagent_case_runner.py"
+      },
+      {
+        "candidate_sha256": "2c4f7b27e34bf1e96a0874957944acd6dacaea1fb2dba62feb95b28520fc6042",
+        "frozen_sha256": "6f056f5f7e1eebe055724556fdaebdb13dda528ee330bd681dfb2f1c6ee94cde",
+        "path": "scripts/validation/audit_v2_journals.py"
+      },
+      {
+        "candidate_sha256": "739ca6acdac91a0f05a54fbf7216478c297ec066be1a067d07f6b93aef47a196",
+        "frozen_sha256": "b0060eb2fa462197c403346f3419951d612243dd2b7a550e4680b0ddfbf15b3c",
+        "path": "src/agentic_sim/telemetry/bpf_work.py"
+      },
+      {
+        "candidate_sha256": "767f56ac03e4091535e03c0949f65487fa5777c1fb59825eb51d81684fae716e",
+        "frozen_sha256": "ae022541dd37279d62ebe584dcaf7b52de17ece83c8cd18d4e58b560a252c8df",
+        "path": "src/agentic_sim/telemetry/native_bpf_sink.c"
+      }
+    ],
+    "unchanged_file_count": 1628
+  },
+  "supersedes_binding_only": "production-source-candidate-v9-root-review.json revision2 inventoryreference; historicalreceiptpreserved",
+  "production_gate": "Source approval only; runtime/storage/plan preflight still required."
+}

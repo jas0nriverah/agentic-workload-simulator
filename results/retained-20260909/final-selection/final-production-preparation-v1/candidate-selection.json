@@ -1,0 +1,40 @@
+{
+  "schema_version": "assignment-production-candidate-selection.v1",
+  "status": "selected",
+  "plan_id": "assignment-production-v2-20260908",
+  "candidate_id": "expanded-call100-input61440-observation25000",
+  "selected_settings": {
+    "call_limit": 100,
+    "max_input_tokens": 61440,
+    "max_output_tokens": 2048,
+    "observation_length": 25000,
+    "seed": 0,
+    "temperature": 0.0,
+    "top_p": 1.0
+  },
+  "candidate_inventory_sha256": "324b009488309bb5bc2b9950196f9897eed84602a7df8e9426350c2e4e6d18d5",
+  "candidate_config_sha256": "76eea0db3cbed4e04e646777cc09436a69d232a1d67290294117b4100fd713d3",
+  "production_outcomes_accessed": false,
+  "selection_utc": "2026-09-09T23:42:36.719000+00:00",
+  "reviewed_by": "root with independent Astra Low falsification",
+  "decision_evidence": [
+    {
+      "path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-configuration-synthesis-v1.json",
+      "sha256": "5cb88aa9a21e5fcf2a6e684f268fd152f78784fe740d4d7eed0893b5691d6917"
+    },
+    {
+      "path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/astra-final-falsification-review.md",
+      "sha256": "048ea901c42f43528541ecac63ff30598249613af5cdb58e6cdb658d0a442158"
+    },
+    {
+      "path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-confirmation-export-v7/comparison.json",
+      "sha256": "85b673c162d0576a8fea27edcccb2599a8759fa19dbe5266fc218c80b196e45b"
+    },
+    {
+      "path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-confirmation-export-v7/paired_cases.csv",
+      "sha256": "f61bbd288052f5a172a50100ef1af06df99f1fdff950422977ea1bfd94ce98a9"
+    }
+  ],
+  "rationale": "Best observed paired resolved set with no losses versus any candidate, modest added mean agent cost versus50calls, no benefit to untestedoutput/promptchanges. Small nonrandom panel does not prove population superiority. Contextfailurespersistandarelegitimateoutcomes.",
+  "production_launch_authorized_by_this_selection": false
+}

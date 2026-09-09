@@ -1,0 +1,736 @@
+{
+  "constraints": {
+    "context_length_required": 65536,
+    "no_endpoint_mutation": true,
+    "no_inference_sent": true,
+    "selected_declared_worker_ids": [
+      "worker-00",
+      "worker-01",
+      "worker-02",
+      "worker-03",
+      "worker-04",
+      "worker-05",
+      "worker-06",
+      "worker-07",
+      "worker-08",
+      "worker-09",
+      "worker-10",
+      "worker-12",
+      "worker-13",
+      "worker-14",
+      "worker-15",
+      "worker-16",
+      "worker-17",
+      "worker-18",
+      "worker-19",
+      "worker-20"
+    ],
+    "source_v8_unchanged": true,
+    "unprepared_declared_worker_ids": [
+      "worker-21",
+      "worker-22"
+    ],
+    "valid_declared_worker_ids": [
+      "worker-00",
+      "worker-01",
+      "worker-02",
+      "worker-03",
+      "worker-04",
+      "worker-05",
+      "worker-06",
+      "worker-07",
+      "worker-08",
+      "worker-09",
+      "worker-10",
+      "worker-12",
+      "worker-13",
+      "worker-14",
+      "worker-15",
+      "worker-16",
+      "worker-17",
+      "worker-18",
+      "worker-19",
+      "worker-20",
+      "worker-21",
+      "worker-22"
+    ]
+  },
+  "health_gate": {
+    "all_20_health_status": 200,
+    "all_20_max_model_len": 65536,
+    "all_20_model_id": "Qwen/Qwen3-Coder-30B-A3B-Instruct",
+    "all_20_models_status": 200,
+    "receipt_observed_at_utc": "2026-09-09T23:40:53.253140+00:00"
+  },
+  "identity_gate": {
+    "fresh_process_middleware_argv_rows": 20,
+    "fresh_process_rows": 20,
+    "gpu_uuid_set_size": 20,
+    "job_set_size": 20,
+    "native_epoch_set_size": 20,
+    "pid_start_ticks_join_required": true,
+    "row_count": 20,
+    "unique_gpu_uuids": true,
+    "unique_jobs": true,
+    "unique_native_epochs": true,
+    "unique_relay_ports": true
+  },
+  "limits": [
+    "This is a read-only binding proposal; it is not a production launch or fleet acceptance.",
+    "Native request proof is independently accepted for the five repaired endpoints from nonstream probes; other rows retain native observer identity receipts plus fresh process argv evidence.",
+    "Slurm remaining time is a point-in-time snapshot and must be refreshed immediately before launch.",
+    "Relay table worker IDs are intentionally separate from frozen comparison worker IDs and proposed declared production IDs."
+  ],
+  "observed_at_utc": "2026-09-09T23:41:27.703274107Z",
+  "provenance": {
+    "health_observation": "local relay /health and /v1/models, parallel read-only probe",
+    "health_receipt": {
+      "path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/twenty-endpoint-production-binding-health-v1.json",
+      "sha256": "63d37ed6b2f38cd6c572f4d095c35170424a9fb84d7f2c2533786e5ef428fa27"
+    },
+    "identity_observation": "srun --jobid JOB --overlap ps, /proc/PID/stat, hostname, nvidia-smi (read-only)",
+    "slurm_observation": "squeue -h -o %i|%N|%M|%l|%L",
+    "slurm_observation_time_utc": "2026-09-09T23:41:27.703274107Z",
+    "source_receipts": {
+      "post_repair_health_v1": {
+        "path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/production-five-repair-v1/post-repair-five-endpoint-health-v1.json",
+        "sha256": "a983e7a510df29a748ae0bb5e4cf93249c471f4b3874d4c950e09bb54bb86e87"
+      },
+      "prior_preflight": {
+        "path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/twenty-endpoint-production-preflight-v1.json",
+        "sha256": "d80c53213218b9eaafe9fee9bee7945ffc7c8560991b2cda21db6df8f0dc2ed6"
+      },
+      "repaired_identity_public_v1": {
+        "path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/production-five-repair-v1/repaired-five-identity-public-v1.json",
+        "sha256": "c7420bc8e72ef4ec7133a3ce1406c1921e622257e37332bc4ec44784c05a7f40"
+      }
+    },
+    "ssh_control_path": "/tmp/jriverah3-pace-fresh.sock",
+    "ssh_target": "jriverah3@128.61.254.151"
+  },
+  "purpose": "Render a future production 20-endpoint binding without changing serving, queue, frozen source-v8, or endpoint processes.",
+  "rows": [
+    {
+      "comparison_worker_id": "worker-06",
+      "current_role": "frozen_comparison",
+      "declared_production_worker_id": "worker-00",
+      "gpu_uuid": "GPU-b14b7dac-b5f3-bd3f-bccf-12493c331586",
+      "hostname": "atl1-1-03-011-3-0.pace.gatech.edu",
+      "job_id": "5747932",
+      "model": {
+        "max_model_len": 65536,
+        "revision": "b2cff646eb4bb1d68355c01b18ae02e7cf42d120",
+        "served_model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+      },
+      "native_observer": {
+        "epoch_provenance": "retained_native_identity_receipt",
+        "installed_native_hook_sha256": "345bfdf8bff300d8fab6291cf7956add1cf2b7d40bf6b7ff6b1647864ab353cc",
+        "middleware_argv_observed": true
+      },
+      "native_observer_epoch": "declared96-comparison-resume-20260909-v1-worker-06-job5747932",
+      "pid": 3075002,
+      "relay_port": 18016,
+      "relay_table_id": "relay-00",
+      "relay_table_worker_id": "worker-00",
+      "server_port": 8100,
+      "slurm": {
+        "elapsed": "9:04:54",
+        "remaining": "6:55:06",
+        "time_limit": "16:00:00"
+      },
+      "slurm_node": "atl1-1-03-011-3-0",
+      "start_ticks": 242490365
+    },
+    {
+      "comparison_worker_id": null,
+      "current_role": "extra_production",
+      "declared_production_worker_id": "worker-01",
+      "gpu_uuid": "GPU-81444be0-9721-8cf7-ca0d-a60147ceae67",
+      "hostname": "atl1-1-03-010-10-0.pace.gatech.edu",
+      "job_id": "5747931",
+      "model": {
+        "max_model_len": 65536,
+        "revision": "b2cff646eb4bb1d68355c01b18ae02e7cf42d120",
+        "served_model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+      },
+      "native_observer": {
+        "epoch_provenance": "repair_or_extra_identity_receipt",
+        "installed_native_hook_sha256": "345bfdf8bff300d8fab6291cf7956add1cf2b7d40bf6b7ff6b1647864ab353cc",
+        "middleware_argv_observed": true
+      },
+      "native_observer_epoch": "astra-future-production-20260909-v1-extra-01-job5747931",
+      "pid": 3732477,
+      "relay_port": 18017,
+      "relay_table_id": "relay-01",
+      "relay_table_worker_id": "worker-01",
+      "server_port": 8101,
+      "slurm": {
+        "elapsed": "6:59:11",
+        "remaining": "9:00:49",
+        "time_limit": "16:00:00"
+      },
+      "slurm_node": "atl1-1-03-010-10-0",
+      "start_ticks": 243176070
+    },
+    {
+      "comparison_worker_id": "worker-10",
+      "current_role": "frozen_comparison",
+      "declared_production_worker_id": "worker-02",
+      "gpu_uuid": "GPU-fb4dbba6-1c8f-ffa9-b952-40d17df28110",
+      "hostname": "atl1-1-03-010-30-0.pace.gatech.edu",
+      "job_id": "5747930",
+      "model": {
+        "max_model_len": 65536,
+        "revision": "b2cff646eb4bb1d68355c01b18ae02e7cf42d120",
+        "served_model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+      },
+      "native_observer": {
+        "epoch_provenance": "retained_native_identity_receipt",
+        "installed_native_hook_sha256": "345bfdf8bff300d8fab6291cf7956add1cf2b7d40bf6b7ff6b1647864ab353cc",
+        "middleware_argv_observed": true
+      },
+      "native_observer_epoch": "declared96-comparison-resume-20260909-v3-worker-10-job5747930",
+      "pid": 1468670,
+      "relay_port": 18018,
+      "relay_table_id": "relay-02",
+      "relay_table_worker_id": "worker-02",
+      "server_port": 8102,
+      "slurm": {
+        "elapsed": "9:05:03",
+        "remaining": "6:54:57",
+        "time_limit": "16:00:00"
+      },
+      "slurm_node": "atl1-1-03-010-30-0",
+      "start_ticks": 242724929
+    },
+    {
+      "comparison_worker_id": null,
+      "current_role": "extra_production",
+      "declared_production_worker_id": "worker-03",
+      "gpu_uuid": "GPU-f741acc1-09c9-4130-f4dd-42b96382479b",
+      "hostname": "atl1-1-03-011-8-0.pace.gatech.edu",
+      "job_id": "5747918",
+      "model": {
+        "max_model_len": 65536,
+        "revision": "b2cff646eb4bb1d68355c01b18ae02e7cf42d120",
+        "served_model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+      },
+      "native_observer": {
+        "epoch_provenance": "repair_or_extra_identity_receipt",
+        "installed_native_hook_sha256": "345bfdf8bff300d8fab6291cf7956add1cf2b7d40bf6b7ff6b1647864ab353cc",
+        "middleware_argv_observed": true
+      },
+      "native_observer_epoch": "astra-future-production-20260909-v1-extra-02-job5747918",
+      "pid": 2581683,
+      "relay_port": 18019,
+      "relay_table_id": "relay-03",
+      "relay_table_worker_id": "worker-03",
+      "server_port": 8103,
+      "slurm": {
+        "elapsed": "5:31:54",
+        "remaining": "10:28:06",
+        "time_limit": "16:00:00"
+      },
+      "slurm_node": "atl1-1-03-011-8-0",
+      "start_ticks": 10351942
+    },
+    {
+      "comparison_worker_id": "worker-13",
+      "current_role": "frozen_comparison",
+      "declared_production_worker_id": "worker-04",
+      "gpu_uuid": "GPU-d5e3da09-11d7-5448-c5e4-a01bf7efc9bf",
+      "hostname": "atl1-1-03-011-8-0.pace.gatech.edu",
+      "job_id": "5747917",
+      "model": {
+        "max_model_len": 65536,
+        "revision": "b2cff646eb4bb1d68355c01b18ae02e7cf42d120",
+        "served_model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+      },
+      "native_observer": {
+        "epoch_provenance": "retained_native_identity_receipt",
+        "installed_native_hook_sha256": "345bfdf8bff300d8fab6291cf7956add1cf2b7d40bf6b7ff6b1647864ab353cc",
+        "middleware_argv_observed": true
+      },
+      "native_observer_epoch": "declared96-comparison-resume-20260909-v5-worker-13-job5747917",
+      "pid": 2548714,
+      "relay_port": 18020,
+      "relay_table_id": "relay-04",
+      "relay_table_worker_id": "worker-04",
+      "server_port": 8104,
+      "slurm": {
+        "elapsed": "5:31:54",
+        "remaining": "10:28:06",
+        "time_limit": "16:00:00"
+      },
+      "slurm_node": "atl1-1-03-011-8-0",
+      "start_ticks": 10022882
+    },
+    {
+      "comparison_worker_id": "worker-14",
+      "current_role": "frozen_comparison",
+      "declared_production_worker_id": "worker-05",
+      "gpu_uuid": "GPU-de73da9f-2048-98c8-d373-3793cb96137e",
+      "hostname": "atl1-1-03-011-8-0.pace.gatech.edu",
+      "job_id": "5747916",
+      "model": {
+        "max_model_len": 65536,
+        "revision": "b2cff646eb4bb1d68355c01b18ae02e7cf42d120",
+        "served_model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+      },
+      "native_observer": {
+        "epoch_provenance": "retained_native_identity_receipt",
+        "installed_native_hook_sha256": "345bfdf8bff300d8fab6291cf7956add1cf2b7d40bf6b7ff6b1647864ab353cc",
+        "middleware_argv_observed": true
+      },
+      "native_observer_epoch": "declared96-comparison-resume-20260909-v5-worker-14-job5747916",
+      "pid": 2548640,
+      "relay_port": 18021,
+      "relay_table_id": "relay-05",
+      "relay_table_worker_id": "worker-05",
+      "server_port": 8105,
+      "slurm": {
+        "elapsed": "5:32:15",
+        "remaining": "10:27:45",
+        "time_limit": "16:00:00"
+      },
+      "slurm_node": "atl1-1-03-011-8-0",
+      "start_ticks": 10022366
+    },
+    {
+      "comparison_worker_id": "worker-15",
+      "current_role": "frozen_comparison",
+      "declared_production_worker_id": "worker-06",
+      "gpu_uuid": "GPU-a44c94fd-3eee-780e-a519-5337659b5c2a",
+      "hostname": "atl1-1-03-011-3-0.pace.gatech.edu",
+      "job_id": "5747915",
+      "model": {
+        "max_model_len": 65536,
+        "revision": "b2cff646eb4bb1d68355c01b18ae02e7cf42d120",
+        "served_model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+      },
+      "native_observer": {
+        "epoch_provenance": "retained_native_identity_receipt",
+        "installed_native_hook_sha256": "345bfdf8bff300d8fab6291cf7956add1cf2b7d40bf6b7ff6b1647864ab353cc",
+        "middleware_argv_observed": true
+      },
+      "native_observer_epoch": "declared96-comparison-resume-20260909-v5-worker-15-job5747915",
+      "pid": 3089996,
+      "relay_port": 18022,
+      "relay_table_id": "relay-06",
+      "relay_table_worker_id": "worker-06",
+      "server_port": 8106,
+      "slurm": {
+        "elapsed": "5:32:15",
+        "remaining": "10:27:45",
+        "time_limit": "16:00:00"
+      },
+      "slurm_node": "atl1-1-03-011-3-0",
+      "start_ticks": 242853645
+    },
+    {
+      "comparison_worker_id": "worker-16",
+      "current_role": "frozen_comparison",
+      "declared_production_worker_id": "worker-07",
+      "gpu_uuid": "GPU-b1641dad-6c2c-fd52-0e39-a91a8c1d5a9c",
+      "hostname": "atl1-1-03-010-10-0.pace.gatech.edu",
+      "job_id": "5747914",
+      "model": {
+        "max_model_len": 65536,
+        "revision": "b2cff646eb4bb1d68355c01b18ae02e7cf42d120",
+        "served_model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+      },
+      "native_observer": {
+        "epoch_provenance": "retained_native_identity_receipt",
+        "installed_native_hook_sha256": "345bfdf8bff300d8fab6291cf7956add1cf2b7d40bf6b7ff6b1647864ab353cc",
+        "middleware_argv_observed": true
+      },
+      "native_observer_epoch": "declared96-comparison-resume-20260909-v1-worker-16-job5747914",
+      "pid": 3552224,
+      "relay_port": 18023,
+      "relay_table_id": "relay-07",
+      "relay_table_worker_id": "worker-07",
+      "server_port": 8107,
+      "slurm": {
+        "elapsed": "9:06:43",
+        "remaining": "6:53:17",
+        "time_limit": "16:00:00"
+      },
+      "slurm_node": "atl1-1-03-010-10-0",
+      "start_ticks": 242514174
+    },
+    {
+      "comparison_worker_id": "worker-17",
+      "current_role": "frozen_comparison",
+      "declared_production_worker_id": "worker-08",
+      "gpu_uuid": "GPU-f1f666ee-06d4-97a2-191a-2f3d4d8bca72",
+      "hostname": "atl1-1-03-010-10-0.pace.gatech.edu",
+      "job_id": "5747913",
+      "model": {
+        "max_model_len": 65536,
+        "revision": "b2cff646eb4bb1d68355c01b18ae02e7cf42d120",
+        "served_model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+      },
+      "native_observer": {
+        "epoch_provenance": "retained_native_identity_receipt",
+        "installed_native_hook_sha256": "345bfdf8bff300d8fab6291cf7956add1cf2b7d40bf6b7ff6b1647864ab353cc",
+        "middleware_argv_observed": true
+      },
+      "native_observer_epoch": "declared96-comparison-resume-20260909-v1-worker-17-job5747913",
+      "pid": 3563617,
+      "relay_port": 18024,
+      "relay_table_id": "relay-08",
+      "relay_table_worker_id": "worker-08",
+      "server_port": 8108,
+      "slurm": {
+        "elapsed": "9:06:47",
+        "remaining": "6:53:13",
+        "time_limit": "16:00:00"
+      },
+      "slurm_node": "atl1-1-03-010-10-0",
+      "start_ticks": 242731927
+    },
+    {
+      "comparison_worker_id": "worker-18",
+      "current_role": "frozen_comparison",
+      "declared_production_worker_id": "worker-09",
+      "gpu_uuid": "GPU-06348f8a-07c2-1e97-cc87-19846bffaedf",
+      "hostname": "atl1-1-03-010-10-0.pace.gatech.edu",
+      "job_id": "5747912",
+      "model": {
+        "max_model_len": 65536,
+        "revision": "b2cff646eb4bb1d68355c01b18ae02e7cf42d120",
+        "served_model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+      },
+      "native_observer": {
+        "epoch_provenance": "retained_native_identity_receipt",
+        "installed_native_hook_sha256": "345bfdf8bff300d8fab6291cf7956add1cf2b7d40bf6b7ff6b1647864ab353cc",
+        "middleware_argv_observed": true
+      },
+      "native_observer_epoch": "declared96-comparison-resume-20260909-v1-worker-18-job5747912",
+      "pid": 3552231,
+      "relay_port": 18025,
+      "relay_table_id": "relay-09",
+      "relay_table_worker_id": "worker-09",
+      "server_port": 8109,
+      "slurm": {
+        "elapsed": "9:06:52",
+        "remaining": "6:53:08",
+        "time_limit": "16:00:00"
+      },
+      "slurm_node": "atl1-1-03-010-10-0",
+      "start_ticks": 242514177
+    },
+    {
+      "comparison_worker_id": "worker-19",
+      "current_role": "frozen_comparison",
+      "declared_production_worker_id": "worker-10",
+      "gpu_uuid": "GPU-a3194991-5da3-8977-0642-3ca5d682fdca",
+      "hostname": "atl1-1-03-012-3-0.pace.gatech.edu",
+      "job_id": "5747911",
+      "model": {
+        "max_model_len": 65536,
+        "revision": "b2cff646eb4bb1d68355c01b18ae02e7cf42d120",
+        "served_model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+      },
+      "native_observer": {
+        "epoch_provenance": "retained_native_identity_receipt",
+        "installed_native_hook_sha256": "345bfdf8bff300d8fab6291cf7956add1cf2b7d40bf6b7ff6b1647864ab353cc",
+        "middleware_argv_observed": true
+      },
+      "native_observer_epoch": "declared96-comparison-resume-20260909-v1-worker-19-job5747911",
+      "pid": 57928,
+      "relay_port": 18026,
+      "relay_table_id": "relay-10",
+      "relay_table_worker_id": "worker-10",
+      "server_port": 8110,
+      "slurm": {
+        "elapsed": "9:06:56",
+        "remaining": "6:53:04",
+        "time_limit": "16:00:00"
+      },
+      "slurm_node": "atl1-1-03-012-3-0",
+      "start_ticks": 120057983
+    },
+    {
+      "comparison_worker_id": null,
+      "current_role": "repair_production",
+      "declared_production_worker_id": "worker-12",
+      "gpu_uuid": "GPU-74573fbf-4115-8134-0e39-eb8b260d5e30",
+      "hostname": "atl1-1-03-011-23-0.pace.gatech.edu",
+      "job_id": "5747910",
+      "model": {
+        "max_model_len": 65536,
+        "revision": "b2cff646eb4bb1d68355c01b18ae02e7cf42d120",
+        "served_model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+      },
+      "native_observer": {
+        "epoch_provenance": "repair_or_extra_identity_receipt",
+        "installed_native_hook_sha256": "345bfdf8bff300d8fab6291cf7956add1cf2b7d40bf6b7ff6b1647864ab353cc",
+        "middleware_argv_observed": true
+      },
+      "native_observer_epoch": "astra-future-production-repair-20260909-v1-worker-11-job5747910",
+      "pid": 1438017,
+      "relay_port": 18027,
+      "relay_table_id": "relay-11",
+      "relay_table_worker_id": "worker-11",
+      "server_port": 8111,
+      "slurm": {
+        "elapsed": "4:36:14",
+        "remaining": "11:23:46",
+        "time_limit": "16:00:00"
+      },
+      "slurm_node": "atl1-1-03-011-23-0",
+      "start_ticks": 244512706
+    },
+    {
+      "comparison_worker_id": "worker-20",
+      "current_role": "frozen_comparison",
+      "declared_production_worker_id": "worker-13",
+      "gpu_uuid": "GPU-00a41e6d-8939-b2f3-6688-f0fd1a8bc9df",
+      "hostname": "atl1-1-03-011-13-0.pace.gatech.edu",
+      "job_id": "5747909",
+      "model": {
+        "max_model_len": 65536,
+        "revision": "b2cff646eb4bb1d68355c01b18ae02e7cf42d120",
+        "served_model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+      },
+      "native_observer": {
+        "epoch_provenance": "retained_native_identity_receipt",
+        "installed_native_hook_sha256": "345bfdf8bff300d8fab6291cf7956add1cf2b7d40bf6b7ff6b1647864ab353cc",
+        "middleware_argv_observed": true
+      },
+      "native_observer_epoch": "declared96-comparison-resume-20260909-v1-worker-20-job5747909",
+      "pid": 1478075,
+      "relay_port": 18028,
+      "relay_table_id": "relay-12",
+      "relay_table_worker_id": "worker-12",
+      "server_port": 8112,
+      "slurm": {
+        "elapsed": "9:07:03",
+        "remaining": "6:52:57",
+        "time_limit": "16:00:00"
+      },
+      "slurm_node": "atl1-1-03-011-13-0",
+      "start_ticks": 234664290
+    },
+    {
+      "comparison_worker_id": "worker-21",
+      "current_role": "frozen_comparison",
+      "declared_production_worker_id": "worker-14",
+      "gpu_uuid": "GPU-e633211c-d9b0-8dad-c241-eb1ce5176cb9",
+      "hostname": "atl1-1-03-011-13-0.pace.gatech.edu",
+      "job_id": "5747908",
+      "model": {
+        "max_model_len": 65536,
+        "revision": "b2cff646eb4bb1d68355c01b18ae02e7cf42d120",
+        "served_model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+      },
+      "native_observer": {
+        "epoch_provenance": "retained_native_identity_receipt",
+        "installed_native_hook_sha256": "345bfdf8bff300d8fab6291cf7956add1cf2b7d40bf6b7ff6b1647864ab353cc",
+        "middleware_argv_observed": true
+      },
+      "native_observer_epoch": "declared96-comparison-resume-20260909-v1-worker-21-job5747908",
+      "pid": 1478074,
+      "relay_port": 18029,
+      "relay_table_id": "relay-13",
+      "relay_table_worker_id": "worker-13",
+      "server_port": 8113,
+      "slurm": {
+        "elapsed": "9:07:09",
+        "remaining": "6:52:51",
+        "time_limit": "16:00:00"
+      },
+      "slurm_node": "atl1-1-03-011-13-0",
+      "start_ticks": 234664290
+    },
+    {
+      "comparison_worker_id": null,
+      "current_role": "repair_production",
+      "declared_production_worker_id": "worker-15",
+      "gpu_uuid": "GPU-5c31f3fa-608a-7f19-3f58-9108370602c7",
+      "hostname": "atl1-1-03-011-8-0.pace.gatech.edu",
+      "job_id": "5747907",
+      "model": {
+        "max_model_len": 65536,
+        "revision": "b2cff646eb4bb1d68355c01b18ae02e7cf42d120",
+        "served_model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+      },
+      "native_observer": {
+        "epoch_provenance": "repair_or_extra_identity_receipt",
+        "installed_native_hook_sha256": "345bfdf8bff300d8fab6291cf7956add1cf2b7d40bf6b7ff6b1647864ab353cc",
+        "middleware_argv_observed": true
+      },
+      "native_observer_epoch": "astra-future-production-repair-20260909-v1-worker-14-job5747907",
+      "pid": 2636328,
+      "relay_port": 18030,
+      "relay_table_id": "relay-14",
+      "relay_table_worker_id": "worker-14",
+      "server_port": 8114,
+      "slurm": {
+        "elapsed": "4:05:14",
+        "remaining": "11:54:46",
+        "time_limit": "16:00:00"
+      },
+      "slurm_node": "atl1-1-03-011-8-0",
+      "start_ticks": 11714784
+    },
+    {
+      "comparison_worker_id": null,
+      "current_role": "extra_production",
+      "declared_production_worker_id": "worker-16",
+      "gpu_uuid": "GPU-90102672-9e47-7efc-979b-b0cb420d3ccf",
+      "hostname": "atl1-1-03-011-3-0.pace.gatech.edu",
+      "job_id": "5747906",
+      "model": {
+        "max_model_len": 65536,
+        "revision": "b2cff646eb4bb1d68355c01b18ae02e7cf42d120",
+        "served_model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+      },
+      "native_observer": {
+        "epoch_provenance": "repair_or_extra_identity_receipt",
+        "installed_native_hook_sha256": "345bfdf8bff300d8fab6291cf7956add1cf2b7d40bf6b7ff6b1647864ab353cc",
+        "middleware_argv_observed": true
+      },
+      "native_observer_epoch": "astra-future-production-20260909-v1-extra-04-job5747906",
+      "pid": 3103366,
+      "relay_port": 18031,
+      "relay_table_id": "relay-15",
+      "relay_table_worker_id": "worker-15",
+      "server_port": 8115,
+      "slurm": {
+        "elapsed": "9:07:16",
+        "remaining": "6:52:44",
+        "time_limit": "16:00:00"
+      },
+      "slurm_node": "atl1-1-03-011-3-0",
+      "start_ticks": 243185970
+    },
+    {
+      "comparison_worker_id": null,
+      "current_role": "extra_production",
+      "declared_production_worker_id": "worker-17",
+      "gpu_uuid": "GPU-717da63c-b150-8f94-2483-373bd5881c8f",
+      "hostname": "atl1-1-03-011-3-0.pace.gatech.edu",
+      "job_id": "5747905",
+      "model": {
+        "max_model_len": 65536,
+        "revision": "b2cff646eb4bb1d68355c01b18ae02e7cf42d120",
+        "served_model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+      },
+      "native_observer": {
+        "epoch_provenance": "repair_or_extra_identity_receipt",
+        "installed_native_hook_sha256": "345bfdf8bff300d8fab6291cf7956add1cf2b7d40bf6b7ff6b1647864ab353cc",
+        "middleware_argv_observed": true
+      },
+      "native_observer_epoch": "astra-future-production-20260909-v1-extra-05-job5747905",
+      "pid": 3103511,
+      "relay_port": 18032,
+      "relay_table_id": "relay-16",
+      "relay_table_worker_id": "worker-16",
+      "server_port": 8116,
+      "slurm": {
+        "elapsed": "9:07:20",
+        "remaining": "6:52:40",
+        "time_limit": "16:00:00"
+      },
+      "slurm_node": "atl1-1-03-011-3-0",
+      "start_ticks": 243187470
+    },
+    {
+      "comparison_worker_id": null,
+      "current_role": "repair_production",
+      "declared_production_worker_id": "worker-18",
+      "gpu_uuid": "GPU-073fc156-64f4-f86d-16d5-ef2b87fc6c08",
+      "hostname": "atl1-1-03-011-28-0.pace.gatech.edu",
+      "job_id": "5746160",
+      "model": {
+        "max_model_len": 65536,
+        "revision": "b2cff646eb4bb1d68355c01b18ae02e7cf42d120",
+        "served_model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+      },
+      "native_observer": {
+        "epoch_provenance": "repair_or_extra_identity_receipt",
+        "installed_native_hook_sha256": "345bfdf8bff300d8fab6291cf7956add1cf2b7d40bf6b7ff6b1647864ab353cc",
+        "middleware_argv_observed": true
+      },
+      "native_observer_epoch": "astra-future-production-repair-20260909-v1-worker-17-job5746160",
+      "pid": 21416,
+      "relay_port": 18033,
+      "relay_table_id": "relay-17",
+      "relay_table_worker_id": "worker-17",
+      "server_port": 8117,
+      "slurm": {
+        "elapsed": "6:31:59",
+        "remaining": "9:28:01",
+        "time_limit": "16:00:00"
+      },
+      "slurm_node": "atl1-1-03-011-28-0",
+      "start_ticks": 244619484
+    },
+    {
+      "comparison_worker_id": null,
+      "current_role": "repair_production",
+      "declared_production_worker_id": "worker-19",
+      "gpu_uuid": "GPU-02ff1b90-d35c-9092-a121-56414f311914",
+      "hostname": "atl1-1-03-010-10-0.pace.gatech.edu",
+      "job_id": "5746157",
+      "model": {
+        "max_model_len": 65536,
+        "revision": "b2cff646eb4bb1d68355c01b18ae02e7cf42d120",
+        "served_model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+      },
+      "native_observer": {
+        "epoch_provenance": "repair_or_extra_identity_receipt",
+        "installed_native_hook_sha256": "345bfdf8bff300d8fab6291cf7956add1cf2b7d40bf6b7ff6b1647864ab353cc",
+        "middleware_argv_observed": true
+      },
+      "native_observer_epoch": "astra-future-production-repair-20260909-v1-worker-18-job5746157",
+      "pid": 3822160,
+      "relay_port": 18034,
+      "relay_table_id": "relay-18",
+      "relay_table_worker_id": "worker-18",
+      "server_port": 8118,
+      "slurm": {
+        "elapsed": "6:21:22",
+        "remaining": "9:38:38",
+        "time_limit": "16:00:00"
+      },
+      "slurm_node": "atl1-1-03-010-10-0",
+      "start_ticks": 244590779
+    },
+    {
+      "comparison_worker_id": null,
+      "current_role": "repair_production",
+      "declared_production_worker_id": "worker-20",
+      "gpu_uuid": "GPU-d1ab0d90-760b-eb71-c40b-1c56bffc9c2a",
+      "hostname": "atl1-1-03-010-20-0.pace.gatech.edu",
+      "job_id": "5744201",
+      "model": {
+        "max_model_len": 65536,
+        "revision": "b2cff646eb4bb1d68355c01b18ae02e7cf42d120",
+        "served_model_name": "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+      },
+      "native_observer": {
+        "epoch_provenance": "repair_or_extra_identity_receipt",
+        "installed_native_hook_sha256": "345bfdf8bff300d8fab6291cf7956add1cf2b7d40bf6b7ff6b1647864ab353cc",
+        "middleware_argv_observed": true
+      },
+      "native_observer_epoch": "astra-future-production-repair-20260909-v1-worker-19-job5744201",
+      "pid": 1733902,
+      "relay_port": 18035,
+      "relay_table_id": "relay-19",
+      "relay_table_worker_id": "worker-19",
+      "server_port": 8119,
+      "slurm": {
+        "elapsed": "5:55:54",
+        "remaining": "10:04:06",
+        "time_limit": "16:00:00"
+      },
+      "slurm_node": "atl1-1-03-010-20-0",
+      "start_ticks": 244632923
+    }
+  ],
+  "schema": "astra.twenty-endpoint-production-binding.v1",
+  "status": "proposed_read_only_binding"
+}

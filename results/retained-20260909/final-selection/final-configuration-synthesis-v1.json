@@ -1,0 +1,99 @@
+{
+  "schema_version": "astra.final-configuration-synthesis.v1",
+  "created_utc": "2026-09-09T23:41:44.234354+00:00",
+  "status": "provisional_pending_independent_review",
+  "selected_candidate": "expanded-call100-input61440-observation25000",
+  "comparison_sha256": "85b673c162d0576a8fea27edcccb2599a8759fa19dbe5266fc218c80b196e45b",
+  "paired_csv_sha256": "f61bbd288052f5a172a50100ef1af06df99f1fdff950422977ea1bfd94ce98a9",
+  "candidate_statistics": [
+    {
+      "candidate_id": "expanded-call100-input61440",
+      "resolved": 11,
+      "count": 24,
+      "mean_agent_seconds": 213.82507400920832,
+      "median_agent_seconds": 183.50478409099998,
+      "sum_api_calls": 1228,
+      "exit_status_counts": {
+        "submitted (exit_context)": 2,
+        "submitted": 22
+      }
+    },
+    {
+      "candidate_id": "expanded-call100-input61440-observation25000",
+      "resolved": 12,
+      "count": 24,
+      "mean_agent_seconds": 211.06760511325,
+      "median_agent_seconds": 177.4722802065,
+      "sum_api_calls": 1234,
+      "exit_status_counts": {
+        "submitted": 20,
+        "submitted (exit_context)": 4
+      }
+    },
+    {
+      "candidate_id": "expanded-call50-input61440",
+      "resolved": 11,
+      "count": 24,
+      "mean_agent_seconds": 199.47108225970834,
+      "median_agent_seconds": 165.96163087500003,
+      "sum_api_calls": 1075,
+      "exit_status_counts": {
+        "submitted (exit_cost)": 9,
+        "submitted": 15
+      }
+    },
+    {
+      "candidate_id": "historical-control-call30-input32768",
+      "resolved": 8,
+      "count": 24,
+      "mean_agent_seconds": 127.42845755379167,
+      "median_agent_seconds": 121.302511923,
+      "sum_api_calls": 731,
+      "exit_status_counts": {
+        "submitted (exit_cost)": 22,
+        "submitted (exit_context)": 1,
+        "submitted": 1
+      }
+    }
+  ],
+  "selected_pairwise": [
+    {
+      "other": "expanded-call100-input61440",
+      "wins": 1,
+      "losses": 0
+    },
+    {
+      "other": "expanded-call50-input61440",
+      "wins": 1,
+      "losses": 0
+    },
+    {
+      "other": "historical-control-call30-input32768",
+      "wins": 4,
+      "losses": 0
+    }
+  ],
+  "inference_limits": [
+    "24 failure-enriched instances; not a random estimate of Lite/Verified population resolved rate.",
+    "One discordant pair versus each expanded candidate is weak comparative evidence, not demonstrated statistical superiority.",
+    "Timing is agent boundary and mixes today runtime placements; neither median nor mean here substitutes for D1 full-suite average outer E2E.",
+    "Calls and context guard changed jointly against control; effect cannot be assigned to calls alone."
+  ],
+  "reasoning": [
+    "Selected preserves every observed success of all other candidates, plus four versus control and one versus either expanded candidate.",
+    "Call100/obs25k avoids nine call50 budget exits and all22control call-boundary exits; permits useful longer exploration.",
+    "Mean agent latency211.07s vs199.47s call50 is5.81% overhead for observed extra success; no compelling capacity case for cheapercall50 on20GPUs.",
+    "Observation25k vs100k is directly compared at100calls, similar call/token cost and modestlylower median/mean; no paired score regression.",
+    "Context exits4 vs2 forcall100/obs100k, includingone resolved; do not claim25kprevents context exhaustion. Preserve these honestconfigoutcomes.",
+    "Historical sweeps support retaining output2048/temp0; low output/calls damagedscore, larger output/temp showed no retained wins."
+  ],
+  "supported_improvements": [
+    "Deploy alreadyvalidated collector durability/control fixes with20independent domains.",
+    "Deploy strictretryidentityprojection+deferredCPUboundaryfix; keep raw failures and proof receipts.",
+    "Verified retention/cache/free-spacebackpressure before1088 on500GB.",
+    "Preserve calibrated train/testinstancepartition, individualatomicCPUdenominators and nativephase/outerE2Edistinction; fitrepaired-domain models fromeligibleproductiontrainingdata only."
+  ],
+  "no_new_acquisition_changes_proposed": true,
+  "d9_accuracy": "UNPROVEN: existingmodelstrictgate0/545; raw evidence is available for better fitting but no guarantee of universal25% or crosshardwaretransfer.",
+  "production_launched": false
+}
