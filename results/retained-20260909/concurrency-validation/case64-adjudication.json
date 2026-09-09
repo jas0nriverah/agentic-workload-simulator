@@ -1,0 +1,63 @@
+{
+  "schema_version": "assignment.case64-retry-bridge-adjudication.v1",
+  "status": "PASS",
+  "case_id": "configuration-confirmation-case-v1:e41fc3f9e47ba95bffee81f7a42c0aba2d8a08f9a7048c114090e0a5e2bb1cec",
+  "attempt_id": "attempt-16f1944e66c41425-001-ac00885b6cd2",
+  "failed_result_sha256": "77656325955940f88a25fe91d068c7c1c81a81797f57075fea464cea25d2a9c3",
+  "original_queue_blocked_preserved": true,
+  "inference_rerun": false,
+  "full_case_validation": "PASS",
+  "raw_cpu_reconstruction": "PASS",
+  "retry_bridge_count": 2,
+  "preadmission_rejection_count": 1,
+  "original_mutation": false,
+  "root_reviewed_at": "2026-09-09T22:19:01.843123+00:00",
+  "artifact_hash_count": 401,
+  "full_frozen_validation": {
+    "path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/diagnostics/case64-root-frozen-validation.json",
+    "sha256": "4f3424766b24fea5a51346ecf87a374a00a5d719688850a6908282218948bf25"
+  },
+  "artifact_verification": {
+    "path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/diagnostics/case64-root-artifact-hashes.json",
+    "sha256": "86110dc1193a57d8ebd1ab55c16b683359fbd9b5ce3116d0209a6a6b9a1eb286"
+  },
+  "normalizer": {
+    "path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/diagnostics/retry_bridge_normalize_v1.py",
+    "sha256": "78b3c6b4b47263544f12f819a6d0896bb152a2b4f8ca493fcb678f357fc799af"
+  },
+  "native_preadmission_review": {
+    "path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/diagnostics/worker20-native-unavailable-review-v1.json",
+    "sha256": "4a9b4e0eb1f59915bc6d60d798a7b10e42e271d9baddf1024a6165fc02afe916"
+  },
+  "failed_result": {
+    "path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/configuration-v1/cases/cases/00064-16f1944e66c41425/attempt-16f1944e66c41425-001-ac00885b6cd2/case_result.json",
+    "sha256": "77656325955940f88a25fe91d068c7c1c81a81797f57075fea464cea25d2a9c3"
+  },
+  "artifact_manifest": {
+    "path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/configuration-v1/cases/cases/00064-16f1944e66c41425/attempt-16f1944e66c41425-001-ac00885b6cd2/artifact_manifest.json",
+    "sha256": "bc2b7962818bc3f0cba531a357e3d8a768aa8a3cb990b98e9cc80d390e59e22d"
+  },
+  "official_evaluator_result": {
+    "path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/configuration-v1/cases/cases/00064-16f1944e66c41425/attempt-16f1944e66c41425-001-ac00885b6cd2/runner_attempts/attempt-001/evaluator_result.json",
+    "sha256": "7efa99cc55b17edc5952de0e665ba1fb29a5947cd0c1e9d266e8e33ac2e738b2"
+  },
+  "official_submitted": true,
+  "official_resolved": false,
+  "scientific_interpretation": "Preserve legitimate unresolved configuration outcome including context-limit rejection. Exactly two retry links are translated in derived memory using unique saved client/physical/span/identity bridges. One HTTP400 context-limit request was rejected before model admission; no GPU inference event or fabricated GPU metrics. Original raw journals, result and queue remain unchanged.",
+  "gpu_request_counts": {
+    "physical_http_requests": 74,
+    "native_measured": 73,
+    "context_rejected_before_admission": 1
+  },
+  "cpu": {
+    "individual_operation_records": 178268,
+    "dropped": 0,
+    "map_failures": 0
+  },
+  "derived_changes_only": [
+    "event-096657442507cbae05c0bcd3ed87ad0a",
+    "event-551fe54d38347a1c0d9586890810d489",
+    "event-8fee926804e88fd343331cdeab60d9d3",
+    "event-809fb5598ba86073ed5d67511e9e67cd"
+  ]
+}

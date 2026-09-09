@@ -1,0 +1,95 @@
+{
+  "acceptance": {
+    "all20_end_action_overlap_s": 2.939118103,
+    "all20_stop_overlap_s": 1.458411892,
+    "all20_workload_overlap_s": 17.387213425,
+    "clean_service_exits": 20,
+    "raw_packets": 10948899,
+    "summary_sha256": "655e68c7f2cdfbc13f2d51eee31614fc6ebe2d532348bfac8367027c9a76babf",
+    "zero_loss_and_full_identity_reconstruction": true
+  },
+  "historical_pressure_evidence": {
+    "controlled_writer": "512MiB same-device write/fsync pressure reached I/O PSI avg10 1.64 without reproducing loss; this demonstrates bounded mechanism pressure but does not prove fsync as historical cause.",
+    "worker06": "Concurrent raw line32 lost 5,642/206,160 with host I/O full avg10 25.09%; serial exact with I/O 1.73%.",
+    "worker10": "Concurrent raw line36 lost 175/126,894 with host I/O full avg10 24.07%; serial exact with I/O 1.77%."
+  },
+  "limits": [
+    "CPU-only fork/exec fixture; no H100/GPU inference.",
+    "Candidate source is isolated and not deployed to paid cases.",
+    "The level20 control pool is intentionally oversubscribed round-robin because only ten control CPUs exist.",
+    "The results establish bounded candidate correctness under this topology, not full fleet safety or historical causal attribution."
+  ],
+  "repair_scope": {
+    "frozen_source_v8_unchanged": true,
+    "native_candidate_change": "Separate durability serialization from callback lock; snapshot/fflush under callback lock, fsync after unlock under durability mutex; close retains callback lock through flush/fsync/fclose; fail-closed fsync errors.",
+    "native_candidate_sha256": "767f56ac03e4091535e03c0949f65487fa5777c1fb59825eb51d81684fae716e",
+    "protocol_candidate_source": "candidate-cpu-source-buffer-v2",
+    "protocol_change_sha256": "739ca6acdac91a0f05a54fbf7216478c297ec066be1a067d07f6b93aef47a196",
+    "protocol_changed_file": "src/agentic_sim/telemetry/bpf_work.py",
+    "protocol_changes": [
+      "Bounded 60s end_action control RPC timeout; timeout remains an explicit caller error.",
+      "Stop RPC and owned-process reap share the supplied stop deadline.",
+      "Disconnected non-stop response no longer tears down a completed collector; later cleanup remains possible."
+    ]
+  },
+  "schema_version": "bounded-collector-repair-final-receipt.v1",
+  "status": "PASS_BOUNDED_CPU_ONLY_20_COLLECTOR_STRESS",
+  "topology": {
+    "collector_nice": 0,
+    "control_pool": "11-15,27-31",
+    "control_reuse_at_level20": true,
+    "level20_collector_cpus": [
+      11,
+      12,
+      13,
+      14,
+      15,
+      27,
+      28,
+      29,
+      30,
+      31,
+      11,
+      12,
+      13,
+      14,
+      15,
+      27,
+      28,
+      29,
+      30,
+      31
+    ],
+    "level20_target_cpus": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24
+    ],
+    "logical_cpus": 32,
+    "physical_cores": 16,
+    "worker_pool": "0-10,16-26"
+  },
+  "validation": {
+    "candidate_protocol_tests": "PASS: delayed end_action default 60s path, explicit short timeout, dropped-client continuation, stop deadline bound",
+    "final_level20": "PASS: 20 source proofs, 10,948,899 packets, zero perf/event/path/pending/map loss, complete raw reconstruction, unique identities/inodes, clean exits",
+    "focused_pytest": "33 passed: test_bpf_work.py, test_bpf_service_identity.py, test_native_bpf_sink.py against explicit candidate-v2 PYTHONPATH",
+    "retained_level1_corrected_reconstruction": "PASS: 547444 packets, all boundary identities and reachable lineage"
+  }
+}

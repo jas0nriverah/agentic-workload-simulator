@@ -1,0 +1,11 @@
+{
+  "apparent_source_minus_image_bytes": 2253437170,
+  "local_image_bytes": 92446720,
+  "note": "The original receipt queried disk_usage on the mounted SquashFS path, which reports zero available bytes; this correction measures the root ext4 filesystem.",
+  "observed_free_space_delta_bytes": 2255286272,
+  "root_filesystem_post_free_bytes": 78503747584,
+  "root_filesystem_pre_free_bytes": 76248461312,
+  "schema_version": "assignment.storage-reclamation-capacity-correction.v1",
+  "source_apparent_bytes": 2345883890,
+  "source_receipt_sha256": "143cd57efcdaefef9fcf89f8936e934420c497f38313bda83b01676f2d5bad0e"
+}
