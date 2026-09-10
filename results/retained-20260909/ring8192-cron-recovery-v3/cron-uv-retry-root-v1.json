@@ -1,0 +1,80 @@
+{
+  "status": "PASS",
+  "accepted_preserved": 44,
+  "retry_results": [
+    {
+      "status": "requeued",
+      "idempotent": false,
+      "attempt_id": "attempt-ea608465c5400b33-004-ab93547d85db",
+      "case_id": "assignment-production-v2:b45833d97ed9a34bbc008ff457f0fbb5fc26107447e435e825f47399b5d9b6f0",
+      "retry_provenance": {
+        "schema_version": "assignment.retry-provenance.v1",
+        "source_attempt_id": "attempt-ea608465c5400b33-004-ab93547d85db",
+        "reason": "Cron environment omitted reviewed uv executable; fixed explicit hash-pinned uv PATH and actual minimal-environment validation passed before inference.",
+        "classification": "infrastructure_retry",
+        "review_note": "Only four exact startup failures; no inference/raw collection began; no model-quality retry; preserve all44accepted.",
+        "recorded_epoch_ns": 1789011270224647141,
+        "actor_pid": 2843073,
+        "prior_result_sha256": "230dc1c094edcc149419e01683b915df3b905546e0d756efd45912fd512907dc",
+        "prior_artifact_manifest_sha256": "0c912d8dfe250e6e3b9b0f01ddaa238e203cba63dfeadab66482b15f03eae80f"
+      }
+    },
+    {
+      "status": "requeued",
+      "idempotent": false,
+      "attempt_id": "attempt-f2cb144939542a22-004-d758b1730370",
+      "case_id": "assignment-production-v2:e49a664bebdfdfdb6d3b25451bb990787a532dbb030078efee24433c87403c1f",
+      "retry_provenance": {
+        "schema_version": "assignment.retry-provenance.v1",
+        "source_attempt_id": "attempt-f2cb144939542a22-004-d758b1730370",
+        "reason": "Cron environment omitted reviewed uv executable; fixed explicit hash-pinned uv PATH and actual minimal-environment validation passed before inference.",
+        "classification": "infrastructure_retry",
+        "review_note": "Only four exact startup failures; no inference/raw collection began; no model-quality retry; preserve all44accepted.",
+        "recorded_epoch_ns": 1789011270255588515,
+        "actor_pid": 2843073,
+        "prior_result_sha256": "76bb2d814fd178c43a82f9442054027f4c8001542c41b711ebbfcc3c0300094f",
+        "prior_artifact_manifest_sha256": "3ac18041c1f2fe050a78c954fdc3f90324b03126b60826d87be71cc021588e9d"
+      }
+    },
+    {
+      "status": "requeued",
+      "idempotent": false,
+      "attempt_id": "attempt-5381fbb7d6e733fb-004-f06d0d28978c",
+      "case_id": "assignment-production-v2:56b4d5c6f0a285e14ab7ba7f9595be347668ee70994bcf0119cadf8889ee05ba",
+      "retry_provenance": {
+        "schema_version": "assignment.retry-provenance.v1",
+        "source_attempt_id": "attempt-5381fbb7d6e733fb-004-f06d0d28978c",
+        "reason": "Cron environment omitted reviewed uv executable; fixed explicit hash-pinned uv PATH and actual minimal-environment validation passed before inference.",
+        "classification": "infrastructure_retry",
+        "review_note": "Only four exact startup failures; no inference/raw collection began; no model-quality retry; preserve all44accepted.",
+        "recorded_epoch_ns": 1789011270284042640,
+        "actor_pid": 2843073,
+        "prior_result_sha256": "b630a41ebed6c760e1527344bf88caec1a74ed3462ec45091875d60967cbade8",
+        "prior_artifact_manifest_sha256": "ac692c18a8b51b0fcf853fde9ab149235afdf6ab0f59c100888ec4b003e1d7c2"
+      }
+    },
+    {
+      "status": "requeued",
+      "idempotent": false,
+      "attempt_id": "attempt-914b762fdecdaba3-004-bf08c5a27c8a",
+      "case_id": "assignment-production-v2:1ed9f91667b4b50e1b34416b5f65e973a09d21972d3eec746350ff8572d4396e",
+      "retry_provenance": {
+        "schema_version": "assignment.retry-provenance.v1",
+        "source_attempt_id": "attempt-914b762fdecdaba3-004-bf08c5a27c8a",
+        "reason": "Cron environment omitted reviewed uv executable; fixed explicit hash-pinned uv PATH and actual minimal-environment validation passed before inference.",
+        "classification": "infrastructure_retry",
+        "review_note": "Only four exact startup failures; no inference/raw collection began; no model-quality retry; preserve all44accepted.",
+        "recorded_epoch_ns": 1789011270313779134,
+        "actor_pid": 2843073,
+        "prior_result_sha256": "8c2bbc4b48a89325a137f390f046f2324eb2beaab3b1b1590fea14312b4e2a9e",
+        "prior_artifact_manifest_sha256": "6c99885e3e33704f2988ac0d7f71800f803a324cef7eddf3718bb7364144de56"
+      }
+    }
+  ],
+  "clear_halt": {
+    "status": "running",
+    "idempotent": false,
+    "review_note": "Root verified cron-environment-validation-ring8192-root-v1.json PASS and wrapperv8 explicituvSHA/PATH. Four pre-inference startupfailures requeued;44acceptedpreserved. Resume onlysamependingprefixcap4."
+  },
+  "epoch": 1789011270.3318784
+}

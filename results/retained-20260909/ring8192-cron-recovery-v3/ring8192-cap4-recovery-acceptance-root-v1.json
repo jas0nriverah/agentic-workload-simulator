@@ -1,0 +1,19 @@
+{
+  "status": "PASS",
+  "decision": "CPU capture recovery validated under four concurrent production cases; resume cap4 automatic production",
+  "accepted_count": 44,
+  "pending_count": 1044,
+  "blocked_count": 0,
+  "wave_records_verified": 3432547,
+  "raw_proof": {
+    "path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/ring8192-cap4-wave-ord40-43-raw-proof-luna-v1.json",
+    "sha256": "2644109a025f15c404e916e82a24a6293baa1c41bbeee92f61b00b9545d2a580"
+  },
+  "actual_wave_authorization": {
+    "path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/launch-authorization-v6-ring8192-cap4.json",
+    "sha256": "b7cadc9ea84e3bff547c576a7169b07bdce55bf9b98b0d69286663bbb1f92890"
+  },
+  "provenance_correction": "Luna raw proof execution_artifact_refs.launch_authorization inadvertently refers to earlier v5cap1. Actualcap4wave launched byv6authorization asdriver launchreceipt proves. Thisrootreview suppliescorrectbinding; rawcaseattempt evidence matches queue.",
+  "remaining_issue": "6inactiveupstreamserverslost, excluded; healthagentrestoring separately",
+  "epoch": 1789010821.9914832
+}
