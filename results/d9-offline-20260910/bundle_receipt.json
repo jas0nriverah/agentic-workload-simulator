@@ -1,0 +1,35 @@
+{
+  "archive": "/home/riverahernandezjason/d9-offline-20260910.tar.gz",
+  "sha256": "0032d0eedb4d51d45df08c01732b30c3de3ca66f1b40a2cb919aba34d66428bf",
+  "bytes": 18789724,
+  "source_files": 331,
+  "scope": "Runnable offline candidate bundle; external large raw CPU evidence is not packaged.",
+  "isolated_validation": {
+    "status": "passed",
+    "extracted_root": "/tmp/d9-offline-verify-_g41uk3i/d9-offline",
+    "verified_file_hashes": 331,
+    "prediction_smokes": [
+      {
+        "input": "simulator/example_request.json",
+        "target": "historical_cpu_tool_wall",
+        "predicted_ms": 120.53191249833617
+      },
+      {
+        "input": "smoke_inputs/native.json",
+        "target": "conditional_native_e2e",
+        "predicted_ms": 529.2103794419759
+      },
+      {
+        "input": "smoke_inputs/native_cache.json",
+        "target": "conditional_native_e2e",
+        "predicted_ms": 506.1335369556403
+      },
+      {
+        "input": "smoke_inputs/e2e.json",
+        "target": "conditional_trace_e2e",
+        "predicted_ms": 98775.76930495816
+      }
+    ],
+    "test_output": "../tmp/d9-offline-verify-_g41uk3i/d9-offline/src/agentic_sim/assignment/semantic_cpu_model.py:180: DeprecationWarning: invalid escape sequence '\\;'\n  \"\"\"Split top-level shell commands while preserving quoted/escaped text.\n...............\n----------------------------------------------------------------------\nRan 17 tests in 0.055s\n\nOK"
+  }
+}
