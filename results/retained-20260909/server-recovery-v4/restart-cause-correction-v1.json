@@ -1,0 +1,80 @@
+{
+  "cause": "Each original serving step was cancelled because its finite 10:00:00 Slurm step limit expired; the enclosing allocation remained RUNNING. Native and serving observer logs show orderly shutdown after cancellation.",
+  "created_at_utc": "2026-09-10T03:56:40Z",
+  "raw_evidence_unchanged": true,
+  "schema_version": "assignment.inactive-upstream-cause-correction.v1",
+  "timezone_correction": {
+    "corrected_utc_timestamp": "2026-09-10T03:10:07.003Z",
+    "source_timestamp_without_zone": "2026-09-09T23:10:07.003",
+    "source_timezone": "America/New_York (PACE EDT)",
+    "utc_offset": "-04:00"
+  },
+  "workers": [
+    {
+      "job_id": "5747932",
+      "observed_local_time": "2026-09-09T23:10:07.003-04:00",
+      "observed_utc_time": "2026-09-10T03:10:07.003Z",
+      "production_worker_id": "worker-00",
+      "raw_line": "DUE TO TIME LIMIT",
+      "raw_log_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/health-diagnosis-v1/server-restart-v1/pre-restart/worker-00-launch.log",
+      "raw_log_sha256": "267d34563dd6a53d943fa32bedefdb8447086019c6bdaa044a9b75897e3095cd",
+      "runtime_slot": "worker-00",
+      "serving_step_id": "5747932.18"
+    },
+    {
+      "job_id": "5747914",
+      "observed_local_time": "2026-09-09T23:10:07.003-04:00",
+      "observed_utc_time": "2026-09-10T03:10:07.003Z",
+      "production_worker_id": "worker-07",
+      "raw_line": "DUE TO TIME LIMIT",
+      "raw_log_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/health-diagnosis-v1/server-restart-v1/pre-restart/worker-07-launch.log",
+      "raw_log_sha256": "6b20a0391c96a4b3164728e12d062e9727ae5947d2891bf46593065ebe660cb4",
+      "runtime_slot": "worker-07",
+      "serving_step_id": "5747914.6"
+    },
+    {
+      "job_id": "5747912",
+      "observed_local_time": "2026-09-09T23:10:07.003-04:00",
+      "observed_utc_time": "2026-09-10T03:10:07.003Z",
+      "production_worker_id": "worker-09",
+      "raw_line": "DUE TO TIME LIMIT",
+      "raw_log_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/health-diagnosis-v1/server-restart-v1/pre-restart/worker-09-launch.log",
+      "raw_log_sha256": "17ca83608f8f7f6e78141c4d6c16a48ccea6313c2a863f28694bc632d14756df",
+      "runtime_slot": "worker-09",
+      "serving_step_id": "5747912.6"
+    },
+    {
+      "job_id": "5747911",
+      "observed_local_time": "2026-09-09T23:10:07.003-04:00",
+      "observed_utc_time": "2026-09-10T03:10:07.003Z",
+      "production_worker_id": "worker-10",
+      "raw_line": "DUE TO TIME LIMIT",
+      "raw_log_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/health-diagnosis-v1/server-restart-v1/pre-restart/worker-10-launch.log",
+      "raw_log_sha256": "0636ce92d3a1a5362c978591da7041dc03099a6e963b2b1bfc017755e311fe7b",
+      "runtime_slot": "worker-10",
+      "serving_step_id": "5747911.6"
+    },
+    {
+      "job_id": "5747909",
+      "observed_local_time": "2026-09-09T23:10:07.003-04:00",
+      "observed_utc_time": "2026-09-10T03:10:07.003Z",
+      "production_worker_id": "worker-13",
+      "raw_line": "DUE TO TIME LIMIT",
+      "raw_log_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/health-diagnosis-v1/server-restart-v1/pre-restart/worker-13-launch.log",
+      "raw_log_sha256": "c185ed15f572b2e9b2cdefca8fe67d17f895b165d1188e328091b6df19315f38",
+      "runtime_slot": "worker-13",
+      "serving_step_id": "5747909.6"
+    },
+    {
+      "job_id": "5747908",
+      "observed_local_time": "2026-09-09T23:10:07.003-04:00",
+      "observed_utc_time": "2026-09-10T03:10:07.003Z",
+      "production_worker_id": "worker-14",
+      "raw_line": "DUE TO TIME LIMIT",
+      "raw_log_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/health-diagnosis-v1/server-restart-v1/pre-restart/worker-14-launch.log",
+      "raw_log_sha256": "cce5e87278b29581dc449959e1982842afda074300320ed71b6192e69d5cf02c",
+      "runtime_slot": "worker-14",
+      "serving_step_id": "5747908.6"
+    }
+  ]
+}

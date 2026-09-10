@@ -1,0 +1,85 @@
+{
+  "created_at": "2026-09-10T03:52:49.435163+00:00",
+  "health_observation_read_only": {
+    "endpoint_count": 20,
+    "healthy_count": 18,
+    "isolated_or_failed_worker_ids": [
+      "worker-02",
+      "worker-08"
+    ],
+    "launch_ready": false,
+    "path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/health-preflight-ring8192-v3/refresh-health-v1.json",
+    "sha256": "66d62fcfc980184abb63b326ec4e079b43989962086c5d6bc97f04817ba3b751",
+    "status": "PASS"
+  },
+  "launcher_health_note": "cap4 selector requires exactly 20 registered bindings, isolates per-worker health failures, and selects up to four PASS workers with remaining_seconds >= 6000; refresh-health launch_ready remains an all-20 summary gate.",
+  "module": {
+    "path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/queue-revision-v1/shared_case_queue_history_v4.py",
+    "sha256": "8ad79109d43318f85518449424aab120b200ecf6adfa27641ded647cfe05e98e"
+  },
+  "operational_guards": {
+    "accepted_attempts_rewritten": false,
+    "actual_queue_mutated": false,
+    "history_digest_lookup_preserved": true,
+    "queue_mutated_by_review": false,
+    "source_or_frozen_files_modified": false,
+    "wait_for_zero_active_or_orphaned_before_rebind": true
+  },
+  "queue_observation_read_only": {
+    "active_or_orphaned_workers": [],
+    "case_status_counts": {
+      "accepted": 51,
+      "pending": 1037
+    },
+    "history_count": 20,
+    "migration_id": "production-ring8192-20260910-v1"
+  },
+  "schema_version": "assignment.queue-sequential-rebind-review.v4",
+  "scope": "external sequential idle binding revision for restarted endpoint runtime epochs",
+  "status": "PASS",
+  "test": {
+    "path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/queue-revision-v1/test_shared_case_queue_history_v4.py",
+    "sha256": "409abe2d874b8f38ba7157883976ae5290fe777d3cb2c58eda55e52a68226fe6"
+  },
+  "v3_finding": {
+    "actual_queue_revision_id": "production-ring8192-20260910-v1",
+    "reason": "v3 binding_revision is a single metadata object; any different migration_id is rejected after the first revision",
+    "second_migration_id_supported": false
+  },
+  "v4_change": {
+    "duplicate_manifest_under_new_id_rejected": true,
+    "external_copy_only": true,
+    "full_registered_worker_set_required": true,
+    "legacy_single_revision_metadata_upgraded": true,
+    "prior_worker_binding_history_retained": true,
+    "reused_migration_id_with_divergent_manifest_rejected": true,
+    "revision_history_meta_key": "binding_revision_history",
+    "safe_six_worker_route": "build a full 20-row manifest with unchanged endpoint/inventory/enabled/source rows and only six restarted workers using new runtime descriptors; invoke v4 revise_idle_worker_bindings once while no active/orphaned attempts remain"
+  },
+  "validation": [
+    {
+      "command": "python3 final-production-v1/queue-revision-v1/test_shared_case_queue_history_v4.py",
+      "coverage": [
+        "two sequential revisions",
+        "historical audits for accepted attempts from both revisions",
+        "legacy single-revision metadata upgrade",
+        "same-ID idempotency",
+        "divergent reused-ID rejection",
+        "active-attempt guard",
+        "mid-loop rollback"
+      ],
+      "result": "3/3 PASS"
+    },
+    {
+      "command": "v4 module loaded with test_shared_case_queue_history_v3.py",
+      "coverage": [
+        "v3 first-migration compatibility"
+      ],
+      "result": "3/3 PASS"
+    },
+    {
+      "command": "python3 -m py_compile shared_case_queue_history_v4.py test_shared_case_queue_history_v4.py",
+      "result": "PASS"
+    }
+  ]
+}

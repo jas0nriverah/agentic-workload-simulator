@@ -1,0 +1,199 @@
+{
+  "status": "PASS",
+  "counts": {
+    "accepted": 51,
+    "pending": 1037
+  },
+  "protected_cases_attempts_sha256": "e416f82ee47f96d24b0926cc460672ec961de1a5b188af719f744bcf5d38fa64",
+  "backup_sha256": "10e3eaf417b110c9753b4a8f33ad5f4e9f6a682d752979c6974f5dcb97feb784",
+  "revision": {
+    "schema_version": "assignment.worker-binding-revision.v1",
+    "migration_id": "production-serving-step-recovery-20260910-v2",
+    "revision_number": 2,
+    "source_queue_state_sha256": "10e3eaf417b110c9753b4a8f33ad5f4e9f6a682d752979c6974f5dcb97feb784",
+    "worker_manifest_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/server-recovery-runtime-v2/worker-pool-manifest.json",
+    "worker_manifest_sha256": "88212eac70e7c6053eb62881ea9c4e8e9be311adf6d78067c3df40ba2221579b",
+    "old_worker_bindings": [
+      {
+        "worker_id": "worker-00",
+        "binding_sha256": "c286d569135d4b31c2a4ca7f441573d55cc0d54e0e6f93600bfd9644e0b2f59c"
+      },
+      {
+        "worker_id": "worker-01",
+        "binding_sha256": "c3116ba0d276b78a46d68722bc45c273a024f47c867c0922bcfb010764f18fcd"
+      },
+      {
+        "worker_id": "worker-02",
+        "binding_sha256": "8ed0908ab69fc0b6a7453c44712dd62888fc8e0a97fc024aeb49afc606def66b"
+      },
+      {
+        "worker_id": "worker-03",
+        "binding_sha256": "b02841b45b0680289f752db1146c3cf7f688057e81dd0730b5aeb2159ba5c2ea"
+      },
+      {
+        "worker_id": "worker-04",
+        "binding_sha256": "50fff82006dd239d88d1114988e53627ba4c1e7489e444dadbdf8bd70b4226aa"
+      },
+      {
+        "worker_id": "worker-05",
+        "binding_sha256": "1663d943697f89e23597490263900c5d0d82df48c6b34907c053be3bde9900dd"
+      },
+      {
+        "worker_id": "worker-06",
+        "binding_sha256": "84c0c9af79ad4cf2c885b8382db4162071fa0db5e091a2b6aa4c1f444ff174e4"
+      },
+      {
+        "worker_id": "worker-07",
+        "binding_sha256": "8f5979af2583b1529b9587b500bfdee5f441584c89a5a99f3f8d94583b56675a"
+      },
+      {
+        "worker_id": "worker-08",
+        "binding_sha256": "1d8ac179bd65598a2cf225f7b95f48cfb2a33d8bc9fa27db817c454f7bf18158"
+      },
+      {
+        "worker_id": "worker-09",
+        "binding_sha256": "0e76278292cd716196744fc334b2aec1346e7f955450de50d69f56b863a4e6f2"
+      },
+      {
+        "worker_id": "worker-10",
+        "binding_sha256": "91afa3a14945df9b7e484e2dc0178f4eed8d973ede38f04c9428e9effbee40af"
+      },
+      {
+        "worker_id": "worker-12",
+        "binding_sha256": "d6f71a05d7c860b439c477cb100c7e59543e731236a0faa00832a9be48432694"
+      },
+      {
+        "worker_id": "worker-13",
+        "binding_sha256": "7d5de22bca893e408d7a9bb3e984f35d2d7b4437bf77d8e012e6b141cfa619fa"
+      },
+      {
+        "worker_id": "worker-14",
+        "binding_sha256": "decda2c4b8c847b50392c1c812afa752a9e08f40962af137b41df6587ade51b9"
+      },
+      {
+        "worker_id": "worker-15",
+        "binding_sha256": "d63d17b99c245e3e53113ea47f86e90a2af3adc066989a28e1f8f5b923547197"
+      },
+      {
+        "worker_id": "worker-16",
+        "binding_sha256": "69e31902c9039d5941bb1824ea456df22b960dc4f3cb4ea677c6e8ef64afa886"
+      },
+      {
+        "worker_id": "worker-17",
+        "binding_sha256": "6359a52e04346a16d3ae8ce38f326bfce36a9b6ccd9ffab010314bcbb67fe2a5"
+      },
+      {
+        "worker_id": "worker-18",
+        "binding_sha256": "87b4b6a655d5beb98a76536d82c6afdf690bda01bcf322be395da85e176abc08"
+      },
+      {
+        "worker_id": "worker-19",
+        "binding_sha256": "a2dec18cddacd2fb95daeb7792e9bf9821e97d1de0be20799256897d418c85fd"
+      },
+      {
+        "worker_id": "worker-20",
+        "binding_sha256": "1cfbfeb12720c0c55da1e103ed911cce8d6ad09631752f877d2379fbeb77079c"
+      }
+    ],
+    "new_worker_bindings": [
+      {
+        "worker_id": "worker-00",
+        "binding_sha256": "d1d847ae32e9830e2a1350740fa414401699480960c8f8b916bfdc42cfdaf487"
+      },
+      {
+        "worker_id": "worker-01",
+        "binding_sha256": "c3116ba0d276b78a46d68722bc45c273a024f47c867c0922bcfb010764f18fcd"
+      },
+      {
+        "worker_id": "worker-02",
+        "binding_sha256": "8ed0908ab69fc0b6a7453c44712dd62888fc8e0a97fc024aeb49afc606def66b"
+      },
+      {
+        "worker_id": "worker-03",
+        "binding_sha256": "b02841b45b0680289f752db1146c3cf7f688057e81dd0730b5aeb2159ba5c2ea"
+      },
+      {
+        "worker_id": "worker-04",
+        "binding_sha256": "50fff82006dd239d88d1114988e53627ba4c1e7489e444dadbdf8bd70b4226aa"
+      },
+      {
+        "worker_id": "worker-05",
+        "binding_sha256": "1663d943697f89e23597490263900c5d0d82df48c6b34907c053be3bde9900dd"
+      },
+      {
+        "worker_id": "worker-06",
+        "binding_sha256": "84c0c9af79ad4cf2c885b8382db4162071fa0db5e091a2b6aa4c1f444ff174e4"
+      },
+      {
+        "worker_id": "worker-07",
+        "binding_sha256": "41981f4bd29b9e928ca75de40c56734fd85284ae9675dd76423dc3abb9d775d8"
+      },
+      {
+        "worker_id": "worker-08",
+        "binding_sha256": "1d8ac179bd65598a2cf225f7b95f48cfb2a33d8bc9fa27db817c454f7bf18158"
+      },
+      {
+        "worker_id": "worker-09",
+        "binding_sha256": "fbdc6df5aa7340a9a1f4cf49299083fa3e81fa2886a1b5884c018bf8dcc01a10"
+      },
+      {
+        "worker_id": "worker-10",
+        "binding_sha256": "433614dbd30693fc5cfd30a0d9367d102761ed7b14f5d12e1b8a5bc7d353005e"
+      },
+      {
+        "worker_id": "worker-12",
+        "binding_sha256": "d6f71a05d7c860b439c477cb100c7e59543e731236a0faa00832a9be48432694"
+      },
+      {
+        "worker_id": "worker-13",
+        "binding_sha256": "60d0f6d5bc4634bbf26bbf41207a607b1518620b61d0aab6306a5bd44611c3bb"
+      },
+      {
+        "worker_id": "worker-14",
+        "binding_sha256": "c7d09cb50cf53c61ac9b97a0d28048c9a56f994b2800a26a97903dea7cc91464"
+      },
+      {
+        "worker_id": "worker-15",
+        "binding_sha256": "d63d17b99c245e3e53113ea47f86e90a2af3adc066989a28e1f8f5b923547197"
+      },
+      {
+        "worker_id": "worker-16",
+        "binding_sha256": "69e31902c9039d5941bb1824ea456df22b960dc4f3cb4ea677c6e8ef64afa886"
+      },
+      {
+        "worker_id": "worker-17",
+        "binding_sha256": "6359a52e04346a16d3ae8ce38f326bfce36a9b6ccd9ffab010314bcbb67fe2a5"
+      },
+      {
+        "worker_id": "worker-18",
+        "binding_sha256": "87b4b6a655d5beb98a76536d82c6afdf690bda01bcf322be395da85e176abc08"
+      },
+      {
+        "worker_id": "worker-19",
+        "binding_sha256": "a2dec18cddacd2fb95daeb7792e9bf9821e97d1de0be20799256897d418c85fd"
+      },
+      {
+        "worker_id": "worker-20",
+        "binding_sha256": "1cfbfeb12720c0c55da1e103ed911cce8d6ad09631752f877d2379fbeb77079c"
+      }
+    ],
+    "previous_adapter_manifest": {
+      "argv": [
+        "--execution-source-manifest",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/execution-snapshots/production-v10-ring8192-clean/receipt/source_manifest.json"
+      ],
+      "name": "production-v10-ring8192-clean-execution-snapshot",
+      "path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/queue-adapter-ring8192-v1.json",
+      "purpose": "bind exact clean execution snapshot before validate_checkout",
+      "schema_version": "assignment.queue-adapter-manifest.v1",
+      "sha256": "f20c0190d32e719add5254b4da1d91752fba5b1734ec71573ac92e37c1947272"
+    },
+    "review_note": "Six expired serving steps restored with frozen source/model/hardware. Bind verified new server epochs, capture paths, PIDs and serving-step IDs. Preserve all 51 accepted cases and all attempts. External queue v4 retains sequential binding revisions; acquisition source unchanged.",
+    "created_epoch_ns": 1789012592108416340
+  },
+  "accepted_artifact_audit": {
+    "accepted_count": 51,
+    "nonpending_errors": []
+  },
+  "epoch": 1789012634.1943374
+}

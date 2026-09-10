@@ -1,0 +1,40 @@
+{
+  "actual_receipt": {
+    "collection_status": "PASS",
+    "endpoint_count": 20,
+    "healthy_count": 18,
+    "launch_ready": false,
+    "min_remaining_seconds": 894,
+    "path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/health-diagnosis-v1/step-lifetime-review-v2/actual20/actual20-health-step-lifetime.json",
+    "sha256": "cb0a7c42437abf37b1e694318adf529940ef46304db5db3d75b1f429be4350f4"
+  },
+  "findings": [
+    "The latest code conservatively combines allocation timeleft with every finite numeric step lifetime.",
+    "The bound serving_step_id presence gate fails closed when the declared step is absent.",
+    "No queue, profile, source, or runtime files were modified by this review."
+  ],
+  "generator": {
+    "path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/refresh_health_v2_step_lifetime.py",
+    "sha256": "e42c04742fe24bf8d6c20318a78e704d8cb001c3d3c36cb3801113a776b6f8e8"
+  },
+  "mock_proof": {
+    "all_cases_pass": true,
+    "cases": [
+      "finite step remaining",
+      "unlimited step with finite allocation",
+      "expired step clamps to zero",
+      "missing steps fails closed",
+      "malformed step fails closed",
+      "missing bound serving step fails closed"
+    ],
+    "path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/health-diagnosis-v1/step-lifetime-review-v2/step-lifetime-mock-proof.json",
+    "sha256": "d8b5acc035607061d57232f1aa95fd1beb5f5d169cfee6ddd7b15c20cbd884cd"
+  },
+  "review_result": "PASS_WITH_CURRENT_ENDPOINT_FAILURES",
+  "reviewed_at_utc": "2026-09-10T03:57:19.139656+00:00",
+  "schema_version": "assignment.health-step-lifetime-review.v1",
+  "worker_pool": {
+    "path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/server-recovery-runtime-v2/worker-pool-manifest.json",
+    "sha256": "88212eac70e7c6053eb62881ea9c4e8e9be311adf6d78067c3df40ba2221579b"
+  }
+}
