@@ -1,0 +1,108 @@
+{
+  "control_work_wall_ms": 1512.527489,
+  "decoded_records": 182491,
+  "instrumented_work_wall_ms": 2026.372477,
+  "limitations": [
+    "Instrumented pass ran first; cache/order may contribute to observed difference, which is not an isolated overhead estimate.",
+    "Original collector-affinity receipt accidentally reads targetPID affinity23; tasksetCPU15 command succeeded but collector affinity readback was not retained.",
+    "Original source_manifest field points earlier candidate receipt; exact native source bytes were independently joined to final sealed source.",
+    "Fixture targets a local process, not a SWE-agent container; container resource context is unavailable here and is separately proven in real trajectories.",
+    "No inferred numerical correction will be subtracted from final instrumented measurements."
+  ],
+  "loss_counters": {
+    "lineage_map_failures": 0,
+    "lost_event_records": 0,
+    "lost_path_records": 0,
+    "lost_pending_records": 0
+  },
+  "native_sink_sha256": "767f56ac03e4091535e03c0949f65487fa5777c1fb59825eb51d81684fae716e",
+  "observed_difference_percent": 33.97260491045526,
+  "operation_counts": {
+    "1": 14343,
+    "2": 1,
+    "3": 71760,
+    "4": 30756,
+    "5": 9,
+    "6": 22566,
+    "7": 12300,
+    "8": 1026,
+    "9": 1024,
+    "15": 28706
+  },
+  "pair": {
+    "path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-preparation-v1/overhead-one-pair-fixed-v3/overhead-pair-fixed-receipt.json",
+    "sha256": "e552c28bbc37cbd155bd5f9f640085509b3f95c275d93d7f41f54ba77d0eb137"
+  },
+  "perf_lost_events": 0,
+  "raw_artifacts": [
+    {
+      "bytes": 7128,
+      "path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-preparation-v1/cpu-overhead-raw-retained-v1/on/collector-0/action_boundaries.jsonl",
+      "sha256": "1b40d1cb4c941cbed2414703286ebb42434597d5b3677287ece0cc1630ab46c2"
+    },
+    {
+      "bytes": 4512,
+      "path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-preparation-v1/cpu-overhead-raw-retained-v1/on/collector-0/bpf_collector_manifest.json",
+      "sha256": "b4dbaf65753e18a2987aa31adc437a23d17428fb906bc928cad046bbaa9a2a1d"
+    },
+    {
+      "bytes": 1485,
+      "path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-preparation-v1/cpu-overhead-raw-retained-v1/on/collector-0/service_lifecycle.json",
+      "sha256": "d0f73c99d3e20a639fe58b781647ee58e020850cc7cc447a7727b6e4a88d4b4e"
+    },
+    {
+      "bytes": 1993,
+      "path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-preparation-v1/cpu-overhead-raw-retained-v1/on/collector-0/service.stderr.log",
+      "sha256": "369eaac0bb1f3e9e729497c9ba877339e2ac7807c9ba926099dd5ca63cd5c7f9"
+    },
+    {
+      "bytes": 72996400,
+      "path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-preparation-v1/cpu-overhead-raw-retained-v1/on/collector-0/raw_events.bin",
+      "sha256": "ed25053c6cdc222f953075c9288ef414a8be5c546d466929716afa6469826593"
+    },
+    {
+      "bytes": 0,
+      "path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-preparation-v1/cpu-overhead-raw-retained-v1/on/collector-0/service.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 15228,
+      "path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-preparation-v1/cpu-overhead-raw-retained-v1/on/collector-0/native_bpf_sink.c",
+      "sha256": "767f56ac03e4091535e03c0949f65487fa5777c1fb59825eb51d81684fae716e"
+    },
+    {
+      "bytes": 16829,
+      "path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-preparation-v1/cpu-overhead-raw-retained-v1/on/collector-0/raw_aggregates.jsonl",
+      "sha256": "b2f85bddac0ec0441a256d1979aa7aba90dcd6a3250dba846965c09ebbb8be23"
+    },
+    {
+      "bytes": 16904,
+      "path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-preparation-v1/cpu-overhead-raw-retained-v1/on/collector-0/native_bpf_sink.so",
+      "sha256": "379206debf0811a171763fe0f72855d3fe6df70a628f3982e8e83b053906253e"
+    },
+    {
+      "bytes": 22075,
+      "path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-preparation-v1/cpu-overhead-raw-retained-v1/on/collector-0/work_summary.json",
+      "sha256": "cbe5d072b2457ed9f928e27f8a9423dd9d24e33e7f8460f495bbea10bb8615e4"
+    },
+    {
+      "bytes": 707,
+      "path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-preparation-v1/cpu-overhead-raw-retained-v1/on/collector-0/container_mounts.json",
+      "sha256": "458d6ad6f51f6ce3649e8f3166eb78ff97b0e6fc1e153e0d1f2f5d48bbaa0d25"
+    }
+  ],
+  "root_decision": "Retain scientifically honest instrumented timings under actual topology; no new acquisition redesign or benchmark campaign warranted.",
+  "schema_version": "assignment.root-bounded-cpu-overhead-review.v1",
+  "scope": "One identical1024file find/grep pass; actual full raw CPU collector only. No full-agent/GPU overhead or zero-interference claim.",
+  "service_returncode": 0,
+  "source_acceptance": {
+    "path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-preparation-v1/source-acceptance.json",
+    "sha256": "2275971bd5ec506e6c6492598e2e170d06fe76145e3b3a0c3ca50b09820fc0ef"
+  },
+  "startup_control_ms": 89.838803,
+  "startup_instrumented_ms": 2405.075676,
+  "status": "pass",
+  "unique_sequences": 182491,
+  "workload_sha256": "474589d2dba981e13b982a198c6d5c32e96de7d5e8b66bf1638ad6bc44ed278f",
+  "written_by": "root"
+}
