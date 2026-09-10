@@ -1,0 +1,66 @@
+{
+  "checks": {
+    "accepted_case_attempt_observer_state_unchanged": true,
+    "added_methods": [
+      "_ensure_binding_history_table",
+      "_resolve_audit_worker_binding",
+      "_revision_binding_from_record",
+      "_validate_revision_id",
+      "revise_idle_worker_bindings"
+    ],
+    "class_methods_restored": true,
+    "endpoint_and_inventory_identity_immutable": true,
+    "historical_binding_canonical_digest_and_descriptor_verification": true,
+    "historical_lookup_joins_worker_endpoint_and_full_binding_digest": true,
+    "idle_revision_atomic_transaction": true,
+    "idle_revision_rejects_active_or_orphaned_attempts": true,
+    "known_changed_methods": [
+      "_create_schema",
+      "_write_artifact_manifest",
+      "status"
+    ],
+    "original_methods_missing": [],
+    "queue_mutated_by_review": false,
+    "source_files_modified_by_review": false,
+    "unexpected_original_method_changes": []
+  },
+  "comparison_source": {
+    "path": "/home/riverahernandezjason/h100-assignment-work-20260905/execution-snapshots/production-v10-ring8192-clean/repo/scripts/assignment/shared_case_queue.py",
+    "sha256": "9ab152a6c88908801fb064545cbcb6b45dc73418c7c9cb3d531ad90d3220b9fb"
+  },
+  "created_at": "2026-09-10T02:46:16.663081+00:00",
+  "module": {
+    "path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/queue-revision-v1/shared_case_queue_history_v1.py",
+    "sha256": "44c257d3d3e94a2c03f61982e746a1812a71de698d32379aa60144a1baa39e7d"
+  },
+  "out_of_scope_followup": "read-only SquashFS artifact-directory fsync compatibility is tracked separately for the external v2 module; it does not alter this v1 logic verdict",
+  "schema_version": "assignment.queue-revision-logic-review.v1",
+  "scope": "historical worker-binding provenance, atomic idle binding revision, and preservation of existing lease/result methods",
+  "status": "PASS",
+  "validation": [
+    {
+      "command": "python3 final-production-v1/queue-revision-v1/test_shared_case_queue_history_v1.py",
+      "result": "3/3 PASS"
+    },
+    {
+      "coverage": [
+        "accepted audit after rebind",
+        "historical endpoint-identity tamper rejected",
+        "accepted case/attempt rows unchanged",
+        "held attempt rejected"
+      ],
+      "result": "PASS",
+      "test": "direct_revision_review"
+    },
+    {
+      "coverage": [
+        "two-worker revision rejects second endpoint change",
+        "first history insert rolled back",
+        "worker rows unchanged",
+        "binding_revision metadata absent"
+      ],
+      "result": "PASS",
+      "test": "atomic_midloop_rollback"
+    }
+  ]
+}

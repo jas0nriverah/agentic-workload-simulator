@@ -1,0 +1,38 @@
+{
+  "status": "PASS",
+  "module": {
+    "path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/queue-revision-v1/shared_case_queue_history_v3.py",
+    "sha256": "d7b28f71bb1c5a1b584f8ff1af3333c8831cc52f390d894ed8e72c533d1c059e"
+  },
+  "history_tests_passed": 3,
+  "guard_checks": [
+    {
+      "errno": 22,
+      "readonly": true,
+      "raised": false
+    },
+    {
+      "errno": 30,
+      "readonly": true,
+      "raised": false
+    },
+    {
+      "errno": 22,
+      "readonly": false,
+      "raised": true
+    },
+    {
+      "errno": 30,
+      "readonly": false,
+      "raised": true
+    },
+    {
+      "errno": 5,
+      "readonly": true,
+      "raised": true
+    }
+  ],
+  "actual_readonly_archive": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00000-4aa3c9570d0c72d4/attempt-4aa3c9570d0c72d4-002-d81912d2c9a7",
+  "actual_readonly_directory_check": "PASS",
+  "epoch": 1789008569.6559615
+}

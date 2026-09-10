@@ -1,0 +1,434 @@
+{
+  "created_utc": "2026-09-10T02:26:57.018957Z",
+  "harness": {
+    "path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/cap4-ring8192-fixture-luna-v1/run_ring8192_fixture.py",
+    "sha256": "2d1cc2a430e6f8f6b05bc7ca0ebb6d7a35139b0892a72cfec2ff68daee64bef5"
+  },
+  "inference": {
+    "gpu": false,
+    "h100": false,
+    "paid_inference": false
+  },
+  "parameters": {
+    "duration_s": 10,
+    "files": 1024,
+    "levels": [
+      1,
+      4
+    ],
+    "raw_budget_bytes": 6442450944,
+    "ring_data_bytes_per_cpu_expected": 33554432,
+    "ring_mmap_bytes_per_cpu_expected": 33558528,
+    "ring_pages_per_cpu_expected": 8192,
+    "sink_source": "frozen",
+    "stagger_s": 0.25
+  },
+  "proof": {
+    "aggregate_loss_counters": {
+      "censored_pending_records": 0,
+      "event_callback_errors": 0,
+      "lineage_map_failures": 0,
+      "lost_event_records": 0,
+      "lost_path_records": 0,
+      "lost_pending_records": 0,
+      "perf_lost_events": 0
+    },
+    "all_levels_pass": true,
+    "all_raw_reconstructions_complete": true,
+    "all_workers_returncode_clean": true,
+    "levels": [
+      {
+        "action_checks": {
+          "all_event_counts_equal_required": true,
+          "all_event_records_complete": true,
+          "all_rows_loss_free": true,
+          "rows": [
+            {
+              "action_token": 77651264214627553,
+              "censored_pending_records": 0,
+              "collector_index": 0,
+              "event_callback_errors": 0,
+              "event_count": 912398,
+              "event_records_complete": true,
+              "lineage_map_failures": 0,
+              "lost_event_records": 0,
+              "lost_path_records": 0,
+              "lost_pending_records": 0,
+              "perf_lost_events": 0,
+              "post_boundary_event_count": 0,
+              "required_event_count": 912398
+            },
+            {
+              "action_token": 77651264214627553,
+              "censored_pending_records": 0,
+              "collector_index": 0,
+              "event_callback_errors": 0,
+              "event_count": 912399,
+              "event_records_complete": true,
+              "lineage_map_failures": 0,
+              "lost_event_records": 0,
+              "lost_path_records": 0,
+              "lost_pending_records": 0,
+              "perf_lost_events": 0,
+              "post_boundary_event_count": null,
+              "required_event_count": 912399
+            }
+          ]
+        },
+        "collector_count": 1,
+        "collector_cpus": [
+          11
+        ],
+        "duration_s": 10.0,
+        "elapsed_s": 10.315902923,
+        "files": 1024,
+        "raw_event_bytes_total": 364959600,
+        "raw_packet_count_total": 912399,
+        "raw_reconstruction": [
+          {
+            "bad_packet_tokens": 0,
+            "collector_index": 0,
+            "file_bytes": 364959600,
+            "packet_count": 912399,
+            "sha256": "80d8c5ce0c5f6f33a65a60d50b315e500f5c46b20ad76b7cfc2ba66c20b1de17",
+            "status": "complete"
+          }
+        ],
+        "ring_validation": [
+          {
+            "action_rows": 2,
+            "action_tokens": [
+              77651264214627553
+            ],
+            "collector_index": 0,
+            "errors": [],
+            "raw_packet_bytes": 364959600,
+            "raw_packet_count": 912399,
+            "ring": {
+              "cpu_count": 32,
+              "data_bytes_per_cpu": 33554432,
+              "mmap_bytes_per_cpu": 33558528,
+              "pages_per_cpu": 8192,
+              "pages_per_cpu_actual": 8192
+            },
+            "status": "PASS"
+          }
+        ],
+        "scenario": "level-1",
+        "stagger_s": 0.25,
+        "target_cpus": [
+          0
+        ],
+        "worker_returncode_failures_total": 0,
+        "workers": [
+          {
+            "cpu": 0,
+            "find_grep_processes": 5120,
+            "passes": 5,
+            "returncode_failures": 0
+          }
+        ]
+      },
+      {
+        "action_checks": {
+          "all_event_counts_equal_required": true,
+          "all_event_records_complete": true,
+          "all_rows_loss_free": true,
+          "rows": [
+            {
+              "action_token": 16805947497693655251,
+              "censored_pending_records": 0,
+              "collector_index": 0,
+              "event_callback_errors": 0,
+              "event_count": 912408,
+              "event_records_complete": true,
+              "lineage_map_failures": 0,
+              "lost_event_records": 0,
+              "lost_path_records": 0,
+              "lost_pending_records": 0,
+              "perf_lost_events": 0,
+              "post_boundary_event_count": 0,
+              "required_event_count": 912408
+            },
+            {
+              "action_token": 16805947497693655251,
+              "censored_pending_records": 0,
+              "collector_index": 0,
+              "event_callback_errors": 0,
+              "event_count": 912409,
+              "event_records_complete": true,
+              "lineage_map_failures": 0,
+              "lost_event_records": 0,
+              "lost_path_records": 0,
+              "lost_pending_records": 0,
+              "perf_lost_events": 0,
+              "post_boundary_event_count": null,
+              "required_event_count": 912409
+            },
+            {
+              "action_token": 15007583055857262210,
+              "censored_pending_records": 0,
+              "collector_index": 1,
+              "event_callback_errors": 0,
+              "event_count": 729926,
+              "event_records_complete": true,
+              "lineage_map_failures": 0,
+              "lost_event_records": 0,
+              "lost_path_records": 0,
+              "lost_pending_records": 0,
+              "perf_lost_events": 0,
+              "post_boundary_event_count": 0,
+              "required_event_count": 729926
+            },
+            {
+              "action_token": 15007583055857262210,
+              "censored_pending_records": 0,
+              "collector_index": 1,
+              "event_callback_errors": 0,
+              "event_count": 729927,
+              "event_records_complete": true,
+              "lineage_map_failures": 0,
+              "lost_event_records": 0,
+              "lost_path_records": 0,
+              "lost_pending_records": 0,
+              "perf_lost_events": 0,
+              "post_boundary_event_count": null,
+              "required_event_count": 729927
+            },
+            {
+              "action_token": 14603758486512239562,
+              "censored_pending_records": 0,
+              "collector_index": 2,
+              "event_callback_errors": 0,
+              "event_count": 912400,
+              "event_records_complete": true,
+              "lineage_map_failures": 0,
+              "lost_event_records": 0,
+              "lost_path_records": 0,
+              "lost_pending_records": 0,
+              "perf_lost_events": 0,
+              "post_boundary_event_count": 0,
+              "required_event_count": 912400
+            },
+            {
+              "action_token": 14603758486512239562,
+              "censored_pending_records": 0,
+              "collector_index": 2,
+              "event_callback_errors": 0,
+              "event_count": 912401,
+              "event_records_complete": true,
+              "lineage_map_failures": 0,
+              "lost_event_records": 0,
+              "lost_path_records": 0,
+              "lost_pending_records": 0,
+              "perf_lost_events": 0,
+              "post_boundary_event_count": null,
+              "required_event_count": 912401
+            },
+            {
+              "action_token": 538480650264284753,
+              "censored_pending_records": 0,
+              "collector_index": 3,
+              "event_callback_errors": 0,
+              "event_count": 912404,
+              "event_records_complete": true,
+              "lineage_map_failures": 0,
+              "lost_event_records": 0,
+              "lost_path_records": 0,
+              "lost_pending_records": 0,
+              "perf_lost_events": 0,
+              "post_boundary_event_count": 0,
+              "required_event_count": 912404
+            },
+            {
+              "action_token": 538480650264284753,
+              "censored_pending_records": 0,
+              "collector_index": 3,
+              "event_callback_errors": 0,
+              "event_count": 912405,
+              "event_records_complete": true,
+              "lineage_map_failures": 0,
+              "lost_event_records": 0,
+              "lost_path_records": 0,
+              "lost_pending_records": 0,
+              "perf_lost_events": 0,
+              "post_boundary_event_count": null,
+              "required_event_count": 912405
+            }
+          ]
+        },
+        "collector_count": 4,
+        "collector_cpus": [
+          11,
+          12,
+          13,
+          14
+        ],
+        "duration_s": 10.0,
+        "elapsed_s": 16.713471901,
+        "files": 1024,
+        "raw_event_bytes_total": 1386856800,
+        "raw_packet_count_total": 3467142,
+        "raw_reconstruction": [
+          {
+            "bad_packet_tokens": 0,
+            "collector_index": 0,
+            "file_bytes": 364963600,
+            "packet_count": 912409,
+            "sha256": "b03e3bcd1298df58bc03f6e47a803cac86bf624856fa50d12eccb3e9b58c0c19",
+            "status": "complete"
+          },
+          {
+            "bad_packet_tokens": 0,
+            "collector_index": 1,
+            "file_bytes": 291970800,
+            "packet_count": 729927,
+            "sha256": "792f16717898a61181c74a396bf634e36529f3c420c53c642ec3be9ed12df4a7",
+            "status": "complete"
+          },
+          {
+            "bad_packet_tokens": 0,
+            "collector_index": 2,
+            "file_bytes": 364960400,
+            "packet_count": 912401,
+            "sha256": "0a1ad41806abd6308e09d581110d82d257ade40702212523bdf706c8f1439c73",
+            "status": "complete"
+          },
+          {
+            "bad_packet_tokens": 0,
+            "collector_index": 3,
+            "file_bytes": 364962000,
+            "packet_count": 912405,
+            "sha256": "d21e1fb3dfd09df881de06fee5ec714eabf83e93fab48df6e55f70a1c645f6d5",
+            "status": "complete"
+          }
+        ],
+        "ring_validation": [
+          {
+            "action_rows": 2,
+            "action_tokens": [
+              16805947497693655251
+            ],
+            "collector_index": 0,
+            "errors": [],
+            "raw_packet_bytes": 364963600,
+            "raw_packet_count": 912409,
+            "ring": {
+              "cpu_count": 32,
+              "data_bytes_per_cpu": 33554432,
+              "mmap_bytes_per_cpu": 33558528,
+              "pages_per_cpu": 8192,
+              "pages_per_cpu_actual": 8192
+            },
+            "status": "PASS"
+          },
+          {
+            "action_rows": 2,
+            "action_tokens": [
+              15007583055857262210
+            ],
+            "collector_index": 1,
+            "errors": [],
+            "raw_packet_bytes": 291970800,
+            "raw_packet_count": 729927,
+            "ring": {
+              "cpu_count": 32,
+              "data_bytes_per_cpu": 33554432,
+              "mmap_bytes_per_cpu": 33558528,
+              "pages_per_cpu": 8192,
+              "pages_per_cpu_actual": 8192
+            },
+            "status": "PASS"
+          },
+          {
+            "action_rows": 2,
+            "action_tokens": [
+              14603758486512239562
+            ],
+            "collector_index": 2,
+            "errors": [],
+            "raw_packet_bytes": 364960400,
+            "raw_packet_count": 912401,
+            "ring": {
+              "cpu_count": 32,
+              "data_bytes_per_cpu": 33554432,
+              "mmap_bytes_per_cpu": 33558528,
+              "pages_per_cpu": 8192,
+              "pages_per_cpu_actual": 8192
+            },
+            "status": "PASS"
+          },
+          {
+            "action_rows": 2,
+            "action_tokens": [
+              538480650264284753
+            ],
+            "collector_index": 3,
+            "errors": [],
+            "raw_packet_bytes": 364962000,
+            "raw_packet_count": 912405,
+            "ring": {
+              "cpu_count": 32,
+              "data_bytes_per_cpu": 33554432,
+              "mmap_bytes_per_cpu": 33558528,
+              "pages_per_cpu": 8192,
+              "pages_per_cpu_actual": 8192
+            },
+            "status": "PASS"
+          }
+        ],
+        "scenario": "level-4",
+        "stagger_s": 0.25,
+        "target_cpus": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "worker_returncode_failures_total": 0,
+        "workers": [
+          {
+            "cpu": 0,
+            "find_grep_processes": 5120,
+            "passes": 5,
+            "returncode_failures": 0
+          },
+          {
+            "cpu": 1,
+            "find_grep_processes": 4096,
+            "passes": 4,
+            "returncode_failures": 0
+          },
+          {
+            "cpu": 2,
+            "find_grep_processes": 5120,
+            "passes": 5,
+            "returncode_failures": 0
+          },
+          {
+            "cpu": 3,
+            "find_grep_processes": 5120,
+            "passes": 5,
+            "returncode_failures": 0
+          }
+        ]
+      }
+    ],
+    "output": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/cap4-ring8192-fixture-luna-v1/run-output-v2",
+    "output_bytes": 1752958048,
+    "raw_events_bytes": 1751816400,
+    "summary": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/cap4-ring8192-fixture-luna-v1/run-output-v2/summary.json",
+    "summary_sha256": "498016ac30eb4716240886bb5cc3732933155aa27f53b4cdbe4900de155d79cd",
+    "within_raw_budget": true
+  },
+  "purpose": "Bounded CPU-only perf-ring validation for the separately versioned 8192-pages-per-CPU source.",
+  "schema_version": "ring8192-cpu-fixture-acceptance.v1",
+  "source": {
+    "clean_snapshot": "/home/riverahernandezjason/h100-assignment-work-20260905/execution-snapshots/production-v10-ring8192-clean/repo",
+    "native_bpf_sink": "/home/riverahernandezjason/h100-assignment-work-20260905/execution-snapshots/production-v10-ring8192-clean/repo/src/agentic_sim/telemetry/native_bpf_sink.py",
+    "native_bpf_sink_sha256": "f9a12221ab73358dde79e2d6bf01647023fae8775e331786420535fcd96e3576",
+    "staging_receipt": "/home/riverahernandezjason/h100-assignment-work-20260905/execution-snapshots/production-v10-ring8192/ring8192-staging-receipt.json",
+    "staging_receipt_sha256": "cbbec64f6a44b1d35043ce57f051b7a8d5fa6468330345c39cdff524add7bfab"
+  },
+  "status": "PASS"
+}

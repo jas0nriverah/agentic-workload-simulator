@@ -1,0 +1,28 @@
+{
+  "status": "PASS",
+  "action": "single capture_integrity infrastructure requeue; halt remains set",
+  "attempt_id": "attempt-58a18edf3243fc4c-003-54b9ca3a7e8b",
+  "accepted_preserved": 39,
+  "counts_after": {
+    "accepted": 39,
+    "pending": 1049
+  },
+  "result": {
+    "status": "requeued",
+    "idempotent": false,
+    "attempt_id": "attempt-58a18edf3243fc4c-003-54b9ca3a7e8b",
+    "case_id": "assignment-production-v2:d13d465bf2eb276d3cd5051a685c6830737aa8875a2d535a25d9a7e24b298ce2",
+    "retry_provenance": {
+      "schema_version": "assignment.retry-provenance.v1",
+      "source_attempt_id": "attempt-58a18edf3243fc4c-003-54b9ca3a7e8b",
+      "reason": "Required CPU perf event missing in prior capture; separately versioned8192-page buffer repair passed1and4collector raw reconstruction.",
+      "classification": "infrastructure_retry",
+      "review_note": "Root reviewed ring8192-fixture-root-review-v1.json. Requeue only this failed capture. Keep dispatch halt set until new runtime bindings and recovery preflight pass. No model-quality retry.",
+      "recorded_epoch_ns": 1789007504279435400,
+      "actor_pid": 2767618,
+      "prior_result_sha256": "fccf7b7c2395ab7db91bf4d4370f6db41edf576151efe117bf471f33ef981b46",
+      "prior_artifact_manifest_sha256": "bef76989130c7a438d4649d9d823c2ffb41bbf21712457a46df006f302d9c35b"
+    }
+  },
+  "epoch": 1789007504.2935622
+}

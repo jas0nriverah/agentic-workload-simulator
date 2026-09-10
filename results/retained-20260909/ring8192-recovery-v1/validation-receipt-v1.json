@@ -1,0 +1,322 @@
+{
+  "cpu_docker": true,
+  "failed_count": 0,
+  "inference": false,
+  "mode": "validate-only",
+  "passed_count": 20,
+  "queue_mutated": false,
+  "runtime_dir": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/ring8192-runtime-v1",
+  "schema_version": "assignment.production.ring8192-runtime-validation.v1",
+  "source": {
+    "branch": "submission/existing-data-v2-pilot-20260908",
+    "commit": "3885497b2ba89543609f15dc07bd0b617ab44a9c",
+    "repo": "/home/riverahernandezjason/h100-assignment-work-20260905/execution-snapshots/production-v10-ring8192-clean/repo",
+    "source_manifest": "/home/riverahernandezjason/h100-assignment-work-20260905/execution-snapshots/production-v10-ring8192-clean/receipt/source_manifest.json",
+    "source_manifest_sha256": "f966218a9325e4e55f099996828a243b00a599bd896dd15d017dfb9fedaac116"
+  },
+  "status": "PASS",
+  "worker_count": 20,
+  "workers": [
+    {
+      "cpu_policy_source_path": "/home/riverahernandezjason/h100-assignment-work-20260905/execution-snapshots/production-v10-ring8192-clean/repo/src/agentic_sim/telemetry/cpu_policy.py",
+      "cpu_policy_source_sha256": "f18946899f9a19639fb82d869d3be9901661bbfbf6d18cd2f4323e023c9f7d28",
+      "git": {
+        "branch": "submission/existing-data-v2-pilot-20260908",
+        "commit": "3885497b2ba89543609f15dc07bd0b617ab44a9c"
+      },
+      "manifest_sha256": "1597fb7cf9b06b124b20286fbd46a7b79f9c6ef55183f3783f3631b877c32451",
+      "returncode": 0,
+      "status": "passed",
+      "stderr": "",
+      "validation_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/ring8192-runtime-v1/validation-v1/worker-00/validation.json",
+      "validation_sha256": "66a46b3d8d73dce1aa96fdb0fcbf3af07521f620e7d95f459fd3c5a4be3036e0",
+      "worker_id": "worker-00"
+    },
+    {
+      "cpu_policy_source_path": "/home/riverahernandezjason/h100-assignment-work-20260905/execution-snapshots/production-v10-ring8192-clean/repo/src/agentic_sim/telemetry/cpu_policy.py",
+      "cpu_policy_source_sha256": "f18946899f9a19639fb82d869d3be9901661bbfbf6d18cd2f4323e023c9f7d28",
+      "git": {
+        "branch": "submission/existing-data-v2-pilot-20260908",
+        "commit": "3885497b2ba89543609f15dc07bd0b617ab44a9c"
+      },
+      "manifest_sha256": "ea7daf4253294f57c77aada0b49e92f6af645bc71def7339919e365f742bfed6",
+      "returncode": 0,
+      "status": "passed",
+      "stderr": "",
+      "validation_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/ring8192-runtime-v1/validation-v1/worker-01/validation.json",
+      "validation_sha256": "ee1cf37e12467dae70d84731ab8b2471f02f1f29e7c5e44f95eb627586e818fe",
+      "worker_id": "worker-01"
+    },
+    {
+      "cpu_policy_source_path": "/home/riverahernandezjason/h100-assignment-work-20260905/execution-snapshots/production-v10-ring8192-clean/repo/src/agentic_sim/telemetry/cpu_policy.py",
+      "cpu_policy_source_sha256": "f18946899f9a19639fb82d869d3be9901661bbfbf6d18cd2f4323e023c9f7d28",
+      "git": {
+        "branch": "submission/existing-data-v2-pilot-20260908",
+        "commit": "3885497b2ba89543609f15dc07bd0b617ab44a9c"
+      },
+      "manifest_sha256": "c0a99318c4b6432f959b17eafe9682360a8040782f62b2b21f98c91bd2690ce5",
+      "returncode": 0,
+      "status": "passed",
+      "stderr": "",
+      "validation_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/ring8192-runtime-v1/validation-v1/worker-02/validation.json",
+      "validation_sha256": "5f79b3a09f493d5515267e7d47ec953947a25eb78fcad827bcaa2ebb9f65e3fe",
+      "worker_id": "worker-02"
+    },
+    {
+      "cpu_policy_source_path": "/home/riverahernandezjason/h100-assignment-work-20260905/execution-snapshots/production-v10-ring8192-clean/repo/src/agentic_sim/telemetry/cpu_policy.py",
+      "cpu_policy_source_sha256": "f18946899f9a19639fb82d869d3be9901661bbfbf6d18cd2f4323e023c9f7d28",
+      "git": {
+        "branch": "submission/existing-data-v2-pilot-20260908",
+        "commit": "3885497b2ba89543609f15dc07bd0b617ab44a9c"
+      },
+      "manifest_sha256": "4db0bb44350956d0b4e27f6220eda2b1d1ff807bf2d1ebd703630f71788b13f1",
+      "returncode": 0,
+      "status": "passed",
+      "stderr": "",
+      "validation_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/ring8192-runtime-v1/validation-v1/worker-03/validation.json",
+      "validation_sha256": "0fb94a93dfac605dcbb125d1dfcaeffd8d9619019c2210c9dde494cacb640163",
+      "worker_id": "worker-03"
+    },
+    {
+      "cpu_policy_source_path": "/home/riverahernandezjason/h100-assignment-work-20260905/execution-snapshots/production-v10-ring8192-clean/repo/src/agentic_sim/telemetry/cpu_policy.py",
+      "cpu_policy_source_sha256": "f18946899f9a19639fb82d869d3be9901661bbfbf6d18cd2f4323e023c9f7d28",
+      "git": {
+        "branch": "submission/existing-data-v2-pilot-20260908",
+        "commit": "3885497b2ba89543609f15dc07bd0b617ab44a9c"
+      },
+      "manifest_sha256": "4aca9efa35d17247bbb0d7f3ab47b69df751a42737d8ea1b5d843fca86022360",
+      "returncode": 0,
+      "status": "passed",
+      "stderr": "",
+      "validation_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/ring8192-runtime-v1/validation-v1/worker-04/validation.json",
+      "validation_sha256": "f8fd56e9dfdbea368b9226959d8ab3bff07a2c03d26fa368541051fc9327ecb7",
+      "worker_id": "worker-04"
+    },
+    {
+      "cpu_policy_source_path": "/home/riverahernandezjason/h100-assignment-work-20260905/execution-snapshots/production-v10-ring8192-clean/repo/src/agentic_sim/telemetry/cpu_policy.py",
+      "cpu_policy_source_sha256": "f18946899f9a19639fb82d869d3be9901661bbfbf6d18cd2f4323e023c9f7d28",
+      "git": {
+        "branch": "submission/existing-data-v2-pilot-20260908",
+        "commit": "3885497b2ba89543609f15dc07bd0b617ab44a9c"
+      },
+      "manifest_sha256": "d2069335cec9fe1ae23c6ef9031133da43f914d70c6dff18003eac65c14c1ef7",
+      "returncode": 0,
+      "status": "passed",
+      "stderr": "",
+      "validation_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/ring8192-runtime-v1/validation-v1/worker-05/validation.json",
+      "validation_sha256": "967b3f54117b6633eb15b94f6e0e620170132aeb1af1fb752d92bdf28fc42af2",
+      "worker_id": "worker-05"
+    },
+    {
+      "cpu_policy_source_path": "/home/riverahernandezjason/h100-assignment-work-20260905/execution-snapshots/production-v10-ring8192-clean/repo/src/agentic_sim/telemetry/cpu_policy.py",
+      "cpu_policy_source_sha256": "f18946899f9a19639fb82d869d3be9901661bbfbf6d18cd2f4323e023c9f7d28",
+      "git": {
+        "branch": "submission/existing-data-v2-pilot-20260908",
+        "commit": "3885497b2ba89543609f15dc07bd0b617ab44a9c"
+      },
+      "manifest_sha256": "fba00b8edb5737d98cf40a1a36955b786c48fe037de7ddaa3a0650489a550576",
+      "returncode": 0,
+      "status": "passed",
+      "stderr": "",
+      "validation_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/ring8192-runtime-v1/validation-v1/worker-06/validation.json",
+      "validation_sha256": "1dc4dfebf7c025ba8ac66e847007d9c522f9f49c6dae6fd2733479f57626c0aa",
+      "worker_id": "worker-06"
+    },
+    {
+      "cpu_policy_source_path": "/home/riverahernandezjason/h100-assignment-work-20260905/execution-snapshots/production-v10-ring8192-clean/repo/src/agentic_sim/telemetry/cpu_policy.py",
+      "cpu_policy_source_sha256": "f18946899f9a19639fb82d869d3be9901661bbfbf6d18cd2f4323e023c9f7d28",
+      "git": {
+        "branch": "submission/existing-data-v2-pilot-20260908",
+        "commit": "3885497b2ba89543609f15dc07bd0b617ab44a9c"
+      },
+      "manifest_sha256": "a73e451b228ab7ac88da807a4eb8b6d5a7a5179692b53e1a4cedb3224a2d9c8e",
+      "returncode": 0,
+      "status": "passed",
+      "stderr": "",
+      "validation_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/ring8192-runtime-v1/validation-v1/worker-07/validation.json",
+      "validation_sha256": "4bbbc65738c37f930ca20f81efb1260e14fede8630535c49baec7d52a5260cad",
+      "worker_id": "worker-07"
+    },
+    {
+      "cpu_policy_source_path": "/home/riverahernandezjason/h100-assignment-work-20260905/execution-snapshots/production-v10-ring8192-clean/repo/src/agentic_sim/telemetry/cpu_policy.py",
+      "cpu_policy_source_sha256": "f18946899f9a19639fb82d869d3be9901661bbfbf6d18cd2f4323e023c9f7d28",
+      "git": {
+        "branch": "submission/existing-data-v2-pilot-20260908",
+        "commit": "3885497b2ba89543609f15dc07bd0b617ab44a9c"
+      },
+      "manifest_sha256": "7b1ba48a75c64adc80da2de91050eea4c0a36f7601ca301a8927a6c3bb23f6e3",
+      "returncode": 0,
+      "status": "passed",
+      "stderr": "",
+      "validation_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/ring8192-runtime-v1/validation-v1/worker-08/validation.json",
+      "validation_sha256": "ecf0b41de3013f1366e1948655cb36cb4f4773e6969824d954024957ed28959d",
+      "worker_id": "worker-08"
+    },
+    {
+      "cpu_policy_source_path": "/home/riverahernandezjason/h100-assignment-work-20260905/execution-snapshots/production-v10-ring8192-clean/repo/src/agentic_sim/telemetry/cpu_policy.py",
+      "cpu_policy_source_sha256": "f18946899f9a19639fb82d869d3be9901661bbfbf6d18cd2f4323e023c9f7d28",
+      "git": {
+        "branch": "submission/existing-data-v2-pilot-20260908",
+        "commit": "3885497b2ba89543609f15dc07bd0b617ab44a9c"
+      },
+      "manifest_sha256": "7c393a1b1076d4c24cc6ec73d59f26d2b4cf3e6e5573d31bacef19131713bf7a",
+      "returncode": 0,
+      "status": "passed",
+      "stderr": "",
+      "validation_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/ring8192-runtime-v1/validation-v1/worker-09/validation.json",
+      "validation_sha256": "14ccbb0a8860439599f781c78e1970dc8d836188ec90ac30ef77e34f86cf99f3",
+      "worker_id": "worker-09"
+    },
+    {
+      "cpu_policy_source_path": "/home/riverahernandezjason/h100-assignment-work-20260905/execution-snapshots/production-v10-ring8192-clean/repo/src/agentic_sim/telemetry/cpu_policy.py",
+      "cpu_policy_source_sha256": "f18946899f9a19639fb82d869d3be9901661bbfbf6d18cd2f4323e023c9f7d28",
+      "git": {
+        "branch": "submission/existing-data-v2-pilot-20260908",
+        "commit": "3885497b2ba89543609f15dc07bd0b617ab44a9c"
+      },
+      "manifest_sha256": "09ea74fc04c58fb40beda52c5f7b39e3ced904f70ae912233e4f9c2d847de22e",
+      "returncode": 0,
+      "status": "passed",
+      "stderr": "",
+      "validation_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/ring8192-runtime-v1/validation-v1/worker-10/validation.json",
+      "validation_sha256": "39a26867d924d01cf56a4badbc38a7d19da186e8915381e02dc34185de643ec5",
+      "worker_id": "worker-10"
+    },
+    {
+      "cpu_policy_source_path": "/home/riverahernandezjason/h100-assignment-work-20260905/execution-snapshots/production-v10-ring8192-clean/repo/src/agentic_sim/telemetry/cpu_policy.py",
+      "cpu_policy_source_sha256": "f18946899f9a19639fb82d869d3be9901661bbfbf6d18cd2f4323e023c9f7d28",
+      "git": {
+        "branch": "submission/existing-data-v2-pilot-20260908",
+        "commit": "3885497b2ba89543609f15dc07bd0b617ab44a9c"
+      },
+      "manifest_sha256": "7a8c32c51f6af6dbf0d628c115720200ab30fd9845adf4b666c233319f21fd11",
+      "returncode": 0,
+      "status": "passed",
+      "stderr": "",
+      "validation_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/ring8192-runtime-v1/validation-v1/worker-12/validation.json",
+      "validation_sha256": "cde3753bf20b02c5125fed0004f5f2034d94356b29bddd47d50825b534264f44",
+      "worker_id": "worker-12"
+    },
+    {
+      "cpu_policy_source_path": "/home/riverahernandezjason/h100-assignment-work-20260905/execution-snapshots/production-v10-ring8192-clean/repo/src/agentic_sim/telemetry/cpu_policy.py",
+      "cpu_policy_source_sha256": "f18946899f9a19639fb82d869d3be9901661bbfbf6d18cd2f4323e023c9f7d28",
+      "git": {
+        "branch": "submission/existing-data-v2-pilot-20260908",
+        "commit": "3885497b2ba89543609f15dc07bd0b617ab44a9c"
+      },
+      "manifest_sha256": "65ce1c8e02ff0a1d668f36a847840904f681acbc2d3b3a6e9f412bd962564aac",
+      "returncode": 0,
+      "status": "passed",
+      "stderr": "",
+      "validation_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/ring8192-runtime-v1/validation-v1/worker-13/validation.json",
+      "validation_sha256": "1849af73dfdcad7a75278030fab49f085844c681a2a754c73ceb9a899bf01d36",
+      "worker_id": "worker-13"
+    },
+    {
+      "cpu_policy_source_path": "/home/riverahernandezjason/h100-assignment-work-20260905/execution-snapshots/production-v10-ring8192-clean/repo/src/agentic_sim/telemetry/cpu_policy.py",
+      "cpu_policy_source_sha256": "f18946899f9a19639fb82d869d3be9901661bbfbf6d18cd2f4323e023c9f7d28",
+      "git": {
+        "branch": "submission/existing-data-v2-pilot-20260908",
+        "commit": "3885497b2ba89543609f15dc07bd0b617ab44a9c"
+      },
+      "manifest_sha256": "0bf4f7b117c659b9b6369a86578ea40685facaae51cd8292149b3b7e15c8b127",
+      "returncode": 0,
+      "status": "passed",
+      "stderr": "",
+      "validation_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/ring8192-runtime-v1/validation-v1/worker-14/validation.json",
+      "validation_sha256": "5f6b08baf40fc6d17ed199b57a4bb8548b64ca18b207314016c17234daa0aed9",
+      "worker_id": "worker-14"
+    },
+    {
+      "cpu_policy_source_path": "/home/riverahernandezjason/h100-assignment-work-20260905/execution-snapshots/production-v10-ring8192-clean/repo/src/agentic_sim/telemetry/cpu_policy.py",
+      "cpu_policy_source_sha256": "f18946899f9a19639fb82d869d3be9901661bbfbf6d18cd2f4323e023c9f7d28",
+      "git": {
+        "branch": "submission/existing-data-v2-pilot-20260908",
+        "commit": "3885497b2ba89543609f15dc07bd0b617ab44a9c"
+      },
+      "manifest_sha256": "6d169c7ce061a50e106892b5ecfc0df3c6063aa01a546df72b11ced235efccdc",
+      "returncode": 0,
+      "status": "passed",
+      "stderr": "",
+      "validation_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/ring8192-runtime-v1/validation-v1/worker-15/validation.json",
+      "validation_sha256": "e6958a6221eb5e3ba17cc1357e5f29dc5561f142b69434838d4eaaee4155a3eb",
+      "worker_id": "worker-15"
+    },
+    {
+      "cpu_policy_source_path": "/home/riverahernandezjason/h100-assignment-work-20260905/execution-snapshots/production-v10-ring8192-clean/repo/src/agentic_sim/telemetry/cpu_policy.py",
+      "cpu_policy_source_sha256": "f18946899f9a19639fb82d869d3be9901661bbfbf6d18cd2f4323e023c9f7d28",
+      "git": {
+        "branch": "submission/existing-data-v2-pilot-20260908",
+        "commit": "3885497b2ba89543609f15dc07bd0b617ab44a9c"
+      },
+      "manifest_sha256": "a93030aa6b8478291976dfb18029b2b04e6833f8571fc401bf8dfad7cc6aae4d",
+      "returncode": 0,
+      "status": "passed",
+      "stderr": "",
+      "validation_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/ring8192-runtime-v1/validation-v1/worker-16/validation.json",
+      "validation_sha256": "02c3e71a9fb5ffdaccbe41ed0da259ffd0af04c686cc299040db06553776a3fd",
+      "worker_id": "worker-16"
+    },
+    {
+      "cpu_policy_source_path": "/home/riverahernandezjason/h100-assignment-work-20260905/execution-snapshots/production-v10-ring8192-clean/repo/src/agentic_sim/telemetry/cpu_policy.py",
+      "cpu_policy_source_sha256": "f18946899f9a19639fb82d869d3be9901661bbfbf6d18cd2f4323e023c9f7d28",
+      "git": {
+        "branch": "submission/existing-data-v2-pilot-20260908",
+        "commit": "3885497b2ba89543609f15dc07bd0b617ab44a9c"
+      },
+      "manifest_sha256": "ae155dca6bc0682d6826d2c3f7e44bbb3160b7ac41682f65ce49c7be326c0b2c",
+      "returncode": 0,
+      "status": "passed",
+      "stderr": "",
+      "validation_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/ring8192-runtime-v1/validation-v1/worker-17/validation.json",
+      "validation_sha256": "e9c831501458ff80a7e6cc3cbb5266540dcbafd36715e2ba87b6e10a7b6cd017",
+      "worker_id": "worker-17"
+    },
+    {
+      "cpu_policy_source_path": "/home/riverahernandezjason/h100-assignment-work-20260905/execution-snapshots/production-v10-ring8192-clean/repo/src/agentic_sim/telemetry/cpu_policy.py",
+      "cpu_policy_source_sha256": "f18946899f9a19639fb82d869d3be9901661bbfbf6d18cd2f4323e023c9f7d28",
+      "git": {
+        "branch": "submission/existing-data-v2-pilot-20260908",
+        "commit": "3885497b2ba89543609f15dc07bd0b617ab44a9c"
+      },
+      "manifest_sha256": "76bf6882893f97c5b5302e407b5de7cc1c1d2f0d6157785e80a8f15016a4e7d4",
+      "returncode": 0,
+      "status": "passed",
+      "stderr": "",
+      "validation_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/ring8192-runtime-v1/validation-v1/worker-18/validation.json",
+      "validation_sha256": "df40c3ecefc869912a0b2e5e32018eee04643a755910319403d8b7ee17f9ea06",
+      "worker_id": "worker-18"
+    },
+    {
+      "cpu_policy_source_path": "/home/riverahernandezjason/h100-assignment-work-20260905/execution-snapshots/production-v10-ring8192-clean/repo/src/agentic_sim/telemetry/cpu_policy.py",
+      "cpu_policy_source_sha256": "f18946899f9a19639fb82d869d3be9901661bbfbf6d18cd2f4323e023c9f7d28",
+      "git": {
+        "branch": "submission/existing-data-v2-pilot-20260908",
+        "commit": "3885497b2ba89543609f15dc07bd0b617ab44a9c"
+      },
+      "manifest_sha256": "b836c2d27f1a37a89568c0482f7facfa87a27ec4a6a2ae990a8d86698cb485a0",
+      "returncode": 0,
+      "status": "passed",
+      "stderr": "",
+      "validation_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/ring8192-runtime-v1/validation-v1/worker-19/validation.json",
+      "validation_sha256": "a5646fc860003f5d41e46ee864a5619453c1ccf7ce4c6463a44631ddf1dbb138",
+      "worker_id": "worker-19"
+    },
+    {
+      "cpu_policy_source_path": "/home/riverahernandezjason/h100-assignment-work-20260905/execution-snapshots/production-v10-ring8192-clean/repo/src/agentic_sim/telemetry/cpu_policy.py",
+      "cpu_policy_source_sha256": "f18946899f9a19639fb82d869d3be9901661bbfbf6d18cd2f4323e023c9f7d28",
+      "git": {
+        "branch": "submission/existing-data-v2-pilot-20260908",
+        "commit": "3885497b2ba89543609f15dc07bd0b617ab44a9c"
+      },
+      "manifest_sha256": "2b693b15d9c9b32690d68d8b7555d792d2f9ab199577cd96912d9acc7efe374c",
+      "returncode": 0,
+      "status": "passed",
+      "stderr": "",
+      "validation_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/ring8192-runtime-v1/validation-v1/worker-20/validation.json",
+      "validation_sha256": "b4a6fbcb1471c4513394826c3ce59a6defecdb5adcfeb6204f39b503279259ed",
+      "worker_id": "worker-20"
+    }
+  ],
+  "written_at": "2026-09-10T02:28:54.845131+00:00"
+}

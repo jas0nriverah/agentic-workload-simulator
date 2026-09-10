@@ -1,0 +1,53 @@
+{
+  "baseline_module": {
+    "path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/queue-revision-v1/shared_case_queue_history_v2.py",
+    "sha256": "f24661427b59f6bfd31b4f18015a9959d17b5c5cb802a801f558f99e3fd4b452"
+  },
+  "created_at": "2026-09-10T02:50:15.076531+00:00",
+  "diff_check": {
+    "artifact_inventory_read_fsync_uses_helper": true,
+    "atomic_write_fsync_unchanged": true,
+    "directory_flush_uses_helper": true,
+    "only_new_helper": "_fsync_artifact_descriptor",
+    "suppressed_errors": [
+      "EINVAL",
+      "EROFS"
+    ],
+    "suppression_requires_readonly_statvfs_flag": true,
+    "unrelated_errors_preserved": true,
+    "writable_filesystem_errors_preserved": true
+  },
+  "module": {
+    "path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/queue-revision-v1/shared_case_queue_history_v3.py",
+    "sha256": "d7b28f71bb1c5a1b584f8ff1af3333c8831cc52f390d894ed8e72c533d1c059e"
+  },
+  "prior_fsync_review_receipt": "logic-review-receipt-v2.json",
+  "prior_logic_review_receipt": "logic-review-receipt-v1.json",
+  "queue_mutated_by_review": false,
+  "schema_version": "assignment.queue-revision-logic-review.v3",
+  "scope": "narrow shared artifact-descriptor fsync compatibility patch over the v2 module",
+  "source_files_modified_by_review": false,
+  "status": "PASS",
+  "validation": [
+    {
+      "command": "v2 focused tests loaded against v3 module",
+      "result": "3/3 PASS"
+    },
+    {
+      "cases": [
+        "directory EINVAL + ST_RDONLY suppressed",
+        "directory EROFS + ST_RDONLY suppressed",
+        "regular-file EINVAL + ST_RDONLY suppressed",
+        "regular-file EROFS + ST_RDONLY suppressed",
+        "writable EINVAL re-raised",
+        "unrelated EIO re-raised"
+      ],
+      "result": "PASS",
+      "test": "v3_fsync_guard_matrix"
+    },
+    {
+      "result": "PASS",
+      "test": "atomic_write_fsync_unchanged"
+    }
+  ]
+}
