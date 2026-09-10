@@ -1,0 +1,2473 @@
+{
+  "contract": "openat only; same fixed4Astropy instances leave-one-instance-out, unchanged fits evaluated on one fixed Django case; development comparison, not untouched validation",
+  "features": "entry open_flags and fixed generic lexical path groups; result/status/latency excluded",
+  "support_rule": "20 training events and2training instances per group; otherwise operation median",
+  "sources": [
+    {
+      "instance_id": "astropy__astropy-14182",
+      "case_id": "assignment-production-v2:ee4fc39eafebc5d7c2ea1dce540d511f472d14ec3c13b9c8a70c78b3b4340129",
+      "raw_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00001-81e67b6074b32447/attempt-81e67b6074b32447-002-ba32b872b9d0/runner_attempts/attempt-001/telemetry_v2/linux_work/raw_events.bin",
+      "raw_bytes": 70076400,
+      "sha256": "a5180b7dce740a8897f65e1c1a4d1bc8df7188bf987cf6e8ed4d88aa103d19cc",
+      "openat_records": 30779
+    },
+    {
+      "instance_id": "astropy__astropy-14995",
+      "case_id": "assignment-production-v2:648009374f4193ea13938de660cec315c8e9402e8e50dddfd752d3b735a57023",
+      "raw_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00003-fdebd26ee97a2fe4/attempt-fdebd26ee97a2fe4-003-8bb4fa12ec57/runner_attempts/attempt-001/telemetry_v2/linux_work/raw_events.bin",
+      "raw_bytes": 127071200,
+      "sha256": "1e54c066169323d539e6d8c9f886f14dc222fdf8e9b25d2108b5ddf6e5de8ca0",
+      "openat_records": 70707
+    },
+    {
+      "instance_id": "astropy__astropy-6938",
+      "case_id": "assignment-production-v2:d204afe54b23a1ef26e269881f1cc7a74c1eb78a4799bc75846b78530c3a9ad3",
+      "raw_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00004-744052c6d0731edf/attempt-744052c6d0731edf-002-8914636e91f7/runner_attempts/attempt-001/telemetry_v2/linux_work/raw_events.bin",
+      "raw_bytes": 114656000,
+      "sha256": "d89138f1d6ec523862ccdbca2fa608a21b0652c037e6aa8326d52a18c3b7197a",
+      "openat_records": 59115
+    },
+    {
+      "instance_id": "astropy__astropy-7746",
+      "case_id": "assignment-production-v2:394940ef3cccb81d3ce05b1c54505ade4d4452f6da1470c0e31b11783eecdd7a",
+      "raw_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00017-268f601ff6106707/attempt-268f601ff6106707-002-6c30c5096022/runner_attempts/attempt-001/telemetry_v2/linux_work/raw_events.bin",
+      "raw_bytes": 79169600,
+      "sha256": "858e886216cf3fedd2ac347e414c06139f9102657b19c1b7c794a3982b729e1b",
+      "openat_records": 33123
+    },
+    {
+      "instance_id": "django__django-10914",
+      "case_id": "assignment-production-v2:f24f36b50382ffaddd53bc6135104dd54c7e95525da285b419d018fed6d810f2",
+      "raw_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00018-a0bb50959d46e12d/attempt-a0bb50959d46e12d-002-c6c05d3cfbce/runner_attempts/attempt-001/telemetry_v2/linux_work/raw_events.bin",
+      "raw_bytes": 311068000,
+      "sha256": "cd7f3af312c64ca70eaa65deee3b6c724c63cd0a155ac8e36a5c2d4a681ea9b1",
+      "openat_records": 180463
+    }
+  ],
+  "unsupported_openat_targets": {},
+  "results": {
+    "path": {
+      "folds": [
+        {
+          "held_instance": "astropy__astropy-14182",
+          "model": {
+            "fallback_ns": 12940,
+            "groups": [
+              {
+                "key": [
+                  "entry_path_absolute"
+                ],
+                "prediction_ns": 12760.0
+              },
+              {
+                "key": [
+                  "entry_path_dot_relative"
+                ],
+                "prediction_ns": 15680.0
+              },
+              {
+                "key": [
+                  "entry_path_relative"
+                ],
+                "prediction_ns": 12160
+              },
+              {
+                "key": [
+                  "entry_path_truncated"
+                ],
+                "prediction_ns": 112709
+              },
+              {
+                "key": [
+                  "entry_path_unknown"
+                ],
+                "prediction_ns": 16545.0
+              }
+            ]
+          },
+          "astropy": {
+            "events": 30779,
+            "within25": 7478,
+            "coverage_percent": 24.295786087917087,
+            "worst_error_percent": 1410.8445040214476,
+            "worst_event": {
+              "instance_id": "astropy__astropy-14182",
+              "offset": 61285200,
+              "token": 15229694847425721613,
+              "sequence": 374895245349671,
+              "observed_ns": 7460,
+              "predicted_ns": 112709,
+              "feature": [
+                "entry_path_truncated"
+              ]
+            },
+            "backoff_events": 3
+          },
+          "django": {
+            "events": 180463,
+            "within25": 60601,
+            "coverage_percent": 33.58084482691743,
+            "worst_error_percent": 660.5195681511472,
+            "worst_event": {
+              "instance_id": "django__django-10914",
+              "offset": 58761200,
+              "token": 17328006305219262625,
+              "sequence": 374818198127520,
+              "observed_ns": 14820,
+              "predicted_ns": 112709,
+              "feature": [
+                "entry_path_truncated"
+              ]
+            },
+            "backoff_events": 3
+          }
+        },
+        {
+          "held_instance": "astropy__astropy-14995",
+          "model": {
+            "fallback_ns": 14920,
+            "groups": [
+              {
+                "key": [
+                  "entry_path_absolute"
+                ],
+                "prediction_ns": 15080.0
+              },
+              {
+                "key": [
+                  "entry_path_dot_relative"
+                ],
+                "prediction_ns": 15655.0
+              },
+              {
+                "key": [
+                  "entry_path_relative"
+                ],
+                "prediction_ns": 11790
+              },
+              {
+                "key": [
+                  "entry_path_truncated"
+                ],
+                "prediction_ns": 119545.0
+              },
+              {
+                "key": [
+                  "entry_path_unknown"
+                ],
+                "prediction_ns": 20520
+              }
+            ]
+          },
+          "astropy": {
+            "events": 70707,
+            "within25": 19887,
+            "coverage_percent": 28.125928125928127,
+            "worst_error_percent": 2295.6913827655308,
+            "worst_event": {
+              "instance_id": "astropy__astropy-14995",
+              "offset": 121037600,
+              "token": 10810450555700474486,
+              "sequence": 374955367661849,
+              "observed_ns": 4990,
+              "predicted_ns": 119545.0,
+              "feature": [
+                "entry_path_truncated"
+              ]
+            },
+            "backoff_events": 3
+          },
+          "django": {
+            "events": 180463,
+            "within25": 64442,
+            "coverage_percent": 35.70925896167081,
+            "worst_error_percent": 706.6464237516869,
+            "worst_event": {
+              "instance_id": "django__django-10914",
+              "offset": 58761200,
+              "token": 17328006305219262625,
+              "sequence": 374818198127520,
+              "observed_ns": 14820,
+              "predicted_ns": 119545.0,
+              "feature": [
+                "entry_path_truncated"
+              ]
+            },
+            "backoff_events": 3
+          }
+        },
+        {
+          "held_instance": "astropy__astropy-6938",
+          "model": {
+            "fallback_ns": 14520,
+            "groups": [
+              {
+                "key": [
+                  "entry_path_absolute"
+                ],
+                "prediction_ns": 14691
+              },
+              {
+                "key": [
+                  "entry_path_dot_relative"
+                ],
+                "prediction_ns": 10231
+              },
+              {
+                "key": [
+                  "entry_path_relative"
+                ],
+                "prediction_ns": 12340.0
+              },
+              {
+                "key": [
+                  "entry_path_truncated"
+                ],
+                "prediction_ns": 113740
+              },
+              {
+                "key": [
+                  "entry_path_unknown"
+                ],
+                "prediction_ns": 17670
+              }
+            ]
+          },
+          "astropy": {
+            "events": 59115,
+            "within25": 18286,
+            "coverage_percent": 30.9329273450055,
+            "worst_error_percent": 1646.8898786668713,
+            "worst_event": {
+              "instance_id": "astropy__astropy-6938",
+              "offset": 104590000,
+              "token": 15076635261187510449,
+              "sequence": 374910289830591,
+              "observed_ns": 6511,
+              "predicted_ns": 113740,
+              "feature": [
+                "entry_path_truncated"
+              ]
+            },
+            "backoff_events": 3
+          },
+          "django": {
+            "events": 180463,
+            "within25": 60619,
+            "coverage_percent": 33.590819170688725,
+            "worst_error_percent": 667.476383265857,
+            "worst_event": {
+              "instance_id": "django__django-10914",
+              "offset": 58761200,
+              "token": 17328006305219262625,
+              "sequence": 374818198127520,
+              "observed_ns": 14820,
+              "predicted_ns": 113740,
+              "feature": [
+                "entry_path_truncated"
+              ]
+            },
+            "backoff_events": 3
+          }
+        },
+        {
+          "held_instance": "astropy__astropy-7746",
+          "model": {
+            "fallback_ns": 13240,
+            "groups": [
+              {
+                "key": [
+                  "entry_path_absolute"
+                ],
+                "prediction_ns": 12900
+              },
+              {
+                "key": [
+                  "entry_path_dot_relative"
+                ],
+                "prediction_ns": 15720.0
+              },
+              {
+                "key": [
+                  "entry_path_relative"
+                ],
+                "prediction_ns": 12749
+              },
+              {
+                "key": [
+                  "entry_path_truncated"
+                ],
+                "prediction_ns": 113160.0
+              },
+              {
+                "key": [
+                  "entry_path_unknown"
+                ],
+                "prediction_ns": 16145.0
+              }
+            ]
+          },
+          "astropy": {
+            "events": 33123,
+            "within25": 13112,
+            "coverage_percent": 39.585786311626364,
+            "worst_error_percent": 1576.4444444444446,
+            "worst_event": {
+              "instance_id": "astropy__astropy-7746",
+              "offset": 67947200,
+              "token": 6595512820079557381,
+              "sequence": 374899273822004,
+              "observed_ns": 6750,
+              "predicted_ns": 113160.0,
+              "feature": [
+                "entry_path_truncated"
+              ]
+            },
+            "backoff_events": 3
+          },
+          "django": {
+            "events": 180463,
+            "within25": 59542,
+            "coverage_percent": 32.994020935039316,
+            "worst_error_percent": 663.5627530364372,
+            "worst_event": {
+              "instance_id": "django__django-10914",
+              "offset": 58761200,
+              "token": 17328006305219262625,
+              "sequence": 374818198127520,
+              "observed_ns": 14820,
+              "predicted_ns": 113160.0,
+              "feature": [
+                "entry_path_truncated"
+              ]
+            },
+            "backoff_events": 3
+          }
+        }
+      ],
+      "full_astropy_fit": {
+        "fallback_ns": 13830.0,
+        "groups": [
+          {
+            "key": [
+              "entry_path_absolute"
+            ],
+            "prediction_ns": 13800.0
+          },
+          {
+            "key": [
+              "entry_path_dot_relative"
+            ],
+            "prediction_ns": 15620
+          },
+          {
+            "key": [
+              "entry_path_relative"
+            ],
+            "prediction_ns": 12240
+          },
+          {
+            "key": [
+              "entry_path_truncated"
+            ],
+            "prediction_ns": 114530.0
+          },
+          {
+            "key": [
+              "entry_path_unknown"
+            ],
+            "prediction_ns": 16935.0
+          }
+        ]
+      },
+      "astropy_coverage_percent": 30.33336086390948,
+      "astropy_worst_error_percent": 2295.6913827655308,
+      "django_mean_coverage_percent": 33.96873597357907,
+      "django_worst_error_percent": 706.6464237516869
+    },
+    "flags": {
+      "folds": [
+        {
+          "held_instance": "astropy__astropy-14182",
+          "model": {
+            "fallback_ns": 12940,
+            "groups": [
+              {
+                "key": [
+                  0
+                ],
+                "prediction_ns": 7240
+              },
+              {
+                "key": [
+                  131072
+                ],
+                "prediction_ns": 11365.0
+              },
+              {
+                "key": [
+                  193
+                ],
+                "prediction_ns": 165360.0
+              },
+              {
+                "key": [
+                  194
+                ],
+                "prediction_ns": 155330
+              },
+              {
+                "key": [
+                  2
+                ],
+                "prediction_ns": 29550
+              },
+              {
+                "key": [
+                  256
+                ],
+                "prediction_ns": 15485.5
+              },
+              {
+                "key": [
+                  4915330
+                ],
+                "prediction_ns": 11750.0
+              },
+              {
+                "key": [
+                  524288
+                ],
+                "prediction_ns": 12760.0
+              },
+              {
+                "key": [
+                  524290
+                ],
+                "prediction_ns": 20170
+              },
+              {
+                "key": [
+                  524481
+                ],
+                "prediction_ns": 145035.0
+              },
+              {
+                "key": [
+                  524482
+                ],
+                "prediction_ns": 202984.5
+              },
+              {
+                "key": [
+                  524865
+                ],
+                "prediction_ns": 119130.0
+              },
+              {
+                "key": [
+                  577
+                ],
+                "prediction_ns": 28530
+              },
+              {
+                "key": [
+                  591872
+                ],
+                "prediction_ns": 13980
+              },
+              {
+                "key": [
+                  655554
+                ],
+                "prediction_ns": 136785.0
+              },
+              {
+                "key": [
+                  723200
+                ],
+                "prediction_ns": 8840.0
+              }
+            ]
+          },
+          "astropy": {
+            "events": 30779,
+            "within25": 8646,
+            "coverage_percent": 28.090581240456157,
+            "worst_error_percent": 1061.780104712042,
+            "worst_event": {
+              "instance_id": "astropy__astropy-14182",
+              "offset": 67510400,
+              "token": 822580032815756001,
+              "sequence": 374901143154562,
+              "observed_ns": 13370,
+              "predicted_ns": 155330,
+              "feature": [
+                194
+              ]
+            },
+            "backoff_events": 1
+          },
+          "django": {
+            "events": 180463,
+            "within25": 67352,
+            "coverage_percent": 37.32177787136421,
+            "worst_error_percent": 272.0972097209721,
+            "worst_event": {
+              "instance_id": "django__django-10914",
+              "offset": 36021200,
+              "token": 5295501349003566954,
+              "sequence": 374808144838912,
+              "observed_ns": 44440,
+              "predicted_ns": 165360.0,
+              "feature": [
+                193
+              ]
+            },
+            "backoff_events": 826
+          }
+        },
+        {
+          "held_instance": "astropy__astropy-14995",
+          "model": {
+            "fallback_ns": 14920,
+            "groups": [
+              {
+                "key": [
+                  0
+                ],
+                "prediction_ns": 9890
+              },
+              {
+                "key": [
+                  131072
+                ],
+                "prediction_ns": 11340
+              },
+              {
+                "key": [
+                  193
+                ],
+                "prediction_ns": 144445.5
+              },
+              {
+                "key": [
+                  194
+                ],
+                "prediction_ns": 102160
+              },
+              {
+                "key": [
+                  2
+                ],
+                "prediction_ns": 29571
+              },
+              {
+                "key": [
+                  256
+                ],
+                "prediction_ns": 15850
+              },
+              {
+                "key": [
+                  4915330
+                ],
+                "prediction_ns": 11380.0
+              },
+              {
+                "key": [
+                  524288
+                ],
+                "prediction_ns": 14870
+              },
+              {
+                "key": [
+                  524290
+                ],
+                "prediction_ns": 19860.0
+              },
+              {
+                "key": [
+                  524481
+                ],
+                "prediction_ns": 154560.5
+              },
+              {
+                "key": [
+                  524482
+                ],
+                "prediction_ns": 229795.5
+              },
+              {
+                "key": [
+                  524865
+                ],
+                "prediction_ns": 124130
+              },
+              {
+                "key": [
+                  577
+                ],
+                "prediction_ns": 25950
+              },
+              {
+                "key": [
+                  591872
+                ],
+                "prediction_ns": 14460.0
+              },
+              {
+                "key": [
+                  655554
+                ],
+                "prediction_ns": 137240
+              },
+              {
+                "key": [
+                  723200
+                ],
+                "prediction_ns": 8750
+              }
+            ]
+          },
+          "astropy": {
+            "events": 70707,
+            "within25": 20529,
+            "coverage_percent": 29.03390046247189,
+            "worst_error_percent": 1959.6774193548388,
+            "worst_event": {
+              "instance_id": "astropy__astropy-14995",
+              "offset": 124548400,
+              "token": 3734057338957818965,
+              "sequence": 374961676737402,
+              "observed_ns": 4960,
+              "predicted_ns": 102160,
+              "feature": [
+                194
+              ]
+            },
+            "backoff_events": 1
+          },
+          "django": {
+            "events": 180463,
+            "within25": 68247,
+            "coverage_percent": 37.8177244088816,
+            "worst_error_percent": 272.9741795366795,
+            "worst_event": {
+              "instance_id": "django__django-10914",
+              "offset": 58169200,
+              "token": 17328006305219262625,
+              "sequence": 374817731659827,
+              "observed_ns": 41440,
+              "predicted_ns": 154560.5,
+              "feature": [
+                524481
+              ]
+            },
+            "backoff_events": 826
+          }
+        },
+        {
+          "held_instance": "astropy__astropy-6938",
+          "model": {
+            "fallback_ns": 14520,
+            "groups": [
+              {
+                "key": [
+                  0
+                ],
+                "prediction_ns": 8690.0
+              },
+              {
+                "key": [
+                  131072
+                ],
+                "prediction_ns": 11690
+              },
+              {
+                "key": [
+                  193
+                ],
+                "prediction_ns": 119490.0
+              },
+              {
+                "key": [
+                  194
+                ],
+                "prediction_ns": 141290
+              },
+              {
+                "key": [
+                  2
+                ],
+                "prediction_ns": 30214.5
+              },
+              {
+                "key": [
+                  256
+                ],
+                "prediction_ns": 15090
+              },
+              {
+                "key": [
+                  4915330
+                ],
+                "prediction_ns": 12369.5
+              },
+              {
+                "key": [
+                  524288
+                ],
+                "prediction_ns": 14420.0
+              },
+              {
+                "key": [
+                  524290
+                ],
+                "prediction_ns": 20880
+              },
+              {
+                "key": [
+                  524481
+                ],
+                "prediction_ns": 158445.0
+              },
+              {
+                "key": [
+                  524482
+                ],
+                "prediction_ns": 227800.5
+              },
+              {
+                "key": [
+                  524865
+                ],
+                "prediction_ns": 130330
+              },
+              {
+                "key": [
+                  591872
+                ],
+                "prediction_ns": 14410.0
+              },
+              {
+                "key": [
+                  655554
+                ],
+                "prediction_ns": 147640.0
+              },
+              {
+                "key": [
+                  723200
+                ],
+                "prediction_ns": 8610.0
+              }
+            ]
+          },
+          "astropy": {
+            "events": 59115,
+            "within25": 19108,
+            "coverage_percent": 32.32343736784234,
+            "worst_error_percent": 2186.2459546925566,
+            "worst_event": {
+              "instance_id": "astropy__astropy-6938",
+              "offset": 111852400,
+              "token": 10925809890877431629,
+              "sequence": 374925021271406,
+              "observed_ns": 6180,
+              "predicted_ns": 141290,
+              "feature": [
+                194
+              ]
+            },
+            "backoff_events": 7
+          },
+          "django": {
+            "events": 180463,
+            "within25": 66042,
+            "coverage_percent": 36.595867296897424,
+            "worst_error_percent": 282.34797297297297,
+            "worst_event": {
+              "instance_id": "django__django-10914",
+              "offset": 58169200,
+              "token": 17328006305219262625,
+              "sequence": 374817731659827,
+              "observed_ns": 41440,
+              "predicted_ns": 158445.0,
+              "feature": [
+                524481
+              ]
+            },
+            "backoff_events": 830
+          }
+        },
+        {
+          "held_instance": "astropy__astropy-7746",
+          "model": {
+            "fallback_ns": 13240,
+            "groups": [
+              {
+                "key": [
+                  0
+                ],
+                "prediction_ns": 7410.5
+              },
+              {
+                "key": [
+                  131072
+                ],
+                "prediction_ns": 11060
+              },
+              {
+                "key": [
+                  193
+                ],
+                "prediction_ns": 130165.5
+              },
+              {
+                "key": [
+                  194
+                ],
+                "prediction_ns": 187310
+              },
+              {
+                "key": [
+                  2
+                ],
+                "prediction_ns": 28785.0
+              },
+              {
+                "key": [
+                  256
+                ],
+                "prediction_ns": 15500.0
+              },
+              {
+                "key": [
+                  4915330
+                ],
+                "prediction_ns": 11300.0
+              },
+              {
+                "key": [
+                  524288
+                ],
+                "prediction_ns": 12770
+              },
+              {
+                "key": [
+                  524290
+                ],
+                "prediction_ns": 19980
+              },
+              {
+                "key": [
+                  524481
+                ],
+                "prediction_ns": 155459
+              },
+              {
+                "key": [
+                  524482
+                ],
+                "prediction_ns": 244320.5
+              },
+              {
+                "key": [
+                  524865
+                ],
+                "prediction_ns": 129350.0
+              },
+              {
+                "key": [
+                  591872
+                ],
+                "prediction_ns": 14611.0
+              },
+              {
+                "key": [
+                  655554
+                ],
+                "prediction_ns": 127640
+              },
+              {
+                "key": [
+                  723200
+                ],
+                "prediction_ns": 8829.5
+              }
+            ]
+          },
+          "astropy": {
+            "events": 33123,
+            "within25": 14399,
+            "coverage_percent": 43.47130392778432,
+            "worst_error_percent": 3107.3630136986303,
+            "worst_event": {
+              "instance_id": "astropy__astropy-7746",
+              "offset": 75789600,
+              "token": 2335198717922877097,
+              "sequence": 374911238162707,
+              "observed_ns": 5840,
+              "predicted_ns": 187310,
+              "feature": [
+                194
+              ]
+            },
+            "backoff_events": 1508
+          },
+          "django": {
+            "events": 180463,
+            "within25": 66169,
+            "coverage_percent": 36.666241833506035,
+            "worst_error_percent": 275.14237451737455,
+            "worst_event": {
+              "instance_id": "django__django-10914",
+              "offset": 58169200,
+              "token": 17328006305219262625,
+              "sequence": 374817731659827,
+              "observed_ns": 41440,
+              "predicted_ns": 155459,
+              "feature": [
+                524481
+              ]
+            },
+            "backoff_events": 830
+          }
+        }
+      ],
+      "full_astropy_fit": {
+        "fallback_ns": 13830.0,
+        "groups": [
+          {
+            "key": [
+              0
+            ],
+            "prediction_ns": 8000.0
+          },
+          {
+            "key": [
+              131072
+            ],
+            "prediction_ns": 11349
+          },
+          {
+            "key": [
+              193
+            ],
+            "prediction_ns": 138929.5
+          },
+          {
+            "key": [
+              194
+            ],
+            "prediction_ns": 148310.0
+          },
+          {
+            "key": [
+              2
+            ],
+            "prediction_ns": 29495.0
+          },
+          {
+            "key": [
+              256
+            ],
+            "prediction_ns": 15500.0
+          },
+          {
+            "key": [
+              4915330
+            ],
+            "prediction_ns": 11750.0
+          },
+          {
+            "key": [
+              524288
+            ],
+            "prediction_ns": 13670.0
+          },
+          {
+            "key": [
+              524290
+            ],
+            "prediction_ns": 20170
+          },
+          {
+            "key": [
+              524481
+            ],
+            "prediction_ns": 153560
+          },
+          {
+            "key": [
+              524482
+            ],
+            "prediction_ns": 229795.5
+          },
+          {
+            "key": [
+              524865
+            ],
+            "prediction_ns": 125819.5
+          },
+          {
+            "key": [
+              577
+            ],
+            "prediction_ns": 30540
+          },
+          {
+            "key": [
+              591872
+            ],
+            "prediction_ns": 14350
+          },
+          {
+            "key": [
+              655554
+            ],
+            "prediction_ns": 137345.0
+          },
+          {
+            "key": [
+              723200
+            ],
+            "prediction_ns": 8740
+          }
+        ]
+      },
+      "astropy_coverage_percent": 32.35634201234746,
+      "astropy_worst_error_percent": 3107.3630136986303,
+      "django_mean_coverage_percent": 37.10040285266232,
+      "django_worst_error_percent": 282.34797297297297
+    },
+    "flags_path": {
+      "folds": [
+        {
+          "held_instance": "astropy__astropy-14182",
+          "model": {
+            "fallback_ns": 12940,
+            "groups": [
+              {
+                "key": [
+                  0,
+                  ".py"
+                ],
+                "prediction_ns": 12960
+              },
+              {
+                "key": [
+                  0,
+                  "/dev/"
+                ],
+                "prediction_ns": 23600.0
+              },
+              {
+                "key": [
+                  0,
+                  "/proc/"
+                ],
+                "prediction_ns": 19010.0
+              },
+              {
+                "key": [
+                  0,
+                  "other"
+                ],
+                "prediction_ns": 6255.5
+              },
+              {
+                "key": [
+                  131072,
+                  "other"
+                ],
+                "prediction_ns": 11365.0
+              },
+              {
+                "key": [
+                  193,
+                  ".py"
+                ],
+                "prediction_ns": 171960
+              },
+              {
+                "key": [
+                  193,
+                  "other"
+                ],
+                "prediction_ns": 159570
+              },
+              {
+                "key": [
+                  194,
+                  "other"
+                ],
+                "prediction_ns": 155330
+              },
+              {
+                "key": [
+                  2,
+                  "entry_path_unknown"
+                ],
+                "prediction_ns": 29550
+              },
+              {
+                "key": [
+                  256,
+                  ".py"
+                ],
+                "prediction_ns": 15485.5
+              },
+              {
+                "key": [
+                  4915330,
+                  "other"
+                ],
+                "prediction_ns": 11750.0
+              },
+              {
+                "key": [
+                  524288,
+                  ".json"
+                ],
+                "prediction_ns": 16690
+              },
+              {
+                "key": [
+                  524288,
+                  ".py"
+                ],
+                "prediction_ns": 11060.0
+              },
+              {
+                "key": [
+                  524288,
+                  ".pyc"
+                ],
+                "prediction_ns": 19010
+              },
+              {
+                "key": [
+                  524288,
+                  ".so"
+                ],
+                "prediction_ns": 17080.0
+              },
+              {
+                "key": [
+                  524288,
+                  "/proc/"
+                ],
+                "prediction_ns": 29075.5
+              },
+              {
+                "key": [
+                  524288,
+                  "entry_path_truncated"
+                ],
+                "prediction_ns": 20040
+              },
+              {
+                "key": [
+                  524288,
+                  "entry_path_unknown"
+                ],
+                "prediction_ns": 16060
+              },
+              {
+                "key": [
+                  524288,
+                  "other"
+                ],
+                "prediction_ns": 9630
+              },
+              {
+                "key": [
+                  524288,
+                  "site_packages"
+                ],
+                "prediction_ns": 19770
+              },
+              {
+                "key": [
+                  524290,
+                  "/dev/"
+                ],
+                "prediction_ns": 20170
+              },
+              {
+                "key": [
+                  524481,
+                  "entry_path_truncated"
+                ],
+                "prediction_ns": 147375.0
+              },
+              {
+                "key": [
+                  524481,
+                  "other"
+                ],
+                "prediction_ns": 139545.5
+              },
+              {
+                "key": [
+                  524481,
+                  "site_packages"
+                ],
+                "prediction_ns": 138700.0
+              },
+              {
+                "key": [
+                  524482,
+                  "other"
+                ],
+                "prediction_ns": 202984.5
+              },
+              {
+                "key": [
+                  524865,
+                  ".json"
+                ],
+                "prediction_ns": 84070
+              },
+              {
+                "key": [
+                  524865,
+                  ".py"
+                ],
+                "prediction_ns": 140665.0
+              },
+              {
+                "key": [
+                  524865,
+                  "entry_path_truncated"
+                ],
+                "prediction_ns": 188989.5
+              },
+              {
+                "key": [
+                  524865,
+                  "other"
+                ],
+                "prediction_ns": 134250.0
+              },
+              {
+                "key": [
+                  524865,
+                  "site_packages"
+                ],
+                "prediction_ns": 118680.0
+              },
+              {
+                "key": [
+                  591872,
+                  "/sys/"
+                ],
+                "prediction_ns": 28090
+              },
+              {
+                "key": [
+                  591872,
+                  "other"
+                ],
+                "prediction_ns": 13810.0
+              },
+              {
+                "key": [
+                  591872,
+                  "site_packages"
+                ],
+                "prediction_ns": 14460.0
+              },
+              {
+                "key": [
+                  655554,
+                  "other"
+                ],
+                "prediction_ns": 122600.0
+              },
+              {
+                "key": [
+                  655554,
+                  "site_packages"
+                ],
+                "prediction_ns": 162750.0
+              },
+              {
+                "key": [
+                  723200,
+                  "other"
+                ],
+                "prediction_ns": 8840.0
+              }
+            ]
+          },
+          "astropy": {
+            "events": 30779,
+            "within25": 14560,
+            "coverage_percent": 47.30498066863771,
+            "worst_error_percent": 1061.780104712042,
+            "worst_event": {
+              "instance_id": "astropy__astropy-14182",
+              "offset": 67510400,
+              "token": 822580032815756001,
+              "sequence": 374901143154562,
+              "observed_ns": 13370,
+              "predicted_ns": 155330,
+              "feature": [
+                194,
+                "other"
+              ]
+            },
+            "backoff_events": 18
+          },
+          "django": {
+            "events": 180463,
+            "within25": 72136,
+            "coverage_percent": 39.97273679369178,
+            "worst_error_percent": 286.9486948694869,
+            "worst_event": {
+              "instance_id": "django__django-10914",
+              "offset": 36021200,
+              "token": 5295501349003566954,
+              "sequence": 374808144838912,
+              "observed_ns": 44440,
+              "predicted_ns": 171960,
+              "feature": [
+                193,
+                ".py"
+              ]
+            },
+            "backoff_events": 1309
+          }
+        },
+        {
+          "held_instance": "astropy__astropy-14995",
+          "model": {
+            "fallback_ns": 14920,
+            "groups": [
+              {
+                "key": [
+                  0,
+                  ".py"
+                ],
+                "prediction_ns": 17310
+              },
+              {
+                "key": [
+                  0,
+                  "/dev/"
+                ],
+                "prediction_ns": 23600.0
+              },
+              {
+                "key": [
+                  0,
+                  "/proc/"
+                ],
+                "prediction_ns": 18860.0
+              },
+              {
+                "key": [
+                  0,
+                  "other"
+                ],
+                "prediction_ns": 8520.0
+              },
+              {
+                "key": [
+                  131072,
+                  "other"
+                ],
+                "prediction_ns": 11340
+              },
+              {
+                "key": [
+                  193,
+                  ".py"
+                ],
+                "prediction_ns": 147990
+              },
+              {
+                "key": [
+                  193,
+                  "other"
+                ],
+                "prediction_ns": 141860.0
+              },
+              {
+                "key": [
+                  194,
+                  "other"
+                ],
+                "prediction_ns": 102160
+              },
+              {
+                "key": [
+                  2,
+                  "entry_path_unknown"
+                ],
+                "prediction_ns": 29571
+              },
+              {
+                "key": [
+                  256,
+                  ".py"
+                ],
+                "prediction_ns": 15850
+              },
+              {
+                "key": [
+                  4915330,
+                  "other"
+                ],
+                "prediction_ns": 11380.0
+              },
+              {
+                "key": [
+                  524288,
+                  ".json"
+                ],
+                "prediction_ns": 17365.0
+              },
+              {
+                "key": [
+                  524288,
+                  ".py"
+                ],
+                "prediction_ns": 10440
+              },
+              {
+                "key": [
+                  524288,
+                  ".pyc"
+                ],
+                "prediction_ns": 18770.0
+              },
+              {
+                "key": [
+                  524288,
+                  ".so"
+                ],
+                "prediction_ns": 17180
+              },
+              {
+                "key": [
+                  524288,
+                  "/proc/"
+                ],
+                "prediction_ns": 29100
+              },
+              {
+                "key": [
+                  524288,
+                  "entry_path_truncated"
+                ],
+                "prediction_ns": 19600.0
+              },
+              {
+                "key": [
+                  524288,
+                  "entry_path_unknown"
+                ],
+                "prediction_ns": 18655.0
+              },
+              {
+                "key": [
+                  524288,
+                  "other"
+                ],
+                "prediction_ns": 10020
+              },
+              {
+                "key": [
+                  524288,
+                  "site_packages"
+                ],
+                "prediction_ns": 19660.0
+              },
+              {
+                "key": [
+                  524290,
+                  "/dev/"
+                ],
+                "prediction_ns": 19860.0
+              },
+              {
+                "key": [
+                  524481,
+                  "entry_path_truncated"
+                ],
+                "prediction_ns": 159244.5
+              },
+              {
+                "key": [
+                  524481,
+                  "other"
+                ],
+                "prediction_ns": 140895.0
+              },
+              {
+                "key": [
+                  524481,
+                  "site_packages"
+                ],
+                "prediction_ns": 147615.0
+              },
+              {
+                "key": [
+                  524482,
+                  "other"
+                ],
+                "prediction_ns": 229795.5
+              },
+              {
+                "key": [
+                  524865,
+                  ".json"
+                ],
+                "prediction_ns": 82730
+              },
+              {
+                "key": [
+                  524865,
+                  "entry_path_truncated"
+                ],
+                "prediction_ns": 164959.5
+              },
+              {
+                "key": [
+                  524865,
+                  "other"
+                ],
+                "prediction_ns": 131835.0
+              },
+              {
+                "key": [
+                  524865,
+                  "site_packages"
+                ],
+                "prediction_ns": 125120.0
+              },
+              {
+                "key": [
+                  591872,
+                  "/sys/"
+                ],
+                "prediction_ns": 27190.0
+              },
+              {
+                "key": [
+                  591872,
+                  "other"
+                ],
+                "prediction_ns": 14300
+              },
+              {
+                "key": [
+                  591872,
+                  "site_packages"
+                ],
+                "prediction_ns": 14800
+              },
+              {
+                "key": [
+                  655554,
+                  "other"
+                ],
+                "prediction_ns": 125750
+              },
+              {
+                "key": [
+                  655554,
+                  "site_packages"
+                ],
+                "prediction_ns": 162339.5
+              },
+              {
+                "key": [
+                  723200,
+                  "other"
+                ],
+                "prediction_ns": 8750
+              }
+            ]
+          },
+          "astropy": {
+            "events": 70707,
+            "within25": 31992,
+            "coverage_percent": 45.24587381730239,
+            "worst_error_percent": 1959.6774193548388,
+            "worst_event": {
+              "instance_id": "astropy__astropy-14995",
+              "offset": 124548400,
+              "token": 3734057338957818965,
+              "sequence": 374961676737402,
+              "observed_ns": 4960,
+              "predicted_ns": 102160,
+              "feature": [
+                194,
+                "other"
+              ]
+            },
+            "backoff_events": 35
+          },
+          "django": {
+            "events": 180463,
+            "within25": 68471,
+            "coverage_percent": 37.94184957581332,
+            "worst_error_percent": 284.27726833976834,
+            "worst_event": {
+              "instance_id": "django__django-10914",
+              "offset": 58169200,
+              "token": 17328006305219262625,
+              "sequence": 374817731659827,
+              "observed_ns": 41440,
+              "predicted_ns": 159244.5,
+              "feature": [
+                524481,
+                "entry_path_truncated"
+              ]
+            },
+            "backoff_events": 1313
+          }
+        },
+        {
+          "held_instance": "astropy__astropy-6938",
+          "model": {
+            "fallback_ns": 14520,
+            "groups": [
+              {
+                "key": [
+                  0,
+                  ".py"
+                ],
+                "prediction_ns": 16925.0
+              },
+              {
+                "key": [
+                  0,
+                  "/proc/"
+                ],
+                "prediction_ns": 19270
+              },
+              {
+                "key": [
+                  0,
+                  "other"
+                ],
+                "prediction_ns": 7350.0
+              },
+              {
+                "key": [
+                  131072,
+                  "other"
+                ],
+                "prediction_ns": 11690
+              },
+              {
+                "key": [
+                  193,
+                  ".py"
+                ],
+                "prediction_ns": 117440
+              },
+              {
+                "key": [
+                  193,
+                  "other"
+                ],
+                "prediction_ns": 120930
+              },
+              {
+                "key": [
+                  194,
+                  "other"
+                ],
+                "prediction_ns": 141290
+              },
+              {
+                "key": [
+                  2,
+                  "entry_path_unknown"
+                ],
+                "prediction_ns": 30214.5
+              },
+              {
+                "key": [
+                  256,
+                  ".py"
+                ],
+                "prediction_ns": 15090
+              },
+              {
+                "key": [
+                  4915330,
+                  "other"
+                ],
+                "prediction_ns": 12369.5
+              },
+              {
+                "key": [
+                  524288,
+                  ".json"
+                ],
+                "prediction_ns": 16820
+              },
+              {
+                "key": [
+                  524288,
+                  ".py"
+                ],
+                "prediction_ns": 10850
+              },
+              {
+                "key": [
+                  524288,
+                  ".pyc"
+                ],
+                "prediction_ns": 19330
+              },
+              {
+                "key": [
+                  524288,
+                  ".so"
+                ],
+                "prediction_ns": 17540
+              },
+              {
+                "key": [
+                  524288,
+                  "/proc/"
+                ],
+                "prediction_ns": 29100
+              },
+              {
+                "key": [
+                  524288,
+                  "entry_path_truncated"
+                ],
+                "prediction_ns": 20340
+              },
+              {
+                "key": [
+                  524288,
+                  "entry_path_unknown"
+                ],
+                "prediction_ns": 16150
+              },
+              {
+                "key": [
+                  524288,
+                  "other"
+                ],
+                "prediction_ns": 9560.0
+              },
+              {
+                "key": [
+                  524288,
+                  "site_packages"
+                ],
+                "prediction_ns": 20490
+              },
+              {
+                "key": [
+                  524290,
+                  "/dev/"
+                ],
+                "prediction_ns": 20880
+              },
+              {
+                "key": [
+                  524481,
+                  "entry_path_truncated"
+                ],
+                "prediction_ns": 182069.5
+              },
+              {
+                "key": [
+                  524481,
+                  "other"
+                ],
+                "prediction_ns": 123355.0
+              },
+              {
+                "key": [
+                  524481,
+                  "site_packages"
+                ],
+                "prediction_ns": 147615.0
+              },
+              {
+                "key": [
+                  524482,
+                  "other"
+                ],
+                "prediction_ns": 227800.5
+              },
+              {
+                "key": [
+                  524865,
+                  ".json"
+                ],
+                "prediction_ns": 84030
+              },
+              {
+                "key": [
+                  524865,
+                  "entry_path_truncated"
+                ],
+                "prediction_ns": 189924.5
+              },
+              {
+                "key": [
+                  524865,
+                  "other"
+                ],
+                "prediction_ns": 135645.0
+              },
+              {
+                "key": [
+                  524865,
+                  "site_packages"
+                ],
+                "prediction_ns": 129629.5
+              },
+              {
+                "key": [
+                  591872,
+                  "/sys/"
+                ],
+                "prediction_ns": 29480.0
+              },
+              {
+                "key": [
+                  591872,
+                  "other"
+                ],
+                "prediction_ns": 14060
+              },
+              {
+                "key": [
+                  591872,
+                  "site_packages"
+                ],
+                "prediction_ns": 16090
+              },
+              {
+                "key": [
+                  655554,
+                  "other"
+                ],
+                "prediction_ns": 141770.0
+              },
+              {
+                "key": [
+                  655554,
+                  "site_packages"
+                ],
+                "prediction_ns": 169679.5
+              },
+              {
+                "key": [
+                  723200,
+                  "other"
+                ],
+                "prediction_ns": 8610.0
+              }
+            ]
+          },
+          "astropy": {
+            "events": 59115,
+            "within25": 29248,
+            "coverage_percent": 49.476444218895374,
+            "worst_error_percent": 2186.2459546925566,
+            "worst_event": {
+              "instance_id": "astropy__astropy-6938",
+              "offset": 111852400,
+              "token": 10925809890877431629,
+              "sequence": 374925021271406,
+              "observed_ns": 6180,
+              "predicted_ns": 141290,
+              "feature": [
+                194,
+                "other"
+              ]
+            },
+            "backoff_events": 32
+          },
+          "django": {
+            "events": 180463,
+            "within25": 70317,
+            "coverage_percent": 38.964773942581026,
+            "worst_error_percent": 339.3569015444015,
+            "worst_event": {
+              "instance_id": "django__django-10914",
+              "offset": 58169200,
+              "token": 17328006305219262625,
+              "sequence": 374817731659827,
+              "observed_ns": 41440,
+              "predicted_ns": 182069.5,
+              "feature": [
+                524481,
+                "entry_path_truncated"
+              ]
+            },
+            "backoff_events": 1313
+          }
+        },
+        {
+          "held_instance": "astropy__astropy-7746",
+          "model": {
+            "fallback_ns": 13240,
+            "groups": [
+              {
+                "key": [
+                  0,
+                  ".py"
+                ],
+                "prediction_ns": 17240
+              },
+              {
+                "key": [
+                  0,
+                  "/proc/"
+                ],
+                "prediction_ns": 19000.0
+              },
+              {
+                "key": [
+                  0,
+                  "other"
+                ],
+                "prediction_ns": 6170.0
+              },
+              {
+                "key": [
+                  131072,
+                  "other"
+                ],
+                "prediction_ns": 11060
+              },
+              {
+                "key": [
+                  193,
+                  ".py"
+                ],
+                "prediction_ns": 123699.5
+              },
+              {
+                "key": [
+                  193,
+                  "other"
+                ],
+                "prediction_ns": 135985.0
+              },
+              {
+                "key": [
+                  194,
+                  "other"
+                ],
+                "prediction_ns": 187310
+              },
+              {
+                "key": [
+                  2,
+                  "entry_path_unknown"
+                ],
+                "prediction_ns": 28785.0
+              },
+              {
+                "key": [
+                  256,
+                  ".py"
+                ],
+                "prediction_ns": 15500.0
+              },
+              {
+                "key": [
+                  4915330,
+                  "other"
+                ],
+                "prediction_ns": 11300.0
+              },
+              {
+                "key": [
+                  524288,
+                  ".json"
+                ],
+                "prediction_ns": 17330.0
+              },
+              {
+                "key": [
+                  524288,
+                  ".py"
+                ],
+                "prediction_ns": 10310
+              },
+              {
+                "key": [
+                  524288,
+                  ".pyc"
+                ],
+                "prediction_ns": 19589.5
+              },
+              {
+                "key": [
+                  524288,
+                  ".so"
+                ],
+                "prediction_ns": 17889.5
+              },
+              {
+                "key": [
+                  524288,
+                  "/proc/"
+                ],
+                "prediction_ns": 29100
+              },
+              {
+                "key": [
+                  524288,
+                  "entry_path_truncated"
+                ],
+                "prediction_ns": 20320.0
+              },
+              {
+                "key": [
+                  524288,
+                  "entry_path_unknown"
+                ],
+                "prediction_ns": 15895.5
+              },
+              {
+                "key": [
+                  524288,
+                  "other"
+                ],
+                "prediction_ns": 9589.0
+              },
+              {
+                "key": [
+                  524288,
+                  "site_packages"
+                ],
+                "prediction_ns": 20635.5
+              },
+              {
+                "key": [
+                  524290,
+                  "/dev/"
+                ],
+                "prediction_ns": 19980
+              },
+              {
+                "key": [
+                  524481,
+                  "entry_path_truncated"
+                ],
+                "prediction_ns": 165995.0
+              },
+              {
+                "key": [
+                  524481,
+                  "other"
+                ],
+                "prediction_ns": 132220
+              },
+              {
+                "key": [
+                  524481,
+                  "site_packages"
+                ],
+                "prediction_ns": 158305.0
+              },
+              {
+                "key": [
+                  524482,
+                  "other"
+                ],
+                "prediction_ns": 244320.5
+              },
+              {
+                "key": [
+                  524865,
+                  ".json"
+                ],
+                "prediction_ns": 84229.5
+              },
+              {
+                "key": [
+                  524865,
+                  "entry_path_truncated"
+                ],
+                "prediction_ns": 189924.5
+              },
+              {
+                "key": [
+                  524865,
+                  "other"
+                ],
+                "prediction_ns": 135335.0
+              },
+              {
+                "key": [
+                  524865,
+                  "site_packages"
+                ],
+                "prediction_ns": 128150.0
+              },
+              {
+                "key": [
+                  591872,
+                  "/sys/"
+                ],
+                "prediction_ns": 27595.0
+              },
+              {
+                "key": [
+                  591872,
+                  "other"
+                ],
+                "prediction_ns": 14311.0
+              },
+              {
+                "key": [
+                  591872,
+                  "site_packages"
+                ],
+                "prediction_ns": 15550.0
+              },
+              {
+                "key": [
+                  655554,
+                  "other"
+                ],
+                "prediction_ns": 125750
+              },
+              {
+                "key": [
+                  655554,
+                  "site_packages"
+                ],
+                "prediction_ns": 153719.5
+              },
+              {
+                "key": [
+                  723200,
+                  "other"
+                ],
+                "prediction_ns": 8829.5
+              }
+            ]
+          },
+          "astropy": {
+            "events": 33123,
+            "within25": 13827,
+            "coverage_percent": 41.7444072094919,
+            "worst_error_percent": 3107.3630136986303,
+            "worst_event": {
+              "instance_id": "astropy__astropy-7746",
+              "offset": 75789600,
+              "token": 2335198717922877097,
+              "sequence": 374911238162707,
+              "observed_ns": 5840,
+              "predicted_ns": 187310,
+              "feature": [
+                194,
+                "other"
+              ]
+            },
+            "backoff_events": 1540
+          },
+          "django": {
+            "events": 180463,
+            "within25": 71641,
+            "coverage_percent": 39.69844233998105,
+            "worst_error_percent": 300.56708494208493,
+            "worst_event": {
+              "instance_id": "django__django-10914",
+              "offset": 58169200,
+              "token": 17328006305219262625,
+              "sequence": 374817731659827,
+              "observed_ns": 41440,
+              "predicted_ns": 165995.0,
+              "feature": [
+                524481,
+                "entry_path_truncated"
+              ]
+            },
+            "backoff_events": 1313
+          }
+        }
+      ],
+      "full_astropy_fit": {
+        "fallback_ns": 13830.0,
+        "groups": [
+          {
+            "key": [
+              0,
+              ".py"
+            ],
+            "prediction_ns": 17120
+          },
+          {
+            "key": [
+              0,
+              "/dev/"
+            ],
+            "prediction_ns": 23600.0
+          },
+          {
+            "key": [
+              0,
+              "/proc/"
+            ],
+            "prediction_ns": 19020
+          },
+          {
+            "key": [
+              0,
+              "other"
+            ],
+            "prediction_ns": 7040.0
+          },
+          {
+            "key": [
+              131072,
+              "other"
+            ],
+            "prediction_ns": 11349
+          },
+          {
+            "key": [
+              193,
+              ".py"
+            ],
+            "prediction_ns": 139210
+          },
+          {
+            "key": [
+              193,
+              "other"
+            ],
+            "prediction_ns": 138880.0
+          },
+          {
+            "key": [
+              194,
+              "other"
+            ],
+            "prediction_ns": 148310.0
+          },
+          {
+            "key": [
+              2,
+              "entry_path_unknown"
+            ],
+            "prediction_ns": 29495.0
+          },
+          {
+            "key": [
+              256,
+              ".py"
+            ],
+            "prediction_ns": 15500.0
+          },
+          {
+            "key": [
+              4915330,
+              "other"
+            ],
+            "prediction_ns": 11750.0
+          },
+          {
+            "key": [
+              524288,
+              ".json"
+            ],
+            "prediction_ns": 16920.0
+          },
+          {
+            "key": [
+              524288,
+              ".py"
+            ],
+            "prediction_ns": 10670
+          },
+          {
+            "key": [
+              524288,
+              ".pyc"
+            ],
+            "prediction_ns": 19190.0
+          },
+          {
+            "key": [
+              524288,
+              ".so"
+            ],
+            "prediction_ns": 17420.0
+          },
+          {
+            "key": [
+              524288,
+              "/proc/"
+            ],
+            "prediction_ns": 29100
+          },
+          {
+            "key": [
+              524288,
+              "entry_path_truncated"
+            ],
+            "prediction_ns": 20160.0
+          },
+          {
+            "key": [
+              524288,
+              "entry_path_unknown"
+            ],
+            "prediction_ns": 16290.0
+          },
+          {
+            "key": [
+              524288,
+              "other"
+            ],
+            "prediction_ns": 9690.0
+          },
+          {
+            "key": [
+              524288,
+              "site_packages"
+            ],
+            "prediction_ns": 20130.0
+          },
+          {
+            "key": [
+              524290,
+              "/dev/"
+            ],
+            "prediction_ns": 20170
+          },
+          {
+            "key": [
+              524481,
+              "entry_path_truncated"
+            ],
+            "prediction_ns": 162095.0
+          },
+          {
+            "key": [
+              524481,
+              "other"
+            ],
+            "prediction_ns": 133380
+          },
+          {
+            "key": [
+              524481,
+              "site_packages"
+            ],
+            "prediction_ns": 147615.0
+          },
+          {
+            "key": [
+              524482,
+              "other"
+            ],
+            "prediction_ns": 229795.5
+          },
+          {
+            "key": [
+              524865,
+              ".json"
+            ],
+            "prediction_ns": 84030
+          },
+          {
+            "key": [
+              524865,
+              ".py"
+            ],
+            "prediction_ns": 136945.0
+          },
+          {
+            "key": [
+              524865,
+              "entry_path_truncated"
+            ],
+            "prediction_ns": 185060.0
+          },
+          {
+            "key": [
+              524865,
+              "other"
+            ],
+            "prediction_ns": 134924.5
+          },
+          {
+            "key": [
+              524865,
+              "site_packages"
+            ],
+            "prediction_ns": 125510.5
+          },
+          {
+            "key": [
+              591872,
+              "/sys/"
+            ],
+            "prediction_ns": 28090
+          },
+          {
+            "key": [
+              591872,
+              "other"
+            ],
+            "prediction_ns": 14120.0
+          },
+          {
+            "key": [
+              591872,
+              "site_packages"
+            ],
+            "prediction_ns": 15135.0
+          },
+          {
+            "key": [
+              655554,
+              "other"
+            ],
+            "prediction_ns": 127695.0
+          },
+          {
+            "key": [
+              655554,
+              "site_packages"
+            ],
+            "prediction_ns": 162339.5
+          },
+          {
+            "key": [
+              723200,
+              "other"
+            ],
+            "prediction_ns": 8740
+          }
+        ]
+      },
+      "astropy_coverage_percent": 46.26530527967624,
+      "astropy_worst_error_percent": 3107.3630136986303,
+      "django_mean_coverage_percent": 39.1444506630168,
+      "django_worst_error_percent": 339.3569015444015
+    }
+  },
+  "atomic_reference_sha256": "35b672b80dd3aef8de213a0b6775068a29710df95df918f6fbe810bf583c1c0b",
+  "transfer_integrity_reference_sha256": "00d918df8e2746b8a846b5788a206acd2a2f23c9807972c86ba4a12847f49ebd",
+  "calibration_manifest_sha256": "8c4f3a156d90e2d4b6f4c608f49dde647719096f9c059c5889c65a3598588afd",
+  "script_sha256": "50a0acc66dcd05cb2e92b6999d591e3c294a8e99a5fd48d8f98b53341c8ee448",
+  "new_inference": false
+}

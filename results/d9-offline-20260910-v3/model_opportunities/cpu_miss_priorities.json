@@ -1,0 +1,133 @@
+{
+  "source_sha256": "cf69b906729edada834fcd858ba2014365601c47d4413a8f7b6b93c189f2adbf",
+  "rows": [
+    {
+      "operation": "nr=257;syscall=openat;kind=open",
+      "events": 193724,
+      "within25": 58753,
+      "misses": 134971,
+      "coverage_percent": 30.32819888088208
+    },
+    {
+      "operation": "nr=0;syscall=read;kind=read",
+      "events": 248867,
+      "within25": 120347,
+      "misses": 128520,
+      "coverage_percent": 48.35795826686543
+    },
+    {
+      "operation": "nr=262;syscall=unknown;kind=stat",
+      "events": 152617,
+      "within25": 85411,
+      "misses": 67206,
+      "coverage_percent": 55.96427658779822
+    },
+    {
+      "operation": "nr=3;syscall=close;kind=close",
+      "events": 160074,
+      "within25": 94486,
+      "misses": 65588,
+      "coverage_percent": 59.026450266751624
+    },
+    {
+      "operation": "nr=9;syscall=mmap;kind=mmap",
+      "events": 95673,
+      "within25": 47435,
+      "misses": 48238,
+      "coverage_percent": 49.58034137112874
+    },
+    {
+      "operation": "nr=217;syscall=getdents64;kind=getdents",
+      "events": 36134,
+      "within25": 6034,
+      "misses": 30100,
+      "coverage_percent": 16.698953893839597
+    },
+    {
+      "operation": "nr=1;syscall=write;kind=write",
+      "events": 30958,
+      "within25": 7958,
+      "misses": 23000,
+      "coverage_percent": 25.705794947994058
+    },
+    {
+      "operation": "nr=59;syscall=execve;kind=exec",
+      "events": 18258,
+      "within25": 11660,
+      "misses": 6598,
+      "coverage_percent": 63.862416474969876
+    },
+    {
+      "operation": "nr=87;syscall=unknown;kind=metadata_mutation",
+      "events": 7123,
+      "within25": 970,
+      "misses": 6153,
+      "coverage_percent": 13.617857644251018
+    },
+    {
+      "operation": "nr=83;syscall=unknown;kind=metadata_mutation",
+      "events": 7729,
+      "within25": 4069,
+      "misses": 3660,
+      "coverage_percent": 52.64587915642386
+    },
+    {
+      "operation": "nr=89;syscall=readlink;kind=stat",
+      "events": 3079,
+      "within25": 1020,
+      "misses": 2059,
+      "coverage_percent": 33.127638843780446
+    },
+    {
+      "operation": "nr=77;syscall=ftruncate;kind=metadata_mutation",
+      "events": 3340,
+      "within25": 1585,
+      "misses": 1755,
+      "coverage_percent": 47.455089820359284
+    },
+    {
+      "operation": "nr=56;syscall=clone;kind=clone",
+      "events": 3191,
+      "within25": 1458,
+      "misses": 1733,
+      "coverage_percent": 45.691005954246315
+    },
+    {
+      "operation": "nr=82;syscall=rename;kind=rename",
+      "events": 4048,
+      "within25": 2317,
+      "misses": 1731,
+      "coverage_percent": 57.23814229249012
+    },
+    {
+      "operation": "nr=17;syscall=pread64;kind=read",
+      "events": 9219,
+      "within25": 7673,
+      "misses": 1546,
+      "coverage_percent": 83.23028528039917
+    },
+    {
+      "operation": "nr=58;syscall=vfork;kind=fork",
+      "events": 73,
+      "within25": 46,
+      "misses": 27,
+      "coverage_percent": 63.013698630136986
+    },
+    {
+      "operation": "nr=84;syscall=unknown;kind=metadata_mutation",
+      "events": 36,
+      "within25": 12,
+      "misses": 24,
+      "coverage_percent": 33.333333333333336
+    },
+    {
+      "operation": "nr=263;syscall=unknown;kind=metadata_mutation",
+      "events": 26,
+      "within25": 3,
+      "misses": 23,
+      "coverage_percent": 11.538461538461538
+    }
+  ],
+  "top_four_miss_fraction": 0.7578136354248736,
+  "population": "four fixed Astropy instances; operation_path_class_median grouped OOF predictions"
+}

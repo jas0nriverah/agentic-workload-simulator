@@ -1,0 +1,21 @@
+{
+  "status": "passed_bounded_checks",
+  "tests": {
+    "cpu_mechanisms": 7,
+    "cpu_transfer": 3,
+    "cpu_entry_flags": 3,
+    "native_sequence": 2,
+    "e2e_composition": 5
+  },
+  "total_new_tests": 20,
+  "exact_raw_client_proxy_native_joins": 1784,
+  "eligible_e2e_cases": 43,
+  "identity_join_errors": 0,
+  "non_nested_local_request_spans": 75,
+  "implementation_files_unchanged_against_v2": 185,
+  "new_inference": false,
+  "frozen_acquisition_changed": false,
+  "literal_d9_acceptance": false,
+  "scope": "Development model comparisons and observed reconstruction; no claim full predictive E2E composition or hardware transfer is validated",
+  "independent_review": "model_opportunities/REVIEW.md"
+}
