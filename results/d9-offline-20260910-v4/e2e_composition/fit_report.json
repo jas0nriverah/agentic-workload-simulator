@@ -1,0 +1,446 @@
+{
+  "cohort": {
+    "cases": 43,
+    "instances": 22
+  },
+  "component_definition": {
+    "calibration": "one multiplicative scale selected on each training fold to maximize within-25% coverage; test targets are never consulted",
+    "cpu_union": "union of eligible CPU-clock target intervals",
+    "native": "sum of exactly joined native:e2e request durations",
+    "prediction": "three independently fitted nonnegative component predictions added once",
+    "remainder": "outer wall minus CPU union minus native:e2e sum"
+  },
+  "contract": "trace-conditioned replay with supplied action/request counts and terminal token totals",
+  "features": {
+    "cpu_union": [
+      "intercept",
+      "count:lifecycle:client_processing",
+      "count:lifecycle:deployment_start",
+      "count:lifecycle:get_state",
+      "count:lifecycle:persistent_shell_pid_discovery",
+      "count:lifecycle:script_read",
+      "count:lifecycle:setup",
+      "count:lifecycle:startup",
+      "count:lifecycle:teardown",
+      "count:runtime_command",
+      "count:semantic_action",
+      "semantic_action_class:patch",
+      "semantic_action_class:read",
+      "semantic_action_class:search",
+      "semantic_action_class:shell",
+      "semantic_action_class:test",
+      "semantic_action_class:traversal",
+      "semantic_action_class:write",
+      "semantic_action_class:other"
+    ],
+    "native": [
+      "intercept",
+      "request_count/100",
+      "input_tokens/1e6",
+      "output_tokens/1e4",
+      "cached_tokens/1e6"
+    ],
+    "remainder": [
+      "intercept",
+      "request_count/100",
+      "semantic_action_count/100",
+      "runtime_command_count/100",
+      "input_tokens/1e6",
+      "output_tokens/1e4"
+    ]
+  },
+  "folds": {
+    "0": {
+      "coefficients": {
+        "cpu_union": [
+          48931.95225055082,
+          0.0,
+          396037.70048281987,
+          0.0,
+          2198.1801659260655,
+          53262.60568940107,
+          824738.0942379882,
+          7.977258641358924e-09,
+          3.4188251320109674e-09,
+          0.0,
+          0.0,
+          0.0,
+          47758.01081753677,
+          0.0,
+          94454.08035893796,
+          140737.7395484489,
+          0.0,
+          105815.13119849388,
+          0.0
+        ],
+        "native": [
+          0.0,
+          0.0,
+          0.0,
+          63533.083426204386,
+          11519.05572416195
+        ],
+        "remainder": [
+          6430.053796804312,
+          12004.028682992386,
+          0.0,
+          1193.6260346387264,
+          8552.466264910208,
+          0.0
+        ]
+      },
+      "direct_coefficients": [
+        72602.56228436815,
+        0.0,
+        0.0,
+        57453.399156557396,
+        49788.43388097078,
+        34240.59054619443
+      ],
+      "test_cases": 13,
+      "test_instances": 2,
+      "train_cases": 30,
+      "train_instances": 20,
+      "training_only_coverage_scales": {
+        "composed": 1.0494822881204982,
+        "direct": 1.0
+      }
+    },
+    "1": {
+      "coefficients": {
+        "cpu_union": [
+          49195.16685814572,
+          0.0,
+          191549.1478492945,
+          0.0,
+          1.5928614300490365e-09,
+          11818.244357851167,
+          231474.08203784548,
+          1.5928614300490365e-09,
+          1.5928614300490365e-09,
+          0.0,
+          0.0,
+          0.0,
+          147128.26069167815,
+          70042.99170623832,
+          0.0,
+          202786.62117637967,
+          0.0,
+          301508.1328893576,
+          0.0
+        ],
+        "native": [
+          0.0,
+          0.0,
+          0.0,
+          63625.58302720178,
+          12635.206891247499
+        ],
+        "remainder": [
+          6545.220511855945,
+          18761.99608431415,
+          0.0,
+          0.0,
+          4450.348665721273,
+          0.0
+        ]
+      },
+      "direct_coefficients": [
+        75463.81313341737,
+        0.0,
+        0.0,
+        41484.31169731419,
+        34663.79702748619,
+        48592.771423352926
+      ],
+      "test_cases": 7,
+      "test_instances": 7,
+      "train_cases": 36,
+      "train_instances": 15,
+      "training_only_coverage_scales": {
+        "composed": 1.0350179435715,
+        "direct": 1.057764245107234
+      }
+    },
+    "2": {
+      "coefficients": {
+        "cpu_union": [
+          68504.55442419904,
+          0.0,
+          47985.17494763089,
+          0.0,
+          1.0609029527419952e-09,
+          0.0,
+          9771.501946347167,
+          5.304514763709976e-09,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          180639.14839327385,
+          0.0,
+          215378.15692130657,
+          0.0,
+          150031.09287033262,
+          0.0
+        ],
+        "native": [
+          0.0,
+          0.0,
+          0.0,
+          61844.33754419677,
+          13002.097574091362
+        ],
+        "remainder": [
+          4692.550833738577,
+          24271.141102018388,
+          0.0,
+          0.0,
+          3554.5571374344304,
+          106.21571662587988
+        ]
+      },
+      "direct_coefficients": [
+        77485.22363469783,
+        0.0,
+        0.0,
+        65793.21780996768,
+        16576.771533080107,
+        45889.24049180519
+      ],
+      "test_cases": 14,
+      "test_instances": 4,
+      "train_cases": 29,
+      "train_instances": 18,
+      "training_only_coverage_scales": {
+        "composed": 1.106610421329095,
+        "direct": 1.0
+      }
+    },
+    "3": {
+      "coefficients": {
+        "cpu_union": [
+          53947.58823236167,
+          0.0,
+          286257.54127783317,
+          0.0,
+          7.769238177392207e-09,
+          53217.08409205332,
+          226381.79485503878,
+          4.661542906435324e-09,
+          1.5538476354784413e-09,
+          0.0,
+          0.0,
+          0.0,
+          62122.66108932814,
+          133640.83002070757,
+          0.0,
+          165731.67220006717,
+          0.0,
+          208165.0142318664,
+          0.0
+        ],
+        "native": [
+          0.0,
+          0.0,
+          12350.625891508631,
+          63172.515011008094,
+          0.0
+        ],
+        "remainder": [
+          3800.2990416684074,
+          28554.677264522867,
+          0.0,
+          0.0,
+          3276.3135239208623,
+          0.0
+        ]
+      },
+      "direct_coefficients": [
+        53987.93050668156,
+        0.0,
+        0.0,
+        100005.39061842079,
+        11279.048907486358,
+        52481.58306236139
+      ],
+      "test_cases": 5,
+      "test_instances": 5,
+      "train_cases": 38,
+      "train_instances": 17,
+      "training_only_coverage_scales": {
+        "composed": 1.0600664835410967,
+        "direct": 1.043622593485707
+      }
+    },
+    "4": {
+      "coefficients": {
+        "cpu_union": [
+          60484.46475155717,
+          0.0,
+          219549.49915747263,
+          0.0,
+          3.0822272967501256e-09,
+          28076.435736938438,
+          125019.08889887326,
+          1.2328909187000503e-08,
+          3.0822272967501256e-09,
+          0.0,
+          0.0,
+          0.0,
+          66002.48667996071,
+          130837.66622528191,
+          0.0,
+          180600.65650027947,
+          0.0,
+          143487.07975480417,
+          0.0
+        ],
+        "native": [
+          0.0,
+          0.0,
+          0.0,
+          65400.25848082559,
+          9425.929380343608
+        ],
+        "remainder": [
+          3746.7648638036094,
+          29449.310633881938,
+          0.0,
+          0.0,
+          3387.669544689631,
+          0.0
+        ]
+      },
+      "direct_coefficients": [
+        67291.10891022495,
+        43379.754635831785,
+        0.0,
+        43751.13617781103,
+        17350.064590472703,
+        53428.85029201906
+      ],
+      "test_cases": 4,
+      "test_instances": 4,
+      "train_cases": 39,
+      "train_instances": 18,
+      "training_only_coverage_scales": {
+        "composed": 1.0,
+        "direct": 1.0
+      }
+    }
+  },
+  "limitations": [
+    "This is a conditional replay model; realized action/request counts and terminal token totals are supplied workload descriptors, not an online forecast.",
+    "The remainder is a training target only and is never supplied to prediction.",
+    "The 43-case development cohort is small and contains only 22 independent instances.",
+    "Cross-hardware performance remains unvalidated."
+  ],
+  "metrics": {
+    "calibrated_composed_prediction_ms": {
+      "case_count": 43,
+      "instance_count": 22,
+      "median_error_pct": 9.94823050281136,
+      "p95_error_pct": 23.534237395801156,
+      "within25_count": 42,
+      "within25_fraction": 0.9767441860465116,
+      "worst_error_pct": 31.167835866639248
+    },
+    "calibrated_direct_prediction_ms": {
+      "case_count": 43,
+      "instance_count": 22,
+      "median_error_pct": 9.559057602468096,
+      "p95_error_pct": 22.490395414261577,
+      "within25_count": 42,
+      "within25_fraction": 0.9767441860465116,
+      "worst_error_pct": 28.958034705990304
+    },
+    "composed_prediction_ms": {
+      "case_count": 43,
+      "instance_count": 22,
+      "median_error_pct": 8.98185429992891,
+      "p95_error_pct": 20.778388957188977,
+      "within25_count": 41,
+      "within25_fraction": 0.9534883720930233,
+      "worst_error_pct": 31.167835866639248
+    },
+    "direct_prediction_ms": {
+      "case_count": 43,
+      "instance_count": 22,
+      "median_error_pct": 9.558926141937874,
+      "p95_error_pct": 22.490395414261577,
+      "within25_count": 42,
+      "within25_fraction": 0.9767441860465116,
+      "worst_error_pct": 28.958034705990304
+    },
+    "median_prediction_ms": {
+      "case_count": 43,
+      "instance_count": 22,
+      "median_error_pct": 13.649523121546617,
+      "p95_error_pct": 44.33613362594343,
+      "within25_count": 31,
+      "within25_fraction": 0.7209302325581395,
+      "worst_error_pct": 53.65371461242111
+    }
+  },
+  "schema": "d9.e2e-composition-fit.v1",
+  "source": {
+    "audit_sha256": "1ed1165e23b44c540ef783e1f3de5cdcbee0127bc2bbd71d2a6e17508139bf79",
+    "manifest_sha256": "fa3f765bf82f870254204ad1227514d950134f21396eb458a995b35cf52d4ef7",
+    "raw_model_event_sha256_by_ordinal": {
+      "1": "a8de2305cafbcb434a7e2d89ac7d917d02769619a7982a2be4d1bbaf32151828",
+      "10": "5e9d1c956abfe515712f9530abe33c9a9f3acf2be0c84ce15da89515076d2fdc",
+      "11": "b9ee748fbff0d6c4f58dedd7856fa90b347390aaf08106d78d326024261902ce",
+      "12": "427d8a5933ba7bdbf97a27a7becda9caec125b88f9a7da24a275bdbf8a8fb88f",
+      "13": "bb8950d5c094bac01cebaa9eb68c893f4b034982c8314ff9cc2d2e7e870e2006",
+      "14": "eaf419440178553f4635e4fdb52b224c673c9e45191497be5b446fc228c35980",
+      "15": "03bdfcfafd366d93c80c771a4405c4b7f0a5893c74d8c24d73a09aad562794a4",
+      "16": "95dd85b1992ecca6f5c570accc7ec8762dccfa3f6169879f12bb4fc73a6ef178",
+      "17": "07e9b1500f16c9fc641530f1db7266e7f5ca3eb55be6967a87aa4d8036091ed9",
+      "18": "c6e63b4cfeac9bf9c8b5dcb182cb1e1f2403515d09939450120dd8f0db10817a",
+      "19": "69420b1459b223d1524597681600189e491a043f7293908c2c2b5d1aabb828ac",
+      "20": "07fbc9e407cfb192d063ff89600271be588ef5271934070564659166f79d2f31",
+      "22": "e789146a3632b67a5d04edea8450f486124a779df9de3efb73a451f1b8cd7929",
+      "23": "bee9138916b8e61dc7728e4cf54760e5557cd94c1771acdee9af9a84d5a63a57",
+      "24": "23bbfaa42e32ffa099c0ef51e73a1d9651bd86720ccba64f85ad07287023e609",
+      "25": "08c696d577308bdea7b362ddd457798ea773d35888ff0e2b3b9916d354bea40d",
+      "27": "715b48761beb9deaad11ec8766d1f562f2054cac102f0eafef0c0b6fbbc7e939",
+      "28": "c85c6a52673bc90496cd0486ea6436eb7ba438e9fc6d58e5008fa58f30fc9443",
+      "29": "54af59eec335cd413b02d4dc3d702b662b712eae95704be1acb2b1d6b9bcfbae",
+      "3": "5de918bebaafab2dbd849bb3418edc55cb866828d99cf4e3df2b9f71fce20aeb",
+      "30": "2709aef94f84ce0bb4b66d00c84fac53e6b4846fb8013887c1f575706a48a7fe",
+      "32": "dbc89f177f03b88478b4ed8691f951cf74abe107033b8128c0d710ca5e7d71f7",
+      "33": "491447cc169517f9c3592dde7f4d786c3f389373376b59481659b1d2ebdd4b2a",
+      "34": "64be45aeb967c368ce592ae1db6b8fb5becfc75a711063d4c1f52cc1cb7a19bf",
+      "35": "47032949429701810c7aeba34b59fb1e29ad83737fee334e993514a4099743e3",
+      "36": "547120abf494df6ef0cce780295bb450c3f14ce7f46434ce89a04e79be78bc97",
+      "37": "403265f16c8b56dca89f2d9212f50587f1136260443675b59accf92a0a1447f8",
+      "38": "3efb2e07d9cbf793a7af4caac5be737bfe9cd2e3a426a9203793a02f5d4df71d",
+      "4": "a9f8f5ec4d4a55b3004d02ad256ce2b84982c2a6255062023ae0cf769cdeb8d3",
+      "40": "73cbaf51cf2ed862b204fa84175d1a99133cc627b474077829b68b0415725d9b",
+      "41": "4a2d8d5569eb5fc6f22ff92b5a8b71f6b4285305c86e222208bae98aec90cb5c",
+      "42": "c877b5ff5a68179f076dd4a0916fbd8e0d89def1f91ce65f34b808422aad108d",
+      "43": "349b7e126a5eb25b591d5c44e17f269a5eb2e8abdb5ce0d1ea90be7051aac3d3",
+      "44": "cf3a55e02402295e6aa28d86da0a0f9272b313d90e74f6a8ebf4ef658e967ca5",
+      "45": "d47cb07ff919d163a79fb8155421b3e7f5baf58a76c88c30f1282d2932dfa493",
+      "46": "5e16a8feb3f5a6cd9f1935fdd728366df9135aea4938563441b611af3ddb3177",
+      "47": "a0fbf742d296d6c313c7eaed6e62eaf4ef0955b99d916a81535bbf49916645d2",
+      "5": "6b6080450a161c8f0ae95a71002cfe5f07c09200b56cc26fd80b2bf0eed8a120",
+      "51": "56ed84713a784ac88887a575d3f1338e003db0ca0e433a9a5faab36298e8ea1b",
+      "52": "20b626446ddf4e7f82159130619f14369e3407cc4cdffc451da8c25ee7289e71",
+      "53": "3253719ad8fcc783e524d6a14fdbc8c007fa040cab08654db93294fba1df44d4",
+      "6": "6d03875850e0ddccef3bd4c6953061d866a7130571b5ef129cf34d1f6812c55c",
+      "7": "eb7182daf3970a5478cae10da24919bc775d18bba83cebf749be80739638aed2"
+    }
+  },
+  "split": "five deterministic instance-grouped folds shared with repaired CPU calibration",
+  "status": "development_candidate",
+  "validity": {
+    "hardware_transfer_validated": false,
+    "instance_overlap_across_folds": false,
+    "literal_d9_pass": false,
+    "measured_residual_used_as_predictor": false,
+    "result_fields_used_as_predictors": false
+  }
+}

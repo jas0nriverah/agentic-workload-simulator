@@ -1,0 +1,74 @@
+{
+  "status": "passed",
+  "focused_tests": 29,
+  "groups": {
+    "simulator_contract_and_integration": 17,
+    "native_models": 6,
+    "historical_conditional_gpu": 2,
+    "conditional_e2e": 2,
+    "cpu_domain_binding": 2
+  },
+  "cli_smokes": [
+    "historical_cpu_tool_wall",
+    "conditional_native_e2e",
+    "conditional_native_e2e_cache_trace"
+  ],
+  "independent_review": "simulator/REVIEW.md",
+  "gpu_inference_used": false,
+  "frozen_acquisition_changed": false,
+  "d9_literal_acceptance": false,
+  "followup": {
+    "atomic_cpu_tests": 7,
+    "atomic_raw_records": 977433,
+    "atomic_positive_duration_operations": 974169,
+    "atomic_raw_hashes_verified": 4,
+    "independent_cpu_review": "FOLLOWUP_REVIEW.md",
+    "sample_plan_references_checked": 34,
+    "sample_plan_split_sha256": "0b0c37147b45ec824e2af45d82ba20b3ed57ac56b64f58ea07004e0c13bcc99f",
+    "figure_hashes_verified": 22,
+    "d3_exact_run_matches": 615,
+    "d3_resolved": 236,
+    "d3_unmatched_excluded": 204,
+    "d9_literal_acceptance": false,
+    "figure_tests": 3
+  },
+  "model_opportunities": {
+    "status": "passed_bounded_checks",
+    "tests": {
+      "cpu_mechanisms": 7,
+      "cpu_transfer": 3,
+      "cpu_entry_flags": 3,
+      "native_sequence": 2,
+      "e2e_composition": 5
+    },
+    "total_new_tests": 20,
+    "exact_raw_client_proxy_native_joins": 1784,
+    "eligible_e2e_cases": 43,
+    "identity_join_errors": 0,
+    "non_nested_local_request_spans": 75,
+    "implementation_files_unchanged_against_v2": 185,
+    "new_inference": false,
+    "frozen_acquisition_changed": false,
+    "literal_d9_acceptance": false,
+    "scope": "Development model comparisons and observed reconstruction; no claim full predictive E2E composition or hardware transfer is validated",
+    "independent_review": "model_opportunities/REVIEW.md"
+  },
+  "e2e_composition_fit": {
+    "status": "passed_bounded_development_check",
+    "tests": 12,
+    "cases": 43,
+    "instances": 22,
+    "exact_raw_request_joins": 1784,
+    "composed_within25_count": 42,
+    "composed_within25_fraction": 0.9767441860465116,
+    "composed_worst_error_pct": 31.167835866639248,
+    "selected_model": "direct_conditional",
+    "selected_within25_count": 42,
+    "selected_worst_error_pct": 28.958034705990304,
+    "result_fields_used_as_predictors": false,
+    "instance_grouped": true,
+    "new_inference": false,
+    "frozen_acquisition_changed": false,
+    "literal_d9_acceptance": false
+  }
+}
