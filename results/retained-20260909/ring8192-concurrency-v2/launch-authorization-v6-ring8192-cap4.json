@@ -1,0 +1,153 @@
+{
+  "acknowledge_paid_gpu_work": true,
+  "allow_resume_after_supervisor_exit": false,
+  "allow_supervisor_launch": true,
+  "authorization_id": "astra-final-production1088-ring8192-cap4-20260910-v6",
+  "frozen_config": {
+    "path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/configuration-v1/inputs/live-plan/production-candidates/expanded-call100-input61440-observation25000.config.json",
+    "sha256": "76eea0db3cbed4e04e646777cc09436a69d232a1d67290294117b4100fd713d3"
+  },
+  "launch_enabled": true,
+  "max_launches_per_tick": 4,
+  "operator_launch_policy": {
+    "controller": {
+      "path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/launch_rolling_wave_v3_cap4.py",
+      "sha256": "24cf4a3fecf5b6b63418af4e2e931a5d100540062eacb3bfe62124e545eaac1c"
+    },
+    "max_cases_per_worker": 1,
+    "max_concurrency": 4,
+    "minimum_allocation_remaining_seconds": 6000,
+    "prohibited": "Generic unbounded supervise/monitor --execute; selective model-quality retry; reuse historical completion as production.",
+    "recovery_scope": "Resumeorderedproductionatcap4afteractualordinal31zero-lossacceptance. Retainallacceptedresults, isolateinfra/acquisitionfailures, noqualityretry. Mainmonitorsfirstconcurrentwave.",
+    "required_before_each_wave": "fresh hashboundhealth/storage, exactpendingprefix, verifiedlocalimmutableimages, acceptedretention before nextwave",
+    "storage_controller": {
+      "path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/storage-reclamation-v1/production_storage_controller_v2.py",
+      "sha256": "08bd4c2cfe75b0c49bb987cd3993c5438c710f7c9f6cf12fa3c6ddc2b1bdf208"
+    }
+  },
+  "pass_receipt": {
+    "path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/production-pass-receipt-v6-ring8192-cap4.json",
+    "sha256": "9f144ef84c8412cc004a63d8c85fe47ad0c2661cf58fbcf1c888bcdee3666171"
+  },
+  "plan": {
+    "path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/frozen-plan.jsonl",
+    "sha256": "b91249bb597b9211b9578e654cb3f0338a7ca905e8f5aa3484f1e6ec18cf96f7"
+  },
+  "queue": {
+    "dir": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/queue-ring8192-v1",
+    "plan_sha256": "b91249bb597b9211b9578e654cb3f0338a7ca905e8f5aa3484f1e6ec18cf96f7"
+  },
+  "schema_version": "assignment.production-launch-authorization.v1",
+  "status": "PASS",
+  "supervisor": {
+    "cpu_docker": true,
+    "cwd": "/home/riverahernandezjason/h100-assignment-work-20260905/execution-snapshots/production-v10-ring8192-clean/repo",
+    "extra_argv_manifest": {
+      "path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/queue-adapter-ring8192-v1.json",
+      "sha256": "f20c0190d32e719add5254b4da1d91752fba5b1734ec71573ac92e37c1947272"
+    },
+    "max_retries": 3,
+    "python": "/home/riverahernandezjason/agentic-submission-repairs-20260908/.venv/bin/python",
+    "queue_script": {
+      "path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/queue-revision-v1/shared_case_queue_history_v3.py",
+      "sha256": "d7b28f71bb1c5a1b584f8ff1af3333c8831cc52f390d894ed8e72c533d1c059e"
+    },
+    "runner": {
+      "path": "/home/riverahernandezjason/h100-assignment-work-20260905/execution-snapshots/production-v10-ring8192-clean/repo/scripts/assignment/sweagent_case_runner.py",
+      "sha256": "c4122b2e34dee75f9b25122163cbd4842ff2bcc07a561b8059551323f92efa9a"
+    },
+    "timeout_seconds": 5400
+  },
+  "workers": [
+    {
+      "endpoint_id": "relay-00",
+      "worker_id": "worker-00"
+    },
+    {
+      "endpoint_id": "relay-01",
+      "worker_id": "worker-01"
+    },
+    {
+      "endpoint_id": "relay-02",
+      "worker_id": "worker-02"
+    },
+    {
+      "endpoint_id": "relay-03",
+      "worker_id": "worker-03"
+    },
+    {
+      "endpoint_id": "relay-04",
+      "worker_id": "worker-04"
+    },
+    {
+      "endpoint_id": "relay-05",
+      "worker_id": "worker-05"
+    },
+    {
+      "endpoint_id": "relay-06",
+      "worker_id": "worker-06"
+    },
+    {
+      "endpoint_id": "relay-07",
+      "worker_id": "worker-07"
+    },
+    {
+      "endpoint_id": "relay-08",
+      "worker_id": "worker-08"
+    },
+    {
+      "endpoint_id": "relay-09",
+      "worker_id": "worker-09"
+    },
+    {
+      "endpoint_id": "relay-10",
+      "worker_id": "worker-10"
+    },
+    {
+      "endpoint_id": "relay-11",
+      "worker_id": "worker-12"
+    },
+    {
+      "endpoint_id": "relay-12",
+      "worker_id": "worker-13"
+    },
+    {
+      "endpoint_id": "relay-13",
+      "worker_id": "worker-14"
+    },
+    {
+      "endpoint_id": "relay-14",
+      "worker_id": "worker-15"
+    },
+    {
+      "endpoint_id": "relay-15",
+      "worker_id": "worker-16"
+    },
+    {
+      "endpoint_id": "relay-16",
+      "worker_id": "worker-17"
+    },
+    {
+      "endpoint_id": "relay-17",
+      "worker_id": "worker-18"
+    },
+    {
+      "endpoint_id": "relay-18",
+      "worker_id": "worker-19"
+    },
+    {
+      "endpoint_id": "relay-19",
+      "worker_id": "worker-20"
+    },
+    {
+      "endpoint_id": null,
+      "worker_id": "worker-21"
+    },
+    {
+      "endpoint_id": null,
+      "worker_id": "worker-22"
+    }
+  ],
+  "written_at": "2026-09-10T03:10:43.624314+00:00",
+  "written_by": "root"
+}

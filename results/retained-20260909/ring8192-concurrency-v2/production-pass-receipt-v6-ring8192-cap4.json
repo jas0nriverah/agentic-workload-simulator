@@ -1,0 +1,63 @@
+{
+  "schema_version": "assignment.production-launch-pass.v1",
+  "frozen_config_sha256": "76eea0db3cbed4e04e646777cc09436a69d232a1d67290294117b4100fd713d3",
+  "plan_sha256": "b91249bb597b9211b9578e654cb3f0338a7ca905e8f5aa3484f1e6ec18cf96f7",
+  "authorization_id": "astra-final-production1088-ring8192-cap4-20260910-v6",
+  "status": "PASS",
+  "decision": "FINAL PRODUCTION: GO",
+  "scope": "Resumeorderedproductionatcap4afteractualordinal31zero-lossacceptance. Retainallacceptedresults, isolateinfra/acquisitionfailures, noqualityretry. Mainmonitorsfirstconcurrentwave.",
+  "written_by": "root",
+  "written_at": "2026-09-10T03:10:43.624314+00:00",
+  "supersedes_authorization": "v5single-case recovery completed; nowboundedconcurrentproduction",
+  "remaining_risks": [
+    "Four-collectorburstsvalidatedandactualsingle-casecapturepassed; monitorfirstconcurrentproductionwave beforeclaimingproductionconcurrencyrecovery.",
+    "D9per-event/crosshardwareaccuracyunproven.",
+    "Allocationcutoff6000seconds; storagegateand39+retentionrequired eachwave."
+  ],
+  "reviews": [
+    {
+      "path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/ring8192-queue-migration-root-v1.json",
+      "sha256": "e7a576f62c4e4e645b70c1f88db2324ac9ca09d7546bd4075267582f3865786a"
+    },
+    {
+      "path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/ring8192-queue-tests-root-v3.json",
+      "sha256": "39a9943e28530e1eb644709bb8b1920e36301781fb89eafc545f6bff64e15deb"
+    },
+    {
+      "path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/queue-revision-v1/logic-review-receipt-v1.json",
+      "sha256": "d0efdccfa15641762447f68e76e32a8238fe82dea1fbd2b14668957c755385d3"
+    },
+    {
+      "path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/queue-revision-v1/logic-review-receipt-v3.json",
+      "sha256": "f723fcdbcda901e2cf18eabbd4d78bccdb5a7d67d1337db3229635d11de0b80d"
+    },
+    {
+      "path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/ring8192-new-queue-clear-halt-root-v1.json",
+      "sha256": "eae4e718edc1a32a65d1cfddcee00d14185fe1bfb05ae9940449fd5d6ceb80f1"
+    },
+    {
+      "path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/ring8192-fixture-root-review-v1.json",
+      "sha256": "017e3c79a7111d51355f25b53bcb3743dbbd716581b6eca34989d6e01e749b0e"
+    },
+    {
+      "path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/ring8192-runtime-v1/validation-receipt-v1.json",
+      "sha256": "0c5034155c83d729b5abe3124293867410306e02845200ae7f7252018b712d7a"
+    },
+    {
+      "path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/ring8192-runtime-v1/worker-pool-manifest.json",
+      "sha256": "69282cd1c75f8364f4051f4804531576c3e0ccf7fa07e345b3f37ab668e5550c"
+    },
+    {
+      "path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/ring8192-single-retry-root-receipt-v1.json",
+      "sha256": "ddfc726dcf591a8e78f1fb72c39a9875c953bf527be529babb063cddc8eff6b5"
+    },
+    {
+      "path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/cap1-launcher-root-check-v1.json",
+      "sha256": "7243947b3ccd3cb82eb7f63bdd1cc76c8d6de0e1ddc942c073062419b62a1339"
+    },
+    {
+      "path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/ring8192-single-production-reconstruction-root-v1.json",
+      "sha256": "2d203812f5c7d3637917a4dc82bb976cbd209a0ff977d6b3f0958bc98f97c1ae"
+    }
+  ]
+}
