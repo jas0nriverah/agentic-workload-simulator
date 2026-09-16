@@ -1,0 +1,174 @@
+{
+  "attempts": [
+    {
+      "attempt_id": "attempt-001",
+      "cpu_raw_integrity": {
+        "action_count": 117,
+        "atomic_normalization": "unsupported_no_full_bpf_export",
+        "coverage_error_count": 0,
+        "raw_event_binary": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00009-988a91e4499c77ec/attempt-988a91e4499c77ec-003-13f358f8e454/runner_attempts/attempt-001/telemetry_v2/linux_work/raw_events.bin",
+        "raw_event_binary_bytes": 168850800,
+        "raw_event_binary_hash_skipped": true,
+        "raw_event_binary_sha256": null,
+        "representative_decoder": "not_run",
+        "status": "complete_bounded_raw_metadata"
+      },
+      "host_clock_unions": {
+        "instance-20260902-053002|CLOCK_MONOTONIC_RAW|boot=df4cb202-feaf-4b07-9e2f-d6d7923a718f": {
+          "disjoint_union_ms": 197477.820498,
+          "merged_interval_count": 341,
+          "raw_interval_count": 532
+        }
+      },
+      "model_physical_starts": 50,
+      "model_physical_terminals": 50,
+      "native_clock_policy": "native intervals and GPU durations are retained separately; never added to host timeline union",
+      "native_physical_terminals": 50,
+      "outer_e2e_boundary": {
+        "event_kind": "outer_swe_agent",
+        "observed_ms": 210710.583734
+      },
+      "pair_inventory": {
+        "lifecycle": {
+          "starts": 327,
+          "terminals": 681
+        },
+        "model": {
+          "starts": 100,
+          "terminals": 100
+        },
+        "tool": {
+          "starts": 48,
+          "terminals": 96
+        }
+      },
+      "raw_record_count": 1402
+    }
+  ],
+  "calibration_scope": {
+    "ignored_for_fit": "retry_missing_physical_predecessor affects OBSERVATION wrapper rows; TARGET rows are still checked by the adapter",
+    "original_error_codes": {
+      "retry_missing_physical_predecessor": 4
+    },
+    "original_validation_report_path": "/home/riverahernandezjason/agentic-submission-repairs-20260908/docs/d9-salvage-20260910/evidence/ledgers/00009-astropy__astropy-6938/validation_report.json",
+    "original_validation_report_sha256": "4903f97b067c568d729480640d0c09bd5c067fdc47808cbc85c5583354cc5f63",
+    "original_validation_status": "invalid",
+    "status": "accepted_native_target_scope"
+  },
+  "case_event_records": {
+    "count": 1552,
+    "path": "/home/riverahernandezjason/agentic-submission-repairs-20260908/docs/d9-salvage-20260910/evidence/ledgers/00009-astropy__astropy-6938/normalized_case_events.jsonl"
+  },
+  "case_metadata": {
+    "repository": "astropy/astropy",
+    "settings": {
+      "call_limit": 100,
+      "max_input_tokens": 61440,
+      "max_output_tokens": 1024,
+      "observation_length": 25000,
+      "seed": 0,
+      "temperature": 0.0,
+      "top_p": 1.0
+    },
+    "suite": "lite"
+  },
+  "case_result": {
+    "evaluator_outcome_provenance": "unproven_not_bound_by_ledger",
+    "present": true
+  },
+  "case_root": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00009-988a91e4499c77ec/attempt-988a91e4499c77ec-003-13f358f8e454",
+  "disposition": "accepted",
+  "excluded_attempt_inventory": [],
+  "hardware_bindings": {
+    "cpu": {
+      "binding": "pre-execution CPU-host snapshot only",
+      "hardware_profile_sha256": "25317296c625aa8245748289db6c5e75b238ca69c4294b05a6b54368ced2c17c",
+      "path": "runner_attempts/attempt-001/telemetry_v2/hardware_snapshots.jsonl",
+      "sha256": "de42b83e1addb2cb0b8f20ea5d55312107a7fffd820c564da368a90f4a9c44dc"
+    },
+    "native_gpu": "unavailable"
+  },
+  "identity": {
+    "case_id": "assignment-production-v2:e19c1f5e34236a4cd11020df4b314ac7c61bb8212f46cf807a7308613814c24b",
+    "instance_id": "astropy__astropy-6938"
+  },
+  "partition": null,
+  "partition_provenance": "case_spec_supplied_untrusted; downstream derives pinned partition before event read",
+  "schema_version": "assignment.offline.ledger-validation.v1",
+  "source_hashes": [
+    {
+      "path": "case_result.json",
+      "sha256": "49fabe3021c1713d92e5d4868d3753de6235fa86c9062b588c36295dcad856c6"
+    },
+    {
+      "path": "case_spec.json",
+      "sha256": "08ee2038791d3c3f3cb967f1e57302a111a1785763ea84a592b5e79406a14e07"
+    },
+    {
+      "path": "runner_attempts/attempt-001/native_serving/native_attribution.jsonl",
+      "sha256": "06347aa615c72c28b07f65d2fe58dd0cbb32d4dbd1f82be417350736a63376b4"
+    },
+    {
+      "path": "runner_attempts/attempt-001/telemetry_v2/hardware_snapshots.jsonl",
+      "sha256": "de42b83e1addb2cb0b8f20ea5d55312107a7fffd820c564da368a90f4a9c44dc"
+    },
+    {
+      "path": "runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl",
+      "sha256": "477ffa6e71f186d8ea3bdaf1b1d3de1a4fb82297565f7af3b51d9dc5f5671231"
+    },
+    {
+      "path": "runner_attempts/attempt-001/telemetry_v2/linux_work/bpf_collector_manifest.json",
+      "sha256": "2c22c534330d63f3a2193ba47fef877aba61cf05bd1804a08413212cb0536549"
+    },
+    {
+      "path": "runner_attempts/attempt-001/telemetry_v2/linux_work/raw_aggregates.jsonl",
+      "sha256": "38d219b5bf65117b033b27efe028831310025b2314b73180959865d2ed996991"
+    },
+    {
+      "path": "runner_attempts/attempt-001/telemetry_v2/linux_work/work_summary.json",
+      "sha256": "3c8745a38dcdc7de68f0dd039df99305aeda63819eac3f8ba6eeb32d5858d55b"
+    },
+    {
+      "path": "runner_attempts/attempt-001/telemetry_v2/model_events.jsonl",
+      "sha256": "1f2e341e2b8ddf4894e26cfd787e22d1dd8e97df14d0e04908675381e24d4fbf"
+    },
+    {
+      "path": "runner_attempts/attempt-001/telemetry_v2/tool_events.jsonl",
+      "sha256": "39ebc265fec18d4c17a7e0e2357007aac59abf8e8db3d39028fe0f16d4d0efc4"
+    }
+  ],
+  "validation": {
+    "error_count": 4,
+    "errors": [
+      {
+        "code": "retry_missing_physical_predecessor",
+        "detail": "request-dc1e5721c809ca121e2827700de775f8",
+        "event_id": "event-58a0fc887fa38a823e582a6c31360ba7",
+        "line": 77,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00009-988a91e4499c77ec/attempt-988a91e4499c77ec-003-13f358f8e454/runner_attempts/attempt-001/telemetry_v2/model_events.jsonl"
+      },
+      {
+        "code": "retry_missing_physical_predecessor",
+        "detail": "request-dc1e5721c809ca121e2827700de775f8",
+        "event_id": "event-33e9aa543b676ef1042ffb5fbcfa90e9",
+        "line": 78,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00009-988a91e4499c77ec/attempt-988a91e4499c77ec-003-13f358f8e454/runner_attempts/attempt-001/telemetry_v2/model_events.jsonl"
+      },
+      {
+        "code": "retry_missing_physical_predecessor",
+        "detail": "request-325f76a3a7a99bb448df0cae57c409bc",
+        "event_id": "event-99d661b11c22c5e65507330ed80d190d",
+        "line": 85,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00009-988a91e4499c77ec/attempt-988a91e4499c77ec-003-13f358f8e454/runner_attempts/attempt-001/telemetry_v2/model_events.jsonl"
+      },
+      {
+        "code": "retry_missing_physical_predecessor",
+        "detail": "request-325f76a3a7a99bb448df0cae57c409bc",
+        "event_id": "event-f99b6a441c5ebf8d40c8e8cdf2bd83f0",
+        "line": 86,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00009-988a91e4499c77ec/attempt-988a91e4499c77ec-003-13f358f8e454/runner_attempts/attempt-001/telemetry_v2/model_events.jsonl"
+      }
+    ],
+    "status": "invalid"
+  }
+}

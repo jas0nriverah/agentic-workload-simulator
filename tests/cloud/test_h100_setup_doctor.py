@@ -1,5 +1,7 @@
 import os
 import subprocess
+import shutil
+from tempfile import TemporaryDirectory
 import unittest
 from pathlib import Path
 
@@ -25,7 +27,20 @@ class H100SetupDoctorTests(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stderr)
 
     def test_offline_mode_checks_sealed_contract_without_runtime_access(self):
-        result = self.run_doctor("--offline")
+        # The doctor validates a specific historical branch. Exercise its
+        # sealed-file contract in an isolated checkout, independently of the
+        # developer's current repair branch; preserve the production gate.
+        with TemporaryDirectory() as temporary:
+            fixture = Path(temporary)
+            for relative in ("scripts/cloud/h100_setup_doctor.sh", "configs/h100_final_validation.json",
+                             "scripts/cloud/h100_case_runner.py", "scripts/cloud/run_h100_final_validation.sh",
+                             "scripts/cloud/lambda_start_vllm.sh", "scripts/cloud/lambda_healthcheck.sh"):
+                target = fixture / relative
+                target.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copy2(ROOT / relative, target)
+            subprocess.run(["git", "init", "-q", "-b", "parallel-h100-shards", str(fixture)], check=True)
+            result = subprocess.run(["bash", str(fixture / "scripts/cloud/h100_setup_doctor.sh"), "--offline"],
+                                    cwd=fixture, env=os.environ.copy(), capture_output=True, text=True)
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertIn("READY_FOR_VM_PREFLIGHT", result.stdout)
         self.assertIn("no runtime or GPU checks performed", result.stdout)

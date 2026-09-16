@@ -1,4 +1,5 @@
 import hashlib
+import fcntl
 import importlib.util
 import json
 import os
@@ -6,8 +7,10 @@ import socket
 import subprocess
 import sys
 import tempfile
+import time
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 from scripts.assignment.adaptive_event_protocol import (
     FrozenCalibrationModel,
@@ -95,16 +98,17 @@ if os.environ.get('FIXTURE_AGENT_MODE', 'request') == 'request':
         response.read()
     upstream.shutdown()
     upstream.server_close()
-(out / 'preds.json').write_text(json.dumps([{'instance_id': 'owner__repo-1', 'model_name_or_path': 'fixture/model', 'model_patch': 'diff --git a/a b/a'}]) + '\\n')
+if os.environ.get('FIXTURE_AGENT_MODE', 'request') != 'no-request-no-prediction':
+    (out / 'preds.json').write_text(json.dumps([{'instance_id': 'owner__repo-1', 'model_name_or_path': 'fixture/model', 'model_patch': 'diff --git a/a b/a'}]) + '\\n')
 (out / 'agent_success.marker').write_text('ran\\n')
 """)
     evaluator = root / "fake_evaluator.py"
     write_executable(evaluator, f"""
-import hashlib, json, pathlib, sys
+import hashlib, json, os, pathlib, sys
 args = sys.argv[1:]
 def value(name):
     return args[args.index(name) + 1]
-mode = {evaluator_mode!r}
+mode = os.environ.get('FIXTURE_EVALUATOR_MODE', {evaluator_mode!r})
 if mode == 'missing':
     raise SystemExit(0)
 result = pathlib.Path(value('--result')).resolve()
@@ -136,7 +140,12 @@ record = {{
     'evaluator_python': sys.executable,
     'timeout_seconds': 5,
 }}
-if mode == 'dataset-mismatch':
+if mode == 'empty-patch':
+    record['official_resolved'] = False
+    record['counts']['resolved_instances'] = 0
+    record['counts']['unresolved_instances'] = 1
+    record['empty_patch_unresolved'] = True
+elif mode == 'dataset-mismatch':
     record['dataset_sha256'] = '0' * 64
 elif mode == 'predictions-mismatch':
     record['predictions_sha256'] = '1' * 64
@@ -145,7 +154,7 @@ elif mode == 'report-hash-mismatch':
 elif mode == 'dataset-path-mismatch':
     record['dataset_path'] = str(result.parent / 'other-dataset.jsonl')
 elif mode == 'external-report':
-    external = result.parent.parent / 'external-report.json'
+    external = result.parent.parent.parent.parent / 'external-report.json'
     external.write_text(report.read_text(encoding='utf-8'), encoding='utf-8')
     record['report_path'] = str(external)
     record['report_sha256'] = sha(external)
@@ -361,6 +370,65 @@ def invoke(manifest: Path, case: Path, output: Path, *extra: str) -> subprocess.
 
 
 class SWEAgentCaseRunnerTests(unittest.TestCase):
+    def test_native_deferred_requires_hash_bound_server_archive_descriptor(self):
+        base = {
+            "mode": "v2",
+            "schema_version": ADAPTER.TELEMETRY_V2_SCHEMA,
+            "instrumentation_version": ADAPTER.TELEMETRY_V2_VERSION,
+            "require_activation": True,
+            "require_raw_request_payloads": True,
+            "require_cpu_work": True,
+            "cpu_work": {
+                "backend": "bcc",
+                "trace_format": "raw individual",
+                "attach_existing_process": True,
+                "require_persistent_runtime_pid": True,
+            },
+            "remote_hardware_profile": {"path": "/tmp/profile.json", "sha256": "1" * 64},
+            "serving_metrics": {
+                "schema_version": ADAPTER.SERVING_METRICS_CONFIG_SCHEMA,
+                "enabled": True,
+                "metrics_url": "http://127.0.0.1:1/metrics",
+                "server_identity": "worker-22",
+                "counter_epoch": "epoch-1",
+                "timeout_seconds": 1.0,
+                "access_witness_path": "/tmp/witness.jsonl",
+                "access_witness_evidence_kind": "external_access_lease",
+                "vllm_version": "0.10.0",
+                "mode": "native_deferred",
+            },
+        }
+        with self.assertRaises(ADAPTER.CaseRunnerError):
+            ADAPTER._validate_telemetry_config(base)
+        base["native_server_archive"] = {
+            "fetch": {
+                "ssh_host": "jriverah3@128.61.254.151",
+                "ssh_control": "/tmp/jriverah3-pace-login3.sock",
+                "journal": "/storage/capture/serving-observer.jsonl",
+                "native_journal": "/storage/capture/native-vllm.jsonl",
+            }
+        }
+        normalized = ADAPTER._validate_telemetry_config(base)
+        self.assertEqual(normalized["native_server_archive"]["fetch"]["ssh_host"], "jriverah3@128.61.254.151")
+        # A legacy metrics-only configuration is still a valid optional subset.
+        base.pop("native_server_archive")
+        base["serving_metrics"].pop("mode")
+        normalized = ADAPTER._validate_telemetry_config(base)
+        self.assertIsNone(normalized["native_server_archive"])
+
+    def test_response_usage_reconstructs_explicit_cache_tokens_from_sse(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            path = Path(temporary) / "response.bin"
+            path.write_bytes(
+                b'data: {"choices":[],"usage":{"prompt_tokens":9,"completion_tokens":2,'
+                b'"prompt_tokens_details":{"cached_tokens":6}}}\n\n'
+                b'data: [DONE]\n\n'
+            )
+            self.assertEqual(
+                ADAPTER._response_usage(path),
+                {"prompt_tokens": 9, "completion_tokens": 2, "cached_tokens": 6},
+            )
+
     def test_reviewed_runner_is_directly_executable_by_matrix(self):
         self.assertTrue(os.access(SCRIPT, os.X_OK))
 
@@ -383,8 +451,11 @@ class SWEAgentCaseRunnerTests(unittest.TestCase):
             )
             output = root / "attempt"
             path, digest = ADAPTER._materialize_request_config(
-                source=source, max_output_tokens=512, output_dir=output
+                source=source, max_output_tokens=512, output_dir=output, top_p=0.75
             )
+            materialized_model = json.loads(path.read_text(encoding="utf-8"))["agent"]["model"]
+            self.assertEqual(materialized_model["top_p"], 0.75)
+            self.assertNotIn("top_p", materialized_model["completion_kwargs"])
             self.assertEqual(
                 json.loads(path.read_text(encoding="utf-8"))["agent"]["model"]["completion_kwargs"]["max_tokens"],
                 512,
@@ -394,6 +465,220 @@ class SWEAgentCaseRunnerTests(unittest.TestCase):
                 2048,
             )
             self.assertEqual(digest, hashlib.sha256(path.read_bytes()).hexdigest())
+
+    def test_owned_docker_command_requires_verified_defaults_and_adds_exact_owner_label(self):
+        """CPU-Docker launch is label-scoped and rejects custom cleanup knobs."""
+
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            project = root / "project"
+            parser = project / ".venv/bin/python"
+            parser.parent.mkdir(parents=True)
+            output = root / "attempt"
+            output.mkdir()
+            proof = {"docker": True, "empty_args": True, "remove_images": False}
+            marker_env = ADAPTER.DOCKER_PROOF_MARKER_ENV
+            parser_source = lambda value: (
+                "import json, os; print('pinned BasicCLI INFO banner 👋'); "
+                "print(os.environ[" + repr(marker_env) + "] + json.dumps(" + repr(value) + ", sort_keys=True))\n"
+            )
+            write_executable(parser, parser_source(proof))
+            command = ["sweagent", "run-batch", "--config", "config.yaml"]
+            owner = "a" * 32
+            deadline = str(time.monotonic_ns() + 5_000_000_000)
+            with patch.dict(os.environ, {ADAPTER.CASE_OWNER_ENV: owner, "ASSIGNMENT_CASE_DEADLINE_MONOTONIC_NS": deadline}):
+                owned = ADAPTER._owned_docker_command(command, project, owner, output)
+            self.assertEqual(
+                owned[-4:],
+                [
+                    "--instances.deployment.docker_args",
+                    json.dumps(["--label", f"{ADAPTER.CASE_OWNER_LABEL}={owner}"]),
+                    "--instances.deployment.remove_container",
+                    "false",
+                ],
+            )
+            ownership = json.loads((output / "docker_ownership.json").read_text(encoding="utf-8"))
+            self.assertEqual(ownership["owner"], owner)
+            self.assertEqual(ownership["label"], ADAPTER.CASE_OWNER_LABEL)
+            self.assertFalse(ownership["deployment_verified"]["remove_images"])
+            capture = ownership["parser_capture"]
+            self.assertEqual(capture["protocol"], ADAPTER.DOCKER_PROOF_PROTOCOL)
+            captured_stdout = (output / capture["stdout"]["path"]).read_text(encoding="utf-8")
+            self.assertTrue(captured_stdout.startswith("pinned BasicCLI INFO banner 👋\n"))
+            self.assertEqual(capture["stdout"]["size_bytes"], len(captured_stdout.encode("utf-8")))
+            self.assertEqual(capture["stdout"]["sha256"], hashlib.sha256(captured_stdout.encode("utf-8")).hexdigest())
+            self.assertEqual(capture["stderr"]["size_bytes"], 0)
+
+            for unsafe in (
+                {"docker": True, "empty_args": False, "remove_images": False},
+                {"docker": True, "empty_args": True, "remove_images": True},
+                {"docker": False, "empty_args": True, "remove_images": False},
+            ):
+                write_executable(parser, parser_source(unsafe))
+                with patch.dict(os.environ, {"ASSIGNMENT_CASE_DEADLINE_MONOTONIC_NS": deadline}):
+                    with self.assertRaisesRegex(ADAPTER.CaseRunnerError, "owned Docker launch"):
+                        ADAPTER._owned_docker_command(command, project, owner, output)
+
+    def test_owned_docker_parser_requires_one_proof_and_retains_raw_output(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            project = root / "project"
+            parser = project / ".venv/bin/python"
+            parser.parent.mkdir(parents=True)
+            output = root / "attempt"
+            output.mkdir()
+            command = ["sweagent", "run-batch", "--config", "config.yaml"]
+            owner = "b" * 32
+            deadline = str(time.monotonic_ns() + 5_000_000_000)
+            marker_env = ADAPTER.DOCKER_PROOF_MARKER_ENV
+
+            write_executable(
+                parser,
+                "import os, sys; print('unstructured stdout'); print('parser warning', file=sys.stderr)\n",
+            )
+            with patch.dict(os.environ, {"ASSIGNMENT_CASE_DEADLINE_MONOTONIC_NS": deadline}):
+                with self.assertRaisesRegex(ADAPTER.CaseRunnerError, "exactly one machine-readable proof"):
+                    ADAPTER._owned_docker_command(command, project, owner, output)
+            stdout_path = output / "docker_ownership_parser.stdout.log"
+            stderr_path = output / "docker_ownership_parser.stderr.log"
+            self.assertEqual(stdout_path.read_bytes(), b"unstructured stdout\n")
+            self.assertEqual(stderr_path.read_bytes(), b"parser warning\n")
+            capture = json.loads(
+                (output / "docker_ownership_parser_capture.json").read_text(encoding="utf-8")
+            )
+            self.assertEqual(capture["returncode"], 0)
+            self.assertEqual(capture["stdout"]["size_bytes"], len(stdout_path.read_bytes()))
+            self.assertEqual(capture["stderr"]["size_bytes"], len(stderr_path.read_bytes()))
+            self.assertEqual(capture["stdout"]["sha256"], hashlib.sha256(stdout_path.read_bytes()).hexdigest())
+            self.assertEqual(capture["stderr"]["sha256"], hashlib.sha256(stderr_path.read_bytes()).hexdigest())
+
+            write_executable(
+                parser,
+                "import json, os; marker = os.environ[" + repr(marker_env) + "]; "
+                "print(marker + '{}'); print(marker + '{}')\n",
+            )
+            with patch.dict(os.environ, {"ASSIGNMENT_CASE_DEADLINE_MONOTONIC_NS": deadline}):
+                with self.assertRaisesRegex(ADAPTER.CaseRunnerError, "exactly one machine-readable proof"):
+                    ADAPTER._owned_docker_command(command, project, owner, output)
+            self.assertEqual(len([line for line in stdout_path.read_text(encoding="utf-8").splitlines() if line.startswith("ASSIGNMENT_DOCKER_PROOF_V1:")]), 2)
+
+    def test_failure_result_inventories_root_and_attempt_artifacts_without_following_symlinks(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            output = root / "case"
+            output.mkdir()
+            case = {"resume_key": "fixture-resume"}
+            evaluator = output / "evaluator_result.json"
+            evaluator.write_text('{"submitted":false}\n', encoding="utf-8")
+            os.utime(evaluator, ns=(1_234_000_000, 1_234_000_000))
+            attempt = output / "runner_attempts/attempt-001"
+            attempt.mkdir(parents=True)
+            trajectory = attempt / "trajectory.json"
+            trajectory.write_text('{"steps":[]}\n', encoding="utf-8")
+            target = root / "outside-retained.txt"
+            target.write_text("do not traverse\n", encoding="utf-8")
+            link = output / "raw-output-link"
+            link.symlink_to(target)
+
+            with self.assertRaisesRegex(RuntimeError, "synthetic evaluator failure"):
+                with ADAPTER._locked_case(output, case, execute=True):
+                    raise RuntimeError("synthetic evaluator failure")
+
+            result_path = output / "case_result.json"
+            result = json.loads(result_path.read_text(encoding="utf-8"))
+            self.assertEqual(result["schema_version"], ADAPTER.FAILURE_RESULT_SCHEMA)
+            self.assertEqual(result["status"], "failed")
+            self.assertFalse(result["accepted"])
+            self.assertEqual(result["failure"]["type"], "RuntimeError")
+            self.assertEqual(result["failure"]["message"], "synthetic evaluator failure")
+            self.assertIsInstance(result["failure"]["recorded_epoch_ns"], int)
+            self.assertEqual(result["inventory_errors"], [])
+            inventory = {item["path"]: item for item in result["artifacts"]}
+            self.assertIn("evaluator_result.json", inventory)
+            self.assertIn("runner_attempts/attempt-001/trajectory.json", inventory)
+            self.assertIn("raw-output-link", inventory)
+            self.assertEqual(inventory["evaluator_result.json"]["size"], evaluator.stat().st_size)
+            self.assertEqual(inventory["evaluator_result.json"]["mtime_ns"], evaluator.stat().st_mtime_ns)
+            self.assertEqual(inventory["raw-output-link"]["kind"], "symlink")
+            self.assertEqual(inventory["raw-output-link"]["target"], str(target))
+            self.assertNotIn("case_result.json", inventory)
+            self.assertNotIn("case_result.json.sha256", inventory)
+            for item in result["artifacts"]:
+                if item["kind"] != "symlink":
+                    self.assertIn("sha256", item)
+                    self.assertIn("size", item)
+                    self.assertIn("mtime_ns", item)
+            sidecar = Path(str(result_path) + ".sha256")
+            self.assertEqual(sidecar.read_text(encoding="utf-8"), f"{hashlib.sha256(result_path.read_bytes()).hexdigest()}  {result_path.name}\n")
+            history_dirs = [path for path in (output / "metadata_history").iterdir() if path.is_dir()]
+            self.assertEqual(len(history_dirs), 1)
+            self.assertTrue((history_dirs[0] / "evaluator_result.json").is_file())
+
+    def test_case_lock_contention_preserves_existing_result_and_writes_no_failure(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            output = Path(temporary) / "case"
+            output.mkdir()
+            result_path = output / "case_result.json"
+            result_path.write_text("preserve exactly\n", encoding="utf-8")
+            lock_path = output / ".case-runner.lock"
+            held = lock_path.open("a+b")
+            fcntl.flock(held.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
+            try:
+                with self.assertRaisesRegex(ADAPTER.CaseRunnerError, "output lock"):
+                    with ADAPTER._locked_case(output, {"resume_key": "fixture"}, execute=True):
+                        pass
+            finally:
+                fcntl.flock(held.fileno(), fcntl.LOCK_UN)
+                held.close()
+            self.assertEqual(result_path.read_text(encoding="utf-8"), "preserve exactly\n")
+            self.assertFalse((output / "case_result.json.sha256").exists())
+
+    def test_retry_retains_attempt_evaluator_outputs_with_unique_run_ids_and_history(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            repo, commit = make_repo(root)
+            fixture = write_fixture(root)
+            manifest = root / "manifest.json"
+            write_manifest(manifest, repo, commit, fixture)
+            output = root / "case"
+            output.mkdir()
+            case = output / "case_spec.json"
+            write_case(case)
+            env = os.environ.copy()
+            env["PATH"] = f"{root}{os.pathsep}{env.get('PATH', '')}"
+            env["PYTHONPATH"] = str(ROOT / "src")
+            env["FIXTURE_EVALUATOR_MODE"] = "dataset-mismatch"
+            first = subprocess.run(
+                [sys.executable, str(SCRIPT), "--runtime-manifest", str(manifest), "--case-spec", str(case), "--output-dir", str(output), "--execute"],
+                capture_output=True, text=True, check=False, env=env,
+            )
+            self.assertEqual(first.returncode, 1, first.stderr)
+            failed = json.loads((output / "case_result.json").read_text(encoding="utf-8"))
+            self.assertEqual(failed["schema_version"], ADAPTER.FAILURE_RESULT_SCHEMA)
+            first_eval = output / "runner_attempts/attempt-001/evaluator_result.json"
+            first_value = json.loads(first_eval.read_text(encoding="utf-8"))
+            (output / "case_result.json").unlink()
+            (output / "case_result.json.sha256").unlink()
+
+            env["FIXTURE_EVALUATOR_MODE"] = "valid"
+            second = subprocess.run(
+                [sys.executable, str(SCRIPT), "--runtime-manifest", str(manifest), "--case-spec", str(case), "--output-dir", str(output), "--execute"],
+                capture_output=True, text=True, check=False, env=env,
+            )
+            self.assertEqual(second.returncode, 0, second.stderr)
+            completed = json.loads((output / "case_result.json").read_text(encoding="utf-8"))
+            self.assertEqual(completed["schema_version"], ADAPTER.RESULT_SCHEMA)
+            second_eval = output / "runner_attempts/attempt-002/evaluator_result.json"
+            second_value = json.loads(second_eval.read_text(encoding="utf-8"))
+            self.assertNotEqual(first_value["run_id"], second_value["run_id"])
+            self.assertTrue(first_value["run_id"].startswith("assignment-"))
+            self.assertIn("-attempt-001-", first_value["run_id"])
+            self.assertIn("-attempt-002-", second_value["run_id"])
+            self.assertEqual(completed["evaluator"]["result_path"], "runner_attempts/attempt-002/evaluator_result.json")
+            history_dirs = [path for path in (output / "metadata_history").iterdir() if path.is_dir()]
+            self.assertGreaterEqual(len(history_dirs), 2)
+            self.assertEqual(len({path.name for path in history_dirs}), len(history_dirs))
+            self.assertTrue(any((path / "runner_state.json").is_file() for path in history_dirs))
 
     def test_default_is_validate_only_and_launches_no_runner(self):
         with tempfile.TemporaryDirectory() as temporary:
@@ -563,7 +848,7 @@ class SWEAgentCaseRunnerTests(unittest.TestCase):
             self.assertIn("request_proxy SHA-256 mismatch", result.stderr)
             self.assertFalse((output / "runner_state.json").exists())
 
-    def test_empty_proxy_events_fail_closed(self):
+    def test_empty_proxy_events_are_completed_without_model_requests(self):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
             repo, commit = make_repo(root)
@@ -579,9 +864,51 @@ class SWEAgentCaseRunnerTests(unittest.TestCase):
             env["PYTHONPATH"] = str(ROOT / "src")
             env["FIXTURE_AGENT_MODE"] = "no-request"
             result = subprocess.run([sys.executable, str(SCRIPT), "--runtime-manifest", str(manifest), "--case-spec", str(case), "--output-dir", str(output), "--execute"], capture_output=True, text=True, check=False, env=env)
-            self.assertEqual(result.returncode, 1)
-            self.assertIn("request proxy events are missing", result.stderr)
-            self.assertFalse((output / "case_result.json").exists())
+            self.assertEqual(result.returncode, 0, result.stderr)
+            completed = json.loads((output / "case_result.json").read_text())
+            self.assertEqual(completed["status"], "completed")
+            self.assertEqual(completed["proxy"]["event_count"], 0)
+
+    def test_zero_proxy_events_retry_missing_prediction_as_empty_patch(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            repo, commit = make_repo(root)
+            fixture = write_fixture(root)
+            manifest = root / "manifest.json"
+            write_manifest(manifest, repo, commit, fixture)
+            output = root / "case"
+            output.mkdir()
+            case = output / "case_spec.json"
+            write_case(case)
+            env = os.environ.copy()
+            env["PATH"] = f"{root}{os.pathsep}{env.get('PATH', '')}"
+            env["PYTHONPATH"] = str(ROOT / "src")
+            env["FIXTURE_AGENT_MODE"] = "no-request-no-prediction"
+            env["FIXTURE_EVALUATOR_MODE"] = "empty-patch"
+            result = subprocess.run(
+                [sys.executable, str(SCRIPT), "--runtime-manifest", str(manifest), "--case-spec", str(case), "--output-dir", str(output), "--execute"],
+                capture_output=True,
+                text=True,
+                check=False,
+                env=env,
+            )
+            self.assertEqual(result.returncode, 0, result.stderr)
+            completed = json.loads((output / "case_result.json").read_text())
+            self.assertEqual(completed["status"], "completed")
+            self.assertFalse(completed["evaluator"]["official_resolved"])
+            self.assertTrue(completed["evaluator"]["submitted"])
+            predictions = json.loads(
+                (output / "runner_attempts/attempt-001/preds.json").read_text()
+            )
+            self.assertEqual(predictions, [{
+                "instance_id": "owner__repo-1",
+                "model_name_or_path": "Qwen/Qwen3-Coder-30B-A3B-Instruct",
+                "model_patch": "",
+            }])
+            retry = json.loads(
+                (output / "runner_attempts/attempt-001/evaluator_retry.json").read_text()
+            )
+            self.assertEqual(retry["status"], "completed")
 
     def test_dirty_checkout_is_rejected_before_hardware_or_runner(self):
         with tempfile.TemporaryDirectory() as temporary:
@@ -646,7 +973,10 @@ class SWEAgentCaseRunnerTests(unittest.TestCase):
                 result = subprocess.run([sys.executable, str(SCRIPT), "--runtime-manifest", str(manifest), "--case-spec", str(case), "--output-dir", str(output), "--execute"], capture_output=True, text=True, check=False, env=env)
                 self.assertEqual(result.returncode, 1, result.stderr)
                 self.assertIn(expected, result.stderr)
-                self.assertFalse((output / "case_result.json").exists())
+                failure = json.loads((output / "case_result.json").read_text())
+                self.assertEqual(failure["schema_version"], ADAPTER.FAILURE_RESULT_SCHEMA)
+                self.assertEqual(failure["status"], "failed")
+                self.assertFalse(failure["accepted"])
 
     def test_evaluator_result_requires_complete_provenance_and_consistent_counts(self):
         for mode, expected in (("missing-provenance", "omits required provenance"), ("counts-mismatch", "exactly one resolved")):
@@ -708,6 +1038,149 @@ class SWEAgentCaseRunnerTests(unittest.TestCase):
             result = invoke(manifest, case, output)
             self.assertEqual(result.returncode, 1)
             self.assertIn("SHA-256 mismatch", result.stderr)
+
+
+def proxy_event(index: int, **overrides) -> dict:
+    """Build one measured proxy event with the live journal's field shape."""
+
+    start = 178_000_000_000_000 + index * 10_000_000_000
+    end = start + 1_500_000
+    row = {
+        "schema_version": "observability.request-proxy.v1",
+        "event_type": "model_request_boundary",
+        "request_id": f"request-{index:032d}",
+        "provenance": "measured",
+        "request_mutation": False,
+        "status_code": 200,
+        "error": None,
+        "failure_phase": None,
+        "start_mono_ns": start,
+        "end_mono_ns": end,
+        "duration_ms": (end - start) / 1_000_000.0,
+        "request_sha256": "a" * 64,
+        "response_sha256": "b" * 64,
+    }
+    row.update(overrides)
+    return row
+
+
+class ProxyEventValidationTests(unittest.TestCase):
+    """``_validate_proxy_events`` accepts measured failures, not bad evidence."""
+
+    def journal(self, root: Path, rows) -> Path:
+        path = root / "request_proxy.jsonl"
+        path.write_text("".join(json.dumps(row) + "\n" for row in rows), encoding="utf-8")
+        return path
+
+    def test_mid_stream_remote_disconnect_then_recovery_is_accepted(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            disconnect = proxy_event(
+                3,
+                status_code=None,
+                error="RemoteDisconnected",
+                failure_phase="response_headers",
+                duration_ms=10008.666153,
+                end_mono_ns=proxy_event(3)["start_mono_ns"] + 10_008_666_153,
+                response_bytes=0,
+            )
+            rows = [proxy_event(1), proxy_event(2), disconnect, proxy_event(4), proxy_event(5)]
+            summary = ADAPTER._validate_proxy_events(self.journal(root, rows))
+            self.assertEqual(summary["event_count"], 5)
+
+    def test_remote_disconnect_without_a_response_digest_is_accepted(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            disconnect = proxy_event(2, status_code=None, error="RemoteDisconnected", failure_phase="response_headers")
+            disconnect.pop("response_sha256")
+            summary = ADAPTER._validate_proxy_events(self.journal(root, [proxy_event(1), disconnect, proxy_event(3)]))
+            self.assertEqual(summary["event_count"], 3)
+
+    def test_journal_ending_in_an_http_400_reject_is_accepted(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            rows = [proxy_event(1), proxy_event(2), proxy_event(3, status_code=400)]
+            summary = ADAPTER._validate_proxy_events(self.journal(root, rows))
+            self.assertEqual(summary["event_count"], 3)
+
+    def test_all_transport_failures_are_infrastructure_not_unresolved_solver(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            rows = [
+                proxy_event(1, status_code=None, error="ConnectionRefusedError", failure_phase="connect"),
+                proxy_event(2, status_code=None, error="RemoteDisconnected", failure_phase="response_headers"),
+            ]
+            path = self.journal(root, rows)
+            classified = ADAPTER._classify_model_transport_failure(path)
+            self.assertIsNotNone(classified)
+            self.assertEqual(classified["status"], "infrastructure_failure")
+            self.assertTrue(classified["halt_matrix"])
+
+    def test_mixed_transport_and_context_rejection_remains_measured_outcome(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            rows = [
+                proxy_event(1, status_code=None, error="RemoteDisconnected", failure_phase="connect"),
+                proxy_event(2, status_code=400),
+            ]
+            self.assertIsNone(ADAPTER._classify_model_transport_failure(self.journal(root, rows)))
+
+    def test_all_server_5xx_attempts_are_infrastructure(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            path = self.journal(root, [proxy_event(1, status_code=503), proxy_event(2, status_code=500)])
+            classified = ADAPTER._classify_model_transport_failure(path)
+            self.assertEqual(classified["classification"], "model_transport_or_server_infrastructure")
+
+    def test_missing_journal_still_fails_closed_and_empty_is_accepted(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            with self.assertRaises(ADAPTER.CaseRunnerError):
+                ADAPTER._validate_proxy_events(root / "absent.jsonl")
+            empty = root / "request_proxy.jsonl"
+            empty.write_text("", encoding="utf-8")
+            summary = ADAPTER._validate_proxy_events(empty)
+            self.assertEqual(summary["event_count"], 0)
+            self.assertEqual(summary["sha256"], hashlib.sha256(b"").hexdigest())
+
+    def test_empty_journal_with_adaptive_runtime_still_fails_closed(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            empty = Path(temporary) / "request_proxy.jsonl"
+            empty.write_text("", encoding="utf-8")
+            with self.assertRaises(ADAPTER.CaseRunnerError):
+                ADAPTER._validate_proxy_events(empty, adaptive_required=True)
+
+    def test_blank_but_nonempty_journal_still_fails_closed(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            for label, payload in {"newline": "\n", "whitespace": "   \n"}.items():
+                blank = Path(temporary) / f"{label}.jsonl"
+                blank.write_text(payload, encoding="utf-8")
+                with self.subTest(label):
+                    with self.assertRaises(ADAPTER.CaseRunnerError):
+                        ADAPTER._validate_proxy_events(blank)
+
+    def test_unmeasured_or_tampered_events_still_fail_closed(self):
+        cases = {
+            "unknown outcome": proxy_event(2, status_code=None, error=None),
+            "blank error": proxy_event(2, status_code=None, error="   "),
+            "redirect status": proxy_event(2, status_code=302, error=None),
+            "unmeasured provenance": proxy_event(2, status_code=400, provenance="synthetic"),
+            "mutated request": proxy_event(2, status_code=400, request_mutation=True),
+            "bad duration": proxy_event(2, status_code=400, duration_ms=1.0),
+            "bad bounds": proxy_event(2, status_code=400, end_mono_ns=proxy_event(2)["start_mono_ns"]),
+        }
+        no_request_digest = proxy_event(2, status_code=None, error="RemoteDisconnected")
+        no_request_digest.pop("request_sha256")
+        cases["missing request digest"] = no_request_digest
+        duplicate = proxy_event(2, status_code=400)
+        duplicate["request_id"] = proxy_event(1)["request_id"]
+        cases["duplicate request_id"] = duplicate
+        for label, row in cases.items():
+            with self.subTest(label):
+                with tempfile.TemporaryDirectory() as temporary:
+                    path = self.journal(Path(temporary), [proxy_event(1), row])
+                    with self.assertRaises(ADAPTER.CaseRunnerError):
+                        ADAPTER._validate_proxy_events(path)
 
 
 if __name__ == "__main__":

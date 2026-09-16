@@ -1,0 +1,160 @@
+{
+  "candidate_order": [
+    "global_median_baseline",
+    "nonnegative_log_additive",
+    "nonnegative_log_token_interaction",
+    "robust_nonnegative_log_token_interaction"
+  ],
+  "deployment": "offline conditional artifact only; no production or pre-generation adoption",
+  "feature_policy": {
+    "context_collinearity": "input_tokens equals context_tokens in this view; sum is used so separate coefficients are not claimed",
+    "declared_or_trace_descriptors": [
+      "input_tokens",
+      "context_tokens",
+      "output_tokens",
+      "max_output_tokens"
+    ],
+    "derived_feature": "log1p(input_tokens + context_tokens) and one prespecified prompt-output interaction",
+    "forbidden_features": [
+      "observed_ms",
+      "latency",
+      "residual",
+      "phase_timings",
+      "future_actions",
+      "evaluator_outcome",
+      "cache_state"
+    ],
+    "mode": "trace_conditioned_assignment_level_simulation",
+    "output_tokens_semantics": "realized output count available in the completed trace; not a pre-generation prediction input",
+    "target": "observed_ms historical completed-request proxy wall duration",
+    "target_boundary": "proxy wall is not native GPU prefill/decode/queue phase time"
+  },
+  "fit_partition": "train_calibration",
+  "models": {
+    "global_median_baseline": {
+      "candidate": "global_median_baseline",
+      "feature_names": [],
+      "kind": "global_median",
+      "median_ms": 616.0555395
+    },
+    "nonnegative_log_additive": {
+      "candidate": "nonnegative_log_additive",
+      "feature_means": [
+        10.036961927808974,
+        4.6529304169373065,
+        7.593780731736882
+      ],
+      "feature_names": [
+        "log1p(input_tokens_plus_context_tokens)",
+        "log1p(output_tokens)",
+        "log1p(max_output_tokens)"
+      ],
+      "feature_scales": [
+        0.6826778890069877,
+        1.0628669970564562,
+        0.24728297701073096
+      ],
+      "huber_delta_log_ms": null,
+      "intercept_log_ms": 6.8066216262206565,
+      "kind": "nonnegative_log_ridge",
+      "ridge": 0.0001,
+      "robust_iterations": 0,
+      "slopes_standardized": [
+        0.08481328464774056,
+        0.9161168769614486,
+        0.006227437436264678
+      ]
+    },
+    "nonnegative_log_token_interaction": {
+      "candidate": "nonnegative_log_token_interaction",
+      "feature_means": [
+        10.036961927808974,
+        4.6529304169373065,
+        7.593780731736882,
+        46.826205983030135
+      ],
+      "feature_names": [
+        "log1p(input_tokens_plus_context_tokens)",
+        "log1p(output_tokens)",
+        "log1p(max_output_tokens)",
+        "log1p(input_tokens_plus_context_tokens)*log1p(output_tokens)"
+      ],
+      "feature_scales": [
+        0.6826778890069877,
+        1.0628669970564562,
+        0.24728297701073096,
+        11.89181161198787
+      ],
+      "huber_delta_log_ms": null,
+      "intercept_log_ms": 6.8066216262206565,
+      "kind": "nonnegative_log_ridge",
+      "ridge": 0.0001,
+      "robust_iterations": 0,
+      "slopes_standardized": [
+        0.08481328464774056,
+        0.9161168769614486,
+        0.006227437436264678,
+        0.0
+      ]
+    },
+    "robust_nonnegative_log_token_interaction": {
+      "candidate": "robust_nonnegative_log_token_interaction",
+      "feature_means": [
+        10.036961927808974,
+        4.6529304169373065,
+        7.593780731736882,
+        46.826205983030135
+      ],
+      "feature_names": [
+        "log1p(input_tokens_plus_context_tokens)",
+        "log1p(output_tokens)",
+        "log1p(max_output_tokens)",
+        "log1p(input_tokens_plus_context_tokens)*log1p(output_tokens)"
+      ],
+      "feature_scales": [
+        0.6826778890069877,
+        1.0628669970564562,
+        0.24728297701073096,
+        11.89181161198787
+      ],
+      "huber_delta_log_ms": 1.5,
+      "intercept_log_ms": 6.806275586759479,
+      "kind": "robust_nonnegative_log_ridge",
+      "ridge": 0.0001,
+      "robust_iterations": 8,
+      "slopes_standardized": [
+        0.08570200655876428,
+        0.9160448392367909,
+        0.005901922854474955,
+        0.0
+      ]
+    }
+  },
+  "outer_folds_preserved": true,
+  "predictions_sha256": "c7444caaf662f6a76b8d8ebafea0e89a70fe1102cba3bda60d435770b5d3f53f",
+  "prior_conditional_reference": {
+    "comparison_status": "not refit or rescored here; this run establishes gain over the feature-free baseline only",
+    "path": "/home/riverahernandezjason/agentic-submission-repairs-20260908/src/agentic_sim/assignment/workload_simulator.py",
+    "reference": "gpu_design uses input_tokens, output_tokens, and context_tokens with hardware capacities",
+    "sha256": "3e6978bf2842bc056565dd792f0eb9ce1f59df012048faae5138da082ff72f23"
+  },
+  "schema": "assignment.d9.conditional-gpu-fit-artifact.v1",
+  "selected_candidate": "nonnegative_log_additive",
+  "source": {
+    "instances": 545,
+    "manifest_path": "/home/riverahernandezjason/agentic-submission-repairs-20260908/docs/offline-deliverables-20260909/training_view/manifest.json",
+    "manifest_sha256": "1afd9afb8b552f84242f7e6b8b6e342f9b6f8ded5cd45a1d040b6bcf3f263341",
+    "models_path": "/home/riverahernandezjason/agentic-submission-repairs-20260908/docs/offline-deliverables-20260909/training_view/models.jsonl",
+    "models_sha256": "ee0b65f46aa11b0357fe761a9543aeed6da2a56c100c1cacc5c14164adb028da",
+    "outer_folds": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "partition": "train_calibration",
+    "rows": 23868,
+    "runs": 819
+  }
+}

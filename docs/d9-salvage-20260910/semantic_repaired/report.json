@@ -1,0 +1,41 @@
+{
+  "cases": 43,
+  "events": 1780,
+  "known_script_events": 291,
+  "script_override_events": 188,
+  "metrics": {
+    "coarse": {
+      "events": 1780,
+      "within25": 0.5353932584269663,
+      "worst_error_pct": 2974.565563273907,
+      "equal_instance_within25": 0.5623042654292125,
+      "all_events_pass_instances": 0,
+      "instances": 22
+    },
+    "semantic": {
+      "events": 1780,
+      "within25": 0.5775280898876405,
+      "worst_error_pct": 2779.447855888201,
+      "equal_instance_within25": 0.6050856374722954,
+      "all_events_pass_instances": 0,
+      "instances": 22
+    },
+    "script": {
+      "events": 1780,
+      "within25": 0.5747191011235955,
+      "worst_error_pct": 2779.447855888201,
+      "equal_instance_within25": 0.6049311440847193,
+      "all_events_pass_instances": 0,
+      "instances": 22
+    }
+  },
+  "scope": "semantic action wall only; grouped development; no atomic/E2E/transfer claim",
+  "promotion": "semantic selected as development candidate; not D9 acceptance",
+  "d9_pass": false,
+  "semantic_minus_coarse_bootstrap": {
+    "lower_95": 0.014393939393939395,
+    "upper_95": 0.06319045514803358,
+    "replicates": 2000,
+    "scope": "paired instance bootstrap of fixed development predictions; excludes selection uncertainty"
+  }
+}

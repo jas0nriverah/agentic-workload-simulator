@@ -75,12 +75,14 @@ class AssignmentFigureGeneratorTest(unittest.TestCase):
             [
                 "run_id", "status", "sweep_parameter", "sweep_value",
                 "official_resolved", "e2e_wall_ms", "tool_wall_ms", "model_wall_ms",
+                "suite", "repository", "category", "instance_id", "repeat_id",
+                "config_id", "provenance",
             ],
             [
-                {"run_id": "s1", "status": "completed", "sweep_parameter": "max_steps", "sweep_value": "10", "official_resolved": False, "e2e_wall_ms": 90, "tool_wall_ms": 20, "model_wall_ms": 50},
-                {"run_id": "s2", "status": "completed", "sweep_parameter": "max_steps", "sweep_value": "20", "official_resolved": True, "e2e_wall_ms": 130, "tool_wall_ms": 30, "model_wall_ms": 70},
-                {"run_id": "s3", "status": "completed", "sweep_parameter": "max_tokens", "sweep_value": "256", "official_resolved": False, "e2e_wall_ms": 80, "tool_wall_ms": 20, "model_wall_ms": 40},
-                {"run_id": "s4", "status": "completed", "sweep_parameter": "max_tokens", "sweep_value": "512", "official_resolved": True, "e2e_wall_ms": 140, "tool_wall_ms": 30, "model_wall_ms": 80},
+                {"run_id": "s1", "status": "completed", "sweep_parameter": "max_steps", "sweep_value": "10", "official_resolved": False, "e2e_wall_ms": 90, "tool_wall_ms": 20, "model_wall_ms": 50, "suite": "lite", "repository": "repo-a", "category": "repo-a", "instance_id": "i1", "repeat_id": "r0", "config_id": "max_steps=10", "provenance": "measured"},
+                {"run_id": "s2", "status": "completed", "sweep_parameter": "max_steps", "sweep_value": "20", "official_resolved": True, "e2e_wall_ms": 130, "tool_wall_ms": 30, "model_wall_ms": 70, "suite": "verified", "repository": "repo-a", "category": "repo-a", "instance_id": "i2", "repeat_id": "r0", "config_id": "max_steps=20", "provenance": "measured"},
+                {"run_id": "s3", "status": "completed", "sweep_parameter": "max_tokens", "sweep_value": "256", "official_resolved": False, "e2e_wall_ms": 80, "tool_wall_ms": 20, "model_wall_ms": 40, "suite": "lite", "repository": "repo-b", "category": "repo-b", "instance_id": "i3", "repeat_id": "r0", "config_id": "max_tokens=256", "provenance": "measured"},
+                {"run_id": "s4", "status": "completed", "sweep_parameter": "max_tokens", "sweep_value": "512", "official_resolved": True, "e2e_wall_ms": 140, "tool_wall_ms": 30, "model_wall_ms": 80, "suite": "verified", "repository": "repo-b", "category": "repo-b", "instance_id": "i4", "repeat_id": "r0", "config_id": "max_tokens=512", "provenance": "measured"},
             ],
         )
         self._write_selection(paths)
@@ -111,7 +113,9 @@ class AssignmentFigureGeneratorTest(unittest.TestCase):
             f"{digest}  {paths['selection'].name}\n", encoding="utf-8"
         )
 
-    def _generate(self, paths: dict[str, Path], output: Path, *, force: bool = False) -> dict:
+    def _generate(
+        self, paths: dict[str, Path], output: Path, *, force: bool = False, **kwargs: object
+    ) -> dict:
         return FIGURES.generate_figures(
             trajectories_path=paths["trajectories"],
             tool_events_path=paths["tool_events"],
@@ -120,6 +124,7 @@ class AssignmentFigureGeneratorTest(unittest.TestCase):
             output_dir=output,
             step3_selection_path=paths["selection"],
             force=force,
+            **kwargs,
         )
 
     def test_generates_all_step_figures_and_exact_phase_ratios(self) -> None:
@@ -173,12 +178,122 @@ class AssignmentFigureGeneratorTest(unittest.TestCase):
             )
             combined = (output / "step2_combined.svg").read_text(encoding="utf-8")
             self.assertIn("Step 2: combined hyperparameter sensitivity", combined)
-            self.assertIn('<rect x="30" y="65"', combined)
-            self.assertIn('<rect x="500" y="65"', combined)
-            self.assertIn('<rect x="970" y="65"', combined)
-            self.assertIn("Tool/model wall ratio", combined)
-            self.assertIn("Average E2E wall (ms)", combined)
-            self.assertIn("Accuracy (%)", combined)
+            self.assertIn('x="30.0" y="82.0"', combined)
+            self.assertIn('x="500.0" y="82.0"', combined)
+            self.assertIn('x="970.0" y="82.0"', combined)
+            self.assertIn("Observed tool/model ratio", combined)
+            self.assertIn("Observed E2E wall (ms)", combined)
+            self.assertIn("Observed accuracy (%)", combined)
+
+    def test_step2_preserves_category_curves_and_individual_samples(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            paths = self._fixtures(root)
+            summary = self._generate(paths, root / "figures")
+            settings = summary["sweeps"]["max_steps"]
+            self.assertEqual([setting["count"] for setting in settings], [1, 1])
+            self.assertEqual(
+                [len(setting["samples"]) for setting in settings], [1, 1]
+            )
+            self.assertEqual(
+                {sample["category"] for setting in settings for sample in setting["samples"]},
+                {"repo-a"},
+            )
+            svg = (root / "figures" / "step2_max-steps.svg").read_text(encoding="utf-8")
+            self.assertEqual(svg.count('data-sample="true"'), 2)
+            self.assertIn('data-category="repo-a"', svg)
+            self.assertIn('data-value="10"', svg)
+            self.assertIn('data-value="20"', svg)
+            self.assertIn("Category curves", svg)
+
+    def test_step2_rejects_duplicate_baseline_sample_identity(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            paths = self._fixtures(root)
+            with paths["sweep_runs"].open(newline="", encoding="utf-8") as stream:
+                rows = list(csv.DictReader(stream))
+            duplicate = dict(rows[0])
+            duplicate["run_id"] = "s1-duplicate"
+            rows.append(duplicate)
+            self._write(paths["sweep_runs"], list(rows[0].keys()), rows)
+            with self.assertRaisesRegex(FIGURES.DataContractError, "duplicate sample identity"):
+                self._generate(paths, root / "figures")
+
+    def test_d1_headline_metrics_are_separate_from_trace_overlay(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            paths = self._fixtures(root)
+            d1 = root / "d1_headline_metrics.json"
+            metrics = {
+                "selected": {"count": 1, "denominator": 1},
+                "submitted": {"count": 1, "denominator": 1},
+                "completed": {"count": 1, "denominator": 1},
+                "resolved": {"count": 1, "denominator": 1},
+                "resolved_rate": {"numerator": 1, "denominator": 1, "percent": 100.0},
+                "average_completed_e2e_wall_ms": 111.0,
+            }
+            d1.write_text(
+                json.dumps(
+                    {
+                        "schema_version": "assignment.d1-headline-metrics.v1",
+                        "latency_definition": "original accepted-case duration_ms",
+                        "provenance": {"source": "accepted-case summaries"},
+                        "suites": {"lite": metrics, "verified": metrics},
+                    }
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+            summary = self._generate(
+                paths, root / "figures", d1_headline_metrics_path=d1
+            )
+            self.assertEqual(
+                summary["suite_headline_metrics"]["lite"]["average_completed_e2e_wall_ms"],
+                111.0,
+            )
+            self.assertNotEqual(
+                summary["suite_headline_metrics"]["lite"]["average_completed_e2e_wall_ms"],
+                summary["trace_overlay_suite_metrics"]["lite"]["average_completed_e2e_wall_ms"],
+            )
+            self.assertEqual(summary["d1_headline_metrics"]["sha256"], FIGURES._sha256(d1))
+            report = (root / "figures" / "assignment_report.md").read_text(encoding="utf-8")
+            self.assertIn("D1 original accepted-case headline metrics", report)
+            self.assertIn("Event-overlay trace metrics", report)
+
+    def test_predicted_latency_mode_is_explicit_and_does_not_claim_completeness(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            paths = self._fixtures(root)
+            with paths["trajectories"].open(newline="", encoding="utf-8") as stream:
+                rows = list(csv.DictReader(stream))
+            for row in rows:
+                row["e2e_wall_ms"] = str(float(row["e2e_wall_ms"]) + 10.0)
+            self._write(paths["trajectories"], list(rows[0].keys()), rows)
+            summary = self._generate(paths, root / "figures", latency_kind="predicted")
+            self.assertEqual(summary["latency_kind"], "predicted")
+            self.assertEqual(summary["coverage"]["complete_assignment_matrix"], False)
+            self.assertFalse(summary["coverage"]["predicted_latency_full_completeness_claim"])
+            self.assertEqual(summary["latency_semantics"]["accuracy_values"], "observed official_resolved outcomes")
+            svg = (root / "figures" / "step1_sample_latency_vs_ratio.svg").read_text(encoding="utf-8")
+            self.assertIn("predicted", svg.lower())
+            self.assertIn("observed", svg.lower())
+
+    def test_step3_exposes_all_event_fields_and_unknown_residual(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            paths = self._fixtures(root)
+            summary = self._generate(paths, root / "figures")
+            self.assertEqual(len(summary["step3_events"]["tool_events"]), 1)
+            self.assertEqual(len(summary["step3_events"]["model_events"]), 1)
+            tool_svg = (root / "figures" / "step3_tool_events.svg").read_text(encoding="utf-8")
+            model_svg = (root / "figures" / "step3_model_tokens_vs_latency.svg").read_text(encoding="utf-8")
+            breakdown = (root / "figures" / "step3_latency_breakdown.svg").read_text(encoding="utf-8")
+            self.assertIn("data-operation-class=", tool_svg)
+            self.assertIn("input tokens=130", model_svg)
+            self.assertIn("output tokens=30", model_svg)
+            self.assertIn("context tokens=160", model_svg)
+            self.assertIn("request proxy wall", model_svg)
+            self.assertIn("unknown E2E residual", breakdown)
 
     def test_missing_column_fails_before_creating_output(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:

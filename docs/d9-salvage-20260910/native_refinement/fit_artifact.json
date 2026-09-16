@@ -1,0 +1,173 @@
+{
+  "schema": "native-refinement.v1",
+  "hardware_domain": "stable_gpu_inventory_v1:6eaded0f88a4d31c620e1a18d9ceb9ea6c6d1185781da0ba0d5f7ad352d11ad9",
+  "models": {
+    "queue": {
+      "phase": "queue",
+      "candidate": "pooled",
+      "coefficients": {
+        "pooled": [
+          0.039086756435472866,
+          0.00036020975475729584,
+          0.0,
+          8.409590556788419e-05
+        ]
+      }
+    },
+    "prefill": {
+      "phase": "prefill",
+      "candidate": "prefill_attention",
+      "coefficients": {
+        "pooled": [
+          18.26101303391946,
+          27.31150804955192,
+          0.2110415079322205,
+          1.5479804197667222
+        ]
+      }
+    },
+    "decode": {
+      "phase": "decode",
+      "candidate": "pooled",
+      "coefficients": {
+        "pooled": [
+          0.0,
+          5988.892021354253,
+          36.5037518217374
+        ]
+      }
+    },
+    "e2e": {
+      "phase": "e2e",
+      "candidate": "pooled",
+      "coefficients": {
+        "pooled": [
+          19.449115286524844,
+          49.65560958733085,
+          5891.854369659513,
+          46.73998712334754
+        ]
+      }
+    }
+  },
+  "source_hashes": {
+    "dataset_sha256": "f54ebb7b387bb212475295e2e3dc171c169fc52c8c73624fba9b9661b50d41e0",
+    "manifest_sha256": "8c4f3a156d90e2d4b6f4c608f49dde647719096f9c059c5889c65a3598588afd"
+  },
+  "report": {
+    "phases": {
+      "queue": {
+        "metrics": {
+          "pooled": {
+            "events": 2080,
+            "within25_percent": 42.01923076923077,
+            "equal_instance_percent": 45.26192253624016,
+            "worst_error_percent": 98.73060747567018,
+            "all_event_cases": 0
+          },
+          "cache_regime": {
+            "events": 2080,
+            "within25_percent": 42.11538461538461,
+            "equal_instance_percent": 45.17748828677469,
+            "worst_error_percent": 98.74209242449595,
+            "all_event_cases": 0
+          },
+          "prefill_attention": {
+            "events": 2080,
+            "within25_percent": 42.01923076923077,
+            "equal_instance_percent": 45.26192253624016,
+            "worst_error_percent": 98.73060747567018,
+            "all_event_cases": 0
+          }
+        },
+        "selected": "pooled"
+      },
+      "prefill": {
+        "metrics": {
+          "pooled": {
+            "events": 2080,
+            "within25_percent": 83.70192307692308,
+            "equal_instance_percent": 84.4036167954296,
+            "worst_error_percent": 99.76404315807987,
+            "all_event_cases": 1
+          },
+          "cache_regime": {
+            "events": 2080,
+            "within25_percent": 83.46153846153847,
+            "equal_instance_percent": 84.06526528802462,
+            "worst_error_percent": 99.76387184253193,
+            "all_event_cases": 1
+          },
+          "prefill_attention": {
+            "events": 2080,
+            "within25_percent": 90.57692307692308,
+            "equal_instance_percent": 91.40928856361744,
+            "worst_error_percent": 99.73045749319688,
+            "all_event_cases": 0
+          }
+        },
+        "selected": "prefill_attention"
+      },
+      "decode": {
+        "metrics": {
+          "pooled": {
+            "events": 2080,
+            "within25_percent": 98.9423076923077,
+            "equal_instance_percent": 99.28494873883308,
+            "worst_error_percent": 68.41813682340891,
+            "all_event_cases": 44
+          },
+          "cache_regime": {
+            "events": 2080,
+            "within25_percent": 98.9423076923077,
+            "equal_instance_percent": 99.28494873883308,
+            "worst_error_percent": 68.41813682340891,
+            "all_event_cases": 44
+          },
+          "prefill_attention": {
+            "events": 2080,
+            "within25_percent": 98.9423076923077,
+            "equal_instance_percent": 99.28494873883308,
+            "worst_error_percent": 68.41813682340891,
+            "all_event_cases": 44
+          }
+        },
+        "selected": "pooled"
+      },
+      "e2e": {
+        "metrics": {
+          "pooled": {
+            "events": 2080,
+            "within25_percent": 97.45192307692308,
+            "equal_instance_percent": 97.85522562089531,
+            "worst_error_percent": 96.76834743834753,
+            "all_event_cases": 19
+          },
+          "cache_regime": {
+            "events": 2080,
+            "within25_percent": 97.40384615384615,
+            "equal_instance_percent": 97.77189228756198,
+            "worst_error_percent": 96.77259811919757,
+            "all_event_cases": 18
+          },
+          "prefill_attention": {
+            "events": 2080,
+            "within25_percent": 97.45192307692308,
+            "equal_instance_percent": 97.85522562089531,
+            "worst_error_percent": 96.76834743834753,
+            "all_event_cases": 19
+          }
+        },
+        "selected": "pooled"
+      }
+    },
+    "source_hashes": {
+      "dataset_sha256": "f54ebb7b387bb212475295e2e3dc171c169fc52c8c73624fba9b9661b50d41e0",
+      "manifest_sha256": "8c4f3a156d90e2d4b6f4c608f49dde647719096f9c059c5889c65a3598588afd"
+    },
+    "code_sha256": "5e072d504ed1c157bb97c536175e7f8890dff6fab70908dfd16984007fdfecf9",
+    "scope": "conditional supplied token/cache workload; fixed grouped development, not final validation",
+    "hardware_transfer_validated": false,
+    "d9_pass": false
+  }
+}

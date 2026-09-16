@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "as_of": "2026-09-06",
+  "authority": "This is the sole current project-state source. Historical handoffs are not execution instructions.",
+  "experiment": {
+    "total": 1088,
+    "completed_preserved": 602,
+    "remaining_failed": 486,
+    "pending_in_archived_ledgers": 0,
+    "snapshot": "project/h100_results/full_matrix_recovery_20260906",
+    "preservation_manifest": "project/preservation/full_matrix_20260906.json",
+    "execution_authorized": false
+  },
+  "validation": {
+    "h100": {
+      "status": "historical_feature_validation_completed",
+      "evidence": "project/h100_results/h100_final_feature_validation.json",
+      "calibration_rows": 72,
+      "holdout_rows": 36,
+      "integrity_status": "PASS",
+      "scope": "Separate historical 24-calibration/12-holdout feature validation; not completion of the 1088-case matrix."
+    },
+    "a100": {
+      "status": "no_valid_assignment_normalized_trajectory_claimed",
+      "evidence": "docs/assignment_traceability.md",
+      "scope": "Protocol and runtime preparation exist; no A100 validation result package is established by this checkout."
+    }
+  },
+  "comparability": {
+    "experiment_semantics_changed": false,
+    "policy": "Preserve all original identities, definitions, prompts, configurations, timing, measurements and evaluator behavior. Do not rerun the 602 completed cases. The 486 failed cases await a separately authorized later execution after repairs.",
+    "deferred": [
+      "Trajectory-level stacked cross-validation/cross-fitting: assess in a separate versioned experiment; changes may alter predictions and interpretation.",
+      "Clipped non-negative regression implementation: assess versus a true constrained solver in a separate versioned experiment; do not change coefficients or simulator equations in this repair."
+    ]
+  },
+  "verification_command": "python scripts/validation/verify_preservation.py",
+  "historical_documents": [
+    "A100_FINAL_VM_HANDOFF.md",
+    "CODEX_HANDOFF.md",
+    "CURSOR_HANDOFF.md",
+    "H100_FINAL_VM_HANDOFF.md",
+    "LIGHTNING_CODEX_HANDOFF.md",
+    "RUN_DATA_ARCHIVE.md",
+    "project/HANDOFF.md",
+    "project/INTERFACE_HANDOFF.md",
+    "project/SUPERVISOR_STATUS_20260823.md",
+    "project/PROJECT_STATE.yaml"
+  ]
+}

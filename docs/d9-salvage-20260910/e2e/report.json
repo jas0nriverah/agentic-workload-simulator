@@ -1,0 +1,203 @@
+{
+  "contract": "trace-conditioned full workload; direct E2E, NOT event composition or prospective forecast",
+  "features": [
+    "intercept",
+    "tool_count/100",
+    "request_count/100",
+    "declared_input_tokens/1000000",
+    "declared_output_tokens/10000"
+  ],
+  "source_hashes": {
+    "tools": "2ff63b051873b820f29eef4262ef7dd60c58045b11f7f6648279405c9f02e311",
+    "models": "ee0b65f46aa11b0357fe761a9543aeed6da2a56c100c1cacc5c14164adb028da",
+    "trajectories": "803ad4554b36695704a2a96080404044c553c9bc8d46fd668a3942fc69a3e63a"
+  },
+  "split": "existing five instance-grouped outer folds; development comparison, not untouched holdout",
+  "metrics": {
+    "global_median": {
+      "runs": 819,
+      "instances": 545,
+      "within25_count": 538,
+      "within25_fraction": 0.6568986568986569,
+      "p95_error_pct": 60.54226449641386,
+      "worst_error_pct": 168.5511318860207,
+      "median_error_pct": 16.481493359837774,
+      "folds": {
+        "0": {
+          "runs": 172,
+          "instances": 113,
+          "within25_count": 112,
+          "within25_fraction": 0.6511627906976745,
+          "p95_error_pct": 59.91124813146486,
+          "worst_error_pct": 100.94075391805531,
+          "median_error_pct": 15.683610661042529
+        },
+        "1": {
+          "runs": 116,
+          "instances": 94,
+          "within25_count": 72,
+          "within25_fraction": 0.6206896551724138,
+          "p95_error_pct": 59.82350499511788,
+          "worst_error_pct": 106.75063692772181,
+          "median_error_pct": 15.605136444648346
+        },
+        "2": {
+          "runs": 167,
+          "instances": 106,
+          "within25_count": 106,
+          "within25_fraction": 0.6347305389221557,
+          "p95_error_pct": 57.31331621185887,
+          "worst_error_pct": 168.5511318860207,
+          "median_error_pct": 17.650389674968423
+        },
+        "3": {
+          "runs": 171,
+          "instances": 119,
+          "within25_count": 114,
+          "within25_fraction": 0.6666666666666666,
+          "p95_error_pct": 54.39525718785399,
+          "worst_error_pct": 166.90887897620036,
+          "median_error_pct": 16.976144402268904
+        },
+        "4": {
+          "runs": 193,
+          "instances": 113,
+          "within25_count": 134,
+          "within25_fraction": 0.694300518134715,
+          "p95_error_pct": 84.59079607112702,
+          "worst_error_pct": 161.69316644506824,
+          "median_error_pct": 16.91297304925369
+        }
+      }
+    },
+    "conditional_nnls": {
+      "runs": 819,
+      "instances": 545,
+      "within25_count": 417,
+      "within25_fraction": 0.5091575091575091,
+      "p95_error_pct": 85.6605358889853,
+      "worst_error_pct": 223.89550417055747,
+      "median_error_pct": 24.70508511827439,
+      "folds": {
+        "0": {
+          "runs": 172,
+          "instances": 113,
+          "within25_count": 76,
+          "within25_fraction": 0.4418604651162791,
+          "p95_error_pct": 88.03778359288252,
+          "worst_error_pct": 138.3010793143119,
+          "median_error_pct": 28.98181469700036
+        },
+        "1": {
+          "runs": 116,
+          "instances": 94,
+          "within25_count": 64,
+          "within25_fraction": 0.5517241379310345,
+          "p95_error_pct": 85.56291731815925,
+          "worst_error_pct": 142.0371946925387,
+          "median_error_pct": 22.489983826780595
+        },
+        "2": {
+          "runs": 167,
+          "instances": 106,
+          "within25_count": 82,
+          "within25_fraction": 0.49101796407185627,
+          "p95_error_pct": 82.85096638212931,
+          "worst_error_pct": 223.89550417055747,
+          "median_error_pct": 26.803744208273883
+        },
+        "3": {
+          "runs": 171,
+          "instances": 119,
+          "within25_count": 91,
+          "within25_fraction": 0.5321637426900585,
+          "p95_error_pct": 74.08010537785127,
+          "worst_error_pct": 211.64197206830897,
+          "median_error_pct": 22.325380473510677
+        },
+        "4": {
+          "runs": 193,
+          "instances": 113,
+          "within25_count": 104,
+          "within25_fraction": 0.538860103626943,
+          "p95_error_pct": 87.02736511981713,
+          "worst_error_pct": 202.63597556421144,
+          "median_error_pct": 22.40537184551072
+        }
+      }
+    },
+    "conditional_relative_nnls": {
+      "runs": 819,
+      "instances": 545,
+      "within25_count": 647,
+      "within25_fraction": 0.78998778998779,
+      "p95_error_pct": 49.88456791574651,
+      "worst_error_pct": 94.99953393495905,
+      "median_error_pct": 12.873486439917603,
+      "folds": {
+        "0": {
+          "runs": 172,
+          "instances": 113,
+          "within25_count": 140,
+          "within25_fraction": 0.813953488372093,
+          "p95_error_pct": 41.58713215617512,
+          "worst_error_pct": 93.1069888930665,
+          "median_error_pct": 11.732848889467832
+        },
+        "1": {
+          "runs": 116,
+          "instances": 94,
+          "within25_count": 86,
+          "within25_fraction": 0.7413793103448276,
+          "p95_error_pct": 54.66287885309089,
+          "worst_error_pct": 94.64698131629439,
+          "median_error_pct": 15.398866336473345
+        },
+        "2": {
+          "runs": 167,
+          "instances": 106,
+          "within25_count": 127,
+          "within25_fraction": 0.7604790419161677,
+          "p95_error_pct": 47.183202810156864,
+          "worst_error_pct": 62.91554883864413,
+          "median_error_pct": 11.69259017255812
+        },
+        "3": {
+          "runs": 171,
+          "instances": 119,
+          "within25_count": 136,
+          "within25_fraction": 0.7953216374269005,
+          "p95_error_pct": 51.34595673361718,
+          "worst_error_pct": 94.99953393495905,
+          "median_error_pct": 13.032724650697805
+        },
+        "4": {
+          "runs": 193,
+          "instances": 113,
+          "within25_count": 158,
+          "within25_fraction": 0.8186528497409327,
+          "p95_error_pct": 57.82384321217915,
+          "worst_error_pct": 94.86144645537462,
+          "median_error_pct": 12.758065819002931
+        }
+      }
+    }
+  },
+  "paired_uncertainty": {
+    "coverage_gain_fraction": 0.1330891330891331,
+    "conditional_95pct_interval": [
+      0.1051912568306011,
+      0.1614654002713704
+    ],
+    "replicates": 2000,
+    "unit": "instance cluster",
+    "caveat": "Fixed development OOF predictions; does not account for model selection or establish blind-test performance."
+  },
+  "literal_d9_pass": false,
+  "hardware_transfer_validated": false,
+  "limitations": [
+    "Historical request/tool proxy boundaries; repaired native phases are separate.",
+    "Full event counts and realized token counts are supplied workload inputs.",
+    "Direct E2E accuracy cannot establish individual-event accuracy."
+  ]
+}

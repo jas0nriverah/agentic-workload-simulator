@@ -1,0 +1,271 @@
+{
+  "protocol": "repository known at dispatch; direct E2E, not event composition",
+  "source_sha256": "803ad4554b36695704a2a96080404044c553c9bc8d46fd668a3942fc69a3e63a",
+  "metrics": {
+    "global_median": {
+      "n": 819,
+      "instances": 545,
+      "within25": 538,
+      "within25_rate": 0.6568986568986569,
+      "mean_ape_pct": 22.76242910154488,
+      "median_ape_pct": 16.481493359837774,
+      "p95_ape_pct": 60.235172122298096,
+      "worst_ape_pct": 168.5511318860207
+    },
+    "repository_median": {
+      "n": 819,
+      "instances": 545,
+      "within25": 547,
+      "within25_rate": 0.6678876678876678,
+      "mean_ape_pct": 24.50893720509255,
+      "median_ape_pct": 16.48675383459397,
+      "p95_ape_pct": 80.005131328935,
+      "worst_ape_pct": 278.14623695120594
+    },
+    "repository_log_shrink": {
+      "n": 819,
+      "instances": 545,
+      "within25": 519,
+      "within25_rate": 0.6336996336996337,
+      "mean_ape_pct": 24.666369647856737,
+      "median_ape_pct": 18.261581909914447,
+      "p95_ape_pct": 67.84877890349252,
+      "worst_ape_pct": 260.782917011534
+    },
+    "nested_selected": {
+      "n": 819,
+      "instances": 545,
+      "within25": 538,
+      "within25_rate": 0.6568986568986569,
+      "mean_ape_pct": 22.76242910154488,
+      "median_ape_pct": 16.481493359837774,
+      "p95_ape_pct": 60.235172122298096,
+      "worst_ape_pct": 168.5511318860207
+    }
+  },
+  "outer_choices": [
+    {
+      "outer_fold": 0,
+      "selected": "global_median",
+      "inner_metrics": {
+        "global_median": {
+          "n": 647,
+          "instances": 432,
+          "within25": 422,
+          "within25_rate": 0.652241112828439,
+          "mean_ape_pct": 23.05646790232916,
+          "median_ape_pct": 16.90080392111666,
+          "p95_ape_pct": 60.50549224179657,
+          "worst_ape_pct": 171.63380842830944
+        },
+        "repository_median": {
+          "n": 647,
+          "instances": 432,
+          "within25": 432,
+          "within25_rate": 0.6676970633693973,
+          "mean_ape_pct": 24.71930791391455,
+          "median_ape_pct": 15.468937078007466,
+          "p95_ape_pct": 84.00786621820924,
+          "worst_ape_pct": 281.64206684436925
+        },
+        "repository_log_shrink": {
+          "n": 647,
+          "instances": 432,
+          "within25": 406,
+          "within25_rate": 0.6275115919629057,
+          "mean_ape_pct": 24.925827295702614,
+          "median_ape_pct": 17.892268757136044,
+          "p95_ape_pct": 66.42760520190517,
+          "worst_ape_pct": 253.23915533114416
+        }
+      }
+    },
+    {
+      "outer_fold": 1,
+      "selected": "global_median",
+      "inner_metrics": {
+        "global_median": {
+          "n": 703,
+          "instances": 451,
+          "within25": 467,
+          "within25_rate": 0.6642958748221907,
+          "mean_ape_pct": 22.731568631429596,
+          "median_ape_pct": 16.928098579961294,
+          "p95_ape_pct": 60.5881714877889,
+          "worst_ape_pct": 169.37197026362384
+        },
+        "repository_median": {
+          "n": 703,
+          "instances": 451,
+          "within25": 480,
+          "within25_rate": 0.6827880512091038,
+          "mean_ape_pct": 24.18847194982641,
+          "median_ape_pct": 16.128637548899803,
+          "p95_ape_pct": 81.2880126294596,
+          "worst_ape_pct": 294.31761202904465
+        },
+        "repository_log_shrink": {
+          "n": 703,
+          "instances": 451,
+          "within25": 454,
+          "within25_rate": 0.6458036984352774,
+          "mean_ape_pct": 24.21821107022054,
+          "median_ape_pct": 17.387837628265906,
+          "p95_ape_pct": 65.14424997694097,
+          "worst_ape_pct": 242.94304950102733
+        }
+      }
+    },
+    {
+      "outer_fold": 2,
+      "selected": "global_median",
+      "inner_metrics": {
+        "global_median": {
+          "n": 652,
+          "instances": 439,
+          "within25": 429,
+          "within25_rate": 0.6579754601226994,
+          "mean_ape_pct": 22.704000583973233,
+          "median_ape_pct": 16.406395000855802,
+          "p95_ape_pct": 60.73106724297418,
+          "worst_ape_pct": 169.63258691087034
+        },
+        "repository_median": {
+          "n": 652,
+          "instances": 439,
+          "within25": 457,
+          "within25_rate": 0.700920245398773,
+          "mean_ape_pct": 22.07395099989409,
+          "median_ape_pct": 15.462395448023074,
+          "p95_ape_pct": 58.97787812125277,
+          "worst_ape_pct": 244.16521204608793
+        },
+        "repository_log_shrink": {
+          "n": 652,
+          "instances": 439,
+          "within25": 418,
+          "within25_rate": 0.6411042944785276,
+          "mean_ape_pct": 24.17119268559246,
+          "median_ape_pct": 18.098540991741714,
+          "p95_ape_pct": 65.16857443920668,
+          "worst_ape_pct": 247.19188843942513
+        }
+      }
+    },
+    {
+      "outer_fold": 3,
+      "selected": "global_median",
+      "inner_metrics": {
+        "global_median": {
+          "n": 648,
+          "instances": 426,
+          "within25": 425,
+          "within25_rate": 0.6558641975308642,
+          "mean_ape_pct": 22.627863025008814,
+          "median_ape_pct": 16.578310627828124,
+          "p95_ape_pct": 60.08015455416758,
+          "worst_ape_pct": 165.30892986973785
+        },
+        "repository_median": {
+          "n": 648,
+          "instances": 426,
+          "within25": 448,
+          "within25_rate": 0.691358024691358,
+          "mean_ape_pct": 22.777268241916246,
+          "median_ape_pct": 15.785256770014872,
+          "p95_ape_pct": 64.68984589347897,
+          "worst_ape_pct": 225.28350590174472
+        },
+        "repository_log_shrink": {
+          "n": 648,
+          "instances": 426,
+          "within25": 427,
+          "within25_rate": 0.6589506172839507,
+          "mean_ape_pct": 23.58112413250143,
+          "median_ape_pct": 16.759591686597886,
+          "p95_ape_pct": 66.53280781320386,
+          "worst_ape_pct": 189.1942647966614
+        }
+      }
+    },
+    {
+      "outer_fold": 4,
+      "selected": "global_median",
+      "inner_metrics": {
+        "global_median": {
+          "n": 626,
+          "instances": 432,
+          "within25": 404,
+          "within25_rate": 0.645367412140575,
+          "mean_ape_pct": 22.6996283309899,
+          "median_ape_pct": 16.88356792961187,
+          "p95_ape_pct": 58.49406625457003,
+          "worst_ape_pct": 170.49111185641303
+        },
+        "repository_median": {
+          "n": 626,
+          "instances": 432,
+          "within25": 414,
+          "within25_rate": 0.6613418530351438,
+          "mean_ape_pct": 24.691201343189846,
+          "median_ape_pct": 16.657398386109328,
+          "p95_ape_pct": 67.9092424418889,
+          "worst_ape_pct": 281.64206684436925
+        },
+        "repository_log_shrink": {
+          "n": 626,
+          "instances": 432,
+          "within25": 383,
+          "within25_rate": 0.6118210862619808,
+          "mean_ape_pct": 24.953221040634038,
+          "median_ape_pct": 18.45930542002444,
+          "p95_ape_pct": 66.72971515394201,
+          "worst_ape_pct": 243.81665742895592
+        }
+      }
+    }
+  ],
+  "full_training_selection": "global_median",
+  "full_training_inner_metrics": {
+    "global_median": {
+      "n": 819,
+      "instances": 545,
+      "within25": 540,
+      "within25_rate": 0.6593406593406593,
+      "mean_ape_pct": 22.738943062885983,
+      "median_ape_pct": 16.629880571562776,
+      "p95_ape_pct": 60.06044046913544,
+      "worst_ape_pct": 169.95490807189705
+    },
+    "repository_median": {
+      "n": 819,
+      "instances": 545,
+      "within25": 555,
+      "within25_rate": 0.6776556776556777,
+      "mean_ape_pct": 23.61830915235609,
+      "median_ape_pct": 15.577925156573546,
+      "p95_ape_pct": 70.14761298157278,
+      "worst_ape_pct": 281.64206684436925
+    },
+    "repository_log_shrink": {
+      "n": 819,
+      "instances": 545,
+      "within25": 521,
+      "within25_rate": 0.6361416361416361,
+      "mean_ape_pct": 24.41818510683697,
+      "median_ape_pct": 17.60860152917304,
+      "p95_ape_pct": 66.29190370500912,
+      "worst_ape_pct": 249.88523847951853
+    }
+  },
+  "limitations": [
+    "historical completed-cache run intersection; not full required-event population",
+    "no lifecycle parameters fitted; no residual read or modeled",
+    "no cross-hardware scaling established; hardware transfer must be tested later",
+    "nested procedure score is separate from fixed-candidate selection diagnostics"
+  ],
+  "validation": {
+    "held_out_instances_disjoint": true,
+    "poisoned_unavailable_fields_do_not_change_prediction": true
+  }
+}

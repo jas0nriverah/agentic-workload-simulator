@@ -1,0 +1,662 @@
+{
+  "all_events_per_run_gate": {
+    "definition": "a run passes only when every retained request event in that run is within 25 percent",
+    "denominator_runs": 819,
+    "status": "conditional_request_proxy_only; not the complete CPU+GPU+E2E assignment gate"
+  },
+  "artifacts": {
+    "fit_artifact": {
+      "path": "docs/d9-salvage-20260910/conditional/fit_artifact.json"
+    },
+    "predictions": {
+      "path": "docs/d9-salvage-20260910/conditional/predictions.jsonl",
+      "rows": 95472,
+      "sha256": "c7444caaf662f6a76b8d8ebafea0e89a70fe1102cba3bda60d435770b5d3f53f"
+    }
+  },
+  "data": {
+    "instances": 545,
+    "manifest_path": "/home/riverahernandezjason/agentic-submission-repairs-20260908/docs/offline-deliverables-20260909/training_view/manifest.json",
+    "manifest_sha256": "1afd9afb8b552f84242f7e6b8b6e342f9b6f8ded5cd45a1d040b6bcf3f263341",
+    "models_path": "/home/riverahernandezjason/agentic-submission-repairs-20260908/docs/offline-deliverables-20260909/training_view/models.jsonl",
+    "models_sha256": "ee0b65f46aa11b0357fe761a9543aeed6da2a56c100c1cacc5c14164adb028da",
+    "outer_folds": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "partition": "train_calibration",
+    "rows": 23868,
+    "runs": 819
+  },
+  "deployment": "offline conditional artifact only; no production or pre-generation adoption",
+  "feature_policy": {
+    "context_collinearity": "input_tokens equals context_tokens in this view; sum is used so separate coefficients are not claimed",
+    "declared_or_trace_descriptors": [
+      "input_tokens",
+      "context_tokens",
+      "output_tokens",
+      "max_output_tokens"
+    ],
+    "derived_feature": "log1p(input_tokens + context_tokens) and one prespecified prompt-output interaction",
+    "forbidden_features": [
+      "observed_ms",
+      "latency",
+      "residual",
+      "phase_timings",
+      "future_actions",
+      "evaluator_outcome",
+      "cache_state"
+    ],
+    "mode": "trace_conditioned_assignment_level_simulation",
+    "output_tokens_semantics": "realized output count available in the completed trace; not a pre-generation prediction input",
+    "target": "observed_ms historical completed-request proxy wall duration",
+    "target_boundary": "proxy wall is not native GPU prefill/decode/queue phase time"
+  },
+  "fixed_improvements_vs_baseline": {
+    "global_median_baseline": {
+      "all_events_run_pp_vs_baseline": 0.0,
+      "p95_change_percent_vs_baseline": 0.0,
+      "within_25_event_pp_vs_baseline": 0.0,
+      "worst_change_percent_vs_baseline": 0.0
+    },
+    "nonnegative_log_additive": {
+      "all_events_run_pp_vs_baseline": 66.7887667887668,
+      "p95_change_percent_vs_baseline": -72.4089179762788,
+      "within_25_event_pp_vs_baseline": 62.062175297469416,
+      "worst_change_percent_vs_baseline": -137.53694547392246
+    },
+    "nonnegative_log_token_interaction": {
+      "all_events_run_pp_vs_baseline": 66.7887667887668,
+      "p95_change_percent_vs_baseline": -72.4089179762788,
+      "within_25_event_pp_vs_baseline": 62.062175297469416,
+      "worst_change_percent_vs_baseline": -137.53694547392246
+    },
+    "robust_nonnegative_log_token_interaction": {
+      "all_events_run_pp_vs_baseline": 66.7887667887668,
+      "p95_change_percent_vs_baseline": -72.36905373098072,
+      "within_25_event_pp_vs_baseline": 62.05379587732529,
+      "worst_change_percent_vs_baseline": -137.5332570252997
+    }
+  },
+  "fixed_outer_oof_metrics": {
+    "global_median_baseline": {
+      "all_events_within_25_percent_runs": 0.0,
+      "all_events_within_25_runs": 0,
+      "max_ape_percent": 234.8349763724532,
+      "mean_ape_percent": 46.70073231332668,
+      "n_events": 23868,
+      "n_runs": 819,
+      "p95_ape_percent_nearest_rank": 93.52148731208815,
+      "within_25_percent_events": 34.63214345567287
+    },
+    "nonnegative_log_additive": {
+      "all_events_within_25_percent_runs": 66.7887667887668,
+      "all_events_within_25_runs": 547,
+      "max_ape_percent": 97.29803089853075,
+      "mean_ape_percent": 8.7081280686976,
+      "n_events": 23868,
+      "n_runs": 819,
+      "p95_ape_percent_nearest_rank": 21.112569335809358,
+      "within_25_percent_events": 96.69431875314228
+    },
+    "nonnegative_log_token_interaction": {
+      "all_events_within_25_percent_runs": 66.7887667887668,
+      "all_events_within_25_runs": 547,
+      "max_ape_percent": 97.29803089853075,
+      "mean_ape_percent": 8.7081280686976,
+      "n_events": 23868,
+      "n_runs": 819,
+      "p95_ape_percent_nearest_rank": 21.112569335809358,
+      "within_25_percent_events": 96.69431875314228
+    },
+    "robust_nonnegative_log_token_interaction": {
+      "all_events_within_25_percent_runs": 66.7887667887668,
+      "all_events_within_25_runs": 547,
+      "max_ape_percent": 97.30171934715354,
+      "mean_ape_percent": 8.702109837727468,
+      "n_events": 23868,
+      "n_runs": 819,
+      "p95_ape_percent_nearest_rank": 21.15243358110743,
+      "within_25_percent_events": 96.68593933299816
+    }
+  },
+  "fold_fit_inventory": [
+    {
+      "candidate": "global_median_baseline",
+      "fit_instances": 432,
+      "fit_rows": 18954,
+      "outer_fold": 0
+    },
+    {
+      "candidate": "nonnegative_log_additive",
+      "fit_instances": 432,
+      "fit_rows": 18954,
+      "outer_fold": 0
+    },
+    {
+      "candidate": "nonnegative_log_token_interaction",
+      "fit_instances": 432,
+      "fit_rows": 18954,
+      "outer_fold": 0
+    },
+    {
+      "candidate": "robust_nonnegative_log_token_interaction",
+      "fit_instances": 432,
+      "fit_rows": 18954,
+      "outer_fold": 0
+    },
+    {
+      "candidate": "global_median_baseline",
+      "fit_instances": 451,
+      "fit_rows": 20456,
+      "outer_fold": 1
+    },
+    {
+      "candidate": "nonnegative_log_additive",
+      "fit_instances": 451,
+      "fit_rows": 20456,
+      "outer_fold": 1
+    },
+    {
+      "candidate": "nonnegative_log_token_interaction",
+      "fit_instances": 451,
+      "fit_rows": 20456,
+      "outer_fold": 1
+    },
+    {
+      "candidate": "robust_nonnegative_log_token_interaction",
+      "fit_instances": 451,
+      "fit_rows": 20456,
+      "outer_fold": 1
+    },
+    {
+      "candidate": "global_median_baseline",
+      "fit_instances": 439,
+      "fit_rows": 18900,
+      "outer_fold": 2
+    },
+    {
+      "candidate": "nonnegative_log_additive",
+      "fit_instances": 439,
+      "fit_rows": 18900,
+      "outer_fold": 2
+    },
+    {
+      "candidate": "nonnegative_log_token_interaction",
+      "fit_instances": 439,
+      "fit_rows": 18900,
+      "outer_fold": 2
+    },
+    {
+      "candidate": "robust_nonnegative_log_token_interaction",
+      "fit_instances": 439,
+      "fit_rows": 18900,
+      "outer_fold": 2
+    },
+    {
+      "candidate": "global_median_baseline",
+      "fit_instances": 426,
+      "fit_rows": 18875,
+      "outer_fold": 3
+    },
+    {
+      "candidate": "nonnegative_log_additive",
+      "fit_instances": 426,
+      "fit_rows": 18875,
+      "outer_fold": 3
+    },
+    {
+      "candidate": "nonnegative_log_token_interaction",
+      "fit_instances": 426,
+      "fit_rows": 18875,
+      "outer_fold": 3
+    },
+    {
+      "candidate": "robust_nonnegative_log_token_interaction",
+      "fit_instances": 426,
+      "fit_rows": 18875,
+      "outer_fold": 3
+    },
+    {
+      "candidate": "global_median_baseline",
+      "fit_instances": 432,
+      "fit_rows": 18287,
+      "outer_fold": 4
+    },
+    {
+      "candidate": "nonnegative_log_additive",
+      "fit_instances": 432,
+      "fit_rows": 18287,
+      "outer_fold": 4
+    },
+    {
+      "candidate": "nonnegative_log_token_interaction",
+      "fit_instances": 432,
+      "fit_rows": 18287,
+      "outer_fold": 4
+    },
+    {
+      "candidate": "robust_nonnegative_log_token_interaction",
+      "fit_instances": 432,
+      "fit_rows": 18287,
+      "outer_fold": 4
+    }
+  ],
+  "full_training_inner_metrics": {
+    "global_median_baseline": {
+      "all_events_within_25_percent_runs": 0.0,
+      "all_events_within_25_runs": 0,
+      "max_ape_percent": 235.16931447633536,
+      "mean_ape_percent": 46.703231075479856,
+      "n_events": 23868,
+      "n_runs": 819,
+      "p95_ape_percent_nearest_rank": 93.53693212706129,
+      "within_25_percent_events": 34.58605664488017
+    },
+    "nonnegative_log_additive": {
+      "all_events_within_25_percent_runs": 67.03296703296704,
+      "all_events_within_25_runs": 549,
+      "max_ape_percent": 97.31355072258998,
+      "mean_ape_percent": 8.717141468489194,
+      "n_events": 23868,
+      "n_runs": 819,
+      "p95_ape_percent_nearest_rank": 21.006362203623418,
+      "within_25_percent_events": 96.70688788335848
+    },
+    "nonnegative_log_token_interaction": {
+      "all_events_within_25_percent_runs": 67.03296703296704,
+      "all_events_within_25_runs": 549,
+      "max_ape_percent": 97.31355072258998,
+      "mean_ape_percent": 8.717141468489194,
+      "n_events": 23868,
+      "n_runs": 819,
+      "p95_ape_percent_nearest_rank": 21.006362203623418,
+      "within_25_percent_events": 96.70688788335848
+    },
+    "robust_nonnegative_log_token_interaction": {
+      "all_events_within_25_percent_runs": 66.91086691086691,
+      "all_events_within_25_runs": 548,
+      "max_ape_percent": 97.31631085633968,
+      "mean_ape_percent": 8.709778743159989,
+      "n_events": 23868,
+      "n_runs": 819,
+      "p95_ape_percent_nearest_rank": 21.039043677871963,
+      "within_25_percent_events": 96.69012904307021
+    }
+  },
+  "full_training_selected_candidate": "nonnegative_log_additive",
+  "model_order": [
+    "global_median_baseline",
+    "nonnegative_log_additive",
+    "nonnegative_log_token_interaction",
+    "robust_nonnegative_log_token_interaction"
+  ],
+  "models": {
+    "global_median_baseline": {
+      "candidate": "global_median_baseline",
+      "feature_names": [],
+      "kind": "global_median",
+      "median_ms": 616.0555395
+    },
+    "nonnegative_log_additive": {
+      "candidate": "nonnegative_log_additive",
+      "feature_means": [
+        10.036961927808974,
+        4.6529304169373065,
+        7.593780731736882
+      ],
+      "feature_names": [
+        "log1p(input_tokens_plus_context_tokens)",
+        "log1p(output_tokens)",
+        "log1p(max_output_tokens)"
+      ],
+      "feature_scales": [
+        0.6826778890069877,
+        1.0628669970564562,
+        0.24728297701073096
+      ],
+      "huber_delta_log_ms": null,
+      "intercept_log_ms": 6.8066216262206565,
+      "kind": "nonnegative_log_ridge",
+      "ridge": 0.0001,
+      "robust_iterations": 0,
+      "slopes_standardized": [
+        0.08481328464774056,
+        0.9161168769614486,
+        0.006227437436264678
+      ]
+    },
+    "nonnegative_log_token_interaction": {
+      "candidate": "nonnegative_log_token_interaction",
+      "feature_means": [
+        10.036961927808974,
+        4.6529304169373065,
+        7.593780731736882,
+        46.826205983030135
+      ],
+      "feature_names": [
+        "log1p(input_tokens_plus_context_tokens)",
+        "log1p(output_tokens)",
+        "log1p(max_output_tokens)",
+        "log1p(input_tokens_plus_context_tokens)*log1p(output_tokens)"
+      ],
+      "feature_scales": [
+        0.6826778890069877,
+        1.0628669970564562,
+        0.24728297701073096,
+        11.89181161198787
+      ],
+      "huber_delta_log_ms": null,
+      "intercept_log_ms": 6.8066216262206565,
+      "kind": "nonnegative_log_ridge",
+      "ridge": 0.0001,
+      "robust_iterations": 0,
+      "slopes_standardized": [
+        0.08481328464774056,
+        0.9161168769614486,
+        0.006227437436264678,
+        0.0
+      ]
+    },
+    "robust_nonnegative_log_token_interaction": {
+      "candidate": "robust_nonnegative_log_token_interaction",
+      "feature_means": [
+        10.036961927808974,
+        4.6529304169373065,
+        7.593780731736882,
+        46.826205983030135
+      ],
+      "feature_names": [
+        "log1p(input_tokens_plus_context_tokens)",
+        "log1p(output_tokens)",
+        "log1p(max_output_tokens)",
+        "log1p(input_tokens_plus_context_tokens)*log1p(output_tokens)"
+      ],
+      "feature_scales": [
+        0.6826778890069877,
+        1.0628669970564562,
+        0.24728297701073096,
+        11.89181161198787
+      ],
+      "huber_delta_log_ms": 1.5,
+      "intercept_log_ms": 6.806275586759479,
+      "kind": "robust_nonnegative_log_ridge",
+      "ridge": 0.0001,
+      "robust_iterations": 8,
+      "slopes_standardized": [
+        0.08570200655876428,
+        0.9160448392367909,
+        0.005901922854474955,
+        0.0
+      ]
+    }
+  },
+  "nested_selected_outer_oof_metrics": {
+    "all_events_within_25_percent_runs": 66.7887667887668,
+    "all_events_within_25_runs": 547,
+    "max_ape_percent": 97.29803089853075,
+    "mean_ape_percent": 8.706600825596675,
+    "n_events": 23868,
+    "n_runs": 819,
+    "p95_ape_percent_nearest_rank": 21.112569335809358,
+    "within_25_percent_events": 96.69012904307021
+  },
+  "outer_fold_choices": [
+    {
+      "inner_metrics": {
+        "global_median_baseline": {
+          "all_events_within_25_percent_runs": 0.0,
+          "all_events_within_25_runs": 0,
+          "max_ape_percent": 235.43032654669918,
+          "mean_ape_percent": 46.54751204431425,
+          "n_events": 18954,
+          "n_runs": 647,
+          "p95_ape_percent_nearest_rank": 93.46213987518692,
+          "within_25_percent_events": 34.83697372586261
+        },
+        "nonnegative_log_additive": {
+          "all_events_within_25_percent_runs": 67.85162287480681,
+          "all_events_within_25_runs": 439,
+          "max_ape_percent": 97.33330098614817,
+          "mean_ape_percent": 8.819685347561354,
+          "n_events": 18954,
+          "n_runs": 647,
+          "p95_ape_percent_nearest_rank": 21.32669731993969,
+          "within_25_percent_events": 96.63395589321516
+        },
+        "nonnegative_log_token_interaction": {
+          "all_events_within_25_percent_runs": 67.85162287480681,
+          "all_events_within_25_runs": 439,
+          "max_ape_percent": 97.33330098614817,
+          "mean_ape_percent": 8.819685347561354,
+          "n_events": 18954,
+          "n_runs": 647,
+          "p95_ape_percent_nearest_rank": 21.32669731993969,
+          "within_25_percent_events": 96.63395589321516
+        },
+        "robust_nonnegative_log_token_interaction": {
+          "all_events_within_25_percent_runs": 67.85162287480681,
+          "all_events_within_25_runs": 439,
+          "max_ape_percent": 97.33330098614817,
+          "mean_ape_percent": 8.811897783023047,
+          "n_events": 18954,
+          "n_runs": 647,
+          "p95_ape_percent_nearest_rank": 21.289797032945472,
+          "within_25_percent_events": 96.63395589321516
+        }
+      },
+      "outer_fold": 0,
+      "outer_test_events": 4914,
+      "outer_test_instances": 113,
+      "outer_test_runs": 172,
+      "selected_candidate": "nonnegative_log_additive"
+    },
+    {
+      "inner_metrics": {
+        "global_median_baseline": {
+          "all_events_within_25_percent_runs": 0.0,
+          "all_events_within_25_runs": 0,
+          "max_ape_percent": 234.37190629631496,
+          "mean_ape_percent": 46.60676992733639,
+          "n_events": 20456,
+          "n_runs": 703,
+          "p95_ape_percent_nearest_rank": 93.529674621864,
+          "within_25_percent_events": 34.77708251857646
+        },
+        "nonnegative_log_additive": {
+          "all_events_within_25_percent_runs": 66.99857752489332,
+          "all_events_within_25_runs": 471,
+          "max_ape_percent": 97.31217845758918,
+          "mean_ape_percent": 8.687232278206125,
+          "n_events": 20456,
+          "n_runs": 703,
+          "p95_ape_percent_nearest_rank": 20.883955430612613,
+          "within_25_percent_events": 96.72467735627689
+        },
+        "nonnegative_log_token_interaction": {
+          "all_events_within_25_percent_runs": 66.99857752489332,
+          "all_events_within_25_runs": 471,
+          "max_ape_percent": 97.31217845758918,
+          "mean_ape_percent": 8.687232278206125,
+          "n_events": 20456,
+          "n_runs": 703,
+          "p95_ape_percent_nearest_rank": 20.883955430612613,
+          "within_25_percent_events": 96.72467735627689
+        },
+        "robust_nonnegative_log_token_interaction": {
+          "all_events_within_25_percent_runs": 66.99857752489332,
+          "all_events_within_25_runs": 471,
+          "max_ape_percent": 97.31541170498242,
+          "mean_ape_percent": 8.677955347814727,
+          "n_events": 20456,
+          "n_runs": 703,
+          "p95_ape_percent_nearest_rank": 20.902435809896758,
+          "within_25_percent_events": 96.74423152131403
+        }
+      },
+      "outer_fold": 1,
+      "outer_test_events": 3412,
+      "outer_test_instances": 94,
+      "outer_test_runs": 116,
+      "selected_candidate": "robust_nonnegative_log_token_interaction"
+    },
+    {
+      "inner_metrics": {
+        "global_median_baseline": {
+          "all_events_within_25_percent_runs": 0.0,
+          "all_events_within_25_runs": 0,
+          "max_ape_percent": 235.66010874774992,
+          "mean_ape_percent": 47.21849187395146,
+          "n_events": 18900,
+          "n_runs": 652,
+          "p95_ape_percent_nearest_rank": 94.02480936685168,
+          "within_25_percent_events": 33.86243386243386
+        },
+        "nonnegative_log_additive": {
+          "all_events_within_25_percent_runs": 66.41104294478528,
+          "all_events_within_25_runs": 433,
+          "max_ape_percent": 96.2428066302689,
+          "mean_ape_percent": 8.708865203841288,
+          "n_events": 18900,
+          "n_runs": 652,
+          "p95_ape_percent_nearest_rank": 21.22192853598977,
+          "within_25_percent_events": 96.70899470899471
+        },
+        "nonnegative_log_token_interaction": {
+          "all_events_within_25_percent_runs": 66.41104294478528,
+          "all_events_within_25_runs": 433,
+          "max_ape_percent": 96.2428066302689,
+          "mean_ape_percent": 8.708865203841288,
+          "n_events": 18900,
+          "n_runs": 652,
+          "p95_ape_percent_nearest_rank": 21.22192853598977,
+          "within_25_percent_events": 96.70899470899471
+        },
+        "robust_nonnegative_log_token_interaction": {
+          "all_events_within_25_percent_runs": 66.41104294478528,
+          "all_events_within_25_runs": 433,
+          "max_ape_percent": 96.24504002316637,
+          "mean_ape_percent": 8.703318224016808,
+          "n_events": 18900,
+          "n_runs": 652,
+          "p95_ape_percent_nearest_rank": 21.200356970063343,
+          "within_25_percent_events": 96.70370370370371
+        }
+      },
+      "outer_fold": 2,
+      "outer_test_events": 4968,
+      "outer_test_instances": 106,
+      "outer_test_runs": 167,
+      "selected_candidate": "nonnegative_log_additive"
+    },
+    {
+      "inner_metrics": {
+        "global_median_baseline": {
+          "all_events_within_25_percent_runs": 0.0,
+          "all_events_within_25_runs": 0,
+          "max_ape_percent": 233.65910611961516,
+          "mean_ape_percent": 46.12582295340784,
+          "n_events": 18875,
+          "n_runs": 648,
+          "p95_ape_percent_nearest_rank": 93.15359261939251,
+          "within_25_percent_events": 35.33245033112583
+        },
+        "nonnegative_log_additive": {
+          "all_events_within_25_percent_runs": 67.43827160493827,
+          "all_events_within_25_runs": 437,
+          "max_ape_percent": 97.29862804861656,
+          "mean_ape_percent": 8.624239013586221,
+          "n_events": 18875,
+          "n_runs": 648,
+          "p95_ape_percent_nearest_rank": 20.67069265974336,
+          "within_25_percent_events": 96.79470198675497
+        },
+        "nonnegative_log_token_interaction": {
+          "all_events_within_25_percent_runs": 67.43827160493827,
+          "all_events_within_25_runs": 437,
+          "max_ape_percent": 97.29862804861656,
+          "mean_ape_percent": 8.624239013586221,
+          "n_events": 18875,
+          "n_runs": 648,
+          "p95_ape_percent_nearest_rank": 20.67069265974336,
+          "within_25_percent_events": 96.79470198675497
+        },
+        "robust_nonnegative_log_token_interaction": {
+          "all_events_within_25_percent_runs": 67.5925925925926,
+          "all_events_within_25_runs": 438,
+          "max_ape_percent": 97.30204934550554,
+          "mean_ape_percent": 8.618021142933662,
+          "n_events": 18875,
+          "n_runs": 648,
+          "p95_ape_percent_nearest_rank": 20.69830402840444,
+          "within_25_percent_events": 96.79470198675497
+        }
+      },
+      "outer_fold": 3,
+      "outer_test_events": 4993,
+      "outer_test_instances": 119,
+      "outer_test_runs": 171,
+      "selected_candidate": "nonnegative_log_additive"
+    },
+    {
+      "inner_metrics": {
+        "global_median_baseline": {
+          "all_events_within_25_percent_runs": 0.0,
+          "all_events_within_25_runs": 0,
+          "max_ape_percent": 235.2848315498658,
+          "mean_ape_percent": 47.0307034999826,
+          "n_events": 18287,
+          "n_runs": 626,
+          "p95_ape_percent_nearest_rank": 93.59375207022205,
+          "within_25_percent_events": 34.237436430250995
+        },
+        "nonnegative_log_additive": {
+          "all_events_within_25_percent_runs": 65.814696485623,
+          "all_events_within_25_runs": 412,
+          "max_ape_percent": 97.31591754825918,
+          "mean_ape_percent": 8.779725572185994,
+          "n_events": 18287,
+          "n_runs": 626,
+          "p95_ape_percent_nearest_rank": 21.221354476576206,
+          "within_25_percent_events": 96.62601848307541
+        },
+        "nonnegative_log_token_interaction": {
+          "all_events_within_25_percent_runs": 65.814696485623,
+          "all_events_within_25_runs": 412,
+          "max_ape_percent": 97.31591754825918,
+          "mean_ape_percent": 8.779725572185994,
+          "n_events": 18287,
+          "n_runs": 626,
+          "p95_ape_percent_nearest_rank": 21.221354476576206,
+          "within_25_percent_events": 96.62601848307541
+        },
+        "robust_nonnegative_log_token_interaction": {
+          "all_events_within_25_percent_runs": 65.814696485623,
+          "all_events_within_25_runs": 412,
+          "max_ape_percent": 97.31943817619339,
+          "mean_ape_percent": 8.768493712789038,
+          "n_events": 18287,
+          "n_runs": 626,
+          "p95_ape_percent_nearest_rank": 21.223919324665964,
+          "within_25_percent_events": 96.62055011756986
+        }
+      },
+      "outer_fold": 4,
+      "outer_test_events": 5581,
+      "outer_test_instances": 113,
+      "outer_test_runs": 193,
+      "selected_candidate": "nonnegative_log_additive"
+    }
+  ],
+  "prior_conditional_reference": {
+    "comparison_status": "not refit or rescored here; this run establishes gain over the feature-free baseline only",
+    "path": "/home/riverahernandezjason/agentic-submission-repairs-20260908/src/agentic_sim/assignment/workload_simulator.py",
+    "reference": "gpu_design uses input_tokens, output_tokens, and context_tokens with hardware capacities",
+    "sha256": "3e6978bf2842bc056565dd792f0eb9ce1f59df012048faae5138da082ff72f23"
+  },
+  "schema": "assignment.d9.conditional-gpu-model-comparison.v1",
+  "selection_rule": "fixed four-model comparison; nested choice maximizes event within-25 coverage subject to baseline worst-error guard, then lower worst error, then prespecified order"
+}

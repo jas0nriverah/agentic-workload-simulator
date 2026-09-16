@@ -1,0 +1,1967 @@
+{
+  "summary": {
+    "cases": 49,
+    "instances": 25,
+    "exit_counts": {
+      "submitted": 44,
+      "submitted (exit_cost)": 4,
+      "submitted (exit_format)": 1
+    },
+    "history_processor_counts": {
+      "[{\"last_n_messages\": 2, \"last_n_messages_offset\": 0, \"tagged_roles\": [\"user\", \"tool\"], \"type\": \"cache_control\"}]": 49
+    },
+    "effective_sampling_counts": {
+      "{\"repetition_penalty\": 1.05, \"temperature\": 0.0, \"top_k\": 20, \"top_p\": 1.0}": 20,
+      "{\"repetition_penalty\": null, \"temperature\": 0.0, \"top_k\": null, \"top_p\": 1.0}": 23,
+      "{\"repetition_penalty\": null, \"temperature\": 0.2, \"top_k\": null, \"top_p\": 1.0}": 1,
+      "{\"repetition_penalty\": 1.05, \"temperature\": 0.5, \"top_k\": 20, \"top_p\": 1.0}": 1,
+      "{\"repetition_penalty\": 1.05, \"temperature\": 0.8, \"top_k\": 20, \"top_p\": 1.0}": 2,
+      "{\"repetition_penalty\": 1.05, \"temperature\": 0.2, \"top_k\": 20, \"top_p\": 1.0}": 1,
+      "{\"repetition_penalty\": null, \"temperature\": 0.5, \"top_k\": null, \"top_p\": 1.0}": 1
+    },
+    "high_prompt_cases": 4,
+    "request_mutations": 0,
+    "exact_recommended_combination_cases": 0
+  },
+  "cases": [
+    {
+      "case_id": "assignment-production-v2:ee4fc39eafebc5d7c2ea1dce540d511f472d14ec3c13b9c8a70c78b3b4340129",
+      "instance_id": "astropy__astropy-14182",
+      "effective_sampling": {
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "top_k": 20,
+        "repetition_penalty": 1.05
+      },
+      "server_defaults": {
+        "temperature": 0.7,
+        "top_p": 0.8,
+        "top_k": 20,
+        "repetition_penalty": 1.05
+      },
+      "history_processors": [
+        {
+          "type": "cache_control",
+          "last_n_messages": 2,
+          "last_n_messages_offset": 0,
+          "tagged_roles": [
+            "user",
+            "tool"
+          ]
+        }
+      ],
+      "max_input_tokens": 61440,
+      "calls_limit": 100,
+      "observation_limit": 25000,
+      "exit_status": "submitted",
+      "api_calls": 43,
+      "max_successful_prompt_tokens": 26963,
+      "request_mutations": 0,
+      "sources": {
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00001-81e67b6074b32447/attempt-81e67b6074b32447-002-ba32b872b9d0/runner_attempts/attempt-001/run_batch.config.yaml": "0b2721a2006779a37fef69a669f2b1b32272082116ec1efdaa6d246f40283b77",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/runtime-preparation-v1/worker-inputs/declared96-comparison-resume-20260909-v3-worker-10-job5747930/serving_fingerprint.json": "765e3cae02d99430044bfcce58bfb68726eae2c12f42f2f43c814fe08ff1e583",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00001-81e67b6074b32447/attempt-81e67b6074b32447-002-ba32b872b9d0/runner_attempts/attempt-001/astropy__astropy-14182/astropy__astropy-14182.traj": "9ea3b407edb28d37f5b3b12bbea9b7c2bc534e2302ed330c1ff230921dd1b72b",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00001-81e67b6074b32447/attempt-81e67b6074b32447-002-ba32b872b9d0/runner_attempts/attempt-001/request_proxy.jsonl": "8594ee7b37db8fe365f2f19841cf29f75dcb8b95f07bb9e1488f5ea968b93516"
+      }
+    },
+    {
+      "case_id": "assignment-production-v2:648009374f4193ea13938de660cec315c8e9402e8e50dddfd752d3b735a57023",
+      "instance_id": "astropy__astropy-14995",
+      "effective_sampling": {
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "top_k": null,
+        "repetition_penalty": null
+      },
+      "server_defaults": {
+        "temperature": null,
+        "top_p": null,
+        "top_k": null,
+        "repetition_penalty": null
+      },
+      "history_processors": [
+        {
+          "type": "cache_control",
+          "last_n_messages": 2,
+          "last_n_messages_offset": 0,
+          "tagged_roles": [
+            "user",
+            "tool"
+          ]
+        }
+      ],
+      "max_input_tokens": 61440,
+      "calls_limit": 100,
+      "observation_limit": 25000,
+      "exit_status": "submitted",
+      "api_calls": 33,
+      "max_successful_prompt_tokens": 49268,
+      "request_mutations": 0,
+      "sources": {
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00003-fdebd26ee97a2fe4/attempt-fdebd26ee97a2fe4-003-8bb4fa12ec57/runner_attempts/attempt-001/run_batch.config.yaml": "5a8e17167a4ba731de4ed2d4d61c58b9b103e691a186383eea9f1aa24d66c487",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00003-fdebd26ee97a2fe4/attempt-fdebd26ee97a2fe4-003-8bb4fa12ec57/runner_attempts/attempt-001/astropy__astropy-14995/astropy__astropy-14995.traj": "20d30b9fb6fcd5fc648dc30aa5360522c6978a58aaffc090928af1b34a2eee83",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00003-fdebd26ee97a2fe4/attempt-fdebd26ee97a2fe4-003-8bb4fa12ec57/runner_attempts/attempt-001/request_proxy.jsonl": "445be56cf1b5327e52fc68371ece82a244671a33334e2a8e629810ae7df0cc72"
+      }
+    },
+    {
+      "case_id": "assignment-production-v2:d204afe54b23a1ef26e269881f1cc7a74c1eb78a4799bc75846b78530c3a9ad3",
+      "instance_id": "astropy__astropy-6938",
+      "effective_sampling": {
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "top_k": null,
+        "repetition_penalty": null
+      },
+      "server_defaults": {
+        "temperature": null,
+        "top_p": null,
+        "top_k": null,
+        "repetition_penalty": null
+      },
+      "history_processors": [
+        {
+          "type": "cache_control",
+          "last_n_messages": 2,
+          "last_n_messages_offset": 0,
+          "tagged_roles": [
+            "user",
+            "tool"
+          ]
+        }
+      ],
+      "max_input_tokens": 61440,
+      "calls_limit": 100,
+      "observation_limit": 25000,
+      "exit_status": "submitted",
+      "api_calls": 41,
+      "max_successful_prompt_tokens": 30767,
+      "request_mutations": 0,
+      "sources": {
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00004-744052c6d0731edf/attempt-744052c6d0731edf-002-8914636e91f7/runner_attempts/attempt-001/run_batch.config.yaml": "9da2cbb4c031e26f60ec56ed06a9270623cc2c65393be9caf9269a2d0dacf377",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00004-744052c6d0731edf/attempt-744052c6d0731edf-002-8914636e91f7/runner_attempts/attempt-001/astropy__astropy-6938/astropy__astropy-6938.traj": "d607371bf5e10b816f33e0e342ab3596d9d1d5d5d21f8336f2e391066999758f",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00004-744052c6d0731edf/attempt-744052c6d0731edf-002-8914636e91f7/runner_attempts/attempt-001/request_proxy.jsonl": "f5647bf0fbbeed40a6566cb37947b0c18f578168f7d81275256aaaaed95ed9ca"
+      }
+    },
+    {
+      "case_id": "assignment-production-v2:89114c6e95ca38ffe2b961132463d2c11023bcb8221aef85021a0a4a7d0590d6",
+      "instance_id": "astropy__astropy-6938",
+      "effective_sampling": {
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "top_k": 20,
+        "repetition_penalty": 1.05
+      },
+      "server_defaults": {
+        "temperature": 0.7,
+        "top_p": 0.8,
+        "top_k": 20,
+        "repetition_penalty": 1.05
+      },
+      "history_processors": [
+        {
+          "type": "cache_control",
+          "last_n_messages": 2,
+          "last_n_messages_offset": 0,
+          "tagged_roles": [
+            "user",
+            "tool"
+          ]
+        }
+      ],
+      "max_input_tokens": 61440,
+      "calls_limit": 20,
+      "observation_limit": 25000,
+      "exit_status": "submitted (exit_cost)",
+      "api_calls": 21,
+      "max_successful_prompt_tokens": 16645,
+      "request_mutations": 0,
+      "sources": {
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00005-a07647c07b6c2158/attempt-a07647c07b6c2158-003-ffb048e137c6/runner_attempts/attempt-001/run_batch.config.yaml": "a1449f24535b1e0a98588ea04658bb4bce989a1f69826f6bac0dec8f49fe6732",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/runtime-preparation-v1/worker-inputs/declared96-comparison-resume-20260909-v5-worker-14-job5747916/serving_fingerprint.json": "55b1a85599eff8c0d0d0e0275c2faa41792c034f3b1932a6bba6388cec13b99d",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00005-a07647c07b6c2158/attempt-a07647c07b6c2158-003-ffb048e137c6/runner_attempts/attempt-001/astropy__astropy-6938/astropy__astropy-6938.traj": "05ea7633a24c478fe468113d9223eab0d0f758b070c05cb9eeb02c3c273066af",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00005-a07647c07b6c2158/attempt-a07647c07b6c2158-003-ffb048e137c6/runner_attempts/attempt-001/request_proxy.jsonl": "fd6c9539a2d94f54c369eef5bae95be053c24ab84a4bca0c1ad542da00bc25a5"
+      }
+    },
+    {
+      "case_id": "assignment-production-v2:ec5c4b4fde38778eb803cd1ab5875d3ec95d7edaeaf43cf61f40fa4cf3e9d432",
+      "instance_id": "astropy__astropy-6938",
+      "effective_sampling": {
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "top_k": null,
+        "repetition_penalty": null
+      },
+      "server_defaults": {
+        "temperature": null,
+        "top_p": null,
+        "top_k": null,
+        "repetition_penalty": null
+      },
+      "history_processors": [
+        {
+          "type": "cache_control",
+          "last_n_messages": 2,
+          "last_n_messages_offset": 0,
+          "tagged_roles": [
+            "user",
+            "tool"
+          ]
+        }
+      ],
+      "max_input_tokens": 61440,
+      "calls_limit": 30,
+      "observation_limit": 25000,
+      "exit_status": "submitted (exit_cost)",
+      "api_calls": 31,
+      "max_successful_prompt_tokens": 23079,
+      "request_mutations": 0,
+      "sources": {
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00006-54aa73e6b40ef233/attempt-54aa73e6b40ef233-002-4df7f2268d5d/runner_attempts/attempt-001/run_batch.config.yaml": "5308fa9e6b17a7ef63c0e3b146c507fb8d41090f17eb729a27aa1195014332b1",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00006-54aa73e6b40ef233/attempt-54aa73e6b40ef233-002-4df7f2268d5d/runner_attempts/attempt-001/astropy__astropy-6938/astropy__astropy-6938.traj": "e2c6c112db8c9d623d5f45a1ff76ae501a66b623038e02a320af702f0989c94b",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00006-54aa73e6b40ef233/attempt-54aa73e6b40ef233-002-4df7f2268d5d/runner_attempts/attempt-001/request_proxy.jsonl": "7dcec8f209bece4e9f104478494c2b3b5b2347afd18b9fd1e035679b6a2a3baa"
+      }
+    },
+    {
+      "case_id": "assignment-production-v2:eea38a38eb6accd51fbcfcef363b6905ab95c04d996c3dd21f622d6d01f0d8c2",
+      "instance_id": "astropy__astropy-6938",
+      "effective_sampling": {
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "top_k": 20,
+        "repetition_penalty": 1.05
+      },
+      "server_defaults": {
+        "temperature": 0.7,
+        "top_p": 0.8,
+        "top_k": 20,
+        "repetition_penalty": 1.05
+      },
+      "history_processors": [
+        {
+          "type": "cache_control",
+          "last_n_messages": 2,
+          "last_n_messages_offset": 0,
+          "tagged_roles": [
+            "user",
+            "tool"
+          ]
+        }
+      ],
+      "max_input_tokens": 61440,
+      "calls_limit": 50,
+      "observation_limit": 25000,
+      "exit_status": "submitted",
+      "api_calls": 38,
+      "max_successful_prompt_tokens": 29157,
+      "request_mutations": 0,
+      "sources": {
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00007-2b180aea71d74ebd/attempt-2b180aea71d74ebd-002-6deacfa394b6/runner_attempts/attempt-001/run_batch.config.yaml": "fad761ee15106d93db977db9953c59e4c82af701cf2e5bd504cb21d98aee4bb9",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/runtime-preparation-v1/worker-inputs/declared96-comparison-resume-20260909-v1-worker-21-job5747908/serving_fingerprint.json": "91d27b6aeaa919514cab09f598ac965f612c3d28ecf4b47b04d50702d87c4d5b",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00007-2b180aea71d74ebd/attempt-2b180aea71d74ebd-002-6deacfa394b6/runner_attempts/attempt-001/astropy__astropy-6938/astropy__astropy-6938.traj": "d19ff8da1a2d75d10153509d7c3cca89244799703d9b3833a02047314804f561",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00007-2b180aea71d74ebd/attempt-2b180aea71d74ebd-002-6deacfa394b6/runner_attempts/attempt-001/request_proxy.jsonl": "606de3dd48af9f7f2bea0b2433e16a6fd9afdee20dee5aae4aea6530389dd327"
+      }
+    },
+    {
+      "case_id": "assignment-production-v2:154e9637790d02095b8d5c20564538264b734687636e8f1470771b6bdfea2f58",
+      "instance_id": "astropy__astropy-6938",
+      "effective_sampling": {
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "top_k": null,
+        "repetition_penalty": null
+      },
+      "server_defaults": {
+        "temperature": null,
+        "top_p": null,
+        "top_k": null,
+        "repetition_penalty": null
+      },
+      "history_processors": [
+        {
+          "type": "cache_control",
+          "last_n_messages": 2,
+          "last_n_messages_offset": 0,
+          "tagged_roles": [
+            "user",
+            "tool"
+          ]
+        }
+      ],
+      "max_input_tokens": 61440,
+      "calls_limit": 100,
+      "observation_limit": 25000,
+      "exit_status": "submitted (exit_format)",
+      "api_calls": 30,
+      "max_successful_prompt_tokens": 16859,
+      "request_mutations": 0,
+      "sources": {
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00008-d48598f6f0dd2a88/attempt-d48598f6f0dd2a88-002-979912d506b8/runner_attempts/attempt-001/run_batch.config.yaml": "667097e7b2dc03276ab14d5a55dcb8b2b4d1dbadba8059faba556ca64c9d3633",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00008-d48598f6f0dd2a88/attempt-d48598f6f0dd2a88-002-979912d506b8/runner_attempts/attempt-001/astropy__astropy-6938/astropy__astropy-6938.traj": "d44c4db04d4c44f2b61ef3e16e4bd51357c303995914e5436fa3c8cb1c6ef123",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00008-d48598f6f0dd2a88/attempt-d48598f6f0dd2a88-002-979912d506b8/runner_attempts/attempt-001/request_proxy.jsonl": "36e41c27fcc259e97ee4edc02c8e13e899c8c57fa44239c6e3b795a269cb2a42"
+      }
+    },
+    {
+      "case_id": "assignment-production-v2:e19c1f5e34236a4cd11020df4b314ac7c61bb8212f46cf807a7308613814c24b",
+      "instance_id": "astropy__astropy-6938",
+      "effective_sampling": {
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "top_k": 20,
+        "repetition_penalty": 1.05
+      },
+      "server_defaults": {
+        "temperature": 0.7,
+        "top_p": 0.8,
+        "top_k": 20,
+        "repetition_penalty": 1.05
+      },
+      "history_processors": [
+        {
+          "type": "cache_control",
+          "last_n_messages": 2,
+          "last_n_messages_offset": 0,
+          "tagged_roles": [
+            "user",
+            "tool"
+          ]
+        }
+      ],
+      "max_input_tokens": 61440,
+      "calls_limit": 100,
+      "observation_limit": 25000,
+      "exit_status": "submitted",
+      "api_calls": 50,
+      "max_successful_prompt_tokens": 33864,
+      "request_mutations": 0,
+      "sources": {
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00009-988a91e4499c77ec/attempt-988a91e4499c77ec-003-13f358f8e454/runner_attempts/attempt-001/run_batch.config.yaml": "cd2bfecaee1213ee94f129ea175cf59b0e2737d94108091e9f4e70647ca4fb49",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/runtime-preparation-v1/worker-inputs/declared96-comparison-resume-20260909-v1-worker-18-job5747912/serving_fingerprint.json": "dd4119f1d1e5d775514336e46d65c53691c48d4453efb3576e565798d8cb12f8",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00009-988a91e4499c77ec/attempt-988a91e4499c77ec-003-13f358f8e454/runner_attempts/attempt-001/astropy__astropy-6938/astropy__astropy-6938.traj": "171999a68773b4cc4b99328ff77e8c4101c5c81510ba9e36248c21cc813f1c0e",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00009-988a91e4499c77ec/attempt-988a91e4499c77ec-003-13f358f8e454/runner_attempts/attempt-001/request_proxy.jsonl": "93ea65b9f0d72ef6118a63be7d9d939844d741d4a5d0552a1d4b04dc4d143e11"
+      }
+    },
+    {
+      "case_id": "assignment-production-v2:5fb250ecad9f9bb5fb41c816669933e6b341754ef0b9f696bf6a11bf79310751",
+      "instance_id": "astropy__astropy-6938",
+      "effective_sampling": {
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "top_k": null,
+        "repetition_penalty": null
+      },
+      "server_defaults": {
+        "temperature": null,
+        "top_p": null,
+        "top_k": null,
+        "repetition_penalty": null
+      },
+      "history_processors": [
+        {
+          "type": "cache_control",
+          "last_n_messages": 2,
+          "last_n_messages_offset": 0,
+          "tagged_roles": [
+            "user",
+            "tool"
+          ]
+        }
+      ],
+      "max_input_tokens": 61440,
+      "calls_limit": 100,
+      "observation_limit": 25000,
+      "exit_status": "submitted",
+      "api_calls": 49,
+      "max_successful_prompt_tokens": 40507,
+      "request_mutations": 0,
+      "sources": {
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00010-85141bb878727ccc/attempt-85141bb878727ccc-002-f40515e655d7/runner_attempts/attempt-001/run_batch.config.yaml": "da469c0ba17fe7e057db6aa27766a7d9a7a70a0f8dd668f6c35fe22bb3ddf802",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00010-85141bb878727ccc/attempt-85141bb878727ccc-002-f40515e655d7/runner_attempts/attempt-001/astropy__astropy-6938/astropy__astropy-6938.traj": "7199a7f3a9119cdd0caedbca0900c2f00ead7bab03652c16e047fea2cc77b103",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00010-85141bb878727ccc/attempt-85141bb878727ccc-002-f40515e655d7/runner_attempts/attempt-001/request_proxy.jsonl": "f893bdc28b6218e5ae5d1d5820cb11fe48c99f131e5b33171857e2346e9d89d6"
+      }
+    },
+    {
+      "case_id": "assignment-production-v2:2b43d2ae82642dc460d329a3f3ec9cffdc58aa4359b573788c0c80c08ca0615d",
+      "instance_id": "astropy__astropy-6938",
+      "effective_sampling": {
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "top_k": null,
+        "repetition_penalty": null
+      },
+      "server_defaults": {
+        "temperature": null,
+        "top_p": null,
+        "top_k": null,
+        "repetition_penalty": null
+      },
+      "history_processors": [
+        {
+          "type": "cache_control",
+          "last_n_messages": 2,
+          "last_n_messages_offset": 0,
+          "tagged_roles": [
+            "user",
+            "tool"
+          ]
+        }
+      ],
+      "max_input_tokens": 61440,
+      "calls_limit": 100,
+      "observation_limit": 10000,
+      "exit_status": "submitted",
+      "api_calls": 41,
+      "max_successful_prompt_tokens": 34046,
+      "request_mutations": 0,
+      "sources": {
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00011-af74ed11b4388d46/attempt-af74ed11b4388d46-003-ecbf7b085e40/runner_attempts/attempt-001/run_batch.config.yaml": "27b44f4902931bad4a52d74eaebfa4907289ad6873bf33fbed33e013a11b6298",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00011-af74ed11b4388d46/attempt-af74ed11b4388d46-003-ecbf7b085e40/runner_attempts/attempt-001/astropy__astropy-6938/astropy__astropy-6938.traj": "7175bc28ea36e415d222ba96744d4db8e7b29c3af2f27eb8f8fd72bb416238c5",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00011-af74ed11b4388d46/attempt-af74ed11b4388d46-003-ecbf7b085e40/runner_attempts/attempt-001/request_proxy.jsonl": "1cb4cc3afb6fb3ef35bc16d3d444636585829b75960de63f8bdd7b4592142652"
+      }
+    },
+    {
+      "case_id": "assignment-production-v2:35a637c4950b3afde20e98bee4717c36a8766b6383da5440e822ccf4cd03e48b",
+      "instance_id": "astropy__astropy-6938",
+      "effective_sampling": {
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "top_k": 20,
+        "repetition_penalty": 1.05
+      },
+      "server_defaults": {
+        "temperature": 0.7,
+        "top_p": 0.8,
+        "top_k": 20,
+        "repetition_penalty": 1.05
+      },
+      "history_processors": [
+        {
+          "type": "cache_control",
+          "last_n_messages": 2,
+          "last_n_messages_offset": 0,
+          "tagged_roles": [
+            "user",
+            "tool"
+          ]
+        }
+      ],
+      "max_input_tokens": 61440,
+      "calls_limit": 100,
+      "observation_limit": 50000,
+      "exit_status": "submitted",
+      "api_calls": 39,
+      "max_successful_prompt_tokens": 27423,
+      "request_mutations": 0,
+      "sources": {
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00012-7dac7279ca76abea/attempt-7dac7279ca76abea-002-975ab62a89fb/runner_attempts/attempt-001/run_batch.config.yaml": "b6b731b1cd1e7bf81fae431c9aaf43157fc6b1a0f2af3c153a3c7a6e496a16e4",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/runtime-preparation-v1/worker-inputs/declared96-comparison-resume-20260909-v5-worker-15-job5747915/serving_fingerprint.json": "7f4cc548a26f5c214cd025f47787db1ed40750ef842ae648f1c58ba7cdedb4b7",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00012-7dac7279ca76abea/attempt-7dac7279ca76abea-002-975ab62a89fb/runner_attempts/attempt-001/astropy__astropy-6938/astropy__astropy-6938.traj": "f62c4ccd8b7c4534a123c92f5d3c840f8414a6a710dc3adb0b03b6b91b3b0aa7",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00012-7dac7279ca76abea/attempt-7dac7279ca76abea-002-975ab62a89fb/runner_attempts/attempt-001/request_proxy.jsonl": "c88b6f2e7b569e2e7448c530d5dd52ab3a4625024c62e61620334dc56b6ec724"
+      }
+    },
+    {
+      "case_id": "assignment-production-v2:42daecc96b509715a48d2b37e541693868db50c1af222eb38ff92877c28af7d8",
+      "instance_id": "astropy__astropy-6938",
+      "effective_sampling": {
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "top_k": null,
+        "repetition_penalty": null
+      },
+      "server_defaults": {
+        "temperature": null,
+        "top_p": null,
+        "top_k": null,
+        "repetition_penalty": null
+      },
+      "history_processors": [
+        {
+          "type": "cache_control",
+          "last_n_messages": 2,
+          "last_n_messages_offset": 0,
+          "tagged_roles": [
+            "user",
+            "tool"
+          ]
+        }
+      ],
+      "max_input_tokens": 61440,
+      "calls_limit": 100,
+      "observation_limit": 100000,
+      "exit_status": "submitted",
+      "api_calls": 36,
+      "max_successful_prompt_tokens": 38479,
+      "request_mutations": 0,
+      "sources": {
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00013-60afec8b59321f45/attempt-60afec8b59321f45-002-c97bbd9bdf19/runner_attempts/attempt-001/run_batch.config.yaml": "83c181461685c8b3b67c720de600222c1a82c1fcd8cc7c9a0b29a73508aded7b",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00013-60afec8b59321f45/attempt-60afec8b59321f45-002-c97bbd9bdf19/runner_attempts/attempt-001/astropy__astropy-6938/astropy__astropy-6938.traj": "c93b01ad4ccfc42132507f48300866a1a3ea10318f5892f47d566340ffa82993",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00013-60afec8b59321f45/attempt-60afec8b59321f45-002-c97bbd9bdf19/runner_attempts/attempt-001/request_proxy.jsonl": "cc4f959bade25ee5bb706bb3bfa4e6ebed22b4867e1da89169206ed420d4c10b"
+      }
+    },
+    {
+      "case_id": "assignment-production-v2:f5211968b925e2a58e91c89875b00c879c97bb86a6e6284cb1d7b5b38ee0436e",
+      "instance_id": "astropy__astropy-6938",
+      "effective_sampling": {
+        "temperature": 0.2,
+        "top_p": 1.0,
+        "top_k": null,
+        "repetition_penalty": null
+      },
+      "server_defaults": {
+        "temperature": null,
+        "top_p": null,
+        "top_k": null,
+        "repetition_penalty": null
+      },
+      "history_processors": [
+        {
+          "type": "cache_control",
+          "last_n_messages": 2,
+          "last_n_messages_offset": 0,
+          "tagged_roles": [
+            "user",
+            "tool"
+          ]
+        }
+      ],
+      "max_input_tokens": 61440,
+      "calls_limit": 100,
+      "observation_limit": 25000,
+      "exit_status": "submitted",
+      "api_calls": 33,
+      "max_successful_prompt_tokens": 30602,
+      "request_mutations": 0,
+      "sources": {
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00014-215df573c04fa03c/attempt-215df573c04fa03c-002-abc8716a78ec/runner_attempts/attempt-001/run_batch.config.yaml": "5e25a520393e08cc679a4ab2e40506132e7c3b83e4234ee55302862dafd7ab7e",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00014-215df573c04fa03c/attempt-215df573c04fa03c-002-abc8716a78ec/runner_attempts/attempt-001/astropy__astropy-6938/astropy__astropy-6938.traj": "b11911bee79ffcbcb386aafc35de58b37d8821156106adfc118ac873996ad618",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00014-215df573c04fa03c/attempt-215df573c04fa03c-002-abc8716a78ec/runner_attempts/attempt-001/request_proxy.jsonl": "ee787d7f01f8481a7063ae6d0140512d6fefe39b9408f355b658253e2d307908"
+      }
+    },
+    {
+      "case_id": "assignment-production-v2:5d2eb13337f0a01131fe2f464ddaa794e45baf57cb8c5252d77fab7d262a2e96",
+      "instance_id": "astropy__astropy-6938",
+      "effective_sampling": {
+        "temperature": 0.5,
+        "top_p": 1.0,
+        "top_k": 20,
+        "repetition_penalty": 1.05
+      },
+      "server_defaults": {
+        "temperature": 0.7,
+        "top_p": 0.8,
+        "top_k": 20,
+        "repetition_penalty": 1.05
+      },
+      "history_processors": [
+        {
+          "type": "cache_control",
+          "last_n_messages": 2,
+          "last_n_messages_offset": 0,
+          "tagged_roles": [
+            "user",
+            "tool"
+          ]
+        }
+      ],
+      "max_input_tokens": 61440,
+      "calls_limit": 100,
+      "observation_limit": 25000,
+      "exit_status": "submitted",
+      "api_calls": 36,
+      "max_successful_prompt_tokens": 32820,
+      "request_mutations": 0,
+      "sources": {
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00015-58d9645e9df5aaf6/attempt-58d9645e9df5aaf6-003-1d37c9ff550b/runner_attempts/attempt-001/run_batch.config.yaml": "814125e4a2b3de8c9e3dfd71d67fee82785e7893cb583471a35467368c8002da",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/runtime-preparation-v1/worker-inputs/declared96-comparison-resume-20260909-v1-worker-16-job5747914/serving_fingerprint.json": "a51bdf4cd5d974493eb914e023c1b6194d47ca05ae5a411beff92b29da259f0e",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00015-58d9645e9df5aaf6/attempt-58d9645e9df5aaf6-003-1d37c9ff550b/runner_attempts/attempt-001/astropy__astropy-6938/astropy__astropy-6938.traj": "adb9e25eecaff20b4f287ab258c59f1fe9d0a09198678f0fc4b83002f47f6236",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00015-58d9645e9df5aaf6/attempt-58d9645e9df5aaf6-003-1d37c9ff550b/runner_attempts/attempt-001/request_proxy.jsonl": "015485f53866c1d08802a6ace4aad9f716d4ea82acd307f1ca6e10d8869ae1c1"
+      }
+    },
+    {
+      "case_id": "assignment-production-v2:2bfbb7b400990ecc54cde359dfc03656c4643eec2602642318476f227be54b31",
+      "instance_id": "astropy__astropy-6938",
+      "effective_sampling": {
+        "temperature": 0.8,
+        "top_p": 1.0,
+        "top_k": 20,
+        "repetition_penalty": 1.05
+      },
+      "server_defaults": {
+        "temperature": 0.7,
+        "top_p": 0.8,
+        "top_k": 20,
+        "repetition_penalty": 1.05
+      },
+      "history_processors": [
+        {
+          "type": "cache_control",
+          "last_n_messages": 2,
+          "last_n_messages_offset": 0,
+          "tagged_roles": [
+            "user",
+            "tool"
+          ]
+        }
+      ],
+      "max_input_tokens": 61440,
+      "calls_limit": 100,
+      "observation_limit": 25000,
+      "exit_status": "submitted",
+      "api_calls": 27,
+      "max_successful_prompt_tokens": 25080,
+      "request_mutations": 0,
+      "sources": {
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00016-74fea959ea4509ee/attempt-74fea959ea4509ee-003-2f6dca960a42/runner_attempts/attempt-001/run_batch.config.yaml": "dd673d8ab20fc10197eee0a0a3baac14b33db05c9caecb6101cc30fa83d3f724",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/runtime-preparation-v1/worker-inputs/declared96-comparison-resume-20260909-v3-worker-17-job5747913/serving_fingerprint.json": "936864d837d7a52766838e982b8b23e1a77e7ec5e5fab801ca0828e1acde45e3",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00016-74fea959ea4509ee/attempt-74fea959ea4509ee-003-2f6dca960a42/runner_attempts/attempt-001/astropy__astropy-6938/astropy__astropy-6938.traj": "74cc5b9337e3ed4537c0cce797a330935453f102a5c44caf0eacf9ff8fb21936",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00016-74fea959ea4509ee/attempt-74fea959ea4509ee-003-2f6dca960a42/runner_attempts/attempt-001/request_proxy.jsonl": "224ac36496a02629fb09bf1599a90f263f4d28692f4f8c11caa94fa5ed369fa9"
+      }
+    },
+    {
+      "case_id": "assignment-production-v2:394940ef3cccb81d3ce05b1c54505ade4d4452f6da1470c0e31b11783eecdd7a",
+      "instance_id": "astropy__astropy-7746",
+      "effective_sampling": {
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "top_k": null,
+        "repetition_penalty": null
+      },
+      "server_defaults": {
+        "temperature": null,
+        "top_p": null,
+        "top_k": null,
+        "repetition_penalty": null
+      },
+      "history_processors": [
+        {
+          "type": "cache_control",
+          "last_n_messages": 2,
+          "last_n_messages_offset": 0,
+          "tagged_roles": [
+            "user",
+            "tool"
+          ]
+        }
+      ],
+      "max_input_tokens": 61440,
+      "calls_limit": 100,
+      "observation_limit": 25000,
+      "exit_status": "submitted",
+      "api_calls": 38,
+      "max_successful_prompt_tokens": 26253,
+      "request_mutations": 0,
+      "sources": {
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00017-268f601ff6106707/attempt-268f601ff6106707-002-6c30c5096022/runner_attempts/attempt-001/run_batch.config.yaml": "ffef7726dfa12d67e6908ad42b5759c9c7fa94960b17561b48c21fd6d418968c",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00017-268f601ff6106707/attempt-268f601ff6106707-002-6c30c5096022/runner_attempts/attempt-001/astropy__astropy-7746/astropy__astropy-7746.traj": "21e0c6295e5f82788198f53d75aadd297d05efa4e69a1df35e0e3ec3deb8c6f6",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00017-268f601ff6106707/attempt-268f601ff6106707-002-6c30c5096022/runner_attempts/attempt-001/request_proxy.jsonl": "2fd29ecc38ce8d0cf440a2d15d24a9163479965a4c500b541db53f51e6f6ab67"
+      }
+    },
+    {
+      "case_id": "assignment-production-v2:f24f36b50382ffaddd53bc6135104dd54c7e95525da285b419d018fed6d810f2",
+      "instance_id": "django__django-10914",
+      "effective_sampling": {
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "top_k": 20,
+        "repetition_penalty": 1.05
+      },
+      "server_defaults": {
+        "temperature": 0.7,
+        "top_p": 0.8,
+        "top_k": 20,
+        "repetition_penalty": 1.05
+      },
+      "history_processors": [
+        {
+          "type": "cache_control",
+          "last_n_messages": 2,
+          "last_n_messages_offset": 0,
+          "tagged_roles": [
+            "user",
+            "tool"
+          ]
+        }
+      ],
+      "max_input_tokens": 61440,
+      "calls_limit": 100,
+      "observation_limit": 25000,
+      "exit_status": "submitted",
+      "api_calls": 34,
+      "max_successful_prompt_tokens": 29668,
+      "request_mutations": 0,
+      "sources": {
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00018-a0bb50959d46e12d/attempt-a0bb50959d46e12d-002-c6c05d3cfbce/runner_attempts/attempt-001/run_batch.config.yaml": "2bfd038bbf134248881c1ec7a1185f449df80dc80f0bac60fcfdb88382a4340f",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/runtime-preparation-v1/worker-inputs/declared96-comparison-resume-20260909-v1-worker-20-job5747909/serving_fingerprint.json": "c3c214e4380241f50ca3fe1a5656922a483c913db8f5427419755314fc1ee81c",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00018-a0bb50959d46e12d/attempt-a0bb50959d46e12d-002-c6c05d3cfbce/runner_attempts/attempt-001/django__django-10914/django__django-10914.traj": "e66df89a0b97dc97f62fac5ad637e92e9c90f8515695911806801d3c996526cf",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00018-a0bb50959d46e12d/attempt-a0bb50959d46e12d-002-c6c05d3cfbce/runner_attempts/attempt-001/request_proxy.jsonl": "0df08ee324662a73bb9a06e2bc34224cf2bf6284af2ea213ec13eceb8fa9802e"
+      }
+    },
+    {
+      "case_id": "assignment-production-v2:658d9b4adddbccf5f04641baea1dfd12b6633918119c1e9daba3942dc46bf542",
+      "instance_id": "django__django-10924",
+      "effective_sampling": {
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "top_k": 20,
+        "repetition_penalty": 1.05
+      },
+      "server_defaults": {
+        "temperature": 0.7,
+        "top_p": 0.8,
+        "top_k": 20,
+        "repetition_penalty": 1.05
+      },
+      "history_processors": [
+        {
+          "type": "cache_control",
+          "last_n_messages": 2,
+          "last_n_messages_offset": 0,
+          "tagged_roles": [
+            "user",
+            "tool"
+          ]
+        }
+      ],
+      "max_input_tokens": 61440,
+      "calls_limit": 100,
+      "observation_limit": 25000,
+      "exit_status": "submitted",
+      "api_calls": 49,
+      "max_successful_prompt_tokens": 32788,
+      "request_mutations": 0,
+      "sources": {
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00019-df19d14509018d6a/attempt-df19d14509018d6a-001-0504157ba07b/runner_attempts/attempt-001/run_batch.config.yaml": "d0e8b9238a5fefd4697e93afe263eba7fc3cfcb525a07f42cf876a0c89ebdfcf",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/runtime-preparation-v1/worker-inputs/declared96-comparison-resume-20260909-v1-worker-19-job5747911/serving_fingerprint.json": "4987cf921b06dbd7fb8f1868c513140c245bab5301efcec9c02489312d7b272e",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00019-df19d14509018d6a/attempt-df19d14509018d6a-001-0504157ba07b/runner_attempts/attempt-001/django__django-10924/django__django-10924.traj": "5cfb3c514a9a71c0dfb118a3fe5908cc402a6ffdf9a1b6c452c799d2a339bd3c",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00019-df19d14509018d6a/attempt-df19d14509018d6a-001-0504157ba07b/runner_attempts/attempt-001/request_proxy.jsonl": "7f7b46286ff5819486847016af349afac51dee03e3ab672f4988450b58bc6970"
+      }
+    },
+    {
+      "case_id": "assignment-production-v2:beb578ac3d658dab06dcc329b2fa96b8963bf3125e1bb1fa448b455988986e70",
+      "instance_id": "django__django-11001",
+      "effective_sampling": {
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "top_k": 20,
+        "repetition_penalty": 1.05
+      },
+      "server_defaults": {
+        "temperature": 0.7,
+        "top_p": 0.8,
+        "top_k": 20,
+        "repetition_penalty": 1.05
+      },
+      "history_processors": [
+        {
+          "type": "cache_control",
+          "last_n_messages": 2,
+          "last_n_messages_offset": 0,
+          "tagged_roles": [
+            "user",
+            "tool"
+          ]
+        }
+      ],
+      "max_input_tokens": 61440,
+      "calls_limit": 100,
+      "observation_limit": 25000,
+      "exit_status": "submitted",
+      "api_calls": 41,
+      "max_successful_prompt_tokens": 42120,
+      "request_mutations": 0,
+      "sources": {
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00020-7e443ebeb9e2491e/attempt-7e443ebeb9e2491e-002-aa0fff9f4622/runner_attempts/attempt-001/run_batch.config.yaml": "6d4f3831349b79c2cd9ce31f38085fefa88a6fa37308c70aa59b9cbd6fa4da5a",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/runtime-preparation-v1/worker-inputs/declared96-comparison-resume-20260909-v1-worker-06-job5747932/serving_fingerprint.json": "c4a6a9d5f6e0ff89df093ac2362c4374eeaf978025b09f1179a3d99b2282f34c",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00020-7e443ebeb9e2491e/attempt-7e443ebeb9e2491e-002-aa0fff9f4622/runner_attempts/attempt-001/django__django-11001/django__django-11001.traj": "0fe39ca17d7cecfdec36850c0dc7abf39b51f6fe09075fa040e5ad8bfa5c1749",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00020-7e443ebeb9e2491e/attempt-7e443ebeb9e2491e-002-aa0fff9f4622/runner_attempts/attempt-001/request_proxy.jsonl": "1c107b940205d6a7f6983ab104e168b331dac8a68fe1452d95d663895d05080d"
+      }
+    },
+    {
+      "case_id": "assignment-production-v2:9753b925de1856843babcaf7c9fd29797cdbb925c5cdb813e25e570f038781c2",
+      "instance_id": "django__django-11039",
+      "effective_sampling": {
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "top_k": null,
+        "repetition_penalty": null
+      },
+      "server_defaults": {
+        "temperature": null,
+        "top_p": null,
+        "top_k": null,
+        "repetition_penalty": null
+      },
+      "history_processors": [
+        {
+          "type": "cache_control",
+          "last_n_messages": 2,
+          "last_n_messages_offset": 0,
+          "tagged_roles": [
+            "user",
+            "tool"
+          ]
+        }
+      ],
+      "max_input_tokens": 61440,
+      "calls_limit": 100,
+      "observation_limit": 25000,
+      "exit_status": "submitted",
+      "api_calls": 42,
+      "max_successful_prompt_tokens": 28961,
+      "request_mutations": 0,
+      "sources": {
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00022-e6424f72071c03e4/attempt-e6424f72071c03e4-002-3623a5895ee0/runner_attempts/attempt-001/run_batch.config.yaml": "4a5b2585f18115cecdb96a1cd78b5843c257758c6c499af1e657fa0f7bf82f33",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00022-e6424f72071c03e4/attempt-e6424f72071c03e4-002-3623a5895ee0/runner_attempts/attempt-001/django__django-11039/django__django-11039.traj": "2af343092e5f3dea28dfa46267d0538dd792e74668673795b0a6bf173fc56b85",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00022-e6424f72071c03e4/attempt-e6424f72071c03e4-002-3623a5895ee0/runner_attempts/attempt-001/request_proxy.jsonl": "593dfdc0e4312dc16a2793f37d3bfc0d296a5c7a012a722d5623d46aaf079961"
+      }
+    },
+    {
+      "case_id": "assignment-production-v2:a702669a9fb02f57c0c9da38970c453c54d60551797c770a04b3596f7960b1a7",
+      "instance_id": "django__django-11049",
+      "effective_sampling": {
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "top_k": null,
+        "repetition_penalty": null
+      },
+      "server_defaults": {
+        "temperature": null,
+        "top_p": null,
+        "top_k": null,
+        "repetition_penalty": null
+      },
+      "history_processors": [
+        {
+          "type": "cache_control",
+          "last_n_messages": 2,
+          "last_n_messages_offset": 0,
+          "tagged_roles": [
+            "user",
+            "tool"
+          ]
+        }
+      ],
+      "max_input_tokens": 61440,
+      "calls_limit": 100,
+      "observation_limit": 25000,
+      "exit_status": "submitted",
+      "api_calls": 49,
+      "max_successful_prompt_tokens": 33425,
+      "request_mutations": 0,
+      "sources": {
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00023-be0962303b360f8a/attempt-be0962303b360f8a-002-8281e0215619/runner_attempts/attempt-001/run_batch.config.yaml": "972e23ef9ab89c5f7bbc7917d11bac4c2aa5dbe4d94ad3e7eb262cc95a1504e7",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00023-be0962303b360f8a/attempt-be0962303b360f8a-002-8281e0215619/runner_attempts/attempt-001/django__django-11049/django__django-11049.traj": "d22e1fb92c112491e1923bc97f64fecfbfc5b848156deef52a709a6155d5f8fc",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00023-be0962303b360f8a/attempt-be0962303b360f8a-002-8281e0215619/runner_attempts/attempt-001/request_proxy.jsonl": "9b2e88b3b05d03e763d0ba2b7f1f74e2806838628449fc8f8513aac336749722"
+      }
+    },
+    {
+      "case_id": "assignment-production-v2:71f01739a89af864159f0872f5a5695111b54f22a504921a96a59a513d2c74e0",
+      "instance_id": "django__django-11099",
+      "effective_sampling": {
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "top_k": 20,
+        "repetition_penalty": 1.05
+      },
+      "server_defaults": {
+        "temperature": 0.7,
+        "top_p": 0.8,
+        "top_k": 20,
+        "repetition_penalty": 1.05
+      },
+      "history_processors": [
+        {
+          "type": "cache_control",
+          "last_n_messages": 2,
+          "last_n_messages_offset": 0,
+          "tagged_roles": [
+            "user",
+            "tool"
+          ]
+        }
+      ],
+      "max_input_tokens": 61440,
+      "calls_limit": 100,
+      "observation_limit": 25000,
+      "exit_status": "submitted",
+      "api_calls": 27,
+      "max_successful_prompt_tokens": 17480,
+      "request_mutations": 0,
+      "sources": {
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00024-59afc13ce853411b/attempt-59afc13ce853411b-002-cd42e7323354/runner_attempts/attempt-001/run_batch.config.yaml": "749a13240607b257727d8e19e1afd19a9c32b55ef63c1d658737904b561a4063",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/runtime-preparation-v1/worker-inputs/declared96-comparison-resume-20260909-v5-worker-13-job5747917/serving_fingerprint.json": "b401eea85fadcd9174d6770b2b21024c2be8fd9335ab235d7f783d9e58250bfb",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00024-59afc13ce853411b/attempt-59afc13ce853411b-002-cd42e7323354/runner_attempts/attempt-001/django__django-11099/django__django-11099.traj": "d04118a34841e186956f956ca6624a97132c27345270e83621b03c015de1d8ed",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00024-59afc13ce853411b/attempt-59afc13ce853411b-002-cd42e7323354/runner_attempts/attempt-001/request_proxy.jsonl": "16ff37584b1ccdaf948211772ae45d7970e67fbcd54e5bc03eab230365784610"
+      }
+    },
+    {
+      "case_id": "assignment-production-v2:f66441c947ef44df36cee8694daafd2c9f8adbc0da08656d6913c339fd6ad3cb",
+      "instance_id": "django__django-11133",
+      "effective_sampling": {
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "top_k": 20,
+        "repetition_penalty": 1.05
+      },
+      "server_defaults": {
+        "temperature": 0.7,
+        "top_p": 0.8,
+        "top_k": 20,
+        "repetition_penalty": 1.05
+      },
+      "history_processors": [
+        {
+          "type": "cache_control",
+          "last_n_messages": 2,
+          "last_n_messages_offset": 0,
+          "tagged_roles": [
+            "user",
+            "tool"
+          ]
+        }
+      ],
+      "max_input_tokens": 61440,
+      "calls_limit": 100,
+      "observation_limit": 25000,
+      "exit_status": "submitted",
+      "api_calls": 37,
+      "max_successful_prompt_tokens": 21310,
+      "request_mutations": 0,
+      "sources": {
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00025-f65fa0d5fc4ac726/attempt-f65fa0d5fc4ac726-002-e9a725a090d8/runner_attempts/attempt-001/run_batch.config.yaml": "7c8b22ff4de100ce709f4d4aea2a2927986c57e8aae44ba291b13faa438fb27d",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/runtime-preparation-v1/worker-inputs/declared96-comparison-resume-20260909-v5-worker-14-job5747916/serving_fingerprint.json": "55b1a85599eff8c0d0d0e0275c2faa41792c034f3b1932a6bba6388cec13b99d",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00025-f65fa0d5fc4ac726/attempt-f65fa0d5fc4ac726-002-e9a725a090d8/runner_attempts/attempt-001/django__django-11133/django__django-11133.traj": "365ca07d1fcaf1d8bf9c58c8bcf87a25a237a12e8de63c38fb4dcea6f448322d",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00025-f65fa0d5fc4ac726/attempt-f65fa0d5fc4ac726-002-e9a725a090d8/runner_attempts/attempt-001/request_proxy.jsonl": "838b3a9cf4535da2a2e395d746ebaa3066d67a82f70d8d99d33573868f687335"
+      }
+    },
+    {
+      "case_id": "assignment-production-v2:8961def9d73410c671da2e254b9bca9540cba8a9c45a6d064e63d35eed8b92b6",
+      "instance_id": "django__django-11179",
+      "effective_sampling": {
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "top_k": 20,
+        "repetition_penalty": 1.05
+      },
+      "server_defaults": {
+        "temperature": 0.7,
+        "top_p": 0.8,
+        "top_k": 20,
+        "repetition_penalty": 1.05
+      },
+      "history_processors": [
+        {
+          "type": "cache_control",
+          "last_n_messages": 2,
+          "last_n_messages_offset": 0,
+          "tagged_roles": [
+            "user",
+            "tool"
+          ]
+        }
+      ],
+      "max_input_tokens": 61440,
+      "calls_limit": 100,
+      "observation_limit": 25000,
+      "exit_status": "submitted",
+      "api_calls": 36,
+      "max_successful_prompt_tokens": 39256,
+      "request_mutations": 0,
+      "sources": {
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00026-e7d34711322082cb/attempt-e7d34711322082cb-001-36f87a394559/runner_attempts/attempt-001/run_batch.config.yaml": "4d6e50402dbe29b0f64da8aaedbb5510664909b7942a2496d8d9471caeb8b54e",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/runtime-preparation-v1/worker-inputs/declared96-comparison-resume-20260909-v5-worker-15-job5747915/serving_fingerprint.json": "7f4cc548a26f5c214cd025f47787db1ed40750ef842ae648f1c58ba7cdedb4b7",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00026-e7d34711322082cb/attempt-e7d34711322082cb-001-36f87a394559/runner_attempts/attempt-001/django__django-11179/django__django-11179.traj": "6234947f271bcdf30d730c373b1d96abd6f733df394bf2b1db3f4dd11e598073",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00026-e7d34711322082cb/attempt-e7d34711322082cb-001-36f87a394559/runner_attempts/attempt-001/request_proxy.jsonl": "d90f1a2edbe6ff27d53dd55c75920b27ffac0900204fc558412f9d21e9cd9d37"
+      }
+    },
+    {
+      "case_id": "assignment-production-v2:f6ac399cb7c6ce7d3d40a279d5adae30ef140feb32dc9e2a07b2e75606781b51",
+      "instance_id": "django__django-11283",
+      "effective_sampling": {
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "top_k": 20,
+        "repetition_penalty": 1.05
+      },
+      "server_defaults": {
+        "temperature": 0.7,
+        "top_p": 0.8,
+        "top_k": 20,
+        "repetition_penalty": 1.05
+      },
+      "history_processors": [
+        {
+          "type": "cache_control",
+          "last_n_messages": 2,
+          "last_n_messages_offset": 0,
+          "tagged_roles": [
+            "user",
+            "tool"
+          ]
+        }
+      ],
+      "max_input_tokens": 61440,
+      "calls_limit": 100,
+      "observation_limit": 25000,
+      "exit_status": "submitted",
+      "api_calls": 39,
+      "max_successful_prompt_tokens": 32272,
+      "request_mutations": 0,
+      "sources": {
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00027-4d9dca7da2c39ab0/attempt-4d9dca7da2c39ab0-003-ed324a0445e3/runner_attempts/attempt-001/run_batch.config.yaml": "ff70b446eede76d2bf81a292feb427d3046284f5af58c1e08f74cd4686aa115e",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/runtime-preparation-v1/worker-inputs/declared96-comparison-resume-20260909-v3-worker-10-job5747930/serving_fingerprint.json": "765e3cae02d99430044bfcce58bfb68726eae2c12f42f2f43c814fe08ff1e583",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00027-4d9dca7da2c39ab0/attempt-4d9dca7da2c39ab0-003-ed324a0445e3/runner_attempts/attempt-001/django__django-11283/django__django-11283.traj": "b22c46b09871a29083390aacf9eb6ed2ed753a8562ace3bb148a4930bbd84b44",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00027-4d9dca7da2c39ab0/attempt-4d9dca7da2c39ab0-003-ed324a0445e3/runner_attempts/attempt-001/request_proxy.jsonl": "225b20ec2a5bbf82f67ab81b44f12bf679c0f3e7b6d5ef2213022ee57414fcc4"
+      }
+    },
+    {
+      "case_id": "assignment-production-v2:42c43eacf4acc33bef9a122e054e11907d4b46a6ebac08d2ce9cd2759560d34e",
+      "instance_id": "django__django-11422",
+      "effective_sampling": {
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "top_k": 20,
+        "repetition_penalty": 1.05
+      },
+      "server_defaults": {
+        "temperature": 0.7,
+        "top_p": 0.8,
+        "top_k": 20,
+        "repetition_penalty": 1.05
+      },
+      "history_processors": [
+        {
+          "type": "cache_control",
+          "last_n_messages": 2,
+          "last_n_messages_offset": 0,
+          "tagged_roles": [
+            "user",
+            "tool"
+          ]
+        }
+      ],
+      "max_input_tokens": 61440,
+      "calls_limit": 100,
+      "observation_limit": 25000,
+      "exit_status": "submitted",
+      "api_calls": 61,
+      "max_successful_prompt_tokens": 62762,
+      "request_mutations": 0,
+      "sources": {
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00028-ad19231b222d21f5/attempt-ad19231b222d21f5-002-d70858b6c16e/runner_attempts/attempt-001/run_batch.config.yaml": "f61bdc4081ba1b118a8660da38747138e0d3dc80f9a59fdf5dece57a85b1b9dc",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/runtime-preparation-v1/worker-inputs/declared96-comparison-resume-20260909-v1-worker-19-job5747911/serving_fingerprint.json": "4987cf921b06dbd7fb8f1868c513140c245bab5301efcec9c02489312d7b272e",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00028-ad19231b222d21f5/attempt-ad19231b222d21f5-002-d70858b6c16e/runner_attempts/attempt-001/django__django-11422/django__django-11422.traj": "bc9e4fc76bdfd03111e9a1c865aad7aacc641c8ee8e8f0bf3f4c20708826aebd",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00028-ad19231b222d21f5/attempt-ad19231b222d21f5-002-d70858b6c16e/runner_attempts/attempt-001/request_proxy.jsonl": "9f7409f11be8d0470cc36f58fa8cd94294e2228d5b1340cf4f42071c84439f89"
+      }
+    },
+    {
+      "case_id": "assignment-production-v2:9431bc9cfbb8cd5cee6db5832bd0b25342313071976996d5b30515d00c738bdd",
+      "instance_id": "django__django-11564",
+      "effective_sampling": {
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "top_k": null,
+        "repetition_penalty": null
+      },
+      "server_defaults": {
+        "temperature": null,
+        "top_p": null,
+        "top_k": null,
+        "repetition_penalty": null
+      },
+      "history_processors": [
+        {
+          "type": "cache_control",
+          "last_n_messages": 2,
+          "last_n_messages_offset": 0,
+          "tagged_roles": [
+            "user",
+            "tool"
+          ]
+        }
+      ],
+      "max_input_tokens": 61440,
+      "calls_limit": 100,
+      "observation_limit": 25000,
+      "exit_status": "submitted",
+      "api_calls": 67,
+      "max_successful_prompt_tokens": 49197,
+      "request_mutations": 0,
+      "sources": {
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00029-efaa19a5c9de528f/attempt-efaa19a5c9de528f-001-fa7a7ddadfa6/runner_attempts/attempt-001/run_batch.config.yaml": "06bb3358b094eadde01f6766fb37adcd383ff3ba2e6c2b856a4f9f00dac466f0",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00029-efaa19a5c9de528f/attempt-efaa19a5c9de528f-001-fa7a7ddadfa6/runner_attempts/attempt-001/django__django-11564/django__django-11564.traj": "51c2c91307980d7419f98a7d9f5595f9f1932a127d467f609c647ed2a6215784",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00029-efaa19a5c9de528f/attempt-efaa19a5c9de528f-001-fa7a7ddadfa6/runner_attempts/attempt-001/request_proxy.jsonl": "ba93baa9cef1cae004a646aefc0934e489849ff667950e71675ce5bb2b3a5318"
+      }
+    },
+    {
+      "case_id": "assignment-production-v2:e10043c85731edc4ba85babd2f38e6cfd3cdc7acb1893f61829815ea5eeed22a",
+      "instance_id": "django__django-11583",
+      "effective_sampling": {
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "top_k": 20,
+        "repetition_penalty": 1.05
+      },
+      "server_defaults": {
+        "temperature": 0.7,
+        "top_p": 0.8,
+        "top_k": 20,
+        "repetition_penalty": 1.05
+      },
+      "history_processors": [
+        {
+          "type": "cache_control",
+          "last_n_messages": 2,
+          "last_n_messages_offset": 0,
+          "tagged_roles": [
+            "user",
+            "tool"
+          ]
+        }
+      ],
+      "max_input_tokens": 61440,
+      "calls_limit": 100,
+      "observation_limit": 25000,
+      "exit_status": "submitted",
+      "api_calls": 27,
+      "max_successful_prompt_tokens": 24164,
+      "request_mutations": 0,
+      "sources": {
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00030-991197cd80510eff/attempt-991197cd80510eff-001-15f4566ec373/runner_attempts/attempt-001/run_batch.config.yaml": "eeade9e7e56a3d4413f690ed53bad2725d36116b95b83d1ce1e808b99c1ed886",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/runtime-preparation-v1/worker-inputs/declared96-comparison-resume-20260909-v1-worker-20-job5747909/serving_fingerprint.json": "c3c214e4380241f50ca3fe1a5656922a483c913db8f5427419755314fc1ee81c",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00030-991197cd80510eff/attempt-991197cd80510eff-001-15f4566ec373/runner_attempts/attempt-001/django__django-11583/django__django-11583.traj": "9f1a76027706933f5653426a63027db06ec4ccd229479893c4468d7803625c6a",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00030-991197cd80510eff/attempt-991197cd80510eff-001-15f4566ec373/runner_attempts/attempt-001/request_proxy.jsonl": "e15b5dd776c3e9fb22e0785c624e44f532d7e71d84e415484b83582d0c05d233"
+      }
+    },
+    {
+      "case_id": "assignment-production-v2:d13d465bf2eb276d3cd5051a685c6830737aa8875a2d535a25d9a7e24b298ce2",
+      "instance_id": "django__django-11620",
+      "effective_sampling": {
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "top_k": 20,
+        "repetition_penalty": 1.05
+      },
+      "server_defaults": {
+        "temperature": 0.7,
+        "top_p": 0.8,
+        "top_k": 20,
+        "repetition_penalty": 1.05
+      },
+      "history_processors": [
+        {
+          "type": "cache_control",
+          "last_n_messages": 2,
+          "last_n_messages_offset": 0,
+          "tagged_roles": [
+            "user",
+            "tool"
+          ]
+        }
+      ],
+      "max_input_tokens": 61440,
+      "calls_limit": 100,
+      "observation_limit": 25000,
+      "exit_status": "submitted",
+      "api_calls": 75,
+      "max_successful_prompt_tokens": 46820,
+      "request_mutations": 0,
+      "sources": {
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00031-58a18edf3243fc4c/attempt-58a18edf3243fc4c-004-e9f234481206/runner_attempts/attempt-001/run_batch.config.yaml": "74426d284dc65e16e11ab3b73fb81253e58d741f52b75bef7ad689a726bf1c4b",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/runtime-preparation-v1/worker-inputs/declared96-comparison-resume-20260909-v1-worker-06-job5747932/serving_fingerprint.json": "c4a6a9d5f6e0ff89df093ac2362c4374eeaf978025b09f1179a3d99b2282f34c",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00031-58a18edf3243fc4c/attempt-58a18edf3243fc4c-004-e9f234481206/runner_attempts/attempt-001/django__django-11620/django__django-11620.traj": "05482b79fcf3a45dbc7c28bf9cf71fb472e3b3b47b9cab40f6908ac36551ff1c",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00031-58a18edf3243fc4c/attempt-58a18edf3243fc4c-004-e9f234481206/runner_attempts/attempt-001/request_proxy.jsonl": "804c67e6adac1422f4ee15d9b3a064bdc0861c2410abf0bc4313f9adc7e594b8"
+      }
+    },
+    {
+      "case_id": "assignment-production-v2:ad5d1b10f1aca67fdaea85e185f8765f62d70663fb55b8bef3d5789b7d72efbd",
+      "instance_id": "django__django-11630",
+      "effective_sampling": {
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "top_k": null,
+        "repetition_penalty": null
+      },
+      "server_defaults": {
+        "temperature": null,
+        "top_p": null,
+        "top_k": null,
+        "repetition_penalty": null
+      },
+      "history_processors": [
+        {
+          "type": "cache_control",
+          "last_n_messages": 2,
+          "last_n_messages_offset": 0,
+          "tagged_roles": [
+            "user",
+            "tool"
+          ]
+        }
+      ],
+      "max_input_tokens": 61440,
+      "calls_limit": 100,
+      "observation_limit": 25000,
+      "exit_status": "submitted",
+      "api_calls": 56,
+      "max_successful_prompt_tokens": 36748,
+      "request_mutations": 0,
+      "sources": {
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00032-d09bcc4bc4a223bc/attempt-d09bcc4bc4a223bc-001-8b2fabdf4942/runner_attempts/attempt-001/run_batch.config.yaml": "48c3c0e55e25ba91558cdd4bb96ff23efbdb4a5c8ffcaad092d98056da4f5aea",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00032-d09bcc4bc4a223bc/attempt-d09bcc4bc4a223bc-001-8b2fabdf4942/runner_attempts/attempt-001/django__django-11630/django__django-11630.traj": "b91b5f8eef7e64f953d87ba2a88081ab51d8d1e4d5fe39e49c2ddf8d535361c1",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00032-d09bcc4bc4a223bc/attempt-d09bcc4bc4a223bc-001-8b2fabdf4942/runner_attempts/attempt-001/request_proxy.jsonl": "fd1c5fd1b41b8c1baf9ee637938ff6d3d249159f5804507d5d67c1be18ea55a7"
+      }
+    },
+    {
+      "case_id": "assignment-production-v2:154f45c165a7edf3bb4077622ea49069caaa77f6cb427f06e249676327cd63ed",
+      "instance_id": "django__django-11742",
+      "effective_sampling": {
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "top_k": null,
+        "repetition_penalty": null
+      },
+      "server_defaults": {
+        "temperature": null,
+        "top_p": null,
+        "top_k": null,
+        "repetition_penalty": null
+      },
+      "history_processors": [
+        {
+          "type": "cache_control",
+          "last_n_messages": 2,
+          "last_n_messages_offset": 0,
+          "tagged_roles": [
+            "user",
+            "tool"
+          ]
+        }
+      ],
+      "max_input_tokens": 61440,
+      "calls_limit": 100,
+      "observation_limit": 25000,
+      "exit_status": "submitted",
+      "api_calls": 57,
+      "max_successful_prompt_tokens": 44639,
+      "request_mutations": 0,
+      "sources": {
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00033-a5c2b506d6df5f59/attempt-a5c2b506d6df5f59-001-f801069664c9/runner_attempts/attempt-001/run_batch.config.yaml": "36d0b6f4fcdddcf8d20523e4bdd03225fd360fd0fbe6d22f16eaa79f0ad51861",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00033-a5c2b506d6df5f59/attempt-a5c2b506d6df5f59-001-f801069664c9/runner_attempts/attempt-001/django__django-11742/django__django-11742.traj": "a7f63049e1d1b12db0c4d5cdfbd3cbcf7531deb4e1ba37496be6f274ce9ba98f",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00033-a5c2b506d6df5f59/attempt-a5c2b506d6df5f59-001-f801069664c9/runner_attempts/attempt-001/request_proxy.jsonl": "014a8d25f86043d1e5b3fe490c99b829776438010fca79237252d0ee9743c70a"
+      }
+    },
+    {
+      "case_id": "assignment-production-v2:04e38fba0a5c3f03c0580bb5a5bb26914c2b16c10a0bc80f5b3b63e014426da8",
+      "instance_id": "django__django-11797",
+      "effective_sampling": {
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "top_k": null,
+        "repetition_penalty": null
+      },
+      "server_defaults": {
+        "temperature": null,
+        "top_p": null,
+        "top_k": null,
+        "repetition_penalty": null
+      },
+      "history_processors": [
+        {
+          "type": "cache_control",
+          "last_n_messages": 2,
+          "last_n_messages_offset": 0,
+          "tagged_roles": [
+            "user",
+            "tool"
+          ]
+        }
+      ],
+      "max_input_tokens": 61440,
+      "calls_limit": 100,
+      "observation_limit": 25000,
+      "exit_status": "submitted",
+      "api_calls": 54,
+      "max_successful_prompt_tokens": 34381,
+      "request_mutations": 0,
+      "sources": {
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00034-b1b20bb58c1ec965/attempt-b1b20bb58c1ec965-001-65946c1b819a/runner_attempts/attempt-001/run_batch.config.yaml": "485aaacf9bc6738422c7b01d1caace1c0aea0a409ab8b2d0dd707a0d34f7face",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00034-b1b20bb58c1ec965/attempt-b1b20bb58c1ec965-001-65946c1b819a/runner_attempts/attempt-001/django__django-11797/django__django-11797.traj": "500000cc5b7834fbae16cfbd60126e046c2db0071af31d65ed2b45cf3edaa97b",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00034-b1b20bb58c1ec965/attempt-b1b20bb58c1ec965-001-65946c1b819a/runner_attempts/attempt-001/request_proxy.jsonl": "16fafec6f8094794ef9ad0067bc357d839c14980bed52d2aa5f1bef34b2a1572"
+      }
+    },
+    {
+      "case_id": "assignment-production-v2:38afa46241a3f757d880ae6fba2bc1e088f83b39004f671b1568ec1a177c6eec",
+      "instance_id": "django__django-11815",
+      "effective_sampling": {
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "top_k": 20,
+        "repetition_penalty": 1.05
+      },
+      "server_defaults": {
+        "temperature": 0.7,
+        "top_p": 0.8,
+        "top_k": 20,
+        "repetition_penalty": 1.05
+      },
+      "history_processors": [
+        {
+          "type": "cache_control",
+          "last_n_messages": 2,
+          "last_n_messages_offset": 0,
+          "tagged_roles": [
+            "user",
+            "tool"
+          ]
+        }
+      ],
+      "max_input_tokens": 61440,
+      "calls_limit": 100,
+      "observation_limit": 25000,
+      "exit_status": "submitted",
+      "api_calls": 35,
+      "max_successful_prompt_tokens": 32865,
+      "request_mutations": 0,
+      "sources": {
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00035-91e2a8792341950a/attempt-91e2a8792341950a-001-62ce0aea9302/runner_attempts/attempt-001/run_batch.config.yaml": "a8e81aad8ba3deacd6c3833f03ef554e52aef5f964f0f328cd5b8ea6add0ccab",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/runtime-preparation-v1/worker-inputs/declared96-comparison-resume-20260909-v1-worker-16-job5747914/serving_fingerprint.json": "a51bdf4cd5d974493eb914e023c1b6194d47ca05ae5a411beff92b29da259f0e",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00035-91e2a8792341950a/attempt-91e2a8792341950a-001-62ce0aea9302/runner_attempts/attempt-001/django__django-11815/django__django-11815.traj": "121d49d5c2e01c94c3771ccc378a3f636b482fdf7ff40a826a1834859098642e",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00035-91e2a8792341950a/attempt-91e2a8792341950a-001-62ce0aea9302/runner_attempts/attempt-001/request_proxy.jsonl": "c0a314702a88ff1c20b0cad202dda9117a93147712c2c81fa23614fc5750340a"
+      }
+    },
+    {
+      "case_id": "assignment-production-v2:591763a03f067e26db3c77382530365ef68f283a7e0370bce0a64eff1338ccc4",
+      "instance_id": "django__django-11815",
+      "effective_sampling": {
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "top_k": null,
+        "repetition_penalty": null
+      },
+      "server_defaults": {
+        "temperature": null,
+        "top_p": null,
+        "top_k": null,
+        "repetition_penalty": null
+      },
+      "history_processors": [
+        {
+          "type": "cache_control",
+          "last_n_messages": 2,
+          "last_n_messages_offset": 0,
+          "tagged_roles": [
+            "user",
+            "tool"
+          ]
+        }
+      ],
+      "max_input_tokens": 61440,
+      "calls_limit": 20,
+      "observation_limit": 25000,
+      "exit_status": "submitted (exit_cost)",
+      "api_calls": 21,
+      "max_successful_prompt_tokens": 22860,
+      "request_mutations": 0,
+      "sources": {
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00036-3d073397780eb525/attempt-3d073397780eb525-001-53597399b9aa/runner_attempts/attempt-001/run_batch.config.yaml": "53a62f058fdf30ff2f033de69b1b7386f9240025bb6250877ef3f2b043da4d3e",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00036-3d073397780eb525/attempt-3d073397780eb525-001-53597399b9aa/runner_attempts/attempt-001/django__django-11815/django__django-11815.traj": "6d7ddfb62b91445c3589d821e30c9a64cde0eb93d0d8ca7a84acc09b38e8824c",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00036-3d073397780eb525/attempt-3d073397780eb525-001-53597399b9aa/runner_attempts/attempt-001/request_proxy.jsonl": "0e4ab81386fa94527adb02223b696eba8b13ca5fad6d175a33b8f8d5b4df591d"
+      }
+    },
+    {
+      "case_id": "assignment-production-v2:0435ea5d4c16c43f1a2235bca066f1fe3e80faa09de5e56f299e460f1411aec4",
+      "instance_id": "django__django-11815",
+      "effective_sampling": {
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "top_k": 20,
+        "repetition_penalty": 1.05
+      },
+      "server_defaults": {
+        "temperature": 0.7,
+        "top_p": 0.8,
+        "top_k": 20,
+        "repetition_penalty": 1.05
+      },
+      "history_processors": [
+        {
+          "type": "cache_control",
+          "last_n_messages": 2,
+          "last_n_messages_offset": 0,
+          "tagged_roles": [
+            "user",
+            "tool"
+          ]
+        }
+      ],
+      "max_input_tokens": 61440,
+      "calls_limit": 30,
+      "observation_limit": 25000,
+      "exit_status": "submitted (exit_cost)",
+      "api_calls": 31,
+      "max_successful_prompt_tokens": 25966,
+      "request_mutations": 0,
+      "sources": {
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00037-6b7ae78333efbf99/attempt-6b7ae78333efbf99-001-b950e07080fa/runner_attempts/attempt-001/run_batch.config.yaml": "974202e775802318ee164c18ee086e747ce95dfc9a4aa237e2115764029fe5c5",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/runtime-preparation-v1/worker-inputs/declared96-comparison-resume-20260909-v1-worker-18-job5747912/serving_fingerprint.json": "dd4119f1d1e5d775514336e46d65c53691c48d4453efb3576e565798d8cb12f8",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00037-6b7ae78333efbf99/attempt-6b7ae78333efbf99-001-b950e07080fa/runner_attempts/attempt-001/django__django-11815/django__django-11815.traj": "67df0b2578458ca7ba7dc7f92d3dbfc33c750dd23284a89bb398bd7a72ded003",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00037-6b7ae78333efbf99/attempt-6b7ae78333efbf99-001-b950e07080fa/runner_attempts/attempt-001/request_proxy.jsonl": "bf51022ae0abf73a71f98bde12279b1a7e99941f0ef8c0eeb09722bc187067be"
+      }
+    },
+    {
+      "case_id": "assignment-production-v2:aeffe5c8cdd9966ec37c440bc6c26f905e829714a8bea23e064015a59d1fde33",
+      "instance_id": "django__django-11815",
+      "effective_sampling": {
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "top_k": null,
+        "repetition_penalty": null
+      },
+      "server_defaults": {
+        "temperature": null,
+        "top_p": null,
+        "top_k": null,
+        "repetition_penalty": null
+      },
+      "history_processors": [
+        {
+          "type": "cache_control",
+          "last_n_messages": 2,
+          "last_n_messages_offset": 0,
+          "tagged_roles": [
+            "user",
+            "tool"
+          ]
+        }
+      ],
+      "max_input_tokens": 61440,
+      "calls_limit": 50,
+      "observation_limit": 25000,
+      "exit_status": "submitted",
+      "api_calls": 35,
+      "max_successful_prompt_tokens": 32865,
+      "request_mutations": 0,
+      "sources": {
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00038-456a30dea720e91d/attempt-456a30dea720e91d-001-5d007b29aa66/runner_attempts/attempt-001/run_batch.config.yaml": "ba896faaec006ad31b33b09825b5ec857502434f1a9b02e45620a64d5395eb6e",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00038-456a30dea720e91d/attempt-456a30dea720e91d-001-5d007b29aa66/runner_attempts/attempt-001/django__django-11815/django__django-11815.traj": "f38ae81f0fe23d09865b2fdaf0139608804cda57317a2aa2b0f5d2afefd61e50",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00038-456a30dea720e91d/attempt-456a30dea720e91d-001-5d007b29aa66/runner_attempts/attempt-001/request_proxy.jsonl": "4a93c33a3d96b265d0d21ef0991538986b723998cc6cb685ce3468ba3bc77203"
+      }
+    },
+    {
+      "case_id": "assignment-production-v2:f3327962a9f1ca93e2d0871af0d64326b0b1085471f911bede3795bc0abd0aea",
+      "instance_id": "django__django-11815",
+      "effective_sampling": {
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "top_k": 20,
+        "repetition_penalty": 1.05
+      },
+      "server_defaults": {
+        "temperature": 0.7,
+        "top_p": 0.8,
+        "top_k": 20,
+        "repetition_penalty": 1.05
+      },
+      "history_processors": [
+        {
+          "type": "cache_control",
+          "last_n_messages": 2,
+          "last_n_messages_offset": 0,
+          "tagged_roles": [
+            "user",
+            "tool"
+          ]
+        }
+      ],
+      "max_input_tokens": 61440,
+      "calls_limit": 100,
+      "observation_limit": 25000,
+      "exit_status": "submitted",
+      "api_calls": 57,
+      "max_successful_prompt_tokens": 35619,
+      "request_mutations": 0,
+      "sources": {
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00039-ae60b776f798e66f/attempt-ae60b776f798e66f-001-bf1979f4d0d6/runner_attempts/attempt-001/run_batch.config.yaml": "23e163f71b38c969afd9fbb4f81308b646ba680ce6beb7a200b231185a434355",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/runtime-preparation-v1/worker-inputs/declared96-comparison-resume-20260909-v1-worker-21-job5747908/serving_fingerprint.json": "91d27b6aeaa919514cab09f598ac965f612c3d28ecf4b47b04d50702d87c4d5b",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00039-ae60b776f798e66f/attempt-ae60b776f798e66f-001-bf1979f4d0d6/runner_attempts/attempt-001/django__django-11815/django__django-11815.traj": "6e841041551066ae4e85c5b6f8d34fbd4c0c85432c1d034f5174ccc903e3f295",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00039-ae60b776f798e66f/attempt-ae60b776f798e66f-001-bf1979f4d0d6/runner_attempts/attempt-001/request_proxy.jsonl": "3622fd40e518e40d74144160e79e1942eae593a3a1a8bcb7ac926d93a20c9e50"
+      }
+    },
+    {
+      "case_id": "assignment-production-v2:1aa9c8428543023958ce2f5ccc0f84df342a845ff0cb3f7d95f5522a11431cc6",
+      "instance_id": "django__django-11815",
+      "effective_sampling": {
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "top_k": null,
+        "repetition_penalty": null
+      },
+      "server_defaults": {
+        "temperature": null,
+        "top_p": null,
+        "top_k": null,
+        "repetition_penalty": null
+      },
+      "history_processors": [
+        {
+          "type": "cache_control",
+          "last_n_messages": 2,
+          "last_n_messages_offset": 0,
+          "tagged_roles": [
+            "user",
+            "tool"
+          ]
+        }
+      ],
+      "max_input_tokens": 61440,
+      "calls_limit": 100,
+      "observation_limit": 25000,
+      "exit_status": "submitted",
+      "api_calls": 42,
+      "max_successful_prompt_tokens": 36752,
+      "request_mutations": 0,
+      "sources": {
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00040-030da12d12d1136c/attempt-030da12d12d1136c-001-5980e4028fa5/runner_attempts/attempt-001/run_batch.config.yaml": "f41509ff31c4d3a98979ead9df543d957d8fbb21652772783e69823ffd77d6fb",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00040-030da12d12d1136c/attempt-030da12d12d1136c-001-5980e4028fa5/runner_attempts/attempt-001/django__django-11815/django__django-11815.traj": "e1bb3bd56b913527ca7b74709cd9c19f98d67f5c931b150c9b2e48869c779402",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00040-030da12d12d1136c/attempt-030da12d12d1136c-001-5980e4028fa5/runner_attempts/attempt-001/request_proxy.jsonl": "44362d9d4342489dfe0aa297a8d4d77884afc5e33321d579c6d71a7c4cae6fa7"
+      }
+    },
+    {
+      "case_id": "assignment-production-v2:5817aefd514ba1caba9413ebe94dd2fd674bef7818bb076421ff62d5e4619a12",
+      "instance_id": "django__django-11815",
+      "effective_sampling": {
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "top_k": 20,
+        "repetition_penalty": 1.05
+      },
+      "server_defaults": {
+        "temperature": 0.7,
+        "top_p": 0.8,
+        "top_k": 20,
+        "repetition_penalty": 1.05
+      },
+      "history_processors": [
+        {
+          "type": "cache_control",
+          "last_n_messages": 2,
+          "last_n_messages_offset": 0,
+          "tagged_roles": [
+            "user",
+            "tool"
+          ]
+        }
+      ],
+      "max_input_tokens": 61440,
+      "calls_limit": 100,
+      "observation_limit": 25000,
+      "exit_status": "submitted",
+      "api_calls": 45,
+      "max_successful_prompt_tokens": 56255,
+      "request_mutations": 0,
+      "sources": {
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00041-d263f503f515bd23/attempt-d263f503f515bd23-001-4556541e5865/runner_attempts/attempt-001/run_batch.config.yaml": "303042cbc7546d9a87e667bc15a531d6c55e9df51ad4cec68f1472949f70c18b",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/runtime-preparation-v1/worker-inputs/declared96-comparison-resume-20260909-v3-worker-10-job5747930/serving_fingerprint.json": "765e3cae02d99430044bfcce58bfb68726eae2c12f42f2f43c814fe08ff1e583",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00041-d263f503f515bd23/attempt-d263f503f515bd23-001-4556541e5865/runner_attempts/attempt-001/django__django-11815/django__django-11815.traj": "8dd0d58a4f6c9e6ca9ad6004aa20b24fd2844695df38dd0cf1d2ffb8059721b2",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00041-d263f503f515bd23/attempt-d263f503f515bd23-001-4556541e5865/runner_attempts/attempt-001/request_proxy.jsonl": "6910a0749c2a28ff6856a609cb050bf880046e4cd7f778dfa54fa49b7b5a559b"
+      }
+    },
+    {
+      "case_id": "assignment-production-v2:69bcb3565888715362f789c84b711483b0652bff11f2b1abff901f5913ac3f64",
+      "instance_id": "django__django-11815",
+      "effective_sampling": {
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "top_k": null,
+        "repetition_penalty": null
+      },
+      "server_defaults": {
+        "temperature": null,
+        "top_p": null,
+        "top_k": null,
+        "repetition_penalty": null
+      },
+      "history_processors": [
+        {
+          "type": "cache_control",
+          "last_n_messages": 2,
+          "last_n_messages_offset": 0,
+          "tagged_roles": [
+            "user",
+            "tool"
+          ]
+        }
+      ],
+      "max_input_tokens": 61440,
+      "calls_limit": 100,
+      "observation_limit": 10000,
+      "exit_status": "submitted",
+      "api_calls": 46,
+      "max_successful_prompt_tokens": 34366,
+      "request_mutations": 0,
+      "sources": {
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00042-bdc0641dc21fd91f/attempt-bdc0641dc21fd91f-001-16da918ec8e0/runner_attempts/attempt-001/run_batch.config.yaml": "750b9d07cffdca5882d63544e29837fee150bfc2ba1780d34e421824cdc5f3c7",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00042-bdc0641dc21fd91f/attempt-bdc0641dc21fd91f-001-16da918ec8e0/runner_attempts/attempt-001/django__django-11815/django__django-11815.traj": "41d9d1b4bfffa43afdaca75ef7b51d8d8b597dd8f2ecdca50dcbe70ea50e8d3d",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00042-bdc0641dc21fd91f/attempt-bdc0641dc21fd91f-001-16da918ec8e0/runner_attempts/attempt-001/request_proxy.jsonl": "59e7d5adc58681f7c6ea4fbc1d3e2a70e09a629fac89adc9831af4a9aeeb2929"
+      }
+    },
+    {
+      "case_id": "assignment-production-v2:cb436c2a2a5b447aa018c7d548c6848a1b059ec660200c07ae7efc5383fd60f4",
+      "instance_id": "django__django-11815",
+      "effective_sampling": {
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "top_k": 20,
+        "repetition_penalty": 1.05
+      },
+      "server_defaults": {
+        "temperature": 0.7,
+        "top_p": 0.8,
+        "top_k": 20,
+        "repetition_penalty": 1.05
+      },
+      "history_processors": [
+        {
+          "type": "cache_control",
+          "last_n_messages": 2,
+          "last_n_messages_offset": 0,
+          "tagged_roles": [
+            "user",
+            "tool"
+          ]
+        }
+      ],
+      "max_input_tokens": 61440,
+      "calls_limit": 100,
+      "observation_limit": 50000,
+      "exit_status": "submitted",
+      "api_calls": 35,
+      "max_successful_prompt_tokens": 35386,
+      "request_mutations": 0,
+      "sources": {
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00043-b7057b70cb422aa4/attempt-b7057b70cb422aa4-001-eebce15db0e3/runner_attempts/attempt-001/run_batch.config.yaml": "dc523340ec7d2128ae8049c7f8390a8b3bbaaccaf1d90042f63a152156060edf",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/runtime-preparation-v1/worker-inputs/declared96-comparison-resume-20260909-v5-worker-13-job5747917/serving_fingerprint.json": "b401eea85fadcd9174d6770b2b21024c2be8fd9335ab235d7f783d9e58250bfb",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00043-b7057b70cb422aa4/attempt-b7057b70cb422aa4-001-eebce15db0e3/runner_attempts/attempt-001/django__django-11815/django__django-11815.traj": "0114cebb25148dfa7deaaf8221d7fbad16311cacc145c14eaea2d5c306a2b90f",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00043-b7057b70cb422aa4/attempt-b7057b70cb422aa4-001-eebce15db0e3/runner_attempts/attempt-001/request_proxy.jsonl": "47f6dc16c2559ed917e9d5777904f79ea0073714fdbd44fe69b51c336316e7f9"
+      }
+    },
+    {
+      "case_id": "assignment-production-v2:b45833d97ed9a34bbc008ff457f0fbb5fc26107447e435e825f47399b5d9b6f0",
+      "instance_id": "django__django-11815",
+      "effective_sampling": {
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "top_k": null,
+        "repetition_penalty": null
+      },
+      "server_defaults": {
+        "temperature": null,
+        "top_p": null,
+        "top_k": null,
+        "repetition_penalty": null
+      },
+      "history_processors": [
+        {
+          "type": "cache_control",
+          "last_n_messages": 2,
+          "last_n_messages_offset": 0,
+          "tagged_roles": [
+            "user",
+            "tool"
+          ]
+        }
+      ],
+      "max_input_tokens": 61440,
+      "calls_limit": 100,
+      "observation_limit": 100000,
+      "exit_status": "submitted",
+      "api_calls": 54,
+      "max_successful_prompt_tokens": 43578,
+      "request_mutations": 0,
+      "sources": {
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00044-ea608465c5400b33/attempt-ea608465c5400b33-005-4494d90891ed/runner_attempts/attempt-001/run_batch.config.yaml": "e15e30d5563ca95ab30275672ae35a8d031fc572316793fe5103ae25fa74b741",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00044-ea608465c5400b33/attempt-ea608465c5400b33-005-4494d90891ed/runner_attempts/attempt-001/django__django-11815/django__django-11815.traj": "fd974c7be82246a859f714de5ebbccd42d6dfe3c5f62d2a29730c0250080305d",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00044-ea608465c5400b33/attempt-ea608465c5400b33-005-4494d90891ed/runner_attempts/attempt-001/request_proxy.jsonl": "7fccb124105db4f8792f0e888027633d6bea0ef7cb28b13efe72649cac793d0d"
+      }
+    },
+    {
+      "case_id": "assignment-production-v2:e49a664bebdfdfdb6d3b25451bb990787a532dbb030078efee24433c87403c1f",
+      "instance_id": "django__django-11815",
+      "effective_sampling": {
+        "temperature": 0.2,
+        "top_p": 1.0,
+        "top_k": 20,
+        "repetition_penalty": 1.05
+      },
+      "server_defaults": {
+        "temperature": 0.7,
+        "top_p": 0.8,
+        "top_k": 20,
+        "repetition_penalty": 1.05
+      },
+      "history_processors": [
+        {
+          "type": "cache_control",
+          "last_n_messages": 2,
+          "last_n_messages_offset": 0,
+          "tagged_roles": [
+            "user",
+            "tool"
+          ]
+        }
+      ],
+      "max_input_tokens": 61440,
+      "calls_limit": 100,
+      "observation_limit": 25000,
+      "exit_status": "submitted",
+      "api_calls": 35,
+      "max_successful_prompt_tokens": 33539,
+      "request_mutations": 0,
+      "sources": {
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00045-f2cb144939542a22/attempt-f2cb144939542a22-005-0b0541c0ba0f/runner_attempts/attempt-001/run_batch.config.yaml": "2eee991a37833ca1af55dd2ca69e09a23c24100199cb003f71a2578c4dd27505",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/runtime-preparation-v1/worker-inputs/declared96-comparison-resume-20260909-v3-worker-10-job5747930/serving_fingerprint.json": "765e3cae02d99430044bfcce58bfb68726eae2c12f42f2f43c814fe08ff1e583",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00045-f2cb144939542a22/attempt-f2cb144939542a22-005-0b0541c0ba0f/runner_attempts/attempt-001/django__django-11815/django__django-11815.traj": "d467de0c8e13ff9a5737bf5940037cce36be7cc480bec4e79a97bc7e5a12d936",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00045-f2cb144939542a22/attempt-f2cb144939542a22-005-0b0541c0ba0f/runner_attempts/attempt-001/request_proxy.jsonl": "6dcb70a6f081bc6ed6b19fe52a6c2bd4de95e52965b31aaeea2fe807d0904b66"
+      }
+    },
+    {
+      "case_id": "assignment-production-v2:56b4d5c6f0a285e14ab7ba7f9595be347668ee70994bcf0119cadf8889ee05ba",
+      "instance_id": "django__django-11815",
+      "effective_sampling": {
+        "temperature": 0.5,
+        "top_p": 1.0,
+        "top_k": null,
+        "repetition_penalty": null
+      },
+      "server_defaults": {
+        "temperature": null,
+        "top_p": null,
+        "top_k": null,
+        "repetition_penalty": null
+      },
+      "history_processors": [
+        {
+          "type": "cache_control",
+          "last_n_messages": 2,
+          "last_n_messages_offset": 0,
+          "tagged_roles": [
+            "user",
+            "tool"
+          ]
+        }
+      ],
+      "max_input_tokens": 61440,
+      "calls_limit": 100,
+      "observation_limit": 25000,
+      "exit_status": "submitted",
+      "api_calls": 35,
+      "max_successful_prompt_tokens": 32896,
+      "request_mutations": 0,
+      "sources": {
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00046-5381fbb7d6e733fb/attempt-5381fbb7d6e733fb-005-6a464e566ea1/runner_attempts/attempt-001/run_batch.config.yaml": "d5912eea497a9c29600b7e826ce0e6578a6e841ff678904f656555c9e403bae8",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00046-5381fbb7d6e733fb/attempt-5381fbb7d6e733fb-005-6a464e566ea1/runner_attempts/attempt-001/django__django-11815/django__django-11815.traj": "0cc89844170be5fee54882e74ef7b865cd599616d13b798e498b8c35f3e4ef53",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00046-5381fbb7d6e733fb/attempt-5381fbb7d6e733fb-005-6a464e566ea1/runner_attempts/attempt-001/request_proxy.jsonl": "6c15ffbaafe80d4a7bf47b1a95cf8b60b4f42e695db53f9470f981f442de32fd"
+      }
+    },
+    {
+      "case_id": "assignment-production-v2:1ed9f91667b4b50e1b34416b5f65e973a09d21972d3eec746350ff8572d4396e",
+      "instance_id": "django__django-11815",
+      "effective_sampling": {
+        "temperature": 0.8,
+        "top_p": 1.0,
+        "top_k": 20,
+        "repetition_penalty": 1.05
+      },
+      "server_defaults": {
+        "temperature": 0.7,
+        "top_p": 0.8,
+        "top_k": 20,
+        "repetition_penalty": 1.05
+      },
+      "history_processors": [
+        {
+          "type": "cache_control",
+          "last_n_messages": 2,
+          "last_n_messages_offset": 0,
+          "tagged_roles": [
+            "user",
+            "tool"
+          ]
+        }
+      ],
+      "max_input_tokens": 61440,
+      "calls_limit": 100,
+      "observation_limit": 25000,
+      "exit_status": "submitted",
+      "api_calls": 30,
+      "max_successful_prompt_tokens": 29619,
+      "request_mutations": 0,
+      "sources": {
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00047-914b762fdecdaba3/attempt-914b762fdecdaba3-005-ae7258135f34/runner_attempts/attempt-001/run_batch.config.yaml": "832446dc83be545c41046824418c7f80841936475a06d859b5d3dbcf8ac839de",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/runtime-preparation-v1/worker-inputs/declared96-comparison-resume-20260909-v5-worker-13-job5747917/serving_fingerprint.json": "b401eea85fadcd9174d6770b2b21024c2be8fd9335ab235d7f783d9e58250bfb",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00047-914b762fdecdaba3/attempt-914b762fdecdaba3-005-ae7258135f34/runner_attempts/attempt-001/django__django-11815/django__django-11815.traj": "32095d90af781e212ee5a0ab779a4e5e7ccdd6fd482f6462ec557ee6f5d9a417",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00047-914b762fdecdaba3/attempt-914b762fdecdaba3-005-ae7258135f34/runner_attempts/attempt-001/request_proxy.jsonl": "bb2ca80baf47bc2b8d2e8c5bb39f6dfad5ed9aacbdfbe55398f7e54efb63b24d"
+      }
+    },
+    {
+      "case_id": "assignment-production-v2:0ea5c6038a9a8178e1736c05903389e8fc7f77d60a92e83f584586f2b32fd354",
+      "instance_id": "django__django-11910",
+      "effective_sampling": {
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "top_k": null,
+        "repetition_penalty": null
+      },
+      "server_defaults": {
+        "temperature": null,
+        "top_p": null,
+        "top_k": null,
+        "repetition_penalty": null
+      },
+      "history_processors": [
+        {
+          "type": "cache_control",
+          "last_n_messages": 2,
+          "last_n_messages_offset": 0,
+          "tagged_roles": [
+            "user",
+            "tool"
+          ]
+        }
+      ],
+      "max_input_tokens": 61440,
+      "calls_limit": 100,
+      "observation_limit": 25000,
+      "exit_status": "submitted",
+      "api_calls": 48,
+      "max_successful_prompt_tokens": 62839,
+      "request_mutations": 0,
+      "sources": {
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00050-f4be1d0834e7353b/attempt-f4be1d0834e7353b-001-c063c96c0a60/runner_attempts/attempt-001/run_batch.config.yaml": "01af73ff2fa70215713833a116d3575fe540f60cf346a1d84ad956cf834a2f9d",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00050-f4be1d0834e7353b/attempt-f4be1d0834e7353b-001-c063c96c0a60/runner_attempts/attempt-001/django__django-11910/django__django-11910.traj": "62c92da819de20c4d3a05a176d44092a2a1fb83e002f814bf225a51021c75ff8",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00050-f4be1d0834e7353b/attempt-f4be1d0834e7353b-001-c063c96c0a60/runner_attempts/attempt-001/request_proxy.jsonl": "7d1cfcde68ff769757d7d5bf59f0ef7b0a8b6fb18e8bd85dc65fadd4aa370781"
+      }
+    },
+    {
+      "case_id": "assignment-production-v2:f61bf3bd4b9b946c8956ed91c8171125cb417d1fc3699ae2572795f102eeeaf3",
+      "instance_id": "django__django-11964",
+      "effective_sampling": {
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "top_k": null,
+        "repetition_penalty": null
+      },
+      "server_defaults": {
+        "temperature": null,
+        "top_p": null,
+        "top_k": null,
+        "repetition_penalty": null
+      },
+      "history_processors": [
+        {
+          "type": "cache_control",
+          "last_n_messages": 2,
+          "last_n_messages_offset": 0,
+          "tagged_roles": [
+            "user",
+            "tool"
+          ]
+        }
+      ],
+      "max_input_tokens": 61440,
+      "calls_limit": 100,
+      "observation_limit": 25000,
+      "exit_status": "submitted",
+      "api_calls": 92,
+      "max_successful_prompt_tokens": 58807,
+      "request_mutations": 0,
+      "sources": {
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00051-0d42bddac69b4a78/attempt-0d42bddac69b4a78-001-3fc347a29aed/runner_attempts/attempt-001/run_batch.config.yaml": "d47d6fbd4a0f5253b32161fa90b47bfa265fd2ca25f2c322ef21c8eef6521620",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00051-0d42bddac69b4a78/attempt-0d42bddac69b4a78-001-3fc347a29aed/runner_attempts/attempt-001/django__django-11964/django__django-11964.traj": "6a8b7344c8f2c8be732ae644db9fc600cfc9bbd885c4b376df78d772a6adc56c",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00051-0d42bddac69b4a78/attempt-0d42bddac69b4a78-001-3fc347a29aed/runner_attempts/attempt-001/request_proxy.jsonl": "b0f32375ee8f306b5ce7c4ff5c86a871ffb76f7c3b6c78496ac3e8a7160ce21c"
+      }
+    },
+    {
+      "case_id": "assignment-production-v2:9cc942e1a586e828f860a4c3f025fca2600fdbe7ea78af58046042d5b3928048",
+      "instance_id": "django__django-11999",
+      "effective_sampling": {
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "top_k": null,
+        "repetition_penalty": null
+      },
+      "server_defaults": {
+        "temperature": null,
+        "top_p": null,
+        "top_k": null,
+        "repetition_penalty": null
+      },
+      "history_processors": [
+        {
+          "type": "cache_control",
+          "last_n_messages": 2,
+          "last_n_messages_offset": 0,
+          "tagged_roles": [
+            "user",
+            "tool"
+          ]
+        }
+      ],
+      "max_input_tokens": 61440,
+      "calls_limit": 100,
+      "observation_limit": 25000,
+      "exit_status": "submitted",
+      "api_calls": 57,
+      "max_successful_prompt_tokens": 42919,
+      "request_mutations": 0,
+      "sources": {
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00052-6dae60300e1911d1/attempt-6dae60300e1911d1-001-f822f0976822/runner_attempts/attempt-001/run_batch.config.yaml": "d22942640a7e50e708ddbc5eb5e8e60caa50e9ab3b1de46ac7ca2b84d6221b98",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00052-6dae60300e1911d1/attempt-6dae60300e1911d1-001-f822f0976822/runner_attempts/attempt-001/django__django-11999/django__django-11999.traj": "db5b6ef327a4fb2685a370491707cdb5c5fedec6f4f8082bbdc2949b71d956f8",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00052-6dae60300e1911d1/attempt-6dae60300e1911d1-001-f822f0976822/runner_attempts/attempt-001/request_proxy.jsonl": "0cd17f874667a4d96cdb6995e58a187d2ce88cf6a9154a21874a3ec6762d7e3a"
+      }
+    },
+    {
+      "case_id": "assignment-production-v2:2b664139cdbda0eb13b49a55d3757e7e6910451e43d74326ea435a30869e0fca",
+      "instance_id": "django__django-12113",
+      "effective_sampling": {
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "top_k": null,
+        "repetition_penalty": null
+      },
+      "server_defaults": {
+        "temperature": null,
+        "top_p": null,
+        "top_k": null,
+        "repetition_penalty": null
+      },
+      "history_processors": [
+        {
+          "type": "cache_control",
+          "last_n_messages": 2,
+          "last_n_messages_offset": 0,
+          "tagged_roles": [
+            "user",
+            "tool"
+          ]
+        }
+      ],
+      "max_input_tokens": 61440,
+      "calls_limit": 100,
+      "observation_limit": 25000,
+      "exit_status": "submitted",
+      "api_calls": 45,
+      "max_successful_prompt_tokens": 35595,
+      "request_mutations": 0,
+      "sources": {
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00053-2c851017fac8b3f8/attempt-2c851017fac8b3f8-002-72183e084918/runner_attempts/attempt-001/run_batch.config.yaml": "dfab31819c103011a603917731a8a068f40bd0e1aafe280c67e6acbca138e00e",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00053-2c851017fac8b3f8/attempt-2c851017fac8b3f8-002-72183e084918/runner_attempts/attempt-001/django__django-12113/django__django-12113.traj": "91487f2734d9f38ba796db9efd1b8b3f6097297663b112d3a1eadbea5932e036",
+        "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00053-2c851017fac8b3f8/attempt-2c851017fac8b3f8-002-72183e084918/runner_attempts/attempt-001/request_proxy.jsonl": "158ac2b2190c6266b22d961a9ca2d7ef8daa491de009f36f221d1849f8717b08"
+      }
+    }
+  ],
+  "manifest_sha256": "8c4f3a156d90e2d4b6f4c608f49dde647719096f9c059c5889c65a3598588afd",
+  "script_sha256": "d5e71b7dfb001dd580acfb53e8f7f3c8ac5cad23d82100021d3a6d16ef92ba92",
+  "split_sha256": "0b0c37147b45ec824e2af45d82ba20b3ed57ac56b64f58ea07004e0c13bcc99f",
+  "scope": "49 repaired training cases; startup defaults plus executed client configuration; no new inference or protected outcome access"
+}

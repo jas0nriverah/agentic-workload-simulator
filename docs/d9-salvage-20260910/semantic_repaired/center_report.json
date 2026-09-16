@@ -1,0 +1,157 @@
+{
+  "metrics": {
+    "median": {
+      "events": 1780,
+      "within25": 0.5775280898876405,
+      "worst_error_pct": 2779.447855888201,
+      "equal_instance_within25": 0.6050856374722954,
+      "all_events_pass_instances": 0,
+      "instances": 22
+    },
+    "gate": {
+      "events": 1780,
+      "within25": 0.5808988764044943,
+      "worst_error_pct": 2309.374328689804,
+      "equal_instance_within25": 0.6093619237739257,
+      "all_events_pass_instances": 0,
+      "instances": 22
+    }
+  },
+  "selected": "gate",
+  "code_sha256": "336307c36c52b7a3ed253c4aa7ef08753f14d751af6815cca94b59586344729e",
+  "scope": "fixed grouped development; semantic action only; final evaluation not accessed",
+  "by_operation": {
+    "patch": {
+      "median": {
+        "events": 100,
+        "within25": 0.66,
+        "worst_error_pct": 55.175536708116205,
+        "equal_instance_within25": 0.6836309523809524,
+        "all_events_pass_instances": 9,
+        "instances": 17
+      },
+      "gate": {
+        "events": 100,
+        "within25": 0.66,
+        "worst_error_pct": 55.175536708116205,
+        "equal_instance_within25": 0.6836309523809524,
+        "all_events_pass_instances": 9,
+        "instances": 17
+      }
+    },
+    "read": {
+      "median": {
+        "events": 331,
+        "within25": 0.8610271903323263,
+        "worst_error_pct": 68.27692319688721,
+        "equal_instance_within25": 0.8455981618255014,
+        "all_events_pass_instances": 7,
+        "instances": 22
+      },
+      "gate": {
+        "events": 331,
+        "within25": 0.8610271903323263,
+        "worst_error_pct": 68.27692319688721,
+        "equal_instance_within25": 0.8455981618255014,
+        "all_events_pass_instances": 7,
+        "instances": 22
+      }
+    },
+    "search": {
+      "median": {
+        "events": 105,
+        "within25": 0.8761904761904762,
+        "worst_error_pct": 91.3913394414205,
+        "equal_instance_within25": 0.8695378151260504,
+        "all_events_pass_instances": 10,
+        "instances": 17
+      },
+      "gate": {
+        "events": 105,
+        "within25": 0.8761904761904762,
+        "worst_error_pct": 91.3913394414205,
+        "equal_instance_within25": 0.8695378151260504,
+        "all_events_pass_instances": 10,
+        "instances": 17
+      }
+    },
+    "shell": {
+      "median": {
+        "events": 584,
+        "within25": 0.4212328767123288,
+        "worst_error_pct": 705.9600768387897,
+        "equal_instance_within25": 0.45691260574070364,
+        "all_events_pass_instances": 0,
+        "instances": 22
+      },
+      "gate": {
+        "events": 584,
+        "within25": 0.4212328767123288,
+        "worst_error_pct": 816.7756418938151,
+        "equal_instance_within25": 0.46269828720334927,
+        "all_events_pass_instances": 0,
+        "instances": 22
+      }
+    },
+    "test": {
+      "median": {
+        "events": 101,
+        "within25": 0.36633663366336633,
+        "worst_error_pct": 1044.2277493136467,
+        "equal_instance_within25": 0.7326839826839827,
+        "all_events_pass_instances": 13,
+        "instances": 22
+      },
+      "gate": {
+        "events": 101,
+        "within25": 0.297029702970297,
+        "worst_error_pct": 660.050978818702,
+        "equal_instance_within25": 0.6201298701298701,
+        "all_events_pass_instances": 10,
+        "instances": 22
+      }
+    },
+    "traversal": {
+      "median": {
+        "events": 391,
+        "within25": 0.5038363171355499,
+        "worst_error_pct": 2779.447855888201,
+        "equal_instance_within25": 0.4569656150543398,
+        "all_events_pass_instances": 1,
+        "instances": 22
+      },
+      "gate": {
+        "events": 391,
+        "within25": 0.5370843989769821,
+        "worst_error_pct": 2309.374328689804,
+        "equal_instance_within25": 0.5334856340467429,
+        "all_events_pass_instances": 0,
+        "instances": 22
+      }
+    },
+    "write": {
+      "median": {
+        "events": 168,
+        "within25": 0.625,
+        "worst_error_pct": 134.66248915331198,
+        "equal_instance_within25": 0.7154133597883597,
+        "all_events_pass_instances": 9,
+        "instances": 20
+      },
+      "gate": {
+        "events": 168,
+        "within25": 0.625,
+        "worst_error_pct": 134.66248915331198,
+        "equal_instance_within25": 0.7154133597883597,
+        "all_events_pass_instances": 9,
+        "instances": 20
+      }
+    }
+  },
+  "gate_minus_median_bootstrap": {
+    "lower_95": -0.01580135440180587,
+    "upper_95": 0.030027932960893854,
+    "replicates": 2000,
+    "scope": "paired instance bootstrap of fixed development predictions; excludes selection uncertainty"
+  }
+}

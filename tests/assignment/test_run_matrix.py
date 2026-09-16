@@ -16,6 +16,20 @@ assert SPEC and SPEC.loader
 RUNNER = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(RUNNER)
 
+from scripts.assignment import sweagent_case_runner as CASE_RUNNER
+
+
+PRODUCTION_CANDIDATE = (
+    ROOT.parent
+    / "h100-assignment-work-20260905"
+    / "assignment"
+    / "submission"
+    / "20260908T140000Z-offline-v2"
+    / "live-plan"
+    / "production-candidates"
+    / "historical-control-call30-input32768.jsonl"
+)
+
 
 def write_config(root: Path, *, global_deadline: int = 300) -> tuple[Path, str]:
     config = root / "assignment-config.json"
@@ -102,6 +116,11 @@ def fake_case_run(command: list[str], _timeout: int, _stdout: Path, _stderr: Pat
         "resume_key": case["resume_key"],
         "status": "completed",
     }, sort_keys=True) + "\n", encoding="utf-8")
+    (output_dir / "runner.lifecycle.json").write_text(json.dumps({
+        "schema_version": "assignment-matrix-runner-lifecycle.v1",
+        "status": "completed",
+        "cleanup_complete": True,
+    }, sort_keys=True) + "\n", encoding="utf-8")
     return 0, False
 
 
@@ -115,6 +134,37 @@ def execute_in_process(argv: list[str], *, fake_runner: bool = False) -> int:
 
 
 class AssignmentRunMatrixTests(unittest.TestCase):
+    @unittest.skipUnless(PRODUCTION_CANDIDATE.is_file(), "offline production candidate inventory is unavailable")
+    def test_generated_production_candidate_loads_through_plan_and_case_entrypoints(self):
+        header, cases = RUNNER.load_plan(PRODUCTION_CANDIDATE)
+        self.assertEqual(header["schema_version"], RUNNER.PRODUCTION_SCHEMA_VERSION)
+        self.assertEqual(len(cases), 1088)
+        self.assertTrue(all(case["schema_version"] == RUNNER.PRODUCTION_SCHEMA_VERSION for case in cases))
+        self.assertTrue(all(set(case["settings"]) == RUNNER.PRODUCTION_SETTINGS for case in cases))
+        with tempfile.TemporaryDirectory(prefix="production-case-entrypoint-") as temporary:
+            case_path = Path(temporary) / "case.json"
+            case_path.write_text(json.dumps(cases[0], sort_keys=True) + "\n", encoding="utf-8")
+            loaded = CASE_RUNNER.load_case(case_path)
+        self.assertEqual(loaded["case_id"], loaded["resume_key"])
+        self.assertEqual(loaded["settings"]["max_input_tokens"], 32768)
+
+    @unittest.skipUnless(PRODUCTION_CANDIDATE.is_file(), "offline production candidate inventory is unavailable")
+    def test_candidate_inventory_is_preflight_only_and_cannot_execute(self):
+        with tempfile.TemporaryDirectory(prefix="production-plan-reject-") as temporary:
+            root = Path(temporary)
+            plan = root / "candidate.jsonl"
+            plan.write_bytes(PRODUCTION_CANDIDATE.read_bytes())
+            digest = hashlib.sha256(plan.read_bytes()).hexdigest()
+            Path(f"{plan}.sha256").write_text(f"{digest}  {plan.name}\n", encoding="utf-8")
+            args = RUNNER.parser().parse_args([
+                "--plan", str(plan),
+                "--runner", str(RUNNER.REVIEWED_RUNNER),
+                "--runtime-manifest", str(root / "missing-manifest.json"),
+                "--output-dir", str(root / "out"),
+            ])
+            with self.assertRaisesRegex(RUNNER.ExecutionError, "candidate inventory is loadable for preflight only"):
+                RUNNER.execute(args)
+
     def test_reviewed_runner_hash_matches_checked_in_adapter(self):
         self.assertEqual(
             hashlib.sha256(RUNNER.REVIEWED_RUNNER.read_bytes()).hexdigest(),
@@ -270,6 +320,92 @@ class AssignmentRunMatrixTests(unittest.TestCase):
             result = subprocess.run(reviewed_runner_args(plan, config, config_sha256, root / "out"), capture_output=True, text=True, check=False)
             self.assertEqual(result.returncode, 1)
             self.assertIn("concurrency=1", result.stderr)
+
+    def test_failure_v2_cannot_claim_completed_status(self):
+        with tempfile.TemporaryDirectory(prefix="matrix-failure-contract-") as temporary:
+            path = Path(temporary) / "case_result.json"
+            path.write_text(
+                json.dumps({
+                    "schema_version": RUNNER.FAILURE_RESULT_SCHEMA,
+                    "resume_key": "case-0",
+                    "status": "completed",
+                    "accepted": False,
+                    "reason": "fixture failure",
+                    "artifacts": [],
+                }) + "\n",
+                encoding="utf-8",
+            )
+            with self.assertRaisesRegex(RUNNER.ExecutionError, "cannot be completed"):
+                RUNNER._validate_result(path, {"resume_key": "case-0"})
+
+    def test_result_archive_preserves_multiple_retries_and_sidecars(self):
+        with tempfile.TemporaryDirectory(prefix="matrix-result-history-") as temporary:
+            root = Path(temporary)
+            result = root / "case_result.json"
+            archived_payloads: list[bytes] = []
+            archived_sidecars: list[bytes] = []
+            for attempt in (1, 2, 3):
+                payload = json.dumps({"attempt": attempt, "status": "failed"}, sort_keys=True).encode("utf-8") + b"\n"
+                sidecar = f"{hashlib.sha256(payload).hexdigest()}  {result.name}\n".encode("ascii")
+                result.write_bytes(payload)
+                Path(f"{result}.sha256").write_bytes(sidecar)
+                archive = RUNNER._archive_result(result, remove=True)
+                archived_payloads.append(payload)
+                archived_sidecars.append(sidecar)
+                self.assertFalse(result.exists())
+                self.assertFalse(Path(f"{result}.sha256").exists())
+                self.assertEqual((archive / result.name).read_bytes(), payload)
+                self.assertEqual((archive / f"{result.name}.sha256").read_bytes(), sidecar)
+                archive_metadata = json.loads((archive / "archive.json").read_text(encoding="utf-8"))
+                self.assertEqual(archive_metadata["sha256"], hashlib.sha256(payload).hexdigest())
+
+            archives = sorted((root / "case_result_history").iterdir())
+            self.assertEqual(len(archives), 3)
+            for archive, payload, sidecar in zip(archives, archived_payloads, archived_sidecars):
+                self.assertEqual((archive / result.name).read_bytes(), payload)
+                self.assertEqual((archive / f"{result.name}.sha256").read_bytes(), sidecar)
+            self.assertEqual(
+                len({archive.name for archive in archives}),
+                3,
+                "each retry must receive an independent archive directory",
+            )
+
+    def test_final_failure_inventory_hashes_closed_stderr_and_other_artifacts(self):
+        with tempfile.TemporaryDirectory(prefix="matrix-final-inventory-") as temporary:
+            case_root = Path(temporary) / "case"
+            case_root.mkdir()
+            stderr = case_root / "runner.stderr.log"
+            with stderr.open("wb") as stream:
+                stream.write(b"agent stderr written before finalization\n")
+                stream.flush()
+            nested = case_root / "runner_attempts/attempt-001"
+            nested.mkdir(parents=True)
+            (nested / "trajectory.json").write_bytes(b'{"steps":[]}\n')
+            case = {"resume_key": "case-0"}
+
+            marker = RUNNER._finalize_failure_result(
+                case_root,
+                case,
+                status="failed",
+                reason="runner exited after stderr was closed",
+                returncode=7,
+                timed_out=False,
+                lifecycle={"cleanup_complete": True},
+            )
+
+            self.assertEqual(marker["schema_version"], RUNNER.FAILURE_RESULT_SCHEMA)
+            self.assertEqual(marker["status"], "failed")
+            self.assertEqual(marker["inventory_errors"], [])
+            inventory = {item["path"]: item for item in marker["artifacts"] if item["kind"] == "file"}
+            self.assertIn("runner.stderr.log", inventory)
+            self.assertIn("runner_attempts/attempt-001/trajectory.json", inventory)
+            for relative, record in inventory.items():
+                path = case_root / relative
+                self.assertEqual(record["sha256"], hashlib.sha256(path.read_bytes()).hexdigest(), relative)
+                self.assertEqual(record["size"], path.stat().st_size, relative)
+                self.assertEqual(record["mtime_ns"], path.stat().st_mtime_ns, relative)
+            self.assertNotIn("case_result.json", inventory)
+            self.assertNotIn("case_result.json.sha256", inventory)
 
 
 if __name__ == "__main__":

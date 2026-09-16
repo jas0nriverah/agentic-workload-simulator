@@ -132,10 +132,17 @@ class AuditCompletionTests(unittest.TestCase):
                     "run_id": f"s-{parameter}-{value}", "status": "completed", "sweep_parameter": parameter,
                     "sweep_value": value, "official_resolved": "true", "e2e_wall_ms": "40",
                     "tool_wall_ms": "10", "model_wall_ms": "20",
+                    # The production loader requires explicit sweep identity;
+                    # keep this fixture representative instead of weakening
+                    # that contract for the auditor tests.
+                    "suite": "lite", "repository": f"lite/repo-{parameter}-{value}",
+                    "category": "bugfix", "instance_id": f"lite__repo-{parameter}-{value}",
+                    "repeat_id": "r01", "config_id": f"{parameter}={value}",
+                    "provenance": "measured",
                 })
         self._write_csv(
             sweeps,
-            ["run_id", "status", "sweep_parameter", "sweep_value", "official_resolved", "e2e_wall_ms", "tool_wall_ms", "model_wall_ms"],
+            ["run_id", "status", "sweep_parameter", "sweep_value", "official_resolved", "e2e_wall_ms", "tool_wall_ms", "model_wall_ms", "suite", "repository", "category", "instance_id", "repeat_id", "config_id", "provenance"],
             sweep_rows,
         )
 

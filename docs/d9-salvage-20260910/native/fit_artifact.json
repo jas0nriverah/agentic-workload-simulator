@@ -1,0 +1,336 @@
+{
+  "candidate_order": [
+    "hardware_domain_median",
+    "relative_nnls_token",
+    "relative_nnls_token_cache"
+  ],
+  "feature_contract": {
+    "allowed_workload_descriptors": [
+      "prompt_tokens",
+      "completion_tokens"
+    ],
+    "declared_constant_descriptor": "max_output_tokens=2048 retained for provenance and omitted from the design",
+    "excluded_fields": [
+      "observed_ms",
+      "queue_ms",
+      "prefill_ms",
+      "decode_ms",
+      "e2e_ms",
+      "residual",
+      "status",
+      "outcome",
+      "event timing"
+    ],
+    "optional_conditional_cache_descriptor": "cached_tokens",
+    "zero_target_policy": "exact zero prediction passes; nonzero prediction is an infinite error; no epsilon is added"
+  },
+  "full_training_models": {
+    "decode": {
+      "hardware_domain_median": {
+        "backoff_chain": [],
+        "candidate": "hardware_domain_median",
+        "fit_scope": "exact_hardware_domain",
+        "kind": "hardware_domain_median",
+        "median_ms": 491.23325501568615,
+        "phase": "decode",
+        "status": "fitted",
+        "train_event_count": 2080,
+        "train_instance_count": 25
+      },
+      "relative_nnls_token": {
+        "backoff_chain": [],
+        "candidate": "relative_nnls_token",
+        "coefficients": [
+          0.0,
+          0.2335679367123153,
+          6608.788307664159
+        ],
+        "feature_names": [
+          "intercept",
+          "prompt_tokens_div_1000",
+          "completion_tokens_div_1000"
+        ],
+        "fit_scope": "exact_hardware_domain",
+        "hardware_domain": "stable_gpu_inventory_v1:6eaded0f88a4d31c620e1a18d9ceb9ea6c6d1185781da0ba0d5f7ad352d11ad9",
+        "kind": "relative_nonnegative_nnls",
+        "nnls_dependency": "/home/riverahernandezjason/agentic-submission-repairs-20260908/docs/d9-salvage-20260910/e2e/compare.py",
+        "nnls_dependency_sha256": "6e8ace1f69057834b29731e5baa41f0d942e235d380b01db4ad630c13e6ec736",
+        "phase": "decode",
+        "positive_training_target_count": 2080,
+        "relative_loss": "sum((prediction-observed)^2 / observed^2) over positive training targets",
+        "status": "fitted",
+        "train_event_count": 2080,
+        "train_instance_count": 25,
+        "zero_training_target_count": 0
+      },
+      "relative_nnls_token_cache": {
+        "backoff_chain": [],
+        "candidate": "relative_nnls_token_cache",
+        "coefficients": [
+          0.0,
+          5988.892021354253,
+          36.5037518217374
+        ],
+        "feature_names": [
+          "intercept",
+          "completion_tokens_div_1000",
+          "prompt_completion_tokens_div_1e6"
+        ],
+        "fit_scope": "exact_hardware_domain",
+        "hardware_domain": "stable_gpu_inventory_v1:6eaded0f88a4d31c620e1a18d9ceb9ea6c6d1185781da0ba0d5f7ad352d11ad9",
+        "kind": "relative_nonnegative_nnls",
+        "nnls_dependency": "/home/riverahernandezjason/agentic-submission-repairs-20260908/docs/d9-salvage-20260910/e2e/compare.py",
+        "nnls_dependency_sha256": "6e8ace1f69057834b29731e5baa41f0d942e235d380b01db4ad630c13e6ec736",
+        "phase": "decode",
+        "positive_training_target_count": 2080,
+        "relative_loss": "sum((prediction-observed)^2 / observed^2) over positive training targets",
+        "status": "fitted",
+        "train_event_count": 2080,
+        "train_instance_count": 25,
+        "zero_training_target_count": 0
+      }
+    },
+    "e2e": {
+      "hardware_domain_median": {
+        "backoff_chain": [],
+        "candidate": "hardware_domain_median",
+        "fit_scope": "exact_hardware_domain",
+        "kind": "hardware_domain_median",
+        "median_ms": 574.9297142028809,
+        "phase": "e2e",
+        "status": "fitted",
+        "train_event_count": 2080,
+        "train_instance_count": 25
+      },
+      "relative_nnls_token": {
+        "backoff_chain": [],
+        "candidate": "relative_nnls_token",
+        "coefficients": [
+          0.0,
+          1.04258117494543,
+          7030.713312973343
+        ],
+        "feature_names": [
+          "intercept",
+          "prompt_tokens_div_1000",
+          "completion_tokens_div_1000"
+        ],
+        "fit_scope": "exact_hardware_domain",
+        "hardware_domain": "stable_gpu_inventory_v1:6eaded0f88a4d31c620e1a18d9ceb9ea6c6d1185781da0ba0d5f7ad352d11ad9",
+        "kind": "relative_nonnegative_nnls",
+        "nnls_dependency": "/home/riverahernandezjason/agentic-submission-repairs-20260908/docs/d9-salvage-20260910/e2e/compare.py",
+        "nnls_dependency_sha256": "6e8ace1f69057834b29731e5baa41f0d942e235d380b01db4ad630c13e6ec736",
+        "phase": "e2e",
+        "positive_training_target_count": 2080,
+        "relative_loss": "sum((prediction-observed)^2 / observed^2) over positive training targets",
+        "status": "fitted",
+        "train_event_count": 2080,
+        "train_instance_count": 25,
+        "zero_training_target_count": 0
+      },
+      "relative_nnls_token_cache": {
+        "backoff_chain": [],
+        "candidate": "relative_nnls_token_cache",
+        "coefficients": [
+          19.449115286524844,
+          49.65560958733085,
+          5891.854369659513,
+          46.73998712334754
+        ],
+        "feature_names": [
+          "intercept",
+          "uncached_prompt_tokens_div_1000",
+          "completion_tokens_div_1000",
+          "prompt_completion_tokens_div_1e6"
+        ],
+        "fit_scope": "exact_hardware_domain",
+        "hardware_domain": "stable_gpu_inventory_v1:6eaded0f88a4d31c620e1a18d9ceb9ea6c6d1185781da0ba0d5f7ad352d11ad9",
+        "kind": "relative_nonnegative_nnls",
+        "nnls_dependency": "/home/riverahernandezjason/agentic-submission-repairs-20260908/docs/d9-salvage-20260910/e2e/compare.py",
+        "nnls_dependency_sha256": "6e8ace1f69057834b29731e5baa41f0d942e235d380b01db4ad630c13e6ec736",
+        "phase": "e2e",
+        "positive_training_target_count": 2080,
+        "relative_loss": "sum((prediction-observed)^2 / observed^2) over positive training targets",
+        "status": "fitted",
+        "train_event_count": 2080,
+        "train_instance_count": 25,
+        "zero_training_target_count": 0
+      }
+    },
+    "prefill": {
+      "hardware_domain_median": {
+        "backoff_chain": [],
+        "candidate": "hardware_domain_median",
+        "fit_scope": "exact_hardware_domain",
+        "kind": "hardware_domain_median",
+        "median_ms": 38.62002142705023,
+        "phase": "prefill",
+        "status": "fitted",
+        "train_event_count": 2080,
+        "train_instance_count": 25
+      },
+      "relative_nnls_token": {
+        "backoff_chain": [],
+        "candidate": "relative_nnls_token",
+        "coefficients": [
+          25.600160950630627,
+          0.17362139942690505,
+          3.278733967380097
+        ],
+        "feature_names": [
+          "intercept",
+          "prompt_tokens_div_1000",
+          "completion_tokens_div_1000"
+        ],
+        "fit_scope": "exact_hardware_domain",
+        "hardware_domain": "stable_gpu_inventory_v1:6eaded0f88a4d31c620e1a18d9ceb9ea6c6d1185781da0ba0d5f7ad352d11ad9",
+        "kind": "relative_nonnegative_nnls",
+        "nnls_dependency": "/home/riverahernandezjason/agentic-submission-repairs-20260908/docs/d9-salvage-20260910/e2e/compare.py",
+        "nnls_dependency_sha256": "6e8ace1f69057834b29731e5baa41f0d942e235d380b01db4ad630c13e6ec736",
+        "phase": "prefill",
+        "positive_training_target_count": 2080,
+        "relative_loss": "sum((prediction-observed)^2 / observed^2) over positive training targets",
+        "status": "fitted",
+        "train_event_count": 2080,
+        "train_instance_count": 25,
+        "zero_training_target_count": 0
+      },
+      "relative_nnls_token_cache": {
+        "backoff_chain": [],
+        "candidate": "relative_nnls_token_cache",
+        "coefficients": [
+          15.146514882041378,
+          47.67252588663078,
+          0.403148392978797
+        ],
+        "feature_names": [
+          "intercept",
+          "uncached_prompt_tokens_div_1000",
+          "prompt_tokens_div_1000"
+        ],
+        "fit_scope": "exact_hardware_domain",
+        "hardware_domain": "stable_gpu_inventory_v1:6eaded0f88a4d31c620e1a18d9ceb9ea6c6d1185781da0ba0d5f7ad352d11ad9",
+        "kind": "relative_nonnegative_nnls",
+        "nnls_dependency": "/home/riverahernandezjason/agentic-submission-repairs-20260908/docs/d9-salvage-20260910/e2e/compare.py",
+        "nnls_dependency_sha256": "6e8ace1f69057834b29731e5baa41f0d942e235d380b01db4ad630c13e6ec736",
+        "phase": "prefill",
+        "positive_training_target_count": 2080,
+        "relative_loss": "sum((prediction-observed)^2 / observed^2) over positive training targets",
+        "status": "fitted",
+        "train_event_count": 2080,
+        "train_instance_count": 25,
+        "zero_training_target_count": 0
+      }
+    },
+    "queue": {
+      "hardware_domain_median": {
+        "backoff_chain": [],
+        "candidate": "hardware_domain_median",
+        "fit_scope": "exact_hardware_domain",
+        "kind": "hardware_domain_median",
+        "median_ms": 0.047946159611456096,
+        "phase": "queue",
+        "status": "fitted",
+        "train_event_count": 2080,
+        "train_instance_count": 25
+      },
+      "relative_nnls_token": {
+        "backoff_chain": [],
+        "candidate": "relative_nnls_token",
+        "coefficients": [
+          0.03515666407428287,
+          0.00024183383200930935,
+          0.0
+        ],
+        "feature_names": [
+          "intercept",
+          "prompt_tokens_div_1000",
+          "completion_tokens_div_1000"
+        ],
+        "fit_scope": "exact_hardware_domain",
+        "hardware_domain": "stable_gpu_inventory_v1:6eaded0f88a4d31c620e1a18d9ceb9ea6c6d1185781da0ba0d5f7ad352d11ad9",
+        "kind": "relative_nonnegative_nnls",
+        "nnls_dependency": "/home/riverahernandezjason/agentic-submission-repairs-20260908/docs/d9-salvage-20260910/e2e/compare.py",
+        "nnls_dependency_sha256": "6e8ace1f69057834b29731e5baa41f0d942e235d380b01db4ad630c13e6ec736",
+        "phase": "queue",
+        "positive_training_target_count": 2080,
+        "relative_loss": "sum((prediction-observed)^2 / observed^2) over positive training targets",
+        "status": "fitted",
+        "train_event_count": 2080,
+        "train_instance_count": 25,
+        "zero_training_target_count": 0
+      },
+      "relative_nnls_token_cache": {
+        "backoff_chain": [],
+        "candidate": "relative_nnls_token_cache",
+        "coefficients": [
+          0.039086756435472866,
+          0.00036020975475729584,
+          0.0,
+          8.409590556788419e-05
+        ],
+        "feature_names": [
+          "intercept",
+          "uncached_prompt_tokens_div_1000",
+          "completion_tokens_div_1000",
+          "prompt_completion_tokens_div_1e6"
+        ],
+        "fit_scope": "exact_hardware_domain",
+        "hardware_domain": "stable_gpu_inventory_v1:6eaded0f88a4d31c620e1a18d9ceb9ea6c6d1185781da0ba0d5f7ad352d11ad9",
+        "kind": "relative_nonnegative_nnls",
+        "nnls_dependency": "/home/riverahernandezjason/agentic-submission-repairs-20260908/docs/d9-salvage-20260910/e2e/compare.py",
+        "nnls_dependency_sha256": "6e8ace1f69057834b29731e5baa41f0d942e235d380b01db4ad630c13e6ec736",
+        "phase": "queue",
+        "positive_training_target_count": 2080,
+        "relative_loss": "sum((prediction-observed)^2 / observed^2) over positive training targets",
+        "status": "fitted",
+        "train_event_count": 2080,
+        "train_instance_count": 25,
+        "zero_training_target_count": 0
+      }
+    }
+  },
+  "prediction_interface": {
+    "cross_hardware_status": "unvalidated",
+    "optional_conditional_cache_input": "cached_tokens",
+    "prospective_status": "unsupported_without_realized_workload_and_cache_trace",
+    "request_identity_fields": [
+      "case_id",
+      "instance_id",
+      "physical_request_id"
+    ],
+    "required_conditional_inputs": [
+      "prompt_tokens",
+      "completion_tokens"
+    ],
+    "target_outputs": [
+      "native:e2e",
+      "native:queue",
+      "native:prefill",
+      "native:decode"
+    ]
+  },
+  "primary_target": "native:e2e",
+  "schema": "d9.native-fit-artifact.v1",
+  "source": {
+    "dataset_path": "/home/riverahernandezjason/agentic-submission-repairs-20260908/docs/d9-salvage-20260910/evidence/native_phase_dataset.jsonl",
+    "dataset_sha256": "f54ebb7b387bb212475295e2e3dc171c169fc52c8c73624fba9b9661b50d41e0",
+    "manifest_path": "/home/riverahernandezjason/agentic-submission-repairs-20260908/docs/d9-salvage-20260910/evidence/calibration_input_manifest.json",
+    "manifest_sha256": "8c4f3a156d90e2d4b6f4c608f49dde647719096f9c059c5889c65a3598588afd",
+    "nnls_dependency_path": "/home/riverahernandezjason/agentic-submission-repairs-20260908/docs/d9-salvage-20260910/e2e/compare.py",
+    "nnls_dependency_sha256": "6e8ace1f69057834b29731e5baa41f0d942e235d380b01db4ad630c13e6ec736",
+    "verified_hardware_domain": "stable_gpu_inventory_v1:6eaded0f88a4d31c620e1a18d9ceb9ea6c6d1185781da0ba0d5f7ad352d11ad9"
+  },
+  "status": "full_train_fit_for_conditional_replay_only",
+  "support_rule": {
+    "backoff": [
+      "exact_hardware_domain",
+      "all_train_hardware_domains",
+      "unsupported"
+    ],
+    "minimum_training_events": 25,
+    "minimum_training_instances": 3,
+    "prediction_missingness_remains_visible": true
+  },
+  "verified_hardware_domain": "stable_gpu_inventory_v1:6eaded0f88a4d31c620e1a18d9ceb9ea6c6d1185781da0ba0d5f7ad352d11ad9"
+}

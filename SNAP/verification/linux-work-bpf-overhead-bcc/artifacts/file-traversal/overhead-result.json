@@ -1,0 +1,88 @@
+{
+  "backend": "bcc",
+  "collector_cleanup": {
+    "bpf_handle_present": false,
+    "closed": true,
+    "perf_thread_alive": false,
+    "raw_event_stream_open": false,
+    "socket_exists": false
+  },
+  "control_execution_wall_ms": [
+    29.707544,
+    32.119553,
+    32.841292
+  ],
+  "fixture_command": "python3 -c 'from pathlib import Path; p=Path(\"/tmp/bpf-bench-file-v6\"); p.mkdir(exist_ok=True); [((p/f\"file-{i}\").write_text(str(i))) for i in range(1,21)]; [((p/f\"file-{i}\").rename(p/f\"renamed-{i}\")) for i in range(1,21)]; [x.read_bytes() for x in p.glob(\"renamed-*\")]; [x.unlink() for x in p.glob(\"renamed-*\")]; p.rmdir()' ",
+  "instrumented_end_boundary_wall_ms": [
+    50.203102,
+    45.818495,
+    45.522075
+  ],
+  "instrumented_execution_wall_ms": [
+    37.759749,
+    37.992209,
+    37.51876
+  ],
+  "instrumented_start_boundary_wall_ms": [
+    4.463048,
+    3.724638,
+    4.111267
+  ],
+  "instrumented_total_wall_ms": [
+    92.43979,
+    87.551012,
+    87.164103
+  ],
+  "limitations": [
+    "The collector is compiled and attached once before all instrumented actions; startup is reported separately.",
+    "Control and instrumented actions run in separate persistent bash processes and include the same completion marker protocol.",
+    "Instrumented start/end measurements include the BCC Unix-socket client round trips, kernel-map snapshots, continuous perf draining, binary-stream flush/fsync, and durable boundary writes.",
+    "Kernel aggregate map loss and unknown descriptors remain in each raw action record."
+  ],
+  "paired": [
+    {
+      "control_execution_wall_ms": 29.707544,
+      "execution_wall_delta_ms": 8.052205,
+      "instrumented_execution_wall_ms": 37.759749,
+      "repeat": 1
+    },
+    {
+      "control_execution_wall_ms": 32.119553,
+      "execution_wall_delta_ms": 5.872655999999999,
+      "instrumented_execution_wall_ms": 37.992209,
+      "repeat": 2
+    },
+    {
+      "control_execution_wall_ms": 32.841292,
+      "execution_wall_delta_ms": 4.6774679999999975,
+      "instrumented_execution_wall_ms": 37.51876,
+      "repeat": 3
+    }
+  ],
+  "repeats": 3,
+  "schema_version": "assignment.linux-bpf-work-overhead.v1",
+  "service_errors": [],
+  "service_setup_wall_ms": 2.815908,
+  "service_socket_path": "/tmp/linux-work-bpf-overhead-root-bcc/file-traversal-v6/bpf.sock",
+  "service_stop_summary": {
+    "action_count": 3,
+    "backend": "bcc",
+    "finalization_count": 3,
+    "raw_aggregate_journal": "/tmp/linux-work-bpf-overhead-root-bcc/file-traversal-v6/instrumented/raw_aggregates.jsonl",
+    "raw_event_stream": {
+      "bytes_written": 1315072,
+      "durability": "periodic buffered flush and fsync at action/collector boundaries",
+      "path": "/tmp/linux-work-bpf-overhead-root-bcc/file-traversal-v6/instrumented/raw_events.bin",
+      "record_size_bytes": 352,
+      "records_written": 3736,
+      "schema_version": "assignment.linux-bpf-work-event.v2",
+      "sha256": "d908f614437ea815f52a23b93abf7b691a35b232117c2496cce7643abd79d9c7"
+    },
+    "schema_version": "assignment.linux-bpf-work-summary.v1"
+  },
+  "service_stop_wall_ms": 968.588854,
+  "service_stopped": true,
+  "service_thread_alive_after_stop": false,
+  "startup_wall_ms": 1942.340986,
+  "status": "measured"
+}

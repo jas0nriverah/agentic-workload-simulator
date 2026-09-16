@@ -1,0 +1,55 @@
+{
+  "artifacts": {
+    "fit_artifact": {
+      "path": "docs/d9-salvage-20260910/conditional/fit_artifact.json"
+    },
+    "predictions": {
+      "path": "docs/d9-salvage-20260910/conditional/predictions.jsonl",
+      "rows": 95472,
+      "sha256": "c7444caaf662f6a76b8d8ebafea0e89a70fe1102cba3bda60d435770b5d3f53f"
+    }
+  },
+  "authorized_population": {
+    "instances": 545,
+    "rows": 23868,
+    "runs": 819
+  },
+  "candidate_count": 4,
+  "candidate_order": [
+    "global_median_baseline",
+    "nonnegative_log_additive",
+    "nonnegative_log_token_interaction",
+    "robust_nonnegative_log_token_interaction"
+  ],
+  "excluded_data_used": false,
+  "forbidden_inputs": [
+    "latency",
+    "residual",
+    "observed_ms as feature",
+    "native phase timings",
+    "future actions",
+    "evaluator outcome"
+  ],
+  "inner_fold_rule": "assignment.d9.conditional-gpu-inner-fold-v1:instance_id modulo 3",
+  "network_or_acquisition": "not used",
+  "outer_fold_source": "training_view outer_fold; every instance and run validated to one fold",
+  "prediction_semantics": "trace-conditioned historical comparison; output_tokens is not available for a pre-generation forecast",
+  "prior_conditional_reference": {
+    "comparison_status": "not refit or rescored; conditional gain here is versus the feature-free baseline, not a demonstrated improvement over the prior workload simulator model",
+    "path": "/home/riverahernandezjason/agentic-submission-repairs-20260908/src/agentic_sim/assignment/workload_simulator.py",
+    "sha256": "3e6978bf2842bc056565dd792f0eb9ce1f59df012048faae5138da082ff72f23"
+  },
+  "production_integration": "none",
+  "schema": "assignment.d9.conditional-gpu-provenance.v1",
+  "script": "/home/riverahernandezjason/agentic-submission-repairs-20260908/docs/d9-salvage-20260910/conditional/run_conditional_gpu_models.py",
+  "script_sha256": "1bacaf88def3577fc19b76a88ab6d5a6503a5bbae858a2ba33eff7a84d1ee995",
+  "source_manifest": {
+    "path": "/home/riverahernandezjason/agentic-submission-repairs-20260908/docs/offline-deliverables-20260909/training_view/manifest.json",
+    "sha256": "1afd9afb8b552f84242f7e6b8b6e342f9b6f8ded5cd45a1d040b6bcf3f263341"
+  },
+  "source_models": {
+    "path": "/home/riverahernandezjason/agentic-submission-repairs-20260908/docs/offline-deliverables-20260909/training_view/models.jsonl",
+    "sha256": "ee0b65f46aa11b0357fe761a9543aeed6da2a56c100c1cacc5c14164adb028da"
+  },
+  "target_semantics": "observed_ms request-proxy wall target; not native GPU phase"
+}

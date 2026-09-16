@@ -1,0 +1,8 @@
+{"assertion":"source_files_hashable","count":40,"schema_version":"assignment.acquisition-evidence-assertions.v1","source_id":"source-074135740271fc7bb519","status":"pass"}
+{"assertion":"source_local_join_scope","detail":"cross-source identity joins are disabled","schema_version":"assignment.acquisition-evidence-assertions.v1","source_id":"source-074135740271fc7bb519","status":"pass"}
+{"assertion":"declared_artifact_hashes","failures":[],"schema_version":"assignment.acquisition-evidence-assertions.v1","source_id":"source-074135740271fc7bb519","status":"pass"}
+{"assertion":"bpf_operations_are_not_aggregate_fallback","detail":"aggregate-only actions remain explicitly marked and are never emitted as operation rows","schema_version":"assignment.acquisition-evidence-assertions.v1","status":"pass"}
+{"assertion":"payload_hash_roundtrip","count":80,"schema_version":"assignment.acquisition-evidence-assertions.v1","status":"pass"}
+{"assertion":"saved_source_hash_roundtrip","count":40,"schema_version":"assignment.acquisition-evidence-assertions.v1","status":"pass"}
+{"assertion":"unknown_joins_are_explicit","count":355,"schema_version":"assignment.acquisition-evidence-assertions.v1","status":"pass"}
+{"assertion":"no_cross_source_join","detail":"all rows carry source_id and every cross-root identity collision is an unknown join","schema_version":"assignment.acquisition-evidence-assertions.v1","status":"pass"}

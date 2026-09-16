@@ -1,0 +1,601 @@
+{
+  "results": {
+    "17": {
+      "base": {
+        "events": 54073,
+        "within25_percent": 1.6958556026112848,
+        "worst_error_percent": 138.8059701492537,
+        "equal_instance_percent": 14.387979004042084,
+        "all_event_instances": 0
+      },
+      "entry": {
+        "events": 54073,
+        "within25_percent": 1.6718140291827714,
+        "worst_error_percent": 138.8059701492537,
+        "equal_instance_percent": 14.315345094654198,
+        "all_event_instances": 0
+      },
+      "worst_examples": {
+        "base": {
+          "instance_id": "django__django-11039",
+          "case_id": "assignment-production-v2:9753b925de1856843babcaf7c9fd29797cdbb925c5cdb813e25e570f038781c2",
+          "op": "17",
+          "base": "17|9",
+          "entry": "17|9|[\"6\", false]",
+          "observed_ms": 0.00201,
+          "raw_offset": 90400,
+          "token": 7410057317032774170,
+          "sequence": 378911436490231,
+          "predictions_ms": {
+            "base": 0.0048,
+            "entry": 0.0048
+          }
+        },
+        "entry": {
+          "instance_id": "django__django-11039",
+          "case_id": "assignment-production-v2:9753b925de1856843babcaf7c9fd29797cdbb925c5cdb813e25e570f038781c2",
+          "op": "17",
+          "base": "17|9",
+          "entry": "17|9|[\"6\", false]",
+          "observed_ms": 0.00201,
+          "raw_offset": 90400,
+          "token": 7410057317032774170,
+          "sequence": 378911436490231,
+          "predictions_ms": {
+            "base": 0.0048,
+            "entry": 0.0048
+          }
+        }
+      },
+      "per_instance": {
+        "astropy__astropy-14182": {
+          "base": {
+            "events": 579,
+            "within25_percent": 4.8359240069084635,
+            "worst_error_percent": 92.12945936005885,
+            "equal_instance_percent": 4.8359240069084635,
+            "all_event_instances": 0
+          },
+          "entry": {
+            "events": 579,
+            "within25_percent": 4.8359240069084635,
+            "worst_error_percent": 92.12945936005885,
+            "equal_instance_percent": 4.8359240069084635,
+            "all_event_instances": 0
+          }
+        },
+        "astropy__astropy-14995": {
+          "base": {
+            "events": 4141,
+            "within25_percent": 1.5938179183772037,
+            "worst_error_percent": 99.47250363578102,
+            "equal_instance_percent": 1.5938179183772037,
+            "all_event_instances": 0
+          },
+          "entry": {
+            "events": 4141,
+            "within25_percent": 1.5938179183772037,
+            "worst_error_percent": 99.47250363578102,
+            "equal_instance_percent": 1.5938179183772037,
+            "all_event_instances": 0
+          }
+        },
+        "astropy__astropy-6938": {
+          "base": {
+            "events": 3743,
+            "within25_percent": 1.3625434143734971,
+            "worst_error_percent": 96.32911392405063,
+            "equal_instance_percent": 1.3625434143734971,
+            "all_event_instances": 0
+          },
+          "entry": {
+            "events": 3743,
+            "within25_percent": 1.4159764894469677,
+            "worst_error_percent": 96.32911392405063,
+            "equal_instance_percent": 1.4159764894469677,
+            "all_event_instances": 0
+          }
+        },
+        "astropy__astropy-7746": {
+          "base": {
+            "events": 756,
+            "within25_percent": 3.835978835978836,
+            "worst_error_percent": 99.57856594261406,
+            "equal_instance_percent": 3.835978835978836,
+            "all_event_instances": 0
+          },
+          "entry": {
+            "events": 756,
+            "within25_percent": 3.835978835978836,
+            "worst_error_percent": 98.94661178833769,
+            "equal_instance_percent": 3.835978835978836,
+            "all_event_instances": 0
+          }
+        },
+        "django__django-10914": {
+          "base": {
+            "events": 12412,
+            "within25_percent": 0.1691911053818885,
+            "worst_error_percent": 98.40733228157163,
+            "equal_instance_percent": 0.1691911053818885,
+            "all_event_instances": 0
+          },
+          "entry": {
+            "events": 12412,
+            "within25_percent": 0.09668063164679343,
+            "worst_error_percent": 98.40733228157163,
+            "equal_instance_percent": 0.09668063164679343,
+            "all_event_instances": 0
+          }
+        },
+        "django__django-10924": {
+          "base": {
+            "events": 720,
+            "within25_percent": 9.722222222222223,
+            "worst_error_percent": 95.14684440741512,
+            "equal_instance_percent": 9.722222222222223,
+            "all_event_instances": 0
+          },
+          "entry": {
+            "events": 720,
+            "within25_percent": 9.166666666666666,
+            "worst_error_percent": 95.14684440741512,
+            "equal_instance_percent": 9.166666666666666,
+            "all_event_instances": 0
+          }
+        },
+        "django__django-11001": {
+          "base": {
+            "events": 658,
+            "within25_percent": 93.46504559270517,
+            "worst_error_percent": 99.6472314260752,
+            "equal_instance_percent": 93.46504559270517,
+            "all_event_instances": 0
+          },
+          "entry": {
+            "events": 658,
+            "within25_percent": 93.46504559270517,
+            "worst_error_percent": 99.04224980630698,
+            "equal_instance_percent": 93.46504559270517,
+            "all_event_instances": 0
+          }
+        },
+        "django__django-11039": {
+          "base": {
+            "events": 31064,
+            "within25_percent": 0.11910893638938966,
+            "worst_error_percent": 138.8059701492537,
+            "equal_instance_percent": 0.11910893638938966,
+            "all_event_instances": 0
+          },
+          "entry": {
+            "events": 31064,
+            "within25_percent": 0.1126706155034767,
+            "worst_error_percent": 138.8059701492537,
+            "equal_instance_percent": 0.1126706155034767,
+            "all_event_instances": 0
+          }
+        }
+      }
+    },
+    "257": {
+      "base": {
+        "events": 916968,
+        "within25_percent": 21.857360344090523,
+        "worst_error_percent": 1825.3507014028055,
+        "equal_instance_percent": 27.083341164923475,
+        "all_event_instances": 0
+      },
+      "entry": {
+        "events": 916968,
+        "within25_percent": 25.31211558091449,
+        "worst_error_percent": 3676.411290322581,
+        "equal_instance_percent": 35.52266718422305,
+        "all_event_instances": 0
+      },
+      "worst_examples": {
+        "base": {
+          "instance_id": "astropy__astropy-14995",
+          "case_id": "assignment-production-v2:648009374f4193ea13938de660cec315c8e9402e8e50dddfd752d3b735a57023",
+          "op": "257",
+          "base": "257|entry_path_truncated",
+          "entry": "257|entry_path_truncated|[524288, \"entry_path_truncated\"]",
+          "observed_ms": 0.00499,
+          "raw_offset": 121037600,
+          "token": 10810450555700474486,
+          "sequence": 374955367661849,
+          "predictions_ms": {
+            "base": 0.096075,
+            "entry": 0.0185
+          }
+        },
+        "entry": {
+          "instance_id": "astropy__astropy-14995",
+          "case_id": "assignment-production-v2:648009374f4193ea13938de660cec315c8e9402e8e50dddfd752d3b735a57023",
+          "op": "257",
+          "base": "257|entry_path_relative",
+          "entry": "257|entry_path_relative|[194, \"other\"]",
+          "observed_ms": 0.00496,
+          "raw_offset": 124548400,
+          "token": 3734057338957818965,
+          "sequence": 374961676737402,
+          "predictions_ms": {
+            "base": 0.0088,
+            "entry": 0.18731
+          }
+        }
+      },
+      "per_instance": {
+        "astropy__astropy-14182": {
+          "base": {
+            "events": 30779,
+            "within25_percent": 15.81272945839696,
+            "worst_error_percent": 1137.3994638069707,
+            "equal_instance_percent": 15.81272945839696,
+            "all_event_instances": 0
+          },
+          "entry": {
+            "events": 30779,
+            "within25_percent": 44.341921439942816,
+            "worst_error_percent": 1387.8833208676142,
+            "equal_instance_percent": 44.341921439942816,
+            "all_event_instances": 0
+          }
+        },
+        "astropy__astropy-14995": {
+          "base": {
+            "events": 70707,
+            "within25_percent": 32.88076145219002,
+            "worst_error_percent": 1825.3507014028055,
+            "equal_instance_percent": 32.88076145219002,
+            "all_event_instances": 0
+          },
+          "entry": {
+            "events": 70707,
+            "within25_percent": 53.70472513329656,
+            "worst_error_percent": 3676.411290322581,
+            "equal_instance_percent": 53.70472513329656,
+            "all_event_instances": 0
+          }
+        },
+        "astropy__astropy-6938": {
+          "base": {
+            "events": 59115,
+            "within25_percent": 39.70565846231921,
+            "worst_error_percent": 1311.61111964368,
+            "equal_instance_percent": 39.70565846231921,
+            "all_event_instances": 0
+          },
+          "entry": {
+            "events": 59115,
+            "within25_percent": 48.85731201894612,
+            "worst_error_percent": 2930.906148867314,
+            "equal_instance_percent": 48.85731201894612,
+            "all_event_instances": 0
+          }
+        },
+        "astropy__astropy-7746": {
+          "base": {
+            "events": 33123,
+            "within25_percent": 20.970322736467107,
+            "worst_error_percent": 1275.9259259259259,
+            "equal_instance_percent": 20.970322736467107,
+            "all_event_instances": 0
+          },
+          "entry": {
+            "events": 33123,
+            "within25_percent": 44.79364791836488,
+            "worst_error_percent": 3565.0684931506853,
+            "equal_instance_percent": 44.79364791836488,
+            "all_event_instances": 0
+          }
+        },
+        "django__django-10914": {
+          "base": {
+            "events": 180463,
+            "within25_percent": 27.339122146922083,
+            "worst_error_percent": 505.46558704453446,
+            "equal_instance_percent": 27.339122146922083,
+            "all_event_instances": 0
+          },
+          "entry": {
+            "events": 180463,
+            "within25_percent": 19.45551165612896,
+            "worst_error_percent": 178.01640926640928,
+            "equal_instance_percent": 19.45551165612896,
+            "all_event_instances": 0
+          }
+        },
+        "django__django-10924": {
+          "base": {
+            "events": 74056,
+            "within25_percent": 39.129847682834615,
+            "worst_error_percent": 535.1348474095103,
+            "equal_instance_percent": 39.129847682834615,
+            "all_event_instances": 0
+          },
+          "entry": {
+            "events": 74056,
+            "within25_percent": 36.63173814410716,
+            "worst_error_percent": 339.3994104642594,
+            "equal_instance_percent": 36.63173814410716,
+            "all_event_instances": 0
+          }
+        },
+        "django__django-11001": {
+          "base": {
+            "events": 87413,
+            "within25_percent": 31.3397320764646,
+            "worst_error_percent": 860.0983020554066,
+            "equal_instance_percent": 31.3397320764646,
+            "all_event_instances": 0
+          },
+          "entry": {
+            "events": 87413,
+            "within25_percent": 21.864024801802938,
+            "worst_error_percent": 401.38418079096044,
+            "equal_instance_percent": 21.864024801802938,
+            "all_event_instances": 0
+          }
+        },
+        "django__django-11039": {
+          "base": {
+            "events": 381312,
+            "within25_percent": 9.48855530379322,
+            "worst_error_percent": 856.8444444444443,
+            "equal_instance_percent": 9.48855530379322,
+            "all_event_instances": 0
+          },
+          "entry": {
+            "events": 381312,
+            "within25_percent": 14.532456361195031,
+            "worst_error_percent": 380.3715846994536,
+            "equal_instance_percent": 14.532456361195031,
+            "all_event_instances": 0
+          }
+        }
+      }
+    },
+    "9": {
+      "base": {
+        "events": 431654,
+        "within25_percent": 20.45897871906666,
+        "worst_error_percent": 247.09897610921502,
+        "equal_instance_percent": 35.57286302704182,
+        "all_event_instances": 0
+      },
+      "entry": {
+        "events": 431654,
+        "within25_percent": 18.23845024023871,
+        "worst_error_percent": 254.67625899280583,
+        "equal_instance_percent": 38.35051605938164,
+        "all_event_instances": 0
+      },
+      "worst_examples": {
+        "base": {
+          "instance_id": "django__django-11039",
+          "case_id": "assignment-production-v2:9753b925de1856843babcaf7c9fd29797cdbb925c5cdb813e25e570f038781c2",
+          "op": "9",
+          "base": "9|18",
+          "entry": "9|18|[3, 34, \"0\"]",
+          "observed_ms": 0.00293,
+          "raw_offset": 591886000,
+          "token": 9721970415689198515,
+          "sequence": 379008223308345,
+          "predictions_ms": {
+            "base": 0.01017,
+            "entry": 0.0096
+          }
+        },
+        "entry": {
+          "instance_id": "django__django-11001",
+          "case_id": "assignment-production-v2:beb578ac3d658dab06dcc329b2fa96b8963bf3125e1bb1fa448b455988986e70",
+          "op": "9",
+          "base": "9|18",
+          "entry": "9|18|[3, 34, \"0\"]",
+          "observed_ms": 0.00278,
+          "raw_offset": 197846800,
+          "token": 4432646489130217864,
+          "sequence": 379050305572514,
+          "predictions_ms": {
+            "base": 0.00796,
+            "entry": 0.00986
+          }
+        }
+      },
+      "per_instance": {
+        "astropy__astropy-14182": {
+          "base": {
+            "events": 11199,
+            "within25_percent": 30.63666398785606,
+            "worst_error_percent": 119.82968369829683,
+            "equal_instance_percent": 30.63666398785606,
+            "all_event_instances": 0
+          },
+          "entry": {
+            "events": 11199,
+            "within25_percent": 51.87070274131619,
+            "worst_error_percent": 120.95959595959597,
+            "equal_instance_percent": 51.87070274131619,
+            "all_event_instances": 0
+          }
+        },
+        "astropy__astropy-14995": {
+          "base": {
+            "events": 35128,
+            "within25_percent": 47.69130038715554,
+            "worst_error_percent": 175.3067484662577,
+            "equal_instance_percent": 47.69130038715554,
+            "all_event_instances": 0
+          },
+          "entry": {
+            "events": 35128,
+            "within25_percent": 43.33010703712139,
+            "worst_error_percent": 170.09345794392522,
+            "equal_instance_percent": 43.33010703712139,
+            "all_event_instances": 0
+          }
+        },
+        "astropy__astropy-6938": {
+          "base": {
+            "events": 34983,
+            "within25_percent": 44.50733213275019,
+            "worst_error_percent": 123.15270935960592,
+            "equal_instance_percent": 44.50733213275019,
+            "all_event_instances": 0
+          },
+          "entry": {
+            "events": 34983,
+            "within25_percent": 40.57971014492754,
+            "worst_error_percent": 170.68965517241378,
+            "equal_instance_percent": 40.57971014492754,
+            "all_event_instances": 0
+          }
+        },
+        "astropy__astropy-7746": {
+          "base": {
+            "events": 14363,
+            "within25_percent": 35.31295690315394,
+            "worst_error_percent": 99.73012558523276,
+            "equal_instance_percent": 35.31295690315394,
+            "all_event_instances": 0
+          },
+          "entry": {
+            "events": 14363,
+            "within25_percent": 47.90085636705423,
+            "worst_error_percent": 118.30157609974125,
+            "equal_instance_percent": 47.90085636705423,
+            "all_event_instances": 0
+          }
+        },
+        "django__django-10914": {
+          "base": {
+            "events": 91715,
+            "within25_percent": 20.02834868887314,
+            "worst_error_percent": 115.31322505800465,
+            "equal_instance_percent": 20.02834868887314,
+            "all_event_instances": 0
+          },
+          "entry": {
+            "events": 91715,
+            "within25_percent": 14.582129422668046,
+            "worst_error_percent": 112.0649651972158,
+            "equal_instance_percent": 14.582129422668046,
+            "all_event_instances": 0
+          }
+        },
+        "django__django-10924": {
+          "base": {
+            "events": 13849,
+            "within25_percent": 46.59542205213373,
+            "worst_error_percent": 144.0739775983329,
+            "equal_instance_percent": 46.59542205213373,
+            "all_event_instances": 0
+          },
+          "entry": {
+            "events": 13849,
+            "within25_percent": 59.578308903169905,
+            "worst_error_percent": 155.8988764044944,
+            "equal_instance_percent": 59.578308903169905,
+            "all_event_instances": 0
+          }
+        },
+        "django__django-11001": {
+          "base": {
+            "events": 13008,
+            "within25_percent": 52.52921279212792,
+            "worst_error_percent": 217.75655551958567,
+            "equal_instance_percent": 52.52921279212792,
+            "all_event_instances": 0
+          },
+          "entry": {
+            "events": 13008,
+            "within25_percent": 44.74169741697417,
+            "worst_error_percent": 254.67625899280583,
+            "equal_instance_percent": 44.74169741697417,
+            "all_event_instances": 0
+          }
+        },
+        "django__django-11039": {
+          "base": {
+            "events": 217409,
+            "within25_percent": 7.281667272284036,
+            "worst_error_percent": 247.09897610921502,
+            "equal_instance_percent": 7.281667272284036,
+            "all_event_instances": 0
+          },
+          "entry": {
+            "events": 217409,
+            "within25_percent": 4.220616441821636,
+            "worst_error_percent": 227.64505119453923,
+            "equal_instance_percent": 4.220616441821636,
+            "all_event_instances": 0
+          }
+        }
+      }
+    }
+  },
+  "sources": [
+    {
+      "case_id": "assignment-production-v2:ee4fc39eafebc5d7c2ea1dce540d511f472d14ec3c13b9c8a70c78b3b4340129",
+      "instance_id": "astropy__astropy-14182",
+      "path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00001-81e67b6074b32447/attempt-81e67b6074b32447-002-ba32b872b9d0/runner_attempts/attempt-001/telemetry_v2/linux_work/raw_events.bin",
+      "sha256": "a5180b7dce740a8897f65e1c1a4d1bc8df7188bf987cf6e8ed4d88aa103d19cc",
+      "bytes": 70076400
+    },
+    {
+      "case_id": "assignment-production-v2:648009374f4193ea13938de660cec315c8e9402e8e50dddfd752d3b735a57023",
+      "instance_id": "astropy__astropy-14995",
+      "path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00003-fdebd26ee97a2fe4/attempt-fdebd26ee97a2fe4-003-8bb4fa12ec57/runner_attempts/attempt-001/telemetry_v2/linux_work/raw_events.bin",
+      "sha256": "1e54c066169323d539e6d8c9f886f14dc222fdf8e9b25d2108b5ddf6e5de8ca0",
+      "bytes": 127071200
+    },
+    {
+      "case_id": "assignment-production-v2:d204afe54b23a1ef26e269881f1cc7a74c1eb78a4799bc75846b78530c3a9ad3",
+      "instance_id": "astropy__astropy-6938",
+      "path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00004-744052c6d0731edf/attempt-744052c6d0731edf-002-8914636e91f7/runner_attempts/attempt-001/telemetry_v2/linux_work/raw_events.bin",
+      "sha256": "d89138f1d6ec523862ccdbca2fa608a21b0652c037e6aa8326d52a18c3b7197a",
+      "bytes": 114656000
+    },
+    {
+      "case_id": "assignment-production-v2:394940ef3cccb81d3ce05b1c54505ade4d4452f6da1470c0e31b11783eecdd7a",
+      "instance_id": "astropy__astropy-7746",
+      "path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00017-268f601ff6106707/attempt-268f601ff6106707-002-6c30c5096022/runner_attempts/attempt-001/telemetry_v2/linux_work/raw_events.bin",
+      "sha256": "858e886216cf3fedd2ac347e414c06139f9102657b19c1b7c794a3982b729e1b",
+      "bytes": 79169600
+    },
+    {
+      "case_id": "assignment-production-v2:f24f36b50382ffaddd53bc6135104dd54c7e95525da285b419d018fed6d810f2",
+      "instance_id": "django__django-10914",
+      "path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00018-a0bb50959d46e12d/attempt-a0bb50959d46e12d-002-c6c05d3cfbce/runner_attempts/attempt-001/telemetry_v2/linux_work/raw_events.bin",
+      "sha256": "cd7f3af312c64ca70eaa65deee3b6c724c63cd0a155ac8e36a5c2d4a681ea9b1",
+      "bytes": 311068000
+    },
+    {
+      "case_id": "assignment-production-v2:658d9b4adddbccf5f04641baea1dfd12b6633918119c1e9daba3942dc46bf542",
+      "instance_id": "django__django-10924",
+      "path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00019-df19d14509018d6a/attempt-df19d14509018d6a-001-0504157ba07b/runner_attempts/attempt-001/telemetry_v2/linux_work/raw_events.bin",
+      "sha256": "befb65cc7a1baf3b9e21cf59ee76983b77f4533b9244827e1e6e4f113794663b",
+      "bytes": 176002400
+    },
+    {
+      "case_id": "assignment-production-v2:beb578ac3d658dab06dcc329b2fa96b8963bf3125e1bb1fa448b455988986e70",
+      "instance_id": "django__django-11001",
+      "path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00020-7e443ebeb9e2491e/attempt-7e443ebeb9e2491e-002-aa0fff9f4622/runner_attempts/attempt-001/telemetry_v2/linux_work/raw_events.bin",
+      "sha256": "02599597769091e4fe86b54fdcd26870f183b65821c1da8a1c047ba20947cc95",
+      "bytes": 239921600
+    },
+    {
+      "case_id": "assignment-production-v2:9753b925de1856843babcaf7c9fd29797cdbb925c5cdb813e25e570f038781c2",
+      "instance_id": "django__django-11039",
+      "path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00022-e6424f72071c03e4/attempt-e6424f72071c03e4-002-3623a5895ee0/runner_attempts/attempt-001/telemetry_v2/linux_work/raw_events.bin",
+      "sha256": "d4caf5eff8503eef806c7a95d7f089aaa59662955fe91e81662d3b55cfdfc3a1",
+      "bytes": 628896800
+    }
+  ],
+  "censored_or_nonpositive": {},
+  "source_sha256": "cc1bb09bc5bebb4cf84e355e32463c0ee7b1671358c115c97b9380dc52bb1d1a",
+  "manifest_sha256": "8c4f3a156d90e2d4b6f4c608f49dde647719096f9c059c5889c65a3598588afd",
+  "promoted": false,
+  "contract": "First eight distinct valid ordinal training instances, full raw hash/range/token checks; leave-one-instance-out. Only openat,mmap,pread64,pwrite64 positive durations, not all CPU operations. Start-entry arguments only."
+}

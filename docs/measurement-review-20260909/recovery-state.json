@@ -1,0 +1,301 @@
+{
+  "checked_at": "2026-09-09T14:41:52.515091+00:00",
+  "queue_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/configuration-v1/queue-v2/queue.sqlite3",
+  "case_counts": {
+    "accepted": 1,
+    "blocked": 10,
+    "pending": 85
+  },
+  "dispatch_halted": true,
+  "halt_reason": "capture or evidence integrity failure: native serving evidence acquisition failed: batch fetch failed; partial output retained: jriverah3@128.61.254.151: Permission denied (publickey,gssapi-keyex,gssapi-with-mic,password,hostbased).\r\n",
+  "attempts": [
+    {
+      "attempt_id": "attempt-dec1a8cf7f3cb122-001-4aa232a1276a",
+      "case_id": "configuration-confirmation-case-v1:26704e7d91e2df8e0b5536a02d24b1dc5c77f8196ded0af5382a75c3b97d58d7",
+      "worker_id": "worker-22",
+      "status": "accepted",
+      "launch_state": "exited",
+      "artifact_dir": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/configuration-v1/cases/cases/00000-dec1a8cf7f3cb122/attempt-dec1a8cf7f3cb122-001-4aa232a1276a",
+      "result_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/configuration-v1/cases/cases/00000-dec1a8cf7f3cb122/attempt-dec1a8cf7f3cb122-001-4aa232a1276a/case_result.json",
+      "result_sha256": "c398e344537c4738aca8c225cd29f8c6cb672cc1709ad5cf9c16b2e5850bd6a1",
+      "failure": null,
+      "runner_exit": {
+        "attempt_id": "attempt-dec1a8cf7f3cb122-001-4aa232a1276a",
+        "boot_id": "df4cb202-feaf-4b07-9e2f-d6d7923a718f",
+        "command_sha256": "d0dafcc9be077019462566bbe9fc396fcc0ef6268d60b7c901f09b695f7677ee",
+        "guardian_pid": 1671578,
+        "guardian_start_ticks": 31946193,
+        "recorded_epoch_ns": 1788946793642881684,
+        "returncode": 0
+      }
+    },
+    {
+      "attempt_id": "attempt-50358d3c44fb755f-001-218b05ec0d9b",
+      "case_id": "configuration-confirmation-case-v1:052f5bc08591e24bdddaee57e64457fcf2b8875c7da540a72288f5d774109562",
+      "worker_id": "worker-22",
+      "status": "blocked",
+      "launch_state": "exited",
+      "artifact_dir": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/configuration-v1/cases/cases/00001-50358d3c44fb755f/attempt-50358d3c44fb755f-001-218b05ec0d9b",
+      "result_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/configuration-v1/cases/cases/00001-50358d3c44fb755f/attempt-50358d3c44fb755f-001-218b05ec0d9b/case_result.json",
+      "result_sha256": "fe73ba403f7d5eed0d00410faceae3d2f8ef8daccf26c5b4fa5a5529bb3fa190",
+      "failure": {
+        "classification": "infrastructure_evidence",
+        "halt_matrix": true,
+        "message": "native serving evidence acquisition failed: batch fetch failed; partial output retained: jriverah3@128.61.254.151: Permission denied (publickey,gssapi-keyex,gssapi-with-mic,password,hostbased).\r\n",
+        "recorded_epoch_ns": 1788947085107996652,
+        "type": "EvidenceIntegrityError"
+      },
+      "runner_exit": {
+        "attempt_id": "attempt-50358d3c44fb755f-001-218b05ec0d9b",
+        "boot_id": "df4cb202-feaf-4b07-9e2f-d6d7923a718f",
+        "command_sha256": "b2a6de94b591e92e327543b55decb34afb4b26f06b296e77d7f034daefd90044",
+        "guardian_pid": 1675653,
+        "guardian_start_ticks": 31974235,
+        "recorded_epoch_ns": 1788947085270288768,
+        "returncode": 1
+      }
+    },
+    {
+      "attempt_id": "attempt-dddeec59472fb4a5-001-b2bc3717dd2a",
+      "case_id": "configuration-confirmation-case-v1:11fcd3c59f36c09472479c6794493d546039acf8bc52c3fd372a3d811bcd4132",
+      "worker_id": "worker-00",
+      "status": "blocked",
+      "launch_state": "exited",
+      "artifact_dir": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/configuration-v1/cases/cases/00002-dddeec59472fb4a5/attempt-dddeec59472fb4a5-001-b2bc3717dd2a",
+      "result_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/configuration-v1/cases/cases/00002-dddeec59472fb4a5/attempt-dddeec59472fb4a5-001-b2bc3717dd2a/case_result.json",
+      "result_sha256": "cee40a7d6ecba2fc8f95b9bcfe4d1aee242ef7f3c811601805e351e7a5ef9c45",
+      "failure": {
+        "classification": "infrastructure_evidence",
+        "halt_matrix": true,
+        "message": "native serving evidence acquisition failed: batch fetch failed; partial output retained: jriverah3@128.61.254.151: Permission denied (publickey,gssapi-keyex,gssapi-with-mic,password,hostbased).\r\n",
+        "recorded_epoch_ns": 1788947929761995329,
+        "type": "EvidenceIntegrityError"
+      },
+      "runner_exit": {
+        "attempt_id": "attempt-dddeec59472fb4a5-001-b2bc3717dd2a",
+        "boot_id": "df4cb202-feaf-4b07-9e2f-d6d7923a718f",
+        "command_sha256": "8275a1b776c8fc0d922e8fa1dd5cdaf889273b22e706506f7dd9357bbfffcdf0",
+        "guardian_pid": 1678229,
+        "guardian_start_ticks": 31997248,
+        "recorded_epoch_ns": 1788947929847402795,
+        "returncode": 1
+      }
+    },
+    {
+      "attempt_id": "attempt-082d2628e3c18dc5-001-28e4d36ee041",
+      "case_id": "configuration-confirmation-case-v1:fa4f1adeb05515e22cfc4476c07b6594b8e1f7b3240222a2a3cb7d6017e832e3",
+      "worker_id": "worker-01",
+      "status": "blocked",
+      "launch_state": "exited",
+      "artifact_dir": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/configuration-v1/cases/cases/00003-082d2628e3c18dc5/attempt-082d2628e3c18dc5-001-28e4d36ee041",
+      "result_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/configuration-v1/cases/cases/00003-082d2628e3c18dc5/attempt-082d2628e3c18dc5-001-28e4d36ee041/case_result.json",
+      "result_sha256": "5b4984bdd9a7ed6fd5615577810906bd239222aabd60db3dbdd2d813ebcdd29c",
+      "failure": {
+        "classification": "infrastructure_evidence",
+        "halt_matrix": true,
+        "message": "native serving evidence acquisition failed: batch fetch failed; partial output retained: jriverah3@128.61.254.151: Permission denied (publickey,gssapi-keyex,gssapi-with-mic,password,hostbased).\r\n",
+        "recorded_epoch_ns": 1788948015430948834,
+        "type": "EvidenceIntegrityError"
+      },
+      "runner_exit": {
+        "attempt_id": "attempt-082d2628e3c18dc5-001-28e4d36ee041",
+        "boot_id": "df4cb202-feaf-4b07-9e2f-d6d7923a718f",
+        "command_sha256": "488ed57eb49d3f0ba7f10df8b4fb95ed110dce99a9e42ac08ccb7673199884cc",
+        "guardian_pid": 1678184,
+        "guardian_start_ticks": 31997226,
+        "recorded_epoch_ns": 1788948015501501027,
+        "returncode": 1
+      }
+    },
+    {
+      "attempt_id": "attempt-0dfec23c52402927-001-0e46c38b1da6",
+      "case_id": "configuration-confirmation-case-v1:a32e6239fbcdb61f6eee1eda0892a24c8bf3c900276614106601a58101dea4d5",
+      "worker_id": "worker-05",
+      "status": "blocked",
+      "launch_state": "exited",
+      "artifact_dir": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/configuration-v1/cases/cases/00004-0dfec23c52402927/attempt-0dfec23c52402927-001-0e46c38b1da6",
+      "result_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/configuration-v1/cases/cases/00004-0dfec23c52402927/attempt-0dfec23c52402927-001-0e46c38b1da6/case_result.json",
+      "result_sha256": "598c3da5a0446e59e8fdb46bf51e4f4f6b895e70360a70a9ea99598c4f9073a0",
+      "failure": {
+        "classification": "infrastructure_evidence",
+        "halt_matrix": true,
+        "message": "native serving evidence acquisition failed: batch fetch failed; partial output retained: jriverah3@128.61.254.151: Permission denied (publickey,gssapi-keyex,gssapi-with-mic,password,hostbased).\r\n",
+        "recorded_epoch_ns": 1788948027141348044,
+        "type": "EvidenceIntegrityError"
+      },
+      "runner_exit": {
+        "attempt_id": "attempt-0dfec23c52402927-001-0e46c38b1da6",
+        "boot_id": "df4cb202-feaf-4b07-9e2f-d6d7923a718f",
+        "command_sha256": "dfe22238628218a4b796603c4c4ccca111130251f5aa7d50dc5447dba106d3f2",
+        "guardian_pid": 1678238,
+        "guardian_start_ticks": 31997254,
+        "recorded_epoch_ns": 1788948027212170957,
+        "returncode": 1
+      }
+    },
+    {
+      "attempt_id": "attempt-effa8bdec9de1bb8-001-fa41f76cd5a9",
+      "case_id": "configuration-confirmation-case-v1:3de554e675f2efcb793c1541a7ad2ad1173ccc544d713ddd0bfe105d013245cc",
+      "worker_id": "worker-07",
+      "status": "blocked",
+      "launch_state": "exited",
+      "artifact_dir": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/configuration-v1/cases/cases/00005-effa8bdec9de1bb8/attempt-effa8bdec9de1bb8-001-fa41f76cd5a9",
+      "result_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/configuration-v1/cases/cases/00005-effa8bdec9de1bb8/attempt-effa8bdec9de1bb8-001-fa41f76cd5a9/case_result.json",
+      "result_sha256": "d8cb4bf3f06dccaae645db91a406c4218f211cabfa5dbf2ceecb3790f8c930a3",
+      "failure": {
+        "classification": "infrastructure_evidence",
+        "halt_matrix": true,
+        "message": "native serving evidence acquisition failed: batch fetch failed; partial output retained: jriverah3@128.61.254.151: Permission denied (publickey,gssapi-keyex,gssapi-with-mic,password,hostbased).\r\n",
+        "recorded_epoch_ns": 1788948077713455176,
+        "type": "EvidenceIntegrityError"
+      },
+      "runner_exit": {
+        "attempt_id": "attempt-effa8bdec9de1bb8-001-fa41f76cd5a9",
+        "boot_id": "df4cb202-feaf-4b07-9e2f-d6d7923a718f",
+        "command_sha256": "0c1d0698ebec5a685b8b33f8e5bf613e11089308f5c3fbb70391dfe615d23829",
+        "guardian_pid": 1678188,
+        "guardian_start_ticks": 31997238,
+        "recorded_epoch_ns": 1788948077773392795,
+        "returncode": 1
+      }
+    },
+    {
+      "attempt_id": "attempt-4f66c825b377b05a-001-26951586f61b",
+      "case_id": "configuration-confirmation-case-v1:c2c83180a07961e4dd45e6e0f610e7a922ab5e75b533dfdef709e6a1a43fe8e4",
+      "worker_id": "worker-08",
+      "status": "blocked",
+      "launch_state": "exited",
+      "artifact_dir": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/configuration-v1/cases/cases/00006-4f66c825b377b05a/attempt-4f66c825b377b05a-001-26951586f61b",
+      "result_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/configuration-v1/cases/cases/00006-4f66c825b377b05a/attempt-4f66c825b377b05a-001-26951586f61b/case_result.json",
+      "result_sha256": "0b77e7bb9dbd729e61f0feeb87f3520b596d6f4812816d7a43ab997724bfff6e",
+      "failure": {
+        "classification": "infrastructure_evidence",
+        "halt_matrix": true,
+        "message": "native serving evidence acquisition failed: batch fetch failed; partial output retained: jriverah3@128.61.254.151: Permission denied (publickey,gssapi-keyex,gssapi-with-mic,password,hostbased).\r\n",
+        "recorded_epoch_ns": 1788947860094190433,
+        "type": "EvidenceIntegrityError"
+      },
+      "runner_exit": {
+        "attempt_id": "attempt-4f66c825b377b05a-001-26951586f61b",
+        "boot_id": "df4cb202-feaf-4b07-9e2f-d6d7923a718f",
+        "command_sha256": "852ccad1f99eae8de4b6b4dcb02f41bb5ba9775c744ef6b0214665f64094054f",
+        "guardian_pid": 1678186,
+        "guardian_start_ticks": 31997232,
+        "recorded_epoch_ns": 1788947860197896439,
+        "returncode": 1
+      }
+    },
+    {
+      "attempt_id": "attempt-13547b58c2df5503-001-1fedfcfce34c",
+      "case_id": "configuration-confirmation-case-v1:bf80f183b7c993b6a915eeef4a61e70c34764ecb3ce139c789fbe50ed8d0f2a4",
+      "worker_id": "worker-09",
+      "status": "blocked",
+      "launch_state": "exited",
+      "artifact_dir": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/configuration-v1/cases/cases/00007-13547b58c2df5503/attempt-13547b58c2df5503-001-1fedfcfce34c",
+      "result_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/configuration-v1/cases/cases/00007-13547b58c2df5503/attempt-13547b58c2df5503-001-1fedfcfce34c/case_result.json",
+      "result_sha256": "49f8a6321cb944ccd21e147c8947dd4bc9d853c3082dc0cd2d3dc4bfd7bc0bd3",
+      "failure": {
+        "classification": "infrastructure_evidence",
+        "halt_matrix": true,
+        "message": "native serving evidence acquisition failed: batch fetch failed; partial output retained: jriverah3@128.61.254.151: Permission denied (publickey,gssapi-keyex,gssapi-with-mic,password,hostbased).\r\n",
+        "recorded_epoch_ns": 1788947985611342970,
+        "type": "EvidenceIntegrityError"
+      },
+      "runner_exit": {
+        "attempt_id": "attempt-13547b58c2df5503-001-1fedfcfce34c",
+        "boot_id": "df4cb202-feaf-4b07-9e2f-d6d7923a718f",
+        "command_sha256": "d6fbe640725a9cfa147a765d6fe1855d4724c1fb540e420b84a326f80b1e8fb8",
+        "guardian_pid": 1678187,
+        "guardian_start_ticks": 31997237,
+        "recorded_epoch_ns": 1788947985684098082,
+        "returncode": 1
+      }
+    },
+    {
+      "attempt_id": "attempt-efbd493940eb1875-001-f0548f3f44f1",
+      "case_id": "configuration-confirmation-case-v1:21cc95c9213b4fa42e4fc5e9652114996ebec9ff9a53d72ab892a87f690ad530",
+      "worker_id": "worker-02",
+      "status": "blocked",
+      "launch_state": "exited",
+      "artifact_dir": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/configuration-v1/cases/cases/00008-efbd493940eb1875/attempt-efbd493940eb1875-001-f0548f3f44f1",
+      "result_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/configuration-v1/cases/cases/00008-efbd493940eb1875/attempt-efbd493940eb1875-001-f0548f3f44f1/case_result.json",
+      "result_sha256": "900a9b8ad3209fe214e51513826efc608c8872244cae3788eb5fd553b22cbd00",
+      "failure": {
+        "classification": "infrastructure_evidence",
+        "halt_matrix": true,
+        "message": "native serving evidence acquisition failed: batch fetch failed; partial output retained: jriverah3@128.61.254.151: Permission denied (publickey,gssapi-keyex,gssapi-with-mic,password,hostbased).\r\n",
+        "recorded_epoch_ns": 1788947992958380586,
+        "type": "EvidenceIntegrityError"
+      },
+      "runner_exit": {
+        "attempt_id": "attempt-efbd493940eb1875-001-f0548f3f44f1",
+        "boot_id": "df4cb202-feaf-4b07-9e2f-d6d7923a718f",
+        "command_sha256": "ef56f386f5ea58309c455e5bf063c3d20aee0877696f3fed778d36457cdcb287",
+        "guardian_pid": 1678189,
+        "guardian_start_ticks": 31997238,
+        "recorded_epoch_ns": 1788947993033746767,
+        "returncode": 1
+      }
+    },
+    {
+      "attempt_id": "attempt-ccb5ebd175ad18d2-001-f530901c4b2e",
+      "case_id": "configuration-confirmation-case-v1:dd8e6249786520d64d3b58e4b0fb33760e8316302792a2b9bed4269ee8a56aeb",
+      "worker_id": "worker-04",
+      "status": "blocked",
+      "launch_state": "exited",
+      "artifact_dir": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/configuration-v1/cases/cases/00009-ccb5ebd175ad18d2/attempt-ccb5ebd175ad18d2-001-f530901c4b2e",
+      "result_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/configuration-v1/cases/cases/00009-ccb5ebd175ad18d2/attempt-ccb5ebd175ad18d2-001-f530901c4b2e/case_result.json",
+      "result_sha256": "b11a4063c9262e4aae7b8daf010bd8aec344c052bd08bfc6dc58a471431bed7b",
+      "failure": {
+        "classification": "infrastructure_evidence",
+        "halt_matrix": true,
+        "message": "native serving evidence acquisition failed: batch fetch failed; partial output retained: jriverah3@128.61.254.151: Permission denied (publickey,gssapi-keyex,gssapi-with-mic,password,hostbased).\r\n",
+        "recorded_epoch_ns": 1788947940940972999,
+        "type": "EvidenceIntegrityError"
+      },
+      "runner_exit": {
+        "attempt_id": "attempt-ccb5ebd175ad18d2-001-f530901c4b2e",
+        "boot_id": "df4cb202-feaf-4b07-9e2f-d6d7923a718f",
+        "command_sha256": "f276736e32a97e2e8af46e2aaba729c1a524aab31d91a9f1b061dec2d8af1918",
+        "guardian_pid": 1678228,
+        "guardian_start_ticks": 31997248,
+        "recorded_epoch_ns": 1788947941021827707,
+        "returncode": 1
+      }
+    },
+    {
+      "attempt_id": "attempt-b7186c6b17f9bd2a-001-60d6d96d2048",
+      "case_id": "configuration-confirmation-case-v1:d594ab02f9d59ddb97ba867a5d7144c914529bb8f2acbe70797afc4b675ad03a",
+      "worker_id": "worker-03",
+      "status": "blocked",
+      "launch_state": "exited",
+      "artifact_dir": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/configuration-v1/cases/cases/00010-b7186c6b17f9bd2a/attempt-b7186c6b17f9bd2a-001-60d6d96d2048",
+      "result_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/configuration-v1/cases/cases/00010-b7186c6b17f9bd2a/attempt-b7186c6b17f9bd2a-001-60d6d96d2048/case_result.json",
+      "result_sha256": "3b8c79ac9972f38be3c52695236bb7f24e4db66f9d16fd17f116204459405754",
+      "failure": {
+        "classification": "infrastructure_evidence",
+        "halt_matrix": true,
+        "message": "native serving evidence acquisition failed: batch fetch failed; partial output retained: jriverah3@128.61.254.151: Permission denied (publickey,gssapi-keyex,gssapi-with-mic,password,hostbased).\r\n",
+        "recorded_epoch_ns": 1788947944157390434,
+        "type": "EvidenceIntegrityError"
+      },
+      "runner_exit": {
+        "attempt_id": "attempt-b7186c6b17f9bd2a-001-60d6d96d2048",
+        "boot_id": "df4cb202-feaf-4b07-9e2f-d6d7923a718f",
+        "command_sha256": "f6f0e6a3c87bc39e09c6783e6762038e5243de374fd0b2e6d2b9372d2606541e",
+        "guardian_pid": 1678319,
+        "guardian_start_ticks": 31997267,
+        "recorded_epoch_ns": 1788947944243764199,
+        "returncode": 1
+      }
+    }
+  ],
+  "action_taken": "Read-only snapshot; no attempts requeued, no halt cleared, no source/runtime changed.",
+  "resume_conditions": [
+    "Restore authenticated PACE access.",
+    "Identify current allocations and exact server/source/GPU/host/epoch and relays.",
+    "Retrieve missing native evidence where possible and review preserved failed attempts before any retry.",
+    "Keep accepted attempt; admit only validated workers; reconcile monitor exit records using supported recovery path.",
+    "Resume original 96-case comparison; select by predeclared criteria; final freeze/preflight precede1088 production."
+  ]
+}

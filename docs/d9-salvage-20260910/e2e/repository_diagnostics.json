@@ -1,0 +1,110 @@
+{
+  "astropy": {
+    "runs": 34,
+    "instances": 20,
+    "within25_count": 27,
+    "within25_fraction": 0.7941176470588235,
+    "p95_error_pct": 58.972673037900805,
+    "worst_error_pct": 93.59907605571907,
+    "median_error_pct": 9.336197856609818
+  },
+  "django": {
+    "runs": 352,
+    "instances": 235,
+    "within25_count": 299,
+    "within25_fraction": 0.8494318181818182,
+    "p95_error_pct": 42.409827049080576,
+    "worst_error_pct": 94.99953393495905,
+    "median_error_pct": 11.25378144724358
+  },
+  "matplotlib": {
+    "runs": 66,
+    "instances": 38,
+    "within25_count": 32,
+    "within25_fraction": 0.48484848484848486,
+    "p95_error_pct": 64.06748710356479,
+    "worst_error_pct": 67.74494149011147,
+    "median_error_pct": 26.421092523967346
+  },
+  "mwaskom": {
+    "runs": 5,
+    "instances": 5,
+    "within25_count": 1,
+    "within25_fraction": 0.2,
+    "p95_error_pct": 36.883405888794464,
+    "worst_error_pct": 36.883405888794464,
+    "median_error_pct": 30.223963455585405
+  },
+  "pallets": {
+    "runs": 4,
+    "instances": 4,
+    "within25_count": 3,
+    "within25_fraction": 0.75,
+    "p95_error_pct": 33.17160585336106,
+    "worst_error_pct": 33.17160585336106,
+    "median_error_pct": 13.976890047954388
+  },
+  "psf": {
+    "runs": 10,
+    "instances": 9,
+    "within25_count": 8,
+    "within25_fraction": 0.8,
+    "p95_error_pct": 94.48323620496443,
+    "worst_error_pct": 94.48323620496443,
+    "median_error_pct": 19.397875028157685
+  },
+  "pydata": {
+    "runs": 29,
+    "instances": 17,
+    "within25_count": 17,
+    "within25_fraction": 0.5862068965517241,
+    "p95_error_pct": 57.58334800312424,
+    "worst_error_pct": 60.48773914416938,
+    "median_error_pct": 14.120984721308266
+  },
+  "pylint-dev": {
+    "runs": 14,
+    "instances": 13,
+    "within25_count": 10,
+    "within25_fraction": 0.7142857142857143,
+    "p95_error_pct": 49.700487693704275,
+    "worst_error_pct": 49.700487693704275,
+    "median_error_pct": 14.06797075086347
+  },
+  "pytest-dev": {
+    "runs": 20,
+    "instances": 19,
+    "within25_count": 15,
+    "within25_fraction": 0.75,
+    "p95_error_pct": 34.21964750535423,
+    "worst_error_pct": 53.07969729227947,
+    "median_error_pct": 15.826843254355474
+  },
+  "scikit-learn": {
+    "runs": 66,
+    "instances": 34,
+    "within25_count": 57,
+    "within25_fraction": 0.8636363636363636,
+    "p95_error_pct": 41.79514616630941,
+    "worst_error_pct": 60.503007128547914,
+    "median_error_pct": 10.86058051745983
+  },
+  "sphinx-doc": {
+    "runs": 71,
+    "instances": 46,
+    "within25_count": 57,
+    "within25_fraction": 0.8028169014084507,
+    "p95_error_pct": 35.183461309908935,
+    "worst_error_pct": 93.1069888930665,
+    "median_error_pct": 14.422179220651598
+  },
+  "sympy": {
+    "runs": 148,
+    "instances": 105,
+    "within25_count": 121,
+    "within25_fraction": 0.8175675675675675,
+    "p95_error_pct": 32.511343648885045,
+    "worst_error_pct": 43.437338657499005,
+    "median_error_pct": 11.732848889467832
+  }
+}

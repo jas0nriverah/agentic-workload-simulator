@@ -1,0 +1,30 @@
+{
+  "candidate": "rejected_log1p_token_regression",
+  "correction": "scaled nonnegative linear token design; cache candidate uses uncached prompt and prompt-completion interaction with phase-specific prefill/decode designs",
+  "dataset_sha256": "f54ebb7b387bb212475295e2e3dc171c169fc52c8c73624fba9b9661b50d41e0",
+  "diagnostic_metrics": {
+    "decode_within25_percent": 29.807692307692307,
+    "prefill_within25_percent": 39.71153846153846,
+    "queue_within25_percent": 41.77884615384615
+  },
+  "features": [
+    "intercept",
+    "log1p(prompt_tokens)",
+    "log1p(completion_tokens)",
+    "log1p(max_output_tokens)"
+  ],
+  "manifest_sha256": "8c4f3a156d90e2d4b6f4c608f49dde647719096f9c059c5889c65a3598588afd",
+  "primary_metrics": {
+    "hardware_domain_median_baseline_within25_percent": 21.057692307692307,
+    "relative_log_token_mean_ape_percent": 47.14388932326342,
+    "relative_log_token_median_ape_percent": 40.156396361256924,
+    "relative_log_token_p95_ape_percent": 93.804866299661,
+    "relative_log_token_runs_all_requests_within25": 0,
+    "relative_log_token_within25_percent": 32.5,
+    "relative_log_token_worst_ape_percent": 145.66596812516704
+  },
+  "primary_target": "native:e2e",
+  "reason": "log1p features underfit the near-linear completion-token workload and were replaced before the final fixed comparison",
+  "schema": "d9.native-rejected-log-diagnostic.v1",
+  "status": "rejected_after_design_review"
+}

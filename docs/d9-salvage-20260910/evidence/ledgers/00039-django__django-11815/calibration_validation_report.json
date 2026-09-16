@@ -1,0 +1,188 @@
+{
+  "attempts": [
+    {
+      "attempt_id": "attempt-001",
+      "cpu_raw_integrity": {
+        "action_count": 132,
+        "atomic_normalization": "unsupported_no_full_bpf_export",
+        "coverage_error_count": 0,
+        "raw_event_binary": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00039-ae60b776f798e66f/attempt-ae60b776f798e66f-001-bf1979f4d0d6/runner_attempts/attempt-001/telemetry_v2/linux_work/raw_events.bin",
+        "raw_event_binary_bytes": 309585600,
+        "raw_event_binary_hash_skipped": true,
+        "raw_event_binary_sha256": null,
+        "representative_decoder": "not_run",
+        "status": "complete_bounded_raw_metadata"
+      },
+      "host_clock_unions": {
+        "instance-20260902-053002|CLOCK_MONOTONIC_RAW|boot=df4cb202-feaf-4b07-9e2f-d6d7923a718f": {
+          "disjoint_union_ms": 223450.911319,
+          "merged_interval_count": 384,
+          "raw_interval_count": 606
+        }
+      },
+      "model_physical_starts": 57,
+      "model_physical_terminals": 57,
+      "native_clock_policy": "native intervals and GPU durations are retained separately; never added to host timeline union",
+      "native_physical_terminals": 57,
+      "outer_e2e_boundary": {
+        "event_kind": "outer_swe_agent",
+        "observed_ms": 241145.525548
+      },
+      "pair_inventory": {
+        "lifecycle": {
+          "starts": 371,
+          "terminals": 772
+        },
+        "model": {
+          "starts": 114,
+          "terminals": 114
+        },
+        "tool": {
+          "starts": 54,
+          "terminals": 108
+        }
+      },
+      "raw_record_count": 1590
+    }
+  ],
+  "calibration_scope": {
+    "ignored_for_fit": "retry_missing_physical_predecessor affects OBSERVATION wrapper rows; TARGET rows are still checked by the adapter",
+    "original_error_codes": {
+      "retry_missing_physical_predecessor": 6
+    },
+    "original_validation_report_path": "/home/riverahernandezjason/agentic-submission-repairs-20260908/docs/d9-salvage-20260910/evidence/ledgers/00039-django__django-11815/validation_report.json",
+    "original_validation_report_sha256": "f63a559d554fdba515c42d4517ac9f7a9f22139485e06f77e0af5b395b93ec06",
+    "original_validation_status": "invalid",
+    "status": "accepted_native_target_scope"
+  },
+  "case_event_records": {
+    "count": 1761,
+    "path": "/home/riverahernandezjason/agentic-submission-repairs-20260908/docs/d9-salvage-20260910/evidence/ledgers/00039-django__django-11815/normalized_case_events.jsonl"
+  },
+  "case_metadata": {
+    "repository": "django/django",
+    "settings": {
+      "call_limit": 100,
+      "max_input_tokens": 61440,
+      "max_output_tokens": 512,
+      "observation_length": 25000,
+      "seed": 0,
+      "temperature": 0.0,
+      "top_p": 1.0
+    },
+    "suite": "lite"
+  },
+  "case_result": {
+    "evaluator_outcome_provenance": "unproven_not_bound_by_ledger",
+    "present": true
+  },
+  "case_root": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00039-ae60b776f798e66f/attempt-ae60b776f798e66f-001-bf1979f4d0d6",
+  "disposition": "accepted",
+  "excluded_attempt_inventory": [],
+  "hardware_bindings": {
+    "cpu": {
+      "binding": "pre-execution CPU-host snapshot only",
+      "hardware_profile_sha256": "9d5383846c619c84224322aaf33abed05d4cc2234b5a84523371588df6590355",
+      "path": "runner_attempts/attempt-001/telemetry_v2/hardware_snapshots.jsonl",
+      "sha256": "33984ab4610cdac3100060058c7addadca856eefe8face55b465df8e4c00a042"
+    },
+    "native_gpu": "unavailable"
+  },
+  "identity": {
+    "case_id": "assignment-production-v2:f3327962a9f1ca93e2d0871af0d64326b0b1085471f911bede3795bc0abd0aea",
+    "instance_id": "django__django-11815"
+  },
+  "partition": null,
+  "partition_provenance": "case_spec_supplied_untrusted; downstream derives pinned partition before event read",
+  "schema_version": "assignment.offline.ledger-validation.v1",
+  "source_hashes": [
+    {
+      "path": "case_result.json",
+      "sha256": "f3871b83d50052dcdd58bb3befaf141e8d15a9035d0300808d40e23868822000"
+    },
+    {
+      "path": "case_spec.json",
+      "sha256": "b485d2a4c2449dcdc02f747a2973a820c937b36713795b24ab53142be15a187d"
+    },
+    {
+      "path": "runner_attempts/attempt-001/native_serving/native_attribution.jsonl",
+      "sha256": "9e27343418b8f926bb9b48ac182b34cd79b1e6409838cd2e4d1a4e220cd4ac74"
+    },
+    {
+      "path": "runner_attempts/attempt-001/telemetry_v2/hardware_snapshots.jsonl",
+      "sha256": "33984ab4610cdac3100060058c7addadca856eefe8face55b465df8e4c00a042"
+    },
+    {
+      "path": "runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl",
+      "sha256": "0fc722db4f9abe85b08fa4f693d85ebc24f03c5f1dd4e607e0e2a063fbc764a4"
+    },
+    {
+      "path": "runner_attempts/attempt-001/telemetry_v2/linux_work/bpf_collector_manifest.json",
+      "sha256": "1d8cea561e70e0e7d6f76cabb827156946300123c13ecd34580224ec81c73f79"
+    },
+    {
+      "path": "runner_attempts/attempt-001/telemetry_v2/linux_work/raw_aggregates.jsonl",
+      "sha256": "0d17610002c0bbf3470a5bff9f3eace25680e263134db7db3cf067a2f64d1473"
+    },
+    {
+      "path": "runner_attempts/attempt-001/telemetry_v2/linux_work/work_summary.json",
+      "sha256": "364f58c3433d23a356ecafe429b8489c832f8d68b24e4aae9984fa46b94a8e1a"
+    },
+    {
+      "path": "runner_attempts/attempt-001/telemetry_v2/model_events.jsonl",
+      "sha256": "5272fae0167a3a2c8420aa6e59b80776ae5caaf99d1e56e46ae40dedd0c45c02"
+    },
+    {
+      "path": "runner_attempts/attempt-001/telemetry_v2/tool_events.jsonl",
+      "sha256": "ec4601cfe45f00e6a6031590640a6bc7dd9bd841c604f4236fea74916680609c"
+    }
+  ],
+  "validation": {
+    "error_count": 6,
+    "errors": [
+      {
+        "code": "retry_missing_physical_predecessor",
+        "detail": "request-acb8f4eabffdb8109186fbb454c7f211",
+        "event_id": "event-7beb7c47f793d97c250941812401cb1a",
+        "line": 109,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00039-ae60b776f798e66f/attempt-ae60b776f798e66f-001-bf1979f4d0d6/runner_attempts/attempt-001/telemetry_v2/model_events.jsonl"
+      },
+      {
+        "code": "retry_missing_physical_predecessor",
+        "detail": "request-acb8f4eabffdb8109186fbb454c7f211",
+        "event_id": "event-18f1c958ac562e2ceb07eacd625eeec5",
+        "line": 110,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00039-ae60b776f798e66f/attempt-ae60b776f798e66f-001-bf1979f4d0d6/runner_attempts/attempt-001/telemetry_v2/model_events.jsonl"
+      },
+      {
+        "code": "retry_missing_physical_predecessor",
+        "detail": "request-fb8d03bdc589df2a3150c5ea344d67ca",
+        "event_id": "event-bba2083ff3b67803ec220b68801b6c2d",
+        "line": 117,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00039-ae60b776f798e66f/attempt-ae60b776f798e66f-001-bf1979f4d0d6/runner_attempts/attempt-001/telemetry_v2/model_events.jsonl"
+      },
+      {
+        "code": "retry_missing_physical_predecessor",
+        "detail": "request-fb8d03bdc589df2a3150c5ea344d67ca",
+        "event_id": "event-511cdf1e026fa68d6ed1173e170e011b",
+        "line": 118,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00039-ae60b776f798e66f/attempt-ae60b776f798e66f-001-bf1979f4d0d6/runner_attempts/attempt-001/telemetry_v2/model_events.jsonl"
+      },
+      {
+        "code": "retry_missing_physical_predecessor",
+        "detail": "request-a4744db8fceee4c4448493d68bee3400",
+        "event_id": "event-0fa9a6eb6520dbec3d856b850621f592",
+        "line": 125,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00039-ae60b776f798e66f/attempt-ae60b776f798e66f-001-bf1979f4d0d6/runner_attempts/attempt-001/telemetry_v2/model_events.jsonl"
+      },
+      {
+        "code": "retry_missing_physical_predecessor",
+        "detail": "request-a4744db8fceee4c4448493d68bee3400",
+        "event_id": "event-de5c19c245cfcf3771bbf292556fe31c",
+        "line": 126,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00039-ae60b776f798e66f/attempt-ae60b776f798e66f-001-bf1979f4d0d6/runner_attempts/attempt-001/telemetry_v2/model_events.jsonl"
+      }
+    ],
+    "status": "invalid"
+  }
+}

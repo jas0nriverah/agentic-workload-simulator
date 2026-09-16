@@ -5,11 +5,14 @@ import subprocess
 import sys
 import tempfile
 import threading
+import time
 import unittest
 from pathlib import Path
 
 from agentic_sim.runners import RunnerConfig, build_command, run_sweagent, validate_experiment_command
+from agentic_sim.runners.case_lifecycle import CASE_DEADLINE_ENV
 from agentic_sim.runners.sweagent_runner import RunnerContractError
+from agentic_sim.telemetry.v2 import TelemetryV2
 
 
 class SweagentRunnerTests(unittest.TestCase):
@@ -29,7 +32,7 @@ class SweagentRunnerTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             request_config = Path(tmp) / "request.yaml"
             request_config.write_text(
-                '{"agent":{"model":{"completion_kwargs":{"max_tokens":1536,"seed":2}}}}\n',
+                '{"agent":{"model":{"top_p":0.75,"completion_kwargs":{"max_tokens":1536,"seed":2}}}}\n',
                 encoding="utf-8",
             )
             command = build_command(
@@ -51,6 +54,7 @@ class SweagentRunnerTests(unittest.TestCase):
         self.assertEqual(resolved["max_observation_length"], 25_000)
         self.assertEqual(resolved["temperature"], 0.5)
         self.assertEqual(resolved["seed"], 2)
+        self.assertEqual(resolved["top_p"], 0.75)
         self.assertIn("--config", command)
         self.assertIn("--config", command)
         self.assertIn("--agent.templates.max_observation_length", command)
@@ -60,6 +64,19 @@ class SweagentRunnerTests(unittest.TestCase):
         command[command.index("--agent.model.max_output_tokens") + 1] = "1024"
         with self.assertRaises(RunnerContractError):
             validate_experiment_command(command)
+
+    def test_duplicate_pinned_litellm_keywords_fail_before_execution(self):
+        for keyword in ("model", "messages", "temperature", "top_p", "api_version", "api_key",
+                        "fallbacks", "n", "api_base", "tools"):
+            with self.subTest(keyword=keyword), tempfile.TemporaryDirectory() as tmp:
+                path = Path(tmp) / "request.json"
+                completion = {"max_tokens": 2048, "seed": 0, keyword: 1}
+                path.write_text(json.dumps({"agent": {"model": {"completion_kwargs": completion}}}))
+                with self.assertRaisesRegex(RunnerContractError, "duplicates pinned SWE-agent"):
+                    command = build_command(instances_path="/tmp/tasks.json", instance_id="i1", output_dir="/tmp/o",
+                                            model="openai/Qwen", model_revision="b2cff646eb4bb1",
+                                            request_config_path=path)
+                    validate_experiment_command(command)
 
     def test_obsolete_nested_completion_flags_are_rejected(self):
         command = [
@@ -101,6 +118,70 @@ class SweagentRunnerTests(unittest.TestCase):
             result = run_sweagent(RunnerConfig(command=[sys.executable, "-c", "import time; time.sleep(3)"], experiment_id="e1", instance_id="i1", work_root=tmp, timeout_seconds=1))
             self.assertEqual(result.status, "timeout")
             self.assertLess(result.duration_ms, 32_000)
+
+    def test_evaluator_receives_remaining_absolute_case_deadline(self):
+        """The evaluator must inherit the case deadline, not a new full wait."""
+
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            observed = root / "evaluator-remaining-seconds.txt"
+            evaluator = (
+                "import pathlib,sys,time\n"
+                "deadline=int(__import__('os').environ['ASSIGNMENT_CASE_DEADLINE_MONOTONIC_NS'])\n"
+                "remaining=(deadline-time.monotonic_ns())/1_000_000_000\n"
+                "pathlib.Path(sys.argv[1]).write_text(str(remaining), encoding='ascii')\n"
+                "time.sleep(5)\n"
+            )
+            deadline = time.monotonic_ns() + 2_000_000_000
+            result = run_sweagent(
+                RunnerConfig(
+                    command=[sys.executable, "-c", "import time; time.sleep(0.25)"],
+                    experiment_id="e1",
+                    instance_id="i1",
+                    work_root=root,
+                    timeout_seconds=5,
+                    environment={CASE_DEADLINE_ENV: str(deadline)},
+                ),
+                evaluator_command=[sys.executable, "-c", evaluator, str(observed)],
+            )
+            self.assertTrue(observed.is_file(), "evaluator was not launched before the deadline")
+            remaining = float(observed.read_text(encoding="ascii"))
+            self.assertGreater(remaining, 0.0)
+            self.assertLess(remaining, 2.0)
+            evaluator_status = json.loads((result.output_dir / "eval.json").read_text(encoding="utf-8"))
+            self.assertEqual(evaluator_status["status"], "timeout")
+            self.assertEqual(evaluator_status["deadline_mono_ns"], deadline)
+            self.assertTrue(result.evaluator_cleanup.get("cleanup_complete"), result.evaluator_cleanup)
+
+    def test_v2_activation_controls_do_not_reach_evaluator_or_fixture_helper(self):
+        """Only the reviewed agent launch may receive v2 sitecustomize controls."""
+
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            agent_seen = root / "agent.txt"
+            evaluator_seen = root / "evaluator.txt"
+            probe = (
+                "import os,pathlib,sys; "
+                "pathlib.Path(sys.argv[1]).write_text(os.environ.get('ASSIGNMENT_TELEMETRY_V2_AUTO','absent'), encoding='ascii')"
+            )
+            recorder = TelemetryV2(root / "telemetry", run_id="v2-scope", writer_role="runner")
+            result = run_sweagent(
+                RunnerConfig(
+                    command=[sys.executable, "-c", probe, str(agent_seen)],
+                    experiment_id="v2-scope",
+                    instance_id="i1",
+                    work_root=root / "runner",
+                    environment={
+                        "ASSIGNMENT_TELEMETRY_V2_AUTO": "1",
+                        "ASSIGNMENT_TELEMETRY_V2_READY": str(root / "stale-ready.json"),
+                    },
+                ),
+                evaluator_command=[sys.executable, "-c", probe, str(evaluator_seen)],
+                telemetry=recorder,
+            )
+            self.assertEqual(result.status, "completed")
+            self.assertEqual(agent_seen.read_text(encoding="ascii"), "absent")
+            self.assertEqual(evaluator_seen.read_text(encoding="ascii"), "absent")
 
     def test_shell_resume_preserves_config_for_an_incomplete_attempt(self):
         script = Path(__file__).resolve().parents[2] / "scripts" / "cloud" / "lambda_run_first_experiment.sh"

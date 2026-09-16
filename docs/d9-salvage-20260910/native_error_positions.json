@@ -1,0 +1,18 @@
+{
+  "scope": "Diagnostic of fixed conditional token model; request position was not a model input or selection key.",
+  "groups": {
+    "first_request": {
+      "n": 49,
+      "within25": 25,
+      "misses": 24,
+      "worst_pct": 93.22457961903973
+    },
+    "later_request": {
+      "n": 2031,
+      "within25": 1948,
+      "misses": 83,
+      "worst_pct": 96.6848165429686
+    }
+  },
+  "interpretation": "Position association does not identify a causal cold-start mechanism."
+}

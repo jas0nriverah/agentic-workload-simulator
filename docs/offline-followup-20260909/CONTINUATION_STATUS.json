@@ -1,0 +1,14 @@
+{
+  "status": "awaiting_eligible_repaired_training_cases",
+  "inventory_path": "ARRIVAL_INVENTORY.json",
+  "inventory_sha256": "2be8902c679c2e9616dd3704a1690b4096502ede2ba40469b65cd8f9832e63d8",
+  "case_specs": 28,
+  "independent_instances": 3,
+  "eligible_train_cases": 0,
+  "event_files_opened": 0,
+  "evaluator_files_opened": 0,
+  "accepted_results": "output-v4",
+  "accepted_output_hash_mismatches": [],
+  "next_action": "Use pinned training-partition repaired cases from the predeclared runs when they are retained; preserve configuration/attempt admission and grouped validation.",
+  "stopping_reason": "No additional eligible evidence; further tuning now would repeat the closed historical pass or use excluded confirmation cases."
+}

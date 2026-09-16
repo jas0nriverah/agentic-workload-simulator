@@ -1,0 +1,21 @@
+{
+  "composition_ledger_status": "proven",
+  "schema_version": "assignment.d9.gpu-lifecycle-composition.v1",
+  "target_boundaries": {
+    "cpu": "CPU tool/event duration only",
+    "e2e": "sum of the declared non-overlapping conditional action list only",
+    "gpu": "physical request E2E or separately named native phase; never a residual",
+    "lifecycle": "non-overlapping setup/startup/retry/teardown intervals only"
+  },
+  "trajectories": [
+    {
+      "e2e_status": "conditional_known_action_list",
+      "predicted_cpu_ms": 10.0,
+      "predicted_e2e_ms": 33.0,
+      "predicted_gpu_ms": 20.0,
+      "predicted_lifecycle_ms": 3.0,
+      "run_id": "smoke-run"
+    }
+  ],
+  "trajectory_mode": "conditional_known_action_list"
+}

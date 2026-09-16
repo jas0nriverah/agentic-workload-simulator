@@ -1,0 +1,213 @@
+{
+  "bpf": {
+    "first_action": {
+      "aggregate_required_count": 140,
+      "decoded_token_filtered_count": 140,
+      "event_id": "event-0e52d0b36f061c648f2b6a18f623c2ee",
+      "range": {
+        "offset_end": 56000,
+        "offset_start": 0,
+        "record_count": 140,
+        "record_size_bytes": 400,
+        "schema_version": "assignment.linux-bpf-work-event.v3"
+      },
+      "token": 1032415338116989740
+    },
+    "full_binary_sha256": "937ccb24b2d1262b270ccc34e54d3cb1f2707b242fc4829e3f428f53601a3d95",
+    "full_fixture_audit": {
+      "action_rows": 100,
+      "complete_action_rows": 100,
+      "deferred_finalization_rows": 0,
+      "loss_totals": {
+        "lineage_map_failures": 0,
+        "lost_event_records": 0,
+        "lost_path_records": 0,
+        "lost_pending_records": 0,
+        "perf_lost_events": 0
+      },
+      "raw_event_count": 846533,
+      "required_event_count": 846533
+    },
+    "inline_path_search": {
+      "first_path_record": {
+        "kernel_end_ns": 317350378801322,
+        "kernel_start_ns": 317350378774232,
+        "kind": 3,
+        "path": "/usr/lib/locale/C.UTF-8/LC_IDENTIFICATION",
+        "path2": null,
+        "ret": -2,
+        "scalar_args": {
+          "abi": "assignment.linux-bpf-work-scalar-args.v1",
+          "architecture": "x86_64",
+          "dirfd": -100,
+          "known": true,
+          "open_flags": 524288,
+          "raw": [
+            4294967196,
+            103012372242032,
+            524288,
+            0,
+            524288,
+            103012372242032
+          ],
+          "syscall_name": "openat"
+        },
+        "sequence": 317350378801092,
+        "status": 2,
+        "token": 1032415338116989740
+      },
+      "records_scanned_before_first_path": 46
+    },
+    "manifest_binary_sha256": "937ccb24b2d1262b270ccc34e54d3cb1f2707b242fc4829e3f428f53601a3d95",
+    "operation_examples": {
+      "getdents": {
+        "action_event_id": "event-c4230462945729930eece7ca6947d523",
+        "action_token": 13138559065361079846,
+        "aggregate_count": 2,
+        "event": {
+          "kernel_end_ns": 317350646426033,
+          "kernel_start_ns": 317350646227803,
+          "kind": 5,
+          "path": ".",
+          "path2": null,
+          "ret": 680,
+          "scalar_args": {
+            "abi": "assignment.linux-bpf-work-scalar-args.v1",
+            "architecture": "x86_64",
+            "fd": 3,
+            "known": true,
+            "raw": [
+              3,
+              105011172938928,
+              32768,
+              120,
+              591872,
+              105011172938880
+            ],
+            "requested_size": 32768,
+            "syscall_name": "getdents64"
+          },
+          "status": 1
+        },
+        "kernel_duration_ns": 198230,
+        "status": "measured"
+      },
+      "read": {
+        "action_event_id": "event-0e52d0b36f061c648f2b6a18f623c2ee",
+        "action_token": 1032415338116989740,
+        "aggregate_count": 78,
+        "event": {
+          "kernel_end_ns": 317350378408972,
+          "kernel_start_ns": 317350378398292,
+          "kind": 1,
+          "path": null,
+          "path2": null,
+          "ret": 1,
+          "scalar_args": {
+            "abi": "assignment.linux-bpf-work-scalar-args.v1",
+            "architecture": "x86_64",
+            "fd": 0,
+            "known": true,
+            "raw": [
+              0,
+              140733063455999,
+              1,
+              0,
+              0,
+              140733063455920
+            ],
+            "requested_size": 1,
+            "syscall_name": "read"
+          },
+          "status": 1
+        },
+        "kernel_duration_ns": 10680,
+        "status": "measured"
+      },
+      "write": {
+        "action_event_id": "event-0e52d0b36f061c648f2b6a18f623c2ee",
+        "action_token": 1032415338116989740,
+        "aggregate_count": 4,
+        "event": {
+          "kernel_end_ns": 317350380104191,
+          "kernel_start_ns": 317350380090221,
+          "kind": 2,
+          "path": null,
+          "path2": null,
+          "ret": 14,
+          "scalar_args": {
+            "abi": "assignment.linux-bpf-work-scalar-args.v1",
+            "architecture": "x86_64",
+            "fd": 2,
+            "known": true,
+            "raw": [
+              2,
+              103012372247392,
+              14,
+              0,
+              14,
+              0
+            ],
+            "requested_size": 14,
+            "syscall_name": "write"
+          },
+          "status": 1
+        },
+        "kernel_duration_ns": 13970,
+        "status": "measured"
+      }
+    }
+  },
+  "host_e2e": {
+    "closure_error_ns": 0,
+    "cross_clock_bpf_union_performed": false,
+    "measured_union_ms": 145814.380856,
+    "outer_e2e_ms": 153117.581093,
+    "status": "pass",
+    "unknown_residual_ms": 7303.200237
+  },
+  "native": {
+    "join_rule": "exact physical_request_id -> ASGI observation -> chatcmpl-<physical_request_id> -> raw.engine_request_id; no timestamp or ordinal fallback",
+    "native_finished_count": 40,
+    "native_hash_mismatch_count": 0,
+    "native_http_terminal_count": 40,
+    "physical_request_count": 40,
+    "unmatched_finished_count": 0
+  },
+  "representative_d1_d6": {
+    "fresh": {
+      "case_id": "configuration-confirmation-case-v1:11fcd3c59f36c09472479c6794493d546039acf8bc52c3fd372a3d811bcd4132",
+      "e2e_wall_ms": 153117.581093,
+      "instance_id": "django__django-7530",
+      "native_sums_ms": {
+        "decode": 74575.32895635813,
+        "e2e": 78120.32628059387,
+        "prefill": 3407.418036367744,
+        "queue": 1.9224761053919792
+      },
+      "official_resolved": true,
+      "ratio": 0.41848219838990913,
+      "repository": "django/django",
+      "settings": {
+        "call_limit": 50,
+        "max_input_tokens": 61440,
+        "max_output_tokens": 2048,
+        "observation_length": 100000,
+        "seed": 0,
+        "temperature": 0.0,
+        "top_p": 1.0
+      },
+      "suite": "verified",
+      "tool_execution_union_ms": 32634.391398,
+      "unknown_wall_ms": 7303.200237
+    },
+    "matches_retained_row": {
+      "e2e_wall_ms": true,
+      "native_sums_ms": true,
+      "ratio": true,
+      "tool_execution_union_ms": true,
+      "unknown_wall_ms": true
+    }
+  },
+  "scope": "closed combined-case-v8 integration fixture only; not production data"
+}

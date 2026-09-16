@@ -1,0 +1,983 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1540" height="730" viewBox="0 0 1540 730">
+<title>D9 diagnostic · Category latency vs model coverage</title>
+<desc>This diagnostic is separate from the unavailable PDF D3 task-accuracy plot; y is saved direct-E2E model coverage within 25%, not task resolution.</desc>
+<rect width="100%" height="100%" fill="#ffffff"/>
+<style>
+text{font-family:DejaVu Sans,Arial,sans-serif;fill:#172033}
+.title{font-size:24px;font-weight:800}.subtitle{font-size:13px;fill:#475467;font-weight:600}
+.panel-title{font-size:16px;font-weight:800}.tick{font-size:11px;fill:#344054;font-weight:700}
+.axis-label{font-size:13px;fill:#172033;font-weight:800}.note{font-size:11px;fill:#475467;font-weight:600}
+.grid{stroke:#e4e7ec;stroke-width:1}.frame{fill:#ffffff;stroke:#344054;stroke-width:2}
+.legend{font-size:11px;fill:#344054;font-weight:700}
+</style>
+<text x="34" y="34" class="title">D9 diagnostic · Category latency vs model coverage</text>
+<text x="34" y="58" class="subtitle">This diagnostic is separate from the unavailable PDF D3 task-accuracy plot; y is saved direct-E2E model coverage within 25%, not task resolution.</text>
+<rect class="frame" x="104.0" y="151.0" width="375.0" height="395.0"/>
+<line class="grid" x1="104.0" y1="151.0" x2="104.0" y2="546.0"/>
+<text x="104.0" y="568.0" class="tick" text-anchor="middle">105</text>
+<line class="grid" x1="179.0" y1="151.0" x2="179.0" y2="546.0"/>
+<text x="179.0" y="568.0" class="tick" text-anchor="middle">134</text>
+<line class="grid" x1="254.0" y1="151.0" x2="254.0" y2="546.0"/>
+<text x="254.0" y="568.0" class="tick" text-anchor="middle">162</text>
+<line class="grid" x1="329.0" y1="151.0" x2="329.0" y2="546.0"/>
+<text x="329.0" y="568.0" class="tick" text-anchor="middle">191</text>
+<line class="grid" x1="404.0" y1="151.0" x2="404.0" y2="546.0"/>
+<text x="404.0" y="568.0" class="tick" text-anchor="middle">219</text>
+<line class="grid" x1="479.0" y1="151.0" x2="479.0" y2="546.0"/>
+<text x="479.0" y="568.0" class="tick" text-anchor="middle">248</text>
+<line class="grid" x1="104.0" y1="546.0" x2="479.0" y2="546.0"/>
+<text x="94.0" y="550.0" class="tick" text-anchor="end">0</text>
+<line class="grid" x1="104.0" y1="467.0" x2="479.0" y2="467.0"/>
+<text x="94.0" y="471.0" class="tick" text-anchor="end">20</text>
+<line class="grid" x1="104.0" y1="388.0" x2="479.0" y2="388.0"/>
+<text x="94.0" y="392.0" class="tick" text-anchor="end">40</text>
+<line class="grid" x1="104.0" y1="309.0" x2="479.0" y2="309.0"/>
+<text x="94.0" y="313.0" class="tick" text-anchor="end">60</text>
+<line class="grid" x1="104.0" y1="230.0" x2="479.0" y2="230.0"/>
+<text x="94.0" y="234.0" class="tick" text-anchor="end">80</text>
+<line class="grid" x1="104.0" y1="151.0" x2="479.0" y2="151.0"/>
+<text x="94.0" y="155.0" class="tick" text-anchor="end">100</text>
+<text x="291.5" y="594.0" class="axis-label" text-anchor="middle">Mean observed outer E2E (s)</text>
+<text x="52.0" y="348.5" class="axis-label" text-anchor="middle" transform="rotate(-90 52.0 348.5)">OOF model coverage ≤25% (%)</text>
+<text x="48.0" y="120.0" class="panel-title" >Model coverage proxy vs average latency</text>
+<circle cx="307.1" cy="312.6" r="15.0" fill="#1769aa" fill-opacity="0.28" stroke="#1769aa" stroke-width="2"><title>astropy/astropy · n=22 · coverage=59.09%</title></circle>
+<text x="326.1" y="316.6" class="note" fill="#1769aa">astropy/astropy</text>
+<circle cx="250.9" cy="270.4" r="34.8" fill="#7a5af8" fill-opacity="0.28" stroke="#7a5af8" stroke-width="2"><title>django/django · n=268 · coverage=69.78%</title></circle>
+<text x="289.8" y="274.4" class="note" fill="#7a5af8">django/django</text>
+<circle cx="347.1" cy="376.7" r="18.0" fill="#18794e" fill-opacity="0.28" stroke="#18794e" stroke-width="2"><title>matplotlib/matplotlib · n=42 · coverage=42.86%</title></circle>
+<text x="369.1" y="380.7" class="note" fill="#18794e">matplotlib/matplo…</text>
+<circle cx="262.5" cy="388.0" r="10.8" fill="#b54708" fill-opacity="0.28" stroke="#b54708" stroke-width="2"><title>mwaskom/seaborn · n=5 · coverage=40.00%</title></circle>
+<text x="277.3" y="392.0" class="note" fill="#b54708">mwaskom/seaborn</text>
+<circle cx="181.8" cy="151.0" r="10.4" fill="#c11574" fill-opacity="0.28" stroke="#c11574" stroke-width="2"><title>pallets/flask · n=4 · coverage=100.00%</title></circle>
+<text x="196.2" y="155.0" class="note" fill="#c11574">pallets/flask</text>
+<circle cx="453.1" cy="309.0" r="12.4" fill="#026aa2" fill-opacity="0.28" stroke="#026aa2" stroke-width="2"><title>psf/requests · n=10 · coverage=60.00%</title></circle>
+<text x="469.5" y="313.0" class="note" fill="#026aa2">psf/requests</text>
+<circle cx="305.8" cy="360.1" r="14.0" fill="#b42318" fill-opacity="0.28" stroke="#b42318" stroke-width="2"><title>pydata/xarray · n=17 · coverage=47.06%</title></circle>
+<text x="323.8" y="364.1" class="note" fill="#b42318">pydata/xarray</text>
+<circle cx="227.6" cy="263.9" r="13.4" fill="#667085" fill-opacity="0.28" stroke="#667085" stroke-width="2"><title>pylint-dev/pylint · n=14 · coverage=71.43%</title></circle>
+<text x="244.9" y="267.9" class="note" fill="#667085">pylint-dev/pylint</text>
+<circle cx="190.9" cy="210.2" r="14.6" fill="#0086c9" fill-opacity="0.28" stroke="#0086c9" stroke-width="2"><title>pytest-dev/pytest · n=20 · coverage=85.00%</title></circle>
+<text x="209.5" y="214.2" class="note" fill="#0086c9">pytest-dev/pytest</text>
+<circle cx="193.8" cy="245.0" r="18.0" fill="#9e77ed" fill-opacity="0.28" stroke="#9e77ed" stroke-width="2"><title>scikit-learn/scikit-learn · n=42 · coverage=76.19%</title></circle>
+<text x="215.8" y="249.0" class="note" fill="#9e77ed">scikit-learn/scik…</text>
+<circle cx="248.2" cy="293.9" r="18.7" fill="#1769aa" fill-opacity="0.28" stroke="#1769aa" stroke-width="2"><title>sphinx-doc/sphinx · n=47 · coverage=63.83%</title></circle>
+<text x="270.8" y="297.9" class="note" fill="#1769aa">sphinx-doc/sphinx</text>
+<circle cx="129.9" cy="278.4" r="25.9" fill="#7a5af8" fill-opacity="0.28" stroke="#7a5af8" stroke-width="2"><title>sympy/sympy · n=124 · coverage=67.74%</title></circle>
+<text x="159.8" y="282.4" class="note" fill="#7a5af8">sympy/sympy</text>
+<rect class="frame" x="607.0" y="151.0" width="370.0" height="395.0"/>
+<line class="grid" x1="607.0" y1="151.0" x2="607.0" y2="546.0"/>
+<text x="607.0" y="568.0" class="tick" text-anchor="middle">0.1</text>
+<line class="grid" x1="792.0" y1="151.0" x2="792.0" y2="546.0"/>
+<text x="792.0" y="568.0" class="tick" text-anchor="middle">1</text>
+<line class="grid" x1="977.0" y1="151.0" x2="977.0" y2="546.0"/>
+<text x="977.0" y="568.0" class="tick" text-anchor="middle">10</text>
+<line class="grid" x1="607.0" y1="546.0" x2="977.0" y2="546.0"/>
+<text x="597.0" y="550.0" class="tick" text-anchor="end">0</text>
+<line class="grid" x1="607.0" y1="467.0" x2="977.0" y2="467.0"/>
+<text x="597.0" y="471.0" class="tick" text-anchor="end">20</text>
+<line class="grid" x1="607.0" y1="388.0" x2="977.0" y2="388.0"/>
+<text x="597.0" y="392.0" class="tick" text-anchor="end">40</text>
+<line class="grid" x1="607.0" y1="309.0" x2="977.0" y2="309.0"/>
+<text x="597.0" y="313.0" class="tick" text-anchor="end">60</text>
+<line class="grid" x1="607.0" y1="230.0" x2="977.0" y2="230.0"/>
+<text x="597.0" y="234.0" class="tick" text-anchor="end">80</text>
+<line class="grid" x1="607.0" y1="151.0" x2="977.0" y2="151.0"/>
+<text x="597.0" y="155.0" class="tick" text-anchor="end">100</text>
+<text x="792.0" y="594.0" class="axis-label" text-anchor="middle">Mean tool / model proxy ratio (log scale)</text>
+<text x="555.0" y="348.5" class="axis-label" text-anchor="middle" transform="rotate(-90 555.0 348.5)">OOF model coverage ≤25% (%)</text>
+<text x="546.0" y="120.0" class="panel-title" >Model coverage proxy vs CPU/GPU proxy latency</text>
+<circle cx="748.4" cy="312.6" r="15.0" fill="#1769aa" fill-opacity="0.28" stroke="#1769aa" stroke-width="2"><title>astropy/astropy · n=22 · ratio=0.5812</title></circle>
+<text x="767.4" y="316.6" class="note" fill="#1769aa">astropy/astropy</text>
+<circle cx="711.4" cy="270.4" r="34.8" fill="#7a5af8" fill-opacity="0.28" stroke="#7a5af8" stroke-width="2"><title>django/django · n=268 · ratio=0.3668</title></circle>
+<text x="750.3" y="274.4" class="note" fill="#7a5af8">django/django</text>
+<circle cx="756.9" cy="376.7" r="18.0" fill="#18794e" fill-opacity="0.28" stroke="#18794e" stroke-width="2"><title>matplotlib/matplotlib · n=42 · ratio=0.6459</title></circle>
+<text x="778.9" y="380.7" class="note" fill="#18794e">matplotlib/matplo…</text>
+<circle cx="730.1" cy="388.0" r="10.8" fill="#b54708" fill-opacity="0.28" stroke="#b54708" stroke-width="2"><title>mwaskom/seaborn · n=5 · ratio=0.463</title></circle>
+<text x="744.9" y="392.0" class="note" fill="#b54708">mwaskom/seaborn</text>
+<circle cx="678.7" cy="151.0" r="10.4" fill="#c11574" fill-opacity="0.28" stroke="#c11574" stroke-width="2"><title>pallets/flask · n=4 · ratio=0.2441</title></circle>
+<text x="693.1" y="155.0" class="note" fill="#c11574">pallets/flask</text>
+<circle cx="722.5" cy="309.0" r="12.4" fill="#026aa2" fill-opacity="0.28" stroke="#026aa2" stroke-width="2"><title>psf/requests · n=10 · ratio=0.4209</title></circle>
+<text x="738.9" y="313.0" class="note" fill="#026aa2">psf/requests</text>
+<circle cx="796.6" cy="360.1" r="14.0" fill="#b42318" fill-opacity="0.28" stroke="#b42318" stroke-width="2"><title>pydata/xarray · n=17 · ratio=1.059</title></circle>
+<text x="814.6" y="364.1" class="note" fill="#b42318">pydata/xarray</text>
+<circle cx="747.1" cy="263.9" r="13.4" fill="#667085" fill-opacity="0.28" stroke="#667085" stroke-width="2"><title>pylint-dev/pylint · n=14 · ratio=0.5722</title></circle>
+<text x="764.5" y="267.9" class="note" fill="#667085">pylint-dev/pylint</text>
+<circle cx="733.6" cy="210.2" r="14.6" fill="#0086c9" fill-opacity="0.28" stroke="#0086c9" stroke-width="2"><title>pytest-dev/pytest · n=20 · ratio=0.4836</title></circle>
+<text x="752.2" y="214.2" class="note" fill="#0086c9">pytest-dev/pytest</text>
+<circle cx="754.1" cy="245.0" r="18.0" fill="#9e77ed" fill-opacity="0.28" stroke="#9e77ed" stroke-width="2"><title>scikit-learn/scikit-learn · n=42 · ratio=0.6242</title></circle>
+<text x="776.1" y="249.0" class="note" fill="#9e77ed">scikit-learn/scik…</text>
+<circle cx="707.6" cy="293.9" r="18.7" fill="#1769aa" fill-opacity="0.28" stroke="#1769aa" stroke-width="2"><title>sphinx-doc/sphinx · n=47 · ratio=0.3496</title></circle>
+<text x="730.2" y="297.9" class="note" fill="#1769aa">sphinx-doc/sphinx</text>
+<circle cx="715.1" cy="278.4" r="25.9" fill="#7a5af8" fill-opacity="0.28" stroke="#7a5af8" stroke-width="2"><title>sympy/sympy · n=124 · ratio=0.3838</title></circle>
+<text x="745.0" y="282.4" class="note" fill="#7a5af8">sympy/sympy</text>
+<rect class="frame" x="1105.0" y="151.0" width="370.0" height="395.0"/>
+<line class="grid" x1="1105.0" y1="151.0" x2="1105.0" y2="546.0"/>
+<text x="1105.0" y="568.0" class="tick" text-anchor="middle">0.01</text>
+<line class="grid" x1="1197.5" y1="151.0" x2="1197.5" y2="546.0"/>
+<text x="1197.5" y="568.0" class="tick" text-anchor="middle">0.1</text>
+<line class="grid" x1="1290.0" y1="151.0" x2="1290.0" y2="546.0"/>
+<text x="1290.0" y="568.0" class="tick" text-anchor="middle">1</text>
+<line class="grid" x1="1382.5" y1="151.0" x2="1382.5" y2="546.0"/>
+<text x="1382.5" y="568.0" class="tick" text-anchor="middle">10</text>
+<line class="grid" x1="1475.0" y1="151.0" x2="1475.0" y2="546.0"/>
+<text x="1475.0" y="568.0" class="tick" text-anchor="middle">100</text>
+<line class="grid" x1="1105.0" y1="546.0" x2="1475.0" y2="546.0"/>
+<text x="1095.0" y="550.0" class="tick" text-anchor="end">0</text>
+<line class="grid" x1="1105.0" y1="467.0" x2="1475.0" y2="467.0"/>
+<text x="1095.0" y="471.0" class="tick" text-anchor="end">291</text>
+<line class="grid" x1="1105.0" y1="388.0" x2="1475.0" y2="388.0"/>
+<text x="1095.0" y="392.0" class="tick" text-anchor="end">582</text>
+<line class="grid" x1="1105.0" y1="309.0" x2="1475.0" y2="309.0"/>
+<text x="1095.0" y="313.0" class="tick" text-anchor="end">873</text>
+<line class="grid" x1="1105.0" y1="230.0" x2="1475.0" y2="230.0"/>
+<text x="1095.0" y="234.0" class="tick" text-anchor="end">1.16e+03</text>
+<line class="grid" x1="1105.0" y1="151.0" x2="1475.0" y2="151.0"/>
+<text x="1095.0" y="155.0" class="tick" text-anchor="end">1.45e+03</text>
+<text x="1290.0" y="594.0" class="axis-label" text-anchor="middle">Tool / model proxy ratio (log scale)</text>
+<text x="1053.0" y="348.5" class="axis-label" text-anchor="middle" transform="rotate(-90 1053.0 348.5)">Observed outer E2E (s)</text>
+<text x="1044.0" y="120.0" class="panel-title" >Per-trajectory proxy latency samples</text>
+<circle cx="1291.1" cy="489.5" r="3.2" fill="#9e77ed" fill-opacity="0.48"><title>scikit-learn/scikit-learn · scikit-learn__scikit-learn-25232 · ratio=1.029 · E2E=208s</title></circle>
+<circle cx="1248.5" cy="522.4" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-12419 · ratio=0.3559 · E2E=86.8s</title></circle>
+<circle cx="1250.6" cy="516.2" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-17029 · ratio=0.3754 · E2E=110s</title></circle>
+<circle cx="1229.4" cy="517.4" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-19954 · ratio=0.2213 · E2E=105s</title></circle>
+<circle cx="1240.0" cy="525.1" r="3.2" fill="#18794e" fill-opacity="0.48"><title>matplotlib/matplotlib · matplotlib__matplotlib-13989 · ratio=0.2878 · E2E=76.9s</title></circle>
+<circle cx="1242.8" cy="516.0" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13401 · ratio=0.3086 · E2E=111s</title></circle>
+<circle cx="1216.7" cy="524.6" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>sphinx-doc/sphinx · sphinx-doc__sphinx-9367 · ratio=0.1614 · E2E=78.8s</title></circle>
+<circle cx="1251.0" cy="514.5" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-19346 · ratio=0.379 · E2E=116s</title></circle>
+<circle cx="1214.1" cy="513.8" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-13647 · ratio=0.1511 · E2E=119s</title></circle>
+<circle cx="1206.3" cy="521.6" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>sphinx-doc/sphinx · sphinx-doc__sphinx-9367 · ratio=0.1245 · E2E=89.9s</title></circle>
+<circle cx="1251.0" cy="325.9" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-14351 · ratio=0.3783 · E2E=811s</title></circle>
+<circle cx="1246.9" cy="504.9" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-11740 · ratio=0.342 · E2E=152s</title></circle>
+<circle cx="1231.7" cy="519.9" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-22456 · ratio=0.2346 · E2E=96.1s</title></circle>
+<circle cx="1242.8" cy="507.0" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-16527 · ratio=0.3086 · E2E=144s</title></circle>
+<circle cx="1235.8" cy="510.2" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-12276 · ratio=0.2594 · E2E=132s</title></circle>
+<circle cx="1191.4" cy="508.0" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-17084 · ratio=0.08583 · E2E=140s</title></circle>
+<circle cx="1290.2" cy="515.9" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-13437 · ratio=1.006 · E2E=111s</title></circle>
+<circle cx="1285.0" cy="509.1" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-12453 · ratio=0.883 · E2E=136s</title></circle>
+<circle cx="1248.6" cy="517.4" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-21612 · ratio=0.3564 · E2E=105s</title></circle>
+<circle cx="1239.5" cy="510.9" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13023 · ratio=0.2843 · E2E=129s</title></circle>
+<circle cx="1249.1" cy="505.4" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-11603 · ratio=0.3613 · E2E=150s</title></circle>
+<circle cx="1272.2" cy="516.4" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>sphinx-doc/sphinx · sphinx-doc__sphinx-10325 · ratio=0.6419 · E2E=109s</title></circle>
+<circle cx="1243.5" cy="510.5" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-11815 · ratio=0.3143 · E2E=131s</title></circle>
+<circle cx="1266.0" cy="504.7" r="3.2" fill="#9e77ed" fill-opacity="0.48"><title>scikit-learn/scikit-learn · scikit-learn__scikit-learn-13496 · ratio=0.5497 · E2E=152s</title></circle>
+<circle cx="1210.3" cy="517.2" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-15814 · ratio=0.1375 · E2E=106s</title></circle>
+<circle cx="1336.3" cy="467.3" r="3.2" fill="#9e77ed" fill-opacity="0.48"><title>scikit-learn/scikit-learn · scikit-learn__scikit-learn-14710 · ratio=3.17 · E2E=290s</title></circle>
+<circle cx="1230.5" cy="525.4" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-11880 · ratio=0.2275 · E2E=76s</title></circle>
+<circle cx="1219.4" cy="517.5" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>sphinx-doc/sphinx · sphinx-doc__sphinx-10435 · ratio=0.1723 · E2E=105s</title></circle>
+<circle cx="1223.5" cy="517.3" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>sphinx-doc/sphinx · sphinx-doc__sphinx-9258 · ratio=0.1911 · E2E=106s</title></circle>
+<circle cx="1261.8" cy="508.2" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-24213 · ratio=0.4954 · E2E=139s</title></circle>
+<circle cx="1212.1" cy="509.6" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-11999 · ratio=0.1438 · E2E=134s</title></circle>
+<circle cx="1218.8" cy="509.5" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-11728 · ratio=0.1697 · E2E=135s</title></circle>
+<circle cx="1236.5" cy="519.4" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-14351 · ratio=0.264 · E2E=98.1s</title></circle>
+<circle cx="1216.7" cy="507.7" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-16502 · ratio=0.1612 · E2E=141s</title></circle>
+<circle cx="1210.0" cy="516.3" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>sphinx-doc/sphinx · sphinx-doc__sphinx-9229 · ratio=0.1365 · E2E=109s</title></circle>
+<circle cx="1218.1" cy="518.2" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-14672 · ratio=0.1668 · E2E=102s</title></circle>
+<circle cx="1252.3" cy="519.5" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-18698 · ratio=0.391 · E2E=97.4s</title></circle>
+<circle cx="1240.9" cy="521.6" r="3.2" fill="#667085" fill-opacity="0.48"><title>pylint-dev/pylint · pylint-dev__pylint-8898 · ratio=0.2945 · E2E=89.9s</title></circle>
+<circle cx="1217.8" cy="505.7" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-13647 · ratio=0.1658 · E2E=148s</title></circle>
+<circle cx="1183.2" cy="507.3" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13158 · ratio=0.07008 · E2E=143s</title></circle>
+<circle cx="1256.5" cy="480.0" r="3.2" fill="#18794e" fill-opacity="0.48"><title>matplotlib/matplotlib · matplotlib__matplotlib-20676 · ratio=0.4341 · E2E=243s</title></circle>
+<circle cx="1259.7" cy="489.5" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-12983 · ratio=0.4705 · E2E=208s</title></circle>
+<circle cx="1213.5" cy="517.2" r="3.2" fill="#026aa2" fill-opacity="0.48"><title>psf/requests · psf__requests-2148 · ratio=0.1491 · E2E=106s</title></circle>
+<circle cx="1226.9" cy="508.8" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-14672 · ratio=0.2079 · E2E=137s</title></circle>
+<circle cx="1221.1" cy="507.9" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-11551 · ratio=0.1801 · E2E=140s</title></circle>
+<circle cx="1225.7" cy="514.1" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-15315 · ratio=0.2015 · E2E=117s</title></circle>
+<circle cx="1194.1" cy="499.1" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-11179 · ratio=0.09192 · E2E=173s</title></circle>
+<circle cx="1230.3" cy="510.1" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>sphinx-doc/sphinx · sphinx-doc__sphinx-10614 · ratio=0.2263 · E2E=132s</title></circle>
+<circle cx="1291.9" cy="498.2" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-11790 · ratio=1.047 · E2E=176s</title></circle>
+<circle cx="1248.9" cy="520.9" r="3.2" fill="#b42318" fill-opacity="0.48"><title>pydata/xarray · pydata__xarray-4493 · ratio=0.3597 · E2E=92.4s</title></circle>
+<circle cx="1227.0" cy="525.6" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-15599 · ratio=0.2084 · E2E=75.3s</title></circle>
+<circle cx="1239.1" cy="522.3" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-20801 · ratio=0.2814 · E2E=87.3s</title></circle>
+<circle cx="1266.2" cy="517.0" r="3.2" fill="#9e77ed" fill-opacity="0.48"><title>scikit-learn/scikit-learn · scikit-learn__scikit-learn-13584 · ratio=0.5531 · E2E=107s</title></circle>
+<circle cx="1197.8" cy="506.1" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13315 · ratio=0.1008 · E2E=147s</title></circle>
+<circle cx="1221.0" cy="508.9" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-15252 · ratio=0.1793 · E2E=137s</title></circle>
+<circle cx="1238.5" cy="505.4" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-11815 · ratio=0.2778 · E2E=149s</title></circle>
+<circle cx="1234.2" cy="521.8" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>astropy/astropy · astropy__astropy-13453 · ratio=0.2491 · E2E=89.3s</title></circle>
+<circle cx="1229.3" cy="525.0" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-11815 · ratio=0.221 · E2E=77.2s</title></circle>
+<circle cx="1205.6" cy="512.8" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13265 · ratio=0.1223 · E2E=122s</title></circle>
+<circle cx="1251.4" cy="509.4" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-15161 · ratio=0.3825 · E2E=135s</title></circle>
+<circle cx="1301.8" cy="478.6" r="3.2" fill="#667085" fill-opacity="0.48"><title>pylint-dev/pylint · pylint-dev__pylint-7277 · ratio=1.341 · E2E=248s</title></circle>
+<circle cx="1269.9" cy="492.1" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-16661 · ratio=0.6059 · E2E=199s</title></circle>
+<circle cx="1233.4" cy="506.8" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13757 · ratio=0.2442 · E2E=144s</title></circle>
+<circle cx="1278.9" cy="509.1" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-18057 · ratio=0.7581 · E2E=136s</title></circle>
+<circle cx="1207.8" cy="506.2" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-15368 · ratio=0.1294 · E2E=147s</title></circle>
+<circle cx="1233.1" cy="512.3" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>astropy/astropy · astropy__astropy-14539 · ratio=0.2427 · E2E=124s</title></circle>
+<circle cx="1227.4" cy="514.4" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-11451 · ratio=0.2103 · E2E=116s</title></circle>
+<circle cx="1254.6" cy="514.3" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-14817 · ratio=0.4143 · E2E=117s</title></circle>
+<circle cx="1240.6" cy="513.1" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>astropy/astropy · astropy__astropy-6938 · ratio=0.2922 · E2E=121s</title></circle>
+<circle cx="1242.7" cy="489.8" r="3.2" fill="#667085" fill-opacity="0.48"><title>pylint-dev/pylint · pylint-dev__pylint-6903 · ratio=0.3081 · E2E=207s</title></circle>
+<circle cx="1210.1" cy="505.5" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>astropy/astropy · astropy__astropy-6938 · ratio=0.137 · E2E=149s</title></circle>
+<circle cx="1231.2" cy="508.7" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-14349 · ratio=0.2312 · E2E=138s</title></circle>
+<circle cx="1276.8" cy="504.6" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-15781 · ratio=0.7207 · E2E=152s</title></circle>
+<circle cx="1287.1" cy="480.5" r="3.2" fill="#18794e" fill-opacity="0.48"><title>matplotlib/matplotlib · matplotlib__matplotlib-25311 · ratio=0.9307 · E2E=241s</title></circle>
+<circle cx="1226.1" cy="515.8" r="3.2" fill="#b42318" fill-opacity="0.48"><title>pydata/xarray · pydata__xarray-3364 · ratio=0.2038 · E2E=111s</title></circle>
+<circle cx="1228.3" cy="512.5" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-12700 · ratio=0.2152 · E2E=123s</title></circle>
+<circle cx="1240.7" cy="491.5" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>astropy/astropy · astropy__astropy-14182 · ratio=0.2932 · E2E=201s</title></circle>
+<circle cx="1232.1" cy="508.8" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-16595 · ratio=0.2364 · E2E=137s</title></circle>
+<circle cx="1218.2" cy="488.9" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13658 · ratio=0.1674 · E2E=210s</title></circle>
+<circle cx="1224.3" cy="518.2" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-15346 · ratio=0.1949 · E2E=103s</title></circle>
+<circle cx="1263.5" cy="523.2" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>astropy/astropy · astropy__astropy-7336 · ratio=0.5174 · E2E=84.1s</title></circle>
+<circle cx="1279.2" cy="465.8" r="3.2" fill="#18794e" fill-opacity="0.48"><title>matplotlib/matplotlib · matplotlib__matplotlib-25442 · ratio=0.7649 · E2E=296s</title></circle>
+<circle cx="1247.4" cy="512.7" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-12454 · ratio=0.3463 · E2E=122s</title></circle>
+<circle cx="1294.6" cy="515.2" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>sphinx-doc/sphinx · sphinx-doc__sphinx-9367 · ratio=1.122 · E2E=114s</title></circle>
+<circle cx="1247.1" cy="523.7" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-23191 · ratio=0.3436 · E2E=82s</title></circle>
+<circle cx="1220.7" cy="511.9" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-13615 · ratio=0.1783 · E2E=126s</title></circle>
+<circle cx="1221.4" cy="500.3" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-11333 · ratio=0.1813 · E2E=168s</title></circle>
+<circle cx="1264.8" cy="514.1" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-14531 · ratio=0.5338 · E2E=117s</title></circle>
+<circle cx="1237.2" cy="494.1" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-11815 · ratio=0.2686 · E2E=191s</title></circle>
+<circle cx="1252.2" cy="519.4" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>sphinx-doc/sphinx · sphinx-doc__sphinx-9711 · ratio=0.3899 · E2E=97.8s</title></circle>
+<circle cx="1195.6" cy="508.3" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-10999 · ratio=0.09531 · E2E=139s</title></circle>
+<circle cx="1240.9" cy="517.5" r="3.2" fill="#9e77ed" fill-opacity="0.48"><title>scikit-learn/scikit-learn · scikit-learn__scikit-learn-13124 · ratio=0.2945 · E2E=105s</title></circle>
+<circle cx="1277.7" cy="502.4" r="3.2" fill="#026aa2" fill-opacity="0.48"><title>psf/requests · psf__requests-6028 · ratio=0.7357 · E2E=161s</title></circle>
+<circle cx="1231.3" cy="516.6" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-11797 · ratio=0.232 · E2E=108s</title></circle>
+<circle cx="1241.1" cy="518.4" r="3.2" fill="#0086c9" fill-opacity="0.48"><title>pytest-dev/pytest · pytest-dev__pytest-5227 · ratio=0.2957 · E2E=102s</title></circle>
+<circle cx="1239.2" cy="518.2" r="3.2" fill="#9e77ed" fill-opacity="0.48"><title>scikit-learn/scikit-learn · scikit-learn__scikit-learn-13328 · ratio=0.2825 · E2E=103s</title></circle>
+<circle cx="1262.9" cy="511.3" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-11564 · ratio=0.509 · E2E=128s</title></circle>
+<circle cx="1244.0" cy="522.9" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-16766 · ratio=0.3181 · E2E=85.2s</title></circle>
+<circle cx="1304.7" cy="499.6" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>sphinx-doc/sphinx · sphinx-doc__sphinx-9320 · ratio=1.442 · E2E=171s</title></circle>
+<circle cx="1226.3" cy="499.8" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-16256 · ratio=0.2046 · E2E=170s</title></circle>
+<circle cx="1250.3" cy="503.2" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>astropy/astropy · astropy__astropy-7671 · ratio=0.3723 · E2E=158s</title></circle>
+<circle cx="1229.0" cy="519.5" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-19637 · ratio=0.2188 · E2E=97.5s</title></circle>
+<circle cx="1255.7" cy="466.0" r="3.2" fill="#18794e" fill-opacity="0.48"><title>matplotlib/matplotlib · matplotlib__matplotlib-23987 · ratio=0.4256 · E2E=295s</title></circle>
+<circle cx="1219.9" cy="515.1" r="3.2" fill="#9e77ed" fill-opacity="0.48"><title>scikit-learn/scikit-learn · scikit-learn__scikit-learn-13584 · ratio=0.1746 · E2E=114s</title></circle>
+<circle cx="1238.9" cy="520.6" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>sphinx-doc/sphinx · sphinx-doc__sphinx-7454 · ratio=0.2805 · E2E=93.7s</title></circle>
+<circle cx="1340.6" cy="479.2" r="3.2" fill="#9e77ed" fill-opacity="0.48"><title>scikit-learn/scikit-learn · scikit-learn__scikit-learn-14496 · ratio=3.523 · E2E=246s</title></circle>
+<circle cx="1222.8" cy="520.2" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-12497 · ratio=0.1876 · E2E=95.1s</title></circle>
+<circle cx="1199.5" cy="505.4" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-16256 · ratio=0.105 · E2E=150s</title></circle>
+<circle cx="1196.3" cy="510.2" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-11206 · ratio=0.0971 · E2E=132s</title></circle>
+<circle cx="1220.4" cy="500.9" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-22005 · ratio=0.177 · E2E=166s</title></circle>
+<circle cx="1171.9" cy="509.4" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-15930 · ratio=0.05281 · E2E=135s</title></circle>
+<circle cx="1251.1" cy="520.1" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-23191 · ratio=0.3797 · E2E=95.5s</title></circle>
+<circle cx="1293.2" cy="506.2" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>sphinx-doc/sphinx · sphinx-doc__sphinx-9367 · ratio=1.083 · E2E=147s</title></circle>
+<circle cx="1222.7" cy="519.6" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13449 · ratio=0.1873 · E2E=97.1s</title></circle>
+<circle cx="1243.3" cy="489.6" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-16041 · ratio=0.3131 · E2E=208s</title></circle>
+<circle cx="1248.5" cy="521.5" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>astropy/astropy · astropy__astropy-13398 · ratio=0.3557 · E2E=90.3s</title></circle>
+<circle cx="1290.7" cy="511.3" r="3.2" fill="#9e77ed" fill-opacity="0.48"><title>scikit-learn/scikit-learn · scikit-learn__scikit-learn-13439 · ratio=1.017 · E2E=128s</title></circle>
+<circle cx="1238.7" cy="519.9" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-11734 · ratio=0.2792 · E2E=96.3s</title></circle>
+<circle cx="1228.9" cy="514.6" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-23262 · ratio=0.2186 · E2E=116s</title></circle>
+<circle cx="1238.6" cy="507.6" r="3.2" fill="#9e77ed" fill-opacity="0.48"><title>scikit-learn/scikit-learn · scikit-learn__scikit-learn-10908 · ratio=0.2779 · E2E=142s</title></circle>
+<circle cx="1306.4" cy="480.7" r="3.2" fill="#18794e" fill-opacity="0.48"><title>matplotlib/matplotlib · matplotlib__matplotlib-25079 · ratio=1.503 · E2E=240s</title></circle>
+<circle cx="1298.8" cy="478.2" r="3.2" fill="#b42318" fill-opacity="0.48"><title>pydata/xarray · pydata__xarray-6461 · ratio=1.245 · E2E=250s</title></circle>
+<circle cx="1221.5" cy="529.4" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13658 · ratio=0.1818 · E2E=61.1s</title></circle>
+<circle cx="1230.9" cy="519.4" r="3.2" fill="#18794e" fill-opacity="0.48"><title>matplotlib/matplotlib · matplotlib__matplotlib-23562 · ratio=0.2299 · E2E=98.1s</title></circle>
+<circle cx="1292.0" cy="507.8" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-13471 · ratio=1.05 · E2E=141s</title></circle>
+<circle cx="1260.5" cy="514.9" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-16820 · ratio=0.4801 · E2E=114s</title></circle>
+<circle cx="1251.1" cy="505.0" r="3.2" fill="#b54708" fill-opacity="0.48"><title>mwaskom/seaborn · mwaskom__seaborn-3069 · ratio=0.3793 · E2E=151s</title></circle>
+<circle cx="1288.7" cy="506.2" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-15380 · ratio=0.969 · E2E=147s</title></circle>
+<circle cx="1310.4" cy="489.3" r="3.2" fill="#b42318" fill-opacity="0.48"><title>pydata/xarray · pydata__xarray-6599 · ratio=1.663 · E2E=209s</title></circle>
+<circle cx="1270.6" cy="506.4" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13658 · ratio=0.6167 · E2E=146s</title></circle>
+<circle cx="1218.8" cy="512.7" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13568 · ratio=0.1699 · E2E=123s</title></circle>
+<circle cx="1237.6" cy="504.7" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-24152 · ratio=0.2716 · E2E=152s</title></circle>
+<circle cx="1196.1" cy="510.2" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>sphinx-doc/sphinx · sphinx-doc__sphinx-7975 · ratio=0.09661 · E2E=132s</title></circle>
+<circle cx="1238.2" cy="512.0" r="3.2" fill="#9e77ed" fill-opacity="0.48"><title>scikit-learn/scikit-learn · scikit-learn__scikit-learn-15100 · ratio=0.2753 · E2E=125s</title></circle>
+<circle cx="1238.6" cy="518.5" r="3.2" fill="#18794e" fill-opacity="0.48"><title>matplotlib/matplotlib · matplotlib__matplotlib-26342 · ratio=0.278 · E2E=101s</title></circle>
+<circle cx="1235.0" cy="517.8" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-22714 · ratio=0.2541 · E2E=104s</title></circle>
+<circle cx="1267.2" cy="483.0" r="3.2" fill="#18794e" fill-opacity="0.48"><title>matplotlib/matplotlib · matplotlib__matplotlib-25287 · ratio=0.5668 · E2E=232s</title></circle>
+<circle cx="1199.5" cy="514.1" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>sphinx-doc/sphinx · sphinx-doc__sphinx-7985 · ratio=0.1052 · E2E=117s</title></circle>
+<circle cx="1256.6" cy="497.6" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-15851 · ratio=0.4358 · E2E=178s</title></circle>
+<circle cx="1234.7" cy="519.9" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13658 · ratio=0.2527 · E2E=96.2s</title></circle>
+<circle cx="1260.4" cy="521.2" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13794 · ratio=0.4781 · E2E=91.3s</title></circle>
+<circle cx="1251.2" cy="506.0" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>sphinx-doc/sphinx · sphinx-doc__sphinx-8035 · ratio=0.3804 · E2E=147s</title></circle>
+<circle cx="1222.5" cy="510.0" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-18199 · ratio=0.1862 · E2E=133s</title></circle>
+<circle cx="1303.7" cy="461.9" r="3.2" fill="#b42318" fill-opacity="0.48"><title>pydata/xarray · pydata__xarray-2905 · ratio=1.406 · E2E=310s</title></circle>
+<circle cx="1244.5" cy="512.0" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>astropy/astropy · astropy__astropy-6938 · ratio=0.3225 · E2E=125s</title></circle>
+<circle cx="1241.6" cy="507.6" r="3.2" fill="#18794e" fill-opacity="0.48"><title>matplotlib/matplotlib · matplotlib__matplotlib-26291 · ratio=0.2995 · E2E=141s</title></circle>
+<circle cx="1219.2" cy="520.7" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-16485 · ratio=0.1714 · E2E=93.3s</title></circle>
+<circle cx="1225.6" cy="518.2" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-14024 · ratio=0.2012 · E2E=102s</title></circle>
+<circle cx="1264.2" cy="509.3" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13741 · ratio=0.5266 · E2E=135s</title></circle>
+<circle cx="1301.4" cy="507.2" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>astropy/astropy · astropy__astropy-13033 · ratio=1.328 · E2E=143s</title></circle>
+<circle cx="1218.0" cy="511.5" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13568 · ratio=0.1665 · E2E=127s</title></circle>
+<circle cx="1236.2" cy="519.8" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-11133 · ratio=0.2619 · E2E=96.5s</title></circle>
+<circle cx="1261.9" cy="488.7" r="3.2" fill="#18794e" fill-opacity="0.48"><title>matplotlib/matplotlib · matplotlib__matplotlib-23562 · ratio=0.4967 · E2E=211s</title></circle>
+<circle cx="1235.8" cy="514.2" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-14373 · ratio=0.2594 · E2E=117s</title></circle>
+<circle cx="1305.3" cy="513.4" r="3.2" fill="#b42318" fill-opacity="0.48"><title>pydata/xarray · pydata__xarray-3095 · ratio=1.465 · E2E=120s</title></circle>
+<circle cx="1238.5" cy="516.0" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13670 · ratio=0.2777 · E2E=111s</title></circle>
+<circle cx="1257.3" cy="514.9" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-14774 · ratio=0.4433 · E2E=114s</title></circle>
+<circle cx="1243.9" cy="510.8" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-16503 · ratio=0.3172 · E2E=130s</title></circle>
+<circle cx="1167.2" cy="480.6" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13033 · ratio=0.04703 · E2E=241s</title></circle>
+<circle cx="1224.2" cy="505.6" r="3.2" fill="#c11574" fill-opacity="0.48"><title>pallets/flask · pallets__flask-4992 · ratio=0.1941 · E2E=149s</title></circle>
+<circle cx="1324.7" cy="488.5" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>astropy/astropy · astropy__astropy-14309 · ratio=2.373 · E2E=212s</title></circle>
+<circle cx="1236.1" cy="518.6" r="3.2" fill="#9e77ed" fill-opacity="0.48"><title>scikit-learn/scikit-learn · scikit-learn__scikit-learn-25570 · ratio=0.2612 · E2E=101s</title></circle>
+<circle cx="1273.7" cy="501.8" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>astropy/astropy · astropy__astropy-6938 · ratio=0.6657 · E2E=163s</title></circle>
+<circle cx="1270.6" cy="517.8" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-15382 · ratio=0.6172 · E2E=104s</title></circle>
+<circle cx="1225.1" cy="502.6" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13343 · ratio=0.1987 · E2E=160s</title></circle>
+<circle cx="1236.0" cy="511.5" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13516 · ratio=0.2606 · E2E=127s</title></circle>
+<circle cx="1196.9" cy="512.0" r="3.2" fill="#0086c9" fill-opacity="0.48"><title>pytest-dev/pytest · pytest-dev__pytest-5103 · ratio=0.09843 · E2E=125s</title></circle>
+<circle cx="1250.7" cy="509.6" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-15731 · ratio=0.3758 · E2E=134s</title></circle>
+<circle cx="1235.4" cy="520.1" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>sphinx-doc/sphinx · sphinx-doc__sphinx-9367 · ratio=0.2567 · E2E=95.5s</title></circle>
+<circle cx="1247.6" cy="518.0" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>sphinx-doc/sphinx · sphinx-doc__sphinx-7462 · ratio=0.3483 · E2E=103s</title></circle>
+<circle cx="1258.5" cy="510.3" r="3.2" fill="#b42318" fill-opacity="0.48"><title>pydata/xarray · pydata__xarray-4493 · ratio=0.4563 · E2E=132s</title></circle>
+<circle cx="1211.7" cy="512.4" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>sphinx-doc/sphinx · sphinx-doc__sphinx-9602 · ratio=0.1424 · E2E=124s</title></circle>
+<circle cx="1249.1" cy="505.1" r="3.2" fill="#0086c9" fill-opacity="0.48"><title>pytest-dev/pytest · pytest-dev__pytest-7205 · ratio=0.3608 · E2E=151s</title></circle>
+<circle cx="1219.8" cy="510.4" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-16255 · ratio=0.1743 · E2E=131s</title></circle>
+<circle cx="1230.9" cy="523.7" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-18211 · ratio=0.2297 · E2E=82s</title></circle>
+<circle cx="1228.3" cy="512.9" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-13895 · ratio=0.2153 · E2E=122s</title></circle>
+<circle cx="1252.5" cy="517.1" r="3.2" fill="#b42318" fill-opacity="0.48"><title>pydata/xarray · pydata__xarray-4493 · ratio=0.3935 · E2E=106s</title></circle>
+<circle cx="1230.5" cy="517.5" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-13877 · ratio=0.2273 · E2E=105s</title></circle>
+<circle cx="1231.5" cy="499.6" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-17087 · ratio=0.2331 · E2E=171s</title></circle>
+<circle cx="1239.5" cy="511.7" r="3.2" fill="#18794e" fill-opacity="0.48"><title>matplotlib/matplotlib · matplotlib__matplotlib-25960 · ratio=0.2842 · E2E=126s</title></circle>
+<circle cx="1319.9" cy="491.9" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-11066 · ratio=2.107 · E2E=199s</title></circle>
+<circle cx="1240.7" cy="517.2" r="3.2" fill="#9e77ed" fill-opacity="0.48"><title>scikit-learn/scikit-learn · scikit-learn__scikit-learn-12585 · ratio=0.293 · E2E=106s</title></circle>
+<circle cx="1233.3" cy="519.4" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13568 · ratio=0.2439 · E2E=98s</title></circle>
+<circle cx="1282.9" cy="499.6" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>sphinx-doc/sphinx · sphinx-doc__sphinx-11445 · ratio=0.838 · E2E=171s</title></circle>
+<circle cx="1243.7" cy="517.7" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-23191 · ratio=0.3157 · E2E=104s</title></circle>
+<circle cx="1228.3" cy="516.1" r="3.2" fill="#0086c9" fill-opacity="0.48"><title>pytest-dev/pytest · pytest-dev__pytest-5413 · ratio=0.2151 · E2E=110s</title></circle>
+<circle cx="1191.9" cy="507.3" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>sphinx-doc/sphinx · sphinx-doc__sphinx-8621 · ratio=0.08695 · E2E=143s</title></circle>
+<circle cx="1265.3" cy="460.7" r="3.2" fill="#18794e" fill-opacity="0.48"><title>matplotlib/matplotlib · matplotlib__matplotlib-24870 · ratio=0.5402 · E2E=314s</title></circle>
+<circle cx="1268.5" cy="516.7" r="3.2" fill="#b42318" fill-opacity="0.48"><title>pydata/xarray · pydata__xarray-4687 · ratio=0.5859 · E2E=108s</title></circle>
+<circle cx="1211.7" cy="514.0" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-15127 · ratio=0.1425 · E2E=118s</title></circle>
+<circle cx="1239.4" cy="516.3" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-15563 · ratio=0.2837 · E2E=110s</title></circle>
+<circle cx="1273.5" cy="514.8" r="3.2" fill="#9e77ed" fill-opacity="0.48"><title>scikit-learn/scikit-learn · scikit-learn__scikit-learn-13439 · ratio=0.664 · E2E=115s</title></circle>
+<circle cx="1265.8" cy="503.4" r="3.2" fill="#667085" fill-opacity="0.48"><title>pylint-dev/pylint · pylint-dev__pylint-7993 · ratio=0.5476 · E2E=157s</title></circle>
+<circle cx="1208.7" cy="514.0" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>sphinx-doc/sphinx · sphinx-doc__sphinx-9230 · ratio=0.1322 · E2E=118s</title></circle>
+<circle cx="1272.3" cy="501.3" r="3.2" fill="#9e77ed" fill-opacity="0.48"><title>scikit-learn/scikit-learn · scikit-learn__scikit-learn-10297 · ratio=0.6437 · E2E=165s</title></circle>
+<circle cx="1239.3" cy="504.6" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-16229 · ratio=0.2834 · E2E=153s</title></circle>
+<circle cx="1264.7" cy="517.6" r="3.2" fill="#b42318" fill-opacity="0.48"><title>pydata/xarray · pydata__xarray-4248 · ratio=0.5332 · E2E=104s</title></circle>
+<circle cx="1243.3" cy="524.4" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-22914 · ratio=0.3128 · E2E=79.6s</title></circle>
+<circle cx="1280.0" cy="513.9" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-15973 · ratio=0.7797 · E2E=118s</title></circle>
+<circle cx="1228.5" cy="517.6" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-23191 · ratio=0.2166 · E2E=105s</title></circle>
+<circle cx="1331.2" cy="488.7" r="3.2" fill="#b42318" fill-opacity="0.48"><title>pydata/xarray · pydata__xarray-6992 · ratio=2.787 · E2E=211s</title></circle>
+<circle cx="1203.6" cy="513.5" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-23262 · ratio=0.1163 · E2E=120s</title></circle>
+<circle cx="1229.0" cy="503.4" r="3.2" fill="#0086c9" fill-opacity="0.48"><title>pytest-dev/pytest · pytest-dev__pytest-5495 · ratio=0.219 · E2E=157s</title></circle>
+<circle cx="1227.6" cy="515.0" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-23191 · ratio=0.2115 · E2E=114s</title></circle>
+<circle cx="1241.5" cy="502.4" r="3.2" fill="#18794e" fill-opacity="0.48"><title>matplotlib/matplotlib · matplotlib__matplotlib-24334 · ratio=0.2992 · E2E=160s</title></circle>
+<circle cx="1245.7" cy="505.3" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-21612 · ratio=0.3317 · E2E=150s</title></circle>
+<circle cx="1235.4" cy="513.7" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-12489 · ratio=0.2571 · E2E=119s</title></circle>
+<circle cx="1254.5" cy="513.6" r="3.2" fill="#18794e" fill-opacity="0.48"><title>matplotlib/matplotlib · matplotlib__matplotlib-23562 · ratio=0.4136 · E2E=119s</title></circle>
+<circle cx="1237.3" cy="501.2" r="3.2" fill="#18794e" fill-opacity="0.48"><title>matplotlib/matplotlib · matplotlib__matplotlib-24177 · ratio=0.2696 · E2E=165s</title></circle>
+<circle cx="1242.5" cy="516.5" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-24066 · ratio=0.3067 · E2E=109s</title></circle>
+<circle cx="1195.5" cy="507.6" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-11239 · ratio=0.09516 · E2E=142s</title></circle>
+<circle cx="1266.6" cy="511.8" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13410 · ratio=0.5589 · E2E=126s</title></circle>
+<circle cx="1257.5" cy="518.6" r="3.2" fill="#9e77ed" fill-opacity="0.48"><title>scikit-learn/scikit-learn · scikit-learn__scikit-learn-13439 · ratio=0.4452 · E2E=101s</title></circle>
+<circle cx="1233.6" cy="511.0" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13925 · ratio=0.2459 · E2E=129s</title></circle>
+<circle cx="1244.7" cy="502.3" r="3.2" fill="#b42318" fill-opacity="0.48"><title>pydata/xarray · pydata__xarray-7233 · ratio=0.324 · E2E=161s</title></circle>
+<circle cx="1231.9" cy="518.4" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-12419 · ratio=0.2356 · E2E=102s</title></circle>
+<circle cx="1233.8" cy="522.7" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-14976 · ratio=0.2467 · E2E=85.9s</title></circle>
+<circle cx="1211.5" cy="513.6" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-17655 · ratio=0.1418 · E2E=119s</title></circle>
+<circle cx="1225.1" cy="498.3" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-11630 · ratio=0.1989 · E2E=176s</title></circle>
+<circle cx="1201.4" cy="509.7" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-16046 · ratio=0.1102 · E2E=134s</title></circle>
+<circle cx="1246.8" cy="523.8" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-16597 · ratio=0.3415 · E2E=81.7s</title></circle>
+<circle cx="1298.6" cy="511.8" r="3.2" fill="#18794e" fill-opacity="0.48"><title>matplotlib/matplotlib · matplotlib__matplotlib-13989 · ratio=1.24 · E2E=126s</title></circle>
+<circle cx="1219.2" cy="520.8" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-9296 · ratio=0.1716 · E2E=92.9s</title></circle>
+<circle cx="1256.9" cy="511.4" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-14140 · ratio=0.439 · E2E=127s</title></circle>
+<circle cx="1257.5" cy="484.1" r="3.2" fill="#18794e" fill-opacity="0.48"><title>matplotlib/matplotlib · matplotlib__matplotlib-23562 · ratio=0.4452 · E2E=228s</title></circle>
+<circle cx="1225.6" cy="505.7" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-13177 · ratio=0.2013 · E2E=148s</title></circle>
+<circle cx="1251.5" cy="517.3" r="3.2" fill="#b42318" fill-opacity="0.48"><title>pydata/xarray · pydata__xarray-4493 · ratio=0.3831 · E2E=106s</title></circle>
+<circle cx="1288.3" cy="508.2" r="3.2" fill="#18794e" fill-opacity="0.48"><title>matplotlib/matplotlib · matplotlib__matplotlib-23562 · ratio=0.9583 · E2E=139s</title></circle>
+<circle cx="1228.5" cy="513.9" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-23191 · ratio=0.2164 · E2E=118s</title></circle>
+<circle cx="1218.1" cy="514.9" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>sphinx-doc/sphinx · sphinx-doc__sphinx-9461 · ratio=0.1671 · E2E=115s</title></circle>
+<circle cx="1191.3" cy="481.2" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-11001 · ratio=0.08571 · E2E=239s</title></circle>
+<circle cx="1227.5" cy="519.4" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-11138 · ratio=0.2111 · E2E=98s</title></circle>
+<circle cx="1217.4" cy="519.8" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-14351 · ratio=0.164 · E2E=96.5s</title></circle>
+<circle cx="1274.2" cy="517.0" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-16792 · ratio=0.6753 · E2E=107s</title></circle>
+<circle cx="1220.9" cy="505.2" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-23413 · ratio=0.1792 · E2E=150s</title></circle>
+<circle cx="1224.7" cy="521.8" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-22456 · ratio=0.1969 · E2E=89.3s</title></circle>
+<circle cx="1205.1" cy="503.5" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13820 · ratio=0.1207 · E2E=157s</title></circle>
+<circle cx="1202.3" cy="516.9" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13658 · ratio=0.1127 · E2E=107s</title></circle>
+<circle cx="1231.6" cy="511.1" r="3.2" fill="#667085" fill-opacity="0.48"><title>pylint-dev/pylint · pylint-dev__pylint-4551 · ratio=0.2335 · E2E=129s</title></circle>
+<circle cx="1203.9" cy="490.1" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-11815 · ratio=0.1172 · E2E=206s</title></circle>
+<circle cx="1224.0" cy="511.5" r="3.2" fill="#0086c9" fill-opacity="0.48"><title>pytest-dev/pytest · pytest-dev__pytest-8906 · ratio=0.1936 · E2E=127s</title></circle>
+<circle cx="1246.1" cy="523.1" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>sphinx-doc/sphinx · sphinx-doc__sphinx-9367 · ratio=0.335 · E2E=84.5s</title></circle>
+<circle cx="1252.8" cy="511.9" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-23191 · ratio=0.3963 · E2E=126s</title></circle>
+<circle cx="1254.4" cy="494.1" r="3.2" fill="#b54708" fill-opacity="0.48"><title>mwaskom/seaborn · mwaskom__seaborn-3010 · ratio=0.412 · E2E=191s</title></circle>
+<circle cx="1243.9" cy="513.7" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-11618 · ratio=0.3171 · E2E=119s</title></circle>
+<circle cx="1236.5" cy="519.3" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-17051 · ratio=0.2638 · E2E=98.4s</title></circle>
+<circle cx="1262.2" cy="507.5" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-15561 · ratio=0.5011 · E2E=142s</title></circle>
+<circle cx="1276.9" cy="505.7" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-14787 · ratio=0.7211 · E2E=149s</title></circle>
+<circle cx="1234.0" cy="519.1" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-20322 · ratio=0.2478 · E2E=99.2s</title></circle>
+<circle cx="1198.2" cy="512.3" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>astropy/astropy · astropy__astropy-6938 · ratio=0.1018 · E2E=124s</title></circle>
+<circle cx="1264.9" cy="516.1" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>sphinx-doc/sphinx · sphinx-doc__sphinx-10325 · ratio=0.535 · E2E=110s</title></circle>
+<circle cx="1261.9" cy="524.2" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13658 · ratio=0.4965 · E2E=80.5s</title></circle>
+<circle cx="1253.5" cy="516.6" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-12308 · ratio=0.403 · E2E=108s</title></circle>
+<circle cx="1263.1" cy="518.3" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-14351 · ratio=0.5117 · E2E=102s</title></circle>
+<circle cx="1249.0" cy="504.2" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-11964 · ratio=0.3603 · E2E=154s</title></circle>
+<circle cx="1266.7" cy="511.8" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-15499 · ratio=0.5601 · E2E=126s</title></circle>
+<circle cx="1181.1" cy="505.3" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13569 · ratio=0.06642 · E2E=150s</title></circle>
+<circle cx="1221.1" cy="510.3" r="3.2" fill="#667085" fill-opacity="0.48"><title>pylint-dev/pylint · pylint-dev__pylint-4661 · ratio=0.1799 · E2E=131s</title></circle>
+<circle cx="1248.3" cy="516.0" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>sphinx-doc/sphinx · sphinx-doc__sphinx-10325 · ratio=0.3544 · E2E=111s</title></circle>
+<circle cx="1246.4" cy="511.5" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>sphinx-doc/sphinx · sphinx-doc__sphinx-10325 · ratio=0.3377 · E2E=127s</title></circle>
+<circle cx="1213.2" cy="512.9" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-14404 · ratio=0.1476 · E2E=122s</title></circle>
+<circle cx="1284.0" cy="513.0" r="3.2" fill="#b42318" fill-opacity="0.48"><title>pydata/xarray · pydata__xarray-3993 · ratio=0.8608 · E2E=122s</title></circle>
+<circle cx="1209.9" cy="511.2" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-15400 · ratio=0.1363 · E2E=128s</title></circle>
+<circle cx="1190.1" cy="481.1" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13315 · ratio=0.08321 · E2E=239s</title></circle>
+<circle cx="1263.8" cy="512.3" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-14311 · ratio=0.521 · E2E=124s</title></circle>
+<circle cx="1248.3" cy="522.2" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-17139 · ratio=0.3538 · E2E=87.5s</title></circle>
+<circle cx="1227.8" cy="524.7" r="3.2" fill="#026aa2" fill-opacity="0.48"><title>psf/requests · psf__requests-2931 · ratio=0.2128 · E2E=78.5s</title></circle>
+<circle cx="1217.8" cy="513.7" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-14855 · ratio=0.1656 · E2E=119s</title></circle>
+<circle cx="1226.0" cy="498.9" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-15202 · ratio=0.2034 · E2E=174s</title></circle>
+<circle cx="1221.0" cy="508.6" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-13551 · ratio=0.1794 · E2E=138s</title></circle>
+<circle cx="1253.7" cy="516.7" r="3.2" fill="#9e77ed" fill-opacity="0.48"><title>scikit-learn/scikit-learn · scikit-learn__scikit-learn-14983 · ratio=0.4052 · E2E=108s</title></circle>
+<circle cx="1246.8" cy="511.8" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-11583 · ratio=0.341 · E2E=126s</title></circle>
+<circle cx="1265.5" cy="468.4" r="3.2" fill="#18794e" fill-opacity="0.48"><title>matplotlib/matplotlib · matplotlib__matplotlib-25311 · ratio=0.5437 · E2E=286s</title></circle>
+<circle cx="1223.1" cy="525.4" r="3.2" fill="#026aa2" fill-opacity="0.48"><title>psf/requests · psf__requests-1142 · ratio=0.1894 · E2E=75.8s</title></circle>
+<circle cx="1240.1" cy="513.2" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-14351 · ratio=0.2886 · E2E=121s</title></circle>
+<circle cx="1219.6" cy="518.8" r="3.2" fill="#0086c9" fill-opacity="0.48"><title>pytest-dev/pytest · pytest-dev__pytest-6116 · ratio=0.1732 · E2E=100s</title></circle>
+<circle cx="1254.0" cy="501.1" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-15738 · ratio=0.4085 · E2E=165s</title></circle>
+<circle cx="1266.0" cy="522.5" r="3.2" fill="#9e77ed" fill-opacity="0.48"><title>scikit-learn/scikit-learn · scikit-learn__scikit-learn-13439 · ratio=0.5509 · E2E=86.5s</title></circle>
+<circle cx="1239.1" cy="518.8" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13658 · ratio=0.2816 · E2E=100s</title></circle>
+<circle cx="1238.0" cy="511.8" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-22456 · ratio=0.2742 · E2E=126s</title></circle>
+<circle cx="1270.6" cy="495.7" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-17029 · ratio=0.6176 · E2E=185s</title></circle>
+<circle cx="1239.1" cy="518.2" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-23191 · ratio=0.2819 · E2E=102s</title></circle>
+<circle cx="1222.8" cy="511.3" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13568 · ratio=0.1876 · E2E=128s</title></circle>
+<circle cx="1284.9" cy="504.6" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-14351 · ratio=0.8809 · E2E=153s</title></circle>
+<circle cx="1201.2" cy="516.0" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-14771 · ratio=0.1096 · E2E=111s</title></circle>
+<circle cx="1260.9" cy="513.2" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-16819 · ratio=0.4845 · E2E=121s</title></circle>
+<circle cx="1299.9" cy="515.5" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-21614 · ratio=1.28 · E2E=112s</title></circle>
+<circle cx="1237.5" cy="508.9" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-17087 · ratio=0.2709 · E2E=137s</title></circle>
+<circle cx="1271.2" cy="499.5" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-23191 · ratio=0.6269 · E2E=171s</title></circle>
+<circle cx="1190.2" cy="511.4" r="3.2" fill="#026aa2" fill-opacity="0.48"><title>psf/requests · psf__requests-2674 · ratio=0.08329 · E2E=127s</title></circle>
+<circle cx="1185.2" cy="511.6" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-16263 · ratio=0.07371 · E2E=127s</title></circle>
+<circle cx="1258.8" cy="517.8" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-21847 · ratio=0.4595 · E2E=104s</title></circle>
+<circle cx="1255.0" cy="516.9" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-14351 · ratio=0.4181 · E2E=107s</title></circle>
+<circle cx="1198.9" cy="481.3" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13658 · ratio=0.1035 · E2E=238s</title></circle>
+<circle cx="1252.5" cy="505.0" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-14351 · ratio=0.3936 · E2E=151s</title></circle>
+<circle cx="1169.1" cy="491.2" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-16910 · ratio=0.04929 · E2E=202s</title></circle>
+<circle cx="1257.5" cy="509.7" r="3.2" fill="#9e77ed" fill-opacity="0.48"><title>scikit-learn/scikit-learn · scikit-learn__scikit-learn-15535 · ratio=0.4448 · E2E=134s</title></circle>
+<circle cx="1225.9" cy="514.6" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13658 · ratio=0.2026 · E2E=116s</title></circle>
+<circle cx="1305.0" cy="509.6" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-11099 · ratio=1.451 · E2E=134s</title></circle>
+<circle cx="1282.6" cy="502.6" r="3.2" fill="#18794e" fill-opacity="0.48"><title>matplotlib/matplotlib · matplotlib__matplotlib-23562 · ratio=0.8319 · E2E=160s</title></circle>
+<circle cx="1220.0" cy="505.2" r="3.2" fill="#9e77ed" fill-opacity="0.48"><title>scikit-learn/scikit-learn · scikit-learn__scikit-learn-25102 · ratio=0.1749 · E2E=150s</title></circle>
+<circle cx="1216.0" cy="517.6" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13786 · ratio=0.1584 · E2E=105s</title></circle>
+<circle cx="1234.8" cy="520.6" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>sphinx-doc/sphinx · sphinx-doc__sphinx-10325 · ratio=0.2528 · E2E=93.5s</title></circle>
+<circle cx="1241.5" cy="512.2" r="3.2" fill="#9e77ed" fill-opacity="0.48"><title>scikit-learn/scikit-learn · scikit-learn__scikit-learn-13142 · ratio=0.2987 · E2E=125s</title></circle>
+<circle cx="1250.9" cy="513.5" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13807 · ratio=0.3776 · E2E=120s</title></circle>
+<circle cx="1218.7" cy="521.1" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-15098 · ratio=0.1693 · E2E=91.6s</title></circle>
+<circle cx="1215.9" cy="510.3" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-14580 · ratio=0.158 · E2E=132s</title></circle>
+<circle cx="1198.9" cy="487.0" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13346 · ratio=0.1036 · E2E=217s</title></circle>
+<circle cx="1222.8" cy="529.0" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>sphinx-doc/sphinx · sphinx-doc__sphinx-9367 · ratio=0.1877 · E2E=62.7s</title></circle>
+<circle cx="1280.2" cy="520.6" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-16139 · ratio=0.7837 · E2E=93.6s</title></circle>
+<circle cx="1235.3" cy="513.9" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13568 · ratio=0.2565 · E2E=118s</title></circle>
+<circle cx="1226.5" cy="509.1" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-14011 · ratio=0.2057 · E2E=136s</title></circle>
+<circle cx="1234.1" cy="515.4" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-23191 · ratio=0.2488 · E2E=113s</title></circle>
+<circle cx="1276.2" cy="511.1" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-19487 · ratio=0.7098 · E2E=129s</title></circle>
+<circle cx="1256.7" cy="517.8" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-16450 · ratio=0.4361 · E2E=104s</title></circle>
+<circle cx="1248.6" cy="500.0" r="3.2" fill="#9e77ed" fill-opacity="0.48"><title>scikit-learn/scikit-learn · scikit-learn__scikit-learn-11578 · ratio=0.3565 · E2E=170s</title></circle>
+<circle cx="1227.7" cy="511.8" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-11422 · ratio=0.2119 · E2E=126s</title></circle>
+<circle cx="1262.2" cy="506.1" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-12774 · ratio=0.5009 · E2E=147s</title></circle>
+<circle cx="1222.9" cy="517.7" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13925 · ratio=0.1882 · E2E=104s</title></circle>
+<circle cx="1220.5" cy="505.4" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-17655 · ratio=0.1775 · E2E=149s</title></circle>
+<circle cx="1237.0" cy="504.0" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-10924 · ratio=0.2672 · E2E=155s</title></circle>
+<circle cx="1223.4" cy="521.9" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>sphinx-doc/sphinx · sphinx-doc__sphinx-9591 · ratio=0.1904 · E2E=88.6s</title></circle>
+<circle cx="1266.4" cy="508.9" r="3.2" fill="#667085" fill-opacity="0.48"><title>pylint-dev/pylint · pylint-dev__pylint-7080 · ratio=0.5561 · E2E=137s</title></circle>
+<circle cx="1237.6" cy="512.7" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-15569 · ratio=0.2716 · E2E=123s</title></circle>
+<circle cx="1209.3" cy="515.0" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-11555 · ratio=0.1341 · E2E=114s</title></circle>
+<circle cx="1301.8" cy="486.6" r="3.2" fill="#b42318" fill-opacity="0.48"><title>pydata/xarray · pydata__xarray-4629 · ratio=1.342 · E2E=219s</title></circle>
+<circle cx="1211.5" cy="503.5" r="3.2" fill="#667085" fill-opacity="0.48"><title>pylint-dev/pylint · pylint-dev__pylint-5859 · ratio=0.1418 · E2E=157s</title></circle>
+<circle cx="1203.1" cy="513.8" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-15037 · ratio=0.115 · E2E=119s</title></circle>
+<circle cx="1218.3" cy="525.0" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>sphinx-doc/sphinx · sphinx-doc__sphinx-10325 · ratio=0.1677 · E2E=77.5s</title></circle>
+<circle cx="1225.8" cy="504.6" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-11815 · ratio=0.2022 · E2E=152s</title></circle>
+<circle cx="1254.5" cy="513.1" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13028 · ratio=0.4131 · E2E=121s</title></circle>
+<circle cx="1240.9" cy="248.8" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>sphinx-doc/sphinx · sphinx-doc__sphinx-8474 · ratio=0.2946 · E2E=1.09e+03s</title></circle>
+<circle cx="1206.6" cy="509.9" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-13915 · ratio=0.1253 · E2E=133s</title></circle>
+<circle cx="1256.8" cy="512.4" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-23950 · ratio=0.4379 · E2E=124s</title></circle>
+<circle cx="1240.6" cy="518.0" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-14317 · ratio=0.2922 · E2E=103s</title></circle>
+<circle cx="1295.5" cy="526.9" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-17029 · ratio=1.148 · E2E=70.3s</title></circle>
+<circle cx="1223.0" cy="518.3" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13658 · ratio=0.1889 · E2E=102s</title></circle>
+<circle cx="1219.3" cy="511.9" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-12236 · ratio=0.1721 · E2E=125s</title></circle>
+<circle cx="1267.2" cy="514.2" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-12708 · ratio=0.5671 · E2E=117s</title></circle>
+<circle cx="1235.0" cy="511.4" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-15467 · ratio=0.2541 · E2E=127s</title></circle>
+<circle cx="1256.0" cy="503.4" r="3.2" fill="#9e77ed" fill-opacity="0.48"><title>scikit-learn/scikit-learn · scikit-learn__scikit-learn-25638 · ratio=0.4291 · E2E=157s</title></circle>
+<circle cx="1219.8" cy="524.6" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>sphinx-doc/sphinx · sphinx-doc__sphinx-10325 · ratio=0.1743 · E2E=79s</title></circle>
+<circle cx="1237.6" cy="516.1" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13512 · ratio=0.2715 · E2E=110s</title></circle>
+<circle cx="1229.5" cy="516.0" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-15789 · ratio=0.2218 · E2E=110s</title></circle>
+<circle cx="1228.3" cy="517.9" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-15554 · ratio=0.2152 · E2E=103s</title></circle>
+<circle cx="1304.5" cy="501.2" r="3.2" fill="#9e77ed" fill-opacity="0.48"><title>scikit-learn/scikit-learn · scikit-learn__scikit-learn-13439 · ratio=1.435 · E2E=165s</title></circle>
+<circle cx="1259.1" cy="513.4" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-16792 · ratio=0.4634 · E2E=120s</title></circle>
+<circle cx="1311.4" cy="483.0" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-12113 · ratio=1.704 · E2E=232s</title></circle>
+<circle cx="1232.2" cy="512.8" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13658 · ratio=0.2371 · E2E=122s</title></circle>
+<circle cx="1238.9" cy="509.0" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-16527 · ratio=0.2801 · E2E=136s</title></circle>
+<circle cx="1240.6" cy="506.3" r="3.2" fill="#0086c9" fill-opacity="0.48"><title>pytest-dev/pytest · pytest-dev__pytest-7571 · ratio=0.2921 · E2E=146s</title></circle>
+<circle cx="1235.9" cy="509.3" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>sphinx-doc/sphinx · sphinx-doc__sphinx-8627 · ratio=0.2598 · E2E=135s</title></circle>
+<circle cx="1251.7" cy="508.7" r="3.2" fill="#0086c9" fill-opacity="0.48"><title>pytest-dev/pytest · pytest-dev__pytest-11143 · ratio=0.3857 · E2E=137s</title></circle>
+<circle cx="1310.9" cy="475.7" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-16454 · ratio=1.681 · E2E=259s</title></circle>
+<circle cx="1291.2" cy="500.3" r="3.2" fill="#667085" fill-opacity="0.48"><title>pylint-dev/pylint · pylint-dev__pylint-7080 · ratio=1.03 · E2E=168s</title></circle>
+<circle cx="1243.1" cy="531.9" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-23191 · ratio=0.3113 · E2E=51.9s</title></circle>
+<circle cx="1316.3" cy="500.9" r="3.2" fill="#667085" fill-opacity="0.48"><title>pylint-dev/pylint · pylint-dev__pylint-7114 · ratio=1.922 · E2E=166s</title></circle>
+<circle cx="1205.8" cy="503.4" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-12304 · ratio=0.1229 · E2E=157s</title></circle>
+<circle cx="1217.9" cy="522.1" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-22456 · ratio=0.1661 · E2E=88.2s</title></circle>
+<circle cx="1293.7" cy="499.7" r="3.2" fill="#18794e" fill-opacity="0.48"><title>matplotlib/matplotlib · matplotlib__matplotlib-23562 · ratio=1.096 · E2E=170s</title></circle>
+<circle cx="1228.4" cy="516.7" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13660 · ratio=0.2159 · E2E=108s</title></circle>
+<circle cx="1236.4" cy="520.2" r="3.2" fill="#b42318" fill-opacity="0.48"><title>pydata/xarray · pydata__xarray-4493 · ratio=0.2633 · E2E=95.2s</title></circle>
+<circle cx="1286.0" cy="494.4" r="3.2" fill="#18794e" fill-opacity="0.48"><title>matplotlib/matplotlib · matplotlib__matplotlib-22835 · ratio=0.9045 · E2E=190s</title></circle>
+<circle cx="1226.4" cy="514.4" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13658 · ratio=0.2055 · E2E=116s</title></circle>
+<circle cx="1250.4" cy="511.8" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-11163 · ratio=0.3731 · E2E=126s</title></circle>
+<circle cx="1223.8" cy="520.7" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>astropy/astropy · astropy__astropy-6938 · ratio=0.1923 · E2E=93.3s</title></circle>
+<circle cx="1224.3" cy="520.5" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-22456 · ratio=0.1947 · E2E=94s</title></circle>
+<circle cx="1195.2" cy="510.5" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-12286 · ratio=0.09455 · E2E=131s</title></circle>
+<circle cx="1254.7" cy="513.5" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-12050 · ratio=0.4154 · E2E=120s</title></circle>
+<circle cx="1270.2" cy="512.4" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-16408 · ratio=0.6105 · E2E=124s</title></circle>
+<circle cx="1239.5" cy="501.2" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-11095 · ratio=0.2848 · E2E=165s</title></circle>
+<circle cx="1235.6" cy="520.4" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-13091 · ratio=0.2583 · E2E=94.3s</title></circle>
+<circle cx="1236.3" cy="530.3" r="3.2" fill="#b42318" fill-opacity="0.48"><title>pydata/xarray · pydata__xarray-4493 · ratio=0.2628 · E2E=57.9s</title></circle>
+<circle cx="1226.5" cy="519.2" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-11400 · ratio=0.2056 · E2E=98.9s</title></circle>
+<circle cx="1300.5" cy="505.4" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-11820 · ratio=1.3 · E2E=150s</title></circle>
+<circle cx="1247.2" cy="505.9" r="3.2" fill="#0086c9" fill-opacity="0.48"><title>pytest-dev/pytest · pytest-dev__pytest-5221 · ratio=0.3442 · E2E=148s</title></circle>
+<circle cx="1204.7" cy="513.3" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-16631 · ratio=0.1196 · E2E=121s</title></circle>
+<circle cx="1267.9" cy="483.9" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>astropy/astropy · astropy__astropy-6938 · ratio=0.5773 · E2E=229s</title></circle>
+<circle cx="1232.2" cy="523.4" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>sphinx-doc/sphinx · sphinx-doc__sphinx-8459 · ratio=0.2372 · E2E=83.3s</title></circle>
+<circle cx="1238.2" cy="519.8" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-15629 · ratio=0.2755 · E2E=96.6s</title></circle>
+<circle cx="1242.0" cy="500.3" r="3.2" fill="#026aa2" fill-opacity="0.48"><title>psf/requests · psf__requests-1766 · ratio=0.3027 · E2E=168s</title></circle>
+<circle cx="1253.6" cy="520.8" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>sphinx-doc/sphinx · sphinx-doc__sphinx-9281 · ratio=0.404 · E2E=92.7s</title></circle>
+<circle cx="1294.2" cy="255.9" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-16256 · ratio=1.11 · E2E=1.07e+03s</title></circle>
+<circle cx="1284.5" cy="504.7" r="3.2" fill="#0086c9" fill-opacity="0.48"><title>pytest-dev/pytest · pytest-dev__pytest-7521 · ratio=0.8711 · E2E=152s</title></circle>
+<circle cx="1222.6" cy="515.8" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13658 · ratio=0.187 · E2E=111s</title></circle>
+<circle cx="1271.0" cy="510.2" r="3.2" fill="#026aa2" fill-opacity="0.48"><title>psf/requests · psf__requests-863 · ratio=0.6235 · E2E=132s</title></circle>
+<circle cx="1211.0" cy="517.3" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-15320 · ratio=0.1398 · E2E=106s</title></circle>
+<circle cx="1252.6" cy="521.8" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>sphinx-doc/sphinx · sphinx-doc__sphinx-8273 · ratio=0.3938 · E2E=89.3s</title></circle>
+<circle cx="1239.0" cy="512.0" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-15814 · ratio=0.2809 · E2E=125s</title></circle>
+<circle cx="1226.6" cy="513.1" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13568 · ratio=0.2063 · E2E=121s</title></circle>
+<circle cx="1242.7" cy="522.8" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-17139 · ratio=0.3084 · E2E=85.5s</title></circle>
+<circle cx="1308.9" cy="495.8" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>sphinx-doc/sphinx · sphinx-doc__sphinx-7910 · ratio=1.601 · E2E=185s</title></circle>
+<circle cx="1225.4" cy="500.2" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-14559 · ratio=0.2003 · E2E=169s</title></circle>
+<circle cx="1286.9" cy="515.6" r="3.2" fill="#18794e" fill-opacity="0.48"><title>matplotlib/matplotlib · matplotlib__matplotlib-23562 · ratio=0.926 · E2E=112s</title></circle>
+<circle cx="1206.6" cy="512.2" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13810 · ratio=0.1256 · E2E=124s</title></circle>
+<circle cx="1258.0" cy="518.7" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-12419 · ratio=0.4504 · E2E=101s</title></circle>
+<circle cx="1223.4" cy="515.3" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13658 · ratio=0.1904 · E2E=113s</title></circle>
+<circle cx="1277.7" cy="496.5" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-11999 · ratio=0.737 · E2E=182s</title></circle>
+<circle cx="1306.8" cy="513.0" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>astropy/astropy · astropy__astropy-14995 · ratio=1.52 · E2E=121s</title></circle>
+<circle cx="1249.8" cy="509.6" r="3.2" fill="#18794e" fill-opacity="0.48"><title>matplotlib/matplotlib · matplotlib__matplotlib-24265 · ratio=0.3675 · E2E=134s</title></circle>
+<circle cx="1226.7" cy="521.2" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>sphinx-doc/sphinx · sphinx-doc__sphinx-9367 · ratio=0.2068 · E2E=91.2s</title></circle>
+<circle cx="1280.4" cy="509.1" r="3.2" fill="#18794e" fill-opacity="0.48"><title>matplotlib/matplotlib · matplotlib__matplotlib-25332 · ratio=0.7878 · E2E=136s</title></circle>
+<circle cx="1252.2" cy="507.0" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-15268 · ratio=0.3901 · E2E=144s</title></circle>
+<circle cx="1251.3" cy="518.0" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>astropy/astropy · astropy__astropy-13977 · ratio=0.3815 · E2E=103s</title></circle>
+<circle cx="1204.7" cy="515.3" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13568 · ratio=0.1197 · E2E=113s</title></circle>
+<circle cx="1316.9" cy="503.5" r="3.2" fill="#9e77ed" fill-opacity="0.48"><title>scikit-learn/scikit-learn · scikit-learn__scikit-learn-10508 · ratio=1.953 · E2E=157s</title></circle>
+<circle cx="1235.1" cy="247.4" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>astropy/astropy · astropy__astropy-13579 · ratio=0.2549 · E2E=1.1e+03s</title></circle>
+<circle cx="1306.2" cy="507.9" r="3.2" fill="#9e77ed" fill-opacity="0.48"><title>scikit-learn/scikit-learn · scikit-learn__scikit-learn-13439 · ratio=1.498 · E2E=140s</title></circle>
+<circle cx="1307.4" cy="520.3" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>sphinx-doc/sphinx · sphinx-doc__sphinx-9367 · ratio=1.543 · E2E=94.7s</title></circle>
+<circle cx="1241.4" cy="523.6" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13568 · ratio=0.2984 · E2E=82.6s</title></circle>
+<circle cx="1285.7" cy="502.0" r="3.2" fill="#18794e" fill-opacity="0.48"><title>matplotlib/matplotlib · matplotlib__matplotlib-23562 · ratio=0.8993 · E2E=162s</title></circle>
+<circle cx="1264.5" cy="509.9" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-17029 · ratio=0.5301 · E2E=133s</title></circle>
+<circle cx="1214.8" cy="231.1" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>sphinx-doc/sphinx · sphinx-doc__sphinx-10451 · ratio=0.1539 · E2E=1.16e+03s</title></circle>
+<circle cx="1210.4" cy="514.1" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-14017 · ratio=0.138 · E2E=117s</title></circle>
+<circle cx="1234.7" cy="516.1" r="3.2" fill="#0086c9" fill-opacity="0.48"><title>pytest-dev/pytest · pytest-dev__pytest-6202 · ratio=0.2525 · E2E=110s</title></circle>
+<circle cx="1234.6" cy="511.8" r="3.2" fill="#9e77ed" fill-opacity="0.48"><title>scikit-learn/scikit-learn · scikit-learn__scikit-learn-14053 · ratio=0.2516 · E2E=126s</title></circle>
+<circle cx="1279.0" cy="497.1" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-10973 · ratio=0.761 · E2E=180s</title></circle>
+<circle cx="1230.6" cy="515.8" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13658 · ratio=0.2282 · E2E=111s</title></circle>
+<circle cx="1249.3" cy="517.8" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-16256 · ratio=0.3633 · E2E=104s</title></circle>
+<circle cx="1281.0" cy="481.0" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-15498 · ratio=0.7989 · E2E=240s</title></circle>
+<circle cx="1231.5" cy="504.5" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13406 · ratio=0.2332 · E2E=153s</title></circle>
+<circle cx="1235.4" cy="498.3" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13109 · ratio=0.2571 · E2E=176s</title></circle>
+<circle cx="1312.6" cy="500.6" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-11620 · ratio=1.756 · E2E=167s</title></circle>
+<circle cx="1241.4" cy="518.5" r="3.2" fill="#9e77ed" fill-opacity="0.48"><title>scikit-learn/scikit-learn · scikit-learn__scikit-learn-13584 · ratio=0.2984 · E2E=101s</title></circle>
+<circle cx="1245.9" cy="512.5" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-20916 · ratio=0.3335 · E2E=123s</title></circle>
+<circle cx="1250.9" cy="509.1" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-16256 · ratio=0.3781 · E2E=136s</title></circle>
+<circle cx="1247.2" cy="507.4" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-12193 · ratio=0.3443 · E2E=142s</title></circle>
+<circle cx="1237.1" cy="505.9" r="3.2" fill="#18794e" fill-opacity="0.48"><title>matplotlib/matplotlib · matplotlib__matplotlib-23563 · ratio=0.268 · E2E=148s</title></circle>
+<circle cx="1202.1" cy="509.8" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-11815 · ratio=0.1123 · E2E=133s</title></circle>
+<circle cx="1216.7" cy="526.0" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>sphinx-doc/sphinx · sphinx-doc__sphinx-10325 · ratio=0.1611 · E2E=73.5s</title></circle>
+<circle cx="1201.4" cy="503.6" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-15103 · ratio=0.1101 · E2E=156s</title></circle>
+<circle cx="1220.9" cy="520.5" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-11299 · ratio=0.1791 · E2E=93.9s</title></circle>
+<circle cx="1257.3" cy="499.3" r="3.2" fill="#b54708" fill-opacity="0.48"><title>mwaskom/seaborn · mwaskom__seaborn-3407 · ratio=0.4426 · E2E=172s</title></circle>
+<circle cx="1257.1" cy="516.3" r="3.2" fill="#18794e" fill-opacity="0.48"><title>matplotlib/matplotlib · matplotlib__matplotlib-13989 · ratio=0.4407 · E2E=109s</title></circle>
+<circle cx="1244.2" cy="509.5" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>astropy/astropy · astropy__astropy-7166 · ratio=0.3201 · E2E=134s</title></circle>
+<circle cx="1302.1" cy="499.9" r="3.2" fill="#9e77ed" fill-opacity="0.48"><title>scikit-learn/scikit-learn · scikit-learn__scikit-learn-9288 · ratio=1.35 · E2E=170s</title></circle>
+<circle cx="1244.4" cy="533.4" r="3.2" fill="#18794e" fill-opacity="0.48"><title>matplotlib/matplotlib · matplotlib__matplotlib-13989 · ratio=0.3214 · E2E=46.6s</title></circle>
+<circle cx="1264.9" cy="505.5" r="3.2" fill="#9e77ed" fill-opacity="0.48"><title>scikit-learn/scikit-learn · scikit-learn__scikit-learn-13241 · ratio=0.5356 · E2E=149s</title></circle>
+<circle cx="1232.8" cy="510.5" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-15375 · ratio=0.2406 · E2E=131s</title></circle>
+<circle cx="1254.6" cy="510.7" r="3.2" fill="#c11574" fill-opacity="0.48"><title>pallets/flask · pallets__flask-4045 · ratio=0.4143 · E2E=130s</title></circle>
+<circle cx="1299.4" cy="493.3" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-11119 · ratio=1.265 · E2E=194s</title></circle>
+<circle cx="1227.0" cy="512.9" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>sphinx-doc/sphinx · sphinx-doc__sphinx-8801 · ratio=0.2084 · E2E=122s</title></circle>
+<circle cx="1220.1" cy="519.7" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-22456 · ratio=0.1754 · E2E=97s</title></circle>
+<circle cx="1236.4" cy="518.6" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>sphinx-doc/sphinx · sphinx-doc__sphinx-7738 · ratio=0.2634 · E2E=101s</title></circle>
+<circle cx="1309.7" cy="500.1" r="3.2" fill="#18794e" fill-opacity="0.48"><title>matplotlib/matplotlib · matplotlib__matplotlib-20488 · ratio=1.632 · E2E=169s</title></circle>
+<circle cx="1222.8" cy="514.0" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>sphinx-doc/sphinx · sphinx-doc__sphinx-10673 · ratio=0.1876 · E2E=118s</title></circle>
+<circle cx="1266.6" cy="508.4" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-12741 · ratio=0.5589 · E2E=139s</title></circle>
+<circle cx="1265.7" cy="518.9" r="3.2" fill="#9e77ed" fill-opacity="0.48"><title>scikit-learn/scikit-learn · scikit-learn__scikit-learn-13584 · ratio=0.5466 · E2E=100s</title></circle>
+<circle cx="1247.6" cy="513.4" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-12096 · ratio=0.3481 · E2E=120s</title></circle>
+<circle cx="1216.8" cy="525.5" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-18698 · ratio=0.1616 · E2E=75.6s</title></circle>
+<circle cx="1248.0" cy="517.0" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-15875 · ratio=0.3516 · E2E=107s</title></circle>
+<circle cx="1284.0" cy="506.1" r="3.2" fill="#026aa2" fill-opacity="0.48"><title>psf/requests · psf__requests-2317 · ratio=0.8612 · E2E=147s</title></circle>
+<circle cx="1229.6" cy="505.0" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-15987 · ratio=0.2225 · E2E=151s</title></circle>
+<circle cx="1253.0" cy="190.5" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13158 · ratio=0.398 · E2E=1.31e+03s</title></circle>
+<circle cx="1220.2" cy="207.6" r="3.2" fill="#026aa2" fill-opacity="0.48"><title>psf/requests · psf__requests-1963 · ratio=0.1758 · E2E=1.25e+03s</title></circle>
+<circle cx="1284.7" cy="509.3" r="3.2" fill="#026aa2" fill-opacity="0.48"><title>psf/requests · psf__requests-2317 · ratio=0.8758 · E2E=135s</title></circle>
+<circle cx="1240.1" cy="513.1" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-15104 · ratio=0.2888 · E2E=121s</title></circle>
+<circle cx="1227.4" cy="521.9" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-20590 · ratio=0.2103 · E2E=88.6s</title></circle>
+<circle cx="1176.3" cy="523.3" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>astropy/astropy · astropy__astropy-6938 · ratio=0.05896 · E2E=83.5s</title></circle>
+<circle cx="1268.1" cy="517.3" r="3.2" fill="#9e77ed" fill-opacity="0.48"><title>scikit-learn/scikit-learn · scikit-learn__scikit-learn-13779 · ratio=0.5795 · E2E=106s</title></circle>
+<circle cx="1232.8" cy="522.3" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-14248 · ratio=0.2406 · E2E=87.4s</title></circle>
+<circle cx="1220.8" cy="509.2" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-16560 · ratio=0.1788 · E2E=136s</title></circle>
+<circle cx="1238.0" cy="524.1" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>sphinx-doc/sphinx · sphinx-doc__sphinx-8593 · ratio=0.2743 · E2E=80.7s</title></circle>
+<circle cx="1246.3" cy="513.7" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-24102 · ratio=0.337 · E2E=119s</title></circle>
+<circle cx="1232.2" cy="513.0" r="3.2" fill="#9e77ed" fill-opacity="0.48"><title>scikit-learn/scikit-learn · scikit-learn__scikit-learn-14087 · ratio=0.2369 · E2E=121s</title></circle>
+<circle cx="1305.2" cy="494.2" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-13878 · ratio=1.461 · E2E=191s</title></circle>
+<circle cx="1237.4" cy="521.5" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-19783 · ratio=0.2699 · E2E=90.4s</title></circle>
+<circle cx="1260.7" cy="519.2" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-23191 · ratio=0.482 · E2E=98.8s</title></circle>
+<circle cx="1237.7" cy="510.2" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-18199 · ratio=0.2723 · E2E=132s</title></circle>
+<circle cx="1266.5" cy="510.7" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-21596 · ratio=0.5571 · E2E=130s</title></circle>
+<circle cx="1230.4" cy="507.0" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-11815 · ratio=0.227 · E2E=143s</title></circle>
+<circle cx="1228.3" cy="518.9" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-15017 · ratio=0.2154 · E2E=99.7s</title></circle>
+<circle cx="1263.8" cy="483.8" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>astropy/astropy · astropy__astropy-6938 · ratio=0.5206 · E2E=229s</title></circle>
+<circle cx="1258.7" cy="515.4" r="3.2" fill="#9e77ed" fill-opacity="0.48"><title>scikit-learn/scikit-learn · scikit-learn__scikit-learn-13584 · ratio=0.4586 · E2E=113s</title></circle>
+<circle cx="1274.3" cy="516.0" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-17029 · ratio=0.6768 · E2E=111s</title></circle>
+<circle cx="1248.5" cy="515.2" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-11964 · ratio=0.3555 · E2E=113s</title></circle>
+<circle cx="1226.4" cy="523.4" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-12470 · ratio=0.2053 · E2E=83.3s</title></circle>
+<circle cx="1232.7" cy="519.1" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13658 · ratio=0.24 · E2E=98.9s</title></circle>
+<circle cx="1193.5" cy="508.7" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13568 · ratio=0.09052 · E2E=137s</title></circle>
+<circle cx="1260.9" cy="518.0" r="3.2" fill="#9e77ed" fill-opacity="0.48"><title>scikit-learn/scikit-learn · scikit-learn__scikit-learn-13439 · ratio=0.485 · E2E=103s</title></circle>
+<circle cx="1248.4" cy="524.4" r="3.2" fill="#9e77ed" fill-opacity="0.48"><title>scikit-learn/scikit-learn · scikit-learn__scikit-learn-13439 · ratio=0.355 · E2E=79.4s</title></circle>
+<circle cx="1233.7" cy="528.8" r="3.2" fill="#9e77ed" fill-opacity="0.48"><title>scikit-learn/scikit-learn · scikit-learn__scikit-learn-13584 · ratio=0.246 · E2E=63.3s</title></circle>
+<circle cx="1230.5" cy="505.8" r="3.2" fill="#9e77ed" fill-opacity="0.48"><title>scikit-learn/scikit-learn · scikit-learn__scikit-learn-15512 · ratio=0.2277 · E2E=148s</title></circle>
+<circle cx="1227.4" cy="514.5" r="3.2" fill="#0086c9" fill-opacity="0.48"><title>pytest-dev/pytest · pytest-dev__pytest-7220 · ratio=0.2105 · E2E=116s</title></circle>
+<circle cx="1233.2" cy="515.5" r="3.2" fill="#18794e" fill-opacity="0.48"><title>matplotlib/matplotlib · matplotlib__matplotlib-13989 · ratio=0.2433 · E2E=112s</title></circle>
+<circle cx="1244.2" cy="512.3" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-13146 · ratio=0.3194 · E2E=124s</title></circle>
+<circle cx="1243.7" cy="520.3" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-16032 · ratio=0.3161 · E2E=94.6s</title></circle>
+<circle cx="1296.3" cy="501.0" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-12171 · ratio=1.171 · E2E=166s</title></circle>
+<circle cx="1226.0" cy="522.9" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-14089 · ratio=0.2035 · E2E=85s</title></circle>
+<circle cx="1255.0" cy="513.1" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-14711 · ratio=0.4184 · E2E=121s</title></circle>
+<circle cx="1240.5" cy="482.6" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-16493 · ratio=0.2915 · E2E=234s</title></circle>
+<circle cx="1251.0" cy="519.2" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-16281 · ratio=0.3792 · E2E=98.7s</title></circle>
+<circle cx="1278.4" cy="518.4" r="3.2" fill="#b42318" fill-opacity="0.48"><title>pydata/xarray · pydata__xarray-3677 · ratio=0.7487 · E2E=102s</title></circle>
+<circle cx="1237.9" cy="510.4" r="3.2" fill="#667085" fill-opacity="0.48"><title>pylint-dev/pylint · pylint-dev__pylint-4970 · ratio=0.2733 · E2E=131s</title></circle>
+<circle cx="1247.2" cy="502.4" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-17029 · ratio=0.3443 · E2E=161s</title></circle>
+<circle cx="1281.8" cy="506.0" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13590 · ratio=0.8153 · E2E=147s</title></circle>
+<circle cx="1222.7" cy="510.5" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13128 · ratio=0.1872 · E2E=131s</title></circle>
+<circle cx="1252.1" cy="515.3" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-14351 · ratio=0.3896 · E2E=113s</title></circle>
+<circle cx="1254.3" cy="507.6" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>astropy/astropy · astropy__astropy-7746 · ratio=0.4113 · E2E=142s</title></circle>
+<circle cx="1260.3" cy="509.7" r="3.2" fill="#18794e" fill-opacity="0.48"><title>matplotlib/matplotlib · matplotlib__matplotlib-23562 · ratio=0.4772 · E2E=134s</title></circle>
+<circle cx="1210.8" cy="489.7" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-12184 · ratio=0.1394 · E2E=207s</title></circle>
+<circle cx="1213.3" cy="512.5" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>sphinx-doc/sphinx · sphinx-doc__sphinx-7686 · ratio=0.1481 · E2E=123s</title></circle>
+<circle cx="1218.0" cy="514.6" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-11087 · ratio=0.1665 · E2E=116s</title></circle>
+<circle cx="1215.8" cy="517.4" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-11815 · ratio=0.1578 · E2E=105s</title></circle>
+<circle cx="1252.7" cy="495.5" r="3.2" fill="#9e77ed" fill-opacity="0.48"><title>scikit-learn/scikit-learn · scikit-learn__scikit-learn-10844 · ratio=0.3949 · E2E=186s</title></circle>
+<circle cx="1251.4" cy="499.2" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-11099 · ratio=0.3826 · E2E=172s</title></circle>
+<circle cx="1294.4" cy="509.7" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-13798 · ratio=1.117 · E2E=134s</title></circle>
+<circle cx="1240.1" cy="513.5" r="3.2" fill="#9e77ed" fill-opacity="0.48"><title>scikit-learn/scikit-learn · scikit-learn__scikit-learn-13497 · ratio=0.2888 · E2E=120s</title></circle>
+<circle cx="1261.4" cy="523.2" r="3.2" fill="#9e77ed" fill-opacity="0.48"><title>scikit-learn/scikit-learn · scikit-learn__scikit-learn-13439 · ratio=0.491 · E2E=84.1s</title></circle>
+<circle cx="1273.2" cy="510.8" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-15345 · ratio=0.6582 · E2E=130s</title></circle>
+<circle cx="1292.3" cy="490.0" r="3.2" fill="#18794e" fill-opacity="0.48"><title>matplotlib/matplotlib · matplotlib__matplotlib-26020 · ratio=1.059 · E2E=206s</title></circle>
+<circle cx="1236.4" cy="512.2" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-11133 · ratio=0.2636 · E2E=124s</title></circle>
+<circle cx="1269.3" cy="510.4" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-12754 · ratio=0.598 · E2E=131s</title></circle>
+<circle cx="1236.0" cy="510.0" r="3.2" fill="#9e77ed" fill-opacity="0.48"><title>scikit-learn/scikit-learn · scikit-learn__scikit-learn-14629 · ratio=0.2607 · E2E=132s</title></circle>
+<circle cx="1245.5" cy="509.9" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>astropy/astropy · astropy__astropy-6938 · ratio=0.3302 · E2E=133s</title></circle>
+<circle cx="1257.8" cy="508.8" r="3.2" fill="#9e77ed" fill-opacity="0.48"><title>scikit-learn/scikit-learn · scikit-learn__scikit-learn-14894 · ratio=0.4489 · E2E=137s</title></circle>
+<circle cx="1246.0" cy="513.5" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>sphinx-doc/sphinx · sphinx-doc__sphinx-11445 · ratio=0.3347 · E2E=120s</title></circle>
+<circle cx="1226.2" cy="510.7" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>astropy/astropy · astropy__astropy-14096 · ratio=0.2045 · E2E=130s</title></circle>
+<circle cx="1240.7" cy="520.2" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-13852 · ratio=0.2927 · E2E=95.2s</title></circle>
+<circle cx="1220.8" cy="513.3" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13658 · ratio=0.1788 · E2E=120s</title></circle>
+<circle cx="1248.5" cy="516.2" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-12308 · ratio=0.3564 · E2E=110s</title></circle>
+<circle cx="1277.3" cy="507.4" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-14787 · ratio=0.7294 · E2E=142s</title></circle>
+<circle cx="1240.8" cy="510.0" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-14016 · ratio=0.2941 · E2E=133s</title></circle>
+<circle cx="1201.9" cy="511.1" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13658 · ratio=0.1115 · E2E=129s</title></circle>
+<circle cx="1267.8" cy="515.1" r="3.2" fill="#9e77ed" fill-opacity="0.48"><title>scikit-learn/scikit-learn · scikit-learn__scikit-learn-13584 · ratio=0.5757 · E2E=114s</title></circle>
+<circle cx="1251.4" cy="512.8" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-16106 · ratio=0.3825 · E2E=122s</title></circle>
+<circle cx="1268.9" cy="507.8" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-17630 · ratio=0.5908 · E2E=141s</title></circle>
+<circle cx="1207.8" cy="506.4" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-11283 · ratio=0.1293 · E2E=146s</title></circle>
+<circle cx="1243.2" cy="530.3" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-22456 · ratio=0.3116 · E2E=58s</title></circle>
+<circle cx="1298.0" cy="491.1" r="3.2" fill="#18794e" fill-opacity="0.48"><title>matplotlib/matplotlib · matplotlib__matplotlib-23314 · ratio=1.22 · E2E=202s</title></circle>
+<circle cx="1232.6" cy="510.8" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13658 · ratio=0.2396 · E2E=130s</title></circle>
+<circle cx="1246.6" cy="509.1" r="3.2" fill="#0086c9" fill-opacity="0.48"><title>pytest-dev/pytest · pytest-dev__pytest-10051 · ratio=0.3393 · E2E=136s</title></circle>
+<circle cx="1237.4" cy="513.2" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-14053 · ratio=0.2698 · E2E=121s</title></circle>
+<circle cx="1222.6" cy="511.9" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13447 · ratio=0.1867 · E2E=126s</title></circle>
+<circle cx="1249.3" cy="506.5" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13028 · ratio=0.3627 · E2E=145s</title></circle>
+<circle cx="1242.0" cy="499.3" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-16256 · ratio=0.3029 · E2E=172s</title></circle>
+<circle cx="1242.7" cy="514.7" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-11910 · ratio=0.3081 · E2E=115s</title></circle>
+<circle cx="1227.5" cy="478.5" r="3.2" fill="#18794e" fill-opacity="0.48"><title>matplotlib/matplotlib · matplotlib__matplotlib-23913 · ratio=0.2112 · E2E=249s</title></circle>
+<circle cx="1300.3" cy="509.1" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>sphinx-doc/sphinx · sphinx-doc__sphinx-8265 · ratio=1.293 · E2E=136s</title></circle>
+<circle cx="1268.1" cy="511.9" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-12915 · ratio=0.5796 · E2E=125s</title></circle>
+<circle cx="1244.9" cy="501.5" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-15695 · ratio=0.3254 · E2E=164s</title></circle>
+<circle cx="1290.5" cy="276.6" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13964 · ratio=1.013 · E2E=992s</title></circle>
+<circle cx="1202.0" cy="515.0" r="3.2" fill="#0086c9" fill-opacity="0.48"><title>pytest-dev/pytest · pytest-dev__pytest-7324 · ratio=0.112 · E2E=114s</title></circle>
+<circle cx="1298.9" cy="475.7" r="3.2" fill="#b42318" fill-opacity="0.48"><title>pydata/xarray · pydata__xarray-7229 · ratio=1.249 · E2E=259s</title></circle>
+<circle cx="1212.0" cy="520.1" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-15902 · ratio=0.1436 · E2E=95.4s</title></circle>
+<circle cx="1271.5" cy="522.7" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-16139 · ratio=0.6316 · E2E=85.9s</title></circle>
+<circle cx="1244.6" cy="510.1" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-13372 · ratio=0.3228 · E2E=132s</title></circle>
+<circle cx="1286.6" cy="500.8" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-20428 · ratio=0.9194 · E2E=167s</title></circle>
+<circle cx="1240.2" cy="516.7" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13809 · ratio=0.2896 · E2E=108s</title></circle>
+<circle cx="1238.3" cy="517.0" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-16082 · ratio=0.2764 · E2E=107s</title></circle>
+<circle cx="1230.2" cy="512.2" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-12155 · ratio=0.2259 · E2E=125s</title></circle>
+<circle cx="1294.6" cy="271.3" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-11179 · ratio=1.122 · E2E=1.01e+03s</title></circle>
+<circle cx="1216.3" cy="515.2" r="3.2" fill="#0086c9" fill-opacity="0.48"><title>pytest-dev/pytest · pytest-dev__pytest-7490 · ratio=0.1596 · E2E=114s</title></circle>
+<circle cx="1218.3" cy="506.8" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13658 · ratio=0.1679 · E2E=144s</title></circle>
+<circle cx="1263.3" cy="485.0" r="3.2" fill="#18794e" fill-opacity="0.48"><title>matplotlib/matplotlib · matplotlib__matplotlib-23562 · ratio=0.5142 · E2E=225s</title></circle>
+<circle cx="1274.0" cy="514.1" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-19040 · ratio=0.6722 · E2E=118s</title></circle>
+<circle cx="1228.4" cy="516.4" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>astropy/astropy · astropy__astropy-14369 · ratio=0.2157 · E2E=109s</title></circle>
+<circle cx="1235.3" cy="520.9" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-17318 · ratio=0.2563 · E2E=92.6s</title></circle>
+<circle cx="1219.8" cy="492.5" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13297 · ratio=0.174 · E2E=197s</title></circle>
+<circle cx="1258.5" cy="524.7" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-13480 · ratio=0.4566 · E2E=78.3s</title></circle>
+<circle cx="1237.5" cy="510.9" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13401 · ratio=0.2706 · E2E=129s</title></circle>
+<circle cx="1263.0" cy="509.6" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-17029 · ratio=0.5107 · E2E=134s</title></circle>
+<circle cx="1248.7" cy="514.1" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-11870 · ratio=0.3574 · E2E=118s</title></circle>
+<circle cx="1260.1" cy="511.7" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>astropy/astropy · astropy__astropy-7606 · ratio=0.4748 · E2E=126s</title></circle>
+<circle cx="1226.6" cy="530.3" r="3.2" fill="#b42318" fill-opacity="0.48"><title>pydata/xarray · pydata__xarray-4493 · ratio=0.2061 · E2E=57.9s</title></circle>
+<circle cx="1240.5" cy="520.9" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>sphinx-doc/sphinx · sphinx-doc__sphinx-9367 · ratio=0.2919 · E2E=92.5s</title></circle>
+<circle cx="1250.4" cy="514.9" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>astropy/astropy · astropy__astropy-14508 · ratio=0.3729 · E2E=115s</title></circle>
+<circle cx="1263.2" cy="518.0" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-15345 · ratio=0.5138 · E2E=103s</title></circle>
+<circle cx="1227.3" cy="520.9" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>sphinx-doc/sphinx · sphinx-doc__sphinx-8548 · ratio=0.2101 · E2E=92.4s</title></circle>
+<circle cx="1235.0" cy="514.0" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-12325 · ratio=0.2546 · E2E=118s</title></circle>
+<circle cx="1256.3" cy="515.1" r="3.2" fill="#18794e" fill-opacity="0.48"><title>matplotlib/matplotlib · matplotlib__matplotlib-13989 · ratio=0.4318 · E2E=114s</title></circle>
+<circle cx="1276.8" cy="460.5" r="3.2" fill="#18794e" fill-opacity="0.48"><title>matplotlib/matplotlib · matplotlib__matplotlib-25122 · ratio=0.7197 · E2E=315s</title></circle>
+<circle cx="1256.1" cy="523.2" r="3.2" fill="#18794e" fill-opacity="0.48"><title>matplotlib/matplotlib · matplotlib__matplotlib-20826 · ratio=0.4305 · E2E=84s</title></circle>
+<circle cx="1227.5" cy="518.8" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-20639 · ratio=0.211 · E2E=100s</title></circle>
+<circle cx="1252.2" cy="514.5" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-17029 · ratio=0.3898 · E2E=116s</title></circle>
+<circle cx="1249.0" cy="502.8" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-15695 · ratio=0.36 · E2E=159s</title></circle>
+<circle cx="1228.9" cy="526.0" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>sphinx-doc/sphinx · sphinx-doc__sphinx-7590 · ratio=0.2187 · E2E=73.8s</title></circle>
+<circle cx="1211.8" cy="513.7" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-15525 · ratio=0.1429 · E2E=119s</title></circle>
+<circle cx="1221.8" cy="508.9" r="3.2" fill="#c11574" fill-opacity="0.48"><title>pallets/flask · pallets__flask-5063 · ratio=0.1831 · E2E=137s</title></circle>
+<circle cx="1168.5" cy="493.9" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-12273 · ratio=0.04855 · E2E=192s</title></circle>
+<circle cx="1254.8" cy="515.9" r="3.2" fill="#b54708" fill-opacity="0.48"><title>mwaskom/seaborn · mwaskom__seaborn-2848 · ratio=0.4169 · E2E=111s</title></circle>
+<circle cx="1214.5" cy="492.7" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-14017 · ratio=0.1526 · E2E=196s</title></circle>
+<circle cx="1300.1" cy="459.1" r="3.2" fill="#18794e" fill-opacity="0.48"><title>matplotlib/matplotlib · matplotlib__matplotlib-23314 · ratio=1.287 · E2E=320s</title></circle>
+<circle cx="1206.1" cy="507.2" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-22080 · ratio=0.1238 · E2E=143s</title></circle>
+<circle cx="1202.6" cy="509.3" r="3.2" fill="#0086c9" fill-opacity="0.48"><title>pytest-dev/pytest · pytest-dev__pytest-5787 · ratio=0.1135 · E2E=135s</title></circle>
+<circle cx="1219.3" cy="496.7" r="3.2" fill="#0086c9" fill-opacity="0.48"><title>pytest-dev/pytest · pytest-dev__pytest-11148 · ratio=0.1719 · E2E=182s</title></circle>
+<circle cx="1193.4" cy="507.8" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>sphinx-doc/sphinx · sphinx-doc__sphinx-8120 · ratio=0.09035 · E2E=141s</title></circle>
+<circle cx="1248.9" cy="503.3" r="3.2" fill="#18794e" fill-opacity="0.48"><title>matplotlib/matplotlib · matplotlib__matplotlib-24970 · ratio=0.3598 · E2E=157s</title></circle>
+<circle cx="1236.3" cy="220.7" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-14170 · ratio=0.2624 · E2E=1.2e+03s</title></circle>
+<circle cx="1232.1" cy="521.8" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-15809 · ratio=0.2368 · E2E=89.2s</title></circle>
+<circle cx="1278.6" cy="514.6" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-12708 · ratio=0.7538 · E2E=116s</title></circle>
+<circle cx="1240.1" cy="513.7" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-22456 · ratio=0.2885 · E2E=119s</title></circle>
+<circle cx="1252.8" cy="519.2" r="3.2" fill="#9e77ed" fill-opacity="0.48"><title>scikit-learn/scikit-learn · scikit-learn__scikit-learn-13584 · ratio=0.3959 · E2E=98.9s</title></circle>
+<circle cx="1223.4" cy="508.6" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-15347 · ratio=0.1906 · E2E=138s</title></circle>
+<circle cx="1221.5" cy="522.3" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-20590 · ratio=0.1816 · E2E=87.2s</title></circle>
+<circle cx="1229.1" cy="516.2" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-15280 · ratio=0.2194 · E2E=110s</title></circle>
+<circle cx="1279.8" cy="507.2" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-17029 · ratio=0.7766 · E2E=143s</title></circle>
+<circle cx="1262.9" cy="518.8" r="3.2" fill="#9e77ed" fill-opacity="0.48"><title>scikit-learn/scikit-learn · scikit-learn__scikit-learn-13439 · ratio=0.5093 · E2E=100s</title></circle>
+<circle cx="1256.7" cy="488.9" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>astropy/astropy · astropy__astropy-6938 · ratio=0.436 · E2E=210s</title></circle>
+<circle cx="1284.8" cy="480.9" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13230 · ratio=0.8794 · E2E=240s</title></circle>
+<circle cx="1207.2" cy="507.3" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-14580 · ratio=0.1272 · E2E=143s</title></circle>
+<circle cx="1243.0" cy="511.9" r="3.2" fill="#667085" fill-opacity="0.48"><title>pylint-dev/pylint · pylint-dev__pylint-6528 · ratio=0.3102 · E2E=126s</title></circle>
+<circle cx="1237.3" cy="513.0" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13658 · ratio=0.2695 · E2E=122s</title></circle>
+<circle cx="1265.0" cy="513.7" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-15011 · ratio=0.5368 · E2E=119s</title></circle>
+<circle cx="1265.4" cy="497.4" r="3.2" fill="#9e77ed" fill-opacity="0.48"><title>scikit-learn/scikit-learn · scikit-learn__scikit-learn-11310 · ratio=0.5427 · E2E=179s</title></circle>
+<circle cx="1240.9" cy="511.3" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-12747 · ratio=0.2945 · E2E=128s</title></circle>
+<circle cx="1236.7" cy="519.0" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-20438 · ratio=0.2655 · E2E=99.4s</title></circle>
+<circle cx="1180.4" cy="504.4" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-11885 · ratio=0.06527 · E2E=153s</title></circle>
+<circle cx="1268.1" cy="504.7" r="3.2" fill="#18794e" fill-opacity="0.48"><title>matplotlib/matplotlib · matplotlib__matplotlib-26113 · ratio=0.579 · E2E=152s</title></circle>
+<circle cx="1290.4" cy="512.8" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-14997 · ratio=1.01 · E2E=122s</title></circle>
+<circle cx="1238.0" cy="518.4" r="3.2" fill="#9e77ed" fill-opacity="0.48"><title>scikit-learn/scikit-learn · scikit-learn__scikit-learn-14983 · ratio=0.2739 · E2E=102s</title></circle>
+<circle cx="1268.0" cy="486.0" r="3.2" fill="#b42318" fill-opacity="0.48"><title>pydata/xarray · pydata__xarray-6721 · ratio=0.5787 · E2E=221s</title></circle>
+<circle cx="1228.9" cy="510.1" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-14351 · ratio=0.2186 · E2E=132s</title></circle>
+<circle cx="1287.5" cy="505.2" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-10914 · ratio=0.9399 · E2E=150s</title></circle>
+<circle cx="1244.6" cy="475.6" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-11815 · ratio=0.3229 · E2E=259s</title></circle>
+<circle cx="1245.5" cy="521.5" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-18189 · ratio=0.3303 · E2E=90.3s</title></circle>
+<circle cx="1248.3" cy="521.4" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>sphinx-doc/sphinx · sphinx-doc__sphinx-8475 · ratio=0.3541 · E2E=90.5s</title></circle>
+<circle cx="1250.6" cy="497.5" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-24066 · ratio=0.3746 · E2E=179s</title></circle>
+<circle cx="1313.4" cy="480.4" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>astropy/astropy · astropy__astropy-14995 · ratio=1.792 · E2E=242s</title></circle>
+<circle cx="1232.5" cy="512.2" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13568 · ratio=0.2389 · E2E=125s</title></circle>
+<circle cx="1260.4" cy="502.3" r="3.2" fill="#667085" fill-opacity="0.48"><title>pylint-dev/pylint · pylint-dev__pylint-4604 · ratio=0.4785 · E2E=161s</title></circle>
+<circle cx="1259.8" cy="514.5" r="3.2" fill="#b42318" fill-opacity="0.48"><title>pydata/xarray · pydata__xarray-4493 · ratio=0.4718 · E2E=116s</title></circle>
+<circle cx="1207.1" cy="505.6" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-16256 · ratio=0.1271 · E2E=149s</title></circle>
+<circle cx="1238.4" cy="510.4" r="3.2" fill="#9e77ed" fill-opacity="0.48"><title>scikit-learn/scikit-learn · scikit-learn__scikit-learn-11281 · ratio=0.277 · E2E=131s</title></circle>
+<circle cx="1214.4" cy="520.5" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13658 · ratio=0.1525 · E2E=94s</title></circle>
+<circle cx="1222.6" cy="507.5" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>sphinx-doc/sphinx · sphinx-doc__sphinx-10325 · ratio=0.1867 · E2E=142s</title></circle>
+<circle cx="1273.6" cy="491.4" r="3.2" fill="#b54708" fill-opacity="0.48"><title>mwaskom/seaborn · mwaskom__seaborn-3187 · ratio=0.6645 · E2E=201s</title></circle>
+<circle cx="1220.2" cy="505.7" r="3.2" fill="#18794e" fill-opacity="0.48"><title>matplotlib/matplotlib · matplotlib__matplotlib-26011 · ratio=0.1759 · E2E=148s</title></circle>
+<circle cx="1246.9" cy="518.3" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-22714 · ratio=0.3423 · E2E=102s</title></circle>
+<circle cx="1238.9" cy="510.5" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-14730 · ratio=0.2806 · E2E=131s</title></circle>
+<circle cx="1245.2" cy="509.4" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13220 · ratio=0.3282 · E2E=135s</title></circle>
+<circle cx="1309.3" cy="506.9" r="3.2" fill="#9e77ed" fill-opacity="0.48"><title>scikit-learn/scikit-learn · scikit-learn__scikit-learn-13439 · ratio=1.616 · E2E=144s</title></circle>
+<circle cx="1258.1" cy="519.8" r="3.2" fill="#9e77ed" fill-opacity="0.48"><title>scikit-learn/scikit-learn · scikit-learn__scikit-learn-25973 · ratio=0.452 · E2E=96.5s</title></circle>
+<circle cx="1244.5" cy="533.0" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-18087 · ratio=0.3219 · E2E=47.7s</title></circle>
+<circle cx="1230.4" cy="515.4" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-15609 · ratio=0.227 · E2E=113s</title></circle>
+<circle cx="1263.8" cy="485.0" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-12284 · ratio=0.5212 · E2E=225s</title></circle>
+<circle cx="1304.1" cy="479.7" r="3.2" fill="#b42318" fill-opacity="0.48"><title>pydata/xarray · pydata__xarray-3151 · ratio=1.42 · E2E=244s</title></circle>
+<circle cx="1208.4" cy="502.6" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>astropy/astropy · astropy__astropy-14598 · ratio=0.1312 · E2E=160s</title></circle>
+<circle cx="1254.4" cy="510.4" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>astropy/astropy · astropy__astropy-6938 · ratio=0.4118 · E2E=131s</title></circle>
+<circle cx="1271.6" cy="499.4" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-11211 · ratio=0.6322 · E2E=172s</title></circle>
+<circle cx="1197.6" cy="498.9" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13012 · ratio=0.1001 · E2E=174s</title></circle>
+<circle cx="1209.3" cy="516.8" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>sphinx-doc/sphinx · sphinx-doc__sphinx-9673 · ratio=0.1343 · E2E=107s</title></circle>
+<circle cx="1274.0" cy="510.0" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-21847 · ratio=0.6707 · E2E=133s</title></circle>
+<circle cx="1238.6" cy="516.1" r="3.2" fill="#9e77ed" fill-opacity="0.48"><title>scikit-learn/scikit-learn · scikit-learn__scikit-learn-14894 · ratio=0.2783 · E2E=110s</title></circle>
+<circle cx="1226.0" cy="514.9" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13658 · ratio=0.2031 · E2E=114s</title></circle>
+<circle cx="1225.4" cy="516.3" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-15278 · ratio=0.2 · E2E=110s</title></circle>
+<circle cx="1268.7" cy="508.4" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>sphinx-doc/sphinx · sphinx-doc__sphinx-10325 · ratio=0.5881 · E2E=139s</title></circle>
+<circle cx="1253.8" cy="521.1" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-18763 · ratio=0.4057 · E2E=91.8s</title></circle>
+<circle cx="1302.6" cy="465.1" r="3.2" fill="#18794e" fill-opacity="0.48"><title>matplotlib/matplotlib · matplotlib__matplotlib-22711 · ratio=1.368 · E2E=298s</title></circle>
+<circle cx="1229.3" cy="513.7" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-16612 · ratio=0.2209 · E2E=119s</title></circle>
+<circle cx="1253.6" cy="507.5" r="3.2" fill="#18794e" fill-opacity="0.48"><title>matplotlib/matplotlib · matplotlib__matplotlib-13989 · ratio=0.4041 · E2E=142s</title></circle>
+<circle cx="1252.3" cy="511.1" r="3.2" fill="#18794e" fill-opacity="0.48"><title>matplotlib/matplotlib · matplotlib__matplotlib-24970 · ratio=0.3913 · E2E=128s</title></circle>
+<circle cx="1258.7" cy="516.1" r="3.2" fill="#9e77ed" fill-opacity="0.48"><title>scikit-learn/scikit-learn · scikit-learn__scikit-learn-13496 · ratio=0.4592 · E2E=110s</title></circle>
+<circle cx="1256.0" cy="507.9" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-11749 · ratio=0.4294 · E2E=140s</title></circle>
+<circle cx="1220.1" cy="509.8" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-11400 · ratio=0.1754 · E2E=133s</title></circle>
+<circle cx="1259.5" cy="521.0" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-17029 · ratio=0.4675 · E2E=91.9s</title></circle>
+<circle cx="1244.4" cy="519.6" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-15308 · ratio=0.3217 · E2E=97.1s</title></circle>
+<circle cx="1250.5" cy="510.8" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-20442 · ratio=0.3737 · E2E=130s</title></circle>
+<circle cx="1242.2" cy="521.0" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-11265 · ratio=0.3046 · E2E=92s</title></circle>
+<circle cx="1251.0" cy="516.8" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-18189 · ratio=0.3787 · E2E=108s</title></circle>
+<circle cx="1256.8" cy="501.2" r="3.2" fill="#18794e" fill-opacity="0.48"><title>matplotlib/matplotlib · matplotlib__matplotlib-13989 · ratio=0.4381 · E2E=165s</title></circle>
+<circle cx="1222.0" cy="527.1" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-22456 · ratio=0.1842 · E2E=69.7s</title></circle>
+<circle cx="1231.0" cy="513.7" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>sphinx-doc/sphinx · sphinx-doc__sphinx-10323 · ratio=0.2303 · E2E=119s</title></circle>
+<circle cx="1259.7" cy="510.7" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13212 · ratio=0.4704 · E2E=130s</title></circle>
+<circle cx="1195.2" cy="512.3" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-11049 · ratio=0.09454 · E2E=124s</title></circle>
+<circle cx="1203.5" cy="504.5" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13195 · ratio=0.116 · E2E=153s</title></circle>
+<circle cx="1228.9" cy="508.0" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>sphinx-doc/sphinx · sphinx-doc__sphinx-8551 · ratio=0.2184 · E2E=140s</title></circle>
+<circle cx="1221.6" cy="519.6" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-22456 · ratio=0.182 · E2E=97.3s</title></circle>
+<circle cx="1227.1" cy="520.4" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13658 · ratio=0.2088 · E2E=94.1s</title></circle>
+<circle cx="1252.5" cy="513.2" r="3.2" fill="#667085" fill-opacity="0.48"><title>pylint-dev/pylint · pylint-dev__pylint-6386 · ratio=0.3932 · E2E=121s</title></circle>
+<circle cx="1230.1" cy="516.8" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-11276 · ratio=0.2253 · E2E=108s</title></circle>
+<circle cx="1268.0" cy="516.0" r="3.2" fill="#9e77ed" fill-opacity="0.48"><title>scikit-learn/scikit-learn · scikit-learn__scikit-learn-13439 · ratio=0.5776 · E2E=111s</title></circle>
+<circle cx="1222.2" cy="512.7" r="3.2" fill="#c11574" fill-opacity="0.48"><title>pallets/flask · pallets__flask-5014 · ratio=0.1848 · E2E=123s</title></circle>
+<circle cx="1237.4" cy="516.6" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-14308 · ratio=0.2698 · E2E=108s</title></circle>
+<circle cx="1251.1" cy="521.2" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>sphinx-doc/sphinx · sphinx-doc__sphinx-10325 · ratio=0.3793 · E2E=91.5s</title></circle>
+<circle cx="1221.9" cy="505.0" r="3.2" fill="#9e77ed" fill-opacity="0.48"><title>scikit-learn/scikit-learn · scikit-learn__scikit-learn-14087 · ratio=0.1834 · E2E=151s</title></circle>
+<circle cx="1231.5" cy="506.1" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>sphinx-doc/sphinx · sphinx-doc__sphinx-8269 · ratio=0.2329 · E2E=147s</title></circle>
+<circle cx="1297.4" cy="512.0" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-21627 · ratio=1.201 · E2E=125s</title></circle>
+<circle cx="1230.6" cy="513.0" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13658 · ratio=0.2278 · E2E=121s</title></circle>
+<circle cx="1257.8" cy="470.8" r="3.2" fill="#18794e" fill-opacity="0.48"><title>matplotlib/matplotlib · matplotlib__matplotlib-25332 · ratio=0.4486 · E2E=277s</title></circle>
+<circle cx="1219.8" cy="516.9" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-16642 · ratio=0.1743 · E2E=107s</title></circle>
+<circle cx="1232.0" cy="505.2" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-16595 · ratio=0.2363 · E2E=150s</title></circle>
+<circle cx="1265.3" cy="515.2" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-17630 · ratio=0.541 · E2E=114s</title></circle>
+<circle cx="1232.7" cy="508.7" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-11742 · ratio=0.2401 · E2E=137s</title></circle>
+<circle cx="1252.5" cy="518.2" r="3.2" fill="#9e77ed" fill-opacity="0.48"><title>scikit-learn/scikit-learn · scikit-learn__scikit-learn-13584 · ratio=0.3929 · E2E=102s</title></circle>
+<circle cx="1280.5" cy="506.8" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-22456 · ratio=0.7887 · E2E=145s</title></circle>
+<circle cx="1224.9" cy="521.2" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-14855 · ratio=0.1978 · E2E=91.2s</title></circle>
+<circle cx="1237.8" cy="522.8" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-20154 · ratio=0.2727 · E2E=85.3s</title></circle>
+<circle cx="1269.5" cy="519.2" r="3.2" fill="#9e77ed" fill-opacity="0.48"><title>scikit-learn/scikit-learn · scikit-learn__scikit-learn-14141 · ratio=0.5998 · E2E=98.7s</title></circle>
+<circle cx="1259.0" cy="485.6" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-16400 · ratio=0.4627 · E2E=223s</title></circle>
+<circle cx="1226.6" cy="512.3" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13568 · ratio=0.2066 · E2E=124s</title></circle>
+<circle cx="1245.5" cy="515.4" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>sphinx-doc/sphinx · sphinx-doc__sphinx-10325 · ratio=0.3305 · E2E=113s</title></circle>
+<circle cx="1257.3" cy="516.4" r="3.2" fill="#b42318" fill-opacity="0.48"><title>pydata/xarray · pydata__xarray-4493 · ratio=0.4428 · E2E=109s</title></circle>
+<circle cx="1223.2" cy="511.4" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-15252 · ratio=0.1898 · E2E=128s</title></circle>
+<circle cx="1296.8" cy="482.1" r="3.2" fill="#b42318" fill-opacity="0.48"><title>pydata/xarray · pydata__xarray-6744 · ratio=1.184 · E2E=236s</title></circle>
+<circle cx="1236.9" cy="514.7" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-15022 · ratio=0.2664 · E2E=115s</title></circle>
+<circle cx="1399.6" cy="505.8" r="3.2" fill="#18794e" fill-opacity="0.48"><title>matplotlib/matplotlib · matplotlib__matplotlib-13989 · ratio=15.3 · E2E=148s</title></circle>
+<circle cx="1217.5" cy="520.1" r="3.2" fill="#9e77ed" fill-opacity="0.48"><title>scikit-learn/scikit-learn · scikit-learn__scikit-learn-13584 · ratio=0.1645 · E2E=95.4s</title></circle>
+<circle cx="1263.3" cy="519.0" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13768 · ratio=0.5139 · E2E=99.6s</title></circle>
+<circle cx="1231.4" cy="522.6" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>sphinx-doc/sphinx · sphinx-doc__sphinx-8638 · ratio=0.2325 · E2E=86.2s</title></circle>
+<circle cx="1240.8" cy="518.6" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-16886 · ratio=0.2939 · E2E=101s</title></circle>
+<circle cx="1297.0" cy="513.1" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>sphinx-doc/sphinx · sphinx-doc__sphinx-9367 · ratio=1.189 · E2E=121s</title></circle>
+<circle cx="1246.2" cy="518.1" r="3.2" fill="#b42318" fill-opacity="0.48"><title>pydata/xarray · pydata__xarray-4493 · ratio=0.3365 · E2E=103s</title></circle>
+<circle cx="1220.1" cy="529.7" r="3.2" fill="#18794e" fill-opacity="0.48"><title>matplotlib/matplotlib · matplotlib__matplotlib-23562 · ratio=0.1754 · E2E=60.2s</title></circle>
+<circle cx="1309.3" cy="465.2" r="3.2" fill="#18794e" fill-opacity="0.48"><title>matplotlib/matplotlib · matplotlib__matplotlib-20859 · ratio=1.618 · E2E=298s</title></circle>
+<circle cx="1228.0" cy="504.2" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-15061 · ratio=0.2136 · E2E=154s</title></circle>
+<circle cx="1242.6" cy="501.8" r="3.2" fill="#18794e" fill-opacity="0.48"><title>matplotlib/matplotlib · matplotlib__matplotlib-26208 · ratio=0.3072 · E2E=163s</title></circle>
+<circle cx="1265.1" cy="487.6" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13513 · ratio=0.5377 · E2E=215s</title></circle>
+<circle cx="1238.2" cy="519.5" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-12406 · ratio=0.2751 · E2E=97.8s</title></circle>
+<circle cx="1188.4" cy="507.2" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-11490 · ratio=0.07982 · E2E=143s</title></circle>
+<circle cx="1301.2" cy="494.5" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13590 · ratio=1.322 · E2E=190s</title></circle>
+<circle cx="1251.4" cy="504.4" r="3.2" fill="#18794e" fill-opacity="0.48"><title>matplotlib/matplotlib · matplotlib__matplotlib-24627 · ratio=0.3821 · E2E=153s</title></circle>
+<circle cx="1230.8" cy="512.3" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-14493 · ratio=0.2288 · E2E=124s</title></circle>
+<circle cx="1230.1" cy="516.3" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>sphinx-doc/sphinx · sphinx-doc__sphinx-8282 · ratio=0.2252 · E2E=110s</title></circle>
+<circle cx="1255.8" cy="514.2" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-17029 · ratio=0.4274 · E2E=117s</title></circle>
+<circle cx="1253.9" cy="518.0" r="3.2" fill="#b42318" fill-opacity="0.48"><title>pydata/xarray · pydata__xarray-4493 · ratio=0.4071 · E2E=103s</title></circle>
+<circle cx="1234.5" cy="510.7" r="3.2" fill="#9e77ed" fill-opacity="0.48"><title>scikit-learn/scikit-learn · scikit-learn__scikit-learn-10297 · ratio=0.251 · E2E=130s</title></circle>
+<circle cx="1226.8" cy="505.2" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-11815 · ratio=0.2074 · E2E=150s</title></circle>
+<circle cx="1247.5" cy="518.7" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>sphinx-doc/sphinx · sphinx-doc__sphinx-9698 · ratio=0.347 · E2E=101s</title></circle>
+<circle cx="1282.0" cy="509.0" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-11039 · ratio=0.8195 · E2E=136s</title></circle>
+<circle cx="1201.0" cy="512.5" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-16256 · ratio=0.1092 · E2E=123s</title></circle>
+<circle cx="1207.0" cy="512.2" r="3.2" fill="#18794e" fill-opacity="0.48"><title>matplotlib/matplotlib · matplotlib__matplotlib-22865 · ratio=0.1266 · E2E=124s</title></circle>
+<circle cx="1243.8" cy="533.3" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13568 · ratio=0.3168 · E2E=46.6s</title></circle>
+<circle cx="1236.2" cy="524.9" r="3.2" fill="#b42318" fill-opacity="0.48"><title>pydata/xarray · pydata__xarray-4493 · ratio=0.2619 · E2E=77.6s</title></circle>
+<circle cx="1267.7" cy="514.6" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>sphinx-doc/sphinx · sphinx-doc__sphinx-10325 · ratio=0.5738 · E2E=115s</title></circle>
+<circle cx="1241.1" cy="501.1" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-15349 · ratio=0.2963 · E2E=165s</title></circle>
+<circle cx="1243.3" cy="513.5" r="3.2" fill="#9e77ed" fill-opacity="0.48"><title>scikit-learn/scikit-learn · scikit-learn__scikit-learn-13584 · ratio=0.3127 · E2E=120s</title></circle>
+<circle cx="1248.2" cy="518.0" r="3.2" fill="#18794e" fill-opacity="0.48"><title>matplotlib/matplotlib · matplotlib__matplotlib-23562 · ratio=0.353 · E2E=103s</title></circle>
+<circle cx="1220.6" cy="520.4" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-16116 · ratio=0.1778 · E2E=94.4s</title></circle>
+<circle cx="1264.1" cy="515.7" r="3.2" fill="#9e77ed" fill-opacity="0.48"><title>scikit-learn/scikit-learn · scikit-learn__scikit-learn-13584 · ratio=0.5248 · E2E=112s</title></circle>
+<circle cx="1241.4" cy="514.9" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-14155 · ratio=0.2983 · E2E=115s</title></circle>
+<circle cx="1209.8" cy="506.4" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13568 · ratio=0.1357 · E2E=146s</title></circle>
+<circle cx="1209.3" cy="515.9" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13710 · ratio=0.1342 · E2E=111s</title></circle>
+<circle cx="1241.8" cy="510.9" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-11815 · ratio=0.3013 · E2E=129s</title></circle>
+<circle cx="1257.7" cy="512.1" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-12143 · ratio=0.4473 · E2E=125s</title></circle>
+<circle cx="1264.9" cy="519.1" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-21171 · ratio=0.5347 · E2E=99.2s</title></circle>
+<circle cx="1240.0" cy="518.2" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-14765 · ratio=0.2878 · E2E=102s</title></circle>
+<circle cx="1292.7" cy="494.5" r="3.2" fill="#18794e" fill-opacity="0.48"><title>matplotlib/matplotlib · matplotlib__matplotlib-26466 · ratio=1.069 · E2E=190s</title></circle>
+<circle cx="1238.6" cy="519.8" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>astropy/astropy · astropy__astropy-14182 · ratio=0.2779 · E2E=96.4s</title></circle>
+<circle cx="1304.9" cy="490.6" r="3.2" fill="#18794e" fill-opacity="0.48"><title>matplotlib/matplotlib · matplotlib__matplotlib-23964 · ratio=1.449 · E2E=204s</title></circle>
+<circle cx="1239.9" cy="519.7" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-24539 · ratio=0.287 · E2E=96.7s</title></circle>
+<circle cx="1171.8" cy="488.7" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13033 · ratio=0.05271 · E2E=211s</title></circle>
+<circle cx="1265.8" cy="513.1" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-13773 · ratio=0.5481 · E2E=121s</title></circle>
+<circle cx="1336.2" cy="483.6" r="3.2" fill="#0086c9" fill-opacity="0.48"><title>pytest-dev/pytest · pytest-dev__pytest-5809 · ratio=3.155 · E2E=230s</title></circle>
+<circle cx="1235.8" cy="517.7" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-23191 · ratio=0.2594 · E2E=104s</title></circle>
+<circle cx="1238.9" cy="506.5" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-24909 · ratio=0.2802 · E2E=145s</title></circle>
+<circle cx="1258.3" cy="515.9" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-14396 · ratio=0.4543 · E2E=111s</title></circle>
+<circle cx="1215.8" cy="517.0" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-15819 · ratio=0.1576 · E2E=107s</title></circle>
+<circle cx="1236.0" cy="513.8" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>astropy/astropy · astropy__astropy-8707 · ratio=0.2607 · E2E=119s</title></circle>
+<circle cx="1243.3" cy="225.8" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-16816 · ratio=0.3129 · E2E=1.18e+03s</title></circle>
+<circle cx="1199.5" cy="499.2" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-16255 · ratio=0.1051 · E2E=172s</title></circle>
+<circle cx="1215.2" cy="511.3" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-14667 · ratio=0.1553 · E2E=128s</title></circle>
+<circle cx="1253.4" cy="515.4" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-14631 · ratio=0.4019 · E2E=113s</title></circle>
+<circle cx="1215.4" cy="522.0" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-22456 · ratio=0.1562 · E2E=88.3s</title></circle>
+<circle cx="1226.2" cy="511.3" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-16256 · ratio=0.2043 · E2E=128s</title></circle>
+<circle cx="1256.4" cy="522.0" r="3.2" fill="#18794e" fill-opacity="0.48"><title>matplotlib/matplotlib · matplotlib__matplotlib-13989 · ratio=0.4334 · E2E=88.5s</title></circle>
+<circle cx="1258.6" cy="516.3" r="3.2" fill="#18794e" fill-opacity="0.48"><title>matplotlib/matplotlib · matplotlib__matplotlib-13989 · ratio=0.4576 · E2E=109s</title></circle>
+<circle cx="1209.9" cy="507.4" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-14351 · ratio=0.1362 · E2E=142s</title></circle>
+<circle cx="1230.3" cy="530.9" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-14351 · ratio=0.2261 · E2E=55.5s</title></circle>
+<circle cx="1231.6" cy="519.3" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-22456 · ratio=0.2336 · E2E=98.4s</title></circle>
+<circle cx="1252.5" cy="512.9" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-11532 · ratio=0.3936 · E2E=122s</title></circle>
+<circle cx="1177.4" cy="490.1" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-10914 · ratio=0.0607 · E2E=206s</title></circle>
+<circle cx="1221.0" cy="505.9" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13448 · ratio=0.1793 · E2E=148s</title></circle>
+<circle cx="1322.3" cy="501.5" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-16938 · ratio=2.235 · E2E=164s</title></circle>
+<circle cx="1239.9" cy="520.0" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-15128 · ratio=0.2874 · E2E=95.6s</title></circle>
+<circle cx="1232.6" cy="512.2" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-16256 · ratio=0.2394 · E2E=124s</title></circle>
+<circle cx="1242.1" cy="517.9" r="3.2" fill="#18794e" fill-opacity="0.48"><title>matplotlib/matplotlib · matplotlib__matplotlib-24570 · ratio=0.3032 · E2E=104s</title></circle>
+<circle cx="1227.9" cy="507.6" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-14155 · ratio=0.2132 · E2E=141s</title></circle>
+<circle cx="1272.9" cy="481.9" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-17029 · ratio=0.653 · E2E=236s</title></circle>
+<circle cx="1206.3" cy="486.3" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-15996 · ratio=0.1245 · E2E=220s</title></circle>
+<circle cx="1238.9" cy="510.0" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-16256 · ratio=0.2805 · E2E=132s</title></circle>
+<circle cx="1261.0" cy="475.2" r="3.2" fill="#18794e" fill-opacity="0.48"><title>matplotlib/matplotlib · matplotlib__matplotlib-22871 · ratio=0.486 · E2E=261s</title></circle>
+<circle cx="1228.0" cy="516.7" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-17029 · ratio=0.2136 · E2E=108s</title></circle>
+<circle cx="1259.5" cy="515.2" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>astropy/astropy · astropy__astropy-6938 · ratio=0.468 · E2E=114s</title></circle>
+<circle cx="1238.5" cy="515.0" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-11815 · ratio=0.2773 · E2E=114s</title></circle>
+<circle cx="1276.8" cy="531.3" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-16256 · ratio=0.7196 · E2E=54.3s</title></circle>
+<circle cx="1216.4" cy="506.6" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-11815 · ratio=0.1602 · E2E=145s</title></circle>
+<circle cx="1251.1" cy="520.9" r="3.2" fill="#9e77ed" fill-opacity="0.48"><title>scikit-learn/scikit-learn · scikit-learn__scikit-learn-13779 · ratio=0.3794 · E2E=92.6s</title></circle>
+<circle cx="1227.5" cy="513.9" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-15790 · ratio=0.211 · E2E=118s</title></circle>
+<circle cx="1298.9" cy="511.2" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>sphinx-doc/sphinx · sphinx-doc__sphinx-7440 · ratio=1.247 · E2E=128s</title></circle>
+<circle cx="1176.8" cy="509.5" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13964 · ratio=0.05979 · E2E=134s</title></circle>
+<circle cx="1206.7" cy="516.2" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-16100 · ratio=0.1259 · E2E=110s</title></circle>
+<circle cx="1254.3" cy="513.7" r="3.2" fill="#18794e" fill-opacity="0.48"><title>matplotlib/matplotlib · matplotlib__matplotlib-22719 · ratio=0.4112 · E2E=119s</title></circle>
+<circle cx="1229.8" cy="518.9" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-15277 · ratio=0.2233 · E2E=99.9s</title></circle>
+<circle cx="1250.1" cy="514.1" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-20154 · ratio=0.3707 · E2E=118s</title></circle>
+<circle cx="1261.0" cy="496.6" r="3.2" fill="#b42318" fill-opacity="0.48"><title>pydata/xarray · pydata__xarray-4493 · ratio=0.4859 · E2E=182s</title></circle>
+<circle cx="1325.4" cy="496.1" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13121 · ratio=2.416 · E2E=184s</title></circle>
+<circle cx="1224.7" cy="515.1" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>sphinx-doc/sphinx · sphinx-doc__sphinx-9367 · ratio=0.1968 · E2E=114s</title></circle>
+<circle cx="1255.6" cy="511.4" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-18835 · ratio=0.4244 · E2E=127s</title></circle>
+<circle cx="1239.2" cy="507.5" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-15976 · ratio=0.2822 · E2E=142s</title></circle>
+<circle cx="1292.9" cy="502.2" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13821 · ratio=1.076 · E2E=161s</title></circle>
+<circle cx="1260.2" cy="519.0" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-13480 · ratio=0.4763 · E2E=99.3s</title></circle>
+<circle cx="1271.3" cy="512.7" r="3.2" fill="#9e77ed" fill-opacity="0.48"><title>scikit-learn/scikit-learn · scikit-learn__scikit-learn-13584 · ratio=0.6285 · E2E=123s</title></circle>
+<circle cx="1252.0" cy="513.0" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-24213 · ratio=0.3882 · E2E=121s</title></circle>
+<circle cx="1230.4" cy="514.0" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-16667 · ratio=0.2267 · E2E=118s</title></circle>
+<circle cx="1233.6" cy="525.1" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-16315 · ratio=0.2456 · E2E=76.9s</title></circle>
+<circle cx="1231.8" cy="522.0" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-12858 · ratio=0.2349 · E2E=88.6s</title></circle>
+<circle cx="1278.3" cy="518.6" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-14351 · ratio=0.7466 · E2E=101s</title></circle>
+<circle cx="1261.5" cy="516.4" r="3.2" fill="#9e77ed" fill-opacity="0.48"><title>scikit-learn/scikit-learn · scikit-learn__scikit-learn-13439 · ratio=0.4922 · E2E=109s</title></circle>
+<circle cx="1203.0" cy="500.0" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-14315 · ratio=0.1147 · E2E=170s</title></circle>
+<circle cx="1271.7" cy="498.6" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-15851 · ratio=0.6335 · E2E=175s</title></circle>
+<circle cx="1284.9" cy="511.6" r="3.2" fill="#9e77ed" fill-opacity="0.48"><title>scikit-learn/scikit-learn · scikit-learn__scikit-learn-13439 · ratio=0.8799 · E2E=127s</title></circle>
+<circle cx="1262.4" cy="509.8" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-13658 · ratio=0.5033 · E2E=133s</title></circle>
+<circle cx="1311.5" cy="500.2" r="3.2" fill="#0086c9" fill-opacity="0.48"><title>pytest-dev/pytest · pytest-dev__pytest-7490 · ratio=1.71 · E2E=169s</title></circle>
+<circle cx="1217.1" cy="512.7" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-14034 · ratio=0.163 · E2E=123s</title></circle>
+<circle cx="1233.9" cy="513.9" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-12856 · ratio=0.2474 · E2E=118s</title></circle>
+<circle cx="1242.7" cy="509.3" r="3.2" fill="#18794e" fill-opacity="0.48"><title>matplotlib/matplotlib · matplotlib__matplotlib-13989 · ratio=0.3084 · E2E=135s</title></circle>
+<circle cx="1254.6" cy="511.1" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>sphinx-doc/sphinx · sphinx-doc__sphinx-7889 · ratio=0.4144 · E2E=129s</title></circle>
+<circle cx="1287.2" cy="510.2" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-12663 · ratio=0.9319 · E2E=132s</title></circle>
+<circle cx="1277.8" cy="497.5" r="3.2" fill="#18794e" fill-opacity="0.48"><title>matplotlib/matplotlib · matplotlib__matplotlib-13989 · ratio=0.7379 · E2E=179s</title></circle>
+<circle cx="1270.9" cy="514.8" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-15957 · ratio=0.6212 · E2E=115s</title></circle>
+<circle cx="1198.2" cy="508.3" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-14122 · ratio=0.1018 · E2E=139s</title></circle>
+<circle cx="1256.0" cy="508.7" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-18532 · ratio=0.4285 · E2E=137s</title></circle>
+<circle cx="1248.6" cy="508.4" r="3.2" fill="#9e77ed" fill-opacity="0.48"><title>scikit-learn/scikit-learn · scikit-learn__scikit-learn-13142 · ratio=0.357 · E2E=138s</title></circle>
+<circle cx="1277.0" cy="496.5" r="3.2" fill="#18794e" fill-opacity="0.48"><title>matplotlib/matplotlib · matplotlib__matplotlib-18869 · ratio=0.724 · E2E=182s</title></circle>
+<circle cx="1224.4" cy="511.3" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>sphinx-doc/sphinx · sphinx-doc__sphinx-7748 · ratio=0.1954 · E2E=128s</title></circle>
+<circle cx="1268.1" cy="513.1" r="3.2" fill="#1769aa" fill-opacity="0.48"><title>sphinx-doc/sphinx · sphinx-doc__sphinx-9367 · ratio=0.5796 · E2E=121s</title></circle>
+<circle cx="1223.9" cy="510.2" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>sympy/sympy · sympy__sympy-13974 · ratio=0.1927 · E2E=132s</title></circle>
+<circle cx="1310.5" cy="180.3" r="3.2" fill="#7a5af8" fill-opacity="0.48"><title>django/django · django__django-16256 · ratio=1.668 · E2E=1.35e+03s</title></circle>
+<circle cx="60.0" cy="655.0" r="5" fill="#1769aa"/>
+<text x="70.0" y="659.0" class="legend" >astropy/astropy</text>
+<circle cx="350.0" cy="655.0" r="5" fill="#7a5af8"/>
+<text x="360.0" y="659.0" class="legend" >django/django</text>
+<circle cx="640.0" cy="655.0" r="5" fill="#18794e"/>
+<text x="650.0" y="659.0" class="legend" >matplotlib/matplotlib</text>
+<circle cx="930.0" cy="655.0" r="5" fill="#b54708"/>
+<text x="940.0" y="659.0" class="legend" >mwaskom/seaborn</text>
+<circle cx="1220.0" cy="655.0" r="5" fill="#c11574"/>
+<text x="1230.0" y="659.0" class="legend" >pallets/flask</text>
+<circle cx="60.0" cy="675.0" r="5" fill="#026aa2"/>
+<text x="70.0" y="679.0" class="legend" >psf/requests</text>
+<circle cx="350.0" cy="675.0" r="5" fill="#b42318"/>
+<text x="360.0" y="679.0" class="legend" >pydata/xarray</text>
+<circle cx="640.0" cy="675.0" r="5" fill="#667085"/>
+<text x="650.0" y="679.0" class="legend" >pylint-dev/pylint</text>
+<circle cx="930.0" cy="675.0" r="5" fill="#0086c9"/>
+<text x="940.0" y="679.0" class="legend" >pytest-dev/pytest</text>
+<circle cx="1220.0" cy="675.0" r="5" fill="#9e77ed"/>
+<text x="1230.0" y="679.0" class="legend" >scikit-learn/scikit-learn</text>
+<circle cx="60.0" cy="695.0" r="5" fill="#1769aa"/>
+<text x="70.0" y="699.0" class="legend" >sphinx-doc/sphinx</text>
+<circle cx="350.0" cy="695.0" r="5" fill="#7a5af8"/>
+<text x="360.0" y="699.0" class="legend" >sympy/sympy</text>
+<text x="34.0" y="718.0" class="note" >Diagnostic only: proxy rows are not native GPU timing, and model coverage is not official task accuracy.</text>
+</svg>

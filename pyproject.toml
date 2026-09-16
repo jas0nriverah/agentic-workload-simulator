@@ -18,6 +18,9 @@ agentic-sim = "agentic_sim.cli:main"
 [tool.setuptools.packages.find]
 where = ["src"]
 
+[tool.setuptools.package-data]
+"agentic_sim.telemetry" = ["*.c"]
+
 [tool.ruff]
 line-length = 100
 target-version = "py39"

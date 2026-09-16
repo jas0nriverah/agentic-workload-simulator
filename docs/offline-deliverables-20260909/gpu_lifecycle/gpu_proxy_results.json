@@ -1,0 +1,234 @@
+{
+  "coverage_limit": "the saved historical view contains completed model events only; it cannot establish the all-required-event D9 denominator or universal acceptance gate",
+  "data": {
+    "instances": 545,
+    "rows": 23868,
+    "runs": 819,
+    "source": "docs/offline-deliverables-20260909/training_view/models.jsonl"
+  },
+  "e2e": {
+    "event_sum_status": "not computed: needs CPU OOF predictions and would be conditional on a realized action/request list",
+    "residual_fit": "not performed",
+    "start_known_status": "unsupported: no authorized start-known full action/request-list feature view"
+  },
+  "excluded_from_features": [
+    "context_tokens (identical to input_tokens in this cache)",
+    "output_tokens",
+    "observed_ms",
+    "all phase timings",
+    "cache state",
+    "future actions",
+    "residual"
+  ],
+  "feature_availability_contract": "historical proxy assumes input_tokens was available before request; the repaired native fixture does not establish that condition and uses cap-only fallback",
+  "fixed_candidate_oof_metrics": {
+    "global_median": {
+      "max_ape_percent": 234.8349763724532,
+      "mean_ape_percent": 46.700732313326675,
+      "n": 23868,
+      "p95_ape_percent_nearest_rank": 93.52148731208815,
+      "within_25_percent": 34.63214345567287
+    },
+    "positive_log_ridge_prompt_and_cap": {
+      "max_ape_percent": 495.5307440184625,
+      "mean_ape_percent": 77.80566293385341,
+      "n": 23868,
+      "p95_ape_percent_nearest_rank": 200.16528435824728,
+      "within_25_percent": 14.265962795374561
+    },
+    "prompt_log2_bucket_and_cap_median": {
+      "max_ape_percent": 325.505721067536,
+      "mean_ape_percent": 48.715077648373686,
+      "n": 23868,
+      "p95_ape_percent_nearest_rank": 105.01186193817173,
+      "within_25_percent": 36.362493715434894
+    }
+  },
+  "full_training_inner_metrics": {
+    "global_median": {
+      "max_ape_percent": 231.85355268161456,
+      "mean_ape_percent": 46.66138113456614,
+      "n": 23868,
+      "p95_ape_percent_nearest_rank": 93.56065620531237,
+      "within_25_percent": 34.720127367186194
+    },
+    "positive_log_ridge_prompt_and_cap": {
+      "max_ape_percent": 497.6841781390987,
+      "mean_ape_percent": 77.69181917678145,
+      "n": 23868,
+      "p95_ape_percent_nearest_rank": 199.66082476819997,
+      "within_25_percent": 14.232445114798056
+    },
+    "prompt_log2_bucket_and_cap_median": {
+      "max_ape_percent": 323.6452654189995,
+      "mean_ape_percent": 48.825650450442495,
+      "n": 23868,
+      "p95_ape_percent_nearest_rank": 105.70706410478617,
+      "within_25_percent": 36.199095022624434
+    }
+  },
+  "full_training_selection": "global_median",
+  "inner_folds": "sha256('assignment.d9.gpu-inner-fold-v1:' + instance_id) modulo 3",
+  "nested_selected_oof_metrics": {
+    "max_ape_percent": 234.8349763724532,
+    "mean_ape_percent": 46.700732313326675,
+    "n": 23868,
+    "p95_ape_percent_nearest_rank": 93.52148731208815,
+    "within_25_percent": 34.63214345567287
+  },
+  "outer_fold_choices": [
+    {
+      "inner_metrics": {
+        "global_median": {
+          "max_ape_percent": 231.42603851961564,
+          "mean_ape_percent": 46.55266063023602,
+          "n": 18954,
+          "p95_ape_percent_nearest_rank": 93.54834716556748,
+          "within_25_percent": 34.87390524427561
+        },
+        "positive_log_ridge_prompt_and_cap": {
+          "max_ape_percent": 508.5900329650133,
+          "mean_ape_percent": 77.75562179240494,
+          "n": 18954,
+          "p95_ape_percent_nearest_rank": 202.39987379086807,
+          "within_25_percent": 14.297773557032816
+        },
+        "prompt_log2_bucket_and_cap_median": {
+          "max_ape_percent": 328.4502762898441,
+          "mean_ape_percent": 49.04204049508697,
+          "n": 18954,
+          "p95_ape_percent_nearest_rank": 107.59444825202287,
+          "within_25_percent": 36.11374907671204
+        }
+      },
+      "outer_fold": 0,
+      "outer_test_events": 4914,
+      "outer_test_instances": 113,
+      "selected": "global_median"
+    },
+    {
+      "inner_metrics": {
+        "global_median": {
+          "max_ape_percent": 232.24566410220783,
+          "mean_ape_percent": 46.59645439192645,
+          "n": 20456,
+          "p95_ape_percent_nearest_rank": 93.5627230171124,
+          "within_25_percent": 34.87974188502151
+        },
+        "positive_log_ridge_prompt_and_cap": {
+          "max_ape_percent": 496.63002065568116,
+          "mean_ape_percent": 78.13621281414179,
+          "n": 20456,
+          "p95_ape_percent_nearest_rank": 200.1168641761187,
+          "within_25_percent": 13.991005084082909
+        },
+        "prompt_log2_bucket_and_cap_median": {
+          "max_ape_percent": 323.3237698676846,
+          "mean_ape_percent": 48.71677761013132,
+          "n": 20456,
+          "p95_ape_percent_nearest_rank": 104.3191632070082,
+          "within_25_percent": 36.23875635510364
+        }
+      },
+      "outer_fold": 1,
+      "outer_test_events": 3412,
+      "outer_test_instances": 94,
+      "selected": "global_median"
+    },
+    {
+      "inner_metrics": {
+        "global_median": {
+          "max_ape_percent": 230.85849811657664,
+          "mean_ape_percent": 47.145588265245664,
+          "n": 18900,
+          "p95_ape_percent_nearest_rank": 94.00728628972188,
+          "within_25_percent": 34.05291005291005
+        },
+        "positive_log_ridge_prompt_and_cap": {
+          "max_ape_percent": 494.68174042281476,
+          "mean_ape_percent": 77.98995492513313,
+          "n": 18900,
+          "p95_ape_percent_nearest_rank": 200.4553732832444,
+          "within_25_percent": 14.28042328042328
+        },
+        "prompt_log2_bucket_and_cap_median": {
+          "max_ape_percent": 332.6408530058345,
+          "mean_ape_percent": 49.500625985384794,
+          "n": 18900,
+          "p95_ape_percent_nearest_rank": 107.55652578240735,
+          "within_25_percent": 35.41269841269841
+        }
+      },
+      "outer_fold": 2,
+      "outer_test_events": 4968,
+      "outer_test_instances": 106,
+      "selected": "global_median"
+    },
+    {
+      "inner_metrics": {
+        "global_median": {
+          "max_ape_percent": 230.75447740018012,
+          "mean_ape_percent": 46.07730043274509,
+          "n": 18875,
+          "p95_ape_percent_nearest_rank": 93.16047948613915,
+          "within_25_percent": 35.42251655629139
+        },
+        "positive_log_ridge_prompt_and_cap": {
+          "max_ape_percent": 492.5622412728004,
+          "mean_ape_percent": 76.74507807257487,
+          "n": 18875,
+          "p95_ape_percent_nearest_rank": 196.27864368279847,
+          "within_25_percent": 14.389403973509934
+        },
+        "prompt_log2_bucket_and_cap_median": {
+          "max_ape_percent": 315.9849409870933,
+          "mean_ape_percent": 47.87551960529548,
+          "n": 18875,
+          "p95_ape_percent_nearest_rank": 102.52753083089323,
+          "within_25_percent": 36.99602649006623
+        }
+      },
+      "outer_fold": 3,
+      "outer_test_events": 4993,
+      "outer_test_instances": 119,
+      "selected": "global_median"
+    },
+    {
+      "inner_metrics": {
+        "global_median": {
+          "max_ape_percent": 232.82725171647647,
+          "mean_ape_percent": 46.98210468105439,
+          "n": 18287,
+          "p95_ape_percent_nearest_rank": 93.57057835381245,
+          "within_25_percent": 34.29758845081205
+        },
+        "positive_log_ridge_prompt_and_cap": {
+          "max_ape_percent": 488.5422450021998,
+          "mean_ape_percent": 77.82958805514022,
+          "n": 18287,
+          "p95_ape_percent_nearest_rank": 199.01573060666,
+          "within_25_percent": 14.266965603980971
+        },
+        "prompt_log2_bucket_and_cap_median": {
+          "max_ape_percent": 385.7039431870971,
+          "mean_ape_percent": 49.580592259166885,
+          "n": 18287,
+          "p95_ape_percent_nearest_rank": 107.35399215083133,
+          "within_25_percent": 35.845135888882815
+        }
+      },
+      "outer_fold": 4,
+      "outer_test_events": 5581,
+      "outer_test_instances": 113,
+      "selected": "global_median"
+    }
+  ],
+  "outer_folds": "preexisting grouped instance folds from common training view",
+  "prediction_time_features": [
+    "input_tokens",
+    "max_output_tokens"
+  ],
+  "schema_version": "assignment.d9.gpu-proxy-experiment.v1",
+  "selection_rule": "maximize inner within-25 coverage subject to maximum APE no worse than global median; then lower worst APE; then simpler",
+  "target": "historical model-event observed_ms proxy; not native queue/prefill/decode and not a repaired-native result"
+}

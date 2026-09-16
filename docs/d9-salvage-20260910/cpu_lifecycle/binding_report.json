@@ -1,0 +1,461 @@
+{
+  "source_manifest_sha256": "8c4f3a156d90e2d4b6f4c608f49dde647719096f9c059c5889c65a3598588afd",
+  "cases": 43,
+  "instances": 22,
+  "excluded_cases": [
+    {
+      "case_id": "assignment-production-v2:154e9637790d02095b8d5c20564538264b734687636e8f1470771b6bdfea2f58",
+      "reason": "original ledger not fully valid",
+      "codes": [
+        "retry_missing_physical_predecessor",
+        "retry_missing_physical_predecessor",
+        "retry_missing_physical_predecessor",
+        "retry_missing_physical_predecessor",
+        "retry_missing_physical_predecessor",
+        "retry_missing_physical_predecessor",
+        "retry_missing_physical_predecessor",
+        "retry_missing_physical_predecessor"
+      ]
+    },
+    {
+      "case_id": "assignment-production-v2:e19c1f5e34236a4cd11020df4b314ac7c61bb8212f46cf807a7308613814c24b",
+      "reason": "original ledger not fully valid",
+      "codes": [
+        "retry_missing_physical_predecessor",
+        "retry_missing_physical_predecessor",
+        "retry_missing_physical_predecessor",
+        "retry_missing_physical_predecessor"
+      ]
+    },
+    {
+      "case_id": "assignment-production-v2:8961def9d73410c671da2e254b9bca9540cba8a9c45a6d064e63d35eed8b92b6",
+      "reason": "original ledger not fully valid",
+      "codes": [
+        "retry_missing_physical_predecessor",
+        "retry_missing_physical_predecessor"
+      ]
+    },
+    {
+      "case_id": "assignment-production-v2:d13d465bf2eb276d3cd5051a685c6830737aa8875a2d535a25d9a7e24b298ce2",
+      "reason": "original ledger not fully valid",
+      "codes": [
+        "retry_missing_physical_predecessor",
+        "retry_missing_physical_predecessor"
+      ]
+    },
+    {
+      "case_id": "assignment-production-v2:f3327962a9f1ca93e2d0871af0d64326b0b1085471f911bede3795bc0abd0aea",
+      "reason": "original ledger not fully valid",
+      "codes": [
+        "retry_missing_physical_predecessor",
+        "retry_missing_physical_predecessor",
+        "retry_missing_physical_predecessor",
+        "retry_missing_physical_predecessor",
+        "retry_missing_physical_predecessor",
+        "retry_missing_physical_predecessor"
+      ]
+    },
+    {
+      "case_id": "assignment-production-v2:0ea5c6038a9a8178e1736c05903389e8fc7f77d60a92e83f584586f2b32fd354",
+      "reason": "original ledger not fully valid",
+      "codes": [
+        "retry_missing_physical_predecessor",
+        "retry_missing_physical_predecessor"
+      ]
+    }
+  ],
+  "bindings": [
+    {
+      "case_id": "assignment-production-v2:ee4fc39eafebc5d7c2ea1dce540d511f472d14ec3c13b9c8a70c78b3b4340129",
+      "normalization_spec_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00001-81e67b6074b32447/attempt-81e67b6074b32447-002-ba32b872b9d0/normalization_spec.json",
+      "normalization_spec_sha256": "c90424183848435d21a2c3bd6f80275dc89853daee4bfe3fcca10fb2d7f32004",
+      "event_count": 332,
+      "domains": [
+        "static_local_cpu_inventory_v1:d84db556d4a61ce6296cb380c45e9fab59f5fd8d8d712d9df30079cbd13e1fc9"
+      ]
+    },
+    {
+      "case_id": "assignment-production-v2:648009374f4193ea13938de660cec315c8e9402e8e50dddfd752d3b735a57023",
+      "normalization_spec_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00003-fdebd26ee97a2fe4/attempt-fdebd26ee97a2fe4-003-8bb4fa12ec57/normalization_spec.json",
+      "normalization_spec_sha256": "232a3de37707c9dda0e87a98dd27e4889a1dc5065c7360dbb15c96608c895210",
+      "event_count": 266,
+      "domains": [
+        "static_local_cpu_inventory_v1:d84db556d4a61ce6296cb380c45e9fab59f5fd8d8d712d9df30079cbd13e1fc9"
+      ]
+    },
+    {
+      "case_id": "assignment-production-v2:d204afe54b23a1ef26e269881f1cc7a74c1eb78a4799bc75846b78530c3a9ad3",
+      "normalization_spec_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00004-744052c6d0731edf/attempt-744052c6d0731edf-002-8914636e91f7/normalization_spec.json",
+      "normalization_spec_sha256": "015cd7cc9f52dcb1553fd1d742110fd363ea21a0cd9d98ab2b497d3de6223437",
+      "event_count": 322,
+      "domains": [
+        "static_local_cpu_inventory_v1:d84db556d4a61ce6296cb380c45e9fab59f5fd8d8d712d9df30079cbd13e1fc9"
+      ]
+    },
+    {
+      "case_id": "assignment-production-v2:89114c6e95ca38ffe2b961132463d2c11023bcb8221aef85021a0a4a7d0590d6",
+      "normalization_spec_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00005-a07647c07b6c2158/attempt-a07647c07b6c2158-003-ffb048e137c6/normalization_spec.json",
+      "normalization_spec_sha256": "80efd73288869f3bb3286008d604a5b18456bf17bb7a09f50c307a3eff2fa05c",
+      "event_count": 171,
+      "domains": [
+        "static_local_cpu_inventory_v1:d84db556d4a61ce6296cb380c45e9fab59f5fd8d8d712d9df30079cbd13e1fc9"
+      ]
+    },
+    {
+      "case_id": "assignment-production-v2:ec5c4b4fde38778eb803cd1ab5875d3ec95d7edaeaf43cf61f40fa4cf3e9d432",
+      "normalization_spec_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00006-54aa73e6b40ef233/attempt-54aa73e6b40ef233-002-4df7f2268d5d/normalization_spec.json",
+      "normalization_spec_sha256": "423dc771a466e3f6a4d6b0404243e136a0219451475eb1e21cd8bca4fae725fb",
+      "event_count": 245,
+      "domains": [
+        "static_local_cpu_inventory_v1:d84db556d4a61ce6296cb380c45e9fab59f5fd8d8d712d9df30079cbd13e1fc9"
+      ]
+    },
+    {
+      "case_id": "assignment-production-v2:eea38a38eb6accd51fbcfcef363b6905ab95c04d996c3dd21f622d6d01f0d8c2",
+      "normalization_spec_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00007-2b180aea71d74ebd/attempt-2b180aea71d74ebd-002-6deacfa394b6/normalization_spec.json",
+      "normalization_spec_sha256": "3ec9982eab8d417a2d43cb9e274f0f75a1d4616d8e179def422fb7eabee16665",
+      "event_count": 297,
+      "domains": [
+        "static_local_cpu_inventory_v1:d84db556d4a61ce6296cb380c45e9fab59f5fd8d8d712d9df30079cbd13e1fc9"
+      ]
+    },
+    {
+      "case_id": "assignment-production-v2:5fb250ecad9f9bb5fb41c816669933e6b341754ef0b9f696bf6a11bf79310751",
+      "normalization_spec_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00010-85141bb878727ccc/attempt-85141bb878727ccc-002-f40515e655d7/normalization_spec.json",
+      "normalization_spec_sha256": "a218ce18cdd6bdb1e782519ee49cb90d394414823fa07a3c79678b9e7e358946",
+      "event_count": 382,
+      "domains": [
+        "static_local_cpu_inventory_v1:d84db556d4a61ce6296cb380c45e9fab59f5fd8d8d712d9df30079cbd13e1fc9"
+      ]
+    },
+    {
+      "case_id": "assignment-production-v2:2b43d2ae82642dc460d329a3f3ec9cffdc58aa4359b573788c0c80c08ca0615d",
+      "normalization_spec_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00011-af74ed11b4388d46/attempt-af74ed11b4388d46-003-ecbf7b085e40/normalization_spec.json",
+      "normalization_spec_sha256": "0ebab2dd2abde61e8faa0f49bdff928104a7108a07d408e882f67b1c2f87a246",
+      "event_count": 320,
+      "domains": [
+        "static_local_cpu_inventory_v1:d84db556d4a61ce6296cb380c45e9fab59f5fd8d8d712d9df30079cbd13e1fc9"
+      ]
+    },
+    {
+      "case_id": "assignment-production-v2:35a637c4950b3afde20e98bee4717c36a8766b6383da5440e822ccf4cd03e48b",
+      "normalization_spec_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00012-7dac7279ca76abea/attempt-7dac7279ca76abea-002-975ab62a89fb/normalization_spec.json",
+      "normalization_spec_sha256": "ae4f9d8d86361846a2b51e5c26336eece3b15534b221a081aafa4ec135e31c85",
+      "event_count": 304,
+      "domains": [
+        "static_local_cpu_inventory_v1:d84db556d4a61ce6296cb380c45e9fab59f5fd8d8d712d9df30079cbd13e1fc9"
+      ]
+    },
+    {
+      "case_id": "assignment-production-v2:42daecc96b509715a48d2b37e541693868db50c1af222eb38ff92877c28af7d8",
+      "normalization_spec_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00013-60afec8b59321f45/attempt-60afec8b59321f45-002-c97bbd9bdf19/normalization_spec.json",
+      "normalization_spec_sha256": "4c599f984d899ac29cb22f0bc994e7dfaabd0e77b6b683ad08aa4624b976bb1e",
+      "event_count": 283,
+      "domains": [
+        "static_local_cpu_inventory_v1:d84db556d4a61ce6296cb380c45e9fab59f5fd8d8d712d9df30079cbd13e1fc9"
+      ]
+    },
+    {
+      "case_id": "assignment-production-v2:f5211968b925e2a58e91c89875b00c879c97bb86a6e6284cb1d7b5b38ee0436e",
+      "normalization_spec_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00014-215df573c04fa03c/attempt-215df573c04fa03c-002-abc8716a78ec/normalization_spec.json",
+      "normalization_spec_sha256": "b7bddda4dc4f3e22ec352da9f215b5d68c56160f98b88f01d12583352c12575a",
+      "event_count": 266,
+      "domains": [
+        "static_local_cpu_inventory_v1:d84db556d4a61ce6296cb380c45e9fab59f5fd8d8d712d9df30079cbd13e1fc9"
+      ]
+    },
+    {
+      "case_id": "assignment-production-v2:5d2eb13337f0a01131fe2f464ddaa794e45baf57cb8c5252d77fab7d262a2e96",
+      "normalization_spec_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00015-58d9645e9df5aaf6/attempt-58d9645e9df5aaf6-003-1d37c9ff550b/normalization_spec.json",
+      "normalization_spec_sha256": "3d422ee798153685df83f7d86ad3002a16c7b96bd67f4972807dcfe8717863a8",
+      "event_count": 287,
+      "domains": [
+        "static_local_cpu_inventory_v1:d84db556d4a61ce6296cb380c45e9fab59f5fd8d8d712d9df30079cbd13e1fc9"
+      ]
+    },
+    {
+      "case_id": "assignment-production-v2:2bfbb7b400990ecc54cde359dfc03656c4643eec2602642318476f227be54b31",
+      "normalization_spec_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00016-74fea959ea4509ee/attempt-74fea959ea4509ee-003-2f6dca960a42/normalization_spec.json",
+      "normalization_spec_sha256": "e2af642ee3f20d44183e009102d2b0bdfa19ab444b3d608bf79843b1cd50db5d",
+      "event_count": 220,
+      "domains": [
+        "static_local_cpu_inventory_v1:d84db556d4a61ce6296cb380c45e9fab59f5fd8d8d712d9df30079cbd13e1fc9"
+      ]
+    },
+    {
+      "case_id": "assignment-production-v2:394940ef3cccb81d3ce05b1c54505ade4d4452f6da1470c0e31b11783eecdd7a",
+      "normalization_spec_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00017-268f601ff6106707/attempt-268f601ff6106707-002-6c30c5096022/normalization_spec.json",
+      "normalization_spec_sha256": "25da47a7dc253ef0a799f03d896a181ce57c031a40882398a7cedf64bf2ca26d",
+      "event_count": 305,
+      "domains": [
+        "static_local_cpu_inventory_v1:d84db556d4a61ce6296cb380c45e9fab59f5fd8d8d712d9df30079cbd13e1fc9"
+      ]
+    },
+    {
+      "case_id": "assignment-production-v2:f24f36b50382ffaddd53bc6135104dd54c7e95525da285b419d018fed6d810f2",
+      "normalization_spec_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00018-a0bb50959d46e12d/attempt-a0bb50959d46e12d-002-c6c05d3cfbce/normalization_spec.json",
+      "normalization_spec_sha256": "8700b4512b7708d665586ef5771c50b0bd69fd51a0330901814656020a8d1bc7",
+      "event_count": 267,
+      "domains": [
+        "static_local_cpu_inventory_v1:d84db556d4a61ce6296cb380c45e9fab59f5fd8d8d712d9df30079cbd13e1fc9"
+      ]
+    },
+    {
+      "case_id": "assignment-production-v2:658d9b4adddbccf5f04641baea1dfd12b6633918119c1e9daba3942dc46bf542",
+      "normalization_spec_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00019-df19d14509018d6a/attempt-df19d14509018d6a-001-0504157ba07b/normalization_spec.json",
+      "normalization_spec_sha256": "551df0dacb52483909ea9e14570a1a8bf6f12708f5d21a559c5492e57adb0292",
+      "event_count": 382,
+      "domains": [
+        "static_local_cpu_inventory_v1:d84db556d4a61ce6296cb380c45e9fab59f5fd8d8d712d9df30079cbd13e1fc9"
+      ]
+    },
+    {
+      "case_id": "assignment-production-v2:beb578ac3d658dab06dcc329b2fa96b8963bf3125e1bb1fa448b455988986e70",
+      "normalization_spec_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00020-7e443ebeb9e2491e/attempt-7e443ebeb9e2491e-002-aa0fff9f4622/normalization_spec.json",
+      "normalization_spec_sha256": "065e42380dbfa61154697a5159b4679f92c9e9e6256656cba016348610e3d5cf",
+      "event_count": 314,
+      "domains": [
+        "static_local_cpu_inventory_v1:d84db556d4a61ce6296cb380c45e9fab59f5fd8d8d712d9df30079cbd13e1fc9"
+      ]
+    },
+    {
+      "case_id": "assignment-production-v2:9753b925de1856843babcaf7c9fd29797cdbb925c5cdb813e25e570f038781c2",
+      "normalization_spec_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00022-e6424f72071c03e4/attempt-e6424f72071c03e4-002-3623a5895ee0/normalization_spec.json",
+      "normalization_spec_sha256": "299e73b4a56a87e829ae59fcaf31ccd7dcd94848193b2605a584608869c52ccb",
+      "event_count": 325,
+      "domains": [
+        "static_local_cpu_inventory_v1:d84db556d4a61ce6296cb380c45e9fab59f5fd8d8d712d9df30079cbd13e1fc9"
+      ]
+    },
+    {
+      "case_id": "assignment-production-v2:a702669a9fb02f57c0c9da38970c453c54d60551797c770a04b3596f7960b1a7",
+      "normalization_spec_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00023-be0962303b360f8a/attempt-be0962303b360f8a-002-8281e0215619/normalization_spec.json",
+      "normalization_spec_sha256": "15e031ea20f19d0e7c96a5bdbf496bc3740826eae81c8946b6fc7b95b1c9a46d",
+      "event_count": 380,
+      "domains": [
+        "static_local_cpu_inventory_v1:d84db556d4a61ce6296cb380c45e9fab59f5fd8d8d712d9df30079cbd13e1fc9"
+      ]
+    },
+    {
+      "case_id": "assignment-production-v2:71f01739a89af864159f0872f5a5695111b54f22a504921a96a59a513d2c74e0",
+      "normalization_spec_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00024-59afc13ce853411b/attempt-59afc13ce853411b-002-cd42e7323354/normalization_spec.json",
+      "normalization_spec_sha256": "600c0f54ccdd79dfdbea295ed689806c8821cd9acacf920d8fe8502490ba8a57",
+      "event_count": 224,
+      "domains": [
+        "static_local_cpu_inventory_v1:d84db556d4a61ce6296cb380c45e9fab59f5fd8d8d712d9df30079cbd13e1fc9"
+      ]
+    },
+    {
+      "case_id": "assignment-production-v2:f66441c947ef44df36cee8694daafd2c9f8adbc0da08656d6913c339fd6ad3cb",
+      "normalization_spec_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00025-f65fa0d5fc4ac726/attempt-f65fa0d5fc4ac726-002-e9a725a090d8/normalization_spec.json",
+      "normalization_spec_sha256": "3302410bdb4fcbb7ebe2c13909e9fa55a1a4fafd22655635f5be170e1f80f73b",
+      "event_count": 290,
+      "domains": [
+        "static_local_cpu_inventory_v1:d84db556d4a61ce6296cb380c45e9fab59f5fd8d8d712d9df30079cbd13e1fc9"
+      ]
+    },
+    {
+      "case_id": "assignment-production-v2:f6ac399cb7c6ce7d3d40a279d5adae30ef140feb32dc9e2a07b2e75606781b51",
+      "normalization_spec_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00027-4d9dca7da2c39ab0/attempt-4d9dca7da2c39ab0-003-ed324a0445e3/normalization_spec.json",
+      "normalization_spec_sha256": "ce4e7c000f6272bc26ffb8e1262bb67c3b1a36edef8aa29cf7c755e53e0b9ede",
+      "event_count": 316,
+      "domains": [
+        "static_local_cpu_inventory_v1:d84db556d4a61ce6296cb380c45e9fab59f5fd8d8d712d9df30079cbd13e1fc9"
+      ]
+    },
+    {
+      "case_id": "assignment-production-v2:42c43eacf4acc33bef9a122e054e11907d4b46a6ebac08d2ce9cd2759560d34e",
+      "normalization_spec_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00028-ad19231b222d21f5/attempt-ad19231b222d21f5-002-d70858b6c16e/normalization_spec.json",
+      "normalization_spec_sha256": "846f058e27e7ae751b85d34f45bdff8b641968e6944ba04cbb03b6863f0b11c7",
+      "event_count": 478,
+      "domains": [
+        "static_local_cpu_inventory_v1:d84db556d4a61ce6296cb380c45e9fab59f5fd8d8d712d9df30079cbd13e1fc9"
+      ]
+    },
+    {
+      "case_id": "assignment-production-v2:9431bc9cfbb8cd5cee6db5832bd0b25342313071976996d5b30515d00c738bdd",
+      "normalization_spec_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00029-efaa19a5c9de528f/attempt-efaa19a5c9de528f-001-fa7a7ddadfa6/normalization_spec.json",
+      "normalization_spec_sha256": "996360173165748ec3fbd400c9ec94f1a20370c4ffd9a76de4f6c16c598939c1",
+      "event_count": 508,
+      "domains": [
+        "static_local_cpu_inventory_v1:d84db556d4a61ce6296cb380c45e9fab59f5fd8d8d712d9df30079cbd13e1fc9"
+      ]
+    },
+    {
+      "case_id": "assignment-production-v2:e10043c85731edc4ba85babd2f38e6cfd3cdc7acb1893f61829815ea5eeed22a",
+      "normalization_spec_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00030-991197cd80510eff/attempt-991197cd80510eff-001-15f4566ec373/normalization_spec.json",
+      "normalization_spec_sha256": "5598818807b84b2285344a14381ffec2d11e362430acf70167a132906256e6a0",
+      "event_count": 222,
+      "domains": [
+        "static_local_cpu_inventory_v1:d84db556d4a61ce6296cb380c45e9fab59f5fd8d8d712d9df30079cbd13e1fc9"
+      ]
+    },
+    {
+      "case_id": "assignment-production-v2:ad5d1b10f1aca67fdaea85e185f8765f62d70663fb55b8bef3d5789b7d72efbd",
+      "normalization_spec_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00032-d09bcc4bc4a223bc/attempt-d09bcc4bc4a223bc-001-8b2fabdf4942/normalization_spec.json",
+      "normalization_spec_sha256": "5c965d32a5a4a3d85414bb1e4f38605eae8cedda4e0d920a6719f2e368299ddd",
+      "event_count": 453,
+      "domains": [
+        "static_local_cpu_inventory_v1:d84db556d4a61ce6296cb380c45e9fab59f5fd8d8d712d9df30079cbd13e1fc9"
+      ]
+    },
+    {
+      "case_id": "assignment-production-v2:154f45c165a7edf3bb4077622ea49069caaa77f6cb427f06e249676327cd63ed",
+      "normalization_spec_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00033-a5c2b506d6df5f59/attempt-a5c2b506d6df5f59-001-f801069664c9/normalization_spec.json",
+      "normalization_spec_sha256": "526ee0d3b60a239e43cc30b9019e5636d4d0fbd66c3b32af7b272cc4e2f2b96d",
+      "event_count": 438,
+      "domains": [
+        "static_local_cpu_inventory_v1:d84db556d4a61ce6296cb380c45e9fab59f5fd8d8d712d9df30079cbd13e1fc9"
+      ]
+    },
+    {
+      "case_id": "assignment-production-v2:04e38fba0a5c3f03c0580bb5a5bb26914c2b16c10a0bc80f5b3b63e014426da8",
+      "normalization_spec_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00034-b1b20bb58c1ec965/attempt-b1b20bb58c1ec965-001-65946c1b819a/normalization_spec.json",
+      "normalization_spec_sha256": "0834b59611fe5c19667e2823b2eafdd7f103959a9e23c05df676f39aab1a7a99",
+      "event_count": 419,
+      "domains": [
+        "static_local_cpu_inventory_v1:d84db556d4a61ce6296cb380c45e9fab59f5fd8d8d712d9df30079cbd13e1fc9"
+      ]
+    },
+    {
+      "case_id": "assignment-production-v2:38afa46241a3f757d880ae6fba2bc1e088f83b39004f671b1568ec1a177c6eec",
+      "normalization_spec_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00035-91e2a8792341950a/attempt-91e2a8792341950a-001-62ce0aea9302/normalization_spec.json",
+      "normalization_spec_sha256": "97d5b1b721a24b59a53a7d58256ef8e3a4275269d70fa1de055a274ebe3ee596",
+      "event_count": 282,
+      "domains": [
+        "static_local_cpu_inventory_v1:d84db556d4a61ce6296cb380c45e9fab59f5fd8d8d712d9df30079cbd13e1fc9"
+      ]
+    },
+    {
+      "case_id": "assignment-production-v2:591763a03f067e26db3c77382530365ef68f283a7e0370bce0a64eff1338ccc4",
+      "normalization_spec_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00036-3d073397780eb525/attempt-3d073397780eb525-001-53597399b9aa/normalization_spec.json",
+      "normalization_spec_sha256": "1718c56510270fbe5c82d1c7d267aa36512c8974c057275bf08bf90fec88d48d",
+      "event_count": 171,
+      "domains": [
+        "static_local_cpu_inventory_v1:d84db556d4a61ce6296cb380c45e9fab59f5fd8d8d712d9df30079cbd13e1fc9"
+      ]
+    },
+    {
+      "case_id": "assignment-production-v2:0435ea5d4c16c43f1a2235bca066f1fe3e80faa09de5e56f299e460f1411aec4",
+      "normalization_spec_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00037-6b7ae78333efbf99/attempt-6b7ae78333efbf99-001-b950e07080fa/normalization_spec.json",
+      "normalization_spec_sha256": "690e9a38655bb2dd1597bfb02bb2bff7a9a84ca5bc0f27ad61364b85030a7e3d",
+      "event_count": 247,
+      "domains": [
+        "static_local_cpu_inventory_v1:d84db556d4a61ce6296cb380c45e9fab59f5fd8d8d712d9df30079cbd13e1fc9"
+      ]
+    },
+    {
+      "case_id": "assignment-production-v2:aeffe5c8cdd9966ec37c440bc6c26f905e829714a8bea23e064015a59d1fde33",
+      "normalization_spec_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00038-456a30dea720e91d/attempt-456a30dea720e91d-001-5d007b29aa66/normalization_spec.json",
+      "normalization_spec_sha256": "915245cdf9e5306635da8f1f9cdf708e9814a9f9718e5d434f86d0063c401a25",
+      "event_count": 282,
+      "domains": [
+        "static_local_cpu_inventory_v1:d84db556d4a61ce6296cb380c45e9fab59f5fd8d8d712d9df30079cbd13e1fc9"
+      ]
+    },
+    {
+      "case_id": "assignment-production-v2:1aa9c8428543023958ce2f5ccc0f84df342a845ff0cb3f7d95f5522a11431cc6",
+      "normalization_spec_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00040-030da12d12d1136c/attempt-030da12d12d1136c-001-5980e4028fa5/normalization_spec.json",
+      "normalization_spec_sha256": "48416d20aab2b5e83829754e876c71ae980d0a576c61c87eca8fa9f480de6d32",
+      "event_count": 337,
+      "domains": [
+        "static_local_cpu_inventory_v1:d84db556d4a61ce6296cb380c45e9fab59f5fd8d8d712d9df30079cbd13e1fc9"
+      ]
+    },
+    {
+      "case_id": "assignment-production-v2:5817aefd514ba1caba9413ebe94dd2fd674bef7818bb076421ff62d5e4619a12",
+      "normalization_spec_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00041-d263f503f515bd23/attempt-d263f503f515bd23-001-4556541e5865/normalization_spec.json",
+      "normalization_spec_sha256": "965126dc377ab6de311082d607245e84072e8ffbd32966535b5749e6d775bf2b",
+      "event_count": 358,
+      "domains": [
+        "static_local_cpu_inventory_v1:d84db556d4a61ce6296cb380c45e9fab59f5fd8d8d712d9df30079cbd13e1fc9"
+      ]
+    },
+    {
+      "case_id": "assignment-production-v2:69bcb3565888715362f789c84b711483b0652bff11f2b1abff901f5913ac3f64",
+      "normalization_spec_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00042-bdc0641dc21fd91f/attempt-bdc0641dc21fd91f-001-16da918ec8e0/normalization_spec.json",
+      "normalization_spec_sha256": "f84bd7a6e148b50916a2185429140bdb66c55c2acae362ee0332b64e8e8aeaaf",
+      "event_count": 359,
+      "domains": [
+        "static_local_cpu_inventory_v1:d84db556d4a61ce6296cb380c45e9fab59f5fd8d8d712d9df30079cbd13e1fc9"
+      ]
+    },
+    {
+      "case_id": "assignment-production-v2:cb436c2a2a5b447aa018c7d548c6848a1b059ec660200c07ae7efc5383fd60f4",
+      "normalization_spec_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00043-b7057b70cb422aa4/attempt-b7057b70cb422aa4-001-eebce15db0e3/normalization_spec.json",
+      "normalization_spec_sha256": "4f409dcb35087940dce690f6f8d504f354ce6daf54a6c090512e9f00276a6544",
+      "event_count": 282,
+      "domains": [
+        "static_local_cpu_inventory_v1:d84db556d4a61ce6296cb380c45e9fab59f5fd8d8d712d9df30079cbd13e1fc9"
+      ]
+    },
+    {
+      "case_id": "assignment-production-v2:b45833d97ed9a34bbc008ff457f0fbb5fc26107447e435e825f47399b5d9b6f0",
+      "normalization_spec_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00044-ea608465c5400b33/attempt-ea608465c5400b33-005-4494d90891ed/normalization_spec.json",
+      "normalization_spec_sha256": "2f662363ed85406d5dc9be311c49cf49df4771d8c73a5582dd42b2cf25788044",
+      "event_count": 413,
+      "domains": [
+        "static_local_cpu_inventory_v1:d84db556d4a61ce6296cb380c45e9fab59f5fd8d8d712d9df30079cbd13e1fc9"
+      ]
+    },
+    {
+      "case_id": "assignment-production-v2:e49a664bebdfdfdb6d3b25451bb990787a532dbb030078efee24433c87403c1f",
+      "normalization_spec_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00045-f2cb144939542a22/attempt-f2cb144939542a22-005-0b0541c0ba0f/normalization_spec.json",
+      "normalization_spec_sha256": "fe32ac18e7b5e6402a893cfdf023fcfdd577d5e730bd95b6679c6775d50952a7",
+      "event_count": 284,
+      "domains": [
+        "static_local_cpu_inventory_v1:d84db556d4a61ce6296cb380c45e9fab59f5fd8d8d712d9df30079cbd13e1fc9"
+      ]
+    },
+    {
+      "case_id": "assignment-production-v2:56b4d5c6f0a285e14ab7ba7f9595be347668ee70994bcf0119cadf8889ee05ba",
+      "normalization_spec_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00046-5381fbb7d6e733fb/attempt-5381fbb7d6e733fb-005-6a464e566ea1/normalization_spec.json",
+      "normalization_spec_sha256": "18f9b066513e3e6da62173dbba461b30cae543eaa7a02876488a3b3d061c1c78",
+      "event_count": 280,
+      "domains": [
+        "static_local_cpu_inventory_v1:d84db556d4a61ce6296cb380c45e9fab59f5fd8d8d712d9df30079cbd13e1fc9"
+      ]
+    },
+    {
+      "case_id": "assignment-production-v2:1ed9f91667b4b50e1b34416b5f65e973a09d21972d3eec746350ff8572d4396e",
+      "normalization_spec_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00047-914b762fdecdaba3/attempt-914b762fdecdaba3-005-ae7258135f34/normalization_spec.json",
+      "normalization_spec_sha256": "0e21712d4a6d076fb46dce9c0ae48b8360426ae430a7b819ba821edcd84da953",
+      "event_count": 247,
+      "domains": [
+        "static_local_cpu_inventory_v1:d84db556d4a61ce6296cb380c45e9fab59f5fd8d8d712d9df30079cbd13e1fc9"
+      ]
+    },
+    {
+      "case_id": "assignment-production-v2:f61bf3bd4b9b946c8956ed91c8171125cb417d1fc3699ae2572795f102eeeaf3",
+      "normalization_spec_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00051-0d42bddac69b4a78/attempt-0d42bddac69b4a78-001-3fc347a29aed/normalization_spec.json",
+      "normalization_spec_sha256": "f18fc171e00dc9886c949046c5141b3d1de6ebf6c744fb4f6513fa585f9a38e0",
+      "event_count": 697,
+      "domains": [
+        "static_local_cpu_inventory_v1:d84db556d4a61ce6296cb380c45e9fab59f5fd8d8d712d9df30079cbd13e1fc9"
+      ]
+    },
+    {
+      "case_id": "assignment-production-v2:9cc942e1a586e828f860a4c3f025fca2600fdbe7ea78af58046042d5b3928048",
+      "normalization_spec_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00052-6dae60300e1911d1/attempt-6dae60300e1911d1-001-f822f0976822/normalization_spec.json",
+      "normalization_spec_sha256": "e8c6b403c34ff9d5ab87742402ad9050836f1374f5cae552e93d34d5523db5a7",
+      "event_count": 448,
+      "domains": [
+        "static_local_cpu_inventory_v1:d84db556d4a61ce6296cb380c45e9fab59f5fd8d8d712d9df30079cbd13e1fc9"
+      ]
+    },
+    {
+      "case_id": "assignment-production-v2:2b664139cdbda0eb13b49a55d3757e7e6910451e43d74326ea435a30869e0fca",
+      "normalization_spec_path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00053-2c851017fac8b3f8/attempt-2c851017fac8b3f8-002-72183e084918/normalization_spec.json",
+      "normalization_spec_sha256": "27f3345e184757e9895bd8db25858e69482240914b40a0963773d284d3b1c1a5",
+      "event_count": 365,
+      "domains": [
+        "static_local_cpu_inventory_v1:d84db556d4a61ce6296cb380c45e9fab59f5fd8d8d712d9df30079cbd13e1fc9"
+      ]
+    }
+  ],
+  "calibration_disposition": "fitted_with_supported_paths",
+  "input_errors": [],
+  "scope": "CPU command/lifecycle wall, not individual atomic operations; no cross-hardware law",
+  "hardware_inventory_contract": "Static local inventory bound by host/boot/clock; not a measured operating-frequency predictor",
+  "raw_verification_scope": "existing metadata/offset/loss proofs plus one full raw reconstruction; no full binary rehash here"
+}

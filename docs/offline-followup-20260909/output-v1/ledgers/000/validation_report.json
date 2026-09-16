@@ -1,0 +1,2339 @@
+{
+  "attempts": [
+    {
+      "attempt_id": "attempt-001",
+      "cpu_raw_integrity": {
+        "action_count": 100,
+        "atomic_normalization": "unsupported_no_full_bpf_export",
+        "raw_binary_bytes": 338613200,
+        "representative_decoder": "not_run",
+        "status": "complete_bounded_raw_coverage"
+      },
+      "host_clock_unions": {
+        "instance-20260902-053002|CLOCK_MONOTONIC_RAW|boot=df4cb202-feaf-4b07-9e2f-d6d7923a718f": {
+          "disjoint_union_ms": 145814.380856,
+          "merged_interval_count": 283,
+          "raw_interval_count": 441
+        }
+      },
+      "model_physical_starts": 40,
+      "model_physical_terminals": 40,
+      "native_clock_policy": "native intervals and GPU durations are retained separately; never added to host timeline union",
+      "native_physical_terminals": 40,
+      "outer_e2e_boundary": {
+        "event_kind": "outer_swe_agent",
+        "observed_ms": 153117.581093
+      },
+      "pair_inventory": {
+        "lifecycle": {
+          "starts": 273,
+          "terminals": 568
+        },
+        "model": {
+          "starts": 80,
+          "terminals": 80
+        },
+        "tool": {
+          "starts": 40,
+          "terminals": 80
+        }
+      },
+      "raw_record_count": 1161
+    }
+  ],
+  "case_event_records": {
+    "count": 1281,
+    "path": "/home/riverahernandezjason/agentic-submission-repairs-20260908/docs/offline-followup-20260909/output-v1/ledgers/000/normalized_case_events.jsonl"
+  },
+  "case_metadata": {
+    "repository": "django/django",
+    "settings": {
+      "call_limit": 50,
+      "max_input_tokens": 61440,
+      "max_output_tokens": 2048,
+      "observation_length": 100000,
+      "seed": 0,
+      "temperature": 0.0,
+      "top_p": 1.0
+    },
+    "suite": "verified"
+  },
+  "case_result": {
+    "evaluator_outcome_provenance": "unproven_not_bound_by_ledger",
+    "present": true
+  },
+  "case_root": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8",
+  "disposition": "confirmation_excluded",
+  "excluded_attempt_inventory": [],
+  "hardware_bindings": {
+    "cpu": {
+      "binding": "pre-execution CPU-host snapshot only",
+      "hardware_profile_sha256": "f1dff571eb16031fd14414d5bf6b912c1f3ee67ae6374f3b7545d919ee807413",
+      "path": "runner_attempts/attempt-001/telemetry_v2/hardware_snapshots.jsonl",
+      "sha256": "65f64bc6710e694898e0281b6882bf8a141efc19d4a2814d8a82eaff1cb468ed"
+    },
+    "native_gpu": {
+      "binding": "remote serving profile; distinct native host domain",
+      "path": "execution_inputs/serving_fingerprint.json",
+      "sha256": "49589b3e64f405992a78ab8a2cd485a678418534a45b8045629e4357533b7965"
+    }
+  },
+  "identity": {
+    "case_id": "configuration-confirmation-case-v1:11fcd3c59f36c09472479c6794493d546039acf8bc52c3fd372a3d811bcd4132",
+    "instance_id": "django__django-7530"
+  },
+  "partition": null,
+  "partition_provenance": "case_spec_supplied_untrusted; downstream derives pinned partition before event read",
+  "schema_version": "assignment.offline.ledger-validation.v1",
+  "source_hashes": [
+    {
+      "path": "case_result.json",
+      "sha256": "4737c05c1e5d7729021e5caf4bd4d3d9674e542339829feb859023d4dbd8c9a9"
+    },
+    {
+      "path": "case_spec.json",
+      "sha256": "c45d6ff07a911d27b8d74ed8117d1117e90ff1c69247fbbce47b0fb841ba2b0a"
+    },
+    {
+      "path": "execution_inputs/remote_hardware_profile.json",
+      "sha256": "f1dff571eb16031fd14414d5bf6b912c1f3ee67ae6374f3b7545d919ee807413"
+    },
+    {
+      "path": "execution_inputs/serving_fingerprint.json",
+      "sha256": "49589b3e64f405992a78ab8a2cd485a678418534a45b8045629e4357533b7965"
+    },
+    {
+      "path": "runner_attempts/attempt-001/native_serving/native_attribution.jsonl",
+      "sha256": "e0cfad23d8f58e56794c745734bcb56aed0b8c4a2c1bfe7c22928ef4f71cba00"
+    },
+    {
+      "path": "runner_attempts/attempt-001/telemetry_v2/hardware_snapshots.jsonl",
+      "sha256": "65f64bc6710e694898e0281b6882bf8a141efc19d4a2814d8a82eaff1cb468ed"
+    },
+    {
+      "path": "runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl",
+      "sha256": "32afb6734fd3479c914970f3280bb4685841218783759b166c128d64e0f5189a"
+    },
+    {
+      "path": "runner_attempts/attempt-001/telemetry_v2/linux_work/bpf_collector_manifest.json",
+      "sha256": "59b59ed8900fab8c2b79ee3de01f76442bb6b6993aae93c2d59948fe3fa66a13"
+    },
+    {
+      "path": "runner_attempts/attempt-001/telemetry_v2/linux_work/raw_aggregates.jsonl",
+      "sha256": "c675dff2d88f6ce8a2983032e103355309c0b727fef6351e6309b05ff70641d3"
+    },
+    {
+      "path": "runner_attempts/attempt-001/telemetry_v2/linux_work/raw_events.bin",
+      "sha256": "937ccb24b2d1262b270ccc34e54d3cb1f2707b242fc4829e3f428f53601a3d95"
+    },
+    {
+      "path": "runner_attempts/attempt-001/telemetry_v2/linux_work/work_summary.json",
+      "sha256": "2109b1befb3d1ff16230a1a34a5c10eb39e49cb7b924041022bccfd8e2b98763"
+    },
+    {
+      "path": "runner_attempts/attempt-001/telemetry_v2/model_events.jsonl",
+      "sha256": "5a47a108be592249f5ff7fa66f7e9774f7cb2e592ce46c02b15156e5c8ec532f"
+    },
+    {
+      "path": "runner_attempts/attempt-001/telemetry_v2/tool_events.jsonl",
+      "sha256": "e33f594e2661e3c38d8e0e31939aeb3e21be1a0987cafb85bef5ec2311af5a92"
+    }
+  ],
+  "validation": {
+    "error_count": 313,
+    "errors": [
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-4e93cc5301d2fca904638d21b568956a",
+        "line": 2,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/tool_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-a1a06dc238da6c93530575ab1fc17aa9",
+        "line": 5,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/tool_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-cc22e6d6f312505eceb6bb52aceaa6df",
+        "line": 8,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/tool_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-df5a9e20179591e5af29dcba05cfc3c9",
+        "line": 11,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/tool_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-d3f8670991f89a57ac199453920e1b16",
+        "line": 14,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/tool_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-97f52b17107202f5b28d02dd4a978aa0",
+        "line": 17,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/tool_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-5e22f2ac79040f3e9c4956c9c4be683d",
+        "line": 20,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/tool_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-23319b95e29273404ae7a5c13816a93a",
+        "line": 23,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/tool_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-013ca80f53fe6b494c8b4afda37e4753",
+        "line": 26,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/tool_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-11577700f7b380054463e2310f69049d",
+        "line": 29,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/tool_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-ab80f0c3cd2e14786c613de280671d8d",
+        "line": 32,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/tool_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-9736e0a02df11403aee333de48fafb8b",
+        "line": 35,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/tool_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-b28e6a6dec42223a40aeb9f553e3831d",
+        "line": 38,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/tool_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-25c07dd6fb6aeb44d4283a2a03e8c73b",
+        "line": 41,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/tool_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-db65d2ea13dd57c52056ede2825566f9",
+        "line": 44,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/tool_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-4572d21b2159121ea5175f10350969c7",
+        "line": 47,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/tool_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-895a422fcbd7667f3a6a63db519f8535",
+        "line": 50,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/tool_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-111fc02b4203f11da1e4f4f4a2903e2d",
+        "line": 53,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/tool_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-634ed9c7f9c6c70970ff60867b18bed5",
+        "line": 56,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/tool_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-0e698ae31b8cd518ffb8b39b0d0ad4db",
+        "line": 59,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/tool_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-6d91be76144e6e03452163cca88f2922",
+        "line": 62,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/tool_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-4ca6f9bfbd6d90684de25d3aa867e8d0",
+        "line": 65,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/tool_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-02410cb4f81462c4003d6d4003c1ed14",
+        "line": 68,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/tool_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-3d31ac0e2032e44cc6a083cda9f08441",
+        "line": 71,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/tool_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-3421b7ada40a6d006e538ca511c5e7fa",
+        "line": 74,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/tool_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-8f6817ac4e37980b9a6ca998f4bdf001",
+        "line": 77,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/tool_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-3e3253fabfea17233ec0293068b38573",
+        "line": 80,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/tool_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-75c2d0b865c09039f604467b1c9afdcc",
+        "line": 83,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/tool_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-20f3034cd3a0364490372c449495b73b",
+        "line": 86,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/tool_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-91094936c742168c7e4c3a8ec2b2a437",
+        "line": 89,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/tool_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-d477f7466bd3d51e95a885e0a3ad0e3a",
+        "line": 92,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/tool_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-56cbc8123963fcfb37440f343993ec25",
+        "line": 95,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/tool_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-e33f08d9023cb382f35eb4a4dd74ace6",
+        "line": 98,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/tool_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-2bf55b93b96286b4e537e004e17949d1",
+        "line": 101,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/tool_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-ae16547c50216c2d512fe4631a97f61e",
+        "line": 104,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/tool_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-acba42de1743816e09ba2c4fba89e927",
+        "line": 107,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/tool_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-b00ad5a6a68e31688167de1ab652a8fa",
+        "line": 110,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/tool_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-a7a306e2fb83b97694487e6b24f6d60c",
+        "line": 113,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/tool_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-a65c2e94dc2c220e25436213b90d6c26",
+        "line": 116,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/tool_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-1c44d0f2fd9be92d4e2a6c4c9522d920",
+        "line": 119,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/tool_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-935350d523c6f8bed97575d53252d139",
+        "line": 1,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-de4005d0db83b154da0e236bfb3727cf",
+        "line": 2,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-934cb4d7f041baaf5839f22afa4eaf46",
+        "line": 3,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-e83856cd14d3bccd7e12c5ea601c271e",
+        "line": 4,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-0e52d0b36f061c648f2b6a18f623c2ee",
+        "line": 6,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-5bccdfd17d0be2c3091c2b192e7d7828",
+        "line": 8,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-c4230462945729930eece7ca6947d523",
+        "line": 10,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-0213a288d50d9a99ed9d73d841c1b6c8",
+        "line": 12,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-77bcc6f861de9f4458743577f6ea175a",
+        "line": 15,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-506ad2e8e1aa315237e9d1d333595a9b",
+        "line": 16,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-7c804d73ec1f0e5a3c1025a21b024fb9",
+        "line": 18,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-2d297a9bda2466c819877438b0f519c2",
+        "line": 20,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-3104bf1c605cb56a1b374e92ff249b9a",
+        "line": 22,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-519f92b5f462fc0a731fc378272154f9",
+        "line": 24,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-e60c21835be6efd935d102db60ac217f",
+        "line": 26,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-49c5448d1fe220d7d4eea651a1cd193c",
+        "line": 28,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-ac636325356629283f89fb388bea4b44",
+        "line": 30,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-958c62d7ea0c60e480e1cadd3844687f",
+        "line": 32,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-6977aae5c91e6b981ec0d6f8b0a56bf6",
+        "line": 34,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-3b0c62e086e6dce69d5d3334e978106b",
+        "line": 35,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-8e6ccbdd092e435d50102f4613784cfd",
+        "line": 37,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-6b6a5f93f50c3015e62c04ab5d544a04",
+        "line": 38,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-5a531078b98c09ee5cf760511a2804b5",
+        "line": 43,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-22ba698e6d703e856d4da2a5b9d764c2",
+        "line": 45,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-63b306a813d77f1e34df3e92c4f10019",
+        "line": 47,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-95c266a3c351a8a64829ec1cf6008f0b",
+        "line": 49,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-282f62cf549f7d9faaa7fc958edf0a49",
+        "line": 50,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-10511a3b31a42275cb54882ea18fa068",
+        "line": 53,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-aba48a7282fafd6772f81270c896393c",
+        "line": 55,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-1d8c353301154f6cf6b4a0f7bbd750a1",
+        "line": 57,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-e188328a077803a46227abb582bd780f",
+        "line": 59,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-382f93f0f82f69559a347015024a6242",
+        "line": 61,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-d565a60034de75c2abb45ddf89ebbfe2",
+        "line": 62,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-092d1dc8dc0f724a3138166fd1c533d7",
+        "line": 65,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-ea3048d785c9bf12d3d8385830eba324",
+        "line": 67,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-86f455ddbdf2b2ac3f8c7899ed436227",
+        "line": 69,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-e77a80815bd1f3527555313b366f0aac",
+        "line": 71,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-bbbf7598ff106a3348f2a7e276621871",
+        "line": 73,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-903a29d2cc50dd470bb3e1c9033edbd7",
+        "line": 74,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-4251ac64d259aaab203e914ee5b6bcb3",
+        "line": 77,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-18da561b81e854057183a800b926937c",
+        "line": 79,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-e455a1c4e9ed91374b1dfb8c74328811",
+        "line": 81,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-d7d7cde05986d3f0a642f1606e232e7f",
+        "line": 83,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-d57456c6f19329d47b9edef8ab94f38c",
+        "line": 85,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-a46c1808fcd454c697f1d9b5c89ea2d9",
+        "line": 86,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-fd764f8278084778befdb8fb8abe49df",
+        "line": 89,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-db3267f555938dbff38c4106f05f083a",
+        "line": 91,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-4bb8e2ad0d62d24eed64712bf1be1d79",
+        "line": 93,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-5fa5ad51bac5fcf9e21f613d4c52b3d2",
+        "line": 95,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-eb6078703cff6b81c236162cbbf38411",
+        "line": 97,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-a418a7c26d877877f9bbbf031cc31902",
+        "line": 98,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-b284ab856ae05923ed280d46c5923be0",
+        "line": 101,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-25cbacc264ff1a9b10e62cf5311522a3",
+        "line": 103,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-b5fce5d930b506c7e3ce3b94bbf3adc3",
+        "line": 105,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-fbf0adf8afbb1cde2910c2e076846201",
+        "line": 107,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-6054b6cf9387a27d7f0c590d45af7899",
+        "line": 109,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-c601442d0e6f1277ceb1982229c953ca",
+        "line": 110,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-9e5c6e44a5853f1c8c1b729764689234",
+        "line": 113,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-e8e83924df458be5fb334f5e6b042d6c",
+        "line": 115,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-b8a4f61355b84e316887e3241b26a821",
+        "line": 117,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-8884360427864771bce9abb9fc00e56c",
+        "line": 119,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-3aacd6ea9b1a40131139d228185a81ad",
+        "line": 121,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-7e31e516c8bfab3cb4ff26f3aca7b633",
+        "line": 122,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-b01c4c422413095d7c641893ff6824cb",
+        "line": 125,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-3edd21bb4a503445677b084c63df37dd",
+        "line": 127,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-322a4fee3b0cfd457462f9b20754cb45",
+        "line": 129,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-4b8dbc33cba51fa546a175e220fa16f8",
+        "line": 131,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-61f62ef7fad80ee667713c904728df8b",
+        "line": 133,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-610ae9e8d7d859393b7ac76112dadb21",
+        "line": 134,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-61b52fa3f8056e8622c87295fef4b06f",
+        "line": 137,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-57b96665bcc55d4a9cbd732edd886e86",
+        "line": 139,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-7c44d450aa9bc93b5d3c45eca7b9fd6d",
+        "line": 141,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-ebdbf6eb77c71e9f9a62b0b47cacb673",
+        "line": 143,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-d56f90b740b4243bbca53721445cf79a",
+        "line": 145,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-61dcc114bfc3e7feeb8e7d58baae65a8",
+        "line": 146,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-783663dedd42ae70a32f1deeee07496e",
+        "line": 149,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-0dc0d6f821f62ec602c131a4b3fdbe20",
+        "line": 151,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-0afde7f227692d53fecf91069f6c6c8d",
+        "line": 153,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-3ade5bae261b2de8e5b05ae6525cdedd",
+        "line": 156,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-9a4d34bbb789eb11fdbcc9ef01cee9f6",
+        "line": 158,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-9ec6e51156f26b0ec45dc24654c11cb8",
+        "line": 159,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-111e21d21e170997dcb254ea59abd29e",
+        "line": 162,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-03634759270e3ab3c0c78f9af6336011",
+        "line": 164,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-ee172ef0850b61384146747cbc8eee01",
+        "line": 166,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-ceffe6ab6fcc7a394ba3478826256da4",
+        "line": 168,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-acd52628d7b4020482d72fb8a0dd43db",
+        "line": 170,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-395aa74d8a942f08eac6db4b73a6526a",
+        "line": 171,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-6ccbc61f9d4d17c03b37aca83c6ca6c1",
+        "line": 174,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-9ff6a811c4424ffe58dfcfd813a85b0f",
+        "line": 176,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-1267ef81eaa1f2caa4809e97df8b04a9",
+        "line": 178,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-913fe7e64002172bf4c00a5cdaeab98b",
+        "line": 180,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-a878871096faf8c5fd1836557e18a020",
+        "line": 182,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-0daf16be049f09718bb27ee4c6af8d88",
+        "line": 183,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-0129dc0362e6cf7548e1fd7980530401",
+        "line": 186,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-142df0d04a5cac9b918b364ae830939c",
+        "line": 188,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-ea110f9b6f068bbedb684e53712b0233",
+        "line": 190,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-866918d5561bf819496dc5cf0256d8eb",
+        "line": 192,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-c174a0c353562a9a96f529dc4f98cb3f",
+        "line": 194,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-b7ea1e779b3ad7755936c4d706f9b1eb",
+        "line": 195,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-c2b46816ffa7bb7eb70519e53fa06176",
+        "line": 198,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-6dbbbb61e8708720a1abc596305d5d78",
+        "line": 200,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-2730e28060573afde0686fb7ab6e5f70",
+        "line": 202,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-a47ee2eceedd29661705ec419a07f9ec",
+        "line": 204,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-01b7295a18263ec9bd2a790904c81c55",
+        "line": 206,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-36a17cc15e4d5bbc4f39051b7700d58d",
+        "line": 207,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-fde953786255526f4ea2c9cf06de56c0",
+        "line": 210,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-3314a914bf79086674598cbbd1f34668",
+        "line": 212,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-033ad3713921be0878895e2949eb5478",
+        "line": 214,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-2ea917f0becec72fccb71780960d60e0",
+        "line": 216,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-b01bc27dee09a8ee2f1bfc0ba5d0015f",
+        "line": 218,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-488dd4e1fb3b40a3e9e780d140aba347",
+        "line": 219,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-a1b88c9802467890ef963548cbbb79de",
+        "line": 222,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-8ffcdb0f352b4adf0f4df5091a1d2cc5",
+        "line": 224,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-a02306565d85f261f12fc64f12575e66",
+        "line": 226,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-7f3ec87367933af52a25fba50606256a",
+        "line": 227,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-c8e8e951df8b4b54d03b08205f735873",
+        "line": 228,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-2013669314573a4a755aa4d7709da07f",
+        "line": 233,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-261cfee9cd8809b9d1f189db46937248",
+        "line": 235,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-773c7b421613da712a5c32a611987dfc",
+        "line": 236,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-a82d01ecc9d044958d29b67098c5549e",
+        "line": 239,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-7346460e7496ff584f22dc4650b3cfcc",
+        "line": 241,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-4e85968870f5ebe6201b18e2e5ff5b94",
+        "line": 243,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-17b8e9954294c49788da7caf4fcc4598",
+        "line": 245,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-fbdc383e157245c080bea3e6bc1160f9",
+        "line": 247,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-012e1f42062a2045324643d22fd50416",
+        "line": 248,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-da45e120d2fb79b2ba71b4354b8b4e3a",
+        "line": 251,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-3184c3a37f67e7b44db1dffcd979fccf",
+        "line": 253,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-d363f62efe485b15cc80384515e0e9de",
+        "line": 255,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-e970ee6aa44cde5a0450aaf4f020c1d8",
+        "line": 256,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-3e809a8ec48a1c7126733163b28cf562",
+        "line": 257,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-5356cd82c2eaaed4620a6143fe5f22fc",
+        "line": 262,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-5e18ed2482c0d7f4d31a60336c407176",
+        "line": 264,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-4a97a3f58abcc029a5e219790d0563b5",
+        "line": 265,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-7da679c5e5aacaf27589fa81032efdea",
+        "line": 268,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-a77b8d344a09c81fe7d5c3c98228f016",
+        "line": 270,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-392bc676bdd30168a01f256ade0208c7",
+        "line": 272,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-b68f0c55b324d41f4722ed40087e4fb1",
+        "line": 274,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-76bd7293b46f77c0dd51cd61f02d79b6",
+        "line": 276,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-b4b6aa071a492ef5accb72ad338860d9",
+        "line": 277,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-a80891a469ebbc983b10b770eb987607",
+        "line": 280,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-ee5875dc7e5605afc6f4c27372eea77f",
+        "line": 282,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-847e8e1c0114e1d30b69635895a01159",
+        "line": 284,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-69d148ddf30992d1d45b2917a00918db",
+        "line": 286,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-86abdf897d2f1cecca5f74dabbe0db65",
+        "line": 288,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-e8e5fff40d2c92a503767bcd92c09fde",
+        "line": 289,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-7666cc2962b9a5937d19c0a1675d4190",
+        "line": 292,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-9d4218f9625ac565ae0f33feb3396652",
+        "line": 294,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-b07036f9e891899f7892a8175f0f2797",
+        "line": 296,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-25c2cd43eef3a3a63aaa2b4670415cbb",
+        "line": 297,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-12e7c62bd13e44d0020652ed08c962c7",
+        "line": 298,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-6300b14d6c83c28365fdd8271336dff7",
+        "line": 303,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-b5956e97a76c832f000cc859cf8c5b6f",
+        "line": 305,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-f183bcf9c855f999cd920b135b305a0a",
+        "line": 306,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-14d915e2da3a6e1e248564b1827cba08",
+        "line": 309,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-b0a80640010cdd7feff06ac22b4dc7ba",
+        "line": 311,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-621593ae0292cd70b78f16eb956acb87",
+        "line": 313,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-d27efb6ed05c89873b1ea29bf1fb3f83",
+        "line": 315,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-9b9a873d6a1a0b3458af182042342543",
+        "line": 317,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-c36dcb8613d7c243cf557991a63d4354",
+        "line": 318,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-53136225ff68131636656702585a0076",
+        "line": 321,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-137066af89101c0f983bcefe3f35e791",
+        "line": 323,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-cfcef6d01444c45dc84f96fae342025f",
+        "line": 325,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-6ac90137aa1e1e2efd7a63820e7983d2",
+        "line": 328,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-4513183d3690ecd4ea1a98519359e6b6",
+        "line": 330,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-2ec17820ad3ce81e15b280c55a6afbf6",
+        "line": 331,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-0427e443ca56268a73455109cc43671f",
+        "line": 334,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-8e1a47ce804ffce3d30ec1360f1dc12c",
+        "line": 336,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-bb85ce5d051733bbda09bd80d7f64dfd",
+        "line": 338,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-8b8318173190ee5d98407fd0b528734f",
+        "line": 340,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-935fa9692899b4d28f7d946a9ad620cf",
+        "line": 342,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-2312b2443d4ffab28e3326b6f059c708",
+        "line": 343,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-7195b43490b84651eb4f56917017de74",
+        "line": 346,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-0bd980cdf1ee4e591bd68218ca5439eb",
+        "line": 348,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-725a80dc3d3db9e7bea02bc20b6841bb",
+        "line": 350,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-0ebd2c24ee1a47a38177dba27ad8d089",
+        "line": 352,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-2a127dcfc19b2c6cac35ceeeef52aefa",
+        "line": 354,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-f001462c82e03b7e225ae5d43cc8eded",
+        "line": 355,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-bab412f88bfda768bc7778aae74b93cf",
+        "line": 358,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-f63e60d74a2d8c58967b08b48a2596f8",
+        "line": 360,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-e2b4eb4ab27fe49f878a1355e61b6451",
+        "line": 362,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-403ef6eeb586a4b756ee397c33ff96ed",
+        "line": 364,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-46f5c43ac7cc61da4acb68bc253d9548",
+        "line": 366,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-d375649366adc23b9d198aa62ecf6d6e",
+        "line": 367,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-2dacb12a7d81a9db686c7a8aabdf4b02",
+        "line": 370,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-8481b0bdc90f0fecff357eca89add869",
+        "line": 372,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-5c43b4407bd99f718d7f9ad475021aa5",
+        "line": 374,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-7e569da869c1681ba375560ba77d2c76",
+        "line": 376,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-4fec0121cabd41c8e418d94c5b320c2b",
+        "line": 378,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-b2d200c8efed7f431536d3fdb2f4d35e",
+        "line": 379,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-ea36c78add40e4b271aa51fe3fa1f603",
+        "line": 382,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-8150b676577412ce16458e7ceead137f",
+        "line": 384,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-ea36c1c69fc5a1fc024a88e2b855fb5f",
+        "line": 386,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-abc5a779c3d9ec07c463877be1595ba2",
+        "line": 387,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-75573091da98de656ddeefeccba040f8",
+        "line": 388,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-1c6cf4ee74b9b59d5ab90c7b87a0c683",
+        "line": 392,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-cdbd54e704cdfef421c27b3a5954b4ac",
+        "line": 394,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-8969dceec504609bab3f618ed079721c",
+        "line": 395,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-45df3a2ef5034b959451d11c3536ea13",
+        "line": 398,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-e87bf186a51833530ecab3d46346b20c",
+        "line": 400,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-2e599caf40ee0e8e778b07e382eb16f0",
+        "line": 402,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-9f7254f246a600dc3aa2a3205a67e56f",
+        "line": 405,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-2645d6bd81ac6684982f4888a51ea7d8",
+        "line": 407,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-467a0055882b64a26831ae4de8151228",
+        "line": 408,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-e57ba960c94dbcdcb99fe72eec192bd2",
+        "line": 411,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-8800b4445b1a9f81406cbaddbebd11ca",
+        "line": 413,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-5c8a8785a4d482d3eecf017b5f71c1dd",
+        "line": 415,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-1605e1b8c369f922b3ea33f1e601221d",
+        "line": 418,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-ac53516501c878fcd75fd5552e508152",
+        "line": 420,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-54a10eee045bf6bb759c2a3cf72d5323",
+        "line": 421,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-75890ed60ed8daf936ed073840962f73",
+        "line": 424,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-783fc29425047d6326c69a026091b9e4",
+        "line": 426,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-69819c7f205a407337d510acc3fbdd14",
+        "line": 428,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-db2ed11615044ea31eea4e425957e4b5",
+        "line": 429,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-a82210af7acda63554190e4b2bbdd01b",
+        "line": 430,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-37fe592ddf04f672f7d10ad4770e2cf3",
+        "line": 435,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-3f0c5869326950027cababff0a26d58b",
+        "line": 437,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-feac3557659fecbba726b29d70bfa6e1",
+        "line": 438,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-287f965212091566796dcc185fd63c9f",
+        "line": 441,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-10c25fa2a3cb3b85e22c9ae14af85ca4",
+        "line": 443,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-7ceab7af10c00ef428816939bd15218c",
+        "line": 445,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-b71e66d5bad793f4c9ba047e93420a92",
+        "line": 448,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-910f6e79d15bc57417c41af39d6f3d25",
+        "line": 450,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-b81830ac878569b1360239e531a1e27c",
+        "line": 451,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-f8019264970f061b204bcfc4918811f0",
+        "line": 454,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-edd08eee690e0d412b91d66f03855be8",
+        "line": 456,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-ce976a83f830d6b43dccf89a0792f27d",
+        "line": 458,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-fb04d753b83b00d28470c567661eeb74",
+        "line": 460,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-dfe891633e9cc614c2ddb8a6b960bea5",
+        "line": 462,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-8aff4e896e19b6188f466aa2ea37ec2b",
+        "line": 463,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-8667127becebcb8965db4cfa8cafc0e9",
+        "line": 466,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-a767b4dc01fb85c2251cba2922ac437f",
+        "line": 468,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-d76556e7774d96526137aa855e9dfd71",
+        "line": 470,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-ce3a393d2a2f79a826c537ef55c288ff",
+        "line": 472,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-a0d8c0c16922a9cdf496c87381407a5d",
+        "line": 474,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-4d3e296d187d4de1e9466cfd1e60c8f6",
+        "line": 475,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-6a2c7fb0df8ac6b823d672ccbd25c34b",
+        "line": 478,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-1538a9d6a0f2da703359b18194ef1868",
+        "line": 480,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-b967eed6e991161ef4666c64a16661f2",
+        "line": 482,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-c6808f1d6c735396d0621d6229370799",
+        "line": 484,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-e7fa2193617bbc7d461f1d9744095e7b",
+        "line": 486,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-3d91e57945d74b56b9ec8544dab2c2de",
+        "line": 487,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-8a4d924c871c0bc738f0c2837bbb2db7",
+        "line": 490,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-c38b58e9d9475b3a1b70f2834f069294",
+        "line": 492,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-ebf5c69c86effc5669fdfebcde42a55b",
+        "line": 494,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-171dc85a8eec91fdf9a5c4ba25a26257",
+        "line": 497,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-af900311aa90446674b5a9f8e09ae98d",
+        "line": 499,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-6417dd6483e32de67335508471c47034",
+        "line": 500,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-b9b5529c51229e6669ac150c7b044933",
+        "line": 503,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-61f3b265122234d5fae0ddf4c2a1ae27",
+        "line": 505,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-2e302597a0494c33c1e013338012678a",
+        "line": 507,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-0bcc3853a2c0f077d6b740ddb657b428",
+        "line": 509,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-65400497f47e2cd58159630b6d3fefcd",
+        "line": 511,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-5ee42b9e9a06ffb3ae83d158ea6b6c88",
+        "line": 512,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-39c1672999fd9487b163c24192695b6f",
+        "line": 515,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-84037c977c5becac25dd2080e9e83410",
+        "line": 517,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-663f7eb1fe9aca9bf7912eb0c4ca5b86",
+        "line": 519,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-206418ab4e3eb69abd4d0c0399bd2e79",
+        "line": 521,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-50761132535114e2507a632442a5261e",
+        "line": 523,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-8af8a0891247bcb356cf0666d8fbab3b",
+        "line": 524,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-c77844a4ccc71fae07197479eb51f2c2",
+        "line": 527,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-c5f14a97f4e6f3e8ec0783d114a9f717",
+        "line": 529,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-eaed940952e4abc784b980a6fee269c3",
+        "line": 531,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-d59ab77f0acf6ba20e03d68e5965d0c7",
+        "line": 533,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-e2c2b9a3f86c518b006d2aecaabe3467",
+        "line": 535,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-3c0710567495afe1aa7d23cc8297670b",
+        "line": 536,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-e2046303259fcc8deb2029d6d4b9ca29",
+        "line": 539,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-bea742ecbf8a2c930a6551e544e8471e",
+        "line": 541,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-ab3506e702d051a5c15b152d9ce66379",
+        "line": 543,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-2f17efee7f4186704e1c91d841a9cf2b",
+        "line": 545,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-60c0d1aad4f028cb1eac12c694b2919f",
+        "line": 547,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-e11bd96dbcedc5cc5913efbb759361b4",
+        "line": 548,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-c3fda33564b202ea52bb8ed1b400d4cb",
+        "line": 551,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      },
+      {
+        "code": "retry_self_reference",
+        "detail": "None",
+        "event_id": "event-aea21392124ec438e4f966b3e737875e",
+        "line": 553,
+        "source": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl"
+      }
+    ],
+    "status": "invalid"
+  }
+}

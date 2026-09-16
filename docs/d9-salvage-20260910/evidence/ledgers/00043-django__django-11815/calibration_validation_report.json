@@ -1,0 +1,143 @@
+{
+  "attempts": [
+    {
+      "attempt_id": "attempt-001",
+      "cpu_raw_integrity": {
+        "action_count": 92,
+        "atomic_normalization": "unsupported_no_full_bpf_export",
+        "coverage_error_count": 0,
+        "raw_event_binary": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00043-b7057b70cb422aa4/attempt-b7057b70cb422aa4-001-eebce15db0e3/runner_attempts/attempt-001/telemetry_v2/linux_work/raw_events.bin",
+        "raw_event_binary_bytes": 313540000,
+        "raw_event_binary_hash_skipped": true,
+        "raw_event_binary_sha256": null,
+        "representative_decoder": "not_run",
+        "status": "complete_bounded_raw_metadata"
+      },
+      "host_clock_unions": {
+        "instance-20260902-053002|CLOCK_MONOTONIC_RAW|boot=df4cb202-feaf-4b07-9e2f-d6d7923a718f": {
+          "disjoint_union_ms": 144078.141102,
+          "merged_interval_count": 247,
+          "raw_interval_count": 389
+        }
+      },
+      "model_physical_starts": 35,
+      "model_physical_terminals": 35,
+      "native_clock_policy": "native intervals and GPU durations are retained separately; never added to host timeline union",
+      "native_physical_terminals": 35,
+      "outer_e2e_boundary": {
+        "event_kind": "outer_swe_agent",
+        "observed_ms": 152335.890718
+      },
+      "pair_inventory": {
+        "lifecycle": {
+          "starts": 247,
+          "terminals": 500
+        },
+        "model": {
+          "starts": 70,
+          "terminals": 70
+        },
+        "tool": {
+          "starts": 35,
+          "terminals": 70
+        }
+      },
+      "raw_record_count": 1027
+    }
+  ],
+  "calibration_scope": {
+    "ignored_for_fit": "retry_missing_physical_predecessor affects OBSERVATION wrapper rows; TARGET rows are still checked by the adapter",
+    "original_error_codes": {},
+    "original_validation_report_path": "/home/riverahernandezjason/agentic-submission-repairs-20260908/docs/d9-salvage-20260910/evidence/ledgers/00043-django__django-11815/validation_report.json",
+    "original_validation_report_sha256": "e47ee5e68e276d1eabdd9133979c1d00b13227295d1934868f1e9517afca753c",
+    "original_validation_status": "valid",
+    "status": "accepted_native_target_scope"
+  },
+  "case_event_records": {
+    "count": 1132,
+    "path": "/home/riverahernandezjason/agentic-submission-repairs-20260908/docs/d9-salvage-20260910/evidence/ledgers/00043-django__django-11815/normalized_case_events.jsonl"
+  },
+  "case_metadata": {
+    "repository": "django/django",
+    "settings": {
+      "call_limit": 100,
+      "max_input_tokens": 61440,
+      "max_output_tokens": 2048,
+      "observation_length": 50000,
+      "seed": 0,
+      "temperature": 0.0,
+      "top_p": 1.0
+    },
+    "suite": "lite"
+  },
+  "case_result": {
+    "evaluator_outcome_provenance": "unproven_not_bound_by_ledger",
+    "present": true
+  },
+  "case_root": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00043-b7057b70cb422aa4/attempt-b7057b70cb422aa4-001-eebce15db0e3",
+  "disposition": "accepted",
+  "excluded_attempt_inventory": [],
+  "hardware_bindings": {
+    "cpu": {
+      "binding": "pre-execution CPU-host snapshot only",
+      "hardware_profile_sha256": "e269f5fe091701c5d0bfe5d713de511fb31289082f9033e534fcf2e855b81f50",
+      "path": "runner_attempts/attempt-001/telemetry_v2/hardware_snapshots.jsonl",
+      "sha256": "515e030c254623b63a1880892c5a0109a6862a9eacdbfed5eac9be90523ab2b1"
+    },
+    "native_gpu": "unavailable"
+  },
+  "identity": {
+    "case_id": "assignment-production-v2:cb436c2a2a5b447aa018c7d548c6848a1b059ec660200c07ae7efc5383fd60f4",
+    "instance_id": "django__django-11815"
+  },
+  "partition": null,
+  "partition_provenance": "case_spec_supplied_untrusted; downstream derives pinned partition before event read",
+  "schema_version": "assignment.offline.ledger-validation.v1",
+  "source_hashes": [
+    {
+      "path": "case_result.json",
+      "sha256": "2e1b0d30ec390ca7354d7e7bdd1902fc8b392b19c216e8042c7faadfecd418f5"
+    },
+    {
+      "path": "case_spec.json",
+      "sha256": "a3c9579ce2ff42ea8f2ed7ca20c87e07364ca1ae64b9430a190b6a6ff9ff902a"
+    },
+    {
+      "path": "runner_attempts/attempt-001/native_serving/native_attribution.jsonl",
+      "sha256": "575f3d24262802a353a7ebef0616f39e77ca0495a51150e7a5358f32db680d65"
+    },
+    {
+      "path": "runner_attempts/attempt-001/telemetry_v2/hardware_snapshots.jsonl",
+      "sha256": "515e030c254623b63a1880892c5a0109a6862a9eacdbfed5eac9be90523ab2b1"
+    },
+    {
+      "path": "runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl",
+      "sha256": "e1af4b86c3bc0b3f50108c997e8fdc1cb4f6b45e7163be0b7237fc55d3d33241"
+    },
+    {
+      "path": "runner_attempts/attempt-001/telemetry_v2/linux_work/bpf_collector_manifest.json",
+      "sha256": "d957accb076ab8371bf0befcab6337941bf01531fe33620b7ef05668c77ff6c4"
+    },
+    {
+      "path": "runner_attempts/attempt-001/telemetry_v2/linux_work/raw_aggregates.jsonl",
+      "sha256": "d58436907fd824362d33890e7d69f07548e5262f5cc97408042436dd95cfc5e7"
+    },
+    {
+      "path": "runner_attempts/attempt-001/telemetry_v2/linux_work/work_summary.json",
+      "sha256": "af1e602e90498c873705b055438ecf8b75ae9c5bc1e09df80e675f99afc5904a"
+    },
+    {
+      "path": "runner_attempts/attempt-001/telemetry_v2/model_events.jsonl",
+      "sha256": "349b7e126a5eb25b591d5c44e17f269a5eb2e8abdb5ce0d1ea90be7051aac3d3"
+    },
+    {
+      "path": "runner_attempts/attempt-001/telemetry_v2/tool_events.jsonl",
+      "sha256": "bd2cd64f94199aebea3c912ee2025b8f71d399d89b2bd4e62db6bd37ce684d27"
+    }
+  ],
+  "validation": {
+    "error_count": 0,
+    "errors": [],
+    "status": "valid"
+  }
+}

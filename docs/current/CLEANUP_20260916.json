@@ -1,0 +1,2615 @@
+{
+  "date": "2026-09-16",
+  "archived_handoffs": [
+    {
+      "path": "A100_FINAL_VM_HANDOFF.md",
+      "archive": "docs/history/root-handoffs/A100_FINAL_VM_HANDOFF.md",
+      "sha256": "e516c6cef84951b5103671ff5b5d34a7d9b01b6f8e6b342be8ac57682a8c4771"
+    },
+    {
+      "path": "CODEX_HANDOFF.md",
+      "archive": "docs/history/root-handoffs/CODEX_HANDOFF.md",
+      "sha256": "71729e7a5683f3d523a589d92bda3f847d8e0118cc558cf94b874cc505aa6316"
+    },
+    {
+      "path": "CURSOR_HANDOFF.md",
+      "archive": "docs/history/root-handoffs/CURSOR_HANDOFF.md",
+      "sha256": "c7eb3b1f25cb4059547dd30f71460b069222ef80d8e5c0abab15baae615af831"
+    },
+    {
+      "path": "H100_FINAL_VM_HANDOFF.md",
+      "archive": "docs/history/root-handoffs/H100_FINAL_VM_HANDOFF.md",
+      "sha256": "ad3d9b4529311160804da008412158d8d6fe533450f099cfe6f46a93744c76f6"
+    },
+    {
+      "path": "LIGHTNING_CODEX_HANDOFF.md",
+      "archive": "docs/history/root-handoffs/LIGHTNING_CODEX_HANDOFF.md",
+      "sha256": "df9cd1b80ab44f37dd9a0ed756abd97f8d97675b4a6a00a6e6b95f74c8f33b55"
+    }
+  ],
+  "removed_generated_files": [
+    {
+      "path": "src/__pycache__/sitecustomize.cpython-310.pyc",
+      "bytes": 728
+    },
+    {
+      "path": "src/__pycache__/sitecustomize.cpython-311.pyc",
+      "bytes": 1128
+    },
+    {
+      "path": "src/agentic_sim/__pycache__/__init__.cpython-311.pyc",
+      "bytes": 312
+    },
+    {
+      "path": "src/agentic_sim/__pycache__/events.cpython-310.pyc",
+      "bytes": 2143
+    },
+    {
+      "path": "src/agentic_sim/__pycache__/events.cpython-311.pyc",
+      "bytes": 3047
+    },
+    {
+      "path": "src/agentic_sim/__pycache__/simulator.cpython-311.pyc",
+      "bytes": 11809
+    },
+    {
+      "path": "src/agentic_sim/__pycache__/feature_simulator.cpython-310.pyc",
+      "bytes": 14776
+    },
+    {
+      "path": "src/agentic_sim/__pycache__/__init__.cpython-310.pyc",
+      "bytes": 293
+    },
+    {
+      "path": "src/agentic_sim/__pycache__/simulator.cpython-310.pyc",
+      "bytes": 7016
+    },
+    {
+      "path": "src/agentic_sim/__pycache__/feature_simulator.cpython-311.pyc",
+      "bytes": 24367
+    },
+    {
+      "path": "src/agentic_sim/runtime/__pycache__/__init__.cpython-311.pyc",
+      "bytes": 272
+    },
+    {
+      "path": "src/agentic_sim/runtime/__pycache__/vllm_config.cpython-311.pyc",
+      "bytes": 12420
+    },
+    {
+      "path": "src/agentic_sim/runtime/__pycache__/backend.cpython-311.pyc",
+      "bytes": 74686
+    },
+    {
+      "path": "src/agentic_sim/runtime/__pycache__/backend.cpython-310.pyc",
+      "bytes": 41074
+    },
+    {
+      "path": "src/agentic_sim/runtime/__pycache__/__init__.cpython-310.pyc",
+      "bytes": 254
+    },
+    {
+      "path": "src/agentic_sim/runtime/__pycache__/vllm_config.cpython-310.pyc",
+      "bytes": 7105
+    },
+    {
+      "path": "src/agentic_sim/runners/__pycache__/tool_runtime.cpython-311.pyc",
+      "bytes": 56695
+    },
+    {
+      "path": "src/agentic_sim/runners/__pycache__/__init__.cpython-311.pyc",
+      "bytes": 1220
+    },
+    {
+      "path": "src/agentic_sim/runners/__pycache__/owned_docker.cpython-310.pyc",
+      "bytes": 4487
+    },
+    {
+      "path": "src/agentic_sim/runners/__pycache__/parallel.cpython-310.pyc",
+      "bytes": 16389
+    },
+    {
+      "path": "src/agentic_sim/runners/__pycache__/sweagent_runner.cpython-311.pyc",
+      "bytes": 45068
+    },
+    {
+      "path": "src/agentic_sim/runners/__pycache__/case_lifecycle.cpython-310.pyc",
+      "bytes": 18506
+    },
+    {
+      "path": "src/agentic_sim/runners/__pycache__/parallel.cpython-311.pyc",
+      "bytes": 29736
+    },
+    {
+      "path": "src/agentic_sim/runners/__pycache__/tool_runtime.cpython-310.pyc",
+      "bytes": 29299
+    },
+    {
+      "path": "src/agentic_sim/runners/__pycache__/case_lifecycle.cpython-311.pyc",
+      "bytes": 35267
+    },
+    {
+      "path": "src/agentic_sim/runners/__pycache__/__init__.cpython-310.pyc",
+      "bytes": 900
+    },
+    {
+      "path": "src/agentic_sim/runners/__pycache__/sweagent_runner.cpython-310.pyc",
+      "bytes": 24665
+    },
+    {
+      "path": "src/agentic_sim/runners/__pycache__/owned_docker.cpython-311.pyc",
+      "bytes": 8072
+    },
+    {
+      "path": "src/agentic_sim/telemetry/__pycache__/serving_observer.cpython-311.pyc",
+      "bytes": 73385
+    },
+    {
+      "path": "src/agentic_sim/telemetry/__pycache__/__init__.cpython-311.pyc",
+      "bytes": 1999
+    },
+    {
+      "path": "src/agentic_sim/telemetry/__pycache__/thin.cpython-310.pyc",
+      "bytes": 11151
+    },
+    {
+      "path": "src/agentic_sim/telemetry/__pycache__/serving_metrics.cpython-310.pyc",
+      "bytes": 29640
+    },
+    {
+      "path": "src/agentic_sim/telemetry/__pycache__/process_resources.cpython-311.pyc",
+      "bytes": 5031
+    },
+    {
+      "path": "src/agentic_sim/telemetry/__pycache__/clock.cpython-310.pyc",
+      "bytes": 3799
+    },
+    {
+      "path": "src/agentic_sim/telemetry/__pycache__/script_state.cpython-310.pyc",
+      "bytes": 9181
+    },
+    {
+      "path": "src/agentic_sim/telemetry/__pycache__/sweagent_hooks.cpython-311.pyc",
+      "bytes": 114747
+    },
+    {
+      "path": "src/agentic_sim/telemetry/__pycache__/bpf_work.cpython-310.pyc",
+      "bytes": 126057
+    },
+    {
+      "path": "src/agentic_sim/telemetry/__pycache__/work.cpython-310.pyc",
+      "bytes": 9708
+    },
+    {
+      "path": "src/agentic_sim/telemetry/__pycache__/native_bpf_sink.cpython-311.pyc",
+      "bytes": 14248
+    },
+    {
+      "path": "src/agentic_sim/telemetry/__pycache__/sweagent_hooks.cpython-310.pyc",
+      "bytes": 61945
+    },
+    {
+      "path": "src/agentic_sim/telemetry/__pycache__/work.cpython-311.pyc",
+      "bytes": 16069
+    },
+    {
+      "path": "src/agentic_sim/telemetry/__pycache__/native_vllm_observer.cpython-311.pyc",
+      "bytes": 24219
+    },
+    {
+      "path": "src/agentic_sim/telemetry/__pycache__/container_resources.cpython-310.pyc",
+      "bytes": 6618
+    },
+    {
+      "path": "src/agentic_sim/telemetry/__pycache__/clock.cpython-311.pyc",
+      "bytes": 6188
+    },
+    {
+      "path": "src/agentic_sim/telemetry/__pycache__/container_resources.cpython-311.pyc",
+      "bytes": 12291
+    },
+    {
+      "path": "src/agentic_sim/telemetry/__pycache__/autoinstrument.cpython-311.pyc",
+      "bytes": 21258
+    },
+    {
+      "path": "src/agentic_sim/telemetry/__pycache__/bpf_work.cpython-311.pyc",
+      "bytes": 218517
+    },
+    {
+      "path": "src/agentic_sim/telemetry/__pycache__/v2.cpython-311.pyc",
+      "bytes": 83253
+    },
+    {
+      "path": "src/agentic_sim/telemetry/__pycache__/jsonl_writer.cpython-310.pyc",
+      "bytes": 1425
+    },
+    {
+      "path": "src/agentic_sim/telemetry/__pycache__/cpu_policy.cpython-310.pyc",
+      "bytes": 8871
+    },
+    {
+      "path": "src/agentic_sim/telemetry/__pycache__/v2.cpython-310.pyc",
+      "bytes": 47234
+    },
+    {
+      "path": "src/agentic_sim/telemetry/__pycache__/process_resources.cpython-310.pyc",
+      "bytes": 3215
+    },
+    {
+      "path": "src/agentic_sim/telemetry/__pycache__/script_state.cpython-311.pyc",
+      "bytes": 15329
+    },
+    {
+      "path": "src/agentic_sim/telemetry/__pycache__/autoinstrument.cpython-310.pyc",
+      "bytes": 11303
+    },
+    {
+      "path": "src/agentic_sim/telemetry/__pycache__/serving_metrics.cpython-311.pyc",
+      "bytes": 51470
+    },
+    {
+      "path": "src/agentic_sim/telemetry/__pycache__/cpu_policy.cpython-311.pyc",
+      "bytes": 16444
+    },
+    {
+      "path": "src/agentic_sim/telemetry/__pycache__/linux_work.cpython-310.pyc",
+      "bytes": 70689
+    },
+    {
+      "path": "src/agentic_sim/telemetry/__pycache__/native_vllm_observer.cpython-310.pyc",
+      "bytes": 11063
+    },
+    {
+      "path": "src/agentic_sim/telemetry/__pycache__/native_bpf_sink.cpython-310.pyc",
+      "bytes": 7266
+    },
+    {
+      "path": "src/agentic_sim/telemetry/__pycache__/serving_observer.cpython-310.pyc",
+      "bytes": 39625
+    },
+    {
+      "path": "src/agentic_sim/telemetry/__pycache__/linux_work.cpython-311.pyc",
+      "bytes": 133447
+    },
+    {
+      "path": "src/agentic_sim/telemetry/__pycache__/features.cpython-310.pyc",
+      "bytes": 25883
+    },
+    {
+      "path": "src/agentic_sim/telemetry/__pycache__/hardware.cpython-311.pyc",
+      "bytes": 13065
+    },
+    {
+      "path": "src/agentic_sim/telemetry/__pycache__/__init__.cpython-310.pyc",
+      "bytes": 1555
+    },
+    {
+      "path": "src/agentic_sim/telemetry/__pycache__/hardware.cpython-310.pyc",
+      "bytes": 8009
+    },
+    {
+      "path": "src/agentic_sim/telemetry/__pycache__/thin.cpython-311.pyc",
+      "bytes": 19157
+    },
+    {
+      "path": "src/agentic_sim/telemetry/__pycache__/jsonl_writer.cpython-311.pyc",
+      "bytes": 2572
+    },
+    {
+      "path": "src/agentic_sim/telemetry/__pycache__/features.cpython-311.pyc",
+      "bytes": 46309
+    },
+    {
+      "path": "src/agentic_sim/assignment/__pycache__/sequential_simulator.cpython-311.pyc",
+      "bytes": 29897
+    },
+    {
+      "path": "src/agentic_sim/assignment/__pycache__/__init__.cpython-311.pyc",
+      "bytes": 1004
+    },
+    {
+      "path": "src/agentic_sim/assignment/__pycache__/tool_features.cpython-311.pyc",
+      "bytes": 13538
+    },
+    {
+      "path": "src/agentic_sim/assignment/__pycache__/semantic_cpu_model.cpython-310.pyc",
+      "bytes": 43325
+    },
+    {
+      "path": "src/agentic_sim/assignment/__pycache__/schema.cpython-311.pyc",
+      "bytes": 13532
+    },
+    {
+      "path": "src/agentic_sim/assignment/__pycache__/cpu_event_model.cpython-311.pyc",
+      "bytes": 40886
+    },
+    {
+      "path": "src/agentic_sim/assignment/__pycache__/event_simulator.cpython-311.pyc",
+      "bytes": 65024
+    },
+    {
+      "path": "src/agentic_sim/assignment/__pycache__/official_eval.cpython-311.pyc",
+      "bytes": 7239
+    },
+    {
+      "path": "src/agentic_sim/assignment/__pycache__/event_composition.cpython-311.pyc",
+      "bytes": 3867
+    },
+    {
+      "path": "src/agentic_sim/assignment/__pycache__/official_eval.cpython-310.pyc",
+      "bytes": 4488
+    },
+    {
+      "path": "src/agentic_sim/assignment/__pycache__/semantic_cpu_model.cpython-311.pyc",
+      "bytes": 83753
+    },
+    {
+      "path": "src/agentic_sim/assignment/__pycache__/workload_simulator.cpython-310.pyc",
+      "bytes": 33448
+    },
+    {
+      "path": "src/agentic_sim/assignment/__pycache__/workload_simulator.cpython-311.pyc",
+      "bytes": 61478
+    },
+    {
+      "path": "src/agentic_sim/assignment/__pycache__/tool_features.cpython-310.pyc",
+      "bytes": 8065
+    },
+    {
+      "path": "src/agentic_sim/assignment/__pycache__/cpu_event_model.cpython-310.pyc",
+      "bytes": 20887
+    },
+    {
+      "path": "src/agentic_sim/assignment/__pycache__/event_simulator.cpython-310.pyc",
+      "bytes": 34699
+    },
+    {
+      "path": "src/agentic_sim/assignment/__pycache__/__init__.cpython-310.pyc",
+      "bytes": 825
+    },
+    {
+      "path": "src/agentic_sim/assignment/__pycache__/sequential_simulator.cpython-310.pyc",
+      "bytes": 14123
+    },
+    {
+      "path": "src/agentic_sim/assignment/__pycache__/schema.cpython-310.pyc",
+      "bytes": 8400
+    },
+    {
+      "path": "src/agentic_sim/artifacts/__pycache__/contract.cpython-311.pyc",
+      "bytes": 15709
+    },
+    {
+      "path": "src/agentic_sim/artifacts/__pycache__/__init__.cpython-311.pyc",
+      "bytes": 836
+    },
+    {
+      "path": "src/agentic_sim/artifacts/__pycache__/json.cpython-310.pyc",
+      "bytes": 3357
+    },
+    {
+      "path": "src/agentic_sim/artifacts/__pycache__/json.cpython-311.pyc",
+      "bytes": 6315
+    },
+    {
+      "path": "src/agentic_sim/artifacts/__pycache__/contract.cpython-310.pyc",
+      "bytes": 8738
+    },
+    {
+      "path": "src/agentic_sim/artifacts/__pycache__/__init__.cpython-310.pyc",
+      "bytes": 665
+    },
+    {
+      "path": "src/agentic_sim/observability/__pycache__/__init__.cpython-311.pyc",
+      "bytes": 2353
+    },
+    {
+      "path": "src/agentic_sim/observability/__pycache__/memory.cpython-310.pyc",
+      "bytes": 8497
+    },
+    {
+      "path": "src/agentic_sim/observability/__pycache__/gpu.cpython-311.pyc",
+      "bytes": 19448
+    },
+    {
+      "path": "src/agentic_sim/observability/__pycache__/vllm_metrics.cpython-310.pyc",
+      "bytes": 15566
+    },
+    {
+      "path": "src/agentic_sim/observability/__pycache__/profilers.cpython-310.pyc",
+      "bytes": 8340
+    },
+    {
+      "path": "src/agentic_sim/observability/__pycache__/accounting.cpython-310.pyc",
+      "bytes": 5772
+    },
+    {
+      "path": "src/agentic_sim/observability/__pycache__/vllm_metrics.cpython-311.pyc",
+      "bytes": 26738
+    },
+    {
+      "path": "src/agentic_sim/observability/__pycache__/gpu.cpython-310.pyc",
+      "bytes": 11755
+    },
+    {
+      "path": "src/agentic_sim/observability/__pycache__/nvtx.cpython-310.pyc",
+      "bytes": 2349
+    },
+    {
+      "path": "src/agentic_sim/observability/__pycache__/perfetto.cpython-311.pyc",
+      "bytes": 11425
+    },
+    {
+      "path": "src/agentic_sim/observability/__pycache__/overhead.cpython-310.pyc",
+      "bytes": 11892
+    },
+    {
+      "path": "src/agentic_sim/observability/__pycache__/perfetto.cpython-310.pyc",
+      "bytes": 6447
+    },
+    {
+      "path": "src/agentic_sim/observability/__pycache__/nvtx.cpython-311.pyc",
+      "bytes": 3733
+    },
+    {
+      "path": "src/agentic_sim/observability/__pycache__/overhead.cpython-311.pyc",
+      "bytes": 20504
+    },
+    {
+      "path": "src/agentic_sim/observability/__pycache__/accounting.cpython-311.pyc",
+      "bytes": 9951
+    },
+    {
+      "path": "src/agentic_sim/observability/__pycache__/profilers.cpython-311.pyc",
+      "bytes": 13059
+    },
+    {
+      "path": "src/agentic_sim/observability/__pycache__/memory.cpython-311.pyc",
+      "bytes": 13119
+    },
+    {
+      "path": "src/agentic_sim/observability/__pycache__/__init__.cpython-310.pyc",
+      "bytes": 1937
+    },
+    {
+      "path": "scripts/cloud/__pycache__/a100_diagnostic.cpython-310.pyc",
+      "bytes": 34241
+    },
+    {
+      "path": "scripts/cloud/__pycache__/h100_case_runner.cpython-311.pyc",
+      "bytes": 80645
+    },
+    {
+      "path": "scripts/cloud/__pycache__/a100_execution.cpython-310.pyc",
+      "bytes": 14458
+    },
+    {
+      "path": "scripts/cloud/__pycache__/h100_case_runner.cpython-310.pyc",
+      "bytes": 42729
+    },
+    {
+      "path": "scripts/cloud/__pycache__/h100_direct_setup.cpython-310.pyc",
+      "bytes": 10167
+    },
+    {
+      "path": "scripts/cloud/__pycache__/h100_direct_setup.cpython-311.pyc",
+      "bytes": 18191
+    },
+    {
+      "path": "scripts/cloud/__pycache__/a100_setup_doctor.cpython-310.pyc",
+      "bytes": 15238
+    },
+    {
+      "path": "scripts/cloud/__pycache__/a100_diagnostic.cpython-311.pyc",
+      "bytes": 60067
+    },
+    {
+      "path": "scripts/cloud/__pycache__/a100_execution.cpython-311.pyc",
+      "bytes": 29783
+    },
+    {
+      "path": "scripts/cloud/__pycache__/a100_setup_doctor.cpython-311.pyc",
+      "bytes": 29909
+    },
+    {
+      "path": "scripts/analysis/__pycache__/a100_full_data_collection.cpython-310.pyc",
+      "bytes": 67135
+    },
+    {
+      "path": "scripts/analysis/__pycache__/feature_validation.cpython-310.pyc",
+      "bytes": 18307
+    },
+    {
+      "path": "scripts/analysis/__pycache__/build_h100_results.cpython-311.pyc",
+      "bytes": 44413
+    },
+    {
+      "path": "scripts/analysis/__pycache__/feature_validation.cpython-311.pyc",
+      "bytes": 34566
+    },
+    {
+      "path": "scripts/analysis/__pycache__/a100_full_data_collection.cpython-311.pyc",
+      "bytes": 143146
+    },
+    {
+      "path": "scripts/assignment/__pycache__/sweagent_adaptive_runner.cpython-310.pyc",
+      "bytes": 6190
+    },
+    {
+      "path": "scripts/assignment/__pycache__/d9_cpu_review.cpython-311.pyc",
+      "bytes": 113819
+    },
+    {
+      "path": "scripts/assignment/__pycache__/plan_matrix.cpython-311.pyc",
+      "bytes": 29185
+    },
+    {
+      "path": "scripts/assignment/__pycache__/generate_d9_predicted_figures.cpython-311.pyc",
+      "bytes": 96555
+    },
+    {
+      "path": "scripts/assignment/__pycache__/plan_matrix.cpython-310.pyc",
+      "bytes": 14992
+    },
+    {
+      "path": "scripts/assignment/__pycache__/render_worker_runtime_inputs.cpython-311.pyc",
+      "bytes": 39719
+    },
+    {
+      "path": "scripts/assignment/__pycache__/audit_completion.cpython-310.pyc",
+      "bytes": 46244
+    },
+    {
+      "path": "scripts/assignment/__pycache__/select_step3_case.cpython-310.pyc",
+      "bytes": 6424
+    },
+    {
+      "path": "scripts/assignment/__pycache__/d9_cpu_review.cpython-310.pyc",
+      "bytes": 57912
+    },
+    {
+      "path": "scripts/assignment/__pycache__/evaluate_swebench_case.cpython-310.pyc",
+      "bytes": 26107
+    },
+    {
+      "path": "scripts/assignment/__pycache__/d9_cpu_review_report.cpython-310.pyc",
+      "bytes": 24319
+    },
+    {
+      "path": "scripts/assignment/__pycache__/audit_completion.cpython-311.pyc",
+      "bytes": 88488
+    },
+    {
+      "path": "scripts/assignment/__pycache__/select_step3_case.cpython-311.pyc",
+      "bytes": 12628
+    },
+    {
+      "path": "scripts/assignment/__pycache__/repair_submission_reports.cpython-310.pyc",
+      "bytes": 69026
+    },
+    {
+      "path": "scripts/assignment/__pycache__/run_matrix.cpython-311.pyc",
+      "bytes": 134929
+    },
+    {
+      "path": "scripts/assignment/__pycache__/reconcile_plan.cpython-310.pyc",
+      "bytes": 17141
+    },
+    {
+      "path": "scripts/assignment/__pycache__/adaptive_runtime.cpython-310.pyc",
+      "bytes": 13784
+    },
+    {
+      "path": "scripts/assignment/__pycache__/acquisition_monitor.cpython-311.pyc",
+      "bytes": 73456
+    },
+    {
+      "path": "scripts/assignment/__pycache__/render_worker_runtime_inputs.cpython-310.pyc",
+      "bytes": 22921
+    },
+    {
+      "path": "scripts/assignment/__pycache__/repair_submission_reports.cpython-311.pyc",
+      "bytes": 109962
+    },
+    {
+      "path": "scripts/assignment/__pycache__/shared_case_queue.cpython-310.pyc",
+      "bytes": 81846
+    },
+    {
+      "path": "scripts/assignment/__pycache__/verify_dataset_materialization.cpython-311.pyc",
+      "bytes": 17961
+    },
+    {
+      "path": "scripts/assignment/__pycache__/historical_analysis_scope.cpython-310.pyc",
+      "bytes": 13532
+    },
+    {
+      "path": "scripts/assignment/__pycache__/sweagent_case_runner.cpython-310.pyc",
+      "bytes": 121240
+    },
+    {
+      "path": "scripts/assignment/__pycache__/render_production_live_plan_v2.cpython-310.pyc",
+      "bytes": 44126
+    },
+    {
+      "path": "scripts/assignment/__pycache__/run_matrix.cpython-310.pyc",
+      "bytes": 61460
+    },
+    {
+      "path": "scripts/assignment/__pycache__/evaluate_predictions.cpython-310.pyc",
+      "bytes": 16588
+    },
+    {
+      "path": "scripts/assignment/__pycache__/d9_cpu_calibrate.cpython-311.pyc",
+      "bytes": 50902
+    },
+    {
+      "path": "scripts/assignment/__pycache__/audit_h100_recovery.cpython-310.pyc",
+      "bytes": 20861
+    },
+    {
+      "path": "scripts/assignment/__pycache__/generate_step_figures.cpython-310.pyc",
+      "bytes": 72325
+    },
+    {
+      "path": "scripts/assignment/__pycache__/generate_baseline_figure.cpython-310.pyc",
+      "bytes": 4804
+    },
+    {
+      "path": "scripts/assignment/__pycache__/audit_h100_recovery.cpython-311.pyc",
+      "bytes": 43452
+    },
+    {
+      "path": "scripts/assignment/__pycache__/historical_analysis_scope.cpython-311.pyc",
+      "bytes": 25434
+    },
+    {
+      "path": "scripts/assignment/__pycache__/d9_seal_and_diagnose.cpython-311.pyc",
+      "bytes": 33962
+    },
+    {
+      "path": "scripts/assignment/__pycache__/generate_instrumentation_plan.cpython-311.pyc",
+      "bytes": 69181
+    },
+    {
+      "path": "scripts/assignment/__pycache__/final_development_failure_scan.cpython-310.pyc",
+      "bytes": 36195
+    },
+    {
+      "path": "scripts/assignment/__pycache__/shard_plan.cpython-310.pyc",
+      "bytes": 10113
+    },
+    {
+      "path": "scripts/assignment/__pycache__/d9_assignment_eval.cpython-310.pyc",
+      "bytes": 18168
+    },
+    {
+      "path": "scripts/assignment/__pycache__/generate_production_candidate_inventories.cpython-311.pyc",
+      "bytes": 36863
+    },
+    {
+      "path": "scripts/assignment/__pycache__/finalize_production_plan.cpython-311.pyc",
+      "bytes": 43017
+    },
+    {
+      "path": "scripts/assignment/__pycache__/generate_d9_predicted_figures.cpython-310.pyc",
+      "bytes": 53518
+    },
+    {
+      "path": "scripts/assignment/__pycache__/d9_cpu_review_report.cpython-311.pyc",
+      "bytes": 44045
+    },
+    {
+      "path": "scripts/assignment/__pycache__/evaluate_swebench_case.cpython-311.pyc",
+      "bytes": 53492
+    },
+    {
+      "path": "scripts/assignment/__pycache__/sweagent_adaptive_runner.cpython-311.pyc",
+      "bytes": 10637
+    },
+    {
+      "path": "scripts/assignment/__pycache__/sweagent_case_runner.cpython-311.pyc",
+      "bytes": 327852
+    },
+    {
+      "path": "scripts/assignment/__pycache__/d9_cpu_calibrate.cpython-310.pyc",
+      "bytes": 26460
+    },
+    {
+      "path": "scripts/assignment/__pycache__/render_adaptive_runtime_config.cpython-311.pyc",
+      "bytes": 19158
+    },
+    {
+      "path": "scripts/assignment/__pycache__/finalize_production_plan.cpython-310.pyc",
+      "bytes": 23553
+    },
+    {
+      "path": "scripts/assignment/__pycache__/render_runtime_manifest.cpython-310.pyc",
+      "bytes": 12458
+    },
+    {
+      "path": "scripts/assignment/__pycache__/d9_assignment_eval.cpython-311.pyc",
+      "bytes": 33800
+    },
+    {
+      "path": "scripts/assignment/__pycache__/shared_case_queue.cpython-311.pyc",
+      "bytes": 248292
+    },
+    {
+      "path": "scripts/assignment/__pycache__/build_event_protocol.cpython-311.pyc",
+      "bytes": 69205
+    },
+    {
+      "path": "scripts/assignment/__pycache__/adaptive_event_protocol.cpython-310.pyc",
+      "bytes": 50240
+    },
+    {
+      "path": "scripts/assignment/__pycache__/ingest_sweagent_run.cpython-310.pyc",
+      "bytes": 18237
+    },
+    {
+      "path": "scripts/assignment/__pycache__/adaptive_event_protocol.cpython-311.pyc",
+      "bytes": 96463
+    },
+    {
+      "path": "scripts/assignment/__pycache__/generate_baseline_figure.cpython-311.pyc",
+      "bytes": 8239
+    },
+    {
+      "path": "scripts/assignment/__pycache__/adaptive_runtime.cpython-311.pyc",
+      "bytes": 24503
+    },
+    {
+      "path": "scripts/assignment/__pycache__/generate_step_figures.cpython-311.pyc",
+      "bytes": 138589
+    },
+    {
+      "path": "scripts/assignment/__pycache__/generate_configuration_analysis.cpython-311.pyc",
+      "bytes": 92880
+    },
+    {
+      "path": "scripts/assignment/__pycache__/generate_configuration_analysis.cpython-310.pyc",
+      "bytes": 51362
+    },
+    {
+      "path": "scripts/assignment/__pycache__/analyze_observation_limit.cpython-311.pyc",
+      "bytes": 552
+    },
+    {
+      "path": "scripts/assignment/__pycache__/d9_live_holdout.cpython-311.pyc",
+      "bytes": 18010
+    },
+    {
+      "path": "scripts/assignment/__pycache__/ingest_sweagent_run.cpython-311.pyc",
+      "bytes": 35309
+    },
+    {
+      "path": "scripts/assignment/__pycache__/d9_cpu_fit_reviewed.cpython-311.pyc",
+      "bytes": 23529
+    },
+    {
+      "path": "scripts/assignment/__pycache__/shard_plan.cpython-311.pyc",
+      "bytes": 19528
+    },
+    {
+      "path": "scripts/assignment/__pycache__/reconstruct_repaired_composition.cpython-311.pyc",
+      "bytes": 28299
+    },
+    {
+      "path": "scripts/assignment/__pycache__/render_runtime_manifest.cpython-311.pyc",
+      "bytes": 26596
+    },
+    {
+      "path": "scripts/assignment/__pycache__/compile_dataset.cpython-310.pyc",
+      "bytes": 14510
+    },
+    {
+      "path": "scripts/assignment/__pycache__/generate_production_candidate_inventories.cpython-310.pyc",
+      "bytes": 21143
+    },
+    {
+      "path": "scripts/assignment/__pycache__/compile_dataset.cpython-311.pyc",
+      "bytes": 27487
+    },
+    {
+      "path": "scripts/assignment/__pycache__/render_production_live_plan_v2.cpython-311.pyc",
+      "bytes": 84181
+    },
+    {
+      "path": "scripts/assignment/__pycache__/reconcile_plan.cpython-311.pyc",
+      "bytes": 32213
+    },
+    {
+      "path": "scripts/assignment/__pycache__/generate_instrumentation_plan.cpython-310.pyc",
+      "bytes": 47565
+    },
+    {
+      "path": "scripts/assignment/__pycache__/analyze_observation_limit.cpython-310.pyc",
+      "bytes": 413
+    },
+    {
+      "path": "scripts/assignment/__pycache__/evaluate_predictions.cpython-311.pyc",
+      "bytes": 30524
+    },
+    {
+      "path": "scripts/observability/__pycache__/scrape_vllm.cpython-311.pyc",
+      "bytes": 11399
+    },
+    {
+      "path": "scripts/observability/__pycache__/request_proxy.cpython-310.pyc",
+      "bytes": 54451
+    },
+    {
+      "path": "scripts/observability/__pycache__/run_deep_profile.cpython-310.pyc",
+      "bytes": 4135
+    },
+    {
+      "path": "scripts/observability/__pycache__/request_proxy.cpython-311.pyc",
+      "bytes": 106759
+    },
+    {
+      "path": "scripts/observability/__pycache__/derive_server_attribution.cpython-311.pyc",
+      "bytes": 82128
+    },
+    {
+      "path": "scripts/observability/__pycache__/serving_access_witness.cpython-311.pyc",
+      "bytes": 31486
+    },
+    {
+      "path": "scripts/observability/__pycache__/serving_access_witness.cpython-310.pyc",
+      "bytes": 17411
+    },
+    {
+      "path": "scripts/observability/__pycache__/scrape_vllm.cpython-310.pyc",
+      "bytes": 6375
+    },
+    {
+      "path": "scripts/observability/__pycache__/run_deep_profile.cpython-311.pyc",
+      "bytes": 7913
+    },
+    {
+      "path": "scripts/observability/__pycache__/derive_server_attribution.cpython-310.pyc",
+      "bytes": 42345
+    },
+    {
+      "path": "scripts/validation/__pycache__/validate_normalized_trajectory.cpython-311.pyc",
+      "bytes": 16930
+    },
+    {
+      "path": "scripts/validation/__pycache__/verify_preservation.cpython-311.pyc",
+      "bytes": 5574
+    },
+    {
+      "path": "scripts/validation/__pycache__/summarize_first_control.cpython-311.pyc",
+      "bytes": 12409
+    },
+    {
+      "path": "scripts/validation/__pycache__/build_fixed_work_fixtures.cpython-311.pyc",
+      "bytes": 56490
+    },
+    {
+      "path": "scripts/validation/__pycache__/analyze_cpu_capture_overhead.cpython-311.pyc",
+      "bytes": 39269
+    },
+    {
+      "path": "scripts/validation/__pycache__/check_live_native_serving.cpython-310.pyc",
+      "bytes": 27395
+    },
+    {
+      "path": "scripts/validation/__pycache__/verify_preservation.cpython-310.pyc",
+      "bytes": 2833
+    },
+    {
+      "path": "scripts/validation/__pycache__/verify_litellm_request.cpython-310.pyc",
+      "bytes": 9221
+    },
+    {
+      "path": "scripts/validation/__pycache__/run_instrumentation_replay.cpython-310.pyc",
+      "bytes": 25986
+    },
+    {
+      "path": "scripts/validation/__pycache__/rehearse_linux.cpython-310.pyc",
+      "bytes": 35711
+    },
+    {
+      "path": "scripts/validation/__pycache__/materialize_execution_snapshot.cpython-311.pyc",
+      "bytes": 21604
+    },
+    {
+      "path": "scripts/validation/__pycache__/run_instrumentation_replay.cpython-311.pyc",
+      "bytes": 60473
+    },
+    {
+      "path": "scripts/validation/__pycache__/collect_worker_fingerprints.cpython-311.pyc",
+      "bytes": 14815
+    },
+    {
+      "path": "scripts/validation/__pycache__/check_instrumentation_pilot.cpython-311.pyc",
+      "bytes": 23690
+    },
+    {
+      "path": "scripts/validation/__pycache__/verify_offline_submission.cpython-310.pyc",
+      "bytes": 5451
+    },
+    {
+      "path": "scripts/validation/__pycache__/materialize_execution_snapshot.cpython-310.pyc",
+      "bytes": 10713
+    },
+    {
+      "path": "scripts/validation/__pycache__/check_persistent_shell_capture.cpython-310.pyc",
+      "bytes": 48814
+    },
+    {
+      "path": "scripts/validation/__pycache__/export_acquisition_evidence.cpython-310.pyc",
+      "bytes": 65336
+    },
+    {
+      "path": "scripts/validation/__pycache__/recover_worker22_preflight.cpython-310.pyc",
+      "bytes": 3521
+    },
+    {
+      "path": "scripts/validation/__pycache__/audit_v2_journals.cpython-311.pyc",
+      "bytes": 25162
+    },
+    {
+      "path": "scripts/validation/__pycache__/check_serial_native_requests.cpython-310.pyc",
+      "bytes": 4334
+    },
+    {
+      "path": "scripts/validation/__pycache__/inventory_sweagent_output.cpython-311.pyc",
+      "bytes": 10059
+    },
+    {
+      "path": "scripts/validation/__pycache__/inventory_sweagent_output.cpython-310.pyc",
+      "bytes": 5441
+    },
+    {
+      "path": "scripts/validation/__pycache__/generate_v2_fixtures.cpython-311.pyc",
+      "bytes": 15174
+    },
+    {
+      "path": "scripts/validation/__pycache__/serving_fingerprint.cpython-310.pyc",
+      "bytes": 21568
+    },
+    {
+      "path": "scripts/validation/__pycache__/normalize_sweagent_trajectory.cpython-311.pyc",
+      "bytes": 34396
+    },
+    {
+      "path": "scripts/validation/__pycache__/check_bpf_capture.cpython-311.pyc",
+      "bytes": 10591
+    },
+    {
+      "path": "scripts/validation/__pycache__/profile_full_hook_fixture.cpython-311.pyc",
+      "bytes": 36255
+    },
+    {
+      "path": "scripts/validation/__pycache__/rehearse_linux.cpython-311.pyc",
+      "bytes": 68769
+    },
+    {
+      "path": "scripts/validation/__pycache__/capture_acquisition_inputs.cpython-311.pyc",
+      "bytes": 44732
+    },
+    {
+      "path": "scripts/validation/__pycache__/generate_v2_fixtures.cpython-310.pyc",
+      "bytes": 9491
+    },
+    {
+      "path": "scripts/validation/__pycache__/validate_normalized_trajectory.cpython-310.pyc",
+      "bytes": 8333
+    },
+    {
+      "path": "scripts/validation/__pycache__/verify_litellm_request.cpython-311.pyc",
+      "bytes": 16469
+    },
+    {
+      "path": "scripts/validation/__pycache__/controlled_vllm_restart.cpython-310.pyc",
+      "bytes": 9696
+    },
+    {
+      "path": "scripts/validation/__pycache__/check_live_native_serving.cpython-311.pyc",
+      "bytes": 54639
+    },
+    {
+      "path": "scripts/validation/__pycache__/check_instrumentation_pilot.cpython-310.pyc",
+      "bytes": 11293
+    },
+    {
+      "path": "scripts/validation/__pycache__/fixed_work_adapter.cpython-310.pyc",
+      "bytes": 70439
+    },
+    {
+      "path": "scripts/validation/__pycache__/check_persistent_shell_capture.cpython-311.pyc",
+      "bytes": 99387
+    },
+    {
+      "path": "scripts/validation/__pycache__/export_acquisition_evidence.cpython-311.pyc",
+      "bytes": 145393
+    },
+    {
+      "path": "scripts/validation/__pycache__/controlled_vllm_restart.cpython-311.pyc",
+      "bytes": 24479
+    },
+    {
+      "path": "scripts/validation/__pycache__/check_d9_predictions.cpython-311.pyc",
+      "bytes": 10106
+    },
+    {
+      "path": "scripts/validation/__pycache__/summarize_first_control.cpython-310.pyc",
+      "bytes": 6221
+    },
+    {
+      "path": "scripts/validation/__pycache__/serving_fingerprint.cpython-311.pyc",
+      "bytes": 40238
+    },
+    {
+      "path": "scripts/validation/__pycache__/audit_v2_journals.cpython-310.pyc",
+      "bytes": 9219
+    },
+    {
+      "path": "scripts/validation/__pycache__/normalize_sweagent_trajectory.cpython-310.pyc",
+      "bytes": 18703
+    },
+    {
+      "path": "scripts/validation/__pycache__/fixed_work_adapter.cpython-311.pyc",
+      "bytes": 187456
+    },
+    {
+      "path": "tests/__pycache__/test_simulator.cpython-310.pyc",
+      "bytes": 2008
+    },
+    {
+      "path": "tests/__pycache__/test_events.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 2489
+    },
+    {
+      "path": "tests/__pycache__/test_a100_preparation.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 24250
+    },
+    {
+      "path": "tests/__pycache__/test_a100_full_data_collection.cpython-310.pyc",
+      "bytes": 8157
+    },
+    {
+      "path": "tests/__pycache__/test_bootstrap_script.cpython-310.pyc",
+      "bytes": 2004
+    },
+    {
+      "path": "tests/__pycache__/test_events.cpython-310.pyc",
+      "bytes": 1398
+    },
+    {
+      "path": "tests/__pycache__/test_h100_case_runner.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 28353
+    },
+    {
+      "path": "tests/__pycache__/test_feature_simulator.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 6982
+    },
+    {
+      "path": "tests/__pycache__/test_repair_integrity.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 17768
+    },
+    {
+      "path": "tests/__pycache__/test_h100_case_runner.cpython-310.pyc",
+      "bytes": 14584
+    },
+    {
+      "path": "tests/__pycache__/test_simulator.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 3911
+    },
+    {
+      "path": "tests/__pycache__/test_feature_validation.cpython-310.pyc",
+      "bytes": 8829
+    },
+    {
+      "path": "tests/__pycache__/test_feature_simulator.cpython-310.pyc",
+      "bytes": 4098
+    },
+    {
+      "path": "tests/__pycache__/test_a100_preparation.cpython-310.pyc",
+      "bytes": 12560
+    },
+    {
+      "path": "tests/__pycache__/test_bootstrap_script.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 3451
+    },
+    {
+      "path": "tests/__pycache__/test_feature_validation.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 17145
+    },
+    {
+      "path": "tests/__pycache__/test_repair_integrity.cpython-310.pyc",
+      "bytes": 8504
+    },
+    {
+      "path": "tests/__pycache__/test_repair_integrity.cpython-311.pyc",
+      "bytes": 17633
+    },
+    {
+      "path": "tests/__pycache__/test_a100_full_data_collection.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 14579
+    },
+    {
+      "path": "tests/runtime/__pycache__/__init__.cpython-311.pyc",
+      "bytes": 197
+    },
+    {
+      "path": "tests/runtime/__pycache__/test_owned_docker.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 16108
+    },
+    {
+      "path": "tests/runtime/__pycache__/test_vllm_config.cpython-310.pyc",
+      "bytes": 3757
+    },
+    {
+      "path": "tests/runtime/__pycache__/test_owned_docker.cpython-310.pyc",
+      "bytes": 8319
+    },
+    {
+      "path": "tests/runtime/__pycache__/test_backend.cpython-310.pyc",
+      "bytes": 16551
+    },
+    {
+      "path": "tests/runtime/__pycache__/test_case_lifecycle.cpython-310.pyc",
+      "bytes": 9937
+    },
+    {
+      "path": "tests/runtime/__pycache__/test_vllm_config.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 7059
+    },
+    {
+      "path": "tests/runtime/__pycache__/__init__.cpython-310.pyc",
+      "bytes": 181
+    },
+    {
+      "path": "tests/runtime/__pycache__/test_backend.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 31033
+    },
+    {
+      "path": "tests/runtime/__pycache__/test_case_lifecycle.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 17327
+    },
+    {
+      "path": "tests/telemetry/__pycache__/__init__.cpython-311.pyc",
+      "bytes": 199
+    },
+    {
+      "path": "tests/telemetry/__pycache__/test_cpu_policy.cpython-311.pyc",
+      "bytes": 25239
+    },
+    {
+      "path": "tests/telemetry/__pycache__/test_bpf_work.cpython-310.pyc",
+      "bytes": 21711
+    },
+    {
+      "path": "tests/telemetry/__pycache__/test_process_resources.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 8514
+    },
+    {
+      "path": "tests/telemetry/__pycache__/test_serving_metrics.cpython-311.pyc",
+      "bytes": 19197
+    },
+    {
+      "path": "tests/telemetry/__pycache__/test_bpf_service_identity.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 9611
+    },
+    {
+      "path": "tests/telemetry/__pycache__/test_container_resources.cpython-310.pyc",
+      "bytes": 2722
+    },
+    {
+      "path": "tests/telemetry/__pycache__/test_serving_observer.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 105988
+    },
+    {
+      "path": "tests/telemetry/__pycache__/test_cpu_policy_docker.cpython-311.pyc",
+      "bytes": 15781
+    },
+    {
+      "path": "tests/telemetry/__pycache__/test_bpf_work.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 46198
+    },
+    {
+      "path": "tests/telemetry/__pycache__/test_process_resources.cpython-310.pyc",
+      "bytes": 4307
+    },
+    {
+      "path": "tests/telemetry/__pycache__/test_native_bpf_sink.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 36892
+    },
+    {
+      "path": "tests/telemetry/__pycache__/test_serving_metrics.cpython-310.pyc",
+      "bytes": 15595
+    },
+    {
+      "path": "tests/telemetry/__pycache__/test_bpf_cwd_snapshot.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 53374
+    },
+    {
+      "path": "tests/telemetry/__pycache__/test_linux_work.cpython-310.pyc",
+      "bytes": 15217
+    },
+    {
+      "path": "tests/telemetry/__pycache__/test_clock.cpython-310.pyc",
+      "bytes": 1609
+    },
+    {
+      "path": "tests/telemetry/__pycache__/test_v2.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 118946
+    },
+    {
+      "path": "tests/telemetry/__pycache__/test_container_resources.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 16644
+    },
+    {
+      "path": "tests/telemetry/__pycache__/test_v2.cpython-310.pyc",
+      "bytes": 43467
+    },
+    {
+      "path": "tests/telemetry/__pycache__/test_process_resources.cpython-311.pyc",
+      "bytes": 8378
+    },
+    {
+      "path": "tests/telemetry/__pycache__/test_native_bpf_sink.cpython-311.pyc",
+      "bytes": 30777
+    },
+    {
+      "path": "tests/telemetry/__pycache__/test_hardware_inventory.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 11845
+    },
+    {
+      "path": "tests/telemetry/__pycache__/test_serving_observer.cpython-311.pyc",
+      "bytes": 104418
+    },
+    {
+      "path": "tests/telemetry/__pycache__/test_journal_durability.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 5878
+    },
+    {
+      "path": "tests/telemetry/__pycache__/test_linux_work.cpython-311.pyc",
+      "bytes": 33137
+    },
+    {
+      "path": "tests/telemetry/__pycache__/test_linux_work.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 33335
+    },
+    {
+      "path": "tests/telemetry/__pycache__/test_cpu_policy.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 47917
+    },
+    {
+      "path": "tests/telemetry/__pycache__/test_clock.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 2862
+    },
+    {
+      "path": "tests/telemetry/__pycache__/test_bpf_work.cpython-311.pyc",
+      "bytes": 45999
+    },
+    {
+      "path": "tests/telemetry/__pycache__/test_v2.cpython-311.pyc",
+      "bytes": 118748
+    },
+    {
+      "path": "tests/telemetry/__pycache__/test_cpu_policy_docker.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 31352
+    },
+    {
+      "path": "tests/telemetry/__pycache__/test_serving_metrics.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 28765
+    },
+    {
+      "path": "tests/telemetry/__pycache__/__init__.cpython-310.pyc",
+      "bytes": 183
+    },
+    {
+      "path": "tests/telemetry/__pycache__/test_serving_observer.cpython-310.pyc",
+      "bytes": 43420
+    },
+    {
+      "path": "tests/telemetry/__pycache__/test_runtime_command_evidence.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 19464
+    },
+    {
+      "path": "tests/telemetry/__pycache__/test_work.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 9242
+    },
+    {
+      "path": "tests/telemetry/__pycache__/test_work.cpython-311.pyc",
+      "bytes": 3047
+    },
+    {
+      "path": "tests/telemetry/__pycache__/test_native_bpf_sink.cpython-310.pyc",
+      "bytes": 17443
+    },
+    {
+      "path": "tests/offline_followup/__pycache__/test_bounded_uncertainty.cpython-310.pyc",
+      "bytes": 2695
+    },
+    {
+      "path": "tests/cloud/__pycache__/test_lambda_runtime_scripts.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 27665
+    },
+    {
+      "path": "tests/cloud/__pycache__/__init__.cpython-311.pyc",
+      "bytes": 250
+    },
+    {
+      "path": "tests/cloud/__pycache__/test_lambda_runtime_scripts.cpython-310.pyc",
+      "bytes": 15265
+    },
+    {
+      "path": "tests/cloud/__pycache__/test_h100_direct_setup.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 11391
+    },
+    {
+      "path": "tests/cloud/__pycache__/test_a100_diagnostic.cpython-310.pyc",
+      "bytes": 6999
+    },
+    {
+      "path": "tests/cloud/__pycache__/test_lambda_session_gate.cpython-310.pyc",
+      "bytes": 3464
+    },
+    {
+      "path": "tests/cloud/__pycache__/test_h100_setup_doctor.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 5713
+    },
+    {
+      "path": "tests/cloud/__pycache__/test_render_studio_manifest.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 10651
+    },
+    {
+      "path": "tests/cloud/__pycache__/test_h100_startup.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 20108
+    },
+    {
+      "path": "tests/cloud/__pycache__/test_lambda_collection_scripts.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 9366
+    },
+    {
+      "path": "tests/cloud/__pycache__/test_h100_setup_doctor.cpython-310.pyc",
+      "bytes": 3204
+    },
+    {
+      "path": "tests/cloud/__pycache__/test_a100_diagnostic.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 14728
+    },
+    {
+      "path": "tests/cloud/__pycache__/test_h100_direct_setup.cpython-310.pyc",
+      "bytes": 5421
+    },
+    {
+      "path": "tests/cloud/__pycache__/test_render_studio_manifest.cpython-310.pyc",
+      "bytes": 5464
+    },
+    {
+      "path": "tests/cloud/__pycache__/test_lambda_collection_scripts.cpython-310.pyc",
+      "bytes": 5109
+    },
+    {
+      "path": "tests/cloud/__pycache__/test_h100_startup.cpython-310.pyc",
+      "bytes": 10884
+    },
+    {
+      "path": "tests/cloud/__pycache__/__init__.cpython-310.pyc",
+      "bytes": 232
+    },
+    {
+      "path": "tests/cloud/__pycache__/test_lambda_session_gate.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 7080
+    },
+    {
+      "path": "tests/analysis/__pycache__/test_build_h100_results.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 11652
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_adaptive_event_protocol.cpython-310.pyc",
+      "bytes": 19544
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_semantic_cpu_model.cpython-310.pyc",
+      "bytes": 9665
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_d9_cpu_review.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 9022
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_evaluate_predictions.cpython-311.pyc",
+      "bytes": 23583
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_audit_h100_recovery.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 20982
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_workload_simulator_review.cpython-310.pyc",
+      "bytes": 8685
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_generate_baseline_figure.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 3209
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_render_runtime_manifest.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 20782
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_d9_cpu_review_report.cpython-311.pyc",
+      "bytes": 4544
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_cpu_event_model.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 5834
+    },
+    {
+      "path": "tests/assignment/__pycache__/__init__.cpython-311.pyc",
+      "bytes": 259
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_acquisition_monitor.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 54558
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_workload_simulator.cpython-311.pyc",
+      "bytes": 9593
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_generate_instrumentation_plan.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 9871
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_select_step3_case.cpython-310.pyc",
+      "bytes": 4625
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_audit_completion.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 43185
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_select_step3_case.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 8630
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_event_composition.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 4971
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_official_eval.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 10384
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_generate_d9_predicted_figures.cpython-311.pyc",
+      "bytes": 5485
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_tool_runtime.cpython-311.pyc",
+      "bytes": 17481
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_d9_salvage_simulator.cpython-310.pyc",
+      "bytes": 11777
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_export_acquisition_evidence.cpython-310.pyc",
+      "bytes": 12594
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_tool_features.cpython-310.pyc",
+      "bytes": 4640
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_evaluate_swebench_case.cpython-310.pyc",
+      "bytes": 14914
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_fixed_work_adapter_model_native.cpython-311.pyc",
+      "bytes": 20748
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_export_acquisition_evidence.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 41503
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_assignment_matrix_planner.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 19876
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_run_matrix.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 43362
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_render_production_live_plan_v2.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 23187
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_shard_plan.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 8619
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_tool_runtime_case_binding.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 31326
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_materialize_execution_snapshot.cpython-310.pyc",
+      "bytes": 6619
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_d9_work_state_experiments.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 18128
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_render_adaptive_runtime_config.cpython-310.pyc",
+      "bytes": 7545
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_instrumentation_pilot_gate.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 16379
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_workload_simulator.cpython-310.pyc",
+      "bytes": 5894
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_build_event_protocol.cpython-311.pyc",
+      "bytes": 49356
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_render_production_live_plan_v2.cpython-311.pyc",
+      "bytes": 22039
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_assignment_matrix_planner.cpython-310.pyc",
+      "bytes": 9036
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_semantic_cpu_model.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 18279
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_audit_completion.cpython-310.pyc",
+      "bytes": 23182
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_tool_runtime.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 37245
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_select_step3_case.cpython-311.pyc",
+      "bytes": 8432
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_sweagent_case_runner.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 107280
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_cpu_event_model.cpython-310.pyc",
+      "bytes": 3637
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_render_runtime_manifest.cpython-311.pyc",
+      "bytes": 17898
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_render_runtime_manifest.cpython-310.pyc",
+      "bytes": 7615
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_repair_submission_reports.cpython-311.pyc",
+      "bytes": 4823
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_v2_journal_audit.cpython-310.pyc",
+      "bytes": 4754
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_sweagent_case_runner.cpython-310.pyc",
+      "bytes": 46134
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_repair_submission_reports.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 5021
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_sweagent_adaptive_runner.cpython-311.pyc",
+      "bytes": 16701
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_controlled_vllm_restart.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 16771
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_v2_journal_audit.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 17709
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_sweagent_case_runner.cpython-311.pyc",
+      "bytes": 105617
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_run_matrix.cpython-310.pyc",
+      "bytes": 19610
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_d9_salvage_simulator.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 20393
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_fixed_work_adapter.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 82916
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_semantic_cpu_model.cpython-311.pyc",
+      "bytes": 18081
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_generate_production_candidate_inventories.cpython-311.pyc",
+      "bytes": 11095
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_fixed_work_adapter_model_native.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 35577
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_generate_d9_predicted_figures.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 7378
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_shared_case_queue.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 98616
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_evaluate_swebench_case.cpython-311.pyc",
+      "bytes": 26097
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_adaptive_runtime.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 17919
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_shard_plan.cpython-311.pyc",
+      "bytes": 8421
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_materialize_execution_snapshot.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 28738
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_reconcile_plan.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 21574
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_audit_completion.cpython-311.pyc",
+      "bytes": 41306
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_instrumentation_pilot_gate.cpython-311.pyc",
+      "bytes": 12649
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_sequential_simulator.cpython-311.pyc",
+      "bytes": 9293
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_d9_cpu_review.cpython-311.pyc",
+      "bytes": 8824
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_reconcile_plan.cpython-311.pyc",
+      "bytes": 20277
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_d9_cpu_review.cpython-310.pyc",
+      "bytes": 5436
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_assignment_dataset_pipeline.cpython-311.pyc",
+      "bytes": 24503
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_tool_features.cpython-311.pyc",
+      "bytes": 7187
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_repair_submission_reports.cpython-310.pyc",
+      "bytes": 2748
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_render_adaptive_runtime_config.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 13897
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_capture_acquisition_inputs.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 48648
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_finalize_production_plan.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 32755
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_generate_step_figures.cpython-310.pyc",
+      "bytes": 17900
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_run_matrix.cpython-311.pyc",
+      "bytes": 42079
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_adaptive_runtime.cpython-310.pyc",
+      "bytes": 9956
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_verify_dataset_materialization.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 14280
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_evaluator_source_binding.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 29388
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_cpu_event_model.cpython-311.pyc",
+      "bytes": 5636
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_sequential_simulator.cpython-310.pyc",
+      "bytes": 5923
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_render_worker_runtime_inputs.cpython-310.pyc",
+      "bytes": 5653
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_workload_simulator.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 9791
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_d9_cpu_review_report.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 4743
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_finalize_production_plan.cpython-311.pyc",
+      "bytes": 16454
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_assignment_dataset_pipeline.cpython-310.pyc",
+      "bytes": 13031
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_generate_step_figures.cpython-311.pyc",
+      "bytes": 36580
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_instrumentation_pilot_gate.cpython-310.pyc",
+      "bytes": 8050
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_sequential_simulator.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 9491
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_event_simulator.cpython-311.pyc",
+      "bytes": 15884
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_repaired_composition_reconstruction.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 7392
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_sweagent_adaptive_runner.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 16899
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_bpf_case_audit.cpython-310.pyc",
+      "bytes": 7248
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_render_production_live_plan_v2.cpython-310.pyc",
+      "bytes": 9131
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_generate_configuration_analysis.cpython-310.pyc",
+      "bytes": 9619
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_generate_d9_predicted_figures.cpython-310.pyc",
+      "bytes": 3016
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_generate_step_figures.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 38470
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_generate_configuration_analysis.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 18491
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_instrumentation_replay_v2.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 28127
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_generate_configuration_analysis.cpython-311.pyc",
+      "bytes": 18293
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_event_simulator.cpython-310.pyc",
+      "bytes": 8693
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_d9_repaired_integration.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 19773
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_d9_individual_acceptance.cpython-311.pyc",
+      "bytes": 6215
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_generate_baseline_figure.cpython-311.pyc",
+      "bytes": 3011
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_tool_runtime.cpython-310.pyc",
+      "bytes": 8329
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_analyze_cpu_capture_overhead.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 5559
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_reconcile_plan.cpython-310.pyc",
+      "bytes": 10377
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_event_simulator.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 16082
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_tool_hardware_source.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 4373
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_build_event_protocol.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 49554
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_generate_instrumentation_plan.cpython-311.pyc",
+      "bytes": 9673
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_workload_simulator_review.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 16181
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_generate_baseline_figure.cpython-310.pyc",
+      "bytes": 1605
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_adaptive_event_protocol.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 41728
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_tool_features.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 7385
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_assignment_dataset_pipeline.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 27616
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_evaluate_predictions.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 23781
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_generate_production_candidate_inventories.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 11293
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_sweagent_adaptive_runner.cpython-310.pyc",
+      "bytes": 8787
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_historical_analysis_scope.cpython-310.pyc",
+      "bytes": 8821
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_official_eval.cpython-310.pyc",
+      "bytes": 5112
+    },
+    {
+      "path": "tests/assignment/__pycache__/__init__.cpython-310.pyc",
+      "bytes": 241
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_historical_analysis_scope.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 17579
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_d9_lifecycle_refinement.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 13091
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_audit_h100_recovery.cpython-311.pyc",
+      "bytes": 19685
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_render_adaptive_runtime_config.cpython-311.pyc",
+      "bytes": 13699
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_adaptive_event_protocol.cpython-311.pyc",
+      "bytes": 41530
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_case_runner_native_deferred.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 21835
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_assignment_matrix_planner.cpython-311.pyc",
+      "bytes": 18579
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_adaptive_runtime.cpython-311.pyc",
+      "bytes": 17721
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_build_fixed_work_fixtures.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 53377
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_evaluate_predictions.cpython-310.pyc",
+      "bytes": 11987
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_render_worker_runtime_inputs.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 10430
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_confirmation_case_runner.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 34205
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_shard_plan.cpython-310.pyc",
+      "bytes": 4062
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_v2_journal_audit.cpython-311.pyc",
+      "bytes": 9909
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_build_event_protocol.cpython-310.pyc",
+      "bytes": 24584
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_audit_h100_recovery.cpython-310.pyc",
+      "bytes": 9884
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_fixed_work_adapter.cpython-311.pyc",
+      "bytes": 46272
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_bpf_case_audit.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 19027
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_official_eval.cpython-311.pyc",
+      "bytes": 10186
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_d9_individual_acceptance.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 6350
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_generate_production_candidate_inventories.cpython-310.pyc",
+      "bytes": 6087
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_evaluator_source_binding.cpython-311.pyc",
+      "bytes": 15748
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_d9_cpu_review_report.cpython-310.pyc",
+      "bytes": 2751
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_workload_simulator_review.cpython-311.pyc",
+      "bytes": 15983
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_evaluate_swebench_case.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 27395
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_generate_instrumentation_plan.cpython-310.pyc",
+      "bytes": 5273
+    },
+    {
+      "path": "tests/assignment/__pycache__/test_finalize_production_plan.cpython-310.pyc",
+      "bytes": 9028
+    },
+    {
+      "path": "tests/observability/__pycache__/__init__.cpython-311.pyc",
+      "bytes": 244
+    },
+    {
+      "path": "tests/observability/__pycache__/test_vllm_metrics.cpython-310.pyc",
+      "bytes": 6601
+    },
+    {
+      "path": "tests/observability/__pycache__/test_accounting.cpython-310.pyc",
+      "bytes": 3149
+    },
+    {
+      "path": "tests/observability/__pycache__/test_analysis.cpython-310.pyc",
+      "bytes": 6702
+    },
+    {
+      "path": "tests/observability/__pycache__/test_request_proxy.cpython-310.pyc",
+      "bytes": 40096
+    },
+    {
+      "path": "tests/observability/__pycache__/test_serving_access_witness.cpython-311.pyc",
+      "bytes": 14674
+    },
+    {
+      "path": "tests/observability/__pycache__/test_accounting.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 5933
+    },
+    {
+      "path": "tests/observability/__pycache__/test_vllm_metrics.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 10483
+    },
+    {
+      "path": "tests/observability/__pycache__/test_request_proxy.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 89042
+    },
+    {
+      "path": "tests/observability/__pycache__/test_serving_access_witness.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 14872
+    },
+    {
+      "path": "tests/observability/__pycache__/test_scripts.cpython-310.pyc",
+      "bytes": 4913
+    },
+    {
+      "path": "tests/observability/__pycache__/test_scripts.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 8402
+    },
+    {
+      "path": "tests/observability/__pycache__/test_analysis.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 12275
+    },
+    {
+      "path": "tests/observability/__pycache__/test_request_proxy.cpython-311.pyc",
+      "bytes": 83594
+    },
+    {
+      "path": "tests/observability/__pycache__/test_gpu.cpython-310.pyc",
+      "bytes": 9467
+    },
+    {
+      "path": "tests/observability/__pycache__/__init__.cpython-310.pyc",
+      "bytes": 226
+    },
+    {
+      "path": "tests/observability/__pycache__/test_serving_access_witness.cpython-310.pyc",
+      "bytes": 7808
+    },
+    {
+      "path": "tests/observability/__pycache__/test_gpu.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 17330
+    },
+    {
+      "path": "tests/integration/__pycache__/__init__.cpython-311.pyc",
+      "bytes": 272
+    },
+    {
+      "path": "tests/integration/__pycache__/test_thin_telemetry.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 7939
+    },
+    {
+      "path": "tests/integration/__pycache__/test_sweagent_runner.cpython-310.pyc",
+      "bytes": 19207
+    },
+    {
+      "path": "tests/integration/__pycache__/test_thin_telemetry.cpython-310.pyc",
+      "bytes": 3737
+    },
+    {
+      "path": "tests/integration/__pycache__/test_official_evaluator.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 22348
+    },
+    {
+      "path": "tests/integration/__pycache__/test_sweagent_runner.cpython-311.pyc",
+      "bytes": 34071
+    },
+    {
+      "path": "tests/integration/__pycache__/test_artifact_contract.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 6675
+    },
+    {
+      "path": "tests/integration/__pycache__/test_official_evaluator.cpython-310.pyc",
+      "bytes": 11465
+    },
+    {
+      "path": "tests/integration/__pycache__/test_parallel_batch.cpython-310.pyc",
+      "bytes": 10943
+    },
+    {
+      "path": "tests/integration/__pycache__/__init__.cpython-310.pyc",
+      "bytes": 254
+    },
+    {
+      "path": "tests/integration/__pycache__/test_sweagent_runner.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 36043
+    },
+    {
+      "path": "tests/integration/__pycache__/test_parallel_batch.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 19514
+    },
+    {
+      "path": "tests/integration/__pycache__/test_artifact_contract.cpython-310.pyc",
+      "bytes": 3042
+    },
+    {
+      "path": "tests/validation/__pycache__/__init__.cpython-311.pyc",
+      "bytes": 260
+    },
+    {
+      "path": "tests/validation/__pycache__/test_normalize_sweagent_trajectory.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 15922
+    },
+    {
+      "path": "tests/validation/__pycache__/test_validate_normalized_trajectory.cpython-310.pyc",
+      "bytes": 3486
+    },
+    {
+      "path": "tests/validation/__pycache__/test_rehearse_linux.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 15559
+    },
+    {
+      "path": "tests/validation/__pycache__/test_serving_fingerprint.cpython-310.pyc",
+      "bytes": 14805
+    },
+    {
+      "path": "tests/validation/__pycache__/test_rehearse_linux.cpython-310.pyc",
+      "bytes": 6803
+    },
+    {
+      "path": "tests/validation/__pycache__/test_summarize_first_control.cpython-310.pyc",
+      "bytes": 1735
+    },
+    {
+      "path": "tests/validation/__pycache__/test_inventory_sweagent_output.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 8653
+    },
+    {
+      "path": "tests/validation/__pycache__/test_inventory_sweagent_output.cpython-310.pyc",
+      "bytes": 3795
+    },
+    {
+      "path": "tests/validation/__pycache__/test_normalize_sweagent_trajectory.cpython-310.pyc",
+      "bytes": 8145
+    },
+    {
+      "path": "tests/validation/__pycache__/test_verify_litellm_request.cpython-310.pyc",
+      "bytes": 1255
+    },
+    {
+      "path": "tests/validation/__pycache__/test_check_live_native_serving.cpython-310.pyc",
+      "bytes": 16428
+    },
+    {
+      "path": "tests/validation/__pycache__/test_check_live_native_serving.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 35352
+    },
+    {
+      "path": "tests/validation/__pycache__/test_verify_litellm_request.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 3389
+    },
+    {
+      "path": "tests/validation/__pycache__/test_validate_normalized_trajectory.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 6557
+    },
+    {
+      "path": "tests/validation/__pycache__/__init__.cpython-310.pyc",
+      "bytes": 242
+    },
+    {
+      "path": "tests/validation/__pycache__/test_serving_fingerprint.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 27263
+    },
+    {
+      "path": "tests/validation/__pycache__/test_summarize_first_control.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 3020
+    },
+    {
+      "path": "docs/offline-deliverables-20260909/__pycache__/predict_candidate.cpython-311.pyc",
+      "bytes": 4971
+    },
+    {
+      "path": "docs/offline-deliverables-20260909/cpu/__pycache__/cpu_event_predictor.cpython-311.pyc",
+      "bytes": 47391
+    },
+    {
+      "path": "docs/offline-deliverables-20260909/cpu/__pycache__/run_cpu_event_models.cpython-310.pyc",
+      "bytes": 19973
+    },
+    {
+      "path": "docs/offline-deliverables-20260909/cpu/__pycache__/run_cpu_class_hybrid.cpython-310.pyc",
+      "bytes": 9984
+    },
+    {
+      "path": "docs/offline-deliverables-20260909/cpu/__pycache__/cpu_event_predictor.cpython-310.pyc",
+      "bytes": 24461
+    },
+    {
+      "path": "docs/offline-deliverables-20260909/gpu_lifecycle/__pycache__/run_gpu_proxy.cpython-310.pyc",
+      "bytes": 14445
+    },
+    {
+      "path": "docs/offline-deliverables-20260909/gpu_lifecycle/__pycache__/run_gpu_proxy.cpython-311.pyc",
+      "bytes": 26910
+    },
+    {
+      "path": "docs/offline-deliverables-20260909/gpu_lifecycle/__pycache__/gpu_lifecycle_adapter.cpython-310.pyc",
+      "bytes": 12021
+    },
+    {
+      "path": "docs/offline-deliverables-20260909/figures/__pycache__/build_figures.cpython-310.pyc",
+      "bytes": 25224
+    },
+    {
+      "path": "docs/offline-followup-20260909/calibration/__pycache__/calibrate_repaired_d9.cpython-311.pyc",
+      "bytes": 48667
+    },
+    {
+      "path": "docs/offline-followup-20260909/calibration/__pycache__/calibrate_repaired_d9.cpython-310.pyc",
+      "bytes": 25728
+    },
+    {
+      "path": "docs/offline-followup-20260909/calibration/__pycache__/test_calibrate_repaired_d9.cpython-310.pyc",
+      "bytes": 11996
+    },
+    {
+      "path": "docs/offline-followup-20260909/ledger/__pycache__/validate_ledger.cpython-310.pyc",
+      "bytes": 25214
+    },
+    {
+      "path": "docs/offline-followup-20260909/ledger/tests/__pycache__/test_validate_ledger.cpython-310.pyc",
+      "bytes": 6148
+    },
+    {
+      "path": "docs/offline-followup-20260909/statistics/__pycache__/test_bounded_uncertainty.cpython-310.pyc",
+      "bytes": 2665
+    },
+    {
+      "path": "docs/offline-followup-20260909/statistics/__pycache__/bounded_uncertainty.cpython-310.pyc",
+      "bytes": 20883
+    },
+    {
+      "path": "docs/d9-salvage-20260910/__pycache__/work_state_experiments.cpython-311.pyc",
+      "bytes": 47336
+    },
+    {
+      "path": "docs/d9-salvage-20260910/__pycache__/scan_remaining_20260914.cpython-311.pyc",
+      "bytes": 11546
+    },
+    {
+      "path": "docs/d9-salvage-20260910/__pycache__/refine_lifecycle_20260914.cpython-311.pyc",
+      "bytes": 10205
+    },
+    {
+      "path": "docs/d9-salvage-20260910/__pycache__/build_bundle.cpython-310.pyc",
+      "bytes": 4097
+    },
+    {
+      "path": "docs/d9-salvage-20260910/native_refinement/__pycache__/compare_phases.cpython-311.pyc",
+      "bytes": 17454
+    },
+    {
+      "path": "docs/d9-salvage-20260910/cpu_mechanisms/__pycache__/run_cpu_mechanisms.cpython-310.pyc",
+      "bytes": 40390
+    },
+    {
+      "path": "docs/d9-salvage-20260910/cpu_mechanisms/__pycache__/test_cpu_mechanisms.cpython-310.pyc",
+      "bytes": 5420
+    },
+    {
+      "path": "docs/d9-salvage-20260910/cpu_transfer/__pycache__/run_cpu_transfer.cpython-310.pyc",
+      "bytes": 27021
+    },
+    {
+      "path": "docs/d9-salvage-20260910/cpu_transfer/__pycache__/test_cpu_transfer.cpython-310.pyc",
+      "bytes": 3920
+    },
+    {
+      "path": "docs/d9-salvage-20260910/e2e/__pycache__/compare.cpython-310.pyc",
+      "bytes": 10178
+    },
+    {
+      "path": "docs/d9-salvage-20260910/e2e/__pycache__/compare.cpython-311.pyc",
+      "bytes": 19862
+    },
+    {
+      "path": "docs/d9-salvage-20260910/e2e/__pycache__/test_compare.cpython-310.pyc",
+      "bytes": 1802
+    },
+    {
+      "path": "docs/d9-salvage-20260910/cpu_entry_flags/__pycache__/compare.cpython-310.pyc",
+      "bytes": 9166
+    },
+    {
+      "path": "docs/d9-salvage-20260910/cpu_entry_flags/__pycache__/compare.cpython-311.pyc",
+      "bytes": 17833
+    },
+    {
+      "path": "docs/d9-salvage-20260910/cpu_entry_flags/__pycache__/test_compare.cpython-310.pyc",
+      "bytes": 2090
+    },
+    {
+      "path": "docs/d9-salvage-20260910/simulator/__pycache__/d9_simulator.cpython-311.pyc",
+      "bytes": 45014
+    },
+    {
+      "path": "docs/d9-salvage-20260910/simulator/__pycache__/conditional_gpu_model.cpython-311.pyc",
+      "bytes": 10646
+    },
+    {
+      "path": "docs/d9-salvage-20260910/simulator/__pycache__/native_model.cpython-311.pyc",
+      "bytes": 13220
+    },
+    {
+      "path": "docs/d9-salvage-20260910/simulator/__pycache__/strict_metrics.cpython-310.pyc",
+      "bytes": 10125
+    },
+    {
+      "path": "docs/d9-salvage-20260910/simulator/__pycache__/hardware_profile.cpython-311.pyc",
+      "bytes": 3227
+    },
+    {
+      "path": "docs/d9-salvage-20260910/simulator/__pycache__/native_model.cpython-310.pyc",
+      "bytes": 7610
+    },
+    {
+      "path": "docs/d9-salvage-20260910/simulator/__pycache__/conditional_gpu_model.cpython-310.pyc",
+      "bytes": 6003
+    },
+    {
+      "path": "docs/d9-salvage-20260910/simulator/__pycache__/hardware_profile.cpython-310.pyc",
+      "bytes": 2327
+    },
+    {
+      "path": "docs/d9-salvage-20260910/simulator/__pycache__/strict_metrics.cpython-311.pyc",
+      "bytes": 18023
+    },
+    {
+      "path": "docs/d9-salvage-20260910/simulator/__pycache__/d9_simulator.cpython-310.pyc",
+      "bytes": 24378
+    },
+    {
+      "path": "docs/d9-salvage-20260910/conditional/__pycache__/run_conditional_gpu_models.cpython-310.pyc",
+      "bytes": 32280
+    },
+    {
+      "path": "docs/d9-salvage-20260910/conditional/__pycache__/test_conditional_gpu_models.cpython-311.pyc",
+      "bytes": 10463
+    },
+    {
+      "path": "docs/d9-salvage-20260910/conditional/__pycache__/run_conditional_gpu_models.cpython-311.pyc",
+      "bytes": 58069
+    },
+    {
+      "path": "docs/d9-salvage-20260910/conditional/__pycache__/test_conditional_gpu_models.cpython-310.pyc",
+      "bytes": 5096
+    },
+    {
+      "path": "docs/d9-salvage-20260910/evidence/__pycache__/build_d9_evidence.cpython-310.pyc",
+      "bytes": 23648
+    },
+    {
+      "path": "docs/d9-salvage-20260910/native/__pycache__/run_native_comparison.cpython-311.pyc",
+      "bytes": 54439
+    },
+    {
+      "path": "docs/d9-salvage-20260910/native/__pycache__/run_native_comparison.cpython-310.pyc",
+      "bytes": 30400
+    },
+    {
+      "path": "docs/d9-salvage-20260910/native/__pycache__/test_native_comparison.cpython-310.pyc",
+      "bytes": 5051
+    },
+    {
+      "path": "docs/d9-salvage-20260910/native/__pycache__/test_native_comparison.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 10133
+    },
+    {
+      "path": "docs/d9-salvage-20260910/semantic_repaired/__pycache__/compare.cpython-311.pyc",
+      "bytes": 26624
+    },
+    {
+      "path": "docs/d9-salvage-20260910/semantic_repaired/__pycache__/test_compare.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 13861
+    },
+    {
+      "path": "docs/d9-salvage-20260910/semantic_repaired/__pycache__/test_semantic_predict.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 4460
+    },
+    {
+      "path": "docs/d9-salvage-20260910/semantic_repaired/__pycache__/predict.cpython-311.pyc",
+      "bytes": 3769
+    },
+    {
+      "path": "docs/d9-salvage-20260910/semantic_repaired/__pycache__/test_predict.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 4387
+    },
+    {
+      "path": "docs/d9-salvage-20260910/figures/__pycache__/test_build_figures.cpython-310.pyc",
+      "bytes": 3833
+    },
+    {
+      "path": "docs/d9-salvage-20260910/figures/__pycache__/test_build_figures.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 7973
+    },
+    {
+      "path": "docs/d9-salvage-20260910/figures/__pycache__/build_figures.cpython-311.pyc",
+      "bytes": 123655
+    },
+    {
+      "path": "docs/d9-salvage-20260910/figures/__pycache__/build_figures.cpython-310.pyc",
+      "bytes": 64960
+    },
+    {
+      "path": "docs/d9-salvage-20260910/e2e_composition/__pycache__/fit.cpython-311.pyc",
+      "bytes": 31692
+    },
+    {
+      "path": "docs/d9-salvage-20260910/e2e_composition/__pycache__/test_audit.cpython-310.pyc",
+      "bytes": 4157
+    },
+    {
+      "path": "docs/d9-salvage-20260910/e2e_composition/__pycache__/audit.cpython-311.pyc",
+      "bytes": 60514
+    },
+    {
+      "path": "docs/d9-salvage-20260910/e2e_composition/__pycache__/test_predict.cpython-310.pyc",
+      "bytes": 1140
+    },
+    {
+      "path": "docs/d9-salvage-20260910/e2e_composition/__pycache__/test_fit.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 16372
+    },
+    {
+      "path": "docs/d9-salvage-20260910/e2e_composition/__pycache__/test_fit.cpython-310.pyc",
+      "bytes": 3149
+    },
+    {
+      "path": "docs/d9-salvage-20260910/e2e_composition/__pycache__/audit.cpython-310.pyc",
+      "bytes": 31637
+    },
+    {
+      "path": "docs/d9-salvage-20260910/e2e_composition/__pycache__/fit.cpython-310.pyc",
+      "bytes": 17199
+    },
+    {
+      "path": "docs/d9-salvage-20260910/e2e_composition/__pycache__/predict.cpython-310.pyc",
+      "bytes": 2944
+    },
+    {
+      "path": "docs/d9-salvage-20260910/e2e_composition/__pycache__/predict.cpython-311.pyc",
+      "bytes": 6764
+    },
+    {
+      "path": "docs/d9-salvage-20260910/e2e_composition/__pycache__/test_audit.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 9018
+    },
+    {
+      "path": "docs/d9-salvage-20260910/e2e_composition/__pycache__/test_predict.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 6912
+    },
+    {
+      "path": "docs/d9-salvage-20260910/cpu_lifecycle/__pycache__/test_build.cpython-310.pyc",
+      "bytes": 1841
+    },
+    {
+      "path": "docs/d9-salvage-20260910/cpu_lifecycle/__pycache__/build.cpython-310.pyc",
+      "bytes": 5221
+    },
+    {
+      "path": "docs/d9-salvage-20260910/cpu_lifecycle/__pycache__/test_build.cpython-311-pytest-9.1.1.pyc",
+      "bytes": 3027
+    },
+    {
+      "path": "docs/d9-salvage-20260910/cpu_lifecycle/__pycache__/test_build.cpython-311.pyc",
+      "bytes": 2892
+    },
+    {
+      "path": "docs/d9-salvage-20260910/cpu_lifecycle/__pycache__/build.cpython-311.pyc",
+      "bytes": 9688
+    },
+    {
+      "path": "docs/d9-salvage-20260910/atomic_cpu/__pycache__/run_atomic_cpu.cpython-310.pyc",
+      "bytes": 40782
+    },
+    {
+      "path": "docs/d9-salvage-20260910/atomic_cpu/__pycache__/test_atomic_cpu.cpython-310.pyc",
+      "bytes": 6215
+    },
+    {
+      "path": "docs/d9-salvage-20260910/atomic_cpu/__pycache__/run_atomic_cpu.cpython-311.pyc",
+      "bytes": 74010
+    },
+    {
+      "path": "docs/d9-salvage-20260910/work_state_experiments/__pycache__/runtime_candidate.cpython-311.pyc",
+      "bytes": 3056
+    },
+    {
+      "path": "docs/d9-salvage-20260910/native_sequence/__pycache__/compare.cpython-310.pyc",
+      "bytes": 6532
+    },
+    {
+      "path": "docs/d9-salvage-20260910/native_sequence/__pycache__/test_compare.cpython-310.pyc",
+      "bytes": 1692
+    },
+    {
+      "path": "docs/retained-analysis-20260909/score/__pycache__/score_opportunities.cpython-310.pyc",
+      "bytes": 22819
+    },
+    {
+      "path": "docs/retained-analysis-20260909/d9/__pycache__/analyze_atomic_errors.cpython-310.pyc",
+      "bytes": 10591
+    },
+    {
+      "path": "docs/retained-analysis-20260909/d9/__pycache__/experiment_train_calibration.cpython-310.pyc",
+      "bytes": 11341
+    },
+    {
+      "path": ".pytest_cache/.gitignore",
+      "bytes": 37
+    },
+    {
+      "path": ".pytest_cache/README.md",
+      "bytes": 302
+    },
+    {
+      "path": ".pytest_cache/CACHEDIR.TAG",
+      "bytes": 191
+    },
+    {
+      "path": ".pytest_cache/v/cache/lastfailed",
+      "bytes": 432
+    },
+    {
+      "path": ".pytest_cache/v/cache/nodeids",
+      "bytes": 140107
+    },
+    {
+      "path": ".ruff_cache/.gitignore",
+      "bytes": 35
+    },
+    {
+      "path": ".ruff_cache/CACHEDIR.TAG",
+      "bytes": 43
+    },
+    {
+      "path": ".ruff_cache/0.16.6/9475390443671503367",
+      "bytes": 236
+    },
+    {
+      "path": ".ruff_cache/0.16.6/846229337322588594",
+      "bytes": 204
+    },
+    {
+      "path": ".ruff_cache/0.16.6/2315695939333968527",
+      "bytes": 228
+    },
+    {
+      "path": ".ruff_cache/0.16.6/14133723162559701052",
+      "bytes": 236
+    }
+  ],
+  "preserved": "raw evidence, SNAP, results, source modifications, all worktrees",
+  "removed_empty_file": "???",
+  "removed_bytes": 15651596
+}

@@ -1,0 +1,33 @@
+{
+  "scope_gate": {
+    "module": "/home/riverahernandezjason/agentic-submission-repairs-20260908/scripts/assignment/historical_analysis_scope.py",
+    "frozen_manifest_list_sha256": "7f7a48f840eda37bf402c181f0f8859126c4ea12240ee665d47d08fd0fd34600",
+    "rule": "sweep metadata identity is gated before eligible rows are used; mixed sweep CSV records are structurally parsed to locate run IDs, but only eligible rows have outcome/wall cells decoded numerically or used"
+  },
+  "sources": {
+    "/home/riverahernandezjason/agentic-submission-repairs-20260908/docs/retained-analysis-20260909/results/refined/evidence.json": "70eef8e42106db7886dd8f17dbb014291a5861b234acf3cf286132b13d25923c",
+    "/home/riverahernandezjason/agentic-submission-repairs-20260908/docs/retained-analysis-20260909/results/refined/current_native_requests.csv": "498385abbd4b896719aef39b5efc59ab4245382ee477b78f01e32a94b947de62",
+    "/home/riverahernandezjason/agentic-submission-repairs-20260908/docs/retained-analysis-20260909/results/refined/historical_headlines.csv": "3c5959190d6da349742799804aa20419be3e18d5fa2b87e3705b0e2abd6de2dc",
+    "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260908T140000Z-offline-v2/figures-input/d1_headline_metrics.json": "b7e635f4f682b16213275e201209b55b2f27413180e2c39a0bd6ea7edf310bf5",
+    "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260908T140000Z-offline-v2/figures-input/sweep_metadata.jsonl": "ecb1c1cfbe392b3f9183df8db510377c7d9eeb2cf02eb5c24cd16dfc3a4c6c8c",
+    "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260908T140000Z-offline-v2/figures-input/sweep_runs.csv": "26182d70fc31e46762ef2e117d22acde051cd1388809d63fa1c6a73ada161a22",
+    "/home/riverahernandezjason/agentic-submission-repairs-20260908/docs/offline-deliverables-20260909/training_view/manifest.json": "1afd9afb8b552f84242f7e6b8b6e342f9b6f8ded5cd45a1d040b6bcf3f263341",
+    "/home/riverahernandezjason/agentic-submission-repairs-20260908/docs/offline-deliverables-20260909/training_view/trajectories.jsonl": "803ad4554b36695704a2a96080404044c553c9bc8d46fd668a3942fc69a3e63a"
+  },
+  "units": {
+    "historical_and_current_wall": "seconds in derived tables; source values are milliseconds where named",
+    "native": "native engine service wall, not GPU kernel time",
+    "tokens": "token counts as recorded"
+  },
+  "baseline_handling": "Each of four parameter panels has 18 matched baseline-pair coordinates across 17 independent instance clusters. The 72 coordinate copies support within-panel contrasts and are not 72 independent observations.",
+  "overlap_rule": "Lifecycle phase unions may overlap and are never stacked. Semantic actions and auxiliary runtime commands are disjoint in this retained serial fixture and are shown separately from their union.",
+  "unknowns": "Unknown lifecycle gaps remain unknown; no cause or CPU attribution is fabricated.",
+  "not_claimed": [
+    "new experiment",
+    "frozen implementation change",
+    "new D8 example selection",
+    "CPU/GPU hardware ratio",
+    "causal sweep result",
+    "held-out case-level result"
+  ]
+}

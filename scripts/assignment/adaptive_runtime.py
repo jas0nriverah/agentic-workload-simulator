@@ -13,7 +13,6 @@ from dataclasses import dataclass
 import hashlib
 import json
 from pathlib import Path
-import shlex
 from typing import Any, Mapping, Protocol
 
 from scripts.assignment.adaptive_event_protocol import (
@@ -23,6 +22,7 @@ from scripts.assignment.adaptive_event_protocol import (
     verify_trajectory_prediction,
 )
 from agentic_sim.assignment.event_simulator import HardwareProfile
+from agentic_sim.assignment.tool_features import extract_tool_features
 
 
 RUNTIME_CONFIG_SCHEMA = "assignment.adaptive-runtime-config.v1"
@@ -138,40 +138,6 @@ def _load_json_object(payload: bytes, label: str) -> dict[str, Any]:
     if not isinstance(value, dict):
         raise AdaptiveRuntimeError(f"{label} must be a JSON object")
     return value
-
-
-def _operation_class(action: str) -> str:
-    lowered = action.strip().lower()
-    try:
-        tokens = shlex.split(action, posix=True)
-    except ValueError:
-        tokens = action.split()
-    tool = Path(tokens[0]).name.lower() if tokens else ""
-    if any(name in lowered for name in ("pytest", "unittest", "tox ", "npm test", "cargo test")):
-        return "test"
-    if any(name in lowered for name in ("apply_patch", "str_replace", "edit_file", "patch_file", "sed -i", "perl -pi")):
-        return "patch"
-    if tool in {"find", "ls", "tree", "du", "list_dir", "list_files"}:
-        return "traversal"
-    if tool in {"rg", "grep", "ag", "ack", "search_file", "search_files", "search_dir"}:
-        return "search"
-    if tool in {"cat", "head", "tail", "less", "more", "open_file", "read_file", "view_file"} or lowered.startswith("sed -n "):
-        return "read"
-    if tool in {"create_file", "write_file", "touch", "mkdir", "cp", "mv"} or any(mark in lowered for mark in (">", "tee ")):
-        return "write"
-    return "shell" if lowered else "other"
-
-
-def _declared_path_count(action: str) -> int:
-    try:
-        tokens = shlex.split(action, posix=True)
-    except ValueError:
-        tokens = action.split()
-    return sum(
-        1
-        for token in tokens[1:]
-        if token and not token.startswith("-") and ("/" in token or token.startswith("."))
-    )
 
 
 @dataclass
@@ -368,18 +334,25 @@ class AdaptiveRuntime:
         return self.protocol.reveal_event_label("model", request_id, label)
 
     def predict_tool_action(self, event_id: str, action: str) -> dict[str, Any]:
-        if not isinstance(action, str) or not action.strip():
-            raise AdaptiveRuntimeError("tool action must be non-empty text")
+        extracted = extract_tool_features(action)
         features = {
             "schema_version": "assignment.tool-event-input.v1",
             "event_id": _require_text(event_id, "event_id"),
             "run_id": self.run_id,
             "split": "holdout",
-            "operation_class": _operation_class(action),
-            "declared_command_bytes": len(action.encode("utf-8")),
+            "operation_class": extracted.operation_class,
+            "declared_command_bytes": extracted.declared_command_bytes,
             "declared_read_bytes": 0,
             "declared_write_bytes": 0,
-            "declared_path_count": _declared_path_count(action),
+            "declared_path_count": extracted.declared_path_count,
+            "tool_name": extracted.tool_name,
+            "subcommand": extracted.subcommand,
+            "command_prefix": extracted.command_prefix,
+            "command_sha256": extracted.command_sha256,
+            "has_pipe": extracted.has_pipe,
+            "has_glob": extracted.has_glob,
+            "extractor_id": extracted.extractor_id,
+            "extractor_sha256": extracted.extractor_sha256,
             "hardware": self.hardware.to_mapping(),
         }
         return self.protocol.predict_event("tool", features)

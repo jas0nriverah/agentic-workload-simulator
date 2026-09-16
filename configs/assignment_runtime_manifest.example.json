@@ -33,13 +33,15 @@
       "name": "SWE-bench/SWE-bench_Lite",
       "revision": "69611d31007e1c6731db8bd5b5c3f2d33f5bab6e",
       "instances_path": "/absolute/path/to/work-root/datasets/SWE-bench_Lite.jsonl",
-      "sha256": "f46f2e3f003f2552932393da4b223e1e0456a2c71eba8b73ae58f29646c1278b"
+      "sha256": "7f54792b83bf491c0a905770a00ce7fa28836552d37c7ea0e9e2bae4c53f33fb",
+      "source_parquet_sha256": "f46f2e3f003f2552932393da4b223e1e0456a2c71eba8b73ae58f29646c1278b"
     },
     "verified": {
       "name": "SWE-bench/SWE-bench_Verified",
       "revision": "91aa3ed51b709be6457e12d00300a6a596d4c6a3",
       "instances_path": "/absolute/path/to/work-root/datasets/SWE-bench_Verified.jsonl",
-      "sha256": "43ed5a3d1d98da36472c1ade65ddd2085d7b4ff694fcaf6a023a07c5c1f32f21"
+      "sha256": "52ccbc6ec0e03085f95191b261e0ed881cd6a0752a3c5247c1aba258ec2993da",
+      "source_parquet_sha256": "43ed5a3d1d98da36472c1ade65ddd2085d7b4ff694fcaf6a023a07c5c1f32f21"
     }
   },
   "model": {
@@ -54,12 +56,32 @@
     "config_path": "/absolute/path/to/work-root/repos/SWE-agent/config/default.yaml",
     "request_config_path": "/absolute/path/to/repository/cloud/lambda/sweagent_request.yaml",
     "working_directory": "/absolute/path/to/work-root/repos/SWE-agent",
-    "extra_args": []
+    "extra_args": [],
+    "telemetry": {
+      "mode": "v2",
+      "schema_version": "assignment.telemetry.v2",
+      "instrumentation_version": "telemetry-v2-20260908",
+      "require_activation": true,
+      "require_raw_request_payloads": true,
+      "require_cpu_work": true,
+      "cpu_work": {
+        "backend": "kernel_aggregate",
+        "trace_format": "bcc raw individual syscall and process events v3 scalar ABI plus action aggregates",
+        "attach_existing_process": true,
+        "require_persistent_runtime_pid": true
+      },
+      "remote_hardware_profile": {
+        "path": "/absolute/path/to/work-root/hardware/remote_hardware_profile.json",
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      }
+    }
   },
   "evaluator": {
     "command": [
       "/absolute/path/to/work-root/venv/bin/python",
       "/absolute/path/to/repository/scripts/assignment/evaluate_swebench_case.py",
+      "--evaluator-project", "/absolute/path/to/work-root/repos/SWE-bench",
+      "--evaluator-revision", "726c5461e2ef52d83cf1ea2107870a8bb3328d57",
       "--dataset", "{dataset_path}",
       "--predictions", "{predictions_path}",
       "--instance-id", "{instance_id}",

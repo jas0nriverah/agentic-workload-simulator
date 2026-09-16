@@ -5,6 +5,7 @@ import stat
 import subprocess
 import tempfile
 import unittest
+import venv
 from pathlib import Path
 
 
@@ -53,6 +54,20 @@ def invoke(repo: Path, work: Path, output: Path, *extra: str) -> subprocess.Comp
 
 
 class RuntimeManifestRendererTests(unittest.TestCase):
+    def test_explicit_venv_python_retains_its_environment(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            repo, _ = make_repo(root)
+            environment = root / "evaluator-venv"
+            venv.EnvBuilder(with_pip=False, symlinks=True).create(environment)
+            interpreter = environment / "bin/python"
+            result = invoke(repo, root / "work", root / "manifest.json",
+                            "--evaluator-python", str(interpreter), "--validation-only")
+            self.assertEqual(result.returncode, 0, result.stderr)
+            command = json.loads(result.stdout)["evaluator"]["command"][0]
+            prefix = subprocess.check_output([command, "-c", "import sys; print(sys.prefix)"], text=True).strip()
+            self.assertEqual(Path(prefix), environment)
+
     def test_validation_only_is_deterministic_and_does_not_write(self):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)

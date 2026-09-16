@@ -1,0 +1,15 @@
+# Offline follow-up result
+
+Implemented the three requested improvements. Accepted regeneration: [output-v4/pipeline_report.json](output-v4/pipeline_report.json). Earlier output-v1/v2 failed during adapter development; output-v3 was interrupted by the VM disconnect. They are not accepted results.
+
+1. **Repaired D9 calibration paths are ready.** The adapter separates event class, timing boundary and verified hardware domain; uses declared pre-event features; preserves instance-grouped validation; rejects insufficient training-fold support; and reports within-25% coverage and observed worst error. Lifecycle, runtime, semantic-action and native-phase targets now join to their pre-event records. Native phase sums are not presented as outer E2E. Actual fitting is pending: the 28 retained repaired case specs cover three confirmation instances and provide zero eligible training instances. They were excluded before calibration event reads. No new H100 inference was used.
+
+2. **CPU uncertainty is quantified.** Across 23,245 retained CPU events, 819 runs and 545 instances, the existing hybrid improves event-weighted within-25% coverage from 67.7436% to 68.5051%. The paired instance-bootstrap gain is **+0.7615 percentage points**, conditional 95% interval **+0.4462 to +1.1288**. Equal-instance weighting gives **+0.5645 points**, interval **+0.3713 to +0.7639**. Predictions remain fixed within the bootstrap; this does not account for adaptive model selection or establish blind-test performance. Worst observed error remains 481.08%, and the strict all-retained-CPU-events gate remains 0/545 instances.
+
+3. **One command now validates and regenerates the offline outputs.** It derives partitions from the pinned manifest, validates raw journals before rendering, binds physical requests and clock domains, checks CPU binary coverage/loss evidence, and emits hashed ledgers, uncertainty results, tables and five SVG figures (four also PNG). Current-case evaluator scores remain absent without patch/evaluator binding. Corrected semantic actions and auxiliary runtime commands remain separate from native service phases.
+
+Validation: 22 bounded tests passed across the four components. The real retained case produced 1,281 normalized records with 40 physical model/native request joins. Ten numerical reconstruction checks matched the retained reference, including 40 semantic actions totaling 18.491612 seconds, 60 runtime commands totaling 14.142780 seconds, and 153.117581 seconds outer E2E. All 33 generated artifact hashes and all 66 previous-packet hashes matched. See [RECONSTRUCTION_CHECK.json](RECONSTRUCTION_CHECK.json) and the [independent review](REVIEW.md).
+
+Next permitted step is to list eligible repaired training cases explicitly in a new pipeline plan as they arrive; [README.md](README.md) contains the command and manifest contract. Hardware transfer and literal D9 compliance remain unproven. The closed acquisition decision is unchanged.
+
+**NO FROZEN-ACQUISITION CHANGE NEEDED.**

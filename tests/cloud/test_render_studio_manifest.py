@@ -1,3 +1,4 @@
+import os
 import pathlib
 import subprocess
 import sys
@@ -11,7 +12,11 @@ SCRIPT = ROOT / "scripts/cloud/render_studio_manifest.sh"
 
 class RenderStudioManifestTests(unittest.TestCase):
     def run_script(self, *args):
-        return subprocess.run(["bash", str(SCRIPT), *args], capture_output=True, text=True)
+        # The renderer discovers its managed interpreter via PATH. Running
+        # pytest by absolute venv path does not activate that venv for Bash.
+        env = dict(os.environ)
+        env["PATH"] = str(pathlib.Path(sys.executable).parent) + os.pathsep + env.get("PATH", "")
+        return subprocess.run(["bash", str(SCRIPT), *args], capture_output=True, text=True, env=env)
 
     def test_render_rewrites_only_provider_paths_and_preserves_pins(self):
         with tempfile.TemporaryDirectory() as temp:

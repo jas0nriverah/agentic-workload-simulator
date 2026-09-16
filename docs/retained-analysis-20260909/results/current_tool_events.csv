@@ -1,0 +1,748 @@
+event_id,action_id,operation_class,duration_ms,status,action
+event-b5a35bf8a6d360cb6ce874ab00b4c584,action-5361a5e57334722fcd216410a637aab7,traversal,190.996166,success,str_replace_editor view /testbed
+event-8a3153dce7698393a81a0ffc8f6977ce,action-bf526b6ab198f9c7150c32d5bd75c731,traversal,185.624569,success,str_replace_editor view /testbed/django
+event-7f2f27cdd7f0a75f2acc1b11bff01ac5,action-f8585ecb473552911e276c54f7d81cc4,traversal,185.011388,success,str_replace_editor view /testbed/django/db/migrations
+event-22a764b55576083087a3daca3ad265eb,action-bd228ecbf3e1c095680fdbf4b9509833,traversal,183.088585,success,str_replace_editor view /testbed/django/core/management
+event-e48d727a833e7a33765c95298241dfab,action-54ebe8167cf21817a890fe9e559327f7,read,188.747313,success,str_replace_editor view /testbed/django/core/management/commands/makemigrations.py
+event-182150bf76055856b909e5ae74d90d4c,action-f56d31880401ccc7a5ed9c4a02cbc95b,traversal,7374.687322,success,"find /testbed -name ""*.py"" -exec grep -l ""allow_migrate"" {} \;"
+event-5a540d56e71443fe5d764e65a7fe069b,action-c9dcb8429461a576fe7269636d8e9103,read,185.283888,success,str_replace_editor view /testbed/django/db/utils.py
+event-cca8c1ad43440a09c223747da0b92d70,action-9930616b756ed99045e748098c3b1603,read,182.393065,success,str_replace_editor view /testbed/tests/migrations/routers.py
+event-d3784c42d50b22fefb14539facebd833,action-eb132099c72dc1763e38428f1f9d425d,read,187.354722,success,str_replace_editor view /testbed/tests/multiple_database/routers.py
+event-0e2853fb6ea4bd7ea2f2ce915f2c7e09,action-870d81c5063bf739a4114aa878eb970d,search,763.689992,failure,"grep -r ""ticket:27200"" /testbed/"
+event-700ba82fd16d36387c58081a841aa0ec,action-b40ba61a813b4ace3609ba72c8e82f51,read,196.514943,success,str_replace_editor view /testbed/tests/migrations/test_commands.py  --view_range 1 50
+event-7dde0af0f2f306667468571c5e15bb1c,action-74cf808c096ec1f996c997fe2e069029,traversal,134.632254,success,"grep -n -A 10 -B 5 ""consistency_check\|allow_migrate.*consistency"" /testbed/tests/migrations/test_commands.py"
+event-5fc0a55a6610258a70b97de3afd56248,action-894b423751620fa2e50b30af62859215,read,185.655858,success,str_replace_editor view /testbed/tests/migrations/test_commands.py  --view_range 600 650
+event-f37d9b7982b55dcfa2ae19c6bd654fcc,action-d300d4dc06d354371f619d19de1e6387,traversal,216.170018,success,"str_replace_editor create /testbed/reproduce_issue.py --file_text '#!/usr/bin/env python
+""""""
+Script to reproduce the makemigrations allow_migrate() issue.
+
+The issue is that makemigrations calls allow_migrate() for each app with 
+all the models in the project rather than for each app with the app'""'""'s models.
+""""""
+
+import os
+import sys
+import django
+from django.conf import settings
+
+# Add the testbed to Python path
+sys.path.insert(0, '""'""'/testbed'""'""')
+
+# Configure Django settings
+if not settings.configured:
+    settings.configure(
+        DEBUG=True,
+        DATABASES={
+            '""'""'default'""'""': {
+                '""'""'ENGINE'""'""': '""'""'django.db.backends.sqlite3'""'""',
+                '""'""'NAME'""'""': '""'""':memory:'""'""',
+            },
+            '""'""'other'""'""': {
+                '""'""'ENGINE'""'""': '""'""'django.db.backends.sqlite3'""'""',
+                '""'""'NAME'""'""': '""'""':memory:'""'""',
+            }
+        },
+        INSTALLED_APPS=[
+            '""'""'django.contrib.contenttypes'""'""',
+            '""'""'django.contrib.auth'""'""',
+            '""'""'migrations'""'""',  # This will be our test app
+        ],
+        USE_TZ=True,
+        SECRET_KEY='""'""'test-secret-key'""'""',
+    )
+
+django.setup()
+
+from django.apps import apps
+from django.core.management import call_command
+from django.db import connections, router
+from django.db.migrations.loader import MigrationLoader
+from django.db.migrations.autodetector import MigrationAutodetector
+from django.db.migrations.state import ProjectState
+from django.db.migrations.questioner import NonInteractiveMigrationQuestioner
+
+# Create a simple router that tracks calls to allow_migrate
+class TrackingRouter:
+    def __init__(self):
+        self.calls = []
+
+    def allow_migrate(self, db, app_label, **hints):
+        self.calls.append({
+            '""'""'db'""'""': db,
+            '""'""'app_label'""'""': app_label,
+            '""'""'model_name'""'""': hints.get('""'""'model_name'""'""'),
+        })
+        print(f""allow_migrate called with db={db}, app_label={app_label}, model_name={hints.get('""'""'model_name'""'""')}"")
+        # Simple logic: only allow migrations for '""'""'migrations'""'""' app on '""'""'default'""'""' db
+        if app_label == '""'""'migrations'""'""' and db == '""'""'default'""'""':
+            return True
+        elif app_label == '""'""'auth'""'""' and db == '""'""'other'""'""':
+            return True
+        return False  # Default to not allowing migration
+
+# Create a test app with two models
+from django.db import models
+
+class Author(models.Model):
+    name = models.CharField(max_length=100)
+    
+    class Meta:
+        app_label = '""'""'migrations'""'""'
+
+class Book(models.Model):
+    title = models.CharField(max_length=100)
+    author = models.ForeignKey(Author, on_delete=models.CASCADE)
+    
+    class Meta:
+        app_label = '""'""'migrations'""'""'
+
+# Register the models
+apps.register_model('""'""'migrations'""'""', Author)
+apps.register_model('""'""'migrations'""'""', Book)
+
+# Create a tracking router
+tracking_router = TrackingRouter()
+
+print(""Testing makemigrations with tracking router..."")
+print(""="" * 50)
+
+try:
+    # Set the tracking router
+    with override_settings(DATABASE_ROUTERS=[tracking_router]):
+        # Try to run makemigrations - this should trigger the issue
+        call_command('""'""'makemigrations'""'""', '""'""'migrations'""'""', verbosity=2)
+        
+        print(""\nRouter calls recorded:"")
+        for call in tracking_router.calls:
+            print(f""  {call}"")
+            
+except Exception as e:
+    print(f""Error occurred:'"
+event-7c9f1e1ee78a3815f0851ef6958f1db7,action-d96a63d76b8144fbb4b74930812d13ad,traversal,271.130029,success,"str_replace_editor str_replace /testbed/reproduce_issue.py   --old_str '#!/usr/bin/env python
+""""""
+Script to reproduce the makemigrations allow_migrate() issue.
+
+The issue is that makemigrations calls allow_migrate() for each app with 
+all the models in the project rather than for each app with the app'""'""'s models.
+""""""
+
+import os
+import sys
+import django
+from django.conf import settings
+
+# Add the testbed to Python path
+sys.path.insert(0, '""'""'/testbed'""'""')
+
+# Configure Django settings
+if not settings.configured:
+    settings.configure(
+        DEBUG=True,
+        DATABASES={
+            '""'""'default'""'""': {
+                '""'""'ENGINE'""'""': '""'""'django.db.backends.sqlite3'""'""',
+                '""'""'NAME'""'""': '""'""':memory:'""'""',
+            },
+            '""'""'other'""'""': {
+                '""'""'ENGINE'""'""': '""'""'django.db.backends.sqlite3'""'""',
+                '""'""'NAME'""'""': '""'""':memory:'""'""',
+            }
+        },
+        INSTALLED_APPS=[
+            '""'""'django.contrib.contenttypes'""'""',
+            '""'""'django.contrib.auth'""'""',
+            '""'""'migrations'""'""',  # This will be our test app
+        ],
+        USE_TZ=True,
+        SECRET_KEY='""'""'test-secret-key'""'""',
+    )
+
+django.setup()
+
+from django.apps import apps
+from django.core.management import call_command
+from django.db import connections, router
+from django.db.migrations.loader import MigrationLoader
+from django.db.migrations.autodetector import MigrationAutodetector
+from django.db.migrations.state import ProjectState
+from django.db.migrations.questioner import NonInteractiveMigrationQuestioner
+
+# Create a simple router that tracks calls to allow_migrate
+class TrackingRouter:
+    def __init__(self):
+        self.calls = []
+
+    def allow_migrate(self, db, app_label, **hints):
+        self.calls.append({
+            '""'""'db'""'""': db,
+            '""'""'app_label'""'""': app_label,
+            '""'""'model_name'""'""': hints.get('""'""'model_name'""'""'),
+        })
+        print(f""allow_migrate called with db={db}, app_label={app_label}, model_name={hints.get('""'""'model_name'""'""')}"")
+        # Simple logic: only allow migrations for '""'""'migrations'""'""' app on '""'""'default'""'""' db
+        if app_label == '""'""'migrations'""'""' and db == '""'""'default'""'""':
+            return True
+        elif app_label == '""'""'auth'""'""' and db == '""'""'other'""'""':
+            return True
+        return False  # Default to not allowing migration
+
+# Create a test app with two models
+from django.db import models
+
+class Author(models.Model):
+    name = models.CharField(max_length=100)
+    
+    class Meta:
+        app_label = '""'""'migrations'""'""'
+
+class Book(models.Model):
+    title = models.CharField(max_length=100)
+    author = models.ForeignKey(Author, on_delete=models.CASCADE)
+    
+    class Meta:
+        app_label = '""'""'migrations'""'""'
+
+# Register the models
+apps.register_model('""'""'migrations'""'""', Author)
+apps.register_model('""'""'migrations'""'""', Book)
+
+# Create a tracking router
+tracking_router = TrackingRouter()
+
+print(""Testing makemigrations with tracking router..."")
+print(""="" * 50)
+
+try:
+    # Set the tracking router
+    with override_settings(DATABASE_ROUTERS=[tracking_router]):
+        # Try to run makemigrations - this should trigger the issue
+        call_command('""'""'makemigrations'""'""', '""'""'migrations'""'""', verbosity=2)
+        
+        print(""\nRouter calls recorded:"")
+        for call in tracking_router.calls:
+            print(f""  {call}"")
+            
+except Exception as e:
+    print(f""Error occurred:' --new_str '#!/usr/bin/env python
+""""""
+Script to reproduce the makemigrations allow_migrate() issue.
+
+The issue is that makemigrations calls allow_migrate() for each app with 
+all the models in the project rather than for each app with the app'""'""'s models.
+""""""
+
+import os
+import sys
+import django
+from django.conf import settings
+from django.test import override_settings
+
+# Add the testbed to Python path
+sys.path.insert(0, '""'""'/testbed'""'""')
+
+# Configure Django settings
+if not settings.configured:
+    settings.configure(
+        DEBUG=True,
+        DATABASES={
+            '""'""'default'""'""': {
+                '""'""'ENGINE'""'""': '""'""'django.db.backends.sqlite3'""'""',
+                '""'""'NAME'""'""': '""'""':memory:'""'""',
+            },
+            '""'""'other'""'""': {
+                '""'""'ENGINE'""'""': '""'""'django.db.backends.sqlite3'""'""',
+                '""'""'NAME'""'""': '""'""':memory:'""'""',
+            }
+        },
+        INSTALLED_APPS=[
+            '""'""'django.contrib.contenttypes'""'""',
+            '""'""'django.contrib.auth'""'""',
+            '""'""'migrations'""'""',  # This will be our test app
+        ],
+        USE_TZ=True,
+        SECRET_KEY='""'""'test-secret-key'""'""',
+    )
+
+django.setup()
+
+from django.apps import apps
+from django.core.management import call_command
+from django.db import connections, router
+from django.db.migrations.loader import MigrationLoader
+from django.db.migrations.autodetector import MigrationAutodetector
+from django.db.migrations.state import ProjectState
+from django.db.migrations.questioner import NonInteractiveMigrationQuestioner
+
+# Create a simple router that tracks calls to allow_migrate
+class TrackingRouter:
+    def __init__(self):
+        self.calls = []
+
+    def allow_migrate(self, db, app_label, **hints):
+        self.calls.append({
+            '""'""'db'""'""': db,
+            '""'""'app_label'""'""': app_label,
+            '""'""'model_name'""'""': hints.get('""'""'model_name'""'""'),
+        })
+        print(f""allow_migrate called with db={db}, app_label={app_label}, model_name={hints.get('""'""'model_name'""'""')}"")
+        # Simple logic: only allow migrations for '""'""'migrations'""'""' app on '""'""'default'""'""' db
+        if app_label == '""'""'migrations'""'""' and db == '""'""'default'""'""':
+            return True
+        elif app_label == '""'""'auth'""'""' and db == '""'""'other'""'""':
+            return True
+        return False  # Default to not allowing migration
+
+# Create a test app with two models
+from django.db import models
+
+class Author(models.Model):
+    name = models.CharField(max_length=100)
+    
+    class Meta:
+        app_label = '""'""'migrations'""'""'
+
+class Book(models.Model):
+    title = models.CharField(max_length=100)
+    author = models.ForeignKey(Author, on_delete=models.CASCADE)
+    
+    class Meta:
+        app_label = '""'""'migrations'""'""'
+
+# Register the models
+apps.register_model('""'""'migrations'""'""', Author)
+apps.register_model('""'""'migrations'""'""', Book)
+
+# Create a tracking router
+tracking_router = TrackingRouter()
+
+print(""Testing makemigrations with tracking router..."")
+print(""="" * 50)
+
+try:
+    # Set the tracking router
+    with override_settings(DATABASE_ROUTERS=[tracking_router]):
+        # Try to run makemigrations - this should trigger the issue
+        call_command('""'""'makemigrations'""'""', '""'""'migrations'""'""', verbosity=2)
+        
+        print(""\nRouter calls recorded:"")
+        for call in tracking_router.calls:
+            print(f""  {call}"")
+            
+except Exception as e:
+    print(f""Error occurred: {e}"")
+    import traceback
+    traceback.print_exc()'"
+event-9c1632935b2e10771ec3bfb3c55c5a68,action-166c4e6beb4b7e7d9f3adcc5cd13d72b,shell,155.971811,failure,cd /testbed && python reproduce_issue.py
+event-a1ffcaa0904c900e06c4b86f4a33f459,action-52604ac9149cc57c1322e838e764262c,traversal,202.13793,success,"str_replace_editor str_replace /testbed/reproduce_issue.py   --old_str '    def allow_migrate(self, db, app_label, **hints):
+        self.calls.append({
+            '""'""'db'""'""': db,
+            '""'""'app_label'""'""': app_label,
+            '""'""'model_name'""'""': hints.get('""'""'model_name'""'""'),
+        })
+        print(f""allow_migrate called with db={db}, app_label={app_label}, model_name={hints.get('""'""'model_name'""'""')}"")
+        # Simple logic: only allow migrations for '""'""'migrations'""'""' app on '""'""'default'""'""' db
+        if app_label == '""'""'migrations'""'""' and db == '""'""'default'""'""':
+            return True
+        elif app_label == '""'""'auth'""'""' and db == '""'""'other'""'""':
+            return True
+        return False  # Default to not allowing migration' --new_str '    def allow_migrate(self, db, app_label, **hints):
+        self.calls.append({
+            '""'""'db'""'""': db,
+            '""'""'app_label'""'""': app_label,
+            '""'""'model_name'""'""': hints.get('""'""'model_name'""'""'),
+        })
+        print(""allow_migrate called with db={}, app_label={}, model_name={}"".format(
+            db, app_label, hints.get('""'""'model_name'""'""')))
+        # Simple logic: only allow migrations for '""'""'migrations'""'""' app on '""'""'default'""'""' db
+        if app_label == '""'""'migrations'""'""' and db == '""'""'default'""'""':
+            return True
+        elif app_label == '""'""'auth'""'""' and db == '""'""'other'""'""':
+            return True
+        return False  # Default to not allowing migration'"
+event-5a5c31e84ab7aff63c4d265c278471b9,action-b32346ce4614e401854bc9d50fcfe931,shell,151.506675,failure,cd /testbed && python reproduce_issue.py
+event-77de969c5727c84579fff19545cfbd46,action-030a6d4bb052378c4be189b064d478d2,patch,185.835669,success,"str_replace_editor str_replace /testbed/reproduce_issue.py   --old_str '        print(""\nRouter calls recorded:"")
+        for call in tracking_router.calls:
+            print(f""  {call}"")' --new_str '        print(""\nRouter calls recorded:"")
+        for call in tracking_router.calls:
+            print(""  {}"".format(call))'"
+event-6a022a957fbdca1d9ae8a0240d15155e,action-cd75e1f278907e1f11b5328638f51197,patch,190.731866,success,"str_replace_editor str_replace /testbed/reproduce_issue.py   --old_str 'except Exception as e:
+    print(f""Error occurred: {e}"")
+    import traceback
+    traceback.print_exc()' --new_str 'except Exception as e:
+    print(""Error occurred: {}"".format(e))
+    import traceback
+    traceback.print_exc()'"
+event-c0f0fe2914ab63ac882bd5b8b74c33ca,action-95fa7cc76f4287071312e434f2b922c0,shell,726.132375,failure,cd /testbed && python reproduce_issue.py
+event-2cecd4f350435d73450abba39203b9d4,action-03a01fcb53d4dcdc835fd2ec7fe80a43,read,191.418047,success,str_replace_editor view /testbed/django/core/management/commands/makemigrations.py  --view_range 94 112
+event-55a5e3d9d82c254ff574ce638b3d6184,action-036ea16478aa03df22a8c98bd1fcfb71,traversal,134.168043,failure,"grep -n ""allow_migrate.*model.*app_label"" /testbed/django/db/utils.py"
+event-dcea95d35a26c918ddfced930bd7898f,action-a51297fda98f422250055ffe08f0cf30,traversal,260.270936,success,"grep -rn ""allow_migrate.*model"" /testbed/django/ --include=""*.py"""
+event-f37e214e48d2afd62c8fa0a442e04d16,action-bc6b9fc865fbf487048d4a18491270b5,read,182.642595,success,str_replace_editor view /testbed/django/db/models/fields/__init__.py  --view_range 305 315
+event-272d2499260095840f52740b2ce38b9f,action-945776944dcd693fef96f9908cf3d0d9,patch,197.929055,success,"str_replace_editor str_replace /testbed/django/core/management/commands/makemigrations.py   --old_str '        for alias in sorted(aliases_to_check):
+            connection = connections[alias]
+            if (connection.settings_dict['""'""'ENGINE'""'""'] != '""'""'django.db.backends.dummy'""'""' and any(
+                    # At least one model must be migrated to the database.
+                    router.allow_migrate(connection.alias, app_label, model_name=model._meta.object_name)
+                    for app_label in consistency_check_labels
+                    for model in apps.get_models(app_label)
+            )):
+                loader.check_consistent_history(connection)' --new_str '        for alias in sorted(aliases_to_check):
+            connection = connections[alias]
+            if (connection.settings_dict['""'""'ENGINE'""'""'] != '""'""'django.db.backends.dummy'""'""' and any(
+                    # At least one model must be migrated to the database.
+                    router.allow_migrate(connection.alias, model._meta.app_label, model_name=model._meta.object_name)
+                    for app_label in consistency_check_labels
+                    for model in apps.get_models(app_label)
+            )):
+                loader.check_consistent_history(connection)'"
+event-266d45e17dd5c6f6069b31c58dc28add,action-2862b1f930041abf6bb8407fbd9b4501,traversal,201.89338,success,"str_replace_editor create /testbed/test_fix.py --file_text '#!/usr/bin/env python
+""""""
+Simple test to verify the fix for makemigrations allow_migrate() issue.
+""""""
+
+import os
+import sys
+import django
+from django.conf import settings
+from django.test import override_settings
+
+# Add the testbed to Python path
+sys.path.insert(0, '""'""'/testbed'""'""')
+
+# Configure Django settings
+if not settings.configured:
+    settings.configure(
+        DEBUG=True,
+        DATABASES={
+            '""'""'default'""'""': {
+                '""'""'ENGINE'""'""': '""'""'django.db.backends.sqlite3'""'""',
+                '""'""'NAME'""'""': '""'""':memory:'""'""',
+            },
+            '""'""'other'""'""': {
+                '""'""'ENGINE'""'""': '""'""'django.db.backends.sqlite3'""'""',
+                '""'""'NAME'""'""': '""'""':memory:'""'""',
+            }
+        },
+        INSTALLED_APPS=[
+            '""'""'django.contrib.contenttypes'""'""',
+            '""'""'django.contrib.auth'""'""',
+            '""'""'django.contrib.sites'""'""',
+        ],
+        USE_TZ=True,
+        SECRET_KEY='""'""'test-secret-key'""'""',
+    )
+
+django.setup()
+
+from django.core.management import call_command
+from django.db import connections
+
+# Create a simple router that tracks calls to allow_migrate
+class TrackingRouter:
+    def __init__(self):
+        self.calls = []
+
+    def allow_migrate(self, db, app_label, **hints):
+        self.calls.append({
+            '""'""'db'""'""': db,
+            '""'""'app_label'""'""': app_label,
+            '""'""'model_name'""'""': hints.get('""'""'model_name'""'""'),
+        })
+        print(""allow_migrate called with db={}, app_label={}, model_name={}"".format(
+            db, app_label, hints.get('""'""'model_name'""'""')))
+        # Allow all migrations for testing
+        return True
+
+# Create a tracking router
+tracking_router = TrackingRouter()
+
+print(""Testing makemigrations with tracking router..."")
+print(""="" * 50)
+
+try:
+    # Set the tracking router
+    with override_settings(DATABASE_ROUTERS=[tracking_router]):
+        # Try to run makemigrations - this should trigger the fix
+        call_command('""'""'makemigrations'""'""', verbosity=1)
+        
+        print(""\nRouter calls recorded:"")
+        for call in tracking_router.calls:
+            print(""  {}"".format(call))
+            
+        print(""\nTest completed successfully!"")
+            
+except Exception as e:
+    print(""Error occurred: {}"".format(e))
+    import traceback
+    traceback.print_exc()'"
+event-8d42644d508b349d302f15ecfb254761,action-71617fd9f75607f1a85f09986ba51065,shell,574.86191,success,cd /testbed && python test_fix.py
+event-dfcafb5a67dbbc4f97c22fb267ff0cca,action-56be888194c1098a5087c8acdb9af2fb,test,157.743502,failure,cd /testbed && python -m pytest tests/migrations/test_commands.py::MigrateTests::test_makemigrations_consistency_checks_respect_routers -v
+event-abe7c50974201608870ccb395053bb04,action-c4e5f1a57c095672004de7446d8a064c,shell,438.618554,failure,cd /testbed && python -m django.test tests.migrations.test_commands.MigrateTests.test_makemigrations_consistency_checks_respect_routers
+event-57efe90fe0b35b1cb8df169e9735c0dd,action-928437f0476ee975a00e932bc25a8167,shell,146.954389,failure,cd /testbed && python manage.py test migrations.test_commands.MigrateTests.test_makemigrations_consistency_checks_respect_routers
+event-f72008118d80935980fca67be11313b3,action-b503bd2133445ab462084bf163d41680,shell,415.576215,failure,"cd /testbed && python -c ""
+import sys
+sys.path.insert(0, '.')
+import django
+from django.conf import settings
+if not settings.configured:
+    settings.configure(
+        DEBUG=True,
+        DATABASES={
+            'default': {
+                'ENGINE': 'django.db.backends.sqlite3',
+                'NAME': ':memory:',
+            },
+            'other': {
+                'ENGINE': 'django.db.backends.sqlite3',
+                'NAME': ':memory:',
+            }
+        },
+        INSTALLED_APPS=[
+            'django.contrib.contenttypes',
+            'django.contrib.auth',
+            'migrations',
+        ],
+        USE_TZ=True,
+        SECRET_KEY='test-secret-key',
+    )
+django.setup()
+
+from tests.migrations.test_commands import MigrateTests
+import unittest
+
+# Run the specific test
+suite = unittest.TestSuite()
+suite.addTest(MigrateTests('test_makemigrations_consistency_checks_respect_routers'))
+runner = unittest.TextTestRunner(verbosity=2)
+result = runner.run(suite)
+"""
+event-1f8539e177d8653ab09a1031ed0c4b5a,action-cd83a8aaafd5d9453dd8178bf855c08e,shell,480.745609,success,"cd /testbed && python -c ""
+import sys
+sys.path.insert(0, '.')
+import django
+from django.conf import settings
+if not settings.configured:
+    settings.configure(
+        DEBUG=True,
+        DATABASES={
+            'default': {
+                'ENGINE': 'django.db.backends.sqlite3',
+                'NAME': ':memory:',
+            },
+            'other': {
+                'ENGINE': 'django.db.backends.sqlite3',
+                'NAME': ':memory:',
+            }
+        },
+        INSTALLED_APPS=[
+            'django.contrib.contenttypes',
+            'django.contrib.auth',
+        ],
+        USE_TZ=True,
+        SECRET_KEY='test-secret-key',
+    )
+django.setup()
+
+# Import and run a simple test to make sure basic functionality works
+from django.core.management import call_command
+print('Testing basic makemigrations functionality...')
+try:
+    call_command('makemigrations', verbosity=1)
+    print('SUCCESS: makemigrations command executed without errors')
+except Exception as e:
+    print('ERROR:', str(e))
+    import traceback
+    traceback.print_exc()
+"""
+event-69f5d4b1ab7e433d9302f5539a9efbbd,action-61a7acaaad5597fb68bc0c8bce3ba9fb,traversal,511.513918,success,"cd /testbed && python -c ""
+import sys
+sys.path.insert(0, '.')
+import django
+from django.conf import settings
+if not settings.configured:
+    settings.configure(
+        DEBUG=True,
+        DATABASES={
+            'default': {
+                'ENGINE': 'django.db.backends.sqlite3',
+                'NAME': ':memory:',
+            },
+            'other': {
+                'ENGINE': 'django.db.backends.sqlite3',
+                'NAME': ':memory:',
+            }
+        },
+        INSTALLED_APPS=[
+            'django.contrib.contenttypes',
+            'django.contrib.auth',
+        ],
+        USE_TZ=True,
+        SECRET_KEY='test-secret-key',
+    )
+django.setup()
+
+# Test with a custom router to make sure our change works correctly
+from django.db import router
+from django.core.management import call_command
+from django.test import override_settings
+
+class TestRouter:
+    def allow_migrate(self, db, app_label, **hints):
+        print('Router called with db={}, app_label={}, hints={}'.format(db, app_label, hints))
+        return True
+
+print('Testing with custom router...')
+try:
+    with override_settings(DATABASE_ROUTERS=[TestRouter()]):
+        call_command('makemigrations', verbosity=1)
+    print('SUCCESS: makemigrations with custom router worked')
+except Exception as e:
+    print('ERROR:', str(e))
+    import traceback
+    traceback.print_exc()
+"""
+event-b9b891612d3a8d34311b02ccbe813abf,action-ac834cd527a9cf99470defec88fa430f,shell,471.542157,success,"cd /testbed && python -c ""
+import sys
+sys.path.insert(0, '.')
+import django
+from django.conf import settings
+if not settings.configured:
+    settings.configure(
+        DEBUG=True,
+        DATABASES={
+            'default': {
+                'ENGINE': 'django.db.backends.sqlite3',
+                'NAME': ':memory:',
+            },
+        },
+        INSTALLED_APPS=[
+            'django.contrib.contenttypes',
+            'django.contrib.auth',
+        ],
+        USE_TZ=True,
+        SECRET_KEY='test-secret-key',
+    )
+django.setup()
+
+# Test that we can still create migrations properly
+from django.core.management import call_command
+from django.db import connection
+from django.db.migrations.loader import MigrationLoader
+
+print('Testing migration creation...')
+try:
+    # First, let's make sure we can create a basic migration
+    call_command('makemigrations', verbosity=1)
+    print('SUCCESS: Basic makemigrations works')
+    
+    # Check that we can load migrations
+    loader = MigrationLoader(connection)
+    print('SUCCESS: Migration loader works')
+    
+except Exception as e:
+    print('ERROR:', str(e))
+    import traceback
+    traceback.print_exc()
+"""
+event-345507a5d15cb3de2208461cd555192a,action-e9f9d409fcda06b50194aeeb628d4d20,traversal,506.551052,failure,"cd /testbed && python -c ""
+import sys
+sys.path.insert(0, '.')
+import django
+from django.conf import settings
+if not settings.configured:
+    settings.configure(
+        DEBUG=True,
+        DATABASES={
+            'default': {
+                'ENGINE': 'django.db.backends.sqlite3',
+                'NAME': ':memory:',
+            },
+            'other': {
+                'ENGINE': 'django.db.backends.sqlite3',
+                'NAME': ':memory:',
+            }
+        },
+        INSTALLED_APPS=[
+            'django.contrib.contenttypes',
+            'django.contrib.auth',
+        ],
+        USE_TZ=True,
+        SECRET_KEY='test-secret-key',
+    )
+django.setup()
+
+# Test the specific scenario from the test case
+from django.core.management import call_command
+from django.test import override_settings
+from django.db.migrations.recorder import MigrationRecorder
+from django.db.migrations.exceptions import MigrationSchemaMissing
+import mock
+
+class TestRouter:
+    def allow_migrate(self, db, app_label, **hints):
+        print('TestRouter.allow_migrate called with db={}, app_label={}, hints={}'.format(db, app_label, hints))
+        # Simulate the behavior from the test
+        if app_label == 'auth' and db == 'other':
+            return False  # Don't allow auth migrations on 'other'
+        return True
+
+print('Testing the specific scenario from the test case...')
+try:
+    with override_settings(DATABASE_ROUTERS=[TestRouter()]):
+        # This should work without raising MigrationSchemaMissing
+        call_command('makemigrations', verbosity=1)
+        print('SUCCESS: makemigrations with TestRouter works correctly')
+        
+except Exception as e:
+    print('ERROR:', str(e))
+    import traceback
+    traceback.print_exc()
+"""
+event-7a3030c6b3a1cec508e7a29a094ad6b2,action-8edbe6d335742f36c266d508ef8aae20,traversal,514.120932,success,"cd /testbed && python -c ""
+import sys
+sys.path.insert(0, '.')
+import django
+from django.conf import settings
+if not settings.configured:
+    settings.configure(
+        DEBUG=True,
+        DATABASES={
+            'default': {
+                'ENGINE': 'django.db.backends.sqlite3',
+                'NAME': ':memory:',
+            },
+            'other': {
+                'ENGINE': 'django.db.backends.sqlite3',
+                'NAME': ':memory:',
+            }
+        },
+        INSTALLED_APPS=[
+            'django.contrib.contenttypes',
+            'django.contrib.auth',
+        ],
+        USE_TZ=True,
+        SECRET_KEY='test-secret-key',
+    )
+django.setup()
+
+# Test that our fix doesn't break the basic functionality
+from django.core.management import call_command
+from django.test import override_settings
+
+print('Final comprehensive test...')
+print('1. Testing basic makemigrations...')
+call_command('makemigrations', verbosity=1)
+
+print('2. Testing with router...')
+class SimpleRouter:
+    def allow_migrate(self, db, app_label, **hints):
+        print('  Router called: db={}, app_label={}, model={}'.format(db, app_label, hints.get('model_name')))
+        return True
+
+with override_settings(DATABASE_ROUTERS=[SimpleRouter()]):
+    call_command('makemigrations', verbosity=1)
+
+print('3. All tests passed successfully!')
+"""
+event-1b0c94585acb2e69f7cf1c9d619e8023,action-60b054bbe344f4726047f91ffaee7cf0,shell,365.922081,success,submit
+event-6a6e9712ac2f901b9d85b0f693509352,action-b281030db383d2c6e7ad0adf2159f110,shell,134.566713,success,rm /testbed/reproduce_issue.py /testbed/test_fix.py
+event-3707e8cc1664764342d68aac571cb060,action-84f1025f59011373dbf70a25d2fa4733,shell,361.276105,success,submit

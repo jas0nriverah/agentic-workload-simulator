@@ -56,6 +56,7 @@ def model_input(run_id, ordinal, split="calibration", profile=None):
         "input_tokens": 500 + ordinal * 100,
         "context_tokens": 700 + ordinal * 120,
         "max_output_tokens": 64 + ordinal * 16,
+        "output_tokens": 8 + ordinal * 4,
         "hardware": profile or hardware(),
     }
 
@@ -160,9 +161,20 @@ class LeakageProtectionTests(unittest.TestCase):
                 with self.assertRaisesRegex(EventSimulatorError, "target-derived"):
                     ToolEventInput.from_mapping(row)
 
-    def test_model_input_rejects_measured_output_and_timing(self):
+    def test_model_input_accepts_logged_output_tokens(self):
+        row = model_input("hold", 1, "holdout")
+        parsed = ModelEventInput.from_mapping(row)
+        self.assertEqual(parsed.output_tokens, row["output_tokens"])
+        self.assertEqual(parsed.decode_tokens, row["output_tokens"])
+        without = dict(row)
+        without.pop("output_tokens")
+        budget_only = ModelEventInput.from_mapping(without)
+        self.assertIsNone(budget_only.output_tokens)
+        self.assertEqual(budget_only.decode_tokens, budget_only.max_output_tokens)
+        self.assertNotEqual(parsed.design_row(), budget_only.design_row())
+
+    def test_model_input_rejects_measured_timing_and_output_aliases(self):
         for leaked in (
-            "output_tokens",
             "actual_output_tokens",
             "completion_tokens",
             "response_bytes",

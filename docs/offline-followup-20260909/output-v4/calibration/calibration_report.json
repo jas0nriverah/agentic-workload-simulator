@@ -1,0 +1,41 @@
+{
+  "disposition": "pending_no_fit",
+  "eligible_case_inventory": [],
+  "excluded_before_events_open": [
+    {
+      "case_id": "configuration-confirmation-case-v1:11fcd3c59f36c09472479c6794493d546039acf8bc52c3fd372a3d811bcd4132",
+      "case_index": 0,
+      "case_root": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8",
+      "case_spec_sha256": "c45d6ff07a911d27b8d74ed8117d1117e90ff1c69247fbbce47b0fb841ba2b0a",
+      "derived_partition": "confirmation_development_excluded",
+      "instance_id": "django__django-7530",
+      "reason": "not_train_calibration"
+    }
+  ],
+  "identity_inventory": [
+    {
+      "case_id": "configuration-confirmation-case-v1:11fcd3c59f36c09472479c6794493d546039acf8bc52c3fd372a3d811bcd4132",
+      "case_index": 0,
+      "case_root": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8",
+      "case_spec_sha256": "c45d6ff07a911d27b8d74ed8117d1117e90ff1c69247fbbce47b0fb841ba2b0a",
+      "derived_partition": "confirmation_development_excluded",
+      "instance_id": "django__django-7530"
+    }
+  ],
+  "input_errors": [],
+  "model_paths": [],
+  "needed_inputs": [
+    "case_spec-bound repaired cases whose instance_id is assigned train_calibration by the pinned split manifest",
+    "at least 3 independent eligible instances and 25 valid normalized events for each fitted event-class/target-boundary/hardware-domain path",
+    "ledger validation report with accepted disposition and source hashes",
+    "pre-event whitelisted feature buckets and hardware-profile fingerprint provenance"
+  ],
+  "pending_reason": "no_case_spec_bound_train_calibration_cases; confirmation/excluded cases were not opened",
+  "schema_version": "assignment.repaired-d9-calibration.v1",
+  "source_provenance": {
+    "pinned_split_manifest": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260908T140000Z-offline-v2/live-plan/production_split_manifest.v2.json",
+    "pinned_split_manifest_sha256": "0b0c37147b45ec824e2af45d82ba20b3ed57ac56b64f58ea07004e0c13bcc99f",
+    "pinned_split_schema_version": "assignment-production-instance-cluster-split.v2",
+    "pipeline_manifest_sha256": "f4aeba36f9d3bcdba97f10d3a92c307cefbf216336e378de5fdabb38c01a5c9a"
+  }
+}

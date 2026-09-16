@@ -1,0 +1,35 @@
+{
+  "forbidden_current_event_features": [
+    "cache_hit",
+    "current_cache_hit",
+    "decode_ms",
+    "duration_ms",
+    "measured_residual_ms",
+    "output_tokens",
+    "prefill_ms",
+    "queue_ms",
+    "unknown_residual_ms",
+    "wall_ms"
+  ],
+  "identities": [
+    "assignment-dddeec59472fb4a5|django__django-7530|configuration-confirmation-case-v1:11fcd3c59f36c09472479c6794493d546039acf8bc52c3fd372a3d811bcd4132"
+  ],
+  "identity_count": 1,
+  "independent_instance_count": 1,
+  "native_terminal_only_phase_target_count": 40,
+  "numeric_fit_status": "unidentifiable_from_this_source",
+  "physical_request_binding": {
+    "native_terminal_count": 40,
+    "note": "terminal native token/cache/phase fields remain targets, never adapter features",
+    "request_start_count": 40,
+    "status": "exact_one_to_one"
+  },
+  "prospective_feature_completeness": {
+    "max_output_tokens": 40
+  },
+  "request_start_count": 40,
+  "schema_version": "assignment.d9.gpu-lifecycle-availability.v1",
+  "source_kind": "confirmation_excluded",
+  "terminal_gpu_phase_target_count": 40,
+  "terminal_request_count": 40
+}

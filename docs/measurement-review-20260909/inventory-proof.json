@@ -1,0 +1,182 @@
+{
+  "status": "pass",
+  "scope": "Frozen candidate inventories only; no outcome access or selection. Add baseline setting to each three-value independent sweep to reconstruct four values.",
+  "candidates": [
+    {
+      "candidate": "historical-control-call30-input32768",
+      "inventory_sha256": "2c634091f80be0a20192762e2f033a428609a0818b0b0c756a80a8a733506ccf",
+      "unique_cases": 1088,
+      "baseline_suites": {
+        "lite": 300,
+        "verified": 500
+      },
+      "independent_sweep_cases": 288,
+      "nonbaseline_sweep_values": {
+        "call_limit": [
+          20,
+          50,
+          100
+        ],
+        "max_output_tokens": [
+          512,
+          1024,
+          4096
+        ],
+        "observation_length": [
+          10000,
+          25000,
+          50000
+        ],
+        "temperature": [
+          0.2,
+          0.5,
+          0.8
+        ]
+      },
+      "baseline_settings": {
+        "call_limit": 30,
+        "max_input_tokens": 32768,
+        "max_output_tokens": 2048,
+        "observation_length": 100000,
+        "seed": 0,
+        "temperature": 0.0,
+        "top_p": 1.0
+      },
+      "concurrency_values": [
+        1
+      ]
+    },
+    {
+      "candidate": "expanded-call50-input61440",
+      "inventory_sha256": "229494210cdd03d990213d72398f231c7a908ce51f3fb1c5efbf6f665182c4f8",
+      "unique_cases": 1088,
+      "baseline_suites": {
+        "lite": 300,
+        "verified": 500
+      },
+      "independent_sweep_cases": 288,
+      "nonbaseline_sweep_values": {
+        "call_limit": [
+          20,
+          30,
+          100
+        ],
+        "max_output_tokens": [
+          512,
+          1024,
+          4096
+        ],
+        "observation_length": [
+          10000,
+          25000,
+          50000
+        ],
+        "temperature": [
+          0.2,
+          0.5,
+          0.8
+        ]
+      },
+      "baseline_settings": {
+        "call_limit": 50,
+        "max_input_tokens": 61440,
+        "max_output_tokens": 2048,
+        "observation_length": 100000,
+        "seed": 0,
+        "temperature": 0.0,
+        "top_p": 1.0
+      },
+      "concurrency_values": [
+        1
+      ]
+    },
+    {
+      "candidate": "expanded-call100-input61440",
+      "inventory_sha256": "fdf2044707098607c4f2237a00b774221aa735d9e480a8b7a023742c6d7ed4b1",
+      "unique_cases": 1088,
+      "baseline_suites": {
+        "lite": 300,
+        "verified": 500
+      },
+      "independent_sweep_cases": 288,
+      "nonbaseline_sweep_values": {
+        "call_limit": [
+          20,
+          30,
+          50
+        ],
+        "max_output_tokens": [
+          512,
+          1024,
+          4096
+        ],
+        "observation_length": [
+          10000,
+          25000,
+          50000
+        ],
+        "temperature": [
+          0.2,
+          0.5,
+          0.8
+        ]
+      },
+      "baseline_settings": {
+        "call_limit": 100,
+        "max_input_tokens": 61440,
+        "max_output_tokens": 2048,
+        "observation_length": 100000,
+        "seed": 0,
+        "temperature": 0.0,
+        "top_p": 1.0
+      },
+      "concurrency_values": [
+        1
+      ]
+    },
+    {
+      "candidate": "expanded-call100-input61440-observation25000",
+      "inventory_sha256": "324b009488309bb5bc2b9950196f9897eed84602a7df8e9426350c2e4e6d18d5",
+      "unique_cases": 1088,
+      "baseline_suites": {
+        "lite": 300,
+        "verified": 500
+      },
+      "independent_sweep_cases": 288,
+      "nonbaseline_sweep_values": {
+        "call_limit": [
+          20,
+          30,
+          50
+        ],
+        "max_output_tokens": [
+          512,
+          1024,
+          4096
+        ],
+        "observation_length": [
+          10000,
+          50000,
+          100000
+        ],
+        "temperature": [
+          0.2,
+          0.5,
+          0.8
+        ]
+      },
+      "baseline_settings": {
+        "call_limit": 100,
+        "max_input_tokens": 61440,
+        "max_output_tokens": 2048,
+        "observation_length": 25000,
+        "seed": 0,
+        "temperature": 0.0,
+        "top_p": 1.0
+      },
+      "concurrency_values": [
+        1
+      ]
+    }
+  ]
+}

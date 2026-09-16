@@ -1,0 +1,255 @@
+{
+  "source_sha256": "6d1f57a158fb945f26307bf4078bf1878bd88da9b985f96768e91c08024ec98b",
+  "executions_per_instance": {
+    "django__django-11815": 13,
+    "django__django-11797": 1,
+    "django__django-11910": 1,
+    "astropy__astropy-6938": 13,
+    "django__django-11742": 1,
+    "django__django-12113": 1,
+    "astropy__astropy-7746": 1,
+    "django__django-11422": 1,
+    "astropy__astropy-14995": 1,
+    "django__django-10924": 1,
+    "django__django-11099": 1,
+    "django__django-11179": 1,
+    "django__django-11564": 1,
+    "django__django-11039": 1,
+    "django__django-11999": 1,
+    "django__django-11049": 1,
+    "django__django-11630": 1,
+    "django__django-11001": 1,
+    "django__django-11620": 1,
+    "django__django-11583": 1,
+    "astropy__astropy-14182": 1,
+    "django__django-10914": 1,
+    "django__django-11964": 1,
+    "django__django-11133": 1,
+    "django__django-11283": 1
+  },
+  "metrics": {
+    "relative_nnls_token": {
+      "equal_instance_within25_fraction": 0.9485578650773817,
+      "instances_all_requests_all_executions_pass": 1,
+      "instances": 25,
+      "conditional_95pct_interval": [
+        0.9329908560202999,
+        0.9613543124175227
+      ],
+      "per_instance": {
+        "django__django-11815": {
+          "requests": 501,
+          "within25": 480
+        },
+        "django__django-11797": {
+          "requests": 54,
+          "within25": 52
+        },
+        "django__django-11910": {
+          "requests": 48,
+          "within25": 45
+        },
+        "astropy__astropy-6938": {
+          "requests": 472,
+          "within25": 445
+        },
+        "django__django-11742": {
+          "requests": 57,
+          "within25": 47
+        },
+        "django__django-12113": {
+          "requests": 45,
+          "within25": 42
+        },
+        "astropy__astropy-7746": {
+          "requests": 38,
+          "within25": 37
+        },
+        "django__django-11422": {
+          "requests": 61,
+          "within25": 54
+        },
+        "astropy__astropy-14995": {
+          "requests": 33,
+          "within25": 29
+        },
+        "django__django-10924": {
+          "requests": 49,
+          "within25": 47
+        },
+        "django__django-11099": {
+          "requests": 27,
+          "within25": 26
+        },
+        "django__django-11179": {
+          "requests": 36,
+          "within25": 35
+        },
+        "django__django-11564": {
+          "requests": 67,
+          "within25": 63
+        },
+        "django__django-11039": {
+          "requests": 42,
+          "within25": 41
+        },
+        "django__django-11999": {
+          "requests": 57,
+          "within25": 55
+        },
+        "django__django-11049": {
+          "requests": 49,
+          "within25": 48
+        },
+        "django__django-11630": {
+          "requests": 56,
+          "within25": 54
+        },
+        "django__django-11001": {
+          "requests": 41,
+          "within25": 39
+        },
+        "django__django-11620": {
+          "requests": 75,
+          "within25": 72
+        },
+        "django__django-11583": {
+          "requests": 27,
+          "within25": 26
+        },
+        "astropy__astropy-14182": {
+          "requests": 43,
+          "within25": 42
+        },
+        "django__django-10914": {
+          "requests": 34,
+          "within25": 32
+        },
+        "django__django-11964": {
+          "requests": 92,
+          "within25": 88
+        },
+        "django__django-11133": {
+          "requests": 37,
+          "within25": 37
+        },
+        "django__django-11283": {
+          "requests": 39,
+          "within25": 37
+        }
+      }
+    },
+    "relative_nnls_token_cache": {
+      "equal_instance_within25_fraction": 0.9785522562089531,
+      "instances_all_requests_all_executions_pass": 9,
+      "instances": 25,
+      "conditional_95pct_interval": [
+        0.9646664857454461,
+        0.9877336087732498
+      ],
+      "per_instance": {
+        "django__django-11815": {
+          "requests": 501,
+          "within25": 490
+        },
+        "django__django-11797": {
+          "requests": 54,
+          "within25": 53
+        },
+        "django__django-11910": {
+          "requests": 48,
+          "within25": 48
+        },
+        "astropy__astropy-6938": {
+          "requests": 472,
+          "within25": 457
+        },
+        "django__django-11742": {
+          "requests": 57,
+          "within25": 48
+        },
+        "django__django-12113": {
+          "requests": 45,
+          "within25": 44
+        },
+        "astropy__astropy-7746": {
+          "requests": 38,
+          "within25": 38
+        },
+        "django__django-11422": {
+          "requests": 61,
+          "within25": 59
+        },
+        "astropy__astropy-14995": {
+          "requests": 33,
+          "within25": 33
+        },
+        "django__django-10924": {
+          "requests": 49,
+          "within25": 49
+        },
+        "django__django-11099": {
+          "requests": 27,
+          "within25": 27
+        },
+        "django__django-11179": {
+          "requests": 36,
+          "within25": 36
+        },
+        "django__django-11564": {
+          "requests": 67,
+          "within25": 65
+        },
+        "django__django-11039": {
+          "requests": 42,
+          "within25": 41
+        },
+        "django__django-11999": {
+          "requests": 57,
+          "within25": 56
+        },
+        "django__django-11049": {
+          "requests": 49,
+          "within25": 49
+        },
+        "django__django-11630": {
+          "requests": 56,
+          "within25": 55
+        },
+        "django__django-11001": {
+          "requests": 41,
+          "within25": 40
+        },
+        "django__django-11620": {
+          "requests": 75,
+          "within25": 73
+        },
+        "django__django-11583": {
+          "requests": 27,
+          "within25": 27
+        },
+        "astropy__astropy-14182": {
+          "requests": 43,
+          "within25": 42
+        },
+        "django__django-10914": {
+          "requests": 34,
+          "within25": 33
+        },
+        "django__django-11964": {
+          "requests": 92,
+          "within25": 89
+        },
+        "django__django-11133": {
+          "requests": 37,
+          "within25": 37
+        },
+        "django__django-11283": {
+          "requests": 39,
+          "within25": 38
+        }
+      }
+    }
+  },
+  "uncertainty_scope": "Bootstrap of fixed development OOF predictions; excludes model selection, fit uncertainty and hardware transfer."
+}

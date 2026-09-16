@@ -1,0 +1,1 @@
+BCC full-capture evidence archive. Binary raw event streams are fixed-size v2 records; JSONL rows include action boundaries and collector-stop finalizations. The v6 benchmark pairs use the Unix-socket action-boundary service, and the manifest records the measured overhead verdict, loss/completeness checks, cleanup state, and source/raw hashes.

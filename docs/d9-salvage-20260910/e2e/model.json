@@ -1,0 +1,35 @@
+{
+  "contract": "trace-conditioned full workload; direct E2E, NOT event composition or prospective forecast",
+  "features": [
+    "intercept",
+    "tool_count/100",
+    "request_count/100",
+    "declared_input_tokens/1000000",
+    "declared_output_tokens/10000"
+  ],
+  "source_hashes": {
+    "tools": "2ff63b051873b820f29eef4262ef7dd60c58045b11f7f6648279405c9f02e311",
+    "models": "ee0b65f46aa11b0357fe761a9543aeed6da2a56c100c1cacc5c14164adb028da",
+    "trajectories": "803ad4554b36695704a2a96080404044c553c9bc8d46fd668a3942fc69a3e63a"
+  },
+  "selected_model": "conditional_relative_nnls",
+  "selection_scope": "development OOF comparison; no untouched holdout claim",
+  "coefficients": {
+    "conditional_nnls": [
+      147115.74602567274,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "conditional_relative_nnls": [
+      41561.5505202722,
+      118980.29140474339,
+      0.0,
+      766.5810207018217,
+      71618.78405777122
+    ]
+  },
+  "global_median": 124746.435591,
+  "hardware_transfer_validated": false
+}

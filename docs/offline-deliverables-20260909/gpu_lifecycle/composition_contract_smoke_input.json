@@ -1,0 +1,12 @@
+{
+  "trajectory_mode": "conditional_known_action_list",
+  "disjoint_serial_component_ledger": {
+    "status": "proven",
+    "proof": "Caller attests components are disjoint serial intervals in CLOCK_MONOTONIC_RAW."
+  },
+  "component_predictions": [
+    {"run_id": "smoke-run", "component": "cpu", "component_id": "cpu-1", "clock_id": "CLOCK_MONOTONIC_RAW", "predicted_ms": 10.0, "feature_contract": "pre_event_only"},
+    {"run_id": "smoke-run", "component": "gpu", "component_id": "gpu-1", "clock_id": "CLOCK_MONOTONIC_RAW", "predicted_ms": 20.0, "feature_contract": "pre_event_only"},
+    {"run_id": "smoke-run", "component": "lifecycle", "component_id": "lifecycle-1", "clock_id": "CLOCK_MONOTONIC_RAW", "predicted_ms": 3.0, "feature_contract": "pre_event_only"}
+  ]
+}

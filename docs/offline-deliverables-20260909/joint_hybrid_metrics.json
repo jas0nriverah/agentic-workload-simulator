@@ -1,0 +1,55 @@
+{
+  "runs": 819,
+  "instances": 545,
+  "cpu_event_count": 23245,
+  "gpu_request_count": 23868,
+  "cpu_sum": {
+    "n": 819,
+    "within25": 271,
+    "within25_rate": 0.3308913308913309,
+    "mean_ape_pct": 40.64612697357194,
+    "p95_ape_pct": 82.90520995149565,
+    "worst_ape_pct": 141.74193784861663
+  },
+  "gpu_proxy_sum": {
+    "n": 819,
+    "within25": 24,
+    "within25_rate": 0.029304029304029304,
+    "mean_ape_pct": 56.49620852048478,
+    "p95_ape_pct": 78.00462180701463,
+    "worst_ape_pct": 92.76762779527546
+  },
+  "partial_event_sum_against_e2e": {
+    "n": 819,
+    "within25": 0,
+    "within25_rate": 0.0,
+    "mean_ape_pct": 78.89666240199527,
+    "p95_ape_pct": 89.13991452554146,
+    "worst_ape_pct": 99.31336740099874
+  },
+  "start_known_e2e": {
+    "n": 819,
+    "within25": 538,
+    "within25_rate": 0.6568986568986569,
+    "mean_ape_pct": 22.76242910154488,
+    "p95_ape_pct": 60.235172122298096,
+    "worst_ape_pct": 168.5511318860207
+  },
+  "all_recorded_cpu_pass_runs": 4,
+  "all_recorded_gpu_pass_runs": 0,
+  "available_recorded_target_conjunction_runs": 0,
+  "literal_d9_status": "UNPROVEN; no complete calibrated repaired-event/lifecycle/cross-hardware evaluation",
+  "limits": [
+    "partial replay sum uses realized event inventory; not a prospective start forecast",
+    "no lifecycle or measured residual term fitted or inserted",
+    "historical retained completed-event population is not the PDF all-required-event population",
+    "native phase/atomic-operation/auxiliary-runtime models remain unsupported by independent repaired calibration instances"
+  ],
+  "join_validation": "unique event/request IDs; matching run, instance, outer fold and E2E target; all819runsets equal",
+  "source_hashes": {
+    "cpu": "00ea9ea334507d96cd358c45144f7bd4b2eb4dd0bcb5e914e22009959b931d74",
+    "gpu": "248929129de0fcd5be56bca251e2be375d80247d691f056e83985b3f51cea683",
+    "e2e": "7b3fbd40c0872644bca50f1069c0fb6f923ae337085b061db181eda3896660e9",
+    "trajectories": "803ad4554b36695704a2a96080404044c553c9bc8d46fd668a3942fc69a3e63a"
+  }
+}

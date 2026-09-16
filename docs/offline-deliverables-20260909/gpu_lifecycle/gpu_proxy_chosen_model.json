@@ -1,0 +1,23 @@
+{
+  "api": "predict_refitted_model(model, {})",
+  "availability": "feature-free historical-proxy baseline; no input-token availability assumption",
+  "candidate": "global_median",
+  "deployment_status": "offline candidate only; not adopted or production-integrated",
+  "fit_instances": 545,
+  "fit_partition": "train_calibration",
+  "forbidden_fields": [
+    "output_tokens",
+    "observed_ms",
+    "phase_timings",
+    "cache_state",
+    "residual",
+    "future_actions"
+  ],
+  "hardware_scope": "historical training environment only; cross-hardware transfer unvalidated",
+  "median_ms": 616.0555395,
+  "prediction_time_fields": [],
+  "schema_version": "assignment.d9.gpu-proxy-model.v1",
+  "selection": "grouped inner validation on full training partition; not outer-test choices",
+  "source_sha256": "ee0b65f46aa11b0357fe761a9543aeed6da2a56c100c1cacc5c14164adb028da",
+  "target": "historical completed-request wall proxy; not native GPU service or queue/prefill/decode"
+}

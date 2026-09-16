@@ -1,0 +1,7 @@
+boundary,value_ms,interpretation
+observed_outer_e2e_ms,147936.733424,direct outer E2E boundary; shown separately
+observed_tool_wall_ms,62835.47542098677,historical tool wall; separate host-work proxy boundary
+observed_gpu_request_proxy_wall_ms,4105.613694000001,historical completed-request proxy; separate from outer E2E
+predicted_tool_sum_ms,2828.2339695051633,saved CPU hybrid OOF component sum; not stacked into predicted E2E
+predicted_gpu_proxy_sum_ms,4919.412239999999,saved GPU proxy OOF component sum; not stacked into predicted E2E
+predicted_direct_e2e_ms,124252.1253105,saved direct start-known E2E control; separate target

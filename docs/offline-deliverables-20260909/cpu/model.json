@@ -1,0 +1,125 @@
+{
+  "artifact_kind": "offline_candidate_only",
+  "candidate": "coarse_class_median",
+  "extractor_id": "offline-cpu-semantic-whitelist.v1",
+  "feature_contract": {
+    "extractor_id": "offline-cpu-semantic-whitelist.v1",
+    "fields": [
+      "semantic_class",
+      "operation",
+      "executable",
+      "runner",
+      "execution_mode",
+      "git_pager_susceptibility",
+      "find_exec_mode",
+      "pipeline_stage_bucket",
+      "recursive",
+      "operand_count_bucket",
+      "declared_command_bytes_bucket",
+      "python_imports_bucket",
+      "declared_work_bucket"
+    ],
+    "forbidden": [
+      "exact_command",
+      "command_sha256",
+      "case_id",
+      "repository_identity",
+      "current_duration",
+      "output_tokens",
+      "return_bytes",
+      "future_state",
+      "failure_or_end_state",
+      "measured_residual"
+    ],
+    "mode": "pre_event_only"
+  },
+  "groups": [
+    {
+      "distinct_instances": 462,
+      "key": "class|\"patch\"",
+      "level": "class",
+      "median": 207.50703799785697,
+      "n": 1509,
+      "p90": 262.0189150038641,
+      "prediction": 207.50703799785697
+    },
+    {
+      "distinct_instances": 536,
+      "key": "class|\"read\"",
+      "level": "class",
+      "median": 192.91596649418352,
+      "n": 6038,
+      "p90": 239.43499800225254,
+      "prediction": 192.91596649418352
+    },
+    {
+      "distinct_instances": 484,
+      "key": "class|\"search\"",
+      "level": "class",
+      "median": 120.53191249833617,
+      "n": 3166,
+      "p90": 163.36151500581764,
+      "prediction": 120.53191249833617
+    },
+    {
+      "distinct_instances": 527,
+      "key": "class|\"shell\"",
+      "level": "class",
+      "median": 645.2978360175621,
+      "n": 5171,
+      "p90": 1665.2398820006056,
+      "prediction": 645.2978360175621
+    },
+    {
+      "distinct_instances": 318,
+      "key": "class|\"test\"",
+      "level": "class",
+      "median": 361.9622369951685,
+      "n": 1401,
+      "p90": 2616.848944002413,
+      "prediction": 361.9622369951685
+    },
+    {
+      "distinct_instances": 545,
+      "key": "class|\"traversal\"",
+      "level": "class",
+      "median": 214.8665290005738,
+      "n": 3174,
+      "p90": 3871.3453499985917,
+      "prediction": 214.8665290005738
+    },
+    {
+      "distinct_instances": 518,
+      "key": "class|\"write\"",
+      "level": "class",
+      "median": 209.73786300419306,
+      "n": 2786,
+      "p90": 268.0176780122565,
+      "prediction": 209.73786300419306
+    },
+    {
+      "distinct_instances": 545,
+      "key": "global|\"all\"",
+      "level": "global",
+      "median": 206.70042700658087,
+      "n": 23245,
+      "p90": 1002.0040599993081,
+      "prediction": 206.70042700658087
+    }
+  ],
+  "hardware_transfer": {
+    "protocol": "retain descriptors and require paired destination-hardware measurements; infer no CPU-frequency/core/bandwidth scaling law",
+    "status": "unvalidated"
+  },
+  "min_events": 25,
+  "min_instances": 3,
+  "production_adoption": "not_authorized",
+  "schema_version": "assignment.offline-cpu-event-predictor.v1",
+  "target_contract": {
+    "cpu_sum": "sum of predicted/observed historical tool-event durations over the retained event list",
+    "target": "historical tool-event wall duration observed_ms",
+    "units": "milliseconds"
+  },
+  "training_event_count": 23245,
+  "training_instance_count": 545
+}

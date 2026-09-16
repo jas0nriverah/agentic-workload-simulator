@@ -1,0 +1,30 @@
+{
+  "feature_parity": {
+    "rows": 23245,
+    "class_mismatches": 0,
+    "feature_mismatches": 0
+  },
+  "examples": [],
+  "prediction_smoke": [
+    {
+      "target": "historical_cpu_tool_wall",
+      "predicted_ms": 141.44744850273128,
+      "status": "offline_candidate_only",
+      "hardware_transfer": "unvalidated; unchanged-coefficient control only"
+    },
+    {
+      "target": "historical_gpu_request_proxy_wall",
+      "predicted_ms": 616.0555395,
+      "status": "offline_candidate_only",
+      "hardware_transfer": "unvalidated; unchanged-coefficient control only"
+    },
+    {
+      "target": "historical_start_known_e2e",
+      "predicted_ms": 124746.435591,
+      "status": "offline_candidate_only",
+      "hardware_transfer": "unvalidated; unchanged-coefficient control only"
+    }
+  ],
+  "forbidden_or_unsupported_requests_rejected": 16,
+  "api_sha256": "883539693608bc318ea0223af6c02f9dffbd38e529f8ace9c414acfe384d2487"
+}

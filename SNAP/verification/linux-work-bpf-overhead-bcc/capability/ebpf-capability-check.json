@@ -1,0 +1,49 @@
+{
+  "available_tools": {
+    "bpftool": "v7.4.0 using libbpf v1.4",
+    "gcc": "11.4.0",
+    "make": "4.3",
+    "perf": "/usr/bin/perf",
+    "strace": "/usr/bin/strace"
+  },
+  "checked_at_utc": "2026-09-08",
+  "feasibility": "kernel_and_privileged_runtime_ready_but_no_local_bpf_compiler_or_bcc_loader",
+  "implementation_status": "no_ebpf_backend_added_pending_root_architecture_review",
+  "kernel": "6.8.0-1066-gcp",
+  "kernel_features": {
+    "bpf_jit": "enabled",
+    "bpf_syscall": "available to privileged users; unprivileged disabled by unprivileged_bpf_disabled=2",
+    "bpffs": "/sys/fs/bpf mounted",
+    "btf": "/sys/kernel/btf/vmlinux readable, 6257403 bytes",
+    "cgroup2": "mounted at /sys/fs/cgroup",
+    "matching_kernel_headers": "/usr/src/linux-headers-6.8.0-1066-gcp present",
+    "perf_event_programs": "available",
+    "raw_tracepoint_programs": "available",
+    "ringbuf_maps": "available",
+    "task_storage_maps": "available",
+    "tracefs": "/sys/kernel/tracing mounted; syscall and sched process tracepoints visible as root",
+    "tracepoint_programs": "available",
+    "tracing_programs": "available"
+  },
+  "missing_tools": [
+    "bpftrace",
+    "bcc-tools",
+    "python3-bcc",
+    "clang",
+    "llvm",
+    "pahole",
+    "bpf-linker"
+  ],
+  "privilege": {
+    "perf_event_paranoid": 4,
+    "root_caps": [
+      "CAP_BPF",
+      "CAP_PERFMON",
+      "CAP_SYS_ADMIN",
+      "CAP_SYS_PTRACE"
+    ],
+    "sudo_noninteractive": true,
+    "sudo_policy": "NOPASSWD: ALL"
+  },
+  "schema_version": "assignment.linux-work-ebpf-capability.v1"
+}

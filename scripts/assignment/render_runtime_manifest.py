@@ -22,11 +22,18 @@ from typing import Any, Sequence
 
 
 ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(ROOT / "src"))
+from agentic_sim.telemetry.cpu_policy import WORKER_CPUS, policy_config  # noqa: E402
+
 TEMPLATE_DEFAULT = ROOT / "configs/assignment_runtime_manifest.example.json"
 SCHEMA = "assignment-runtime-manifest.v1"
 ZERO_COMMIT = "0" * 40
 COMMIT_LENGTH = 40
 DATASET_HASHES = {
+    "lite": "7f54792b83bf491c0a905770a00ce7fa28836552d37c7ea0e9e2bae4c53f33fb",
+    "verified": "52ccbc6ec0e03085f95191b261e0ed881cd6a0752a3c5247c1aba258ec2993da",
+}
+DATASET_SOURCE_PARQUET_HASHES = {
     "lite": "f46f2e3f003f2552932393da4b223e1e0456a2c71eba8b73ae58f29646c1278b",
     "verified": "43ed5a3d1d98da36472c1ade65ddd2085d7b4ff694fcaf6a023a07c5c1f32f21",
 }
@@ -120,6 +127,8 @@ def _validate_template(template: dict[str, Any]) -> None:
         _fail(isinstance(dataset, dict), f"template dataset {suite} is missing")
         _fail(dataset.get("revision") == DATASET_REVISIONS[suite], f"template dataset {suite} revision is incorrect")
         _fail(dataset.get("sha256") == DATASET_HASHES[suite], f"template dataset {suite} SHA-256 is incorrect")
+        _fail(dataset.get("source_parquet_sha256") == DATASET_SOURCE_PARQUET_HASHES[suite],
+              f"template dataset {suite} source Parquet SHA-256 is incorrect")
 
 
 def _path(root: Path, *parts: str) -> str:
@@ -134,7 +143,7 @@ def _file_sha256(path: Path, label: str) -> str:
         raise RenderError(f"cannot hash {label} {path}: {exc}") from exc
 
 
-def render(template: dict[str, Any], *, repo: Path, work_root: Path, hardware: str, evaluator_python: Path, state: dict[str, str]) -> dict[str, Any]:
+def render(template: dict[str, Any], *, repo: Path, work_root: Path, hardware: str, evaluator_python: Path, state: dict[str, str], remote_hardware_profile: Path | None = None, cpu_worker_id: str | None = None) -> dict[str, Any]:
     _validate_template(template)
     profile = HARDWARE[hardware]
     value = json.loads(json.dumps(template))
@@ -173,6 +182,7 @@ def render(template: dict[str, Any], *, repo: Path, work_root: Path, hardware: s
     for suite in ("lite", "verified"):
         value["datasets"][suite]["revision"] = DATASET_REVISIONS[suite]
         value["datasets"][suite]["sha256"] = DATASET_HASHES[suite]
+        value["datasets"][suite]["source_parquet_sha256"] = DATASET_SOURCE_PARQUET_HASHES[suite]
         value["datasets"][suite]["instances_path"] = _path(work_root, "datasets", f"SWE-bench_{'Lite' if suite == 'lite' else 'Verified'}.jsonl")
 
     value["runner"] = {
@@ -182,11 +192,50 @@ def render(template: dict[str, Any], *, repo: Path, work_root: Path, hardware: s
         "request_config_path": str((repo / "cloud/lambda/sweagent_request.yaml").resolve()),
         "working_directory": _path(work_root, "repos", "SWE-agent"),
         "extra_args": [],
+        "telemetry": value.get("runner", {}).get("telemetry"),
     }
+    tool_runtime = template.get("runner", {}).get("tool_runtime")
+    if tool_runtime is not None:
+        # A configured isolated tool bundle must never be silently replaced
+        # with the upstream default's task-Python-dependent installation.
+        from agentic_sim.runners.tool_runtime import validate_tool_runtime_bundle
+
+        _fail(isinstance(tool_runtime, dict) and set(tool_runtime) == {"manifest_path", "manifest_sha256", "config_sha256"},
+              "template tool_runtime reference is malformed")
+        tool_config = Path(template["runner"]["config_path"])
+        tool_manifest = Path(tool_runtime["manifest_path"])
+        _fail(tool_config.is_absolute() and tool_manifest.is_absolute(),
+              "isolated tool runtime configuration and manifest must be absolute")
+        _fail(_file_sha256(tool_config, "isolated tool runtime config") == tool_runtime["config_sha256"],
+              "isolated tool runtime config SHA-256 mismatch")
+        validate_tool_runtime_bundle(
+            tool_manifest, tool_runtime["manifest_sha256"], expected_config_path=tool_config,
+            expected_swe_agent_revision=value["pins"]["swe_agent_revision"],
+        )
+        value["runner"]["config_path"] = str(tool_config)
+        value["runner"]["tool_runtime"] = dict(tool_runtime)
+    telemetry = value["runner"]["telemetry"]
+    if cpu_worker_id is None:
+        _fail("cpu_policy" not in template.get("runner", {}),
+              "template CPU policy requires explicit --cpu-worker-id; refusing to drop placement")
+    else:
+        value["runner"]["cpu_policy"] = policy_config(
+            cpu_worker_id, repo / "src/agentic_sim/telemetry/cpu_policy.py",
+        )
+    if remote_hardware_profile is not None:
+        profile_path = remote_hardware_profile.expanduser().resolve()
+        profile_digest = _file_sha256(profile_path, "remote hardware profile")
+        _fail(isinstance(telemetry, dict), "template runner.telemetry is missing")
+        telemetry["remote_hardware_profile"] = {
+            "path": str(profile_path),
+            "sha256": profile_digest,
+        }
     evaluator_script = str(evaluator_adapter)
     value["evaluator"] = {
         "command": [
             str(evaluator_python), evaluator_script,
+            "--evaluator-project", _path(work_root, "repos", "SWE-bench"),
+            "--evaluator-revision", value["pins"]["swe_bench_revision"],
             "--dataset", "{dataset_path}",
             "--predictions", "{predictions_path}",
             "--instance-id", "{instance_id}",
@@ -245,6 +294,13 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--hardware", choices=sorted(HARDWARE), required=True)
     parser.add_argument("--expected-branch", help="optional branch name to require")
     parser.add_argument("--evaluator-python", type=Path, help="evaluator interpreter; defaults to WORK_ROOT/venv/bin/python")
+    parser.add_argument("--cpu-worker-id", choices=sorted(WORKER_CPUS),
+                        help="bind the reviewed Sep 9 CPU placement (required for confirmation)")
+    parser.add_argument(
+        "--remote-hardware-profile",
+        type=Path,
+        help="sealed remote hardware descriptor; when supplied its path and SHA-256 are bound into runner.telemetry",
+    )
     parser.add_argument("--template", type=Path, default=TEMPLATE_DEFAULT)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--validation-only", action="store_true", help="print the rendered manifest without writing files")
@@ -259,9 +315,18 @@ def main(argv: list[str] | None = None) -> int:
         work_root = _absolute_directory(str(args.work_root), "--work-root")
         template_path = Path(args.template).expanduser().resolve()
         output = Path(args.output).expanduser().resolve()
-        evaluator_python = _absolute_directory(str(args.evaluator_python), "--evaluator-python") if args.evaluator_python else work_root / "venv/bin/python"
+        if args.evaluator_python:
+            interpreter = args.evaluator_python.expanduser()
+            # Resolve directory aliases while preserving the venv's executable
+            # symlink. Resolving bin/python itself selects the base interpreter
+            # and silently loses that environment's evaluator dependencies.
+            _fail(interpreter.is_absolute() and "\x00" not in str(interpreter),
+                  "--evaluator-python must be an absolute path without NUL")
+            evaluator_python = interpreter.parent.resolve() / interpreter.name
+        else:
+            evaluator_python = work_root / "venv/bin/python"
         state = git_state(repo, args.expected_branch)
-        rendered = render(_read_json(template_path, "runtime manifest template"), repo=repo, work_root=work_root, hardware=args.hardware, evaluator_python=evaluator_python, state=state)
+        rendered = render(_read_json(template_path, "runtime manifest template"), repo=repo, work_root=work_root, hardware=args.hardware, evaluator_python=evaluator_python, state=state, remote_hardware_profile=args.remote_hardware_profile, cpu_worker_id=args.cpu_worker_id)
         payload = _canonical_bytes(rendered)
         if args.validation_only:
             sys.stdout.buffer.write(payload)

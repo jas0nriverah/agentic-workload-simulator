@@ -1,0 +1,7 @@
+component,count,wall_s,definition
+semantic_agent_actions,40,18.491612,terminal semantic agent tool events only
+auxiliary_runtime_commands,60,14.142780,terminal runtime commands only
+tool_execution_union,40 semantic + 60 auxiliary,32.634391,merged-clock phase union; do not add to overlapping lifecycle phase unions
+native_prefill_service,40,3.407418,sum per-request native service phase
+native_decode_service,40,74.575329,sum per-request native service phase
+native_e2e_service,40,78.120326,sum per-request native service E2E; no GPU kernel attribution

@@ -1,0 +1,412 @@
+{
+  "schema_version": "assignment.d9-next-samples.v1",
+  "created_utc": "2026-09-10",
+  "purpose": "Smallest useful follow-up for D9: improve the same-H100 calibration where the repaired native and CPU evidence is weak, while keeping a label-blind validation path and treating cross-hardware transfer as a separate experiment.",
+  "scope": {
+    "deliverable": "D9",
+    "no_runs_launched": true,
+    "no_raw_binaries_opened": true,
+    "no_protected_labels_read": true,
+    "policy": "This is a metadata-only acquisition plan. It does not alter the frozen split, queue, archives, accepted ledgers, or model artifacts."
+  },
+  "source_provenance": [
+    {
+      "path": "docs/d9-salvage-20260910/evidence/accepted_case_inventory.json",
+      "sha256": "721eea55661503ccb5b7b59e1f8195d812b0810a2cbdc5ab5d2f61ac994dcab9",
+      "used_for": "accepted train counts, current train instance IDs, source-validity contract"
+    },
+    {
+      "path": "docs/d9-salvage-20260910/evidence/native_phase_dataset.jsonl",
+      "sha256": "f54ebb7b387bb212475295e2e3dc171c169fc52c8c73624fba9b9661b50d41e0",
+      "used_for": "native request/phase coverage and current same-domain error locations"
+    },
+    {
+      "path": "docs/d9-salvage-20260910/native/report.json",
+      "sha256": "e572bd74d340fd64e0d4ef7f583a67624501825e93c1dff1ba1ff7921920ca7d",
+      "used_for": "candidate contracts and grouped-fold metrics"
+    },
+    {
+      "path": "docs/d9-salvage-20260910/cpu_lifecycle/calibration/calibration_report.json",
+      "sha256": "f0e41226ddcb14ce00b976fdffdf751d504691d6ccbbb33fa4c9c301266ba78d",
+      "used_for": "CPU support and weak lifecycle/action strata"
+    },
+    {
+      "path": "docs/d9-salvage-20260910/e2e/repository_diagnostics.json",
+      "sha256": "38190e589d765244b792e96cd29d4ef1277698e6b738c7254bfc557c24525a91",
+      "used_for": "historical repository weakness"
+    },
+    {
+      "path": "docs/retained-analysis-20260909/d9/report.md",
+      "sha256": "31a720212298b733fad89ec32f782e53981c39721cd5776eac6f0aff48ffd802",
+      "used_for": "historical Python/test action error diagnosis"
+    },
+    {
+      "path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260908T140000Z-offline-v2/live-plan/production_split_manifest.v2.json",
+      "sha256": "0b0c37147b45ec824e2af45d82ba20b3ed57ac56b64f58ea07004e0c13bcc99f",
+      "used_for": "metadata-only partition membership and protected-boundary checks"
+    }
+  ],
+  "current_evidence": {
+    "accepted_train_cases": 49,
+    "accepted_train_instances": 25,
+    "accepted_train_repeated_controls": [
+      {
+        "instance_id": "astropy__astropy-6938",
+        "accepted_traces": 13,
+        "native_requests": 472,
+        "role": "existing high-repeat Astropy control; no new trace is required for minimum repeat support"
+      },
+      {
+        "instance_id": "django__django-11815",
+        "accepted_traces": 13,
+        "native_requests": 501,
+        "role": "existing high-repeat Django control; no new trace is required for minimum repeat support"
+      }
+    ],
+    "native": {
+      "rows": 8320,
+      "requests": 2080,
+      "phases": ["queue", "prefill", "decode", "e2e"],
+      "physical_join": "exact physical_request_id",
+      "hardware_domains": 1,
+      "hardware_domain": "stable_gpu_inventory_v1:6eaded0f88a4d31c620e1a18d9ceb9ea6c6d1185781da0ba0d5f7ad352d11ad9",
+      "base_scaled_token_e2e": {
+        "within25_count": 1973,
+        "within25_total": 2080,
+        "within25_rate": 0.9485576923,
+        "p95_ape_pct": 25.516,
+        "worst_ape_pct": 96.685,
+        "all_requests_passed_cases": 7,
+        "all_cases": 49
+      },
+      "cache_conditional_e2e": {
+        "within25_count": 2027,
+        "within25_total": 2080,
+        "within25_rate": 0.9745192308,
+        "p95_ape_pct": 15.153,
+        "worst_ape_pct": 96.768,
+        "all_requests_passed_cases": 19,
+        "all_cases": 49,
+        "contract": "conditional on a realized cache trace; not a prospective cache-state claim"
+      },
+      "weak_phase_diagnostics": {
+        "base_scaled_token_queue_within25": 0.396635,
+        "base_scaled_token_prefill_within25": 0.355769,
+        "base_scaled_token_decode_within25": 0.988942,
+        "cache_conditional_prefill_within25": 0.837019,
+        "interpretation": "The remaining same-domain problem is queue/prefill tail and warm/setup variation, not token decode proportionality."
+      }
+    },
+    "cpu": {
+      "eligible_cases": 43,
+      "independent_instances": 22,
+      "hardware_domain": "hardware_fingerprint:static_local_cpu_inventory_v1:d84db556d4a61ce6296cb380c45e9fab59f5fd8d8d712d9df30079cbd13e1fc9",
+      "weak_paths": [
+        {
+          "path": "semantic_action",
+          "events": 1780,
+          "within25_count": 953,
+          "within25_rate": 0.535393
+        },
+        {
+          "path": "runtime_command",
+          "events": 2730,
+          "within25_count": 2155,
+          "within25_rate": 0.789377
+        },
+        {
+          "path": "client_processing",
+          "events": 7128,
+          "within25_count": 1685,
+          "within25_rate": 0.236392
+        },
+        {
+          "path": "startup",
+          "events": 43,
+          "within25_count": 18,
+          "within25_rate": 0.418605
+        }
+      ],
+      "action_strata_that_need_work_descriptors": [
+        "python shell",
+        "python test",
+        "find traversal",
+        "find-exec traversal"
+      ],
+      "interpretation": "The current CPU fit has event-class medians and support-aware backoff. Command/module/scope/work-size descriptors are not proven inputs in the current calibration contract; this plan treats them as unsupported unless the standard producer already emits them."
+    },
+    "historical_e2e": {
+      "matplotlib": {
+        "runs": 66,
+        "within25_count": 32,
+        "within25_rate": 0.484848,
+        "role": "repository coverage gap"
+      },
+      "pydata": {
+        "runs": 29,
+        "within25_count": 17,
+        "within25_rate": 0.586207,
+        "role": "repository coverage gap; pydata__xarray IDs below"
+      },
+      "new_accepted_cohort": "Astropy and Django only; it cannot establish native transfer to matplotlib or xarray."
+    }
+  },
+  "instance_roster": {
+    "current_train_instance_ids": [
+      "astropy__astropy-14182",
+      "astropy__astropy-14995",
+      "astropy__astropy-6938",
+      "astropy__astropy-7746",
+      "django__django-10914",
+      "django__django-10924",
+      "django__django-11001",
+      "django__django-11039",
+      "django__django-11049",
+      "django__django-11099",
+      "django__django-11133",
+      "django__django-11179",
+      "django__django-11283",
+      "django__django-11422",
+      "django__django-11564",
+      "django__django-11583",
+      "django__django-11620",
+      "django__django-11630",
+      "django__django-11742",
+      "django__django-11797",
+      "django__django-11815",
+      "django__django-11910",
+      "django__django-11964",
+      "django__django-11999",
+      "django__django-12113"
+    ],
+    "targeted_train_ids": [
+      {
+        "instance_id": "django__django-11964",
+        "partition": "train_calibration",
+        "current_traces": 1,
+        "current_native_requests": 92,
+        "role": "adaptive same-H100 native-tail calibration (not validation)",
+        "selection_basis": "Current cache-aware native e2e has a severe long-prefill/e2e tail; retain the start-known ordinal and cache descriptors."
+      },
+      {
+        "instance_id": "django__django-11742",
+        "partition": "train_calibration",
+        "current_traces": 1,
+        "current_native_requests": 57,
+        "role": "adaptive same-H100 native-tail calibration (not validation)",
+        "selection_basis": "Lowest current per-instance cache-aware native e2e coverage in the accepted cohort."
+      },
+      {
+        "instance_id": "matplotlib__matplotlib-20488",
+        "partition": "train_calibration",
+        "current_traces": 0,
+        "current_native_requests": 0,
+        "role": "adaptive same-H100 repository calibration (not validation)",
+        "selection_basis": "Pinned train metadata; historical conditional e2e was 0/1 within25 at about 26.9% APE."
+      },
+      {
+        "instance_id": "pydata__xarray-7233",
+        "partition": "train_calibration",
+        "current_traces": 0,
+        "current_native_requests": 0,
+        "role": "adaptive same-H100 repository calibration (not validation)",
+        "selection_basis": "Pinned train metadata; historical conditional e2e was 0/1 within25 at about 29.7% APE."
+      }
+    ],
+    "metadata_only_fallback_ids": [
+      "django__django-11422",
+      "astropy__astropy-14182",
+      "matplotlib__matplotlib-24334",
+      "pydata__xarray-6744"
+    ],
+    "fallback_rule": "Use a fallback only when a selected standard case does not naturally contain the predeclared mechanism stratum. Select by metadata and the frozen train partition; do not alter prompts or construct an instance-specific case."
+  },
+  "sample_plan": {
+    "fit_existing_now": {
+      "new_traces": 0,
+      "partition": "train_calibration",
+      "action": "Freeze the corrected same-H100 native candidate comparison and the supported CPU calibration using the existing accepted train evidence. Keep the cache model explicitly conditional and do not promote completion tokens or observed cache state to prospective inputs.",
+      "reason": "The scaled native model already gives 94.8558% request-level e2e coverage within25 and the cache-conditional candidate gives 97.452%; broad recollection is not justified by the remaining queue/prefill tails."
+    },
+    "same_h100_calibration_expansion": {
+      "partition": "train_calibration",
+      "hardware_requirement": "Exact existing stable H100 hardware domain, with static inventory/driver profile captured once per trace; host or boot identity alone is not a new domain.",
+      "instances": [
+        "django__django-11964",
+        "django__django-11742",
+        "matplotlib__matplotlib-20488",
+        "pydata__xarray-7233"
+      ],
+      "minimum_repetitions_per_instance": 2,
+      "preferred_repetitions_per_instance": 3,
+      "minimum_new_traces": 8,
+      "maximum_new_traces": 12,
+      "staged_budget": [
+        {
+          "stage": 1,
+          "traces": 8,
+          "allocation": "2 complete traces per targeted instance",
+          "purpose": "Smallest useful addition: two native tail replications plus two new repository cohorts, while existing Astropy-6938 and Django-11815 repeats remain controls."
+        },
+        {
+          "stage": 2,
+          "traces": 4,
+          "allocation": "one additional trace per targeted instance only if a requested CPU/native stratum still has fewer than three independent complete traces or the stage-1 grouped diagnostic cannot be computed",
+          "purpose": "Reach three observations per targeted instance without opening a broad 1088-case rerun."
+        }
+      ],
+      "fit_use": "May be added to train calibration after source validation; no final or confirmation case may be used.",
+      "descriptor_status": {
+        "proven_current_model_inputs": [
+          "prompt_tokens",
+          "completion_tokens"
+        ],
+        "conditionally_supported_current_input": "cached_tokens, only for the explicitly conditional cache candidate",
+        "retained_for_provenance_but_not_a_current_model_input": [
+          "max_output_tokens"
+        ],
+        "not_proven_and_not_required_for_this_plan": [
+          "start_known_request_ordinal",
+          "start_known_warm_or_cold_stratum",
+          "admission/concurrency bucket",
+          "python executable/module or script identity",
+          "test runner/module/scope/mode",
+          "find root/count estimate and find-exec command shape",
+          "declared CPU input/work-unit count"
+        ]
+      },
+      "descriptor_rule": "Do not require a new collector field in this bounded plan. If the standard producer already emits a listed descriptor, inventory it before fitting and keep it pre-event; otherwise leave that feature unsupported and use the existing support-aware backoff. Never use observed latency, residual, completion outcome, or post-event status as a feature. Do not synthesize an operation solely to rescue one case; use the standard workload and replace a candidate only through the metadata-only fallback rule."
+    },
+    "untouched_validation": {
+      "partition": "final_evaluation",
+      "existing_metadata_only_instances": [
+        "django__django-11019",
+        "django__django-11848",
+        "django__django-11905",
+        "django__django-12125"
+      ],
+      "existing_accepted_cases": 4,
+      "new_traces_required_now": 0,
+      "role": "Blind score after the train fit and any same-H100 calibration expansion are frozen.",
+      "rules": [
+        "Do not read outcomes, labels, validation payloads, or native timings from these cases while selecting features, instances, or candidates.",
+        "Do not use the four cases to tune a coefficient, choose a fallback, or decide whether to collect another trace.",
+        "Report per-request and per-case coverage, including missing cells; an aggregate pass alone is insufficient.",
+        "If a future rerun is authorized, bind it to final_evaluation and keep every resulting label withheld until the one-time score."
+      ]
+    },
+    "cross_hardware_transfer_pilot": {
+      "hardware_requirement": "A second verified static GPU domain while keeping the workload CPU host/configuration unchanged where operationally possible. A different host/boot/UUID with the same stable inventory digest is not sufficient; record GPU model, memory, compute capability, driver/runtime, and a stable inventory digest.",
+      "availability": "Unknown. No second static GPU domain is present in the current repaired native evidence.",
+      "paired_hardware_calibration": {
+        "partition": "train_calibration",
+        "instances": [
+          "django__django-11964",
+          "django__django-11742",
+          "matplotlib__matplotlib-20488",
+          "pydata__xarray-7233"
+        ],
+        "repetitions_per_instance": 2,
+        "new_trace_budget": 8,
+        "role": "Paired hardware sensitivity diagnostic on workloads already used for adaptive calibration.",
+        "claim_boundary": "These traces are not untouched-instance validation. They can show a hardware shift on seen workloads, but cannot support repository or instance generalization. Do not mix them into the same-H100 fit before the paired comparison."
+      },
+      "untouched_hardware_transfer_evaluation": {
+        "partition": "final_evaluation",
+        "instances": [
+          "django__django-11019",
+          "django__django-11848",
+          "django__django-11905",
+          "django__django-12125"
+        ],
+        "minimum_repetitions_per_instance": 1,
+        "preferred_repetitions_per_instance": 2,
+        "minimum_new_trace_budget": 4,
+        "maximum_new_trace_budget": 8,
+        "role": "Frozen transfer evaluation on protected instances after same-H100 coefficients and any paired hardware diagnostic are frozen.",
+        "label_policy": "Keep all final outcomes and native timings withheld until the one-time score. These traces never enter fitting, fallback selection, or stopping decisions.",
+        "claim_boundary": "Only this protected stage can support an untouched-instance cross-hardware statement. Four one-repeat traces are a pilot; a stronger claim requires the preferred eight and still remains limited to the listed final IDs."
+      },
+      "total_cross_hardware_budget": {
+        "minimum": 12,
+        "maximum": 16
+      },
+      "interpretation_if_unavailable": "Leave cross-hardware transfer unsupported. Do not substitute CPU, a second boot on the same H100 profile, or a protected case on the current hardware. A second GPU domain tests GPU transfer only when the workload CPU host/configuration is unchanged; CPU hardware scaling remains unvalidated and must not be conflated with the remote server CPU or workload CPU."
+    }
+  },
+  "run_budget": {
+    "required_new_runs": 0,
+    "recommended_same_h100_cap": 12,
+    "conditional_cross_hardware_cap": 16,
+    "absolute_new_run_cap_if_acquisition_is_authorized": 28,
+    "broad_rerun": "prohibited",
+    "per_trace_acceptance": [
+      "Pinned train instance and case binding is recorded before execution.",
+      "CPU loss counters and bounded source ranges are zero-loss and source-valid.",
+      "Native queue/prefill/decode/e2e rows join one-to-one to physical_request_id with finite measured targets.",
+      "Prompt/completion/cache fields are complete where the candidate contract requires them; no new descriptor field is assumed by this plan.",
+      "Hardware profile is immutable for the trace and assigned to an explicit domain.",
+      "Incomplete or defective traces do not count toward the budget and trigger collector repair before rerun."
+    ],
+    "stopping_rules": [
+      "Stop immediately at the stage-1 same-H100 minimum when all four selected instances have two complete traces and each targeted native/CPU stratum has usable support; do not spend stage 2 to chase an individual outlier.",
+      "Run stage 2 only when support for a declared stratum is below three complete observations or the grouped-fold comparison is undefined. Stop at 12 same-H100 traces regardless of the result.",
+      "Stop same-H100 acquisition if the corrected model's grouped out-of-fold result changes by less than 2 percentage points after stage 1 and no descriptor coverage gap remains; report the remaining tail as unresolved rather than adding cases.",
+      "Stop paired hardware calibration at 8 valid traces and score the protected hardware-transfer stage only after the same-H100 fit is frozen; stop that protected stage at 4 pilot traces or 8 preferred traces. Hardware unavailability is a documented limitation, not a reason to relabel same-H100 data.",
+      "Never unlock final_evaluation, confirmation_development_excluded, or sealed_holdout to decide whether another training trace is needed."
+    ]
+  },
+  "protected_partitions": {
+    "split_manifest_sha256": "0b0c37147b45ec824e2af45d82ba20b3ed57ac56b64f58ea07004e0c13bcc99f",
+    "train_calibration": {
+      "clusters": 546,
+      "cases": 820,
+      "allowed_use": "fit and calibration only"
+    },
+    "final_evaluation": {
+      "clusters": 136,
+      "cases": 223,
+      "allowed_use": "label-blind final score only"
+    },
+    "confirmation_development_excluded": {
+      "clusters": 24,
+      "cases": 43,
+      "allowed_use": "excluded from fit and validation selection"
+    },
+    "sealed_holdout": {
+      "clusters": 1,
+      "cases": 2,
+      "instance_id": "sympy__sympy-12481",
+      "allowed_use": "remain sealed"
+    },
+    "partition_rule": "Do not recompute assignment, open protected labels, or move any case between partitions."
+  },
+  "missing_evidence_and_resolution": [
+    {
+      "gap": "Cross-hardware GPU binding",
+      "current_status": "unresolved; one stable H100 GPU domain only",
+      "resolution": "The separate 12-trace pilot requires a different static inventory digest and complete driver/runtime metadata. If unavailable, retain the limitation."
+    },
+    {
+      "gap": "Native queue/prefill tail and warm/setup stratum",
+      "current_status": "same-H100 queue and prefill remain weak despite strong decode fit",
+      "resolution": "The current candidate contract supports prompt/completion tokens and an explicitly conditional cache trace. Start-known ordinal, warm/cold state, and admission/concurrency are not proven model inputs here; leave them unsupported unless already present in standard metadata. Do not change the collector or use measured latency/residual to assign a stratum."
+    },
+    {
+      "gap": "CPU Python/test/find-exec work variation",
+      "current_status": "semantic-action and lifecycle paths use coarse medians; historical Python/test errors are large",
+      "resolution": "Executable/module/runner/scope/mode and declared work-unit counts are not proven current inputs. Do not require new fields in this pass; use them only if the standard producer already emits them, otherwise report the action strata as unsupported and retain support-aware backoff."
+    },
+    {
+      "gap": "Repository coverage in the repaired native cohort",
+      "current_status": "accepted native cohort contains Astropy and Django only",
+      "resolution": "Use the two pinned train matplotlib/xarray IDs above for stage-1 same-H100 calibration; this is still training evidence, not protected validation."
+    },
+    {
+      "gap": "Raw CPU source proof for every future trace",
+      "current_status": "current inventory uses bounded manifests and a representative raw proof",
+      "resolution": "Require a bounded loss-free source manifest and one representative full reconstruction per newly introduced source/hardware layout; do not indiscriminately expand binary streams."
+    }
+  ],
+  "decision": "The current D9 pass can be fitted now on the 49 accepted train cases. If additional acquisition is justified, the 8-trace stage-1 same-H100 sample is the smallest useful adaptive calibration expansion; 12 is the ceiling and it is not validation. A distinct-hardware claim needs 8 paired train traces plus at least 4 protected final traces on a verified second domain; it remains unsupported while hardware availability is unknown."
+}

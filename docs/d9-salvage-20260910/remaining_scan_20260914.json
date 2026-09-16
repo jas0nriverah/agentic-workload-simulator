@@ -1,0 +1,61 @@
+{
+  "results": {
+    "lifecycle:client_processing": {
+      "domain": "hardware_fingerprint:static_local_cpu_inventory_v1:d84db556d4a61ce6296cb380c45e9fab59f5fd8d8d712d9df30079cbd13e1fc9",
+      "boundary": "client_processing",
+      "features": {
+        "{\"preceding_lifecycle_kind\": \"client_processing\"}": 5050,
+        "{\"preceding_lifecycle_kind\": \"get_state\"}": 1780,
+        "{\"preceding_lifecycle_kind\": \"failure\"}": 255,
+        "{\"preceding_lifecycle_kind\": \"setup\"}": 43
+      },
+      "baseline": {
+        "events": 7128,
+        "within25": 0.23639169472502805,
+        "worst_error_pct": 372.3661257319591,
+        "equal_instance_within25": 0.24870445037177075,
+        "all_events_pass_instances": 0,
+        "instances": 22
+      },
+      "descriptor": {
+        "events": 7128,
+        "within25": 0.2595398428731762,
+        "worst_error_pct": 338.390294920997,
+        "equal_instance_within25": 0.27680072585843857,
+        "all_events_pass_instances": 0,
+        "instances": 22
+      }
+    },
+    "runtime_command": {
+      "domain": "hardware_fingerprint:static_local_cpu_inventory_v1:d84db556d4a61ce6296cb380c45e9fab59f5fd8d8d712d9df30079cbd13e1fc9",
+      "boundary": "tool_execution",
+      "features": {
+        "{\"class\": \"shell\", \"executable\": \"pwd\", \"operation\": \"shell\"}": 348,
+        "{\"class\": \"shell\", \"executable\": \"_state_anthropic\", \"operation\": \"shell\"}": 1823,
+        "{\"class\": \"shell\", \"executable\": \"unknown\", \"operation\": \"unknown\"}": 129,
+        "{\"class\": \"shell\", \"executable\": \"export\", \"operation\": \"shell\"}": 344,
+        "{\"class\": \"traversal\", \"executable\": \"ls\", \"operation\": \"traversal\"}": 43,
+        "{\"class\": \"shell\", \"executable\": \"echo\", \"operation\": \"shell\"}": 43
+      },
+      "baseline": {
+        "events": 2730,
+        "within25": 0.7893772893772893,
+        "worst_error_pct": 99.27217391518866,
+        "equal_instance_within25": 0.806256824365186,
+        "all_events_pass_instances": 0,
+        "instances": 22
+      },
+      "descriptor": {
+        "events": 2730,
+        "within25": 0.8776556776556776,
+        "worst_error_pct": 99.29446952689224,
+        "equal_instance_within25": 0.8761536788645039,
+        "all_events_pass_instances": 0,
+        "instances": 22
+      }
+    }
+  },
+  "code_sha256": "fcfb7cf3f6ec9c813091f08684111ef2802690cf0ac63ce9386e9fdf18858b49",
+  "manifest_sha256": "fa3f765bf82f870254204ad1227514d950134f21396eb458a995b35cf52d4ef7",
+  "scope": "fixed grouped training-only descriptor screening; not promoted; no acquisition edits"
+}

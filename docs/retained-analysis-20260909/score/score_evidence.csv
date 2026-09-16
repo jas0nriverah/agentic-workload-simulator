@@ -1,0 +1,48 @@
+dimension,category,n,resolved,resolved_rate,note
+termination,exit_context,63,14,0.2222222222222222,
+termination,exit_cost,511,179,0.350293542074364,
+termination,exit_error,10,0,0.0,
+termination,exit_format,1,1,1.0,
+termination,submitted,62,50,0.8064516129032258,
+patch_primary_class,empty_patch,8,0,0.0,
+patch_primary_class,empty_patch_edit_anthropic_install,3,0,0.0,
+patch_primary_class,evaluator_completed_official_resolved_false,356,0,0.0,
+patch_primary_class,evaluator_completed_official_resolved_true,244,244,1.0,
+patch_primary_class,recovered_proxy_error,36,0,0.0,
+patch_signal,empty_patch,11,0,0.0,nonexclusive heuristic or artifact signal; not a causal label
+patch_signal,missing_model_patch,0,0,,nonexclusive heuristic or artifact signal; not a causal label
+patch_signal,noop_like,76,0,0.0,nonexclusive heuristic or artifact signal; not a causal label
+patch_signal,has_debug_files,522,166,0.31800766283524906,nonexclusive heuristic or artifact signal; not a causal label
+patch_bytes_bin,0,11,0,0.0,
+patch_bytes_bin,1001+,573,193,0.3368237347294939,
+patch_bytes_bin,101-1000,63,51,0.8095238095238095,
+environment_signal,edit_anthropic_install_fail,168,63,0.375,association only; flags can co-occur and do not prove cause
+environment_signal,tree_sitter_fail,3,0,0.0,association only; flags can co-occur and do not prove cause
+environment_signal,python35_or_old_pip,14,6,0.42857142857142855,association only; flags can co-occur and do not prove cause
+environment_signal,function_calling_warning,647,244,0.37712519319938176,association only; flags can co-occur and do not prove cause
+environment_signal,parser_error,647,244,0.37712519319938176,association only; flags can co-occur and do not prove cause
+server_runtime_signal,eval_missing,0,0,,saved evaluator/runtime metadata; no raw server archive mining
+server_runtime_signal,eval_corrupt,0,0,,saved evaluator/runtime metadata; no raw server archive mining
+server_runtime_signal,eval_error_instances,0,0,,saved evaluator/runtime metadata; no raw server archive mining
+server_runtime_signal,proxy_remote_disconnected,15,2,0.13333333333333333,saved evaluator/runtime metadata; no raw server archive mining
+server_runtime_signal,strict_eval_completed,478,181,0.3786610878661088,saved evaluator/runtime metadata; no raw server archive mining
+server_runtime_signal,traj_exists,644,244,0.37888198757763975,saved evaluator/runtime metadata; no raw server archive mining
+observation_prompt_max_bin,0-8191,1,0,0.0,
+observation_prompt_max_bin,8192-16383,46,15,0.32608695652173914,
+observation_prompt_max_bin,16384-32767,598,227,0.3795986622073579,
+observation_prompt_max_bin,32768+,2,2,1.0,
+observation_signal,context_truncation,114,45,0.39473684210526316,termination-associated flag; context exits can still resolve
+observation_signal,baseline_observation_length_100000,647,244,0.37712519319938176,all eligible original baselines; no historical guard intervention
+retry_lineage,repeat_id=r0,647,244,0.37712519319938176,all original rows are r0; retry metadata is fixed
+historical_pair,call_limit=10,18,0,0.0,wins=0;losses=13;baseline_resolved=13;median_delta_ms=-48741.532852000004
+historical_pair,call_limit=20,18,11,0.6111111111111112,wins=0;losses=2;baseline_resolved=13;median_delta_ms=-27286.383594500003
+historical_pair,call_limit=50,18,13,0.7222222222222222,wins=0;losses=0;baseline_resolved=13;median_delta_ms=27208.579748000004
+historical_pair,max_output_tokens=1024,18,12,0.6666666666666666,wins=0;losses=1;baseline_resolved=13;median_delta_ms=-3545.7469039999996
+historical_pair,max_output_tokens=4096,18,11,0.6111111111111112,wins=0;losses=2;baseline_resolved=13;median_delta_ms=6423.302790000002
+historical_pair,max_output_tokens=512,18,8,0.4444444444444444,wins=0;losses=5;baseline_resolved=13;median_delta_ms=-9039.927131500008
+historical_pair,observation_length=10000,18,10,0.5555555555555556,wins=0;losses=3;baseline_resolved=13;median_delta_ms=-8685.251048499995
+historical_pair,observation_length=25000,18,13,0.7222222222222222,wins=0;losses=0;baseline_resolved=13;median_delta_ms=-1346.9203905000104
+historical_pair,observation_length=50000,18,12,0.6666666666666666,wins=0;losses=1;baseline_resolved=13;median_delta_ms=-10590.479026500005
+historical_pair,temperature=0.2,18,12,0.6666666666666666,wins=0;losses=1;baseline_resolved=13;median_delta_ms=-2065.495565999998
+historical_pair,temperature=0.5,18,9,0.5,wins=0;losses=4;baseline_resolved=13;median_delta_ms=-13067.526049500004
+historical_pair,temperature=0.8,18,10,0.5555555555555556,wins=0;losses=3;baseline_resolved=13;median_delta_ms=2048.129105500004

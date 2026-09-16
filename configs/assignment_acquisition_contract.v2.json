@@ -1,0 +1,413 @@
+{
+  "authority_pdf_sha256": "02f485cdd8cca4aae242d2f1a5306184a95d7ee0fae42527d7153f48a3424761",
+  "configuration_confirmation_case_count": 96,
+  "historical_regressions": [
+    {
+      "acquisition_ids": [
+        "A02"
+      ],
+      "corrective_action": "Bind native official outcome to exact task, dataset, patch, report and evaluator run; keep unresolved/error distinct.",
+      "evidence_or_test_locator": "tests/integration/test_official_evaluator.py; tests/assignment/test_sweagent_case_runner.py",
+      "id": "R01",
+      "previous_failure": "Evaluator ingestion/provenance bug",
+      "regression_gate": "Official evaluator resolved/unresolved/error and unrelated-JSON fixtures; exact-provenance/count consistency negatives; real pilot evaluator."
+    },
+    {
+      "acquisition_ids": [
+        "A06",
+        "A08"
+      ],
+      "corrective_action": "Require intended agent activation and actual runtime capture, individual CPU records and external request witnesses; stop on missing essential evidence.",
+      "evidence_or_test_locator": "tests/telemetry/test_v2.py; tests/assignment/test_v2_journal_audit.py; full collector integration tests pending",
+      "id": "R02",
+      "previous_failure": "Incomplete event coverage / silent hook activation",
+      "regression_gate": "Missing activation/raw stream/terminal, dropped records and summary-only negatives; compare actual fixture operations to raw records."
+    },
+    {
+      "acquisition_ids": [
+        "A03"
+      ],
+      "corrective_action": "Measure named lifecycle operations and real interval complements; keep UNKNOWN explicit.",
+      "evidence_or_test_locator": "tests/assignment/test_v2_journal_audit.py; tests/assignment/test_instrumentation_pilot_gate.py",
+      "id": "R03",
+      "previous_failure": "Large unassigned E2E residual",
+      "regression_gate": "Independent raw-journal union/clock audit; >=95% pilot attribution and <=5% unknown; wrappers/unknown cannot count as explanatory coverage."
+    },
+    {
+      "acquisition_ids": [
+        "A08",
+        "A09"
+      ],
+      "corrective_action": "Persist each physical attempt and request body before dispatch; retain errors/partial responses and retry lineage.",
+      "evidence_or_test_locator": "tests/observability/test_request_proxy.py; tests/telemetry/test_v2.py; tests/assignment/test_v2_journal_audit.py",
+      "id": "R04",
+      "previous_failure": "Missing failed/retried model requests",
+      "regression_gate": "503/retry, timeout, disconnect and kill-after-dispatch tests; no reused request IDs or cross-logical retry links."
+    },
+    {
+      "acquisition_ids": [
+        "A06",
+        "A07"
+      ],
+      "corrective_action": "Capture actual executable/module, scope, pipelines, find-exec and test runners plus raw measured operations/work.",
+      "evidence_or_test_locator": "tests/telemetry/test_v2.py; tests/telemetry/test_linux_work.py; production BPF tests pending",
+      "id": "R05",
+      "previous_failure": "CPU coarse classification / invented work",
+      "regression_gate": "Piped/unpiped git, find-exec, runner/scope fixtures; reject unbound/precomputed counts as measured and retain individual records."
+    },
+    {
+      "acquisition_ids": [
+        "A07",
+        "A11"
+      ],
+      "corrective_action": "Read legitimate container pre-state; bind actual cwd/version/hash; invalidate stale/ambiguous compound-action state.",
+      "evidence_or_test_locator": "tests/telemetry/test_v2.py; tests/assignment/test_v2_journal_audit.py",
+      "id": "R06",
+      "previous_failure": "Script-state chronology/leakage",
+      "regression_gate": "Edit then execute, stale invalidation, changed cwd, future timestamp and host-vs-container negatives."
+    },
+    {
+      "acquisition_ids": [
+        "A11"
+      ],
+      "corrective_action": "One feature builder, allowlisted vectors, deterministic serialization and source-bound schema for both paths.",
+      "evidence_or_test_locator": "tests/telemetry/test_v2.py; tests/assignment/test_v2_journal_audit.py",
+      "id": "R07",
+      "previous_failure": "Train/serve feature skew",
+      "regression_gate": "Actual persisted feature reconstruction/parity; reject future state, timing, status/outcome and nonfinite values."
+    },
+    {
+      "acquisition_ids": [
+        "A14"
+      ],
+      "corrective_action": "Freeze actual dirty-source bundle bytes and every runtime pin; bind artifacts to run/attempt; fail on corrupt or missing raw evidence.",
+      "evidence_or_test_locator": "tests/assignment/test_sweagent_case_runner.py; tests/assignment/test_run_matrix.py",
+      "id": "R08",
+      "previous_failure": "Source incoherence / missing raw artifacts",
+      "regression_gate": "Source/hash mismatch, incomplete archive and activation-owner tests; remote reconciliation; scheduler evidence-failure halt."
+    },
+    {
+      "acquisition_ids": [
+        "A05"
+      ],
+      "corrective_action": "Keep corrected derived provenance and exact shared source identity; never add copied coordinates to execution count.",
+      "evidence_or_test_locator": "scripts/validation/verify_offline_submission.py; tests/assignment/test_repair_submission_reports.py",
+      "id": "R09",
+      "previous_failure": "96 copied baselines mislabeled measured",
+      "regression_gate": "Exactly 96 derived coordinates and 288 independent sweeps; source-lineage and observed/predicted labeling checks."
+    },
+    {
+      "acquisition_ids": [
+        "A15"
+      ],
+      "corrective_action": "Reject strace production backend; retain its failure evidence; require detailed low-overhead replacement.",
+      "evidence_or_test_locator": "tests/telemetry/test_linux_work.py; tests/assignment/test_instrumentation_pilot_gate.py; BPF full-mode smoke pending",
+      "id": "R10",
+      "previous_failure": "Strace/collector measurement perturbation",
+      "regression_gate": "Benchmark exact full raw-capture mode on identical work; check losses; no aggregate-only or sampled benchmark substitute."
+    },
+    {
+      "acquisition_ids": [
+        "A14"
+      ],
+      "corrective_action": "634/798 nonholdout cases hit configured 30-call boundary; directly test expanded 50/100-call configurations before choosing.",
+      "evidence_or_test_locator": "configuration-analysis/TERMINATION_LIMITS_AUDIT.json; configuration confirmation live gate",
+      "id": "R11",
+      "previous_failure": "Call-budget termination",
+      "regression_gate": "Fixed 24-instance/four-candidate96-trial inventory; official paired outcomes, terminal reasons and frozen selection record; all production limits logged."
+    },
+    {
+      "acquisition_ids": [
+        "A09",
+        "A14"
+      ],
+      "corrective_action": "81/798 native context exits; separately record client guard and server limit; test 61440 client guard and100-call/25000-observation combination directly.",
+      "evidence_or_test_locator": "configuration-analysis/TERMINATION_LIMITS_AUDIT.json; long-request/configuration live gates",
+      "id": "R12",
+      "previous_failure": "Context-limit termination",
+      "regression_gate": "Long-context usage/token-estimate checks and paired configuration trials; no assumption separately good settings combine."
+    },
+    {
+      "acquisition_ids": [
+        "A14"
+      ],
+      "corrective_action": "Fresh production IDs, attempt isolation, locks, durable incomplete records and hash-validated accepted attempts.",
+      "evidence_or_test_locator": "tests/assignment/test_sweagent_case_runner.py; tests/assignment/test_run_matrix.py",
+      "id": "R13",
+      "previous_failure": "Recovery/resume / duplicate cases",
+      "regression_gate": "Interrupt/resume and duplicate/corrupt completion tests; ordinary unresolved cannot trigger quality retry; complete1088 inventory mandatory."
+    },
+    {
+      "acquisition_ids": [
+        "A15"
+      ],
+      "corrective_action": "Local legacy processes retired with identity proof; repeat remote/local service and restart-source audit before pilot.",
+      "evidence_or_test_locator": "verification/legacy-retirement/; remote noninterference live gate",
+      "id": "R14",
+      "previous_failure": "Legacy monitor/TCP bridge interference",
+      "regression_gate": "Hash-bound process/service inventory proves retired or isolated; no name-only absence inference; recheck before launch."
+    },
+    {
+      "acquisition_ids": [
+        "A11",
+        "A12"
+      ],
+      "corrective_action": "Preserve frozen v3 failure; collect detailed event/work/hardware data, fit on calibration only, evaluate every defined event and E2E.",
+      "evidence_or_test_locator": "tests/assignment/test_d9_individual_acceptance.py; scripts/validation/check_d9_predictions.py; frozen historical model hash",
+      "id": "R15",
+      "previous_failure": "D9 individual-event25% failure",
+      "regression_gate": "Strict gate rejects average-only success, unsupported omission and fitted residual masking; final universal25% outcome remains to be measured."
+    },
+    {
+      "acquisition_ids": [
+        "A10",
+        "A12"
+      ],
+      "corrective_action": "Capture actual hardware/model parameters and sources; expose used terms; distinguish parameterized simulation from transfer validation.",
+      "evidence_or_test_locator": "tests/telemetry/test_v2.py; hardware profile review; cross-hardware validation pending",
+      "id": "R16",
+      "previous_failure": "Unvalidated hardware portability",
+      "regression_gate": "Reject fake thread scaling and physical-byte/BW claims; parameter response tests; small later cross-hardware validation if needed."
+    },
+    {
+      "acquisition_ids": [
+        "A07",
+        "A08",
+        "A14"
+      ],
+      "corrective_action": "Keep three unsupported predictions explicit; accept recovery only with exact attempt/action/bytes/hash/timing evidence.",
+      "evidence_or_test_locator": "tests/assignment/test_generate_d9_predicted_figures.py; scripts/validation/verify_offline_submission.py",
+      "id": "R17",
+      "previous_failure": "Unsupported historical predictions / false recovery",
+      "regression_gate": "Reject different-attempt/count-only action substitution; new raw action/request artifacts mandatory."
+    },
+    {
+      "acquisition_ids": [
+        "A13"
+      ],
+      "corrective_action": "Regenerate from exact source hashes; preserve measured/predicted labels, readable legends/axes and detailed D7/D8 explanation.",
+      "evidence_or_test_locator": "tests/assignment/test_generate_step_figures.py; verification/figure-visual-inspection.json",
+      "id": "R18",
+      "previous_failure": "Stale/misleading reports and figures",
+      "regression_gate": "All24 required historical figure hashes and actual visual inspection; final dataset gets a fresh complete visual audit."
+    },
+    {
+      "acquisition_ids": [
+        "A02",
+        "A03"
+      ],
+      "corrective_action": "Keep accepted-case headline timing separate from trace-overlay timing, with exact per-case provenance.",
+      "evidence_or_test_locator": "tests/assignment/test_repair_submission_reports.py; scripts/validation/verify_offline_submission.py",
+      "id": "R19",
+      "previous_failure": "D1 headline/trace-overlay inconsistency",
+      "regression_gate": "Original Lite160.9619677790433s and Verified147.33076228760785s remain immutable; final cohort uses one declared boundary consistently."
+    },
+    {
+      "acquisition_ids": [
+        "A03",
+        "A06",
+        "A09",
+        "A10"
+      ],
+      "corrective_action": "Retain clock provenance and censored/unknown intervals; syscall bytes differ from disk traffic, request wall differs from device time.",
+      "evidence_or_test_locator": "tests/assignment/test_v2_journal_audit.py; tests/telemetry/test_serving_metrics.py; tests/telemetry/test_linux_work.py",
+      "id": "R20",
+      "previous_failure": "Clock domains, CPU/GPU proxy semantics and false physical work",
+      "regression_gate": "Cross-boot/clock union rejection, nonfinite duration tests, ambiguous serving-counter rejection and genuine work-binding tests."
+    },
+    {
+      "acquisition_ids": [
+        "A05",
+        "A11",
+        "A14"
+      ],
+      "corrective_action": "Analyze paired instance clusters; use fixed diverse development panel and direct combined-setting trials, with no final 1,088 outcome tuning.",
+      "evidence_or_test_locator": "tests/assignment/test_generate_configuration_analysis.py; tests/assignment/test_generate_instrumentation_plan.py",
+      "id": "R21",
+      "previous_failure": "Small-panel uncertainty / duplicated task clusters",
+      "regression_gate": "Cluster-aware statistics and exact preselection/split tests; report uncertainty and regressions rather than claim equivalence from zero discordance."
+    }
+  ],
+  "independent_step2_case_count": 288,
+  "launch_rule": "Every prelaunch acquisition requirement and historical regression needs hash-bound test/live evidence or an Astra-reviewed validity-preserving limitation. Required raw CPU/model capture, loss and overhead failures cannot be waived as limitations. D9 final accuracy and cross-hardware transfer are outcome checks, not fabricated prelaunch successes.",
+  "production_case_count": 1088,
+  "requirements": [
+    {
+      "deliverables": [
+        "D1"
+      ],
+      "id": "A01",
+      "nonrecoverable_capture": "Dated official scoreboard snapshot, reference entry identity, agent/model/suite/scoring differences, actual published latency field or explicit absence.",
+      "postrun_acceptance": "Report new rates/timings against the available reference, disclose unmatched configuration or absent timing; do not claim strict reproduction without a matching target.",
+      "prelaunch_proof": "Archive/hash source and comparison audit; never substitute cost or another agent score for matching E2E.",
+      "requirement": "Scoreboard comparison/reproduction"
+    },
+    {
+      "deliverables": [
+        "D1"
+      ],
+      "id": "A02",
+      "nonrecoverable_capture": "Case/suite/instance/base-commit identity, generated patch, official evaluator report and logs, evaluator input/dataset/image/patch/run hashes, execution errors distinct from unresolved.",
+      "postrun_acceptance": "Exactly 300 Lite and 500 Verified baseline outcomes; no missing/corrupt case counted successful; original baseline remains separate.",
+      "prelaunch_proof": "Real pilot evaluator path plus resolved/unresolved/error ingestion and wrong-provenance negative tests.",
+      "requirement": "Resolved outcomes and exact cohort"
+    },
+    {
+      "deliverables": [
+        "D1",
+        "D7",
+        "D9"
+      ],
+      "id": "A03",
+      "nonrecoverable_capture": "Outer SWE-agent start/end, setup/startup, client processing, model-client call, state queries, tools, retries/failures, teardown; monotonic clock/host/boot identity and actual unknown intervals.",
+      "postrun_acceptance": "All new cases retain measured phases and UNKNOWN separately; no double counting or fitted correction hiding absent phases.",
+      "prelaunch_proof": "Recompute interval unions from raw journals; matched external boundaries; >=95% measured phase attribution and <=5% unknown in pilot, closure error <=max(1ms,0.1%).",
+      "requirement": "Trajectory/lifecycle timing"
+    },
+    {
+      "deliverables": [
+        "D2",
+        "D3"
+      ],
+      "id": "A04",
+      "nonrecoverable_capture": "One row per task/suite/settings with repository/category, resolved outcome, raw CPU/model timing references and ratio definition.",
+      "postrun_acceptance": "D2 one dot per sample; D3 category accuracy vs mean latency, accuracy vs CPU/GPU ratio, individual latency vs ratio.",
+      "prelaunch_proof": "Pilot aggregation joins exact IDs; category membership, per-sample counts and phase definitions checked.",
+      "requirement": "Per-sample category and phase data"
+    },
+    {
+      "deliverables": [
+        "D4",
+        "D5",
+        "D6"
+      ],
+      "id": "A05",
+      "nonrecoverable_capture": "Frozen four-parameter grid, exact 24 task/suite panel, settings actually applied, three independent nonbaseline values per parameter, shared-baseline source identity.",
+      "postrun_acceptance": "288 independent Step2 executions; baseline coordinates explicitly derived, not additional measurements; all four sweeps plus combined figure and explanations.",
+      "prelaunch_proof": "Inventory cardinality/grid tests; effective command/request configuration witnesses; all three plot topologies and combined renderer exercised.",
+      "requirement": "Four complete sweeps and combined figure"
+    },
+    {
+      "deliverables": [
+        "D7",
+        "D8",
+        "D9"
+      ],
+      "id": "A06",
+      "nonrecoverable_capture": "Raw relevant filesystem/process operation records: event/action/parent identity, PID/TID/start identity, operation, start/end/duration or explicit censoring, actual return/status, observed paths/fds/work. Retain read/write/traversal and subprocess evidence, not just totals.",
+      "postrun_acceptance": "Preserve raw records and derive summaries afterward; model/report individual operations with declared taxonomy. No aggregate-only fallback or sampling away required evidence.",
+      "prelaunch_proof": "Full-mode real collector fixture proves individual records for read/write/traversal/find-exec/pipelines/tests/failure/timeout; independently compare expected operations and measured work; zero dropped required records/map failures.",
+      "requirement": "Individual CPU operation evidence"
+    },
+    {
+      "deliverables": [
+        "D7",
+        "D8",
+        "D9"
+      ],
+      "id": "A07",
+      "nonrecoverable_capture": "Exact intended and dispatched action before execution; executable/subcommand/module, pipeline/process structure, test runner/scope, actual container cwd, pre-action script contents/descriptors/hash/generation where known.",
+      "postrun_acceptance": "Retain unknown/truncated state explicitly; derive additional descriptors from pre-state artifacts without reading later file versions.",
+      "prelaunch_proof": "Script-edit-before-execution, stale-state, persistent-cwd and compound-action negative fixtures; no host-file substitution or future-state feature.",
+      "requirement": "Action and script chronology"
+    },
+    {
+      "deliverables": [
+        "D7",
+        "D8",
+        "D9"
+      ],
+      "id": "A08",
+      "nonrecoverable_capture": "Every physical request ID, logical/client ID, retry linkage, durable pre-dispatch raw request bytes/hash, response/partial-error bytes, start/end/status, transport failure/timeout and actual usage.",
+      "postrun_acceptance": "Every attempt remains accounted for; missing usage is unavailable, not zero; no success-only model event stream.",
+      "prelaunch_proof": "Fault fixtures prove failed request, timeout and retry persistence; interrupt after dispatch and verify durable request evidence; compare client/proxy/server witnesses.",
+      "requirement": "Physical model requests and retries"
+    },
+    {
+      "deliverables": [
+        "D7",
+        "D8",
+        "D9"
+      ],
+      "id": "A09",
+      "nonrecoverable_capture": "Input/output/context tokens with definitions and provenance; client estimate separate from native usage; serving queue/prefill/decode/cache metrics when reliable, raw snapshots and exclusive-request attribution witness.",
+      "postrun_acceptance": "Failed/partial requests retain raw evidence for later tokenizer derivation; derived tokens/components are not relabeled native measurements. Device time and request wall remain distinct.",
+      "prelaunch_proof": "Long-request fixture; exact usage/raw-response match; reset/concurrent-traffic/missing-metric tests reject false per-request attribution.",
+      "requirement": "GPU token/context and serving work"
+    },
+    {
+      "deliverables": [
+        "D8",
+        "D9"
+      ],
+      "id": "A10",
+      "nonrecoverable_capture": "Actual CPU capability/clock assumptions, resource/fault/I/O counters when measured; GPU UUID/model/form factor/VRAM/clocks/driver/CUDA; model/tokenizer/config/precision/weight/KV architecture; serving/cache policy.",
+      "postrun_acceptance": "Expose parameters used by event models; distinguish measured, declared and derived values. Optional inexpensive useful raw counters are retained even before model selection.",
+      "prelaunch_proof": "Hash-bound real CPU and remote GPU profiles, sources/units/availability; model-facing parameter validation rejects fake thread scaling and unmeasured physical I/O.",
+      "requirement": "Hardware/model inventory and usable parameters"
+    },
+    {
+      "deliverables": [
+        "D9"
+      ],
+      "id": "A11",
+      "nonrecoverable_capture": "Pre-event features and vectors, shared builder/schema/source hashes, input availability timestamps, separate post-event labels/observed-work replay features; instance-cluster split and excluded development panel.",
+      "postrun_acceptance": "Fit/select only calibration data; freeze before final evaluation. Conditional workload replay must be labeled; realized output/work is not a prospective feature.",
+      "prelaunch_proof": "Deterministic serialization and golden parity tests; future-state/status/timing/evaluator leakage negatives; frozen split/source/inventory binding.",
+      "requirement": "Train/serve parity and leakage boundary"
+    },
+    {
+      "deliverables": [
+        "D9"
+      ],
+      "id": "A12",
+      "nonrecoverable_capture": "Raw per-event latency labels and identities, dependency/order/phase data, hardware inputs and all unsupported/censored events; explicit event definition and error formula.",
+      "postrun_acceptance": "Report each event and each trajectory against25%; report coverage/failures honestly. D9 failure triggers diagnosis using this data, not automatic full rerun.",
+      "prelaunch_proof": "Pilot raw evidence can be fed through simulator input/export/evaluation path; strict per-event/E2E gate tests reject average-only success and missing events.",
+      "requirement": "Individual-event and E2E validation"
+    },
+    {
+      "deliverables": [
+        "D2",
+        "D3",
+        "D4",
+        "D5",
+        "D7",
+        "D9"
+      ],
+      "id": "A13",
+      "nonrecoverable_capture": "Exact source tables, generation arguments, simulator/hardware/model/source hashes and observed-vs-predicted labels.",
+      "postrun_acceptance": "Regenerate all Steps1\u20133 observed and simulator-predicted plots from final data; accuracy stays an observed evaluator outcome unless separately modeled.",
+      "prelaunch_proof": "Render every required topology from fixture/pilot evidence; inspect actual final images and bind SVG/PNG hashes, labels, axes, units and legends.",
+      "requirement": "All observed and predicted figures"
+    },
+    {
+      "deliverables": [
+        "D1",
+        "D4",
+        "D7",
+        "D9"
+      ],
+      "id": "A14",
+      "nonrecoverable_capture": "Frozen1088 inventory, source bundle and pins, run/attempt/case namespaces, append-only raw artifacts, hash manifests, interrupted attempts, accepted evaluator attempt, disk high-water evidence and retry policy.",
+      "postrun_acceptance": "All 1,088 production cases execute under frozen settings; no tuning from their outcomes, no selective retry of ordinary unresolved cases, no historical rewrite.",
+      "prelaunch_proof": "Kill/resume/corruption/duplicate-case tests; no old case reused as new completion; required evidence failure stops new assignments; compression verified lossless.",
+      "requirement": "Durability, recovery and immutable provenance"
+    },
+    {
+      "deliverables": [
+        "D1",
+        "D7",
+        "D8",
+        "D9"
+      ],
+      "id": "A15",
+      "nonrecoverable_capture": "Full-capture on/off paired fixtures, identical work/settings/cache policy, collector loss/overhead counters, startup separately reported, actual legacy/service/process inventory.",
+      "postrun_acceptance": "Retain actual instrumentation overhead evidence. No strace production default, unmeasured correction, interference or reduced-capture benchmark substituting for production behavior.",
+      "prelaunch_proof": "Three alternating pairs for each of four CPU/model fixtures; median of fixture medians<=5%, nearest-rank95th percentile<=10%; full capture enabled; legacy monitor/bridge noninterference proved.",
+      "requirement": "Measurement validity and interference"
+    }
+  ],
+  "schema_version": "assignment.acquisition-contract.v2",
+  "step1_case_count": 800
+}

@@ -1,0 +1,32 @@
+{
+  "as_of": "2026-09-16",
+  "scope": "Local evidence verified; remote main verified before September 16 publication. Live GPU status not checked.",
+  "active_checkout": "/home/riverahernandezjason/agentic-results-publish-20260909",
+  "branch": "main",
+  "retained_accepted_partition_counts": {
+    "confirmation_development_excluded": 2,
+    "final_evaluation": 4,
+    "train_calibration": 49
+  },
+  "composition": {
+    "cases": 43,
+    "events": 15809,
+    "e2e_within25_cases": 31,
+    "e2e_worst_error_percent": 41.933966456090175,
+    "all_event_and_e2e_cases": 0,
+    "missing_event_predictions": 1,
+    "hardware_transfer_validated": false,
+    "d9_pass": false
+  },
+  "verified_artifact_files": [
+    "docs/current/composition/README.md",
+    "docs/current/composition/cases.json",
+    "docs/current/composition/e2e.csv",
+    "docs/current/composition/events.jsonl",
+    "docs/current/composition/fold_models.json",
+    "docs/current/composition/graphs.jsonl",
+    "docs/current/composition/summary.json"
+  ],
+  "raw_free_graph_replays": 43,
+  "publication": "September 16 source and evidence import on main; see git history and PUBLICATION_20260916.json. Original development checkout retained."
+}

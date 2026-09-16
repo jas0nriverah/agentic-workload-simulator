@@ -459,6 +459,9 @@ def _load_holdout_features(path: Path, hardware: Mapping[str, Any]) -> tuple[lis
                 models.append(item)
             else:
                 _fail(f"unsupported holdout feature schema at line {line_number}")
+    for row in models:
+        if isinstance(row, dict) and "output_tokens" in row:
+            _fail("static capture rejects output_tokens as a pre-event feature")
     parsed_tools = [ToolEventInput.from_mapping(row) for row in tools]
     parsed_models = [ModelEventInput.from_mapping(row) for row in models]
     if not parsed_tools or not parsed_models:

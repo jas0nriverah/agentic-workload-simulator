@@ -472,6 +472,51 @@ class AdaptiveProtocolTests(unittest.TestCase):
                 f"{hashlib.sha256(output.read_bytes()).hexdigest()}  {output.name}\n",
             )
 
+    def test_caller_cannot_inject_prior_or_current_event_labels(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            protocol = self.make_protocol(Path(temporary), StepClock())
+            protocol.arm_trajectory("holdout-1", predicted_e2e_ms=100)
+            leaked = dict(model())
+            leaked["prior_label_sha256s"] = ["a" * 64]
+            with self.assertRaisesRegex(AdaptiveProtocolError, "journal injects"):
+                protocol.predict_event("model", leaked)
+            leaked = dict(model())
+            leaked["output_tokens"] = 99
+            with self.assertRaisesRegex(AdaptiveProtocolError, "target-derived"):
+                protocol.predict_event("model", leaked)
+            leaked = dict(tool())
+            leaked["official_resolved"] = True
+            with self.assertRaisesRegex(AdaptiveProtocolError, "target-derived"):
+                protocol.predict_event("tool", leaked)
+
+    def test_prediction_cites_only_previously_revealed_labels(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            directory = Path(temporary)
+            protocol = self.make_protocol(directory, StepClock())
+            protocol.arm_trajectory("holdout-1", predicted_e2e_ms=100)
+            first = protocol.predict_event("tool", tool())
+            self.assertEqual(first["prior_label_sha256s"], [])
+            revealed = protocol.reveal_event_label("tool", tool()["event_id"], {"observed_ms": 10})
+            second = protocol.predict_event("model", model())
+            self.assertEqual(second["prior_label_sha256s"], [revealed["record_sha256"]])
+            journal = directory / "adaptive_events.jsonl"
+            lines = journal.read_text(encoding="utf-8").splitlines()
+            forged = json.loads(lines[-1])
+            forged["prior_label_sha256s"] = [revealed["record_sha256"], "f" * 64]
+            del forged["record_sha256"]
+            from scripts.assignment.adaptive_event_protocol import _record_digest
+
+            forged["record_sha256"] = _record_digest(forged)
+            lines[-1] = json.dumps(forged, sort_keys=True, ensure_ascii=False, separators=(",", ":"))
+            journal.write_text("\n".join(lines) + "\n", encoding="utf-8")
+            with self.assertRaisesRegex(AdaptiveProtocolError, "not revealed before"):
+                AdaptiveEventProtocol(
+                    directory,
+                    protocol.calibration_model,
+                    clock=StepClock(),
+                    **hashes("a"),
+                )
+
 
 if __name__ == "__main__":
     unittest.main()

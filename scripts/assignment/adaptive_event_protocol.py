@@ -44,6 +44,10 @@ from agentic_sim.assignment.event_simulator import (  # noqa: E402
     ToolEventInput,
     canonical_sha256,
 )
+from agentic_sim.assignment.sequential_simulator import (  # noqa: E402
+    PriorEventSummary,
+    SequentialLatencyModel,
+)
 
 
 ADAPTIVE_MODEL_SCHEMA = "assignment.adaptive-calibration-model.v1"
@@ -66,6 +70,8 @@ _TARGET_KEYS = frozenset(
         "output_tokens", "actual_output_tokens", "generated_tokens",
         "completion_tokens", "response_tokens", "response_bytes",
         "response_data", "response_body", "trace", "trace_summary",
+        "official_resolved", "resolved", "evaluator", "evaluator_result",
+        "future_event", "next_event_wall_ms", "current_output_tokens",
     }
 )
 
@@ -199,6 +205,31 @@ def _reject_nested_targets(value: Any, *, path: str = "feature") -> None:
 def _validate_model_block(block: Any, name: str) -> dict[str, Any]:
     if not isinstance(block, Mapping):
         raise AdaptiveProtocolError(f"calibration model {name} must be an object")
+    if block.get("kind") == "sequential_lookup":
+        required = {
+            "kind",
+            "extractor_id",
+            "extractor_sha256",
+            "sha_medians",
+            "key_medians",
+            "prefix_medians",
+            "tool_name_medians",
+            "class_medians",
+            "global_tool_median",
+            "model_intercept",
+            "model_output_coef",
+            "model_context_coef",
+            "context_output_medians",
+            "global_output_median",
+            "e2e_scale",
+            "coefficients",
+        }
+        if name == "tool_event" and not required.issubset(set(block)):
+            raise AdaptiveProtocolError("sequential tool model is missing required tables")
+        coefficients = block.get("coefficients")
+        if not isinstance(coefficients, list) or not coefficients:
+            raise AdaptiveProtocolError(f"calibration model {name} coefficients are invalid")
+        return dict(block)
     coefficients = block.get("coefficients")
     if not isinstance(coefficients, list) or not coefficients or any(
         isinstance(x, bool) or not isinstance(x, (int, float)) or not isfinite(float(x))
@@ -278,16 +309,36 @@ class FrozenCalibrationModel:
         value = max(0.0, sum(a * b for a, b in zip(coefficients, design)))
         return _positive(value, f"predicted {name} latency")
 
-    def predict_tool(self, features: Mapping[str, Any] | ToolEventInput) -> float:
+    def predict_tool(
+        self,
+        features: Mapping[str, Any] | ToolEventInput,
+        prior: PriorEventSummary | None = None,
+    ) -> float:
         row = features if isinstance(features, ToolEventInput) else ToolEventInput.from_mapping(features)
         if row.split != "holdout":
             raise AdaptiveProtocolError("adaptive event predictions require split=holdout")
+        block = self.artifact["models"]["tool_event"]
+        if block.get("kind") == "sequential_lookup":
+            model = SequentialLatencyModel.from_mapping(block)
+            mapping = row.to_mapping() if isinstance(features, ToolEventInput) else dict(features)
+            return _positive(model.predict_tool_ms(mapping, prior), "predicted tool_event latency")
         return self._predict("tool_event", row.design_row())
 
-    def predict_model(self, features: Mapping[str, Any] | ModelEventInput) -> float:
+    def predict_model(
+        self,
+        features: Mapping[str, Any] | ModelEventInput,
+        prior: PriorEventSummary | None = None,
+    ) -> float:
         row = features if isinstance(features, ModelEventInput) else ModelEventInput.from_mapping(features)
         if row.split != "holdout":
             raise AdaptiveProtocolError("adaptive event predictions require split=holdout")
+        block = self.artifact["models"]["model_event"]
+        tool_block = self.artifact["models"]["tool_event"]
+        if tool_block.get("kind") == "sequential_lookup" or block.get("kind") == "sequential_lookup":
+            source = tool_block if tool_block.get("kind") == "sequential_lookup" else block
+            model = SequentialLatencyModel.from_mapping(source)
+            mapping = row.to_mapping() if isinstance(features, ModelEventInput) else dict(features)
+            return _positive(model.predict_model_ms(mapping, prior), "predicted model_event latency")
         return self._predict("model_event", row.design_row())
 
     def predict_trajectory(
@@ -311,6 +362,10 @@ class FrozenCalibrationModel:
             raise AdaptiveProtocolError("tool_event_count must be a positive integer")
         if isinstance(model_event_count, bool) or not isinstance(model_event_count, int) or model_event_count <= 0:
             raise AdaptiveProtocolError("model_event_count must be a positive integer")
+        tool_block = self.artifact["models"]["tool_event"]
+        if tool_block.get("kind") == "sequential_lookup":
+            sequential = SequentialLatencyModel.from_mapping(tool_block)
+            return sequential.predict_e2e_ms(tool_ms, model_ms)
         return self._predict(
             "trajectory",
             (
@@ -744,6 +799,20 @@ class AdaptiveEventProtocol:
             else:
                 raise AdaptiveProtocolError("adaptive journal contains an unknown record type")
             records.append(record)
+            if record.get("record_type") == "event_prediction":
+                cited = record.get("prior_label_sha256s") or []
+                if not isinstance(cited, list):
+                    raise AdaptiveProtocolError("prediction prior_label_sha256s must be a list")
+                known_labels = {
+                    item["record_sha256"]
+                    for item in records
+                    if item.get("record_type") == "event_label"
+                }
+                unknown = [digest for digest in cited if digest not in known_labels]
+                if unknown:
+                    raise AdaptiveProtocolError(
+                        "prediction cites a label that was not revealed before this event"
+                    )
             previous_hash = record["record_sha256"]
         return records
 
@@ -866,6 +935,55 @@ class AdaptiveEventProtocol:
         self._records.append(record)
         return dict(record)
 
+    def _prior_from_journal(self) -> PriorEventSummary:
+        self._require_journal_lock()
+        sha_walls: dict[str, list[float]] = {}
+        name_walls: dict[tuple[str, str], list[float]] = {}
+        outputs: list[float] = []
+        observed: list[float] = []
+        cited: list[str] = []
+        predictions = {
+            record["identifier"]: record
+            for record in self._records
+            if record.get("record_type") == "event_prediction"
+        }
+        for record in self._records:
+            if record.get("record_type") != "event_label":
+                continue
+            cited.append(record["record_sha256"])
+            label = record.get("label") or {}
+            observed_ms = label.get("observed_ms")
+            if isinstance(observed_ms, (int, float)) and not isinstance(observed_ms, bool):
+                observed.append(float(observed_ms))
+            prediction = predictions.get(record.get("identifier"))
+            feature = (prediction or {}).get("feature") or {}
+            if record.get("kind") == "tool" and isinstance(observed_ms, (int, float)) and not isinstance(observed_ms, bool):
+                digest = str(feature.get("command_sha256") or "")
+                if digest:
+                    sha_walls.setdefault(digest, []).append(float(observed_ms))
+                cls = str(feature.get("operation_class") or "")
+                name = str(feature.get("tool_name") or "")
+                if cls and name:
+                    name_walls.setdefault((cls, name), []).append(float(observed_ms))
+            if record.get("kind") == "model":
+                tokens = label.get("output_tokens")
+                if isinstance(tokens, int) and not isinstance(tokens, bool) and tokens >= 0:
+                    outputs.append(float(tokens))
+        return PriorEventSummary(
+            prior_event_count=len(cited),
+            prior_median_output_tokens=float(sum(outputs) / len(outputs)) if outputs else 0.0,
+            prior_median_observed_ms=float(sum(observed) / len(observed)) if observed else 0.0,
+            prior_label_sha256s=tuple(cited),
+            prior_tool_sha_medians=tuple(
+                (key, sorted(values)[len(values) // 2]) for key, values in sha_walls.items()
+            ),
+            prior_tool_name_medians=tuple(
+                (cls, name, sorted(values)[len(values) // 2])
+                for (cls, name), values in name_walls.items()
+            ),
+            last_output_tokens=tuple(outputs),
+        )
+
     def predict_event(
         self,
         kind: str,
@@ -882,17 +1000,27 @@ class AdaptiveEventProtocol:
                 # Classify a measured field as leakage before schema parsing, even
                 # when the field is also unknown to the strict event schema.
                 _reject_nested_targets(features)
+                leaked_prior = [key for key in ("prior_label_sha256s", "prior_median_observed_ms") if key in features]
+                if leaked_prior:
+                    raise AdaptiveProtocolError(
+                        "caller may not supply prior-event labels; the journal injects them"
+                    )
+            prior = self._prior_from_journal()
             try:
                 if kind == "tool":
                     row = features if isinstance(features, ToolEventInput) else ToolEventInput.from_mapping(features)
-                    predicted = self.calibration_model.predict_tool(row)
+                    predicted = self.calibration_model.predict_tool(row, prior)
                     identifier = row.event_id
                     feature_mapping = row.to_mapping()
                 else:
                     row = features if isinstance(features, ModelEventInput) else ModelEventInput.from_mapping(features)
-                    predicted = self.calibration_model.predict_model(row)
+                    predicted = self.calibration_model.predict_model(row, prior)
                     identifier = row.request_id
                     feature_mapping = row.to_mapping()
+                    feature_mapping["prior_event_count"] = prior.prior_event_count
+                    feature_mapping["prior_median_output_tokens"] = prior.prior_median_output_tokens
+                    feature_mapping["prior_median_observed_ms"] = prior.prior_median_observed_ms
+                    feature_mapping["prior_label_sha256s"] = list(prior.prior_label_sha256s)
             except EventSimulatorError as exc:
                 raise AdaptiveProtocolError(str(exc)) from exc
             if row.run_id != arm["run_id"] or row.split != "holdout":
@@ -915,6 +1043,7 @@ class AdaptiveEventProtocol:
                     "event_ordinal": sum(r.get("record_type") == "event_prediction" for r in self._records),
                     "feature": feature_mapping,
                     "feature_sha256": canonical_sha256(feature_mapping),
+                    "prior_label_sha256s": list(prior.prior_label_sha256s),
                     "prediction": {"predicted_ms": predicted},
                 }
             )

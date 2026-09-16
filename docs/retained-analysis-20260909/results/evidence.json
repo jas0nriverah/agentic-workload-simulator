@@ -1,0 +1,197 @@
+{
+  "scope": "Published historical headline aggregates plus eligible current integration fixture; not a new D8 selection, configuration result or held-out model evaluation.",
+  "historical_headlines": [
+    {
+      "suite": "lite",
+      "resolved": 100,
+      "denominator": 300,
+      "resolved_percent": 33.333333333333336,
+      "mean_original_accepted_e2e_s": 160.96196777904336,
+      "scope": "published historical aggregate; not new production or tuning data"
+    },
+    {
+      "suite": "verified",
+      "resolved": 198,
+      "denominator": 500,
+      "resolved_percent": 39.6,
+      "mean_original_accepted_e2e_s": 147.330762287608,
+      "scope": "published historical aggregate; not new production or tuning data"
+    }
+  ],
+  "current_fixture": {
+    "case_id": "configuration-confirmation-case-v1:11fcd3c59f36c09472479c6794493d546039acf8bc52c3fd372a3d811bcd4132",
+    "instance_id": "django__django-7530",
+    "settings": {
+      "call_limit": 50,
+      "max_input_tokens": 61440,
+      "max_output_tokens": 2048,
+      "observation_length": 100000,
+      "seed": 0,
+      "temperature": 0.0,
+      "top_p": 1.0
+    },
+    "outer_e2e_ms": 153117.581093,
+    "unknown_wall_ms": 7303.200237,
+    "unknown_fraction_percent": 4.769667979906377,
+    "unknown_gap_count": 284,
+    "largest_unknown_gaps": [
+      {
+        "start_mono_ns": 317323192654358,
+        "end_mono_ns": 317327453194702,
+        "duration_ms": 4260.540344,
+        "preceding_lifecycle_kind": null,
+        "following_lifecycle_kind": "deployment_start_start"
+      },
+      {
+        "start_mono_ns": 317475207535252,
+        "end_mono_ns": 317476310235451,
+        "duration_ms": 1102.700199,
+        "preceding_lifecycle_kind": "teardown",
+        "following_lifecycle_kind": null
+      },
+      {
+        "start_mono_ns": 317474039964749,
+        "end_mono_ns": 317474138588606,
+        "duration_ms": 98.623857,
+        "preceding_lifecycle_kind": "client_processing",
+        "following_lifecycle_kind": "teardown_start"
+      },
+      {
+        "start_mono_ns": 317472805538700,
+        "end_mono_ns": 317472881251638,
+        "duration_ms": 75.712938,
+        "preceding_lifecycle_kind": "client_processing",
+        "following_lifecycle_kind": "client_processing_start"
+      },
+      {
+        "start_mono_ns": 317463971145479,
+        "end_mono_ns": 317464038483056,
+        "duration_ms": 67.337577,
+        "preceding_lifecycle_kind": "client_processing",
+        "following_lifecycle_kind": "client_processing_start"
+      }
+    ],
+    "top_two_gap_share_of_unknown_percent": 73.43685465213404,
+    "phase_unions_ms_not_additive": {
+      "client_processing": 1891.979714,
+      "failure": 0.0,
+      "get_state": 6966.737177,
+      "model_client_call": 87140.809737,
+      "model_request": 85718.290967,
+      "setup": 323.295446,
+      "startup": 30422.017907,
+      "state_query": 898.318817,
+      "teardown": 1068.946646,
+      "tool_execution": 32634.391398
+    },
+    "native_phase_totals_ms": {
+      "prefill": 3407.418036367744,
+      "decode": 74575.32895635813,
+      "queue": 1.9224761053919792,
+      "e2e": 78120.32628059387
+    },
+    "first_prompt_tokens": 1410,
+    "last_prompt_tokens": 35298,
+    "total_output_tokens": 10803,
+    "cache_tokens_values": [
+      0,
+      1504,
+      3600,
+      5360,
+      5712,
+      6224,
+      10848,
+      11440,
+      15248,
+      15472,
+      16272,
+      16368,
+      17024,
+      17296,
+      20208,
+      21728,
+      23008,
+      23456,
+      23840,
+      24000,
+      24320,
+      24512,
+      25072,
+      27008,
+      27072,
+      28464,
+      29008,
+      29888,
+      29952,
+      30192,
+      30288,
+      30400,
+      30672,
+      31168,
+      31536,
+      31936,
+      32384,
+      32752,
+      33312,
+      35264
+    ],
+    "tool_classes": [
+      {
+        "operation_class": "patch",
+        "events": 3,
+        "total_wall_ms": 574.49659,
+        "median_wall_ms": 190.731866,
+        "max_wall_ms": 197.929055
+      },
+      {
+        "operation_class": "read",
+        "events": 8,
+        "total_wall_ms": 1500.010431,
+        "median_wall_ms": 186.50529,
+        "max_wall_ms": 196.514943
+      },
+      {
+        "operation_class": "search",
+        "events": 1,
+        "total_wall_ms": 763.689992,
+        "median_wall_ms": 763.689992,
+        "max_wall_ms": 763.689992
+      },
+      {
+        "operation_class": "shell",
+        "events": 12,
+        "total_wall_ms": 4423.674594000001,
+        "median_wall_ms": 390.749148,
+        "max_wall_ms": 726.132375
+      },
+      {
+        "operation_class": "test",
+        "events": 1,
+        "total_wall_ms": 157.743502,
+        "median_wall_ms": 157.743502,
+        "max_wall_ms": 157.743502
+      },
+      {
+        "operation_class": "traversal",
+        "events": 15,
+        "total_wall_ms": 11071.996522000001,
+        "median_wall_ms": 202.13793,
+        "max_wall_ms": 7374.687322
+      }
+    ]
+  },
+  "interpretation": [
+    "The existing D8 examples lacked explanatory evidence. Current data shows repaired analytical capability; it does not retrospectively fill missing fields in old runs.",
+    "Largest unknown gap positions are descriptive. Neighboring span names do not prove their cause, and observed gap durations are targets, not prediction inputs.",
+    "CPU tool wall, native phase service wall and client/host lifecycle wall remain distinct. Overlapping phase unions are not additive.",
+    "A single platform and trajectory cannot identify hardware scaling or establish universal individual-event prediction accuracy."
+  ],
+  "source_sha256": {
+    "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260908T140000Z-offline-v2/figures-input/d1_headline_metrics.json": "b7e635f4f682b16213275e201209b55b2f27413180e2c39a0bd6ea7edf310bf5",
+    "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/case_spec.json": "c45d6ff07a911d27b8d74ed8117d1117e90ff1c69247fbbce47b0fb841ba2b0a",
+    "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/native_serving/native_attribution.jsonl": "e0cfad23d8f58e56794c745734bcb56aed0b8c4a2c1bfe7c22928ef4f71cba00",
+    "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/tool_events.jsonl": "e33f594e2661e3c38d8e0e31939aeb3e21be1a0987cafb85bef5ec2311af5a92",
+    "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/reconstruction-v8/merged-v2-proof.json": "f64bb92faf3d5b75c99033ceed4e3905a4681587eb8679851ad2073d60be439a",
+    "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8/runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl": "32afb6734fd3479c914970f3280bb4685841218783759b166c128d64e0f5189a"
+  }
+}

@@ -1,0 +1,267 @@
+{
+  "artifact_checks": [
+    {
+      "action_count": 3,
+      "all_action_complete": true,
+      "all_action_loss_zero": true,
+      "all_finalization_complete": true,
+      "artifact": "file-traversal",
+      "binary_bytes": 1315072,
+      "binary_record_alignment": true,
+      "event_record_size_bytes": 352,
+      "finalization_count": 3,
+      "overhead": {
+        "collector_cleanup": {
+          "bpf_handle_present": false,
+          "closed": true,
+          "perf_thread_alive": false,
+          "raw_event_stream_open": false,
+          "socket_exists": false
+        },
+        "median_of_series_execution_overhead_fraction": 0.17560007762249974,
+        "median_pairwise_execution_overhead_fraction": 0.182837413708715,
+        "service_stopped": true,
+        "service_thread_alive_after_stop": false,
+        "target_median_fraction": 0.05,
+        "target_met": false,
+        "target_worst_fraction": 0.1,
+        "worst_pairwise_execution_overhead_fraction": 0.27104916515481725
+      }
+    },
+    {
+      "action_count": 3,
+      "all_action_complete": true,
+      "all_action_loss_zero": true,
+      "all_finalization_complete": true,
+      "artifact": "test-script",
+      "binary_bytes": 1274944,
+      "binary_record_alignment": true,
+      "event_record_size_bytes": 352,
+      "finalization_count": 3,
+      "overhead": {
+        "collector_cleanup": {
+          "bpf_handle_present": false,
+          "closed": true,
+          "perf_thread_alive": false,
+          "raw_event_stream_open": false,
+          "socket_exists": false
+        },
+        "median_of_series_execution_overhead_fraction": 0.2749377154779715,
+        "median_pairwise_execution_overhead_fraction": 0.2749377154779715,
+        "service_stopped": true,
+        "service_thread_alive_after_stop": false,
+        "target_median_fraction": 0.05,
+        "target_met": false,
+        "target_worst_fraction": 0.1,
+        "worst_pairwise_execution_overhead_fraction": 0.33125616714398964
+      }
+    },
+    {
+      "action_count": 1,
+      "all_action_complete": true,
+      "all_action_loss_zero": true,
+      "all_finalization_complete": true,
+      "artifact": "untouched-shell-closure",
+      "binary_bytes": 509344,
+      "binary_record_alignment": true,
+      "event_record_size_bytes": 352,
+      "finalization_count": 1
+    },
+    {
+      "action_count": 1,
+      "all_action_complete": true,
+      "all_action_loss_zero": true,
+      "all_finalization_complete": true,
+      "artifact": "pending-syscall-censor",
+      "binary_bytes": 484704,
+      "binary_record_alignment": true,
+      "event_record_size_bytes": 352,
+      "finalization_count": 1
+    }
+  ],
+  "artifacts": {
+    "file-traversal": {
+      "files": [
+        {
+          "bytes": 16331,
+          "path": "instrumented/action_boundaries.jsonl",
+          "sha256": "a36348f41d2a28a0b0f0c23583a48ef0ef9506fd3992dba0f4a30202ddfcbfd1"
+        },
+        {
+          "bytes": 2139,
+          "path": "instrumented/bpf_collector_manifest.json",
+          "sha256": "5cf215d57ff439224e15dd9125be531fb7b9d47d6f41cb74067adf8ba40bd75a"
+        },
+        {
+          "bytes": 2722957,
+          "path": "instrumented/raw_aggregates.jsonl",
+          "sha256": "e26ce25b0527e5f0f60e4f19fca6aced5ed581611392da9fc161f016090555a2"
+        },
+        {
+          "bytes": 1315072,
+          "path": "instrumented/raw_events.bin",
+          "sha256": "d908f614437ea815f52a23b93abf7b691a35b232117c2496cce7643abd79d9c7"
+        },
+        {
+          "bytes": 2725885,
+          "path": "instrumented/work_summary.json",
+          "sha256": "0729e11f2f4a2d8cfb9635f090044c1c53a55133708d8799e0d6e96d568766cc"
+        },
+        {
+          "bytes": 3247,
+          "path": "overhead-result.json",
+          "sha256": "36d15737ddfd3f8ed39ce16ff640179985b0209b8659b2d187b7ff47796b0d2c"
+        }
+      ],
+      "source": "/tmp/linux-work-bpf-overhead-root-bcc/file-traversal-v6"
+    },
+    "pending-syscall-censor": {
+      "files": [
+        {
+          "bytes": 4853,
+          "path": "action_boundaries.jsonl",
+          "sha256": "3664747be14bf3da6e9024da0e508855fb0f1d16135580ba26fedb91d7b88ea1"
+        },
+        {
+          "bytes": 1925,
+          "path": "bpf_collector_manifest.json",
+          "sha256": "6fcf0d5fa429666c755f14977ff68c4891a1bc6ee10e93009e740589989c888c"
+        },
+        {
+          "bytes": 1988,
+          "path": "pending-censor-result.json",
+          "sha256": "457ae744ea8f6b70ccc1bc6e842a9992d735885850a18df0e6c76f4ae88ec64a"
+        },
+        {
+          "bytes": 1174394,
+          "path": "raw_aggregates.jsonl",
+          "sha256": "c44d4ae4eacdb1195c6d3d2685869e18296f1f40845d6c493f819cf2b0f715f6"
+        },
+        {
+          "bytes": 484704,
+          "path": "raw_events.bin",
+          "sha256": "2f0a6bbfcde0dd98ede67cbbc152ad2bc79c7b4b170651d4bf884e04d388f1b8"
+        },
+        {
+          "bytes": 1176793,
+          "path": "work_summary.json",
+          "sha256": "d67c7c5da34b2e754c241fa7983a568e52edc5d4659ea3e210b577e28faa8d8b"
+        }
+      ],
+      "source": "/tmp/bpf-pending-censor-v1"
+    },
+    "test-script": {
+      "files": [
+        {
+          "bytes": 16079,
+          "path": "instrumented/action_boundaries.jsonl",
+          "sha256": "bee8df61952516593143bb7d3e9e1d26339f0a37f8076c9e03aaf53ed137cf5e"
+        },
+        {
+          "bytes": 2127,
+          "path": "instrumented/bpf_collector_manifest.json",
+          "sha256": "ca035d7051df0990800b9922651e8f8aee2e13441ef52a7e070519db6ed1f5b0"
+        },
+        {
+          "bytes": 2653000,
+          "path": "instrumented/raw_aggregates.jsonl",
+          "sha256": "34293b36b258a8375273ddaf40e681a644930f54cb82bf3510a2a4b594fc583b"
+        },
+        {
+          "bytes": 1274944,
+          "path": "instrumented/raw_events.bin",
+          "sha256": "7a267e5980c413cb689b010058d9a2edf50ad196da40b25bdf7670ec6e0ad919"
+        },
+        {
+          "bytes": 2655924,
+          "path": "instrumented/work_summary.json",
+          "sha256": "abf99592a20da76a3c9e69fe28d105bd74b2cae7c69c681fd305304e0a0bd331"
+        },
+        {
+          "bytes": 3207,
+          "path": "overhead-result.json",
+          "sha256": "dc16e1a751e6807fe9a245385680af23e6e5d92e66ec4ee53588d55809432279"
+        }
+      ],
+      "source": "/tmp/linux-work-bpf-overhead-root-bcc/test-script-v6"
+    },
+    "untouched-shell-closure": {
+      "files": [
+        {
+          "bytes": 5011,
+          "path": "action_boundaries.jsonl",
+          "sha256": "5ad008fea9e83b14f30871eebe3584000ccd1357bf3bcfeadb5fa710640b221b"
+        },
+        {
+          "bytes": 1882,
+          "path": "bpf_collector_manifest.json",
+          "sha256": "2eb25e7246f9167fc379ec3f0f2e5dd7b6095f90a8f0160ab686880f1c0b2e5e"
+        },
+        {
+          "bytes": 1382,
+          "path": "closure-result.json",
+          "sha256": "4275e0a6c870ec2c628bf008ae8b06427ea8a609cda823d8c7eae1d239d5aa55"
+        },
+        {
+          "bytes": 1206890,
+          "path": "raw_aggregates.jsonl",
+          "sha256": "f6e6a079b4f05f46adbce96d5515c072e05c78a935e16903adefce3ee470390b"
+        },
+        {
+          "bytes": 509344,
+          "path": "raw_events.bin",
+          "sha256": "1c707460104d769c88fde4d692ad83efcd1b2098321366d6f203ac4684914b3e"
+        },
+        {
+          "bytes": 1209066,
+          "path": "work_summary.json",
+          "sha256": "ea2608eb31c39a22354dc82fcb6a8c6f696b205bbbaced6289bf8b1395a9f811"
+        }
+      ],
+      "source": "/tmp/bpf-unmodified-closure-background-v4"
+    }
+  },
+  "backend": "bcc",
+  "bcc_package_version": "0.18.0+ds-2",
+  "benchmark_target": {
+    "interpretation": "full capture includes perf polling, buffered binary writes, Unix-socket action boundaries, map/path snapshots, and fsync; BCC compile/attach and service startup are reported separately",
+    "median_execution_overhead_fraction": 0.05,
+    "verdict": "target not met by service-backed v6 file/traversal and test/script pairs",
+    "worst_execution_overhead_fraction": 0.1
+  },
+  "bpf_program_sha256": "91cf6fa4b6a7bb18e63272e4b877cdbb01bbe898b659e76b2b6f0f96c6cd9af9",
+  "capability": {
+    "bytes": 1562,
+    "path": "capability/ebpf-capability-check.json",
+    "sha256": "826ff4b12a1a456204a0ea68e7da19ccb59d7444e623716eab01c6d25a0d3595"
+  },
+  "capture_contract": {
+    "background_descendants": "retain original token through collector stop; finalization rows carry kernel-start/censor witnesses",
+    "binary_stream_retained": true,
+    "boundary_clock": "CLOCK_MONOTONIC_RAW with RAW-before/MONOTONIC/RAW-after bracket",
+    "individual_records_required": true,
+    "kernel_event_clock": "CLOCK_MONOTONIC via bpf_ktime_get_ns",
+    "metadata_mutation_and_rename_paths": "captured with explicit unknown/truncated status",
+    "perf_loss_or_count_mismatch": "unavailable",
+    "syscall_bytes_are_physical_disk_bytes": false
+  },
+  "created_wall_ns": 1788887966255035876,
+  "event_record_size_bytes": 352,
+  "event_schema": "assignment.linux-bpf-work-event.v2",
+  "kernel_release": "6.8.0-1066-gcp",
+  "schema_version": "assignment.linux-bpf-work-evidence.v2",
+  "source_files": {
+    "docs/LINUX_WORK_COLLECTOR.md": {
+      "bytes": 8271,
+      "sha256": "903f9cb4dc0b022fa7b26d1e97f9636f05c3a90da731e0490f1a82e63fc202ef"
+    },
+    "src/agentic_sim/telemetry/bpf_work.py": {
+      "bytes": 131596,
+      "sha256": "e1e13d253c1c4c205bcf63db683d868ba290d4a37db5c1c77657e98e4b908be7"
+    },
+    "tests/telemetry/test_bpf_work.py": {
+      "bytes": 8876,
+      "sha256": "5cc8612f24860a96cd378259cb4189c7abc577eb299f9cbd7771421ac6b66e07"
+    }
+  }
+}

@@ -1,0 +1,105 @@
+{
+  "accuracy_policy": "official_resolved values copied unchanged from the exact-run identity join; latency simulation never writes or infers accuracy",
+  "checks": {
+    "d2_ratio_points": 819,
+    "d3_exact_outcome_points": 615,
+    "d3_official_resolved_n": 236,
+    "d3_unmatched_train_runs": 204,
+    "historical_categories": 12,
+    "historical_e2e_boundary_crosscheck": true,
+    "historical_trajectories": 819,
+    "native_missing_prediction_rows": 0,
+    "native_request_rows": 2080,
+    "no_component_rows_added_to_direct_e2e": true,
+    "selected_high_ratio": 15.304770517697605,
+    "selected_high_ratio_run": "assignment-case-v1:d7cce24c718deaf5c5325120fb37feed1651e0b61fc7f4416cddfc155860d274",
+    "step2_rows": 12,
+    "step3_event_rows": 15
+  },
+  "cohort": {
+    "d3_exact_outcome_runs": 615,
+    "d3_unmatched_train_runs": 204,
+    "historical_instances": 545,
+    "historical_trajectories": 819,
+    "native_instances": 25,
+    "native_requests": 2080,
+    "partition": "train_calibration",
+    "training_manifest_output_hashes": {
+      "models.jsonl": "ee0b65f46aa11b0357fe761a9543aeed6da2a56c100c1cacc5c14164adb028da",
+      "tools.jsonl": "2ff63b051873b820f29eef4262ef7dd60c58045b11f7f6648279405c9f02e311",
+      "trajectories.jsonl": "803ad4554b36695704a2a96080404044c553c9bc8d46fd668a3942fc69a3e63a"
+    }
+  },
+  "d3_outcome_join": {
+    "contract": "exact_run_id_only",
+    "match_counts": {
+      "exact_run_id": 615,
+      "unmatched_train_run_id": 204
+    },
+    "scope_manifest_list_sha256": "7f7a48f840eda37bf402c181f0f8859126c4ea12240ee665d47d08fd0fd34600",
+    "source_sha256": "569d9bf3c92f0165db2c06180fe34f7435d6d62b9e6e07cd4e227ef5888946ff"
+  },
+  "historical_boundary": "tool wall and completed model-request proxy wall; not native GPU timing",
+  "native_boundary": "direct native:e2e request OOF; queue/prefill/decode diagnostics not summed",
+  "schema": "d9-salvage-figures.v1",
+  "source_records": {
+    "cpu_oof_predictions": {
+      "path": "docs/offline-deliverables-20260909/cpu/class_hybrid_predictions.csv",
+      "sha256": "00ea9ea334507d96cd358c45144f7bd4b2eb4dd0bcb5e914e22009959b931d74"
+    },
+    "gpu_proxy_oof_predictions": {
+      "path": "docs/offline-deliverables-20260909/gpu_lifecycle/gpu_proxy_oof_predictions.jsonl",
+      "sha256": "248929129de0fcd5be56bca251e2be375d80247d691f056e83985b3f51cea683"
+    },
+    "historical_joint_metrics": {
+      "path": "docs/offline-deliverables-20260909/joint_hybrid_metrics.json",
+      "sha256": "cd17c6dabd982b6ead435b806139e3146bfacaa9473c6a50f04f17b15ab54610"
+    },
+    "historical_joint_predictions": {
+      "path": "docs/offline-deliverables-20260909/joint_hybrid_predictions.csv",
+      "sha256": "026ed8bd769caa7079714291cfc4798c5e27c0c4a7bbdc051aac61ba691717a6"
+    },
+    "historical_outcome_source": {
+      "path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260908T140000Z-offline-v2/figures-input/trajectories.csv",
+      "sha256": "569d9bf3c92f0165db2c06180fe34f7435d6d62b9e6e07cd4e227ef5888946ff"
+    },
+    "models": {
+      "path": "docs/offline-deliverables-20260909/training_view/models.jsonl",
+      "sha256": "ee0b65f46aa11b0357fe761a9543aeed6da2a56c100c1cacc5c14164adb028da"
+    },
+    "native_fit_artifact": {
+      "path": "docs/d9-salvage-20260910/native/fit_artifact.json",
+      "sha256": "1398a24df8f5e2e8581c8c7f1f8b6fa402594058933a1c0d8337fe19aa736ebe"
+    },
+    "native_predictions": {
+      "path": "docs/d9-salvage-20260910/native/predictions.jsonl",
+      "sha256": "6d1f57a158fb945f26307bf4078bf1878bd88da9b985f96768e91c08024ec98b"
+    },
+    "native_report": {
+      "path": "docs/d9-salvage-20260910/native/report.json",
+      "sha256": "e572bd74d340fd64e0d4ef7f583a67624501825e93c1dff1ba1ff7921920ca7d"
+    },
+    "sweep_pairs": {
+      "path": "docs/offline-deliverables-20260909/figures/d4_eligible_paired_clusters.csv",
+      "sha256": "c0b8c3716d24df38489cd47982cb4346eee143ec1170f107c926602808ca7abd"
+    },
+    "sweep_summary": {
+      "path": "docs/offline-deliverables-20260909/figures/d4_paired_sweep_summary.csv",
+      "sha256": "86aec80801323b843fe81225c1a9938c9efa2a1fa1301c24387475cce17dc2db"
+    },
+    "tools": {
+      "path": "docs/offline-deliverables-20260909/training_view/tools.jsonl",
+      "sha256": "2ff63b051873b820f29eef4262ef7dd60c58045b11f7f6648279405c9f02e311"
+    },
+    "training_manifest": {
+      "path": "docs/offline-deliverables-20260909/training_view/manifest.json",
+      "sha256": "1afd9afb8b552f84242f7e6b8b6e342f9b6f8ded5cd45a1d040b6bcf3f263341"
+    },
+    "trajectories": {
+      "path": "docs/offline-deliverables-20260909/training_view/trajectories.jsonl",
+      "sha256": "803ad4554b36695704a2a96080404044c553c9bc8d46fd668a3942fc69a3e63a"
+    }
+  },
+  "source_scope": "retained train_calibration and saved grouped OOF artifacts; outcome labels admitted only by exact train run ID; excluded evaluation labels unopened",
+  "status": "bounded_saved_artifact_render"
+}

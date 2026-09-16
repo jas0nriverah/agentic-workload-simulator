@@ -1,0 +1,126 @@
+{
+  "figures": [
+    {
+      "bytes": 90370,
+      "name": "d2_cpu_gpu_proxy_ratio_by_repository.png",
+      "sha256": "664ac83d3d96a71074012a5c1d8ca210ddb6dfd0a6af978a27920b5369e401c4"
+    },
+    {
+      "bytes": 160972,
+      "name": "d2_cpu_gpu_proxy_ratio_by_repository.svg",
+      "sha256": "12b0b3e0836f2ad659dd95891f825e1e3b784551da2d27abe5d56cf8b0284b69"
+    },
+    {
+      "bytes": 113600,
+      "name": "d3_category_tradeoffs.png",
+      "sha256": "11118b9cdeade8a244aa84f944fe3cd53fbcc0f9548bbdc3480535649aad1b79"
+    },
+    {
+      "bytes": 108044,
+      "name": "d3_category_tradeoffs.svg",
+      "sha256": "b8bd0550123f3e8ca6cbed799c99483fc801b906f3409f85e337dafa3a9e2fe5"
+    },
+    {
+      "bytes": 135968,
+      "name": "d9_latency_model_coverage_diagnostic.png",
+      "sha256": "b7d82c1ace49d1378be44ab829d547e9cb5361cbbac71b3791109e04da397dfd"
+    },
+    {
+      "bytes": 151551,
+      "name": "d9_latency_model_coverage_diagnostic.svg",
+      "sha256": "7f1d4f34e1942130e4669bf2f1daa4ca80a0bbbeb46d810457991c0c07ddb0d3"
+    },
+    {
+      "bytes": 75792,
+      "name": "native_request_oof_quality.png",
+      "sha256": "3bd9db2b4b292a9965656e01b057b259a777c0ef487acb94d4ab030d9cd61bea"
+    },
+    {
+      "bytes": 616747,
+      "name": "native_request_oof_quality.svg",
+      "sha256": "aa0796e25b89fd0d542a4cc9a073c068f9254204fc369c0d76147ccb3fe57ab8"
+    },
+    {
+      "bytes": 59700,
+      "name": "step2_call_limit.png",
+      "sha256": "26e7331cc107798f978a1d139b7eabe3c99340e7e8889745b253ccb013ed62dc"
+    },
+    {
+      "bytes": 5702,
+      "name": "step2_call_limit.svg",
+      "sha256": "c5c924fe56a1c2889c0a594dd28e4d54977ee57070a852a7ca8909301d188f8c"
+    },
+    {
+      "bytes": 133836,
+      "name": "step2_hyperparameter_tradeoffs.png",
+      "sha256": "d8d921a05503025e15e90e97b5c2fc038217d8e456949c1b81adaeb83e98471f"
+    },
+    {
+      "bytes": 20935,
+      "name": "step2_hyperparameter_tradeoffs.svg",
+      "sha256": "da51113f1821a5118862a78a2766cc470083d7ffdafc68a4f2b27416bf4a945c"
+    },
+    {
+      "bytes": 62207,
+      "name": "step2_max_output_tokens.png",
+      "sha256": "18049dcca57f5980f5fdc9abae096261aa8c511b814e25b092e7514ad48ac82f"
+    },
+    {
+      "bytes": 5728,
+      "name": "step2_max_output_tokens.svg",
+      "sha256": "e25402ee8f2d393efbfe3f0a9042b2f6d630addb771381d63792b86ab642d21c"
+    },
+    {
+      "bytes": 59977,
+      "name": "step2_observation_length.png",
+      "sha256": "bd36c05ea2d2988fb40aea38f1f80fd28adbda06669e065fb45bdad0f05fcfb0"
+    },
+    {
+      "bytes": 5738,
+      "name": "step2_observation_length.svg",
+      "sha256": "67b2dd7eeac86cbae3ab8eeffe6e67b57e780660546108cd6bff0b4002462645"
+    },
+    {
+      "bytes": 60306,
+      "name": "step2_temperature.png",
+      "sha256": "9308b368a4f3478897c7938599d68d43c4b554ca5d65935bae1adda81f6fe094"
+    },
+    {
+      "bytes": 5710,
+      "name": "step2_temperature.svg",
+      "sha256": "8978a526df30ee01cf1a3e98f5eb36a7565a52e994720ffceb8773c63e6f3f67"
+    },
+    {
+      "bytes": 60831,
+      "name": "step3_high_ratio_breakdown.png",
+      "sha256": "fa07b601c624e065a69bc9420a9de14652d8ce0c921c8deb97be0ead4c3e89b0"
+    },
+    {
+      "bytes": 5837,
+      "name": "step3_high_ratio_breakdown.svg",
+      "sha256": "2925386e42bca35d1fc44ed7c22034f3b37cc6569b03272e0e381b7ea35324ce"
+    },
+    {
+      "bytes": 74767,
+      "name": "step3_high_ratio_events.png",
+      "sha256": "674cce6d69ba40312f59271a52dd12521454624a596b756feffe785575a2f226"
+    },
+    {
+      "bytes": 15457,
+      "name": "step3_high_ratio_events.svg",
+      "sha256": "767fd7411814909810f0b2e3aa4e9491e7c05cedf6d1a2b3b401b6ac9289d44e"
+    }
+  ],
+  "inputs": [
+    "d2_ratio_rows.csv",
+    "d3_ratio_rows_exact_outcome_join.csv",
+    "d3_outcome_join.csv",
+    "d3_outcome_join_manifest.json",
+    "d3_category_aggregates.csv",
+    "step2_tradeoff_rows.csv",
+    "step3_event_log.csv",
+    "step3_breakdown.csv",
+    "native_oof_metrics.json"
+  ],
+  "schema": "d9-salvage-figure-inventory.v1"
+}

@@ -1,0 +1,34 @@
+{
+  "models": {
+    "descriptor_median": {
+      "candidate": "descriptor_median",
+      "fallback": 168.1750215,
+      "table": {
+        "{\"class\": \"shell\", \"executable\": \"pwd\", \"operation\": \"shell\"}": 136.821166,
+        "{\"class\": \"shell\", \"executable\": \"_state_anthropic\", \"operation\": \"shell\"}": 171.867532,
+        "{\"class\": \"shell\", \"executable\": \"unknown\", \"operation\": \"unknown\"}": 141.071371,
+        "{\"class\": \"shell\", \"executable\": \"export\", \"operation\": \"shell\"}": 162.197874,
+        "{\"class\": \"traversal\", \"executable\": \"ls\", \"operation\": \"traversal\"}": 143.899926,
+        "{\"class\": \"shell\", \"executable\": \"echo\", \"operation\": \"shell\"}": 142.340334
+      }
+    },
+    "descriptor_gate": {
+      "candidate": "descriptor_gate",
+      "fallback": 168.1750215,
+      "table": {
+        "{\"class\": \"shell\", \"executable\": \"pwd\", \"operation\": \"shell\"}": 151.23189,
+        "{\"class\": \"shell\", \"executable\": \"_state_anthropic\", \"operation\": \"shell\"}": 190.36903275,
+        "{\"class\": \"shell\", \"executable\": \"unknown\", \"operation\": \"unknown\"}": 155.906541,
+        "{\"class\": \"shell\", \"executable\": \"export\", \"operation\": \"shell\"}": 158.50677875,
+        "{\"class\": \"traversal\", \"executable\": \"ls\", \"operation\": \"traversal\"}": 143.535445,
+        "{\"class\": \"shell\", \"executable\": \"echo\", \"operation\": \"shell\"}": 158.01378825
+      }
+    }
+  },
+  "evaluation_report_sha256": "df64cb48b7cc018730d0b2623700a8374b8fead0843b749285b09b0544432851",
+  "default": "descriptor_median",
+  "contract": "Explicit opt-in gate-center tradeoff; same hardware/start-known descriptor contract; not a D9 pass.",
+  "schema": "runtime-alternatives.v1",
+  "hardware_domain": "hardware_fingerprint:static_local_cpu_inventory_v1:d84db556d4a61ce6296cb380c45e9fab59f5fd8d8d712d9df30079cbd13e1fc9",
+  "target_boundary": "tool_execution"
+}

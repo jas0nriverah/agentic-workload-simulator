@@ -1,15 +1,23 @@
-"""Strict hardware-aware event latency simulation for the coding assignment.
+"""Hardware-aware event latency simulation for the coding assignment.
 
-The prediction boundary accepts only values known before an individual event
-starts.  Measured wall/CPU/CUDA/Kineto values and observed/generated output
-lengths are labels or post-execution diagnostics and are rejected as features.
+Step 3 requires logging and modeling CPU events (reads, writes, traversal, …)
+and GPU events (input tokens, output tokens, context length). Step 4 then
+uses those event models with configurable hardware parameters.  The
+assignment-level simulator therefore consumes the Step-3 event descriptors
+together with a hardware profile.  Measured wall, CPU, CUDA, and Kineto times
+remain labels and are rejected as features.
+
+A stricter sealed online-forecast protocol that forbids current-event
+``output_tokens`` is preserved separately in ``sequential_simulator`` and
+``scripts/assignment/adaptive_event_protocol.py``.  It is a research result,
+not the assignment minimum.
 
 Three dependency-free ridge models are selected deterministically using
 leave-one-trajectory-out calibration error:
 
-* tool-event latency from operation class and declared work;
-* model-request latency from input/context/output-budget features; and
-* trajectory latency from predicted event totals and declared event counts.
+    * tool-event latency from operation class and declared work;
+    * model-request latency from input, output, context, and hardware;
+    * trajectory latency from predicted event totals and declared event counts.
 
 Only records explicitly marked ``calibration`` can enter fitting.  Holdout
 features are predicted and frozen, with a SHA-256 sidecar, before a separate
@@ -84,7 +92,6 @@ TARGET_DERIVED_FIELDS = frozenset(
         "cuda_activity_union_ms",
         "start_mono_ns",
         "end_mono_ns",
-        "output_tokens",
         "actual_output_tokens",
         "generated_tokens",
         "completion_tokens",
@@ -92,7 +99,31 @@ TARGET_DERIVED_FIELDS = frozenset(
         "response_bytes",
         "completion_length",
         "output_length",
+        "current_output_tokens",
+        "official_resolved",
+        "resolved",
+        "evaluator",
+        "evaluator_result",
+        "future_event",
+        "next_event_wall_ms",
     }
+)
+
+TOOL_SEQUENTIAL_FIELDS = (
+    "tool_name",
+    "subcommand",
+    "command_prefix",
+    "command_sha256",
+    "has_pipe",
+    "has_glob",
+    "extractor_id",
+    "extractor_sha256",
+)
+MODEL_SEQUENTIAL_FIELDS = (
+    "prior_event_count",
+    "prior_median_output_tokens",
+    "prior_median_observed_ms",
+    "prior_label_sha256s",
 )
 
 
@@ -271,7 +302,7 @@ class HardwareProfile:
 
 @dataclass(frozen=True)
 class ToolEventInput:
-    """Tool-call features available before the tool invocation starts."""
+    """CPU/tool workload descriptors plus the hardware profile."""
 
     event_id: str
     run_id: str
@@ -282,6 +313,14 @@ class ToolEventInput:
     declared_write_bytes: int
     declared_path_count: int
     hardware: HardwareProfile
+    tool_name: str = ""
+    subcommand: str = ""
+    command_prefix: str = ""
+    command_sha256: str = ""
+    has_pipe: int = 0
+    has_glob: int = 0
+    extractor_id: str = ""
+    extractor_sha256: str = ""
 
     def __post_init__(self) -> None:
         if not isinstance(self.hardware, HardwareProfile):
@@ -313,11 +352,13 @@ class ToolEventInput:
             "declared_write_bytes",
             "declared_path_count",
             "hardware",
+            *TOOL_SEQUENTIAL_FIELDS,
         }
         _strict_keys(row, allowed, kind="tool-event input")
         if row.get("schema_version") != TOOL_INPUT_SCHEMA:
             raise EventSimulatorError("unsupported tool-event input schema_version")
-        missing = sorted(allowed - {"schema_version"} - set(row))
+        required = allowed - {"schema_version"} - set(TOOL_SEQUENTIAL_FIELDS)
+        missing = sorted(required - set(row))
         if missing:
             raise EventSimulatorError("tool-event input is missing: " + ", ".join(missing))
         hardware = row["hardware"]
@@ -341,6 +382,14 @@ class ToolEventInput:
                 row["declared_path_count"], "declared_path_count"
             ),
             hardware=HardwareProfile.from_mapping(hardware),
+            tool_name=str(row.get("tool_name") or ""),
+            subcommand=str(row.get("subcommand") or ""),
+            command_prefix=str(row.get("command_prefix") or ""),
+            command_sha256=str(row.get("command_sha256") or ""),
+            has_pipe=_nonnegative_integer(int(row.get("has_pipe") or 0), "has_pipe"),
+            has_glob=_nonnegative_integer(int(row.get("has_glob") or 0), "has_glob"),
+            extractor_id=str(row.get("extractor_id") or ""),
+            extractor_sha256=str(row.get("extractor_sha256") or ""),
         )
 
     def design_row(self) -> tuple[float, ...]:
@@ -373,12 +422,26 @@ class ToolEventInput:
             "declared_write_bytes": self.declared_write_bytes,
             "declared_path_count": self.declared_path_count,
             "hardware": self.hardware.to_mapping(),
+            "tool_name": self.tool_name,
+            "subcommand": self.subcommand,
+            "command_prefix": self.command_prefix,
+            "command_sha256": self.command_sha256,
+            "has_pipe": self.has_pipe,
+            "has_glob": self.has_glob,
+            "extractor_id": self.extractor_id,
+            "extractor_sha256": self.extractor_sha256,
         }
 
 
 @dataclass(frozen=True)
 class ModelEventInput:
-    """Model-request features available before generation starts."""
+    """GPU/model workload descriptors plus the hardware profile.
+
+    ``output_tokens`` is the Step-3 GPU-event descriptor used by the
+    assignment-level simulator.  It is optional so the sealed online protocol
+    can omit it; when omitted, ``max_output_tokens`` is the decode-length
+    proxy.
+    """
 
     request_id: str
     run_id: str
@@ -387,6 +450,11 @@ class ModelEventInput:
     context_tokens: int
     max_output_tokens: int
     hardware: HardwareProfile
+    output_tokens: int | None = None
+    prior_event_count: int = 0
+    prior_median_output_tokens: float = 0.0
+    prior_median_observed_ms: float = 0.0
+    prior_label_sha256s: tuple[str, ...] = ()
 
     def __post_init__(self) -> None:
         if not isinstance(self.hardware, HardwareProfile):
@@ -399,6 +467,15 @@ class ModelEventInput:
             _nonnegative_integer(getattr(self, name), name)
         if self.max_output_tokens == 0:
             raise EventSimulatorError("max_output_tokens must be positive")
+        if self.output_tokens is not None:
+            _nonnegative_integer(self.output_tokens, "output_tokens")
+
+    @property
+    def decode_tokens(self) -> int:
+        """Logged output length when present; otherwise the request budget."""
+        if self.output_tokens is not None:
+            return self.output_tokens
+        return self.max_output_tokens
 
     @classmethod
     def from_mapping(cls, row: Mapping[str, Any]) -> "ModelEventInput":
@@ -408,19 +485,27 @@ class ModelEventInput:
             "run_id",
             "split",
             "input_tokens",
+            "output_tokens",
             "context_tokens",
             "max_output_tokens",
             "hardware",
+            *MODEL_SEQUENTIAL_FIELDS,
         }
         _strict_keys(row, allowed, kind="model-event input")
         if row.get("schema_version") != MODEL_INPUT_SCHEMA:
             raise EventSimulatorError("unsupported model-event input schema_version")
-        missing = sorted(allowed - {"schema_version"} - set(row))
+        required = (
+            allowed
+            - {"schema_version", "output_tokens"}
+            - set(MODEL_SEQUENTIAL_FIELDS)
+        )
+        missing = sorted(required - set(row))
         if missing:
             raise EventSimulatorError("model-event input is missing: " + ", ".join(missing))
         hardware = row["hardware"]
         if not isinstance(hardware, Mapping):
             raise EventSimulatorError("hardware must be a mapping")
+        output_tokens = row.get("output_tokens")
         return cls(
             request_id=_text(row["request_id"], "request_id"),
             run_id=_text(row["run_id"], "run_id"),
@@ -431,6 +516,25 @@ class ModelEventInput:
                 row["max_output_tokens"], "max_output_tokens"
             ),
             hardware=HardwareProfile.from_mapping(hardware),
+            output_tokens=(
+                None
+                if output_tokens is None
+                else _nonnegative_integer(output_tokens, "output_tokens")
+            ),
+            prior_event_count=_nonnegative_integer(
+                int(row.get("prior_event_count") or 0), "prior_event_count"
+            ),
+            prior_median_output_tokens=_finite_number(
+                float(row.get("prior_median_output_tokens") or 0.0),
+                "prior_median_output_tokens",
+            ),
+            prior_median_observed_ms=_finite_number(
+                float(row.get("prior_median_observed_ms") or 0.0),
+                "prior_median_observed_ms",
+            ),
+            prior_label_sha256s=tuple(
+                str(item) for item in (row.get("prior_label_sha256s") or ())
+            ),
         )
 
     def design_row(self) -> tuple[float, ...]:
@@ -438,12 +542,12 @@ class ModelEventInput:
         bandwidth = self.hardware.gpu_bandwidth_capacity / 1000.0
         input_k = self.input_tokens / 1000.0
         context_k = self.context_tokens / 1000.0
-        output_k = self.max_output_tokens / 1000.0
+        output_k = self.decode_tokens / 1000.0
         return (
             1.0,
             input_k / compute,
             context_k / bandwidth,
-            output_k / compute,
+            output_k / bandwidth,
             input_k * output_k / compute,
             context_k * output_k / bandwidth,
             1.0 / self.hardware.gpu_memory_gib,
@@ -451,7 +555,7 @@ class ModelEventInput:
         )
 
     def to_mapping(self) -> dict[str, Any]:
-        return {
+        mapping = {
             "schema_version": MODEL_INPUT_SCHEMA,
             "request_id": self.request_id,
             "run_id": self.run_id,
@@ -460,7 +564,14 @@ class ModelEventInput:
             "context_tokens": self.context_tokens,
             "max_output_tokens": self.max_output_tokens,
             "hardware": self.hardware.to_mapping(),
+            "prior_event_count": self.prior_event_count,
+            "prior_median_output_tokens": self.prior_median_output_tokens,
+            "prior_median_observed_ms": self.prior_median_observed_ms,
+            "prior_label_sha256s": list(self.prior_label_sha256s),
         }
+        if self.output_tokens is not None:
+            mapping["output_tokens"] = self.output_tokens
+        return mapping
 
 
 @dataclass(frozen=True)

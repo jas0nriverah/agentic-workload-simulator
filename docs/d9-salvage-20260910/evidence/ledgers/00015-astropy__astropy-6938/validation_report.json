@@ -1,0 +1,135 @@
+{
+  "attempts": [
+    {
+      "attempt_id": "attempt-001",
+      "cpu_raw_integrity": {
+        "action_count": 93,
+        "atomic_normalization": "unsupported_no_full_bpf_export",
+        "coverage_error_count": 0,
+        "raw_event_binary": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00015-58d9645e9df5aaf6/attempt-58d9645e9df5aaf6-003-1d37c9ff550b/runner_attempts/attempt-001/telemetry_v2/linux_work/raw_events.bin",
+        "raw_event_binary_bytes": 73035200,
+        "raw_event_binary_hash_skipped": true,
+        "raw_event_binary_sha256": null,
+        "representative_decoder": "not_run",
+        "status": "complete_bounded_raw_metadata"
+      },
+      "host_clock_unions": {
+        "instance-20260902-053002|CLOCK_MONOTONIC_RAW|boot=df4cb202-feaf-4b07-9e2f-d6d7923a718f": {
+          "disjoint_union_ms": 162885.189217,
+          "merged_interval_count": 254,
+          "raw_interval_count": 398
+        }
+      },
+      "model_physical_starts": 36,
+      "model_physical_terminals": 36,
+      "native_clock_policy": "native intervals and GPU durations are retained separately; never added to host timeline union",
+      "native_physical_terminals": 36,
+      "outer_e2e_boundary": {
+        "event_kind": "outer_swe_agent",
+        "observed_ms": 172852.787315
+      },
+      "pair_inventory": {
+        "lifecycle": {
+          "starts": 251,
+          "terminals": 512
+        },
+        "model": {
+          "starts": 72,
+          "terminals": 72
+        },
+        "tool": {
+          "starts": 36,
+          "terminals": 72
+        }
+      },
+      "raw_record_count": 1051
+    }
+  ],
+  "case_event_records": {
+    "count": 1159,
+    "path": "/home/riverahernandezjason/agentic-submission-repairs-20260908/docs/d9-salvage-20260910/evidence/ledgers/00015-astropy__astropy-6938/normalized_case_events.jsonl"
+  },
+  "case_metadata": {
+    "repository": "astropy/astropy",
+    "settings": {
+      "call_limit": 100,
+      "max_input_tokens": 61440,
+      "max_output_tokens": 2048,
+      "observation_length": 25000,
+      "seed": 0,
+      "temperature": 0.5,
+      "top_p": 1.0
+    },
+    "suite": "lite"
+  },
+  "case_result": {
+    "evaluator_outcome_provenance": "unproven_not_bound_by_ledger",
+    "present": true
+  },
+  "case_root": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/comparison-resume-20260909-v1/final-production-v1/outputs/cases/00015-58d9645e9df5aaf6/attempt-58d9645e9df5aaf6-003-1d37c9ff550b",
+  "disposition": "unknown_not_fit_eligible_without_external_pinned_manifest",
+  "excluded_attempt_inventory": [],
+  "hardware_bindings": {
+    "cpu": {
+      "binding": "pre-execution CPU-host snapshot only",
+      "hardware_profile_sha256": "4d017f90d50841168d1aa7a960f6d3cb9ceb79a5b1b40336bb5a9106e62a8fbb",
+      "path": "runner_attempts/attempt-001/telemetry_v2/hardware_snapshots.jsonl",
+      "sha256": "568d4018af758a1012416dad6dc5e55aa25150bad79a2f605b96bca9a600f820"
+    },
+    "native_gpu": "unavailable"
+  },
+  "identity": {
+    "case_id": "assignment-production-v2:5d2eb13337f0a01131fe2f464ddaa794e45baf57cb8c5252d77fab7d262a2e96",
+    "instance_id": "astropy__astropy-6938"
+  },
+  "partition": null,
+  "partition_provenance": "case_spec_supplied_untrusted; downstream derives pinned partition before event read",
+  "schema_version": "assignment.offline.ledger-validation.v1",
+  "source_hashes": [
+    {
+      "path": "case_result.json",
+      "sha256": "44d395f0e6acebb308f0de7ced8c0aa910d0fdc5d438f9d3fca116e744a02e42"
+    },
+    {
+      "path": "case_spec.json",
+      "sha256": "98421973f404037753051009f9d29667960a1ded017e31ee44e87600c33bfdde"
+    },
+    {
+      "path": "runner_attempts/attempt-001/native_serving/native_attribution.jsonl",
+      "sha256": "e921e8cfb96b30cb2f5048ad140f2f94b14013c3a8d8115297a75e5fa1c90652"
+    },
+    {
+      "path": "runner_attempts/attempt-001/telemetry_v2/hardware_snapshots.jsonl",
+      "sha256": "568d4018af758a1012416dad6dc5e55aa25150bad79a2f605b96bca9a600f820"
+    },
+    {
+      "path": "runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl",
+      "sha256": "a6711e781d0055569ce811dbed1b0ca274c9310d0cddbb36fb3a435a1c911e4b"
+    },
+    {
+      "path": "runner_attempts/attempt-001/telemetry_v2/linux_work/bpf_collector_manifest.json",
+      "sha256": "4f0b5edc99dc2af7b58c487609858a4721185616595b1e921ba51d92824e9832"
+    },
+    {
+      "path": "runner_attempts/attempt-001/telemetry_v2/linux_work/raw_aggregates.jsonl",
+      "sha256": "a09731e649e94f47a57437b5e0a1a6306962cc238cf7ae4768e98727b6f4c6a8"
+    },
+    {
+      "path": "runner_attempts/attempt-001/telemetry_v2/linux_work/work_summary.json",
+      "sha256": "e70e7f48ce6eec30e64ab429c7c7e6db283b4dd60db74eafeb7cb9163b00d8fe"
+    },
+    {
+      "path": "runner_attempts/attempt-001/telemetry_v2/model_events.jsonl",
+      "sha256": "03bdfcfafd366d93c80c771a4405c4b7f0a5893c74d8c24d73a09aad562794a4"
+    },
+    {
+      "path": "runner_attempts/attempt-001/telemetry_v2/tool_events.jsonl",
+      "sha256": "4ba3d9cbd92a03714c40bed1743c3ac8b7baa463c16538b4cf831572cba18fae"
+    }
+  ],
+  "validation": {
+    "error_count": 0,
+    "errors": [],
+    "status": "valid"
+  }
+}

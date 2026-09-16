@@ -1,0 +1,797 @@
+{
+  "accepted_current_comparison": {
+    "baseline_configuration": {
+      "call_limit": 30,
+      "max_input_tokens": 32768,
+      "max_output_tokens": 2048,
+      "observation_length": 100000,
+      "temperature": 0.0
+    },
+    "baseline_metadata": {
+      "edit_anthropic_install_fail": true,
+      "instance_id": "django__django-7530",
+      "official_resolved": false,
+      "patch_bytes": 0,
+      "primary_class": "empty_patch_edit_anthropic_install",
+      "python35_or_old_pip": true,
+      "resume_key": "assignment-case-v1:10cfac47a2f380898d6c9e4d408296e206a54f27c41948645ca2b7bd8fa8588f",
+      "source_root": "remaining-failed-06d0167-cpu-docker-20260907T193200Z-16",
+      "summary_duration_ms": 36372.668687,
+      "tree_sitter_fail": true
+    },
+    "candidate_configuration": {
+      "call_limit": 100,
+      "max_input_tokens": 61440,
+      "max_output_tokens": 2048,
+      "observation_length": 100000,
+      "seed": 0,
+      "temperature": 0.0,
+      "top_p": 1.0
+    },
+    "candidate_id": "expanded-call100-input61440",
+    "candidate_native_evidence": {
+      "measured_count": 35,
+      "physical_request_count": 35,
+      "server_identity": "h100-worker-22",
+      "status": "measured",
+      "unavailable_count": 0
+    },
+    "candidate_official_resolved": true,
+    "candidate_telemetry": {
+      "attributed_union_ms": 176246.083218,
+      "closure_error_ms": 0.0,
+      "execution_status": "completed",
+      "feature_parity_mismatches": 0,
+      "missing_pre_actions": 0,
+      "missing_terminal_requests": 0,
+      "missing_terminal_tools": 0,
+      "newly_attributed_union_ms": 27238.948508,
+      "outer_wall_ms": 183266.92405,
+      "physical_requests": 35,
+      "runtime_commands": 58,
+      "tool_events": 35,
+      "unknown_wall_ms": 7020.840832
+    },
+    "historical_baseline_official_resolved": false,
+    "historical_template_case_id": "assignment-case-v1:10cfac47a2f380898d6c9e4d408296e206a54f27c41948645ca2b7bd8fa8588f",
+    "instance_id": "django__django-7530",
+    "interpretation": "accepted same-template newer comparison; quality change is confounded by call budget, input guard, runtime/evaluator/source and baseline editor/tool-install failure",
+    "outcome_change": "resolved_from_historical_unresolved",
+    "selection_use": "diagnostic only; cannot select a current winner from one accepted case"
+  },
+  "created_by": "/home/riverahernandezjason/agentic-submission-repairs-20260908/docs/retained-analysis-20260909/score/score_opportunities.py",
+  "declared_96_comparison": {
+    "candidates": [
+      "historical-control-call30-input32768",
+      "expanded-call50-input61440",
+      "expanded-call100-input61440",
+      "expanded-call100-input61440-observation25000"
+    ],
+    "case_count": 96,
+    "contrasts": [
+      {
+        "cannot_attribute": "call budget alone",
+        "id": "control_vs_call50_guard",
+        "identifiable_change": [
+          "call_limit",
+          "max_input_tokens/client_guard"
+        ],
+        "left": "historical-control-call30-input32768",
+        "right": "expanded-call50-input61440"
+      },
+      {
+        "fixed": [
+          "max_input_tokens",
+          "observation_length",
+          "output",
+          "temperature",
+          "seed"
+        ],
+        "id": "call50_vs_call100_fixed_guard",
+        "identifiable_change": [
+          "call_limit"
+        ],
+        "left": "expanded-call50-input61440",
+        "right": "expanded-call100-input61440"
+      },
+      {
+        "fixed": [
+          "call_limit",
+          "max_input_tokens",
+          "output",
+          "temperature",
+          "seed"
+        ],
+        "id": "observation100000_vs25000_fixed_calls",
+        "identifiable_change": [
+          "observation_length"
+        ],
+        "left": "expanded-call100-input61440",
+        "right": "expanded-call100-input61440-observation25000"
+      }
+    ],
+    "current_observed_status": {
+      "expanded-call100-input61440": {
+        "accepted": 1,
+        "blocked": 2,
+        "pending": 21
+      },
+      "expanded-call100-input61440-observation25000": {
+        "blocked": 3,
+        "pending": 21
+      },
+      "expanded-call50-input61440": {
+        "blocked": 3,
+        "pending": 21
+      },
+      "historical-control-call30-input32768": {
+        "blocked": 2,
+        "pending": 22
+      }
+    },
+    "instance_count": 24,
+    "selection_rule": "paired official resolution, regression review, then declared failure/context/budget/cost tie-breaks; no final 1088 outcomes"
+  },
+  "eligible_taxonomy": [
+    {
+      "category": "exit_context",
+      "dimension": "termination",
+      "n": 63,
+      "note": "",
+      "resolved": 14,
+      "resolved_rate": 0.2222222222222222
+    },
+    {
+      "category": "exit_cost",
+      "dimension": "termination",
+      "n": 511,
+      "note": "",
+      "resolved": 179,
+      "resolved_rate": 0.350293542074364
+    },
+    {
+      "category": "exit_error",
+      "dimension": "termination",
+      "n": 10,
+      "note": "",
+      "resolved": 0,
+      "resolved_rate": 0.0
+    },
+    {
+      "category": "exit_format",
+      "dimension": "termination",
+      "n": 1,
+      "note": "",
+      "resolved": 1,
+      "resolved_rate": 1.0
+    },
+    {
+      "category": "submitted",
+      "dimension": "termination",
+      "n": 62,
+      "note": "",
+      "resolved": 50,
+      "resolved_rate": 0.8064516129032258
+    },
+    {
+      "category": "empty_patch",
+      "dimension": "patch_primary_class",
+      "n": 8,
+      "note": "",
+      "resolved": 0,
+      "resolved_rate": 0.0
+    },
+    {
+      "category": "empty_patch_edit_anthropic_install",
+      "dimension": "patch_primary_class",
+      "n": 3,
+      "note": "",
+      "resolved": 0,
+      "resolved_rate": 0.0
+    },
+    {
+      "category": "evaluator_completed_official_resolved_false",
+      "dimension": "patch_primary_class",
+      "n": 356,
+      "note": "",
+      "resolved": 0,
+      "resolved_rate": 0.0
+    },
+    {
+      "category": "evaluator_completed_official_resolved_true",
+      "dimension": "patch_primary_class",
+      "n": 244,
+      "note": "",
+      "resolved": 244,
+      "resolved_rate": 1.0
+    },
+    {
+      "category": "recovered_proxy_error",
+      "dimension": "patch_primary_class",
+      "n": 36,
+      "note": "",
+      "resolved": 0,
+      "resolved_rate": 0.0
+    },
+    {
+      "category": "empty_patch",
+      "dimension": "patch_signal",
+      "n": 11,
+      "note": "nonexclusive heuristic or artifact signal; not a causal label",
+      "resolved": 0,
+      "resolved_rate": 0.0
+    },
+    {
+      "category": "missing_model_patch",
+      "dimension": "patch_signal",
+      "n": 0,
+      "note": "nonexclusive heuristic or artifact signal; not a causal label",
+      "resolved": 0,
+      "resolved_rate": null
+    },
+    {
+      "category": "noop_like",
+      "dimension": "patch_signal",
+      "n": 76,
+      "note": "nonexclusive heuristic or artifact signal; not a causal label",
+      "resolved": 0,
+      "resolved_rate": 0.0
+    },
+    {
+      "category": "has_debug_files",
+      "dimension": "patch_signal",
+      "n": 522,
+      "note": "nonexclusive heuristic or artifact signal; not a causal label",
+      "resolved": 166,
+      "resolved_rate": 0.31800766283524906
+    },
+    {
+      "category": "0",
+      "dimension": "patch_bytes_bin",
+      "n": 11,
+      "note": "",
+      "resolved": 0,
+      "resolved_rate": 0.0
+    },
+    {
+      "category": "1001+",
+      "dimension": "patch_bytes_bin",
+      "n": 573,
+      "note": "",
+      "resolved": 193,
+      "resolved_rate": 0.3368237347294939
+    },
+    {
+      "category": "101-1000",
+      "dimension": "patch_bytes_bin",
+      "n": 63,
+      "note": "",
+      "resolved": 51,
+      "resolved_rate": 0.8095238095238095
+    },
+    {
+      "category": "edit_anthropic_install_fail",
+      "dimension": "environment_signal",
+      "n": 168,
+      "note": "association only; flags can co-occur and do not prove cause",
+      "resolved": 63,
+      "resolved_rate": 0.375
+    },
+    {
+      "category": "tree_sitter_fail",
+      "dimension": "environment_signal",
+      "n": 3,
+      "note": "association only; flags can co-occur and do not prove cause",
+      "resolved": 0,
+      "resolved_rate": 0.0
+    },
+    {
+      "category": "python35_or_old_pip",
+      "dimension": "environment_signal",
+      "n": 14,
+      "note": "association only; flags can co-occur and do not prove cause",
+      "resolved": 6,
+      "resolved_rate": 0.42857142857142855
+    },
+    {
+      "category": "function_calling_warning",
+      "dimension": "environment_signal",
+      "n": 647,
+      "note": "association only; flags can co-occur and do not prove cause",
+      "resolved": 244,
+      "resolved_rate": 0.37712519319938176
+    },
+    {
+      "category": "parser_error",
+      "dimension": "environment_signal",
+      "n": 647,
+      "note": "association only; flags can co-occur and do not prove cause",
+      "resolved": 244,
+      "resolved_rate": 0.37712519319938176
+    },
+    {
+      "category": "eval_missing",
+      "dimension": "server_runtime_signal",
+      "n": 0,
+      "note": "saved evaluator/runtime metadata; no raw server archive mining",
+      "resolved": 0,
+      "resolved_rate": null
+    },
+    {
+      "category": "eval_corrupt",
+      "dimension": "server_runtime_signal",
+      "n": 0,
+      "note": "saved evaluator/runtime metadata; no raw server archive mining",
+      "resolved": 0,
+      "resolved_rate": null
+    },
+    {
+      "category": "eval_error_instances",
+      "dimension": "server_runtime_signal",
+      "n": 0,
+      "note": "saved evaluator/runtime metadata; no raw server archive mining",
+      "resolved": 0,
+      "resolved_rate": null
+    },
+    {
+      "category": "proxy_remote_disconnected",
+      "dimension": "server_runtime_signal",
+      "n": 15,
+      "note": "saved evaluator/runtime metadata; no raw server archive mining",
+      "resolved": 2,
+      "resolved_rate": 0.13333333333333333
+    },
+    {
+      "category": "strict_eval_completed",
+      "dimension": "server_runtime_signal",
+      "n": 478,
+      "note": "saved evaluator/runtime metadata; no raw server archive mining",
+      "resolved": 181,
+      "resolved_rate": 0.3786610878661088
+    },
+    {
+      "category": "traj_exists",
+      "dimension": "server_runtime_signal",
+      "n": 644,
+      "note": "saved evaluator/runtime metadata; no raw server archive mining",
+      "resolved": 244,
+      "resolved_rate": 0.37888198757763975
+    },
+    {
+      "category": "0-8191",
+      "dimension": "observation_prompt_max_bin",
+      "n": 1,
+      "note": "",
+      "resolved": 0,
+      "resolved_rate": 0.0
+    },
+    {
+      "category": "8192-16383",
+      "dimension": "observation_prompt_max_bin",
+      "n": 46,
+      "note": "",
+      "resolved": 15,
+      "resolved_rate": 0.32608695652173914
+    },
+    {
+      "category": "16384-32767",
+      "dimension": "observation_prompt_max_bin",
+      "n": 598,
+      "note": "",
+      "resolved": 227,
+      "resolved_rate": 0.3795986622073579
+    },
+    {
+      "category": "32768+",
+      "dimension": "observation_prompt_max_bin",
+      "n": 2,
+      "note": "",
+      "resolved": 2,
+      "resolved_rate": 1.0
+    },
+    {
+      "category": "context_truncation",
+      "dimension": "observation_signal",
+      "n": 114,
+      "note": "termination-associated flag; context exits can still resolve",
+      "resolved": 45,
+      "resolved_rate": 0.39473684210526316
+    },
+    {
+      "category": "baseline_observation_length_100000",
+      "dimension": "observation_signal",
+      "n": 647,
+      "note": "all eligible original baselines; no historical guard intervention",
+      "resolved": 244,
+      "resolved_rate": 0.37712519319938176
+    },
+    {
+      "category": "repeat_id=r0",
+      "dimension": "retry_lineage",
+      "n": 647,
+      "note": "all original rows are r0; retry metadata is fixed",
+      "resolved": 244,
+      "resolved_rate": 0.37712519319938176
+    }
+  ],
+  "historical_configuration_limits": {
+    "all_retained_treatments_zero_wins": true,
+    "historical_comparable": [
+      "call_limit",
+      "max_output_tokens",
+      "observation_length",
+      "temperature"
+    ],
+    "interpretation": "historical pairs screen harms and motivate the predeclared 96-case confirmation; they do not select a current configuration after runtime changes",
+    "untested_or_noncomparable": [
+      "max_input_tokens/client guard",
+      "pager environment",
+      "runtime/server/capture changes",
+      "loop/test guidance",
+      "retry policy",
+      "long setup/lifecycle attribution"
+    ]
+  },
+  "historical_configuration_summary": [
+    {
+      "baseline_resolved": 13,
+      "both_resolved": 0,
+      "clusters": 17,
+      "discordant": 13,
+      "historically_comparable_dimension": true,
+      "knob": "call_limit",
+      "losses": 13,
+      "median_delta_e2e_wall_ms": -48741.532852000004,
+      "pairs": 18,
+      "provenance": "saved eligible paired_comparisons.csv; descriptive historical screen",
+      "treatment_resolved": 0,
+      "value": "10",
+      "wins": 0
+    },
+    {
+      "baseline_resolved": 13,
+      "both_resolved": 11,
+      "clusters": 17,
+      "discordant": 2,
+      "historically_comparable_dimension": true,
+      "knob": "call_limit",
+      "losses": 2,
+      "median_delta_e2e_wall_ms": -27286.383594500003,
+      "pairs": 18,
+      "provenance": "saved eligible paired_comparisons.csv; descriptive historical screen",
+      "treatment_resolved": 11,
+      "value": "20",
+      "wins": 0
+    },
+    {
+      "baseline_resolved": 13,
+      "both_resolved": 13,
+      "clusters": 17,
+      "discordant": 0,
+      "historically_comparable_dimension": true,
+      "knob": "call_limit",
+      "losses": 0,
+      "median_delta_e2e_wall_ms": 27208.579748000004,
+      "pairs": 18,
+      "provenance": "saved eligible paired_comparisons.csv; descriptive historical screen",
+      "treatment_resolved": 13,
+      "value": "50",
+      "wins": 0
+    },
+    {
+      "baseline_resolved": 13,
+      "both_resolved": 12,
+      "clusters": 17,
+      "discordant": 1,
+      "historically_comparable_dimension": true,
+      "knob": "max_output_tokens",
+      "losses": 1,
+      "median_delta_e2e_wall_ms": -3545.7469039999996,
+      "pairs": 18,
+      "provenance": "saved eligible paired_comparisons.csv; descriptive historical screen",
+      "treatment_resolved": 12,
+      "value": "1024",
+      "wins": 0
+    },
+    {
+      "baseline_resolved": 13,
+      "both_resolved": 11,
+      "clusters": 17,
+      "discordant": 2,
+      "historically_comparable_dimension": true,
+      "knob": "max_output_tokens",
+      "losses": 2,
+      "median_delta_e2e_wall_ms": 6423.302790000002,
+      "pairs": 18,
+      "provenance": "saved eligible paired_comparisons.csv; descriptive historical screen",
+      "treatment_resolved": 11,
+      "value": "4096",
+      "wins": 0
+    },
+    {
+      "baseline_resolved": 13,
+      "both_resolved": 8,
+      "clusters": 17,
+      "discordant": 5,
+      "historically_comparable_dimension": true,
+      "knob": "max_output_tokens",
+      "losses": 5,
+      "median_delta_e2e_wall_ms": -9039.927131500008,
+      "pairs": 18,
+      "provenance": "saved eligible paired_comparisons.csv; descriptive historical screen",
+      "treatment_resolved": 8,
+      "value": "512",
+      "wins": 0
+    },
+    {
+      "baseline_resolved": 13,
+      "both_resolved": 10,
+      "clusters": 17,
+      "discordant": 3,
+      "historically_comparable_dimension": true,
+      "knob": "observation_length",
+      "losses": 3,
+      "median_delta_e2e_wall_ms": -8685.251048499995,
+      "pairs": 18,
+      "provenance": "saved eligible paired_comparisons.csv; descriptive historical screen",
+      "treatment_resolved": 10,
+      "value": "10000",
+      "wins": 0
+    },
+    {
+      "baseline_resolved": 13,
+      "both_resolved": 13,
+      "clusters": 17,
+      "discordant": 0,
+      "historically_comparable_dimension": true,
+      "knob": "observation_length",
+      "losses": 0,
+      "median_delta_e2e_wall_ms": -1346.9203905000104,
+      "pairs": 18,
+      "provenance": "saved eligible paired_comparisons.csv; descriptive historical screen",
+      "treatment_resolved": 13,
+      "value": "25000",
+      "wins": 0
+    },
+    {
+      "baseline_resolved": 13,
+      "both_resolved": 12,
+      "clusters": 17,
+      "discordant": 1,
+      "historically_comparable_dimension": true,
+      "knob": "observation_length",
+      "losses": 1,
+      "median_delta_e2e_wall_ms": -10590.479026500005,
+      "pairs": 18,
+      "provenance": "saved eligible paired_comparisons.csv; descriptive historical screen",
+      "treatment_resolved": 12,
+      "value": "50000",
+      "wins": 0
+    },
+    {
+      "baseline_resolved": 13,
+      "both_resolved": 12,
+      "clusters": 17,
+      "discordant": 1,
+      "historically_comparable_dimension": true,
+      "knob": "temperature",
+      "losses": 1,
+      "median_delta_e2e_wall_ms": -2065.495565999998,
+      "pairs": 18,
+      "provenance": "saved eligible paired_comparisons.csv; descriptive historical screen",
+      "treatment_resolved": 12,
+      "value": "0.2",
+      "wins": 0
+    },
+    {
+      "baseline_resolved": 13,
+      "both_resolved": 9,
+      "clusters": 17,
+      "discordant": 4,
+      "historically_comparable_dimension": true,
+      "knob": "temperature",
+      "losses": 4,
+      "median_delta_e2e_wall_ms": -13067.526049500004,
+      "pairs": 18,
+      "provenance": "saved eligible paired_comparisons.csv; descriptive historical screen",
+      "treatment_resolved": 9,
+      "value": "0.5",
+      "wins": 0
+    },
+    {
+      "baseline_resolved": 13,
+      "both_resolved": 10,
+      "clusters": 17,
+      "discordant": 3,
+      "historically_comparable_dimension": true,
+      "knob": "temperature",
+      "losses": 3,
+      "median_delta_e2e_wall_ms": 2048.129105500004,
+      "pairs": 18,
+      "provenance": "saved eligible paired_comparisons.csv; descriptive historical screen",
+      "treatment_resolved": 10,
+      "value": "0.8",
+      "wins": 0
+    }
+  ],
+  "inputs": {
+    "classifications": {
+      "path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260908T010000Z/audit-step1-resolved-rates-readonly/classifications.csv",
+      "rows_eligible": 647,
+      "rows_read": 800,
+      "sha256": "254fafc4486284d2a00c9410b5c43eaeb9cd5c51b2b73405ec54e4b3eacc97fe"
+    },
+    "confirmation_panel": {
+      "path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260908T140000Z-offline-v2/configuration-analysis/CONFIGURATION_CONFIRMATION_PANEL.json",
+      "sha256": "1e7ed714a4d910b5bb17ab5fe596fde57736ea882b8b41cead9e666ebc04e398"
+    },
+    "historical_review": {
+      "path": "/home/riverahernandezjason/agentic-submission-repairs-20260908/docs/HISTORICAL_IMPROVEMENT_REVIEW_20260909.md",
+      "sha256": "a973626f0d0e3d2242a0aa939ed26a255297be1bc7a4715f3775c15db93bbb45"
+    },
+    "paired_comparisons": {
+      "eligible_rows": 216,
+      "path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260908T140000Z-offline-v2/configuration-analysis/paired_comparisons.csv",
+      "sha256": "caee5421d6da86cd145681ef8a19ca075179a8a21f714f10cbfd026afadbec72"
+    },
+    "queue": {
+      "path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/configuration-v1/queue-v2/queue.sqlite3",
+      "sha256": "a1a24d1d13bcc19c731d85c0a9c1243015a4ea7faad07043d8d55741ec73d21f"
+    },
+    "termination_index": {
+      "eligible_rows_joined": 647,
+      "path": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260908T140000Z-offline-v2/configuration-analysis/TERMINATION_EVIDENCE_INDEX.json",
+      "sha256": "483212ba78f962af82443b6c9b4b7719a49d4c0cd6e3e8908932ba3f832256b5"
+    }
+  },
+  "long_setup": {
+    "accepted_current_case": {
+      "instance_id": "django__django-7530",
+      "interpretation": "one accepted phase decomposition; descriptive, no threshold or causal claim",
+      "official_resolved": true,
+      "phase_union_ms": {
+        "client_processing": 2378.704131,
+        "failure": 0.0,
+        "get_state": 6060.734329,
+        "model_client_call": 86101.407303,
+        "model_request": 85089.15086,
+        "setup": 327.309101,
+        "startup": 31170.339031,
+        "state_query": 1314.976645,
+        "teardown": 917.784842,
+        "tool_execution": 63917.98385
+      }
+    },
+    "historical_baseline_setup_phase": "unavailable in saved E classifications; do not infer setup from total duration"
+  },
+  "loop_diagnostic_reused": {
+    "adjacent_identical_action_pairs": 21,
+    "eligible_trajectory_runs": 860,
+    "official_resolution_stratification": "not established; diagnostic correlation only",
+    "repeated_occurrences_after_first": 458,
+    "runs_with_exact_action_at_least_three_times": 197,
+    "source": "HISTORICAL_IMPROVEMENT_REVIEW_20260909.md"
+  },
+  "queue_status": {
+    "accepted_attempt_count": 1,
+    "attempt_outcome_counts": {
+      "accepted": 1,
+      "capture_integrity": 10
+    },
+    "attempt_status_counts": {
+      "accepted": 1,
+      "blocked": 10
+    },
+    "blocked_workers": [
+      {
+        "count": 1,
+        "endpoint_id": "h100-worker-00",
+        "outcome": "capture_integrity",
+        "worker_id": "worker-00"
+      },
+      {
+        "count": 1,
+        "endpoint_id": "h100-worker-01",
+        "outcome": "capture_integrity",
+        "worker_id": "worker-01"
+      },
+      {
+        "count": 1,
+        "endpoint_id": "h100-worker-02",
+        "outcome": "capture_integrity",
+        "worker_id": "worker-02"
+      },
+      {
+        "count": 1,
+        "endpoint_id": "h100-worker-03",
+        "outcome": "capture_integrity",
+        "worker_id": "worker-03"
+      },
+      {
+        "count": 1,
+        "endpoint_id": "h100-worker-04",
+        "outcome": "capture_integrity",
+        "worker_id": "worker-04"
+      },
+      {
+        "count": 1,
+        "endpoint_id": "h100-worker-05",
+        "outcome": "capture_integrity",
+        "worker_id": "worker-05"
+      },
+      {
+        "count": 1,
+        "endpoint_id": "h100-worker-07",
+        "outcome": "capture_integrity",
+        "worker_id": "worker-07"
+      },
+      {
+        "count": 1,
+        "endpoint_id": "h100-worker-08",
+        "outcome": "capture_integrity",
+        "worker_id": "worker-08"
+      },
+      {
+        "count": 1,
+        "endpoint_id": "h100-worker-09",
+        "outcome": "capture_integrity",
+        "worker_id": "worker-09"
+      },
+      {
+        "count": 1,
+        "endpoint_id": "h100-worker-22",
+        "outcome": "capture_integrity",
+        "worker_id": "worker-22"
+      }
+    ],
+    "case_count": 96,
+    "database": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/configuration-v1/queue-v2/queue.sqlite3",
+    "database_sha256": "a1a24d1d13bcc19c731d85c0a9c1243015a4ea7faad07043d8d55741ec73d21f",
+    "halt_reason": "capture or evidence integrity failure: native serving evidence acquisition failed: batch fetch failed; partial output retained: jriverah3@128.61.254.151: Permission denied (publickey,gssapi-keyex,gssapi-with-mic,password,hostbased).\r\n",
+    "status_by_candidate": {
+      "accepted|expanded-call100-input61440": 1,
+      "blocked|expanded-call100-input61440": 2,
+      "blocked|expanded-call100-input61440-observation25000": 3,
+      "blocked|expanded-call50-input61440": 3,
+      "blocked|historical-control-call30-input32768": 2,
+      "pending|expanded-call100-input61440": 21,
+      "pending|expanded-call100-input61440-observation25000": 21,
+      "pending|expanded-call50-input61440": 21,
+      "pending|historical-control-call30-input32768": 22
+    },
+    "status_counts": {
+      "accepted": 1,
+      "blocked": 10,
+      "pending": 85
+    }
+  },
+  "retry_diagnostic_reused": {
+    "baseline_rows": 647,
+    "interpretation": "no historical retry variation supports a retry-quality effect estimate",
+    "repeat_id_distribution": {
+      "r0": 647
+    },
+    "saved_audit_metadata": "798/798 canonical rows report retries=20, min_wait=10.0, max_wait=120.0"
+  },
+  "schema_version": "assignment.retained-score-opportunities.v1",
+  "scope": {
+    "excluded_instance_count": 137,
+    "excluded_run_count": 451,
+    "manifest_list_sha256": "7f7a48f840eda37bf402c181f0f8859126c4ea12240ee665d47d08fd0fd34600",
+    "panel_case_count": 96,
+    "panel_disjoint": true,
+    "panel_instance_count": 24,
+    "prior_access_disclosure": "Initial forensic pass accessed evaluation-cluster historical rows; filtering does not restore blindness."
+  },
+  "taxonomy_limits": {
+    "classification_rows_read_after_scope_derivation": 800,
+    "classification_rows_retained": 647,
+    "context_truncation_flag": "114 rows; nonexclusive and distinct from 63 native exit_context rows",
+    "environment": "flags co-occur and do not establish cause; editor/install flagged rows include 63 resolved",
+    "long_setup": "historical phase unavailable; one current accepted phase decomposition only",
+    "malformed_patch": "unsupported by these metadata; no relabeling",
+    "parser_error_and_function_calling_flags": "universal 647/647 saved flags; cannot diagnose malformed patches",
+    "recovered_proxy_error": "36-row corrected primary class; distinct from 15-row proxy_remote_disconnected flag",
+    "timeout": "no native deadline/timeout class in eligible termination aggregate"
+  }
+}

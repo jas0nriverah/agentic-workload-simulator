@@ -1,0 +1,54 @@
+{
+  "schema_version": "assignment.offline-candidate-bundle.v1",
+  "status": "prepared_for_later_validation_only",
+  "production_or_acquisition_changes": false,
+  "training_partition": "train_calibration",
+  "training_instances": 545,
+  "training_runs": 819,
+  "components": {
+    "cpu_tool_wall": {
+      "path": "cpu/class_hybrid_model.json",
+      "sha256": "3b72f30bca3f7d4d56a62741cedcb417d95505251e2c14e4485b866116e79411"
+    },
+    "gpu_request_proxy_wall": {
+      "path": "gpu_lifecycle/gpu_proxy_chosen_model.json",
+      "sha256": "ea78283e29f8bc55d779b1a98d8d15984939a014017fbfdbcb82883675dcc701"
+    },
+    "start_known_e2e": {
+      "path": "e2e/candidate.json",
+      "sha256": "93635f446a34272b9b53b117630cbf6890d727ca23e6df56627a28c8179c073b"
+    }
+  },
+  "api": {
+    "path": "predict_candidate.py",
+    "sha256": "883539693608bc318ea0223af6c02f9dffbd38e529f8ace9c414acfe384d2487"
+  },
+  "reproduction": [
+    "build_training_view.py",
+    "cpu/run_cpu_event_models.py",
+    "cpu/run_cpu_class_hybrid.py",
+    "gpu_lifecycle/run_gpu_proxy.py",
+    "compare_start_e2e.py",
+    "join_predictions.py",
+    "figures/build_figures.py"
+  ],
+  "reproduction_note": "CPU/extraction/E2E outputs refuse overwrite; use fresh output directories as supported. Joined hybrid command is documented in REPORT support files. No step runs inference.",
+  "target_limits": [
+    "historical CPU tool duration, historical request wall proxy and direct historical E2E only",
+    "native phases, individual CPU operations and lifecycle remain unsupported for fitted prediction",
+    "cross-hardware transfer unvalidated; unchanged coefficients are a control, not a scaling law"
+  ],
+  "selection_disclosure": "nested instance-grouped selection; sixth CPU class-wise extension developed after first-five diagnostics; not blind holdout confirmation",
+  "d9_acceptance": "NOT_MET_BY_RETAINED_DIAGNOSTICS; complete repaired-event and hardware evaluation unproven",
+  "source_modules": {
+    "src/agentic_sim/assignment/__init__.py": "88dd5f6e31af85799bec2704c107c25e1b0fd207353046991981a777d0f3041b",
+    "src/agentic_sim/assignment/cpu_event_model.py": "a5d1e28ffd5eafa0d40131b1f49d2cd478139c8a2332ab0386b995d11d7adf5e",
+    "src/agentic_sim/assignment/event_simulator.py": "bec07940b0de6d8486af179b340622f3bac7b3f5137bc6b9dfd132e85f09797b",
+    "src/agentic_sim/assignment/official_eval.py": "31d51ba47e2cfc6db03a1eb4e1b8b1f6eed2a9a532c4242ca26ba770af82105a",
+    "src/agentic_sim/assignment/schema.py": "59db547ceeee033b2583f805eaa72a8c9284bc9e9b67bd228466e2ae0854f2d5",
+    "src/agentic_sim/assignment/semantic_cpu_model.py": "24642a04e95277cb318183247a19060b0a977f4d96d3b088c0b1c934c92f3383",
+    "src/agentic_sim/assignment/sequential_simulator.py": "4f9f481d7e029e00ce476b49ec4baa177c946e1176aef0880bcbc84c3db03dff",
+    "src/agentic_sim/assignment/tool_features.py": "792dd4974eedc15294e172317eeb4dbf7d370244bb8a7ff9308a8258080e80ec",
+    "src/agentic_sim/assignment/workload_simulator.py": "3e6978bf2842bc056565dd792f0eb9ce1f59df012048faae5138da082ff72f23"
+  }
+}

@@ -1,0 +1,122 @@
+{
+  "results": {
+    "lifecycle:client_processing": {
+      "metrics": {
+        "descriptor_median": {
+          "events": 7128,
+          "within25": 0.2595398428731762,
+          "worst_error_pct": 338.390294920997,
+          "equal_instance_within25": 0.27680072585843857,
+          "all_events_pass_instances": 0,
+          "instances": 22
+        },
+        "descriptor_gate": {
+          "events": 7128,
+          "within25": 0.2969977553310887,
+          "worst_error_pct": 245.92683875026717,
+          "equal_instance_within25": 0.29982669452811744,
+          "all_events_pass_instances": 0,
+          "instances": 22
+        },
+        "context_median": {
+          "events": 7128,
+          "within25": 0.2735690235690236,
+          "worst_error_pct": 361.58428491951986,
+          "equal_instance_within25": 0.28865765105685803,
+          "all_events_pass_instances": 0,
+          "instances": 22
+        },
+        "context_hierarchical": {
+          "events": 7128,
+          "within25": 0.2735690235690236,
+          "worst_error_pct": 361.58428491951986,
+          "equal_instance_within25": 0.28865765105685803,
+          "all_events_pass_instances": 0,
+          "instances": 22
+        }
+      },
+      "gain_intervals_vs_descriptor": {
+        "descriptor_gate": {
+          "lower_95": -0.011958997722095672,
+          "upper_95": 0.07862544483985764,
+          "replicates": 2000,
+          "scope": "paired instance bootstrap of fixed development predictions; excludes selection uncertainty"
+        },
+        "context_median": {
+          "lower_95": 0.00804093567251462,
+          "upper_95": 0.018738361266294228,
+          "replicates": 2000,
+          "scope": "paired instance bootstrap of fixed development predictions; excludes selection uncertainty"
+        },
+        "context_hierarchical": {
+          "lower_95": 0.00804093567251462,
+          "upper_95": 0.018738361266294228,
+          "replicates": 2000,
+          "scope": "paired instance bootstrap of fixed development predictions; excludes selection uncertainty"
+        }
+      },
+      "selected": "descriptor_median"
+    },
+    "runtime_command": {
+      "metrics": {
+        "descriptor_median": {
+          "events": 2730,
+          "within25": 0.8776556776556776,
+          "worst_error_pct": 99.29446952689224,
+          "equal_instance_within25": 0.8761536788645039,
+          "all_events_pass_instances": 0,
+          "instances": 22
+        },
+        "descriptor_gate": {
+          "events": 2730,
+          "within25": 0.9102564102564102,
+          "worst_error_pct": 99.3251117810214,
+          "equal_instance_within25": 0.9074313079660318,
+          "all_events_pass_instances": 0,
+          "instances": 22
+        },
+        "context_median": {
+          "events": 2730,
+          "within25": 0.8641025641025641,
+          "worst_error_pct": 721.1534628036615,
+          "equal_instance_within25": 0.8647199689465616,
+          "all_events_pass_instances": 0,
+          "instances": 22
+        },
+        "context_hierarchical": {
+          "events": 2730,
+          "within25": 0.8641025641025641,
+          "worst_error_pct": 721.1534628036615,
+          "equal_instance_within25": 0.8647199689465616,
+          "all_events_pass_instances": 0,
+          "instances": 22
+        }
+      },
+      "gain_intervals_vs_descriptor": {
+        "descriptor_gate": {
+          "lower_95": 0.018065591995553083,
+          "upper_95": 0.04749138261202605,
+          "replicates": 2000,
+          "scope": "paired instance bootstrap of fixed development predictions; excludes selection uncertainty"
+        },
+        "context_median": {
+          "lower_95": -0.015705578996718237,
+          "upper_95": -0.009549795361527967,
+          "replicates": 2000,
+          "scope": "paired instance bootstrap of fixed development predictions; excludes selection uncertainty"
+        },
+        "context_hierarchical": {
+          "lower_95": -0.015705578996718237,
+          "upper_95": -0.009549795361527967,
+          "replicates": 2000,
+          "scope": "paired instance bootstrap of fixed development predictions; excludes selection uncertainty"
+        }
+      },
+      "selected": "descriptor_median"
+    }
+  },
+  "code_sha256": "6827d445b26d96c67651f0ecc5c9b6c02219a55cd38f0e9682830aced3a17c44",
+  "adapter_sha256": "0e0584fcf2da57ad32cef3fd4e27752539dee44d120e182af4c592657897a5de",
+  "manifest_sha256": "fa3f765bf82f870254204ad1227514d950134f21396eb458a995b35cf52d4ef7",
+  "scope": "fixed grouped development; no final labels, no inference; not literal D9 acceptance"
+}

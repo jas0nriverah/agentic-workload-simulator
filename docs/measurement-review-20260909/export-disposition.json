@@ -1,0 +1,21 @@
+{
+  "schema_version": "assignment.final-review-export-disposition.v1",
+  "scope": "Generic exporter limitations, resolved using semantic reconstruction; not a claim that generic unknown rows are valid joined rows.",
+  "unknown_join_count": 355,
+  "counts": {
+    "bpf_to_tool": 60,
+    "lifecycle_span": 295
+  },
+  "dispositions": {
+    "lifecycle_span": "295 terminal-only bookkeeping point rows are not spans; fresh host-clock reconstruction handles points separately.",
+    "bpf_to_tool": "60 runtime command boundaries are distinct from40 semantic tool boundaries; strict runner audit joins both by exact IDs and action tokens.",
+    "workload_labels": "Export invocation supplied no explicit evaluator label artifact; the separate saved case-result/attempt/patch/evaluator reconstruction proves actual resolved outcome.",
+    "model_attempt_rows": "80 exporter rows include client wrapper and physical request representations. Native physical-request count is40, not80."
+  },
+  "source_hashes": {
+    "unknown_joins.jsonl": "ead237826e5042e00625cc01e86f396cb247157e9f925a3fe4af7ee0f4130251",
+    "workload_labels.jsonl": "33fe94fcd36378177ed99bf74e1601f8937d3e5f4f97d1d6f0871926e771aeba",
+    "export_manifest.json": "181da83566f3403a6631dc3407fb02fca118f4486cfea2b24094ed311ac0543b"
+  },
+  "remaining_work": "Use semantic reconstruction adapters and explicit evaluator input for final reports; preserve original generic export diagnostics. No missing raw acquisition shown."
+}

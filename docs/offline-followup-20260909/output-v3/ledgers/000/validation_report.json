@@ -1,0 +1,147 @@
+{
+  "attempts": [
+    {
+      "attempt_id": "attempt-001",
+      "cpu_raw_integrity": {
+        "action_count": 100,
+        "atomic_normalization": "unsupported_no_full_bpf_export",
+        "raw_binary_bytes": 338613200,
+        "representative_decoder": "not_run",
+        "status": "complete_bounded_raw_coverage"
+      },
+      "host_clock_unions": {
+        "instance-20260902-053002|CLOCK_MONOTONIC_RAW|boot=df4cb202-feaf-4b07-9e2f-d6d7923a718f": {
+          "disjoint_union_ms": 145814.380856,
+          "merged_interval_count": 283,
+          "raw_interval_count": 441
+        }
+      },
+      "model_physical_starts": 40,
+      "model_physical_terminals": 40,
+      "native_clock_policy": "native intervals and GPU durations are retained separately; never added to host timeline union",
+      "native_physical_terminals": 40,
+      "outer_e2e_boundary": {
+        "event_kind": "outer_swe_agent",
+        "observed_ms": 153117.581093
+      },
+      "pair_inventory": {
+        "lifecycle": {
+          "starts": 273,
+          "terminals": 568
+        },
+        "model": {
+          "starts": 80,
+          "terminals": 80
+        },
+        "tool": {
+          "starts": 40,
+          "terminals": 80
+        }
+      },
+      "raw_record_count": 1161
+    }
+  ],
+  "case_event_records": {
+    "count": 1281,
+    "path": "/home/riverahernandezjason/agentic-submission-repairs-20260908/docs/offline-followup-20260909/output-v3/ledgers/000/normalized_case_events.jsonl"
+  },
+  "case_metadata": {
+    "repository": "django/django",
+    "settings": {
+      "call_limit": 50,
+      "max_input_tokens": 61440,
+      "max_output_tokens": 2048,
+      "observation_length": 100000,
+      "seed": 0,
+      "temperature": 0.0,
+      "top_p": 1.0
+    },
+    "suite": "verified"
+  },
+  "case_result": {
+    "evaluator_outcome_provenance": "unproven_not_bound_by_ledger",
+    "present": true
+  },
+  "case_root": "/home/riverahernandezjason/h100-assignment-work-20260905/assignment/submission/20260909T000000Z-resume/verification/astra-combined-preflight-20260909-9cP7NP/combined-case-v8",
+  "disposition": "confirmation_excluded",
+  "excluded_attempt_inventory": [],
+  "hardware_bindings": {
+    "cpu": {
+      "binding": "pre-execution CPU-host snapshot only",
+      "hardware_profile_sha256": "f1dff571eb16031fd14414d5bf6b912c1f3ee67ae6374f3b7545d919ee807413",
+      "path": "runner_attempts/attempt-001/telemetry_v2/hardware_snapshots.jsonl",
+      "sha256": "65f64bc6710e694898e0281b6882bf8a141efc19d4a2814d8a82eaff1cb468ed"
+    },
+    "native_gpu": {
+      "binding": "remote serving profile; distinct native host domain",
+      "path": "execution_inputs/serving_fingerprint.json",
+      "sha256": "49589b3e64f405992a78ab8a2cd485a678418534a45b8045629e4357533b7965"
+    }
+  },
+  "identity": {
+    "case_id": "configuration-confirmation-case-v1:11fcd3c59f36c09472479c6794493d546039acf8bc52c3fd372a3d811bcd4132",
+    "instance_id": "django__django-7530"
+  },
+  "partition": null,
+  "partition_provenance": "case_spec_supplied_untrusted; downstream derives pinned partition before event read",
+  "schema_version": "assignment.offline.ledger-validation.v1",
+  "source_hashes": [
+    {
+      "path": "case_result.json",
+      "sha256": "4737c05c1e5d7729021e5caf4bd4d3d9674e542339829feb859023d4dbd8c9a9"
+    },
+    {
+      "path": "case_spec.json",
+      "sha256": "c45d6ff07a911d27b8d74ed8117d1117e90ff1c69247fbbce47b0fb841ba2b0a"
+    },
+    {
+      "path": "execution_inputs/remote_hardware_profile.json",
+      "sha256": "f1dff571eb16031fd14414d5bf6b912c1f3ee67ae6374f3b7545d919ee807413"
+    },
+    {
+      "path": "execution_inputs/serving_fingerprint.json",
+      "sha256": "49589b3e64f405992a78ab8a2cd485a678418534a45b8045629e4357533b7965"
+    },
+    {
+      "path": "runner_attempts/attempt-001/native_serving/native_attribution.jsonl",
+      "sha256": "e0cfad23d8f58e56794c745734bcb56aed0b8c4a2c1bfe7c22928ef4f71cba00"
+    },
+    {
+      "path": "runner_attempts/attempt-001/telemetry_v2/hardware_snapshots.jsonl",
+      "sha256": "65f64bc6710e694898e0281b6882bf8a141efc19d4a2814d8a82eaff1cb468ed"
+    },
+    {
+      "path": "runner_attempts/attempt-001/telemetry_v2/lifecycle_events.jsonl",
+      "sha256": "32afb6734fd3479c914970f3280bb4685841218783759b166c128d64e0f5189a"
+    },
+    {
+      "path": "runner_attempts/attempt-001/telemetry_v2/linux_work/bpf_collector_manifest.json",
+      "sha256": "59b59ed8900fab8c2b79ee3de01f76442bb6b6993aae93c2d59948fe3fa66a13"
+    },
+    {
+      "path": "runner_attempts/attempt-001/telemetry_v2/linux_work/raw_aggregates.jsonl",
+      "sha256": "c675dff2d88f6ce8a2983032e103355309c0b727fef6351e6309b05ff70641d3"
+    },
+    {
+      "path": "runner_attempts/attempt-001/telemetry_v2/linux_work/raw_events.bin",
+      "sha256": "937ccb24b2d1262b270ccc34e54d3cb1f2707b242fc4829e3f428f53601a3d95"
+    },
+    {
+      "path": "runner_attempts/attempt-001/telemetry_v2/linux_work/work_summary.json",
+      "sha256": "2109b1befb3d1ff16230a1a34a5c10eb39e49cb7b924041022bccfd8e2b98763"
+    },
+    {
+      "path": "runner_attempts/attempt-001/telemetry_v2/model_events.jsonl",
+      "sha256": "5a47a108be592249f5ff7fa66f7e9774f7cb2e592ce46c02b15156e5c8ec532f"
+    },
+    {
+      "path": "runner_attempts/attempt-001/telemetry_v2/tool_events.jsonl",
+      "sha256": "e33f594e2661e3c38d8e0e31939aeb3e21be1a0987cafb85bef5ec2311af5a92"
+    }
+  ],
+  "validation": {
+    "error_count": 0,
+    "errors": [],
+    "status": "valid"
+  }
+}
